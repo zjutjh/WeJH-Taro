@@ -1,0 +1,36 @@
+.avatar {
+  border-radius: 100rem;
+  height: 4rem;
+  width: 4rem;
+  overflow: hidden;
+  margin: 1rem;
+}
+.name {
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+.sub-line {
+  display: block;
+  color: gainsboro;
+}
+.item {
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  background-color: rgba($color: #fff, $alpha: 0.7);
+  padding: 0.5rem;
+  height: 2rem;
+  line-height: 2rem;
+  margin-top: 0.5rem;
+}
+.my-header {
+  background: white;
+  height: 30%;
+  margin-bottom: 1rem;
+  padding: 2rem;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  background-color: rgba($color: #fff, $alpha: 0.7);
+  backdrop-filter: blur(10px);
+}

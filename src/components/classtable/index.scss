@@ -1,0 +1,69 @@
+.index-panel {
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  .index {
+    text-align: center;
+  }
+}
+.weekday-index-panel {
+  left: 10%;
+  flex-direction: row;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  width: 126%;
+  height: 5%;
+}
+.jc-index-panel {
+  flex-direction: column;
+  top: 5%;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  width: 10%;
+  height: 100%;
+}
+
+.class {
+  box-shadow: 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+  position: relative;
+  background-color: aquamarine;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem;
+  width: 18%;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: absolute;
+  text-align: center;
+  .title {
+    line-height: 100%;
+    font-size: 125%;
+    display: block;
+    font-weight: bolder;
+  }
+  .content {
+    line-height: 125%;
+    font-size: 80%;
+  }
+}
+.warp {
+  position: absolute;
+  height: 100%;
+  overflow: scroll;
+  width: 100%;
+}
+.table {
+  display: flex;
+  height: 100%;
+  left: 10%;
+  top: 5%;
+  margin: 0.1rem;
+  position: absolute;
+  width: 100%;
+}

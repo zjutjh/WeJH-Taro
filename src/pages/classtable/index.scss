@@ -1,0 +1,28 @@
+.header {
+  height: 400px;
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  background-color: rgba($color: #fff, $alpha: 0.7);
+  backdrop-filter: blur(10px);
+
+  width: 100vw;
+  position: fixed;
+}
+
+.card {
+  min-height: 600px;
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  background-color: white;
+  margin: 1rem;
+  border-radius: 1rem;
+}
+
+.quick-card-view {
+  display: flex;
+  flex-direction: column;
+  :first-child {
+    margin-top: 550px;
+  }
+  :last-child {
+    margin-bottom: 300px;
+  }
+}
