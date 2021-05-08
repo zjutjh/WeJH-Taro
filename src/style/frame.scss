@@ -1,0 +1,46 @@
+@import './theme.scss';
+.header {
+	@include blur;
+	box-shadow: $shadow;
+	width: 100vw;
+	z-index: 999;
+}
+
+.tabs {
+	button {
+		border-radius: 0.5rem;
+		display: inline;
+		padding: 0.5rem;
+		border-width: 0;
+		box-shadow: $shadow;
+	}
+
+	button::after {
+		border: none;
+	}
+
+	:first-child {
+		border-radius: 0.5rem 0 0 0.5rem;
+	}
+
+	:last-child {
+		border-radius: 0 0.5rem 0.5rem 0;
+	}
+}
+
+.sub-text {
+	font-size: 1rem;
+	display: block;
+	padding-left: 0.5rem;
+	color: #404040;
+}
+
+.bottom-panel {
+	position: fixed;
+	bottom: 0;
+	padding-bottom: 1.5rem;
+	padding-top: 1rem;
+	display: flex;
+	width: 100%;
+	background-color: white;
+}

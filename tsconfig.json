@@ -1,32 +1,33 @@
 {
-  "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "rootDir": ".",
-    "strictFunctionTypes": false,
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
-    ]
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "compileOnSave": false
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
+		"moduleResolution": "node",
+		"noImplicitAny": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"preserveConstEnums": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strictNullChecks": true,
+		"resolveJsonModule": true,
+		"module": "CommonJS",
+		"target": "es2017",
+		"outDir": "./lib",
+		"typeRoots": ["node_modules/@types", "global.d.ts"],
+		"baseUrl": ".",
+		"paths": {
+			"@/components/*": ["./src/components/*"],
+			"@/utils/*": ["./src/utils/*"],
+			"@/assets/*": ["./src/assets/*"],
+			"@/interface/*": ["./src/interface/*"],
+			"@/store": ["./src/store/index.ts"],
+			"@/services": ["./src/services/index.ts"],
+			"@/package": ["./package.json"],
+			"@/project": ["./project.config.json"]
+		}
+	},
+	"exclude": ["node_modules/*", "dist/*", "src/components/**/__tests__/*", "src/app.config.ts", "src/__tests__/*"],
+	"include": ["types", "src/**/*", "./global.d.ts"],
+	"compileOnSave": false
 }

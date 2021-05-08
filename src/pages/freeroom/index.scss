@@ -1,0 +1,22 @@
+@import '@/style/frame';
+@import '@/style/theme';
+@import '@/style/list';
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.room-item {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
+  @include radius;
+  @include simple-card;
+}
+.build-name{
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 1rem;
+}

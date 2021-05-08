@@ -1,18 +1,20 @@
-import { createApp } from "vue";
-import "./app.scss";
-import Taro from "@tarojs/taro";
-import store from "./store/index";
-import { LoginByTaro } from "./services/authService";
-import SystemService from "./services/systemService";
+import { createApp } from 'vue';
+import './app.scss';
+import Taro from '@tarojs/taro';
+import store from './store/index';
+import { LoginByTaro } from './services';
+import { SystemService } from './services';
+import dayjs from 'dayjs';
+var customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(customParseFormat);
+var utc = require('dayjs/plugin/utc'); // dependent on utc plugin
+dayjs.extend(utc);
+
 const App = createApp({
-  onShow(options) {
-    SystemService.getApplist(true);
-    LoginByTaro();
-    if (process.env.TARO_ENV === "weapp") {
-      Taro.onError(() => {
-        console.log(Taro.getSystemInfoSync());
-      });
-    }
-  },
+	onShow() {
+		SystemService.getGeneralInfo();
+		SystemService.getAppList();
+		LoginByTaro();
+	}
 }).use(store);
 export default App;

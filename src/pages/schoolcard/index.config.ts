@@ -1,4 +1,5 @@
 export default {
-  navigationBarTitleText: "校车",
-  backgroundColor: "#dfdfdf",
+	navigationBarTitleText: '校园卡',
+	backgroundColor: '#dfdfdf',
+	navigationStyle: 'custom'
 };

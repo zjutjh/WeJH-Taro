@@ -1,13 +1,12 @@
 <template>
-  <div class="card">
-    sss
-    <slot></slot>
-  </div>
+	<view class="card">
+		<slot></slot>
+	</view>
 </template>
-<style>
-.card {
-  border-radius: 2rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
-}
-</style>
+<script lang="ts">
+	import { defineComponent } from 'vue';
+	import './index.scss';
+	export default defineComponent({
+		props: {}
+	});
+</script>

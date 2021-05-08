@@ -5,4 +5,9 @@ deploy_versions/
 node_modules/
 .DS_Store
 .idea/
+lib/
 .vscode/
+coverage/
+config/prod.js
+config/dev.js
+tests/coverage/

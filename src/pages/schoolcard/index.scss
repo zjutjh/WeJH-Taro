@@ -1,0 +1,41 @@
+@import '@/style/frame';
+@import '@/style/list';
+
+.schoolcard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+
+  image {
+    height: 400px;
+  }
+}
+
+.index {
+  height: 100vh;
+}
+
+.content {
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  .title {
+    font-size: 2rem;
+    font-weight: bolder;
+  }
+}
+
+.balance {
+  color: white;
+  position: absolute;
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.transactions {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}

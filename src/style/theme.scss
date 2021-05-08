@@ -1,0 +1,26 @@
+.large {
+	font-size: 2rem;
+	padding: 0.5rem;
+}
+
+$shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+
+@mixin blur {
+	background-color: rgba($color: #fff, $alpha: 0.7);
+	backdrop-filter: blur(10px);
+	.dark {
+		background-color: rgba($color: #111, $alpha: 0.7);
+	}
+}
+
+@mixin radius {
+	border-radius: 0.5rem;
+}
+
+@mixin card {
+	@include blur;
+	box-shadow: $shadow;
+}
+@mixin simple-card {
+	box-shadow: $shadow;
+}

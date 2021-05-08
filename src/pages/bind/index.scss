@@ -1,0 +1,64 @@
+@import "@/style/frame";
+
+.header {
+  top: 0;
+  margin-bottom: 1rem;
+  padding: 0;
+  position: sticky;
+
+  image {
+    width: 100%;
+    margin: -15px;
+    opacity: 0.8;
+    height: 350px;
+  }
+}
+
+.act-form {
+  margin: 2rem 1rem 1rem;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1rem 1rem 2rem;
+
+  view {
+    text-align: center;
+  }
+  input {
+    border: 1px solid gray;
+    padding: 0.4rem;
+    margin: 0.5rem 0 0.5rem 0.5rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    display: inline-block;
+    width: calc(100% - 7rem);
+  }
+
+  text {
+    font-weight: bold;
+  }
+
+  button {
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    display: inline-block;
+    color: white;
+    border-radius: 0.5rem;
+    border: 0px solid transparent;
+    background-color: deepskyblue;
+  }
+
+  button:disabled,
+  button[disabled] {
+    background-color: gray;
+  }
+
+  button::after {
+    display: none;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  margin: 1rem;
+  text-align: center;
+  display: block;
+}

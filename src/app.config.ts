@@ -1,16 +1,25 @@
 export default {
-  pages: [
-    "pages/index/index",
-    "pages/classtable/index",
-    "pages/schoolbus/index",
-    "pages/schoolcard/index",
-    "pages/my/index",
-  ],
-  window: {
-    backgroundTextStyle: "light",
-    navigationBarBackgroundColor: "#fff",
-    navigationBarTitleText: "WeChat",
-    navigationBarTextStyle: "black",
-    backgroundColor: "#dfdfdf",
-  },
+	pages: [
+		'pages/index/index',
+		'pages/activation/index',
+		'pages/bind/index',
+		'pages/lessonstable/index',
+		'pages/schoolbus/index',
+		'pages/library/index',
+		'pages/schoolcard/index',
+		'pages/my/index',
+		'pages/about/index',
+		'pages/exam/index',
+		'pages/score/index',
+		'pages/lab/index',
+		'pages/freeroom/index',
+		'pages/canteenflow/index',
+		'pages/announcement/index'
+	],
+	window: {
+		backgroundTextStyle: 'light',
+		navigationBarTextStyle: 'black',
+		backgroundColor: '#dfdfdf',
+		navigationStyle: 'custom'
+	}
 };

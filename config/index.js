@@ -1,5 +1,7 @@
+import path from 'path';
+
 const config = {
-  projectName: 'WeJh-Tar0',
+  projectName: 'WeJh-Taro',
   date: '2021-4-20',
   designWidth: 750,
   deviceRatio: {
@@ -10,22 +12,26 @@ const config = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: [],
-  defineConstants: {
-  },
+  defineConstants: {},
   copy: {
-    patterns: [
-    ],
-    options: {
-    }
+    patterns: [],
+    options: {}
   },
   framework: 'vue3',
+  alias: {
+    '@/assets': path.resolve(__dirname, '..', 'src/assets'),
+    '@/store': path.resolve(__dirname, '..', 'src/store'),
+    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
+    '@/interface': path.resolve(__dirname, '..', 'src/interface'),
+    '@/services': path.resolve(__dirname, '..', 'src/services'),
+    '@/components': path.resolve(__dirname, '..', 'src/components'),
+    '@/style': path.resolve(__dirname, '..', 'src/style')
+  },
   mini: {
     postcss: {
       pxtransform: {
         enable: true,
-        config: {
-
-        }
+        config: {}
       },
       url: {
         enable: true,
@@ -48,8 +54,7 @@ const config = {
     postcss: {
       autoprefixer: {
         enable: true,
-        config: {
-        }
+        config: {}
       },
       cssModules: {
         enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
@@ -60,11 +65,11 @@ const config = {
       }
     }
   }
-}
+};
 
 module.exports = function (merge) {
   if (process.env.NODE_ENV === 'development') {
-    return merge({}, config, require('./dev'))
+    return merge({}, config, require('./dev'));
   }
-  return merge({}, config, require('./prod'))
-}
+  return merge({}, config, require('./prod'));
+};

@@ -1,4 +1,5 @@
 export default {
-  navigationBarTitleText: "微精弘",
-  backgroundColor: "#fff",
+	navigationBarTitleText: '微精弘',
+	backgroundColor: '#fff',
+	navigationStyle: 'custom'
 };

@@ -1,0 +1,49 @@
+@import "@/style/frame";
+@import "@/style/list";
+
+.header {
+  text-align: center;
+  position: sticky;
+  top: 0;
+}
+
+.index {
+  height: 100vh;
+}
+
+.library {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .zeroHeight {
+    height: 1px;
+    margin: 0;
+  }
+
+  image {
+    transition: all 0.5s;
+    height: 400px;
+    margin: 1rem;
+  }
+}
+
+.content {
+  padding: 1rem;
+  width: inherit;
+
+  .title {
+    font-size: 2rem;
+    font-weight: bolder;
+  }
+
+}
+
+.balance {
+  color: white;
+  position: absolute;
+  font-size: 3rem;
+  font-weight: bolder;
+}
+

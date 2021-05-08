@@ -1,0 +1,33 @@
+@import "@/style/frame";
+
+.header {
+  image {
+    height: 100%;
+  }
+}
+
+.content {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.bus-card {
+  background-color: white;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  position: relative;
+  padding: 1rem;
+
+  :first-child {
+    font-weight: bolder;
+    color: black;
+    width: 50%;
+  }
+
+  .transactions {
+    position: absolute;
+    font-size: 2rem;
+    right: 1rem;
+    top: 1rem;
+  }
+}

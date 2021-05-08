@@ -1,0 +1,21 @@
+@import '@/style/frame';
+@import '@/style/list';
+
+.content {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  .title {
+    font-size: 2rem;
+    font-weight: bolder;
+  }
+}
+
+.balance {
+  color: white;
+  position: absolute;
+  font-size: 3rem;
+  font-weight: bolder;
+}
+.green {
+  color: greenyellow;
+}
