@@ -108,7 +108,7 @@
 		methods: {
 			getLibraryCurrent: throttle(LibraryService.getLibraryCurrent),
 			getLibraryHistory: throttle(LibraryService.getLibraryHistory),
-			onDateChange: function (e) {
+			onDateChange: function(e) {
 				this.dateSel = e.detail.value;
 				this.getLibraryHistory();
 			},

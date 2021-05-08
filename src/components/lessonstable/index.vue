@@ -15,18 +15,22 @@
 			</view>
 		</view>
 		<view class="table" v-if="lessonsTable">
-			<view class="class" v-for="cl in lessonsTable" :key="cl.id" :style="getStyle(cl)">
-				<view class="title">{{ cl.lessonPlace }}</view>
-				<view class="item-content">{{ cl.lessonName }}</view>
+			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id" :style="getStyle(cl)">
+				<card class="class-card">
+					<view class="title">{{ cl.lessonPlace }}</view>
+					<text class="item-content">{{ cl.lessonName }}</text>
+				</card>
 			</view>
 		</view>
 	</view>
 </template>
 <script lang="ts">
 	import { defineComponent } from 'vue';
+	import Card from '@/components/card/index.vue';
 	import './index.scss';
 
 	export default defineComponent({
+		components: { Card },
 		props: {
 			lessonsTable: {
 				type: Array
@@ -48,9 +52,9 @@
 				const begin = parseInt(theClass.sections.split('-')[0]);
 				const end = parseInt(theClass.sections.split('-')[1]);
 				const weekday = parseInt(theClass.weekday);
-				const FontSize = this.offsetWidth ? Math.min(this.offsetWidth / 5 / 5, ((this.offsetHeight / 12) * (end - begin + 1)) / 5) / 1.5 + 'px' : (end - begin + 2) * 3.5 + 'px';
-				const Height = ((end - begin + 1) * 100) / 12 + '%';
-				const Top = 'calc(' + ((begin - 1) * 100) / 12 + '%)';
+				const FontSize = this.offsetWidth ? Math.min(this.offsetWidth / 5 / 5, ((this.offsetHeight / 12) * (end - begin + 1)) / 5) / 1.5 + 'px' : (end - begin + 2) * 4 + 'px';
+				const Height = ((end - begin + 1) * 95) / 12 + '%';
+				const Top = 'calc(' + ((begin - 1) * 95) / 12 + '%)';
 				const Left = 'calc(' + ((weekday - 1) * 90) / 5 + '%)';
 				return `top: ${Top};
       left: ${Left};
