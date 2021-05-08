@@ -5,7 +5,7 @@
 			<text>图书馆</text>
 		</view>
 		<view class="div-line"></view>
-		<text class="sub-text">当前借阅({{ require('dateformat')(updateTime.current, 'HH:MM') }})</text>
+		<text class="sub-text">当前借阅({{ dayjs(updateTime.current).format('HH:MM') }})</text>
 		<view v-if="!current" class="no-data-text">当前无借阅图书</view>
 		<view v-for="item in current" :key="item.id">
 			<view class="lesson">{{ item }} </view>
@@ -19,8 +19,14 @@
 	import { LibraryService } from '@/services';
 	import Card from '../card/index.vue';
 	import Taro from '@tarojs/taro';
+	import dayjs from 'dayjs';
 	export default defineComponent({
 		components: { Card },
+		setup() {
+			return {
+				dayjs
+			};
+		},
 		mounted() {
 			this.getLibraryToday();
 		},

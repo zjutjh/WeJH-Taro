@@ -28,7 +28,6 @@
 	import { throttle } from '@/utils/tools';
 
 	import headerTabView from '@/components/headerTabView/index.vue';
-	import dateformat from 'dateformat';
 	import './index.scss';
 
 	export default defineComponent({

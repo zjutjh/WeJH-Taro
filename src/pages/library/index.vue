@@ -6,12 +6,8 @@
 				<text> 超期 {{ currentExtendedCount }} 本 </text>
 			</view>
 			<view class="tabs">
-				<button :class="{ 'button-active': isSelectToday }" @tap="todayClick">
-					当前
-				</button>
-				<button :class="{ 'button-active': isSelectHistory }" @tap="historyClick">
-					历史
-				</button>
+				<button :class="{ 'button-active': isSelectToday }" @tap="todayClick">当前</button>
+				<button :class="{ 'button-active': isSelectHistory }" @tap="historyClick">历史</button>
 			</view>
 		</template>
 		<template v-slot:content>
@@ -20,7 +16,7 @@
 					<text>当前借阅</text>
 					<text v-if="isSelectToday" class="sub-text">
 						更新于
-						{{ require('dateformat')(updateTime.current, 'mm-dd HH:MM') }}
+						{{ todayUpdateTime }}
 					</text>
 				</view>
 
@@ -29,7 +25,7 @@
 
 					<text class="sub-text">
 						更新于
-						{{ require('dateformat')(updateTime.history, 'mm-dd HH:MM') }}
+						{{ historyUpdateTime }}
 					</text>
 				</view>
 				<view v-if="!itemList" class="no-item">
@@ -58,22 +54,32 @@
 
 <script lang="ts">
 	import './index.scss';
-	import { defineComponent } from 'vue';
+	import { defineComponent, computed } from 'vue';
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
 	import { LibraryService } from '@/services';
 	import headerTabView from '@/components/headerTabView/index.vue';
-
+	import dayjs from 'dayjs';
 	export default defineComponent({
 		components: { headerTabView },
+		setup() {
+			let updateTime = computed(() => serviceStore.library.updateTime);
+			let todayUpdateTime = computed(() => dayjs(updateTime.value.current).format('mm-dd HH:MM'));
+			let historyUpdateTime = computed(() => dayjs(updateTime.value.history).format('mm-dd HH:MM'));
+			return {
+				updateTime,
+				todayUpdateTime,
+				historyUpdateTime
+			};
+		},
+		mounted() {
+			LibraryService.getLibraryCurrent();
+		},
 		computed: {
 			itemList(): Array<any> {
 				if (this.isSelectToday) return this.current;
 				else if (this.isSelectHistory) return this.history;
 				return [];
-			},
-			updateTime() {
-				return serviceStore.library.updateTime;
 			},
 			history() {
 				return serviceStore.library.history;
@@ -102,7 +108,7 @@
 		methods: {
 			getLibraryCurrent: throttle(LibraryService.getLibraryCurrent),
 			getLibraryHistory: throttle(LibraryService.getLibraryHistory),
-			onDateChange: function(e) {
+			onDateChange: function (e) {
 				this.dateSel = e.detail.value;
 				this.getLibraryHistory();
 			},
@@ -116,9 +122,6 @@
 				this.isSelectHistory = false;
 				this.getLibraryCurrent();
 			}
-		},
-		setup() {
-			LibraryService.getLibraryCurrent();
 		}
 	});
 </script>

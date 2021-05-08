@@ -11,38 +11,27 @@
 		</template>
 		<template v-slot:tab>
 			<view class="tabs">
-				<button :class="{ 'button-active': isSelectToday }" @tap="todayClick">
-					今日
-				</button>
-				<button :class="{ 'button-active': isSelectHistory }" @tap="historyClick">
-					历史
-				</button>
+				<button :class="{ 'button-active': isSelectToday }" @tap="todayClick">今日</button>
+				<button :class="{ 'button-active': isSelectHistory }" @tap="historyClick">历史</button>
 			</view>
 		</template>
 		<template v-slot:content>
 			<view>
 				<view v-if="isSelectToday" class="title">
 					<text>今日消费</text>
-					<text class="sub-text"> 更新于 {{ require('dateformat')(updateTime.today, 'mm-dd HH:MM') }} </text>
+					<text class="sub-text"> 更新于 {{ dayjs(updateTime.today).format('mm-dd HH:MM') }} </text>
 				</view>
 
 				<view v-if="isSelectHistory" class="title">
 					<text>历史消费</text>
-					<view
-						style="
-              display: inline;
-              font-size: 80%;
-              font-weight: normal;
-              margin-left: 1rem;
-            "
-					>
+					<view style="display: inline; font-size: 80%; font-weight: normal; margin-left: 1rem">
 						<picker mode="date" fields="month" style="display: inline-block" @change="onDateChange">
 							<text class="picker"> {{ dateSel }}👋</text>
 						</picker>
 					</view>
 					<text class="sub-text">
 						更新于
-						{{ require('dateformat')(updateTime.history, 'mm-dd HH:MM') }}
+						{{ dayjs(updateTime.history).format('mm-dd HH:MM') }}
 					</text>
 				</view>
 				<view v-if="!itemList" style="text-align: center">
@@ -86,7 +75,6 @@
 	import PopView from '@/components/popView/index.vue';
 	import headerTabView from '@/components/headerTabView/index.vue';
 
-	import dateformat from 'dateformat';
 	import './index.scss';
 	import dayjs from 'dayjs';
 
@@ -162,7 +150,8 @@
 				getCardToday,
 				getCardHistory,
 				pop,
-				showPop
+				showPop,
+				dayjs
 			};
 		},
 		mounted() {

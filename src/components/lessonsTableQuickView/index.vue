@@ -30,7 +30,6 @@
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
-	import dateformat from 'dateformat';
 	import dayjs from 'dayjs';
 	import Card from '../card/index.vue';
 	import { ZFService } from '@/services';

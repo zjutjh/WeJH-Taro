@@ -51,7 +51,6 @@
 		"@babel/runtime": "^7.7.7",
 		"@tarojs/mini-runner": "^3.2.7",
 		"@tarojs/webpack-runner": "^3.2.7",
-		"@types/dateformat": "^3.0.1",
 		"@types/jest": "^26.0.17",
 		"@types/webpack-env": "^1.16.0",
 		"@typescript-eslint/eslint-plugin": "^4.22.0",

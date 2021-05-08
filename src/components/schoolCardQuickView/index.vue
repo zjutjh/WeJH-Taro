@@ -15,7 +15,6 @@
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
-	import dateformat from 'dateformat';
 	import { CardService } from '@/services';
 	import Card from '../card/index.vue';
 	import dayjs from 'dayjs';
