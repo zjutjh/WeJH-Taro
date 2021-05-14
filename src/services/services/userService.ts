@@ -30,7 +30,7 @@ export default class UserService {
 		);
 	}
 
-	static async createUserApp(userForm: { username: string; password: string; studentID: string; idCardNumber: string; code?: string }) {
+	static async createUserApp(userForm: { username: string; password: string; studentID: string; idCardNumber: string; email?: string;code?: string }) {
 		if (!userForm.code) {
 			let res = await Taro.login({ timeout: 3000 });
 			if (res.code) userForm.code = res.code;

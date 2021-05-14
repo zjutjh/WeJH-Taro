@@ -1,0 +1,12 @@
+@import './light.scss';
+
+.dark {
+	@import './dark.scss';
+}
+button {
+	margin: 0.5rem;
+}
+
+button:after {
+	border: none;
+}

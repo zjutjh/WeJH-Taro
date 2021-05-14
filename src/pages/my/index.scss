@@ -2,7 +2,8 @@
 .avatar {
   border-radius: 100rem;
   height: 4rem;
-  width: 4rem;
+  min-width: 4rem;
+  max-width: 4rem;
   overflow: hidden;
   margin: 1rem;
 }
@@ -43,7 +44,12 @@
 
 .my-header {
   margin: 1rem;
+  margin-left: auto;
+  margin-right: auto;
   height: 30%;
+  justify-content: center;
+  align-items: center;
   display: flex;
   flex-direction: row;
+  width: fit-content;
 }

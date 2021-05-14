@@ -7,7 +7,7 @@
 			<view class="iconfont icon-user-3-line large"></view>
 		</view>
 		<view v-if="showPlus" class="finder" @tap="plusClick">
-			<view class="iconfont icon-apps-2-fill large" />
+			<view class="iconfont icon-apps-2-fill" />
 		</view>
 	</view>
 </template>
@@ -50,7 +50,7 @@
 
 <style lang="scss">
 	.nav-bar-ios {
-		padding-bottom: 1rem;
+		padding-bottom: 1.5rem;
 	}
 	.nav-bar {
 		background-color: rgba($color: #fff, $alpha: 0.7);
@@ -68,14 +68,15 @@
 	.finder {
 		border-radius: 100vh;
 		background-color: white;
+		font-size: 1rem;
 		position: absolute;
 		box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
-		width: 4rem;
-		height: 4rem;
+		width: 3rem;
+		height: 3rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		transform: translateY(-50%);
+		transform:rotate(45deg);
 		margin: auto;
 	}
 </style>

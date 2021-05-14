@@ -64,8 +64,8 @@
 		components: { headerTabView },
 		setup() {
 			let updateTime = computed(() => serviceStore.library.updateTime);
-			let todayUpdateTime = computed(() => dayjs(updateTime.value.current).format('mm-dd HH:MM'));
-			let historyUpdateTime = computed(() => dayjs(updateTime.value.history).format('mm-dd HH:MM'));
+			let todayUpdateTime = computed(() => dayjs(updateTime.value.current).format('MM-DD HH:mm'));
+			let historyUpdateTime = computed(() => dayjs(updateTime.value.history).format('MM-DD HH:mm'));
 			return {
 				updateTime,
 				todayUpdateTime,

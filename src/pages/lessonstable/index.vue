@@ -1,12 +1,12 @@
 <template>
 	<title-bar title="课程表" :show-back-button="true"></title-bar>
-	<view class="index">
-		<lessons-table class="class-table" :lessons-table="lessonsTable"></lessons-table>
-		<view class="bottom-panel">
-			<button class="button" @tap="reflesh">刷新</button>
-			<term-picker class="picker" @changed="termChanged"></term-picker>
-			<button class="button"></button>
-		</view>
+
+	<lessons-table class="class-table index" :lessons-table="lessonsTable"></lessons-table>
+
+	<view class="bottom-panel">
+		<button class="button" @tap="reflesh">刷新</button>
+		<term-picker class="picker" @changed="termChanged"></term-picker>
+		<button class="button"></button>
 	</view>
 </template>
 

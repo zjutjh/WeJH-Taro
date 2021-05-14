@@ -10,8 +10,8 @@
 	</view>
 	<view class="no-active" v-else>
 		<card>
-			<image :src="require('@/assets/g/welcome.png')"></image>
-			<view>激活微精弘</view>
+			<view class="title">激活微精弘</view>
+			<image  mode="aspectFit" style="width:100%" :src="require('@/assets/g/welcome.png')"></image>
 			<button class="active">激活</button>
 		</card>
 	</view>

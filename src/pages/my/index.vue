@@ -13,7 +13,7 @@
 				<open-data v-else class="name" type="userNickName" />
 				<text class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</text>
 
-				<button v-if="!isActive" @tap="nav2activation">激活</button>
+				<button class="active" v-if="!isActive" @tap="nav2activation">激活</button>
 				<text v-else class="sub-text">微精弘—Dev</text>
 			</view>
 		</card>
@@ -27,7 +27,7 @@
 		<view v-else>
 			<text class="sub-text">激活享受更多精彩</text>
 		</view>
-		<nav-bar></nav-bar>
+		<nav-bar :show-plus="false"></nav-bar>
 	</view>
 </template>
 

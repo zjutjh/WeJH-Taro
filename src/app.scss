@@ -1,4 +1,5 @@
 @import './style/icons.scss';
+@import "./style";
 page {
 	background-color: #f0f0f0;
 }
@@ -10,19 +11,7 @@ page {
 	fill: currentColor;
 	overflow: hidden;
 }
-button {
-	&.active {
-		background-color: deepskyblue;
-		color: white;
-	}
-	&.button-active {
-		background-color: deepskyblue;
-		color: white;
-	}
-}
-button:after {
-	border: none;
-}
+
 
 .pop-card {
 	width: 80%;
@@ -32,23 +21,5 @@ button:after {
 		text-align: center;
 		font-weight: bolder;
 		margin: 1rem;
-	}
-}
-.act-form {
-	input {
-		border: 1px solid gray;
-		padding: 0.5rem;
-		margin: 0.5rem;
-		border-radius: 0.5rem;
-	}
-
-	text {
-		font-weight: bold;
-	}
-
-	button {
-		border-radius: 0.5rem;
-		margin: 1rem;
-		border: 1px solid gray;
 	}
 }

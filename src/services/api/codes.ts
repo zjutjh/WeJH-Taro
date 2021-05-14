@@ -5,8 +5,8 @@ export class ServerCode {
 	static UserNotFind = -301;
 	static UserAlreadyExisted = -302;
 	static GetOpenIDFail = -400;
-	static NotLogin = -401;
-	static NotAdmin = -403;
+	static NotLogin = 100401;
+	static NotAdmin = 100403;
 	static NoThatPasswordORWrong = -413;
 	static HttpTimeout = -501;
 	static UsernamePasswordUnmatched = -500;

@@ -1,0 +1,14 @@
+@import "@/style/frame";
+
+.header {
+  top: 0;
+  margin-bottom: 1rem;
+  padding: 0;
+
+  image {
+    width: 100%;
+    margin: -15px;
+    opacity: 0.8;
+    height: 400px;
+  }
+}

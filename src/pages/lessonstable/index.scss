@@ -1,9 +1,9 @@
 .index {
-  width: 100vw;
-  height: 80vh;
-  position: fixed;
+	width: 100vw;
+	height: calc(100% - 2rem);
+	position: fixed;
 }
 .class-table {
-  margin-bottom: 2rem;
-  background-color: white;
+	margin-bottom: 2rem;
+	background-color: white;
 }

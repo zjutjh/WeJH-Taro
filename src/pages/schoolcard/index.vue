@@ -19,7 +19,7 @@
 			<view>
 				<view v-if="isSelectToday" class="title">
 					<text>今日消费</text>
-					<text class="sub-text"> 更新于 {{ dayjs(updateTime.today).format('mm-dd HH:MM') }} </text>
+					<text class="sub-text"> 更新于 {{ dayjs(updateTime.today).format('MM-DD HH:mm') }} </text>
 				</view>
 
 				<view v-if="isSelectHistory" class="title">
@@ -31,7 +31,7 @@
 					</view>
 					<text class="sub-text">
 						更新于
-						{{ dayjs(updateTime.history).format('mm-dd HH:MM') }}
+						{{ dayjs(updateTime.history).format('MM-DD HH:mm') }}
 					</text>
 				</view>
 				<view v-if="!itemList" style="text-align: center">
@@ -126,7 +126,7 @@
 				getCardToday();
 			}
 
-			let dateSel = ref(dayjs().format('yyyy-mm'));
+			let dateSel = ref(dayjs().format('YYYY-MM'));
 
 			function onDateChange(e) {
 				dateSel.value = e.detail.value;
