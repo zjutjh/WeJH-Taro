@@ -8,7 +8,7 @@
 				<image src="@/assets/g/noData.svg"></image>
 				<view>无通知</view>
 			</view>
-			<view class="item" v-for="item in announcement" :key="item.id" @tap="pop(item)">
+			<view class="item card" v-for="item in announcement" :key="item.id" @tap="pop(item)">
 				<view class="cicle" v-if="item.title">
 					{{ item.title[0] }}
 				</view>
@@ -36,6 +36,7 @@
 	import { SystemService } from '@/services';
 	import Card from '@/components/card/index.vue';
 	import PopView from '@/components/popView/index.vue';
+
 	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import './index.scss';
 	import { Announcement } from '@/interface/Announcement';

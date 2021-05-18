@@ -10,6 +10,8 @@ export const ZFServicetore = {
 		}
 	}),
 	mutations: {
+
+
 		setLessonTable(state: any, value: { lessonsTable: []; practiceLessons: [] }) {
 			state.lessonsTable = value.lessonsTable;
 			state.practiceLessons = value.practiceLessons;

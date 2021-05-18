@@ -1,24 +1,13 @@
 @import './theme.scss';
-.header {
-	@include blur;
-	box-shadow: $shadow;
-	width: 100vw;
-	z-index: 999;
-}
 
 .tabs {
 	button {
 		border-radius: 0.5rem;
 		display: inline;
-		padding: 0.5rem;
+		margin-left: 0;
+		margin-right: 0;
 		border-width: 0;
-		box-shadow: $shadow;
 	}
-
-	button::after {
-		border: none;
-	}
-
 	:first-child {
 		border-radius: 0.5rem 0 0 0.5rem;
 	}

@@ -35,11 +35,11 @@
 			</view>
 		</template>
 	</header-tab-view>
-	<view class="bottom-panel">
+	<bottom-panel>
 		<button class="button"></button>
 		<room-picker class="picker" @changed="roomChanged"></room-picker>
 		<button class="button"></button>
-	</view>
+	</bottom-panel>
 	<pop-view v-model:show="showPop">
 		<card v-if="selectedItem"> </card>
 	</pop-view>
@@ -49,14 +49,17 @@
 	import { computed, defineComponent } from 'vue';
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
+	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import Card from '@/components/card/index.vue';
+
 	import PopView from '@/components/popView/index.vue';
 	import RoomPicker from '@/components/roomPicker/index.vue';
-	import headerTabView from '@/components/headerTabView/index.vue';
+
+	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import './index.scss';
 	import { groupBy } from '@/utils/tools';
 	export default defineComponent({
-		components: { headerTabView, PopView, Card, RoomPicker },
+		components: { HeaderTabView, PopView, Card, RoomPicker, BottomPanel },
 		setup() {
 			function roomChanged(e) {
 				ZFService.getFreeRoomInfo(e);

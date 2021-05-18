@@ -20,15 +20,12 @@
   flex-wrap: wrap;
 }
 .item {
-  @include card;
-  @include radius;
   padding: 0.5rem;
   margin: 0.5rem;
   display: flex;
   align-items: center;
   height: 5rem;
   width: 5rem;
-
   margin-top: 0.5rem;
 
   image {

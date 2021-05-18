@@ -24,6 +24,9 @@
 				</view>
 			</view>
 		</view>
+		<view v-if=" todayLessonTable === [] ">
+			今天居然没有课😄
+		</view>
 	</card>
 </template>
 <script lang="ts">
@@ -79,10 +82,7 @@
 			goLessonAlert(sections: string) {
 				let arr = sections.split('-');
 				let det = dayjs(section2time(arr[0]), 'HH:mm').valueOf() - dayjs().valueOf();
-				if (det > 0)
-					return dayjs(det)
-						.utc()
-						.format('HH:mm');
+				if (det > 0) return dayjs(det).utc().format('HH:mm');
 				return null;
 			},
 			goLessonAlertEm(sections: string) {

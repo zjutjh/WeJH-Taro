@@ -38,7 +38,7 @@
 					<image src="@/assets/g/noData.svg"></image>
 					<view> 无消费记录</view>
 				</view>
-				<view class="item" v-for="item in itemList" :key="item.ID" @tap="pop(item)">
+				<view class="item  card" v-for="item in itemList" :key="item.ID" @tap="pop(item)">
 					<view class="cicle" v-if="item.transactionType">
 						{{ item.transactionType[0] }}
 					</view>
@@ -72,14 +72,14 @@
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
 	import Card from '@/components/card/index.vue';
-	import PopView from '@/components/popView/index.vue';
-	import headerTabView from '@/components/headerTabView/index.vue';
 
+	import PopView from '@/components/popView/index.vue';
+	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import './index.scss';
 	import dayjs from 'dayjs';
 
 	export default defineComponent({
-		components: { headerTabView, PopView, Card },
+		components: { HeaderTabView, PopView, Card },
 		computed: {
 			itemList(): Array<any> {
 				if (this.isSelectToday) {

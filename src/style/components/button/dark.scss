@@ -1,11 +1,11 @@
-.dark {
+@media (prefers-color-scheme: dark) {
 	button {
 		&.active {
-			background-color: deepskyblue;
+			background-color: gainsboro;
 			color: black;
 		}
 		&.button-active {
-			background-color: deepskyblue;
+			background-color: gainsboro;
 			color: black;
 		}
 	}

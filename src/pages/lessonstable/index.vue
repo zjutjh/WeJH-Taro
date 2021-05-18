@@ -3,23 +3,25 @@
 
 	<lessons-table class="class-table index" :lessons-table="lessonsTable"></lessons-table>
 
-	<view class="bottom-panel">
+	<bottom-panel>
 		<button class="button" @tap="reflesh">刷新</button>
 		<term-picker class="picker" @changed="termChanged"></term-picker>
 		<button class="button"></button>
-	</view>
+	</bottom-panel>
 </template>
 
 <script lang="ts">
 	import { computed, ref } from 'vue';
+	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import lessonsTable from '@/components/lessonstable/index.vue';
-	import termPicker from '@/components/termPicker/index.vue';
+	import TermPicker from '@/components/termPicker/index.vue';
 	import TitleBar from '@/components/titleBar/index.vue';
+
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
 	import './index.scss';
 	export default {
-		components: { lessonsTable, termPicker, TitleBar },
+		components: { lessonsTable, TermPicker, TitleBar, BottomPanel },
 		setup() {
 			let selectTerm = {
 				year: systemStore.generalInfo.termYear,

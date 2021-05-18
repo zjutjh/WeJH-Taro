@@ -14,5 +14,4 @@
 
 ## 更多资料
 
-- 小程序后端文档：[https://github.com/zjutjh/wejh-server-docs](https://github.com/zjutjh/wejh-server-docs)
-- 精弘 API 文档：[https://doc.zjut.com/5-api](https://doc.zjut.com/5-api)
+- 小程序后端：[https://github.com/zjutjh/wejh-go](https://github.com/zjutjh/wejh-server-docs)

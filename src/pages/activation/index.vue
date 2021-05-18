@@ -4,7 +4,7 @@
 			<image src="@/assets/g/logo.jpg" mode="aspectFill" />
 		</view>
 		<card>
-			<view class="act-form">
+			<view>
 				<view class="large">账号激活</view>
 				<text>用户名</text>
 				<input type="text" placeholder="输入精弘通行证用户名" v-model="username" />

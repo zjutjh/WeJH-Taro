@@ -4,7 +4,7 @@
 		<view class="header">
 			<image src="@/assets/g/logo.jpg" mode="aspectFill" />
 		</view>
-		<view class="act-form">
+		<view class="card">
 			<view>
 				<text class="title">密码绑定</text>
 			</view>
@@ -13,7 +13,7 @@
 			<view>
 				<input v-if="!user.isBindZF" type="password" placeholder="输入正方教务系统密码" v-model="zfpass" />
 				<input v-else type="password" placeholder="*******" v-model="zfpass" />
-				<button @tap="bindZFClick" :disabled="zfpass === ''">
+				<button class="active" @tap="bindZFClick" :disabled="zfpass === ''">
 					<text v-if="!user.isBindZF">绑定</text>
 					<text v-else>修改</text>
 				</button>
@@ -22,7 +22,7 @@
 			<view>
 				<input v-if="!user.isBindCard" type="password" placeholder="输入校园卡密码" v-model="cardpass" />
 				<input v-else type="password" placeholder="********" v-model="cardpass" />
-				<button @tap="bindCardClick" :disabled="cardpass === ''">
+				<button class="active" @tap="bindCardClick" :disabled="cardpass === ''">
 					<text v-if="!user.isBindCard"> 绑定 </text>
 					<text v-else> 修改 </text>
 				</button>
@@ -31,7 +31,7 @@
 			<view>
 				<input v-if="!user.isBindLibrary" type="password" placeholder="输入图书馆密码" v-model="libpass" />
 				<input v-else type="password" placeholder="********" v-model="libpass" />
-				<button @tap="bindLibClick" :disabled="libpass === ''">
+				<button class="active" @tap="bindLibClick" :disabled="libpass === ''">
 					<text v-if="!user.isBindLibrary"> 绑定 </text>
 					<text v-else> 修改 </text>
 				</button>

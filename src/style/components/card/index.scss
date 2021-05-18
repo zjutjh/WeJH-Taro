@@ -1,12 +1,15 @@
 @import './light.scss';
-
-.dark {
-	@import './dark.scss';
-}
-button {
+@import './dark.scss';
+@import "@/style/theme.scss";
+.card {
+	@include radius;
+	@include blur;
+	@include shadow;
 	margin: 0.5rem;
-}
-
-button:after {
-	border: none;
-}
+	padding: 2rem;
+	.title{
+	  font-size: 1.5rem;
+	  font-weight: bolder;
+	}
+  }
+  

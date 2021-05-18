@@ -16,7 +16,7 @@
 		</card>
 	</view>
 	<pop-view v-model:show="showPop">
-		<view class="app-list-card">
+		<view class="app-list-card card">
 			<app-list></app-list>
 		</view>
 	</pop-view>
@@ -26,14 +26,14 @@
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
-	import NavBar from '@/components/navBar/index.vue';
-	import Card from '@/components/card/index.vue';
-	import AppList from '@/components/applist/index.vue';
 
-	import SchoolCardQuickView from '@/components/schoolCardQuickView/index.vue';
+	import AppList from '@/components/applist/index.vue';
+	import Card from '@/components/card/index.vue';
+	import NavBar from '@/components/navBar/index.vue';
 	import LessonTableQuickView from '@/components/lessonsTableQuickView/index.vue';
 	import LibraryQuickView from '@/components/libraryQuickView/index.vue';
 	import PopView from '@/components/popView/index.vue';
+	import SchoolCardQuickView from '@/components/schoolCardQuickView/index.vue';
 	import TitleBar from '@/components/titleBar/index.vue';
 	import { ZFService } from '@/services';
 	import './index.scss';

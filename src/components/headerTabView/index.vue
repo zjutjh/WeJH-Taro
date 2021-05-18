@@ -28,9 +28,9 @@
 <script lang="ts">
 	import { defineComponent } from 'vue';
 	import Taro from '@tarojs/taro';
-	import './index.scss';
-	import TitleBar from '@/components/titleBar/index.vue';
 
+	import TitleBar from '@/components/titleBar/index.vue';
+	import './index.scss';
 	export default defineComponent({
 		components: { TitleBar },
 		props: {

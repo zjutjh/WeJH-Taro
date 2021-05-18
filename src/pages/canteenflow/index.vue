@@ -5,7 +5,7 @@
 				<image src="@/assets/g/noData.svg"></image>
 				<view>无食堂流量信息</view>
 			</view>
-			<view class="item" v-for="item in flow" :key="item.restaurantName">
+			<view class="item card" v-for="item in flow" :key="item.restaurantName">
 				<view class="cicle" v-if="item.restaurantName">
 					{{ item.restaurantName[0] }}
 				</view>
@@ -27,11 +27,11 @@
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
 
-	import headerTabView from '@/components/headerTabView/index.vue';
+	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import './index.scss';
 
 	export default defineComponent({
-		components: { headerTabView },
+		components: { HeaderTabView },
 		computed: {
 			updateTime(): string {
 				return serviceStore.canteen.updateTime.flow;

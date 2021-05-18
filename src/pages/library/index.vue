@@ -32,7 +32,7 @@
 					<image src="@/assets/g/noData.svg"></image>
 					<view> 无借阅记录 </view>
 				</view>
-				<view class="item" v-for="item in itemList" :key="item.id">
+				<view class="item  card" v-for="item in itemList" :key="item.id">
 					<view class="cicle" v-if="item.name">
 						<text>
 							{{ item.name[0] }}

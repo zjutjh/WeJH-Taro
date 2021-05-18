@@ -1,2 +1,14 @@
-@import "./components/button";
-@import "./components/input";
+@import './components/button';
+@import './components/input';
+@import './components/card';
+@import './components/header';
+
+page {
+	background-color: #f0f0f0;
+}
+
+@media (prefers-color-scheme: dark) {
+	page {
+		background-color: black;
+	}
+}

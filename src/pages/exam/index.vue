@@ -5,7 +5,7 @@
 				<image src="@/assets/g/noData.svg"></image>
 				<view> 无记录</view>
 			</view>
-			<view class="item" v-for="item in exam" :key="item.id" @tap="pop(item)">
+			<view class="item card" v-for="item in exam" :key="item.id" @tap="pop(item)">
 				<view class="cicle" v-if="item.lessonName">
 					{{ item.lessonName[0] }}
 				</view>
@@ -18,29 +18,29 @@
 			</view>
 		</template>
 	</header-tab-view>
-	<view class="bottom-panel">
+	<bottom-panel>
 		<button class="button"></button>
 		<term-picker class="picker" @changed="termChanged"></term-picker>
 		<button class="button"></button>
-	</view>
+	</bottom-panel>
 	<pop-view v-model:show="showPop">
 		<card v-if="selectedItem"> </card>
 	</pop-view>
 </template>
 
 <script lang="ts">
+	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import Card from '@/components/card/index.vue';
+
+	import PopView from '@/components/popView/index.vue';
+	import TermPicker from '@/components/termPicker/index.vue';
+	import HeaderTabView from '@/components/headerTabView/index.vue';
+	import './index.scss';
 	import { computed, defineComponent } from 'vue';
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
-	import Card from '@/components/card/index.vue';
-	import PopView from '@/components/popView/index.vue';
-	import termPicker from '@/components/termPicker/index.vue';
-	import headerTabView from '@/components/headerTabView/index.vue';
-
-	import './index.scss';
-
 	export default defineComponent({
-		components: { headerTabView, PopView, Card, termPicker },
+		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel },
 		setup() {
 			let selectTerm = {
 				year: systemStore.generalInfo.termYear,

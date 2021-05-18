@@ -20,6 +20,8 @@ export default {
 		backgroundTextStyle: 'light',
 		navigationBarTextStyle: 'black',
 		backgroundColor: '#dfdfdf',
-		navigationStyle: 'custom'
-	}
+		navigationStyle: 'custom',
+
+	},
+	darkmode: true
 };

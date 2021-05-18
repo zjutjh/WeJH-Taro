@@ -12,8 +12,6 @@
   padding-bottom: 5rem;
 }
 .app-list-card {
-  @include card;
-  @include radius;
   padding: 1rem 0;
   margin: 1rem;
   position: absolute;
