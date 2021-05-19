@@ -22,8 +22,8 @@ export default class ZFService {
 	static async updateExamInfo(data?: { year: string; term: string }) {
 		if (!data) {
 			data = {
-				year: systemStore.generalInfo.termYear,
-				term: systemStore.generalInfo.term
+				year: systemStore.generalInfo?.termYear,
+				term: systemStore.generalInfo?.term
 			};
 		}
 		return updateDateStateWithSession(api.zf.examInfo, data, 'setExamInfo', (res) => {
@@ -37,8 +37,8 @@ export default class ZFService {
 	static getExamInfo(data?: { year: string; term: string }): { data: Exam[]; updateTime: Date | null } {
 		if (!data) {
 			data = {
-				year: systemStore.generalInfo.termYear,
-				term: systemStore.generalInfo.term
+				year: systemStore.generalInfo?.termYear,
+				term: systemStore.generalInfo?.term
 			};
 		}
 		if (!serviceStore?.zf[data.year]) return { data: [], updateTime: null };
@@ -49,8 +49,8 @@ export default class ZFService {
 	static async updateScoreInfo(data?: { year: string; term: string }) {
 		if (!data) {
 			data = {
-				year: systemStore.generalInfo.termYear,
-				term: systemStore.generalInfo.term
+				year: systemStore.generalInfo?.termYear,
+				term: systemStore.generalInfo?.term
 			};
 		}
 		return updateDateStateWithSession(api.zf.scoreInfo, data, 'setScoreInfo', (res) => {
@@ -64,8 +64,8 @@ export default class ZFService {
 	static getScoreInfo(data?: { year: string; term: string }): { data: Score[]; updateTime: Date | null } {
 		if (!data) {
 			data = {
-				year: systemStore.generalInfo.termYear,
-				term: systemStore.generalInfo.term
+				year: systemStore.generalInfo?.termYear,
+				term: systemStore.generalInfo?.term
 			};
 		}
 		if (!serviceStore?.zf[data.year]) return { data: [], updateTime: null };
@@ -102,8 +102,8 @@ export default class ZFService {
 	static getLessonTable(data?: { year: string; term: string }): Lesson[] {
 		if (!data) {
 			data = {
-				year: systemStore.generalInfo.termYear,
-				term: systemStore.generalInfo.term
+				year: systemStore.generalInfo?.termYear,
+				term: systemStore.generalInfo?.term
 			};
 		}
 		if (!serviceStore?.zf[data.year]) return [];
@@ -114,9 +114,9 @@ export default class ZFService {
 	static getWeekLessonTable(data?: { year: string; term: string; week: string }) {
 		if (!data) {
 			data = {
-				year: systemStore.generalInfo.termYear,
-				term: systemStore.generalInfo.term,
-				week: systemStore.generalInfo.week
+				year: systemStore.generalInfo?.termYear,
+				term: systemStore.generalInfo?.term,
+				week: systemStore.generalInfo?.week
 			};
 		}
 		const lessonsTable = this.getLessonTable(data);
