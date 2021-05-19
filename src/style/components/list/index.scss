@@ -1,3 +1,6 @@
+@import './light.scss';
+@import './dark.scss';
+@import '@/style/theme.scss';
 .item {
 	border-radius: 1rem;
 	margin: 0.5rem;
@@ -9,13 +12,14 @@
 	text-align: left;
 
 	.cicle {
-		color: white;
+		
+		@include shadow;
 		margin-right: 0.5rem;
 		border-radius: 10rem;
 		font-size: 1.5rem;
 		min-width: 3rem;
 		height: 3rem;
-		background-color: lightskyblue;
+	
 		display: flex;
 		align-items: center;
 		justify-content: center;

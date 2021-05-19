@@ -42,6 +42,7 @@ export default class ZFService {
 			};
 		}
 		if (!serviceStore?.zf[data.year]) return { data: [], updateTime: null };
+		if (!serviceStore?.zf[data.year][data.term]?.exam) return { data: [], updateTime: null };
 		return serviceStore?.zf[data.year][data.term]?.exam;
 	}
 
@@ -68,6 +69,7 @@ export default class ZFService {
 			};
 		}
 		if (!serviceStore?.zf[data.year]) return { data: [], updateTime: null };
+		if (!serviceStore?.zf[data.year][data.term]?.score) return { data: [], updateTime: null };
 		return serviceStore?.zf[data.year][data.term]?.score;
 	}
 
@@ -105,6 +107,7 @@ export default class ZFService {
 			};
 		}
 		if (!serviceStore?.zf[data.year]) return [];
+		if (!serviceStore?.zf[data.year][data.term]?.lessons?.data.lessonsTable) return [];
 		return serviceStore?.zf[data.year][data.term]?.lessons?.data.lessonsTable;
 	}
 

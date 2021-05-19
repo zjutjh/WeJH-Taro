@@ -7,14 +7,14 @@
 				<open-data type="userAvatarUrl" />
 			</view>
 			<view>
-				<text class="name" v-if="userInfo">
+				<view class="name" v-if="userInfo">
 					{{ userInfo.username }}
-				</text>
+				</view>
 				<open-data v-else class="name" type="userNickName" />
-				<text class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</text>
+				<view class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</view>
 
 				<button class="active" v-if="!isActive" @tap="nav2activation">激活</button>
-				<text v-else class="sub-text">微精弘—Dev</text>
+				<view v-else class="sub-text">微精弘—Dev</view>
 			</view>
 		</card>
 

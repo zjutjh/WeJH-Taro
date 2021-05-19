@@ -11,7 +11,7 @@
 				</view>
 				<view class="item-text">
 					<view> {{ item.lessonName }}-{{ item.id }}</view>
-					<view> {{ item.teacherName }}</view>
+					<view> <text class="iconfont icon-laoshi"></text>{{ item.teacherName }}</view>
 					<view> {{ item.examTime }}</view>
 					<view>{{ calcDayLeft(item.examTime) }}</view>
 				</view>

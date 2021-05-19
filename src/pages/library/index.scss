@@ -1,6 +1,4 @@
 @import "@/style/frame";
-@import "@/style/list";
-
 .index {
   height: 100vh;
 }
@@ -23,16 +21,6 @@
   }
 }
 
-.content {
-  padding: 1rem;
-  width: inherit;
-
-  .title {
-    font-size: 2rem;
-    font-weight: bolder;
-  }
-
-}
 
 .balance {
   color: white;

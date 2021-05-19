@@ -11,7 +11,7 @@
 				</view>
 				<view class="item-text">
 					<view> {{ item.lessonName }}-{{ item.lessonID }}</view>
-					<view> {{ item.teacherName }}</view>
+					<view> <text class="iconfont icon-laoshi"></text>{{ item.teacherName }}</view>
 					<view> {{ item.submitTime }}</view>
 				</view>
 				<view class="score"> {{ item.score }}</view>
@@ -60,7 +60,7 @@
 			}
 			async function reflesh() {
 				isRefleshing.value = true;
-				ZFService.updateScoreInfo(selectTerm.value);
+				await ZFService.updateScoreInfo(selectTerm.value);
 				isRefleshing.value = false;
 			}
 

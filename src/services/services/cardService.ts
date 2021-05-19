@@ -18,7 +18,6 @@ export default class CardService {
 	}
 	static getCardHistory(data: { year: number; month: number }): any {
 		if (!serviceStore?.card[data.year]) return { data: [], updateTime: null };
-		console.log(serviceStore?.card);
 		return serviceStore?.card[data.year][data.month];
 	}
 	static async updateCardToday(): Promise<any> {

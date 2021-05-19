@@ -1,5 +1,4 @@
 @import '@/style/frame';
-@import '@/style/list';
 
 .schoolcard {
   display: flex;
@@ -16,16 +15,6 @@
 
 .index {
   height: 100vh;
-}
-
-.content {
-  padding-left: 1rem;
-  padding-right: 1rem;
-
-  .title {
-    font-size: 2rem;
-    font-weight: bolder;
-  }
 }
 
 .balance {

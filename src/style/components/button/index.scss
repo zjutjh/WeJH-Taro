@@ -1,9 +1,11 @@
-@import "./dark.scss";
-@import "./light.scss";
+@import './dark.scss';
+@import './light.scss';
+@import '@/style/theme.scss';
 
-
-button{
-    margin: 0.5rem;
+button {
+	@include radius;
+	@include shadow;
+	margin: 0.5rem;
 }
 
 button:after {

@@ -46,7 +46,6 @@
 		border-radius: 100vh;
 		font-size: 1rem;
 		position: absolute;
-		box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 		width: 2.5rem;
 		height: 2.5rem;
 		display: flex;

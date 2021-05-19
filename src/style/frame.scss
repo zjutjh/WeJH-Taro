@@ -4,6 +4,7 @@
 	button {
 		border-radius: 0.5rem;
 		display: inline;
+		padding: 0.5rem;
 		margin-left: 0;
 		margin-right: 0;
 		border-width: 0;
@@ -15,11 +16,4 @@
 	:last-child {
 		border-radius: 0 0.5rem 0.5rem 0;
 	}
-}
-
-.sub-text {
-	font-size: 1rem;
-	display: block;
-	padding-left: 0.5rem;
-	color: #404040;
 }
