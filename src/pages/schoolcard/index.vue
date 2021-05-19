@@ -19,7 +19,6 @@
 			<view>
 				<view v-if="isSelectToday" class="title">
 					<text>今日消费</text>
-					<text class="sub-text"> 更新于 {{ dayjs(updateTime.today).format('MM-DD HH:mm') }} </text>
 				</view>
 
 				<view v-if="isSelectHistory" class="title">
@@ -29,10 +28,6 @@
 							<text class="picker"> {{ dateSel }}👋</text>
 						</picker>
 					</view>
-					<text class="sub-text">
-						更新于
-						{{ dayjs(updateTime.history).format('MM-DD HH:mm') }}
-					</text>
 				</view>
 				<view v-if="!itemList" style="text-align: center">
 					<image src="@/assets/g/noData.svg"></image>
@@ -82,7 +77,7 @@
 		computed: {
 			itemList(): Array<any> {
 				if (this.isSelectToday) return this.today;
-				else if (this.isSelectHistory) return this?.history.data;
+				else if (this.isSelectHistory) return this?.history?.data;
 				return [];
 			},
 			updateTime() {

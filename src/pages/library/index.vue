@@ -14,25 +14,16 @@
 			<view>
 				<view v-if="isSelectToday" class="title">
 					<text>当前借阅</text>
-					<text v-if="isSelectToday" class="sub-text">
-						更新于
-						{{ todayUpdateTime }}
-					</text>
 				</view>
 
 				<view v-if="isSelectHistory" class="title">
 					<text>历史借阅</text>
-
-					<text class="sub-text">
-						更新于
-						{{ historyUpdateTime }}
-					</text>
 				</view>
 				<view v-if="!itemList" class="no-item">
 					<image src="@/assets/g/noData.svg"></image>
 					<view> 无借阅记录 </view>
 				</view>
-				<view class="item  card" v-for="item in itemList" :key="item.id">
+				<view class="item card" v-for="item in itemList" :key="item.id">
 					<view class="cicle" v-if="item.name">
 						<text>
 							{{ item.name[0] }}
@@ -108,7 +99,7 @@
 		methods: {
 			getLibraryCurrent: throttle(LibraryService.getLibraryCurrent),
 			getLibraryHistory: throttle(LibraryService.getLibraryHistory),
-			onDateChange: function(e) {
+			onDateChange: function (e) {
 				this.dateSel = e.detail.value;
 				this.getLibraryHistory();
 			},

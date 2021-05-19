@@ -28,6 +28,5 @@
 		}
 	},
 	"exclude": ["node_modules/*", "dist/*", "src/components/**/__tests__/*", "src/app.config.ts", "src/__tests__/*"],
-	"include": ["types", "src/**/*", "src/interface/*", "./global.d.ts"],
 	"compileOnSave": false
 }
