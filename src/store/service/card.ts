@@ -14,9 +14,12 @@ export const CardServiceStore = {
 			state.balance = value;
 			state.updateTime.balance = new Date();
 		},
-		setCardHistory(state: any, value: Array<object>) {
-			state.history = value;
-			state.updateTime.history = new Date();
+		setCardHistory(state: any, value: { month: string; year: string; data: [] }) {
+			if (!state[value.year]) state[value.year] = {};
+			state[value.year][value.month] = {
+				data: value.data,
+				updateTime: new Date()
+			};
 		},
 		setCardToday(state: any, value: Array<object>) {
 			state.today = value;

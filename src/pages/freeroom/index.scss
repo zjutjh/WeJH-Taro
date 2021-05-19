@@ -13,7 +13,6 @@
   padding: 0.5rem;
   text-align: center;
   @include radius;
-  @include simple-card;
 }
 .build-name{
   text-align: center;

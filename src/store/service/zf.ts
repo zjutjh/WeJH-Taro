@@ -10,20 +10,35 @@ export const ZFServicetore = {
 		}
 	}),
 	mutations: {
-
-
-		setLessonTable(state: any, value: { lessonsTable: []; practiceLessons: [] }) {
-			state.lessonsTable = value.lessonsTable;
-			state.practiceLessons = value.practiceLessons;
-			state.updateTime.lessonTable = new Date();
+		setLessonTable(state: any, value: { term: string; year: string; lessonsTable: []; practiceLessons: [] }) {
+			if (!state[value.year]) state[value.year] = {};
+			state[value.year][value.term] = {
+				lessons: {
+					data: {
+						lessonsTable: value.lessonsTable,
+						practiceLessons: value.practiceLessons
+					},
+					updateTime: new Date()
+				}
+			};
 		},
-		setExamInfo(state: any, value: []) {
-			state.examInfo = value;
-			state.updateTime.examInfo = new Date();
+		setExamInfo(state: any, value: { term: string; year: string; examInfo: [] }) {
+			if (!state[value.year]) state[value.year] = {};
+			state[value.year][value.term] = {
+				exam: {
+					data: value.examInfo,
+					updateTime: new Date()
+				}
+			};
 		},
-		setScoreInfo(state: any, value: []) {
-			state.scoreInfo = value;
-			state.updateTime.scoreInfo = new Date();
+		setScoreInfo(state: any, value: { term: string; year: string; scoreInfo: [] }) {
+			if (!state[value.year]) state[value.year] = {};
+			state[value.year][value.term] = {
+				score: {
+					data: value.scoreInfo,
+					updateTime: new Date()
+				}
+			};
 		},
 		setRoomInfo(state: any, value: []) {
 			state.room = value;

@@ -1,17 +1,18 @@
 <template>
 	<title-bar title="课程表" :show-back-button="true"></title-bar>
 
-	<lessons-table class="class-table index" :lessons-table="lessonsTable"></lessons-table>
+	<lessons-table class="index" :lessons="lessonsTable"></lessons-table>
 
 	<bottom-panel>
-		<button class="button" @tap="reflesh">刷新</button>
+		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 		<term-picker class="picker" @changed="termChanged"></term-picker>
-		<button class="button"></button>
+		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
 </template>
 
 <script lang="ts">
-	import { computed, ref } from 'vue';
+	import { computed, onMounted, ref, Ref } from 'vue';
+	import RefleshButton from '@/components/refleshButton/index.vue';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import lessonsTable from '@/components/lessonstable/index.vue';
 	import TermPicker from '@/components/termPicker/index.vue';
@@ -21,28 +22,57 @@
 	import { serviceStore, systemStore } from '@/store';
 	import './index.scss';
 	export default {
-		components: { lessonsTable, TermPicker, TitleBar, BottomPanel },
+		components: { lessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton },
 		setup() {
-			let selectTerm = {
+			let selectTerm = ref({
 				year: systemStore.generalInfo.termYear,
 				term: systemStore.generalInfo.term
-			};
-			if (serviceStore.user.isBindZF) {
-				if (!serviceStore.zf.lessonsTable) ZFService.getLessonTable(selectTerm);
+			});
+			const isRefleshing = ref(false);
+			const lessonsTable = computed(() => {
+				return ZFService.getLessonTable(selectTerm.value);
+			});
+
+			async function termChanged(e) {
+				isRefleshing.value = true;
+				selectTerm.value = e;
+				await ZFService.updateLessonTable(e);
+				isRefleshing.value = false;
 			}
-			function termChanged(e) {
-				selectTerm = e;
-				ZFService.getLessonTable(e);
+
+			async function reflesh() {
+				isRefleshing.value = true;
+				await ZFService.updateLessonTable(selectTerm.value);
+				isRefleshing.value = false;
 			}
-			function reflesh() {
-				ZFService.getLessonTable(selectTerm);
-			}
-			const lessonsTable = computed(() => serviceStore.zf.lessonsTable);
+			onMounted(async () => {
+				if (serviceStore.user.isBindZF) {
+					if (!lessonsTable.value) {
+						await reflesh();
+					}
+				}
+			});
 			return {
 				lessonsTable,
+				selectTerm,
 				termChanged,
-				reflesh
+				reflesh,
+				isRefleshing
 			};
 		}
 	};
 </script>
+<style>
+	@keyframes rote {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.reflesh-running {
+		animation: rote 1s alternate infinite;
+	}
+</style>

@@ -18,7 +18,6 @@ export const UserServiceStore = {
 	}),
 	mutations: {
 		setBindZF(state: any, value: boolean) {
-			console.log(value);
 			state.isBindZF = value;
 		},
 		setBindSchoolCard(state: any, value: boolean) {

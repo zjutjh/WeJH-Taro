@@ -13,15 +13,16 @@
 					<view> {{ item.lessonName }}-{{ item.id }}</view>
 					<view> {{ item.teacherName }}</view>
 					<view> {{ item.examTime }}</view>
+					<view>{{ calcDayLeft(item.examTime) }}</view>
 				</view>
 				<view class="ext">{{ item.examPlace }}</view>
 			</view>
 		</template>
 	</header-tab-view>
 	<bottom-panel>
-		<button class="button"></button>
+		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 		<term-picker class="picker" @changed="termChanged"></term-picker>
-		<button class="button"></button>
+		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop">
 		<card v-if="selectedItem"> </card>
@@ -29,6 +30,7 @@
 </template>
 
 <script lang="ts">
+	import RefleshButton from '@/components/refleshButton/index.vue';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import Card from '@/components/card/index.vue';
 
@@ -36,36 +38,45 @@
 	import TermPicker from '@/components/termPicker/index.vue';
 	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import './index.scss';
-	import { computed, defineComponent } from 'vue';
+	import { computed, defineComponent, onMounted, ref } from 'vue';
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
+	import dayjs from 'dayjs';
 	export default defineComponent({
-		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel },
+		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel, RefleshButton },
 		setup() {
-			let selectTerm = {
+			let selectTerm = ref({
 				year: systemStore.generalInfo.termYear,
 				term: systemStore.generalInfo.term
-			};
-			if (serviceStore.user.isBindZF) if (!serviceStore.zf.examInfo) ZFService.getExamInfo(selectTerm);
+			});
+			const isRefleshing = ref(false);
+			const exam = computed(() => {
+				return ZFService.getExamInfo(selectTerm.value)?.data;
+			});
 
-			function termChanged(e) {
-				selectTerm = e;
-				ZFService.getExamInfo(e);
+			async function termChanged(e) {
+				isRefleshing.value = true;
+				selectTerm.value = e;
+				await ZFService.updateExamInfo(e);
+				isRefleshing.value = false;
 			}
-			function reflesh() {
-				ZFService.getExamInfo(selectTerm);
+			async function reflesh() {
+				isRefleshing.value = true;
+				await ZFService.updateExamInfo(selectTerm.value);
+				isRefleshing.value = false;
 			}
-			const exam = computed(() => serviceStore.zf.examInfo);
+
+			onMounted(async () => {
+				if (serviceStore.user.isBindZF) {
+					await reflesh();
+				}
+			});
 			return {
 				exam,
 				termChanged,
-				reflesh
+				reflesh,
+				isRefleshing
 			};
-		},
-		computed: {
-			updateTime(): string {
-				return serviceStore.zf.updateTime.lessonsTable;
-			}
 		},
 		data() {
 			return {
@@ -74,6 +85,10 @@
 			};
 		},
 		methods: {
+			calcDayLeft(dayString: string) {
+				const dd = dayjs(dayString, 'YYYY-MM-DD(HH:mm)');
+				return dayjs(dayString, 'YYYY-MM-DD(HH:mm)').fromNow();
+			},
 			pop(item) {
 				this.selectedItem = item;
 				this.showPop = true;

@@ -19,9 +19,9 @@
 		</template>
 	</header-tab-view>
 	<bottom-panel>
-		<button class="button"></button>
+		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 		<term-picker class="picker" @changed="termChanged"></term-picker>
-		<button class="button"></button>
+		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop">
 		<card v-if="selectedItem"> </card>
@@ -29,9 +29,10 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent } from 'vue';
+	import { computed, defineComponent, onMounted, ref } from 'vue';
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
+	import RefleshButton from '@/components/refleshButton/index.vue';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import Card from '@/components/card/index.vue';
 	import PopView from '@/components/popView/index.vue';
@@ -42,32 +43,36 @@
 	import './index.scss';
 
 	export default defineComponent({
-		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel },
+		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel, RefleshButton },
 		setup() {
-			let selectTerm = {
+			let selectTerm = ref({
 				year: systemStore.generalInfo.termYear,
 				term: systemStore.generalInfo.term
-			};
-			if (serviceStore.user.isBindZF) if (!serviceStore.zf.examInfo) ZFService.getScoreInfo(selectTerm);
+			});
+			const score = computed(() => ZFService.getScoreInfo(selectTerm.value).data);
+			const isRefleshing = ref(false);
 
-			function termChanged(e) {
-				selectTerm = e;
-				ZFService.getScoreInfo(e);
+			async function termChanged(e) {
+				isRefleshing.value = true;
+				selectTerm.value = e;
+				await ZFService.updateScoreInfo(e);
+				isRefleshing.value = false;
 			}
-			function reflesh() {
-				ZFService.getScoreInfo(selectTerm);
+			async function reflesh() {
+				isRefleshing.value = true;
+				ZFService.updateScoreInfo(selectTerm.value);
+				isRefleshing.value = false;
 			}
-			const score = computed(() => serviceStore.zf.scoreInfo);
+
+			onMounted(async () => {
+				if (serviceStore.user.isBindZF) await reflesh();
+			});
 			return {
 				score,
 				termChanged,
-				reflesh
+				reflesh,
+				isRefleshing
 			};
-		},
-		computed: {
-			updateTime(): string {
-				return serviceStore.zf.updateTime.lessonsTable;
-			}
 		},
 		data() {
 			return {
@@ -83,3 +88,17 @@
 		}
 	});
 </script>
+<style>
+	@keyframes rote {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.reflesh-running {
+		animation: rote 1s alternate infinite;
+	}
+</style>

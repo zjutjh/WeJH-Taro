@@ -1,7 +1,6 @@
 import { ServerCode } from '../api/codes';
 import Taro from '@tarojs/taro';
 export default function errCodeHandler(code, showModal = true) {
-	console.log(code, showModal);
 	if (code === ServerCode.NoThatPasswordORWrong) {
 		if (showModal)
 			Taro.showModal({

@@ -6,15 +6,15 @@ import { updateDateStateWithSession } from '../utils/updateDateState';
 
 export default class UserService {
 	static async bindLibrary(data?: { password: string }, showModal = true) {
-		return updateDateStateWithSession(api.user.bind.library, data, 'setBindLibrary', null, (res) => res.data.code === 1, showModal);
+		return updateDateStateWithSession(api.user.bind.library, data, 'setBindLibrary', (res) => res.data.code === 1, showModal);
 	}
 
 	static async bindZF(data?: { password: string }, showModal = true) {
-		return updateDateStateWithSession(api.user.bind.zf, data, 'setBindZF', null, (res) => res.data.code === 1, showModal);
+		return updateDateStateWithSession(api.user.bind.zf, data, 'setBindZF', (res) => res.data.code === 1, showModal);
 	}
 
 	static async bindSchoolCard(data?: { password: string }, showModal = true): Promise<any> {
-		return updateDateStateWithSession(api.user.bind.schoolCard, data, 'setBindSchoolCard', null, (res) => res.data.code === 1, showModal);
+		return updateDateStateWithSession(api.user.bind.schoolCard, data, 'setBindSchoolCard', (res) => res.data.code === 1, showModal);
 	}
 
 	static async getUserInfo(autoLogin = true): Promise<any> {
@@ -22,7 +22,6 @@ export default class UserService {
 			api.user.info,
 			null,
 			'setUserInfo',
-			'clearUserInfo',
 			function(res) {
 				return res.data.data.user;
 			},

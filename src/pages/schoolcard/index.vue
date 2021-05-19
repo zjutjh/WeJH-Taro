@@ -38,7 +38,7 @@
 					<image src="@/assets/g/noData.svg"></image>
 					<view> 无消费记录</view>
 				</view>
-				<view class="item  card" v-for="item in itemList" :key="item.ID" @tap="pop(item)">
+				<view class="item card" v-for="item in itemList" :key="item.ID" @tap="pop(item)">
 					<view class="cicle" v-if="item.transactionType">
 						{{ item.transactionType[0] }}
 					</view>
@@ -70,7 +70,6 @@
 	import { computed, defineComponent, reactive, ref } from 'vue';
 	import { CardService } from '@/services';
 	import { serviceStore } from '@/store';
-	import { throttle } from '@/utils/tools';
 	import Card from '@/components/card/index.vue';
 
 	import PopView from '@/components/popView/index.vue';
@@ -82,40 +81,44 @@
 		components: { HeaderTabView, PopView, Card },
 		computed: {
 			itemList(): Array<any> {
-				if (this.isSelectToday) {
-					return this.today;
-				} else if (this.isSelectHistory) {
-					return this.history;
-				}
+				if (this.isSelectToday) return this.today;
+				else if (this.isSelectHistory) return this?.history.data;
 				return [];
 			},
 			updateTime() {
-				return serviceStore.card.updateTime;
+				if (this.isSelectToday) return serviceStore.card.updateTime;
+				else if (this.isSelectHistory) return this?.history?.updateTime;
+				return '';
 			}
 		},
 		setup() {
+			let dateSel = ref(dayjs().format('YYYY-MM'));
 			let balance = computed(() => serviceStore.card.balance);
 			let today = computed(() => serviceStore.card.today);
-			let history = computed(() => serviceStore.card.history);
-			let getCardBalance = throttle(CardService.getCardBalance);
-			let getCardToday = throttle(CardService.getCardToday);
-			let getCardHistory = throttle(CardService.getCardHistory);
+			let history = computed(() =>
+				CardService.getCardHistory({
+					year: parseInt(dateSel.value.split('-')[0]),
+					month: parseInt(dateSel.value.split('-')[1])
+				})
+			);
+			let getCardBalance = CardService.updateCardBalance;
+			let getCardToday = CardService.updateCardToday;
+			let getCardHistory = CardService.updateCardHistory;
 
 			let obj: any | undefined;
 			let selectedItem = ref(obj);
 			let showPop = ref(false);
+			let isSelectToday = ref(true);
+			let isSelectHistory = ref(false);
 
 			function pop(item) {
 				selectedItem.value = item;
 				showPop.value = true;
 			}
-			let isSelectToday = ref(true);
-			let isSelectHistory = ref(false);
-
-			function historyClick() {
+			async function historyClick() {
 				isSelectToday.value = false;
 				isSelectHistory.value = true;
-				getCardHistory({
+				await getCardHistory({
 					year: parseInt(this.dateSel.split('-')[0]),
 					month: parseInt(this.dateSel.split('-')[1])
 				});
@@ -126,13 +129,11 @@
 				getCardToday();
 			}
 
-			let dateSel = ref(dayjs().format('YYYY-MM'));
-
-			function onDateChange(e) {
+			async function onDateChange(e) {
 				dateSel.value = e.detail.value;
-				getCardHistory({
-					year: parseInt(this.dateSel.split('-')[0]),
-					month: parseInt(this.dateSel.split('-')[1])
+				await getCardHistory({
+					year: parseInt(dateSel.value.split('-')[0]),
+					month: parseInt(dateSel.value.split('-')[1])
 				});
 			}
 			return {

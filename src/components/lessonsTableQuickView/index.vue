@@ -24,7 +24,7 @@
 				</view>
 			</view>
 		</view>
-		<view v-if=" todayLessonTable === [] ">
+		<view v-if="!todayLessonTable">
 			今天居然没有课😄
 		</view>
 	</card>
@@ -64,7 +64,7 @@
 					if (val == true) {
 						if (timer) clearInterval(timer);
 					} else {
-						if (!serviceStore.zf.lessonsTable) ZFService.getLessonTable();
+						if (!serviceStore.zf.lessonsTable) ZFService.updateLessonTable();
 						this.getTodayLessonTable();
 						timer = setInterval(this.getTodayLessonTable, 30000);
 					}
@@ -92,7 +92,7 @@
 			},
 			getTodayLessonTable() {
 				let table = ZFService.getTodayLessonTable();
-				table.forEach((item) => {
+				table?.forEach((item) => {
 					item['detMin'] = this.goLessonAlertEm(item.sections);
 					item['detTime'] = this.goLessonAlert(item.sections);
 				});

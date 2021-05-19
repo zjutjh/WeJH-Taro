@@ -18,10 +18,10 @@ export default {
 	],
 	window: {
 		backgroundTextStyle: 'light',
-		navigationBarTextStyle: 'black',
-		backgroundColor: '#dfdfdf',
-		navigationStyle: 'custom',
-
+		navigationBarBackgroundColor: '@navBgColor',
+		navigationBarTextStyle: '@navTxtStyle',
+		navigationStyle: 'custom'
 	},
-	darkmode: true
+	darkmode: true,
+	themeLocation: 'theme.json'
 };

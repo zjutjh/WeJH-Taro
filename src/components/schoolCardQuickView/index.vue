@@ -22,7 +22,7 @@
 	export default defineComponent({
 		components: { Card },
 		mounted() {
-			CardService.getCardBalance();
+			CardService.updateCardBalance();
 		},
 		computed: {
 			balanceUpdateTimeString() {
