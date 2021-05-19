@@ -7,7 +7,7 @@
 			<view>
 				<view class="large">账号激活</view>
 				<text>用户名</text>
-				<input type="text" placeholder="输入精弘通行证用户名" v-model="username" />
+				<input type="text" placeholder="输入学号" v-model="username" />
 				<text>学号</text>
 				<input type="text" placeholder="输入学号" v-model="studentid" />
 				<text>密码</text>

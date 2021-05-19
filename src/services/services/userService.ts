@@ -3,6 +3,8 @@ import store from '@/store';
 import fetch from '@/utils/fetch';
 import { api } from '../api/apiList';
 import { updateDateStateWithSession } from '../utils/updateDateState';
+import errCodeHandler from '../utils/errHandler';
+import { ServerCode } from '../api/codes';
 
 export default class UserService {
 	static async bindLibrary(data?: { password: string }, showModal = true) {
@@ -22,14 +24,14 @@ export default class UserService {
 			api.user.info,
 			null,
 			'setUserInfo',
-			function(res) {
+			function (res) {
 				return res.data.data.user;
 			},
 			autoLogin
 		);
 	}
 
-	static async createUserApp(userForm: { username: string; password: string; studentID: string; idCardNumber: string; email?: string;code?: string }) {
+	static async createUserApp(userForm: { username: string; password: string; studentID: string; idCardNumber: string; email?: string; code?: string }) {
 		if (!userForm.code) {
 			let res = await Taro.login({ timeout: 3000 });
 			if (res.code) userForm.code = res.code;
@@ -37,13 +39,14 @@ export default class UserService {
 		}
 
 		let res = await fetch.post(api.user.create.wechat, userForm);
-		if (res.statusCode === 200) {
+		if (res.statusCode === 200 && res.data.code === ServerCode.OK) {
 			if (res.cookies && res.cookies.length > 0) {
 				store.commit('setSession', res.cookies[0]);
 				UserService.getUserInfo();
 			}
 			return true;
 		}
+		await errCodeHandler(res.data.code);
 
 		return false;
 	}
