@@ -25,7 +25,7 @@
 			</view>
 		</view>
 		<view v-else>
-			<text class="sub-text">激活享受更多精彩</text>
+			<text class="sub-text centet">激活享受更多精彩</text>
 		</view>
 		<nav-bar :show-plus="false"></nav-bar>
 	</view>

@@ -12,7 +12,7 @@
 		<card>
 			<view class="title">激活微精弘</view>
 			<image  mode="aspectFit" style="width:100%" :src="require('@/assets/g/welcome.png')"></image>
-			<button class="active">激活</button>
+			<button class="active" @tap="nav2activation">激活</button>
 		</card>
 	</view>
 	<pop-view v-model:show="showPop">
@@ -81,7 +81,12 @@
 			},
 			nav2announcement() {
 				Taro.navigateTo({ url: '/pages/announcement/index' });
-			}
+			},
+			nav2activation() {
+				Taro.navigateTo({
+					url: '/pages/activation/index'
+				});
+			},
 		},
 		setup() {
 			ZFService.getTodayLessonTable();
