@@ -19,10 +19,10 @@
 		</card>
 
 		<view class="flex" v-if="isActive">
-			<view class="item card" v-for="item in items" :key="item.title" @tap="nav2url(item.url)">
+			<card class="item" v-for="item in items" :key="item.title" @tap="nav2url(item.url)">
 				<image v-if="item.icon" mode="heightFix" :src="item.icon"></image>
 				<text>{{ item.title }}</text>
-			</view>
+			</card>
 		</view>
 		<view v-else>
 			<text class="sub-text centet">激活享受更多精彩</text>

@@ -8,7 +8,7 @@
 				<image src="@/assets/g/noData.svg"></image>
 				<view>无通知</view>
 			</view>
-			<view class="item card" v-for="item in announcement" :key="item.id" @tap="pop(item)">
+			<card class="item" v-for="item in announcement" :key="item.id" @tap="pop(item)">
 				<view class="cicle" v-if="item.title">
 					{{ item.title[0] }}
 				</view>
@@ -17,7 +17,7 @@
 					<view> {{ cutString(item.content, 30) }}</view>
 					<view>发布于：{{ timeFotmat(item.publishTime) }}</view>
 				</view>
-			</view>
+			</card>
 		</template>
 	</header-tab-view>
 	<pop-view v-model:show="showPop">

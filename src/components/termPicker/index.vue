@@ -1,28 +1,37 @@
 <template>
-	<view class="term-selector"
-		><picker mode="multiSelector" :range="selector" @change="onChange"
-			><view class="picker">{{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}({{ selectorChecked[1] }})</view></picker
-		></view
-	>
+	<picker mode="multiSelector" :range="selector" @change="onChange" :value="selectorValue">
+		<button class="term-selector">
+			<view class="picker">{{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}({{ selectorChecked[1] }})</view>
+		</button>
+	</picker>
 </template>
 
 <script lang="ts">
 	import { systemStore } from '@/store';
-	import { defineComponent } from 'vue';
+	import { defineComponent, ref, reactive } from 'vue';
 	export default defineComponent({
-		setup() {},
+		setup() {
+			let year = parseInt(systemStore?.generalInfo?.termYear ? systemStore?.generalInfo?.termYear : new Date().getFullYear());
+			const selector = reactive([['上', '下', '短']]);
+			let years: string[] = [];
+			for (let i = 0; i < 4; i++) years.push(`${year - i}/${year - i + 1}`);
+			selector.unshift(years);
+			const selectorValue = reactive([0, selector[1].indexOf(systemStore?.generalInfo?.term)]);
+			console.log(selectorValue);
+			return {
+				selector,
+				selectorValue
+			};
+		},
 		data() {
 			return {
-				selector: [
-					['2020', '2019', '2018'],
-					['上', '下', '短']
-				],
 				selectorChecked: [systemStore.generalInfo.termYear, systemStore.generalInfo.term]
 			};
 		},
 		methods: {
 			onChange: function (e) {
 				this.selectorChecked = this.selector.map((ex, index) => ex[e.detail.value[index]]);
+				this.selectorChecked[0] = this.selectorChecked[0].split('/')[0];
 				this.$emit('changed', {
 					year: this.selectorChecked[0],
 					term: this.selectorChecked[1]
@@ -33,9 +42,7 @@
 </script>
 <style>
 	.term-selector {
-		padding: 0.5rem 1rem 0.5rem 1rem;
 		border-radius: 1rem;
 		text-align: center;
-		background-color: rgba(218, 218, 218, 0.7);
 	}
 </style>

@@ -5,7 +5,7 @@
 				<image src="@/assets/g/noData.svg"></image>
 				<view>无食堂流量信息</view>
 			</view>
-			<view class="item card" v-for="item in flow" :key="item.restaurantName">
+			<card class="item" v-for="item in flow" :key="item.restaurantName">
 				<view class="cicle" v-if="item.restaurantName">
 					{{ item.restaurantName[0] }}
 				</view>
@@ -16,7 +16,7 @@
 				<view class="ext green" v-if="item.dealCount < 50">空闲</view>
 				<view class="ext yellow" v-else-if="item.dealCount < 100">适中</view>
 				<view class="ext red" v-else>忙碌</view>
-			</view>
+			</card>
 		</template>
 	</header-tab-view>
 </template>
@@ -28,6 +28,7 @@
 	import { throttle } from '@/utils/tools';
 
 	import HeaderTabView from '@/components/headerTabView/index.vue';
+	import Card from '@/components/card/index.vue';
 	import './index.scss';
 
 	export default defineComponent({

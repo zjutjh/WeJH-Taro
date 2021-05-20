@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts">
-	import { ref } from 'vue';
 	import Card from '@/components/card/index.vue';
 	import { UserService } from '@/services';
 	import Taro from '@tarojs/taro';

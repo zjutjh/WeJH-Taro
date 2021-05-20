@@ -5,7 +5,7 @@ export default async function errCodeHandler(code, showModal = true) {
 		if (showModal)
 			await Taro.showModal({
 				title: '错误',
-				content: '密码变更或为初始化，请重新绑定服务账号',
+				content: '密码变更或未初始化，请重新绑定服务账号，获取信息',
 				success: (res) => {
 					if (res.confirm) {
 						Taro.navigateTo({ url: '/pages/bind/index' });

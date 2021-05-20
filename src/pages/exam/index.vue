@@ -5,7 +5,7 @@
 				<image src="@/assets/g/noData.svg"></image>
 				<view> 无记录</view>
 			</view>
-			<view class="item card" v-for="item in exam" :key="item.id" @tap="pop(item)">
+			<card class="item" v-for="item in exam" :key="item.id" @tap="pop(item)">
 				<view class="cicle" v-if="item.lessonName">
 					{{ item.lessonName[0] }}
 				</view>
@@ -16,7 +16,7 @@
 					<view>{{ calcDayLeft(item.examTime) }}</view>
 				</view>
 				<view class="ext">{{ item.examPlace }}</view>
-			</view>
+			</card>
 		</template>
 	</header-tab-view>
 	<bottom-panel>
@@ -52,7 +52,6 @@
 	import { serviceStore, systemStore } from '@/store';
 	import dayjs from 'dayjs';
 	import { Exam } from '@/interface/Exam';
-	import { env } from '@tarojs/taro';
 	export default defineComponent({
 		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel, RefleshButton },
 		computed: {

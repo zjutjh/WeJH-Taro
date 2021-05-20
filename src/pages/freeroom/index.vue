@@ -5,32 +5,15 @@
 				<image src="@/assets/g/noData.svg"></image>
 				<view> 无记录</view>
 			</view>
-			<!-- <virtual-list
-        wclass="List"
-        :height="500"
-        :item-data="room"
-        :item-count="room.length"
-        :item-size="100"
-        width="100%"
-      >
-        <template #default="{ data, index, key, isScrolling }">
-          <Row
-            :key="key"
-            :index="index"
-            :rows="data"
-            :isScrolling="isScrolling"
-          />
-        </template>
-      </virtual-list> -->
 			<view v-for="item in room" :key="item.id">
 				<view class="build-name" v-if="item[0].buildName">
 					{{ item[0].buildName }}
 				</view>
 				<view class="flex item">
-					<view class="room-item" v-for="i in item" :key="i.roomName" @tap="pop(i)">
+					<card class="room-item" v-for="i in item" :key="i.roomName" @tap="pop(i)">
 						<view> {{ i.roomName }}</view>
 						<view> {{ i.roomSeats }}</view>
-					</view>
+					</card>
 				</view>
 			</view>
 		</template>

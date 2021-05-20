@@ -4,7 +4,7 @@
 		<view class="header">
 			<image src="@/assets/g/logo.jpg" mode="aspectFill" />
 		</view>
-		<view class="card">
+		<card>
 			<view>
 				<text class="title">密码绑定</text>
 			</view>
@@ -36,21 +36,22 @@
 					<text v-else> 修改 </text>
 				</button>
 			</view>
-		</view>
+		</card>
 	</view>
 </template>
 
 <script lang="ts">
-	import { ref } from 'vue';
 	import { UserService } from '@/services';
 	import Taro from '@tarojs/taro';
 	import TitleBar from '@/components/titleBar/index.vue';
+	import Card from '@/components/card/index.vue';
 	import './index.scss';
 	import { serviceStore } from '@/store';
 
 	export default {
 		components: {
-			TitleBar
+			TitleBar,
+			Card
 		},
 		computed: {
 			user() {
@@ -78,12 +79,7 @@
 				await this.popModal(res.code);
 			},
 			async popModal(code) {
-				if (code !== 1) {
-					await Taro.showModal({
-						title: '出错了',
-						content: '请再试一次'
-					});
-				} else {
+				if (code === 1) {
 					await Taro.showToast({
 						title: '绑定成功'
 					});

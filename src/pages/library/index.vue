@@ -23,7 +23,7 @@
 					<image src="@/assets/g/noData.svg"></image>
 					<view> 无借阅记录 </view>
 				</view>
-				<view class="item card" v-for="item in itemList" :key="item.id">
+				<card class="item" v-for="item in itemList" :key="item.id">
 					<view class="cicle" v-if="item.name">
 						<text>
 							{{ item.name[0] }}
@@ -37,7 +37,7 @@
 						<view class="ext" v-if="item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
 						<view class="ext red" v-if="item.isExtended > 0">{{ Math.abs(item.isExtended) }}天</view>
 					</view>
-				</view>
+				</card>
 			</view>
 		</template>
 	</header-tab-view>
@@ -50,9 +50,10 @@
 	import { throttle } from '@/utils/tools';
 	import { LibraryService } from '@/services';
 	import headerTabView from '@/components/headerTabView/index.vue';
+	import Card from '@/components/card/index.vue';
 	import dayjs from 'dayjs';
 	export default defineComponent({
-		components: { headerTabView },
+		components: { headerTabView, Card },
 		setup() {
 			let updateTime = computed(() => serviceStore.library.updateTime);
 			let todayUpdateTime = computed(() => dayjs(updateTime.value.current).format('MM-DD HH:mm'));
