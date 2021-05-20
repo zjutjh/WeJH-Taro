@@ -1,7 +1,7 @@
 import { CardServiceStore } from './card';
 import { IUser, UserServiceStore } from './user';
 import { LibraryServiceStore } from './library';
-import { ZFServicetore } from './zf';
+import { ZFServiceStore } from './zf';
 import { BorrowBooksInfo } from '@/interface/BorrowBooksInfo';
 import { Lesson } from '@/interface/Lesson';
 import { Exam } from '@/interface/Exam';
@@ -50,7 +50,7 @@ export const ServiceStore = {
 		card: CardServiceStore,
 		user: UserServiceStore,
 		library: LibraryServiceStore,
-		zf: ZFServicetore
+		zf: ZFServiceStore
 	},
 	state: () => ({
 		sessionID: undefined,

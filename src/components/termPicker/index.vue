@@ -10,9 +10,7 @@
 	import { systemStore } from '@/store';
 	import { defineComponent } from 'vue';
 	export default defineComponent({
-		setup() {
-
-		},
+		setup() {},
 		data() {
 			return {
 				selector: [
@@ -23,7 +21,7 @@
 			};
 		},
 		methods: {
-			onChange: function(e) {
+			onChange: function (e) {
 				this.selectorChecked = this.selector.map((ex, index) => ex[e.detail.value[index]]);
 				this.$emit('changed', {
 					year: this.selectorChecked[0],

@@ -25,7 +25,16 @@
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop">
-		<card v-if="selectedItem"> </card>
+		<card v-if="selectedItem">
+			<view class="title">{{ selectedItem.lessonName }}</view>
+			<view><text class="iconfont icon-laoshi"></text>{{ selectedItem.teacherName }}</view>
+			<view>{{ selectedItem.lessonPlace }}</view>
+			<view>{{ selectedItem.className }}</view>
+			<view>{{ selectedItem.credits }}</view>
+			<view>{{ selectedItem.campus }}-{{ selectedItem.examPlace }}</view>
+			<view>{{ selectedItem.examTime }}</view>
+			<button class="active" v-if="isWechat" @tap="selectedItem && addToCalendar(selectedItem)">添加到日历</button>
+		</card>
 	</pop-view>
 </template>
 
@@ -38,18 +47,26 @@
 	import TermPicker from '@/components/termPicker/index.vue';
 	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import './index.scss';
-	import { computed, defineComponent, onMounted, ref } from 'vue';
+	import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
 	import dayjs from 'dayjs';
+	import { Exam } from '@/interface/Exam';
+	import { env } from '@tarojs/taro';
 	export default defineComponent({
 		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel, RefleshButton },
+		computed: {
+			isWechat() {
+				return process.env.TARO_ENV === 'weapp';
+			}
+		},
 		setup() {
 			let selectTerm = ref({
 				year: systemStore.generalInfo.termYear,
 				term: systemStore.generalInfo.term
 			});
 			const isRefleshing = ref(false);
+			const selectedItem: Ref<null | Exam> = ref(null);
 			const exam = computed(() => {
 				return ZFService.getExamInfo(selectTerm.value)?.data;
 			});
@@ -75,12 +92,12 @@
 				exam,
 				termChanged,
 				reflesh,
-				isRefleshing
+				isRefleshing,
+				selectedItem
 			};
 		},
 		data() {
 			return {
-				selectedItem: null,
 				showPop: false
 			};
 		},
@@ -92,6 +109,16 @@
 			pop(item) {
 				this.selectedItem = item;
 				this.showPop = true;
+			},
+			addToCalendar(item: Exam) {
+				if (process.env.TARO_ENV === 'weapp')
+					wx?.addPhoneCalendar({
+						title: item.lessonName + '考试',
+						startTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm)').unix(),
+						endTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm-HH:mm)').unix(),
+						location: item.examPlace,
+						alarmOffset: 3600
+					});
 			}
 		}
 	});

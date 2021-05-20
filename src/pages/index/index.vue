@@ -11,7 +11,7 @@
 	<view class="no-active" v-else>
 		<card>
 			<view class="title">激活微精弘</view>
-			<image  mode="aspectFit" style="width:100%" :src="require('@/assets/g/welcome.png')"></image>
+			<image mode="aspectFit" style="width: 100%" :src="require('@/assets/g/welcome.png')"></image>
 			<button class="active" @tap="nav2activation">激活</button>
 		</card>
 	</view>
@@ -86,7 +86,7 @@
 				Taro.navigateTo({
 					url: '/pages/activation/index'
 				});
-			},
+			}
 		},
 		setup() {
 			ZFService.getTodayLessonTable();

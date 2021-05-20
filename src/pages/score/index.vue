@@ -24,12 +24,18 @@
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop">
-		<card v-if="selectedItem"> </card>
+		<card v-if="selectedItem">
+			<view class="title">{{ selectedItem.lessonName }}</view>
+			<view>{{ selectedItem.lessonType }}</view>
+			<view>{{ selectedItem.lessonID }}</view>
+			<view><text class="iconfont icon-laoshi"></text>{{ selectedItem.teacherName }}</view>
+			<view>{{ selectedItem.score }}</view>
+		</card>
 	</pop-view>
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, onMounted, ref } from 'vue';
+	import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
 	import RefleshButton from '@/components/refleshButton/index.vue';
@@ -41,6 +47,7 @@
 	import HeaderTabView from '@/components/headerTabView/index.vue';
 
 	import './index.scss';
+	import { Score } from '@/interface/Score';
 
 	export default defineComponent({
 		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel, RefleshButton },
@@ -49,6 +56,7 @@
 				year: systemStore.generalInfo.termYear,
 				term: systemStore.generalInfo.term
 			});
+			const selectedItem: Ref<null | Score> = ref(null);
 			const score = computed(() => ZFService.getScoreInfo(selectTerm.value).data);
 			const isRefleshing = ref(false);
 
@@ -71,12 +79,12 @@
 				score,
 				termChanged,
 				reflesh,
-				isRefleshing
+				isRefleshing,
+				selectedItem
 			};
 		},
 		data() {
 			return {
-				selectedItem: null,
 				showPop: false
 			};
 		},

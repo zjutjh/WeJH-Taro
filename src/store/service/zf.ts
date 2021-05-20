@@ -1,4 +1,4 @@
-export const ZFServicetore = {
+export const ZFServiceStore = {
 	state: () => ({
 		lessonsTable: [],
 		practiceLessons: [],

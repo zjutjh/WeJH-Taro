@@ -26,7 +26,7 @@
 		},
 		computed: {
 			balanceUpdateTimeString() {
-				return dayjs(this.updateTime.balance).format('HH:MM');
+				return dayjs(this.updateTime.balance).fromNow();
 			},
 			updateTime() {
 				return serviceStore.card.updateTime;

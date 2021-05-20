@@ -15,7 +15,7 @@
 				<view class="item-text">
 					<view> {{ item.title }}</view>
 					<view> {{ cutString(item.content, 30) }}</view>
-					<view>更新： {{ item.publishTime }}</view>
+					<view>发布于：{{ timeFotmat(item.publishTime) }}</view>
 				</view>
 			</view>
 		</template>
@@ -24,6 +24,7 @@
 		<card class="pop-card">
 			<scroll-view v-if="selectedItem">
 				<view class="title">{{ selectedItem.title }}</view>
+				<view class="center">{{ timeFotmat(selectedItem.publishTime) }}</view>
 				<view>{{ selectedItem.content }}</view>
 			</scroll-view>
 		</card>
@@ -40,6 +41,7 @@
 	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import './index.scss';
 	import { Announcement } from '@/interface/Announcement';
+	import dayjs from 'dayjs';
 
 	export default defineComponent({
 		components: { Card, HeaderTabView, PopView },
@@ -64,6 +66,11 @@
 				cutString: (str: string, n) => {
 					if (str.length > n) return str.substring(0, 30) + '...';
 					return str;
+				},
+				timeFotmat: (time: string) => {
+					console.log(time);
+					console.log(dayjs(time));
+					return dayjs(time).format('MM月DD日 HH:mm');
 				}
 			};
 		},

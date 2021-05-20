@@ -33,7 +33,7 @@
 			return {
 				username: '',
 				studentid: '',
-				password: '',
+				password: ''
 			};
 		},
 		methods: {

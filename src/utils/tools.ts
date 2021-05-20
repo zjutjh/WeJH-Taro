@@ -1,6 +1,6 @@
 function throttle(fn, delay = 1000): Function {
 	let timer: any = null;
-	return function() {
+	return function () {
 		let res = undefined;
 		if (timer) return res;
 		timer = setTimeout(() => {
@@ -11,7 +11,7 @@ function throttle(fn, delay = 1000): Function {
 }
 function throttle2(fn, delay = 1000): Function {
 	let p: Promise<any> | null = null;
-	return async function() {
+	return async function () {
 		if (!p) {
 			p = new Promise((resolve) => {
 				resolve(fn.apply(this, arguments));
@@ -26,12 +26,12 @@ function throttle2(fn, delay = 1000): Function {
 }
 function groupBy(array: Array<any>, f: Function) {
 	let groups = {};
-	array?.forEach(function(o) {
+	array?.forEach(function (o) {
 		let group = JSON.stringify(f(o));
 		groups[group] = groups[group] || [];
 		groups[group].push(o);
 	});
-	return Object.keys(groups).map(function(group) {
+	return Object.keys(groups).map(function (group) {
 		return groups[group];
 	});
 }

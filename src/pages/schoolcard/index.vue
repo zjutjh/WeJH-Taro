@@ -51,12 +51,12 @@
 	</header-tab-view>
 	<pop-view v-model:show="showPop">
 		<card v-if="selectedItem">
-			<view v-if="selectedItem.shop && selectedItem.shop !== ' '"> {{ selectedItem.shop }}</view>
+			<view v-if="selectedItem.shop && selectedItem.shop !== ' '" class="title"> {{ selectedItem.shop }}</view>
 			<view> {{ selectedItem.shopPlace }}</view>
 			<view>{{ selectedItem.id }}</view>
+			<text> {{ selectedItem.transactions }}</text>
 			<view>{{ selectedItem.transactionType }}</view>
 			<view> {{ selectedItem.time }}</view>
-			<text class="transactions"> {{ selectedItem.transactions }}</text>
 		</card>
 	</pop-view>
 </template>

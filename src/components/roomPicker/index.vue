@@ -30,7 +30,7 @@
 			};
 		},
 		methods: {
-			onChange: function(e) {
+			onChange: function (e) {
 				this.selectorChecked = this.selector.map((ex, index) => ex[e.detail.value[index]]);
 				this.$emit('changed', {
 					year: systemStore.generalInfo.termYear,

@@ -15,7 +15,7 @@
 			</view>
 		</view>
 		<view class="table" v-if="lessonsTable">
-			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id+cl.week+cl.weekday" :style="getStyle(cl)">
+			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id + cl.week + cl.weekday" :style="getStyle(cl)">
 				<card class="class-card">
 					<view class="title">{{ cl.lessonPlace }}</view>
 					<text class="item-content">{{ cl.lessonName }}</text>
@@ -56,23 +56,23 @@
 
 		methods: {
 			MarkConflictLesson(lessons: Lesson[]) {
-				if(lessons)
-				for (let i = 0; i < lessons.length; i++) {
-					for (let j = i + 1; j < lessons.length; j++) {
-						const item = lessons[i],
-							item2 = lessons[j];
-						if (item.weekday !== item2.weekday) continue;
-						const from1 = parseInt(item.sections.split('-')[0]);
-						const to1 = parseInt(item.sections.split('-')[1]);
-						const from2 = parseInt(item2.sections.split('-')[0]);
-						const to2 = parseInt(item2.sections.split('-')[1]);
+				if (lessons)
+					for (let i = 0; i < lessons.length; i++) {
+						for (let j = i + 1; j < lessons.length; j++) {
+							const item = lessons[i],
+								item2 = lessons[j];
+							if (item.weekday !== item2.weekday) continue;
+							const from1 = parseInt(item.sections.split('-')[0]);
+							const to1 = parseInt(item.sections.split('-')[1]);
+							const from2 = parseInt(item2.sections.split('-')[0]);
+							const to2 = parseInt(item2.sections.split('-')[1]);
 
-						if (!(to1 < from2 || to2 < from1)) {
-							lessons[i]['mark'] = true;
-							lessons[j]['mark'] = true;
+							if (!(to1 < from2 || to2 < from1)) {
+								lessons[i]['mark'] = true;
+								lessons[j]['mark'] = true;
+							}
 						}
 					}
-				}
 				return lessons;
 			},
 			getStyle(theClass) {

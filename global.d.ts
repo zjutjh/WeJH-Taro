@@ -12,6 +12,16 @@ declare namespace NodeJS {
 }
 
 declare module '*.vue' {
-	const Comp: any;
-	export default Comp;
+	import type { DefineComponent } from 'vue'
+	const component: DefineComponent<{}, {}, any>
+	export default component
+ }
+
+import type Dayjs from 'dayjs';
+declare module 'dayjs' {
+	interface Dayjs {
+		utc(): Dayjs;
+		fromNow(): Dayjs;
+		toNow(): Dayjs;	
+	}
 }

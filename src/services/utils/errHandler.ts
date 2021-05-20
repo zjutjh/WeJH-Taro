@@ -27,7 +27,7 @@ export default async function errCodeHandler(code, showModal = true) {
 				}
 			});
 	}
-	
+
 	if (code === ServerCode.UserCenterNotMatch) {
 		if (showModal) {
 			await Taro.showModal({

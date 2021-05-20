@@ -51,7 +51,7 @@
 					studentID: this.studentid,
 					password: this.password,
 					idCardNumber: this.idcard,
-					email:this.email
+					email: this.email
 				});
 				if (res) {
 					await Taro.navigateTo({

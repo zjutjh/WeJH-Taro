@@ -24,9 +24,7 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="!todayLessonTable">
-			今天居然没有课😄
-		</view>
+		<view v-if="!todayLessonTable || todayLessonTable?.length === 0"> 今天居然没有课😄 </view>
 	</card>
 </template>
 <script lang="ts">
@@ -44,14 +42,12 @@
 		props: {
 			hide: Boolean
 		},
-		data() {
-			return {
-				todayLessonTable: this.getTodayLessonTable()
-			};
-		},
 		computed: {
+			todayLessonTable() {
+				return this.getTodayLessonTable();
+			},
 			balanceUpdateTimeString() {
-				return dayjs(this.updateTime.balance).format('HH:MM');
+				return dayjs(this.updateTime.balance).fromNow();
 			},
 			updateTime() {
 				return serviceStore.card.updateTime;
@@ -96,7 +92,7 @@
 					item['detMin'] = this.goLessonAlertEm(item.sections);
 					item['detTime'] = this.goLessonAlert(item.sections);
 				});
-				this.todayLessonTable = table;
+				return table;
 			}
 		}
 	});
