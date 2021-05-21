@@ -13,8 +13,8 @@
 <script lang="ts">
 	import { computed, onMounted, ref, Ref } from 'vue';
 	import RefleshButton from '@/components/refleshButton/index.vue';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import lessonsTable from '@/components/lessonstable/index.vue';
+	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import TermPicker from '@/components/termPicker/index.vue';
 	import TitleBar from '@/components/titleBar/index.vue';
 

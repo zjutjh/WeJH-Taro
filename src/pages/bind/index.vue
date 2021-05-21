@@ -42,9 +42,10 @@
 
 <script lang="ts">
 	import { UserService } from '@/services';
-	import Taro from '@tarojs/taro';
-	import TitleBar from '@/components/titleBar/index.vue';
+	import Taro from '@tarojs/taro';	
 	import Card from '@/components/card/index.vue';
+	import TitleBar from '@/components/titleBar/index.vue';
+
 	import './index.scss';
 	import { serviceStore } from '@/store';
 

@@ -39,8 +39,9 @@
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
 	import RefleshButton from '@/components/refleshButton/index.vue';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import Card from '@/components/card/index.vue';
+	import BottomPanel from '@/components/bottomPanel/index.vue';
+
 	import PopView from '@/components/popView/index.vue';
 	import TermPicker from '@/components/termPicker/index.vue';
 

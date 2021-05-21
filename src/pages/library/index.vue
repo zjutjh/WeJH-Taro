@@ -49,8 +49,9 @@
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
 	import { LibraryService } from '@/services';
-	import headerTabView from '@/components/headerTabView/index.vue';
 	import Card from '@/components/card/index.vue';
+	import headerTabView from '@/components/headerTabView/index.vue';
+
 	import dayjs from 'dayjs';
 	export default defineComponent({
 		components: { headerTabView, Card },

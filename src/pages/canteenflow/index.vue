@@ -25,14 +25,13 @@
 	import { defineComponent } from 'vue';
 	import { CanteenService } from '@/services';
 	import { serviceStore } from '@/store';
-	import { throttle } from '@/utils/tools';
-
-	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import Card from '@/components/card/index.vue';
+	import HeaderTabView from '@/components/headerTabView/index.vue';
+
 	import './index.scss';
 
 	export default defineComponent({
-		components: { HeaderTabView },
+		components: { HeaderTabView, Card },
 		computed: {
 			updateTime(): string {
 				return serviceStore.canteen.updateTime.flow;
@@ -49,7 +48,7 @@
 			};
 		},
 		methods: {
-			getCanteenFlow: throttle(CanteenService.getCanteenFlow),
+			getCanteenFlow: CanteenService.getCanteenFlow,
 			reflesh(e) {
 				this.getCanteenFlow(e);
 			}

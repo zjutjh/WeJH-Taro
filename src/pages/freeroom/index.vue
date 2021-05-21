@@ -32,9 +32,8 @@
 	import { computed, defineComponent } from 'vue';
 	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import Card from '@/components/card/index.vue';
-
+	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import PopView from '@/components/popView/index.vue';
 	import RoomPicker from '@/components/roomPicker/index.vue';
 

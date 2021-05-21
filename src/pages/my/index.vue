@@ -32,8 +32,8 @@
 </template>
 
 <script lang="ts">
-	import NavBar from '@/components/navBar/index.vue';
 	import Card from '@/components/card/index.vue';
+	import NavBar from '@/components/navBar/index.vue';
 	import TitleBar from '@/components/titleBar/index.vue';
 
 	import { defineComponent } from 'vue';

@@ -21,8 +21,8 @@
 
 	export default defineComponent({
 		components: { Card },
-		mounted() {
-			CardService.updateCardBalance();
+		async mounted() {
+			await CardService.updateCardBalance();
 		},
 		computed: {
 			balanceUpdateTimeString() {
