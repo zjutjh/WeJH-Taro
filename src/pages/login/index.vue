@@ -5,13 +5,13 @@
 		</view>
 		<card>
 			<view>
-				<view class="large">账号激活</view>
+				<view class="large">账号登录</view>
 				<text>用户名</text>
 				<input type="text" placeholder="输入精弘通行证用户名" v-model="username" />
 				<text>密码</text>
 				<input type="password" placeholder="输入密码" v-model="password" />
 				<view class="act-action">
-					<button class="active" @tap="activeClick">登录</button>
+					<button class="active" @tap="loginClick">登录</button>
 				</view>
 			</view>
 		</card>

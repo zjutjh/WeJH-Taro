@@ -1,9 +1,9 @@
 <template>
 	<bottom-panel>
-		<view @tap="nevHome">
+		<view @tap="nev('/pages/index/index')">
 			<view class="iconfont icon-home-heart-line large"></view>
 		</view>
-		<view @tap="nev">
+		<view @tap="nev('/pages/my/index')">
 			<view class="iconfont icon-user-3-line large"></view>
 		</view>
 		<button v-if="showPlus" class="finder" @tap="plusClick">
@@ -16,26 +16,23 @@
 	import Taro from '@tarojs/taro';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
 	export default defineComponent({
+		setup(props, { emit }) {
+			const pages = Taro.getCurrentPages();
+			const currentPage = pages[pages.length - 1];
+			return {
+				nev: (url) => {
+					if (currentPage.route !== url) Taro.redirectTo({ url: url });
+				},
+				plusClick: () => {
+					emit('plusClick');
+				}
+			};
+		},
 		components: { BottomPanel },
 		props: {
 			showPlus: {
 				default: true,
 				type: Boolean
-			}
-		},
-		methods: {
-			nev() {
-				Taro.redirectTo({
-					url: '/pages/my/index'
-				});
-			},
-			nevHome() {
-				Taro.redirectTo({
-					url: '/pages/index/index'
-				});
-			},
-			plusClick() {
-				this.$emit('plusClick');
 			}
 		}
 	});

@@ -1,15 +1,15 @@
 @import './light.scss';
 @import './dark.scss';
-@import "@/style/theme.scss";
+@import '@/style/theme.scss';
 .card {
 	@include radius;
 	@include blur;
 	@include shadow;
 	margin: 0.5rem;
 	padding: 2rem;
-	.title{
-	  font-size: 1.5rem;
-	  font-weight: bolder;
+	.title {
+		font-size: 1.5rem;
+		margin: 0.5rem;
+		font-weight: bolder;
 	}
-  }
-  
+}

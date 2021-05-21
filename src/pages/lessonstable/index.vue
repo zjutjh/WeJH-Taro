@@ -47,9 +47,7 @@
 			}
 			onMounted(async () => {
 				if (serviceStore.user.isBindZF) {
-					if (!lessonsTable.value) {
-						await reflesh();
-					}
+					await reflesh();
 				}
 			});
 			return {

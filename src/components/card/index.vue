@@ -8,4 +8,3 @@
 	import './style/index.scss';
 	export default defineComponent({});
 </script>
-ß

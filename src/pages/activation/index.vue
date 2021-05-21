@@ -7,7 +7,7 @@
 			<view>
 				<view class="large">账号激活</view>
 				<text>用户名</text>
-				<input type="text" placeholder="输入学号" v-model="username" />
+				<input type="text" placeholder="输入学号" v-model="studentid" />
 				<text>学号</text>
 				<input type="text" placeholder="输入学号" v-model="studentid" />
 				<text>密码</text>
@@ -46,7 +46,7 @@
 		methods: {
 			async activeClick() {
 				let res = await UserService.createUserApp({
-					username: this.username,
+					username: this.studentid,
 					studentID: this.studentid,
 					password: this.password,
 					idCardNumber: this.idcard,
