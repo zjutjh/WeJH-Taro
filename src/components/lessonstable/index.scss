@@ -5,7 +5,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
-
 	.num-index {
 		text-align: center;
 	}
@@ -87,7 +86,7 @@
 
 .now-index {
 	border: 1px solid skyblue;
-	width: 126%;
+	width: calc(126% + 2rem);
 	position: absolute;
 	z-index: 10;
 }

@@ -50,7 +50,7 @@
 			nowWeekStyle() {
 				const now = new Date();
 				const weekday = now.getDay();
-				const left = 'calc(' + ((weekday - 1) * 92) / 5 + '% + 2rem)';
+				const left = 'calc(' + ((weekday - 1) * 126) / 7 + '% + 2rem)';
 				return `left: ${left};`;
 			},
 			nowStyle() {
