@@ -14,7 +14,7 @@
 	import PopView from '@/components/PopView/index.vue';
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from '@vue/runtime-core';
-
+	import './index.scss';
 	export default defineComponent({
 		components: {
 			NutFixedNav,
@@ -67,5 +67,3 @@
 		}
 	});
 </script>
-
-<style></style>

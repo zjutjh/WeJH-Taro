@@ -1,29 +1,29 @@
 @import '@/style/frame';
 
 .page {
-	height: 100vh;
-	position: absolute;
-	top: 0;
+  height: 100vh;
+  position: absolute;
+  top: 0;
 }
 .quick-card-view {
-	max-width: 40rem;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-	margin: 0.5rem;
-	padding-bottom: 5rem;
+  max-width: 40rem;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  padding-bottom: 5rem;
 }
 .app-list-card {
-	@include blur;
-	padding: 1rem 0;
-	margin: 1rem;
-	position: absolute;
-	bottom: 3rem;
-	left: 0;
-	right: 0;
-	z-index: 999;
+  @include blur;
+  padding: 1rem 0;
+  margin: 1rem;
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+  z-index: 999;
 }
 
 .no-active {
-	text-align: center;
+  text-align: center;
 }
