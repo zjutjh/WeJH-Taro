@@ -13,7 +13,7 @@
 	</card>
 </template>
 <script lang="ts">
-	import Card from '../card/index.vue';
+	import Card from '../Card/index.vue';
 	import { LibraryService } from '@/services';
 	import Taro from '@tarojs/taro';
 	import dayjs from 'dayjs';

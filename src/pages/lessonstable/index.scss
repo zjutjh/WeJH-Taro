@@ -1,6 +1,6 @@
 .index {
 	width: calc(100vw - 2 rem);
-	height: calc(100% - 9rem);
+	height: calc(100% - 8rem);
 	position: fixed;
 	background-color: white;
 
@@ -8,12 +8,31 @@
 	margin-left: 1rem;
 	margin-right: 1rem;
 }
-
 .index-ios {
-	height: calc(100% - 12rem);
+	height: calc(100% - 11rem);
 }
+scroll-view {
+	height: 100vh;
+}
+.practice-lessons-list {
+	padding-bottom: 8rem;
+}
+
 @media (prefers-color-scheme: dark) {
 	.index {
 		background-color: rgba(68, 68, 68, 0.7);
 	}
+}
+
+.prectice-title {
+	padding: 1.5rem;
+	font-size: 2rem;
+	font-weight: 500;
+}
+.lesson-title {
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+.popup-lesson {
+	padding: 2rem;
 }

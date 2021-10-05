@@ -1,18 +1,43 @@
 <template>
-	<title-bar title="课程表" :show-back-button="true">
+	<title-bar title="课程表" :show-back-button="true" :show-background="true">
 		<template v-slot:prefix>
 			<text class="iconfont icon-calendar-event-fill" />
 		</template>
 	</title-bar>
-	<lessons-table class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="lessonsTable" @classClick="ClassClick" />
+	<lessons-table @longpress="switchLessonType" v-if="showWeekPicker && showLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="lessonsTableWeek" @classClick="ClassClick" />
+	<lessons-table @longpress="switchLessonType" v-else-if="showLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="lessonsTable" @classClick="ClassClick" />
+	<scroll-view :scrollY="true" v-if="!showLessonType">
+		<view class="practice-lessons-list" @longpress="switchLessonType">
+			<view class="prectice-title"> 实践课程 </view>
+			<view v-for="item in practiceLessons" :key="item.lessonName">
+				<card>
+					<view class="lesson-title">
+						{{ item.lessonName }}
+					</view>
+					<view> <b>教师：</b>{{ item.teacherName }} </view>
+					<view> <b>时间：</b>{{ item.className }} </view>
+				</card>
+			</view>
+		</view>
+	</scroll-view>
 	<FixedNav />
 	<bottom-panel>
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
-		<term-picker class="picker" @changed="termChanged"></term-picker>
-		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
+		<week-picker v-if="showWeekPicker" class="picker" :week="selectWeek" @changed="weekChanged" />
+		<term-picker v-else class="picker" @changed="termChanged"></term-picker>
+		<button @click="pickerModeSwitch">X</button>
 	</bottom-panel>
 	<popup position="bottom" v-model:visible="show" round :style="{ height: '40%' }">
-		{{ selection }}
+		<view v-if="selection" class="popup-lesson">
+			<view class="lesson-title">
+				{{ selection.lessonName }}
+			</view>
+			<view> <b>上课地点：</b>{{ selection.campus }}-{{ selection.lessonPlace }} </view>
+			<view> <b>班级：</b>{{ selection.className }} </view>
+			<view> <b>教师：</b>{{ selection.teacherName }} </view>
+			<view> <b>上课时间: </b>{{ selection.week }} - {{ selection.weekday }} （{{ selection.sections }}） </view>
+			<view> <b>学分：</b>{{ selection.credits }} </view>
+		</view>
 	</popup>
 </template>
 
@@ -20,18 +45,21 @@
 	import { computed, onMounted, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import Card from '@/components/Card/index.vue';
 	import FixedNav from '@/components/FixedNav/index.vue';
+	import LessonsTable from '@/components/LessonsTable/index.vue';
 	import { Popup } from '@nutui/nutui-taro';
 	import RefleshButton from '@/components/RefleshButton/index.vue';
 	import Taro from '@tarojs/taro';
 	import TermPicker from '@/components/TermPicker/index.vue';
 	import TitleBar from '@/components/TitleBar/index.vue';
+	import WeekPicker from '@/components/WeekPicker/index.vue';
 	import { ZFService } from '@/services';
-	import lessonsTable from '@/components/Lessonstable/index.vue';
 
 	import './index.scss';
+	import { Lesson } from '@/types/Lesson';
 	export default {
-		components: { lessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton, FixedNav, Popup },
+		components: { LessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton, FixedNav, Popup, WeekPicker, Card },
 		setup() {
 			const selectTerm = ref({
 				year: systemStore.generalInfo.termYear,
@@ -41,6 +69,27 @@
 			const lessonsTable = computed(() => {
 				return ZFService.getLessonTable(selectTerm.value);
 			});
+
+			const practiceLessons = computed(() => {
+				return ZFService.getPracticeLessonsTable(selectTerm.value);
+			});
+			const selectWeek = ref(systemStore.generalInfo.week);
+			const lessonsTableWeek = computed(() => {
+				return lessonsTable.value.filter((item) => {
+					let v = item.week.split('-');
+					let st = parseInt(v[0]);
+					let ed = parseInt(v[1]);
+
+					let isOddWeek = item.week.includes('单');
+					let isEvenWeek = item.week.includes('双');
+
+					if (isOddWeek && selectWeek.value % 2 === 0) return false;
+					if (isEvenWeek && selectWeek.value % 2 === 1) return false;
+
+					return selectWeek.value <= ed && selectWeek.value >= st;
+				});
+			});
+
 			const isNewIPhone = computed(() => {
 				let info = Taro.getSystemInfoSync();
 				if (!info.model) return false;
@@ -61,9 +110,14 @@
 				isRefleshing.value = false;
 			}
 
+			async function weekChanged({ week }) {
+				console.log(week);
+				selectWeek.value = week;
+			}
+
 			const show = ref(false);
-			const selection = ref({});
-			async function ClassClick(theClass) {
+			const selection = ref<Lesson>();
+			async function ClassClick(theClass: Lesson) {
 				selection.value = theClass;
 				show.value = true;
 			}
@@ -73,7 +127,25 @@
 					await reflesh();
 				}
 			});
+
+			const showWeekPicker = ref(true);
+			function pickerModeSwitch() {
+				showWeekPicker.value = !showWeekPicker.value;
+			}
+
+			const showLessonType = ref(true);
+			function switchLessonType() {
+				showLessonType.value = !showLessonType.value;
+			}
+
 			return {
+				showLessonType,
+				practiceLessons,
+				switchLessonType,
+				showWeekPicker,
+				selectWeek,
+				pickerModeSwitch,
+				weekChanged,
 				isNewIPhone,
 				lessonsTable,
 				selectTerm,
@@ -82,7 +154,8 @@
 				ClassClick,
 				isRefleshing,
 				selection,
-				show
+				show,
+				lessonsTableWeek
 			};
 		}
 	};

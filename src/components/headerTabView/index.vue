@@ -1,5 +1,5 @@
 <template>
-	<scroll-view class="page" @scroll="scrollPage" scrollY="true" @scrolltoupper="upper">
+	<scroll-view class="page" @scroll="scrollPage" :scrollY="true" @scrolltoupper="upper">
 		<view>
 			<view class="header">
 				<title-bar :title="title" :showBackButton="true">

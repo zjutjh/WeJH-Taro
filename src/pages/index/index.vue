@@ -1,16 +1,16 @@
 <template>
-	<title-bar title="微精弘">
-		<text class="iconfont icon-notification-badge-line" @tap="nav2announcement"></text>
-	</title-bar>
-	<scroll-view v-if="isActive" :scrollY="true">
-		<view class="quick-card-view">
+	<scroll-view :scrollY="true">
+		<title-bar title="微精弘">
+			<text class="iconfont icon-notification-badge-line" @tap="nav2announcement"></text>
+		</title-bar>
+
+		<view class="quick-card-view" v-if="isActive">
 			<lesson-table-quick-view v-if="isBindZf" :hide="pageHide"></lesson-table-quick-view>
 			<school-card-quick-view v-if="isBindCard"></school-card-quick-view>
 			<library-quick-view v-if="isBindLibrary"></library-quick-view>
 		</view>
-	</scroll-view>
-	<scroll-view v-else :scrollY="true">
-		<view class="no-active">
+
+		<view v-else class="no-active">
 			<card>
 				<view class="title">激活微精弘</view>
 				<button class="active" @tap="nav2activation">激活</button>

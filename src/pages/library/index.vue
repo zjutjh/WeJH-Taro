@@ -50,7 +50,7 @@
 	import Card from '@/components/Card/index.vue';
 	import { LibraryService } from '@/services';
 	import dayjs from 'dayjs';
-	import headerTabView from '@/components/headerTabView/index.vue';
+	import headerTabView from '@/components/HeaderTabView/index.vue';
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
 

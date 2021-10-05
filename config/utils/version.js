@@ -27,6 +27,10 @@ const buildUserName = child_process
     .execSync('git config user.name')
     .toString()
     .trim();
+const buildTag = child_process
+    .execSync(`git log -1 --decorate=short --oneline|grep -Eo 'tag: (.*)[,)]+'|awk '{print $2}'|sed 's/)//g'|sed 's/,//g'`)
+    .toString()
+    .trim();
 const buildUserMail = child_process
     .execSync('git config user.email')
     .toString()
@@ -42,4 +46,4 @@ const buildDate = `${nowDate.getFullYear() +
     ':' +
     nowDate.getMinutes()}`;
 
-module.exports = { commit, commitUserName, commitUserMail, commitDate, buildUserName, buildUserMail, buildDate };
+module.exports = { commit, buildTag, commitUserName, commitUserMail, commitDate, buildUserName, buildUserMail, buildDate };

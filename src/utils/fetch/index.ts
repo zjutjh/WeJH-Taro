@@ -8,12 +8,12 @@ interface FetchResult extends Taro.request.SuccessCallbackResult<any> {
 function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
 	const header = cookies
 		? {
-				'Content-type': 'application/json',
-				Cookie: cookiesToString(cookies)
-		  }
+			'Content-type': 'application/json',
+			Cookie: cookiesToString(cookies)
+		}
 		: {
-				'Content-type': 'application/json'
-		  };
+			'Content-type': 'application/json'
+		};
 	return new Promise((resolve, reject) => {
 		Taro.request({
 			url: url,
@@ -22,7 +22,8 @@ function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
 			success: (res) => {
 				resolve(res);
 			},
-			fail: () => {
+			fail: (e) => {
+				console.error(e)
 				reject();
 			}
 		});
@@ -33,12 +34,12 @@ function postJson(url: string, data: Object | null | undefined, cookies?: ICooki
 	return new Promise((resolve, reject) => {
 		const header = cookies
 			? {
-					'Content-type': 'application/json',
-					Cookie: cookiesToString(cookies)
-			  }
+				'Content-type': 'application/json',
+				Cookie: cookiesToString(cookies)
+			}
 			: {
-					'Content-type': 'application/json'
-			  };
+				'Content-type': 'application/json'
+			};
 
 		Taro.request({
 			url: url,
@@ -49,7 +50,8 @@ function postJson(url: string, data: Object | null | undefined, cookies?: ICooki
 			success: (res) => {
 				resolve(res);
 			},
-			fail: () => {
+			fail: (e) => {
+				console.error(e)
 				reject();
 			}
 		});

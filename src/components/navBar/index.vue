@@ -21,7 +21,7 @@
 			const currentPage = pages[pages.length - 1];
 			return {
 				nev: (url: string) => {
-					if (currentPage.route !== url) Taro.redirectTo({ url: url });
+					if (currentPage.route !== url && !url.includes(currentPage.route)) Taro.redirectTo({ url: url });
 				},
 				plusClick: () => {
 					emit('plusClick');

@@ -13,7 +13,9 @@
 				<view class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</view>
 
 				<button class="active" v-if="!isActive" @tap="nav2activation">激活</button>
-				<view v-else class="sub-text">微精弘</view>
+				<view v-else class="sub-text"
+					>微精弘 <nut-tag round type="primary">{{ buildTag }}</nut-tag></view
+				>
 			</view>
 		</card>
 
@@ -34,6 +36,7 @@
 	import { serviceStore, systemStore } from '@/store';
 	import Card from '@/components/Card/index.vue';
 	import NavBar from '@/components/NavBar/index.vue';
+	import { Tag as NutTag } from '@nutui/nutui-taro';
 	import Taro from '@tarojs/taro';
 	import TitleBar from '@/components/TitleBar/index.vue';
 	import { UserService } from '@/services';
@@ -41,7 +44,7 @@
 
 	import './index.scss';
 	export default defineComponent({
-		components: { NavBar, TitleBar, Card },
+		components: { NavBar, TitleBar, Card, NutTag },
 		data() {
 			return {
 				items: [
@@ -91,6 +94,9 @@
 			},
 			isActive() {
 				return serviceStore.user.isActive;
+			},
+			buildTag() {
+				return process.env.TAG;
 			}
 		},
 		mounted() {

@@ -16,15 +16,13 @@
 	</header-tab-view>
 </template>
 <script lang="ts">
-	import { reactive, ref } from 'vue';
-	import './index.scss';
-	import Taro from '@tarojs/taro';
+	import HeaderTabView from '@/components/HeaderTabView/index.vue';
 	import { defineComponent } from 'vue';
-	import headerTabView from '@/components/headerTabView/index.vue';
 	import { serviceStore } from '@/store';
+	import './index.scss';
 
 	export default defineComponent({
-		components: { headerTabView },
+		components: { HeaderTabView },
 		computed: {
 			busList() {
 				return serviceStore.schoolBus;

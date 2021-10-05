@@ -5,7 +5,7 @@
 	min-width: 4rem;
 	max-width: 4rem;
 	overflow: hidden;
-	margin: 1rem;
+	margin-right: 1rem;
 }
 scroll-view {
 	height: 100vh;
@@ -47,6 +47,7 @@ scroll-view {
 	margin-left: auto;
 	margin-right: auto;
 	height: 30%;
+	max-height: 150px;
 	justify-content: center;
 	align-items: center;
 	display: flex;

@@ -38,8 +38,8 @@
 	import { serviceStore, systemStore } from '@/store';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
 	import Card from '@/components/Card/index.vue';
-	import HeaderTabView from '@/components/headerTabView/index.vue';
-	import PopView from '@/components/popView/index.vue';
+	import HeaderTabView from '@/components/HeaderTabView/index.vue';
+	import PopView from '@/components/PopView/index.vue';
 	import RefleshButton from '@/components/RefleshButton/index.vue';
 	import { Score } from '@/types/Score';
 	import TermPicker from '@/components/TermPicker/index.vue';

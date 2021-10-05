@@ -111,6 +111,18 @@ export default class ZFService {
 		return serviceStore?.zf[data.year][data.term]?.lessons?.data.lessonsTable;
 	}
 
+	static getPracticeLessonsTable(data?: { year: string; term: string }): Lesson[] {
+		if (!data) {
+			data = {
+				year: systemStore.generalInfo?.termYear,
+				term: systemStore.generalInfo?.term
+			};
+		}
+		if (!serviceStore?.zf[data.year]) return [];
+		if (!serviceStore?.zf[data.year][data.term]?.lessons?.data.practiceLessons) return [];
+		return serviceStore?.zf[data.year][data.term]?.lessons?.data.practiceLessons;
+	}
+
 	static getWeekLessonTable(data?: { year: string; term: string; week: string }) {
 		if (!data) {
 			data = {
