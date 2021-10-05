@@ -1,7 +1,6 @@
 <template>
 	<view>
 		<title-bar title="我的"></title-bar>
-
 		<card class="my-header">
 			<view class="avatar">
 				<open-data type="userAvatarUrl" />
@@ -14,7 +13,7 @@
 				<view class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</view>
 
 				<button class="active" v-if="!isActive" @tap="nav2activation">激活</button>
-				<view v-else class="sub-text">微精弘—Dev</view>
+				<view v-else class="sub-text">微精弘</view>
 			</view>
 		</card>
 
@@ -32,15 +31,14 @@
 </template>
 
 <script lang="ts">
-	import Card from '@/components/card/index.vue';
+	import { serviceStore, systemStore } from '@/store';
+	import Card from '@/components/Card/index.vue';
 	import NavBar from '@/components/navBar/index.vue';
-	import TitleBar from '@/components/titleBar/index.vue';
-
+	import Taro from '@tarojs/taro';
+	import TitleBar from '@/components/TitleBar/index.vue';
+	import { UserService } from '@/services';
 	import { defineComponent } from 'vue';
 
-	import { UserService } from '@/services';
-	import Taro from '@tarojs/taro';
-	import { serviceStore } from '@/store';
 	import './index.scss';
 	export default defineComponent({
 		components: { NavBar, TitleBar, Card },
@@ -97,6 +95,7 @@
 		},
 		mounted() {
 			UserService.getUserInfo();
+			console.log(systemStore);
 		}
 	});
 </script>

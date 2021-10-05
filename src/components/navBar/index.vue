@@ -12,15 +12,15 @@
 	</bottom-panel>
 </template>
 <script lang="ts">
-	import { defineComponent } from 'vue';
-	import Taro from '@tarojs/taro';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import Taro from '@tarojs/taro';
+	import { defineComponent } from 'vue';
 	export default defineComponent({
 		setup(props, { emit }) {
 			const pages = Taro.getCurrentPages();
 			const currentPage = pages[pages.length - 1];
 			return {
-				nev: (url) => {
+				nev: (url: string) => {
 					if (currentPage.route !== url) Taro.redirectTo({ url: url });
 				},
 				plusClick: () => {

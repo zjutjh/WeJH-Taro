@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-	import { systemStore } from '@/store';
 	import { defineComponent, reactive } from 'vue';
-	const campus = ['朝晖', '屏峰', '莫干山'];
+	import { campus } from './constants';
+	import { systemStore } from '@/store';
 	export default defineComponent({
 		setup() {
 			let selectorData = [campus, [], ['周一', '周二', '周三', '周四', '周五', '周六', '周日'], []];
@@ -26,7 +26,7 @@
 		},
 		data() {
 			return {
-				selectorChecked: ['屏峰', '第一周', '周一', '第一节']
+				selectorChecked: [campus[0], '第一周', '周一', '第一节']
 			};
 		},
 		methods: {

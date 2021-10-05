@@ -1,5 +1,15 @@
 .index {
-	width: 100vw;
-	height: calc(100% - 8rem);
+	width: calc(100vw - 2 rem);
+	height: calc(100% - 12rem);
 	position: fixed;
+	background-color: white;
+
+	border-radius: 1rem;
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+@media (prefers-color-scheme: dark) {
+	.index {
+		background-color: rgba(68, 68, 68, 0.7);
+	}
 }

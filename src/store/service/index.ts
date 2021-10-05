@@ -1,26 +1,27 @@
-import { CardServiceStore } from './card';
+import { CardServiceStore, CardServiceType } from './card';
 import { IUser, UserServiceStore } from './user';
 import { LibraryServiceStore } from './library';
 import { ZFServiceStore } from './zf';
-import { BorrowBooksInfo } from '@/interface/BorrowBooksInfo';
-import { Lesson } from '@/interface/Lesson';
-import { Exam } from '@/interface/Exam';
-import { Score } from '@/interface/Score';
+import { BorrowBooksInfo } from '@/types/BorrowBooksInfo';
+import { Lesson } from '@/types/Lesson';
+import { Exam } from '@/types/Exam';
+import { Score } from '@/types/Score';
+import { AnnouncementStore } from './announcement';
+import { AppListItem } from '@/types/AppList';
+import { CanteenServiceStore } from './canteen';
 
-export interface IServiceStore {
-	card: {
-		balance: any;
-		today: any;
-		history: any;
-		updateTime: {
-			today: string;
-			history: string;
-			balance: string;
-		};
-	};
+export interface ServiceStoreType {
+	appList?: AppListItem[];
+	card: CardServiceType;
 	user: IUser;
-	sessionID: any;
+	sessionID?: string;
 	schoolBus: {};
+	announcement: {
+		announcements: [],
+		updateTime: {
+			announcements: undefined
+		}
+	};
 	canteen: {
 		flow: any;
 		updateTime: {
@@ -28,8 +29,8 @@ export interface IServiceStore {
 		};
 	};
 	library: {
-		history: Array<BorrowBooksInfo>;
-		current: Array<BorrowBooksInfo>;
+		history: BorrowBooksInfo[];
+		current: BorrowBooksInfo[];
 		updateTime: { history: string; current: string };
 	};
 	zf: {
@@ -43,6 +44,7 @@ export interface IServiceStore {
 			practiceLessons: string;
 		};
 	};
+
 }
 
 export const ServiceStore = {
@@ -50,27 +52,25 @@ export const ServiceStore = {
 		card: CardServiceStore,
 		user: UserServiceStore,
 		library: LibraryServiceStore,
-		zf: ZFServiceStore
+		zf: ZFServiceStore,
+		announcement: AnnouncementStore,
+		canteen: CanteenServiceStore
 	},
 	state: () => ({
 		sessionID: undefined,
-		canteen: {
-			flow: undefined,
-			updateTime: {
-				flow: undefined
-			}
-		}
 	}),
 	mutations: {
-		setSession(state: any, value) {
+		setSession(state: ServiceStoreType, value) {
 			state.sessionID = value;
 		},
-		clearSession(state) {
+		clearSession(state: ServiceStoreType) {
 			state.sessionID = undefined;
 		},
-		setCanteenFlow(state: any, value) {
-			state.canteen.flow = value;
-			state.canteen.updateTime.flow = new Date();
-		}
+		setApplist(state: ServiceStoreType, value) {
+			state.appList = value;
+		},
+		clearApplist(state: ServiceStoreType) {
+			state.appList = undefined;
+		},
 	}
 };

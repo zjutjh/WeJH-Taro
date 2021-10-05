@@ -46,7 +46,7 @@ export default class UserService {
 			}
 			return true;
 		}
-		await errCodeHandler(res.data.code);
+		await errCodeHandler(res.data.code, true);
 
 		return false;
 	}

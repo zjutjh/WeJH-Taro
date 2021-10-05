@@ -13,14 +13,11 @@
 	text-align: left;
 
 	.cicle {
-		
-		@include shadow;
 		margin-right: 0.5rem;
-		border-radius: 10rem;
+		border-radius: 1rem;
 		font-size: 1.5rem;
 		min-width: 3rem;
 		height: 3rem;
-	
 		display: flex;
 		align-items: center;
 		justify-content: center;

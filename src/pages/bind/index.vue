@@ -1,14 +1,10 @@
 <template>
-	<title-bar style="position: fixed" :show-back-button="true"></title-bar>
-	<view>
-		<view class="header">
-			<image src="@/assets/g/logo.jpg" mode="aspectFill" />
-		</view>
+	<title-bar style="position: fixed" title="信息绑定" :show-back-button="true"></title-bar>
+	<view class="index">
 		<card>
 			<view>
-				<text class="title">密码绑定</text>
+				<text class="title">信息绑定</text>
 			</view>
-
 			<text>正方教务系统密码</text>
 			<view>
 				<input v-if="!user.isBindZF" type="password" placeholder="输入正方教务系统密码" v-model="zfpass" />
@@ -41,14 +37,13 @@
 </template>
 
 <script lang="ts">
+	import Card from '@/components/Card/index.vue';
+	import Taro from '@tarojs/taro';
+	import TitleBar from '@/components/TitleBar/index.vue';
 	import { UserService } from '@/services';
-	import Taro from '@tarojs/taro';	
-	import Card from '@/components/card/index.vue';
-	import TitleBar from '@/components/titleBar/index.vue';
-
-	import './index.scss';
 	import { serviceStore } from '@/store';
 
+	import './index.scss';
 	export default {
 		components: {
 			TitleBar,

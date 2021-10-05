@@ -16,7 +16,7 @@
 		</view>
 		<view class="table" v-if="lessonsTable">
 			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id + cl.week + cl.weekday" :style="getStyle(cl)">
-				<card class="class-card">
+				<card class="class-card" :style="getColorStyle(cl)" @click="classCardClick(cl)">
 					<view class="title">{{ cl.lessonPlace }}</view>
 					<text class="item-content">{{ cl.lessonName }}</text>
 					<text v-if="cl.mark">Mark</text>
@@ -26,11 +26,11 @@
 	</view>
 </template>
 <script lang="ts">
+	import Card from '@/components/Card/index.vue';
+	import { Lesson } from '@/types/Lesson';
 	import { defineComponent } from 'vue';
-	import Card from '@/components/card/index.vue';
 	import './index.scss';
-	import { Lesson } from '@/interface/Lesson';
-
+	const colorSet = ['ef8d6c', '58cc9d', '68a9df', 'fad65f', 'f7ac83'];
 	export default defineComponent({
 		components: { Card },
 		props: {
@@ -75,19 +75,24 @@
 					}
 				return lessons;
 			},
+			getColorStyle(theClass) {
+				return `background-color: #${colorSet[parseInt(theClass.classID, 16) % colorSet.length]};`;
+			},
+			classCardClick(theClass) {
+				this.$emit('classClick', theClass);
+			},
 			getStyle(theClass) {
 				const begin = parseInt(theClass.sections.split('-')[0]);
 				const end = parseInt(theClass.sections.split('-')[1]);
 				const weekday = parseInt(theClass.weekday);
-				const FontSize = this.offsetWidth ? Math.min(this.offsetWidth / 5 / 5, ((this.offsetHeight / 12) * (end - begin + 1)) / 5) / 1.5 + 'px' : (end - begin + 2) * 4 + 'px';
+				const FontSize = Math.max(14, this.offsetWidth ? Math.min(this.offsetWidth / 5 / 5, ((this.offsetHeight / 12) * (end - begin + 1)) / 5) / 1.5 : (end - begin + 2) * 4) + 'px';
 				const Height = ((end - begin + 1) * 100) / 12 + '%';
 				const Top = 'calc(' + ((begin - 1) * 100) / 12 + '%)';
 				const Left = 'calc(' + ((weekday - 1) * 90) / 5 + '%)';
 				return `top: ${Top};
-	      left: ${Left};
-	      height: ${Height};
-	      font-size: ${FontSize};
-	      `;
+	      				left: ${Left};
+	      				height: ${Height};
+	      				font-size: ${FontSize};`;
 			}
 		}
 	});

@@ -26,10 +26,10 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent } from 'vue';
 	import Taro from '@tarojs/taro';
+	import TitleBar from '@/components/TitleBar/index.vue';
+	import { defineComponent } from 'vue';
 
-	import TitleBar from '@/components/titleBar/index.vue';
 	import './index.scss';
 	export default defineComponent({
 		components: { TitleBar },

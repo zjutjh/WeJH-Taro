@@ -1,5 +1,8 @@
 <template>
 	<header-tab-view title="图书馆" :show-tab="true" :img="require('@/assets/library/library.svg')">
+		<template v-slot:prefix>
+			<text class="iconfont icon-book-fill"></text>
+		</template>
 		<template v-slot:tab>
 			<view>
 				<text> 借阅 {{ currentCount }} 本 </text>
@@ -20,7 +23,6 @@
 					<text>历史借阅</text>
 				</view>
 				<view v-if="!itemList" class="no-item">
-					<image src="@/assets/g/noData.svg"></image>
 					<view> 无借阅记录 </view>
 				</view>
 				<card class="item" v-for="item in itemList" :key="item.id">
@@ -31,7 +33,6 @@
 					</view>
 					<view class="item-text">
 						<view :class="{ tirm: item.isExtended }"> {{ item.name }}</view>
-						<view>{{ item.libraryID }}</view>
 						<view>借阅日期：{{ item.time }}</view>
 						<view v-if="item.returnTime">归还日期：{{ item.returnTime }}</view>
 						<view class="ext" v-if="item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
@@ -45,20 +46,20 @@
 
 <script lang="ts">
 	import './index.scss';
-	import { defineComponent, computed } from 'vue';
+	import { computed, defineComponent } from 'vue';
+	import Card from '@/components/Card/index.vue';
+	import { LibraryService } from '@/services';
+	import dayjs from 'dayjs';
+	import headerTabView from '@/components/headerTabView/index.vue';
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
-	import { LibraryService } from '@/services';
-	import Card from '@/components/card/index.vue';
-	import headerTabView from '@/components/headerTabView/index.vue';
 
-	import dayjs from 'dayjs';
 	export default defineComponent({
 		components: { headerTabView, Card },
 		setup() {
-			let updateTime = computed(() => serviceStore.library.updateTime);
-			let todayUpdateTime = computed(() => dayjs(updateTime.value.current).format('MM-DD HH:mm'));
-			let historyUpdateTime = computed(() => dayjs(updateTime.value.history).format('MM-DD HH:mm'));
+			const updateTime = computed(() => serviceStore.library.updateTime);
+			const todayUpdateTime = computed(() => dayjs(updateTime.value.current).format('MM-DD HH:mm'));
+			const historyUpdateTime = computed(() => dayjs(updateTime.value.history).format('MM-DD HH:mm'));
 			return {
 				updateTime,
 				todayUpdateTime,
@@ -66,7 +67,7 @@
 			};
 		},
 		mounted() {
-			LibraryService.getLibraryCurrent();
+			this.getLibraryCurrent();
 		},
 		computed: {
 			itemList(): Array<any> {
@@ -101,7 +102,7 @@
 		methods: {
 			getLibraryCurrent: throttle(LibraryService.getLibraryCurrent),
 			getLibraryHistory: throttle(LibraryService.getLibraryHistory),
-			onDateChange: function (e) {
+			onDateChange(e) {
 				this.dateSel = e.detail.value;
 				this.getLibraryHistory();
 			},

@@ -1,9 +1,9 @@
 import { updateDateStateWithSession } from '../utils/updateDateState';
 import { api } from '../api/apiList';
 import { serviceStore, systemStore } from '@/store';
-import { Lesson } from '@/interface/Lesson';
-import { Exam } from '@/interface/Exam';
-import { Score } from '@/interface/Score';
+import { Lesson } from '@/types/Lesson';
+import { Exam } from '@/types/Exam';
+import { Score } from '@/types/Score';
 export default class ZFService {
 	static async updateLessonTable(data?: { year: string; term: string }) {
 		if (!data) {

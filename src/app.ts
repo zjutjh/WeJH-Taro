@@ -1,15 +1,17 @@
 import { createApp } from 'vue';
-import './app.scss';
 import store from './store/index';
 import { LoginByTaro } from './services';
 import { SystemService } from './services';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { Tabbar, TabbarItem, Icon } from '@nutui/nutui-taro';
 import dayjs from 'dayjs';
-var customParseFormat = require('dayjs/plugin/customParseFormat');
-var relativeTime = require('dayjs/plugin/relativeTime');
-require('dayjs/locale/zh-cn');
+import utc from 'dayjs/plugin/utc'; // dependent on utc plugin
+import 'dayjs/locale/zh-cn';
+import '@nutui/nutui-taro/dist/styles/themes/default.scss';
+import './app.scss';
 dayjs.locale('zh-cn');
 dayjs.extend(customParseFormat);
-var utc = require('dayjs/plugin/utc'); // dependent on utc plugin
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 const App = createApp({
@@ -18,5 +20,5 @@ const App = createApp({
 		SystemService.getAppList();
 		LoginByTaro();
 	}
-}).use(store);
+}).use(store).use(Tabbar).use(TabbarItem).use(Icon);
 export default App;

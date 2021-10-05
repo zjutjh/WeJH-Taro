@@ -13,13 +13,13 @@
 	</card>
 </template>
 <script lang="ts">
+	import Card from '../card/index.vue';
+	import { LibraryService } from '@/services';
+	import Taro from '@tarojs/taro';
+	import dayjs from 'dayjs';
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
-	import { LibraryService } from '@/services';
-	import Card from '../card/index.vue';
-	import Taro from '@tarojs/taro';
-	import dayjs from 'dayjs';
 	export default defineComponent({
 		components: { Card },
 		setup() {
@@ -65,7 +65,8 @@
 		height: 5px;
 	}
 	.no-data-text {
-		font-size: 1.5rem;
+		font-size: 1rem;
+		padding: 1rem;
 		text-align: center;
 	}
 </style>

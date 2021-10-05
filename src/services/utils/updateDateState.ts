@@ -2,7 +2,6 @@ import fetch, { FetchResult } from '@/utils/fetch';
 import store from '@/store';
 import { postWithSession } from './session';
 import { ServerCode } from '../api/codes';
-import Taro from '@tarojs/taro';
 import errCodeHandler from './errHandler';
 async function updateDateState(api: string, data, commitName: string, clearCommitName: string | null, showModal = true) {
 	store.commit('startLoading');

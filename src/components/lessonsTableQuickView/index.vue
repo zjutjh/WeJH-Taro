@@ -24,17 +24,17 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="!todayLessonTable || todayLessonTable?.length === 0"> 今天居然没有课😄 </view>
+		<view class="no-class" v-if="!todayLessonTable || todayLessonTable?.length === 0"> 今天居然没有课😄 </view>
 	</card>
 </template>
 <script lang="ts">
+	import { section2endtime, section2time } from '@/utils/lessonstable';
+	import Card from '../Card/index.vue';
 	import Taro from '@tarojs/taro';
+	import { ZFService } from '@/services';
+	import dayjs from 'dayjs';
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
-	import dayjs from 'dayjs';
-	import Card from '../card/index.vue';
-	import { ZFService } from '@/services';
-	import { section2time, section2endtime } from '@/utils/lessonstable';
 	import './index.scss';
 	let timer: NodeJS.Timeout | undefined = undefined;
 	export default defineComponent({
@@ -97,3 +97,12 @@
 		}
 	});
 </script>
+<style>
+	.no-class {
+		margin-top: 1rem;
+		font-size: 1rem;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+</style>

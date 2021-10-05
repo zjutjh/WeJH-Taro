@@ -30,7 +30,7 @@
 					</view>
 				</view>
 				<view v-if="!itemList" style="text-align: center">
-					<image src="@/assets/g/noData.svg"></image>
+					
 					<view> 无消费记录</view>
 				</view>
 				<view class="item card" v-for="item in itemList" :key="item.ID" @tap="pop(item)">
@@ -62,16 +62,15 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, reactive, ref } from 'vue';
+	import { computed, defineComponent, ref } from 'vue';
+	import Card from '@/components/Card/index.vue';
 	import { CardService } from '@/services';
-	import { serviceStore } from '@/store';
-	import Card from '@/components/card/index.vue';
-
-	import PopView from '@/components/popView/index.vue';
 	import HeaderTabView from '@/components/headerTabView/index.vue';
-	import './index.scss';
+	import PopView from '@/components/popView/index.vue';
 	import dayjs from 'dayjs';
+	import { serviceStore } from '@/store';
 
+	import './index.scss';
 	export default defineComponent({
 		components: { HeaderTabView, PopView, Card },
 		computed: {

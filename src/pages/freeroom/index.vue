@@ -2,7 +2,6 @@
 	<header-tab-view title="空教室" :img="require('@/assets/exam/exam.png')" :show-tab="false">
 		<template v-slot:content>
 			<view v-if="!room" style="text-align: center">
-				<image src="@/assets/g/noData.svg"></image>
 				<view> 无记录</view>
 			</view>
 			<view v-for="item in room" :key="item.id">
@@ -30,16 +29,16 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { ZFService } from '@/services';
 	import { serviceStore, systemStore } from '@/store';
-	import Card from '@/components/card/index.vue';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import Card from '@/components/Card/index.vue';
+	import HeaderTabView from '@/components/headerTabView/index.vue';
 	import PopView from '@/components/popView/index.vue';
 	import RoomPicker from '@/components/roomPicker/index.vue';
-
-	import HeaderTabView from '@/components/headerTabView/index.vue';
-	import './index.scss';
+	import { ZFService } from '@/services';
 	import { groupBy } from '@/utils/tools';
+
+	import './index.scss';
 	export default defineComponent({
 		components: { HeaderTabView, PopView, Card, RoomPicker, BottomPanel },
 		setup() {

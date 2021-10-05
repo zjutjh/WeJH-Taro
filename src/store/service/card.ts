@@ -1,3 +1,13 @@
+export interface CardServiceType {
+	balance?: number;
+	today: any;
+	history: any;
+	updateTime: {
+		today?: string;
+		history?: string;
+		balance?: string;
+	};
+}
 export const CardServiceStore = {
 	state: () => ({
 		balance: 0,

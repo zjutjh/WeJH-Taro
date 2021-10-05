@@ -10,10 +10,10 @@
 	</view>
 </template>
 <script lang="ts">
-	import { defineComponent } from 'vue';
 	import Taro from '@tarojs/taro';
-	import './index.scss';
+	import { defineComponent } from 'vue';
 	import { systemStore } from '@/store';
+	import './index.scss';
 	export default defineComponent({
 		props: {
 			title: String,

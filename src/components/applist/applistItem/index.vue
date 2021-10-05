@@ -7,11 +7,11 @@
 	</view>
 </template>
 <script lang="ts">
+	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
 	import './index.scss';
-	import Taro from '@tarojs/taro';
-
 	export default defineComponent({
+		name: 'AppListItem',
 		props: {
 			label: String,
 			iconUrl: String,

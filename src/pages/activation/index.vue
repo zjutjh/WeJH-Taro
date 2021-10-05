@@ -1,13 +1,14 @@
 <template>
 	<view class="index">
-		<view class="header">
-			<image src="@/assets/g/logo.jpg" mode="aspectFill" />
+		<view class="steps">
+			<steps current="1">
+				<step title="账号激活">1</step>
+				<step title="账号绑定">2</step>
+			</steps>
 		</view>
-		<card>
+		<card class="card">
 			<view>
 				<view class="large">账号激活</view>
-				<text>用户名</text>
-				<input type="text" placeholder="输入学号" v-model="studentid" />
 				<text>学号</text>
 				<input type="text" placeholder="输入学号" v-model="studentid" />
 				<text>密码</text>
@@ -16,23 +17,26 @@
 				<input type="idcard" placeholder="身份证号" v-model="idcard" />
 				<text>邮箱</text>
 				<input type="email" placeholder="邮箱" v-model="email" />
-				<view class="act-action">
-					<button class="active" @tap="activeClick">激活/绑定通行证</button>
-				</view>
 			</view>
 		</card>
+		<view class="act-action">
+			<button class="active" @tap="activeClick">绑定通行证</button>
+		</view>
 	</view>
 </template>
 
 <script lang="ts">
-	import Card from '@/components/card/index.vue';
-	import { UserService } from '@/services';
+	import { Step, Steps } from '@nutui/nutui-taro';
+	import Card from '@/components/Card/index.vue';
 	import Taro from '@tarojs/taro';
+	import { UserService } from '@/services';
 	import './index.scss';
 
 	export default {
 		components: {
-			Card
+			Card,
+			Steps,
+			Step
 		},
 		data() {
 			return {
@@ -45,7 +49,7 @@
 		},
 		methods: {
 			async activeClick() {
-				let res = await UserService.createUserApp({
+				const res = await UserService.createUserApp({
 					username: this.studentid,
 					studentID: this.studentid,
 					password: this.password,

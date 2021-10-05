@@ -1,5 +1,5 @@
 <template>
-	<title-bar title="关于微精弘2.0" :showBackButton="true"></title-bar>
+	<title-bar title="设置" :showBackButton="true"></title-bar>
 	<card>
 		<view>
 			<text> >>微精弘是是碎片化、一站式、一体化校园移动门户，适用于浙江工业大学学生，集课表、成绩、考试、空教室、一卡通、借阅等功能于一身。 </text><br />

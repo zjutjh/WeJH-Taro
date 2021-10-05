@@ -3,14 +3,14 @@
 	padding: 0.5rem;
 }
 @mixin shadow {
-	box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+	box-shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 }
-$shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+$shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 
 @mixin blur {
-	backdrop-filter: blur(10px);
+	backdrop-filter: saturate(180%) blur(20px)
 }
 
 @mixin radius {
-	border-radius: 1rem;
+	border-radius: 1rem; 
 }

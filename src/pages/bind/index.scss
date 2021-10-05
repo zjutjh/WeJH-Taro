@@ -1,17 +1,14 @@
 @import "@/style/frame";
 
-.header {
-  top: 0;
-  margin-bottom: 1rem;
-  padding: 0;
-  position: sticky;
-
-  image {
-    width: 100%;
-    margin: -15px;
-    opacity: 0.8;
-    height: 350px;
-  }
+.index {
+	display: flex;
+	height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.card {
+	width: 80vw;
 }
 
 .title {

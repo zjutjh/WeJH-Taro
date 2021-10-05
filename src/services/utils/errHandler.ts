@@ -47,5 +47,11 @@ export default async function errCodeHandler(code, showModal = true) {
 					confirmText: '确定'
 				});
 				break;
+			default:
+				await Taro.showModal({
+					title: '提示',
+					content: code,
+					confirmText: '确定'
+				});
 		}
 }

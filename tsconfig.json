@@ -20,7 +20,7 @@
 			"@/components/*": ["./src/components/*"],
 			"@/utils/*": ["./src/utils/*"],
 			"@/assets/*": ["./src/assets/*"],
-			"@/interface/*": ["./src/interface/*"],
+			"@/types/*": ["./src/types/*"],
 			"@/store": ["./src/store/index.ts"],
 			"@/services": ["./src/services/index.ts"],
 			"@/package": ["./package.json"],

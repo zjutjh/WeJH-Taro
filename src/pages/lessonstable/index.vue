@@ -1,38 +1,52 @@
 <template>
-	<title-bar title="课程表" :show-back-button="true"></title-bar>
-
-	<lessons-table class="index" :lessons="lessonsTable"></lessons-table>
-
+	<title-bar title="课程表" :show-back-button="true">
+		<template v-slot:prefix>
+			<text class="iconfont icon-calendar-event-fill" />
+		</template>
+	</title-bar>
+	<lessons-table class="index" :lessons="lessonsTable" @classClick="ClassClick" />
+	<FixedNav />
 	<bottom-panel>
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 		<term-picker class="picker" @changed="termChanged"></term-picker>
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
+	<popup position="bottom" v-model:visible="show" round :style="{ height: '40%' }">
+		{{ selection }}
+	</popup>
 </template>
 
 <script lang="ts">
-	import { computed, onMounted, ref, Ref } from 'vue';
-	import RefleshButton from '@/components/refleshButton/index.vue';
-	import lessonsTable from '@/components/lessonstable/index.vue';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
-	import TermPicker from '@/components/termPicker/index.vue';
-	import TitleBar from '@/components/titleBar/index.vue';
-
-	import { ZFService } from '@/services';
+	import { computed, onMounted, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
+	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import FixedNav from '@/components/FixedNav/index.vue';
+	import { Popup } from '@nutui/nutui-taro';
+	import RefleshButton from '@/components/RefleshButton/index.vue';
+	import TermPicker from '@/components/TermPicker/index.vue';
+	import TitleBar from '@/components/TitleBar/index.vue';
+	import { ZFService } from '@/services';
+	import lessonsTable from '@/components/Lessonstable/index.vue';
+
 	import './index.scss';
 	export default {
-		components: { lessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton },
+		components: { lessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton, FixedNav, Popup },
 		setup() {
-			let selectTerm = ref({
+			const selectTerm = ref({
 				year: systemStore.generalInfo.termYear,
 				term: systemStore.generalInfo.term
 			});
-			const isRefleshing = ref(false);
+
 			const lessonsTable = computed(() => {
 				return ZFService.getLessonTable(selectTerm.value);
 			});
 
+			const isRefleshing = ref(false);
+			async function reflesh() {
+				isRefleshing.value = true;
+				await ZFService.updateLessonTable(selectTerm.value);
+				isRefleshing.value = false;
+			}
 			async function termChanged(e) {
 				isRefleshing.value = true;
 				selectTerm.value = e;
@@ -40,11 +54,13 @@
 				isRefleshing.value = false;
 			}
 
-			async function reflesh() {
-				isRefleshing.value = true;
-				await ZFService.updateLessonTable(selectTerm.value);
-				isRefleshing.value = false;
+			const show = ref(false);
+			const selection = ref({});
+			async function ClassClick(theClass) {
+				selection.value = theClass;
+				show.value = true;
 			}
+
 			onMounted(async () => {
 				if (serviceStore.user.isBindZF) {
 					await reflesh();
@@ -55,7 +71,10 @@
 				selectTerm,
 				termChanged,
 				reflesh,
-				isRefleshing
+				ClassClick,
+				isRefleshing,
+				selection,
+				show
 			};
 		}
 	};

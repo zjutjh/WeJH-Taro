@@ -3,6 +3,7 @@
 	"version": "2.0.0.alpha",
 	"private": true,
 	"description": "",
+	"author": "ZJUTJH",
 	"templateInfo": {
 		"name": "default",
 		"typescript": true,
@@ -27,7 +28,6 @@
 		"dev:qq": "npm run build:qq -- --watch",
 		"dev:jd": "npm run build:jd -- --watch",
 		"dev:quickapp": "npm run build:quickapp -- --watch",
-		"check": "tsc",
 		"format": "prettier --config --write 'src/**/*.{ts,js,jsx,json,css,vue}'",
 		"test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules && jest --coverage --maxWorkers=4"
 	},
@@ -36,21 +36,24 @@
 		"Android >= 4.1",
 		"ios >= 8"
 	],
-	"author": "ZJUTJH",
 	"dependencies": {
-		"@tarojs/components": "^3.2.7",
-		"@tarojs/runtime": "^3.2.7",
-		"@tarojs/taro": "^3.2.7",
+		"@nutui/nutui-taro": "^3.1.8",
+		"@tarojs/components": "^3.3.9",
+		"@tarojs/plugin-html": "^3.3.9",
+		"@tarojs/runtime": "^3.3.9",
+		"@tarojs/taro": "^3.3.9",
+		"babel-plugin-import": "^1.13.3",
 		"dayjs": "^1.10.4",
-		"vue": "^3.0.0",
+		"vue": "^3.2.19",
 		"vuex": "^4.0.0",
-		"vuex-persistedstate": "^4.0.0-beta.3"
+		"vuex-persistedstate": "^4.1.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.14.0",
 		"@babel/runtime": "^7.7.7",
-		"@tarojs/mini-runner": "^3.2.7",
-		"@tarojs/webpack-runner": "^3.2.7",
+		"@tarojs/cli": "^3.3.9",
+		"@tarojs/mini-runner": "^3.3.9",
+		"@tarojs/webpack-runner": "^3.3.9",
 		"@types/jest": "^26.0.17",
 		"@types/webpack-env": "^1.16.0",
 		"@typescript-eslint/eslint-plugin": "^4.22.0",
@@ -60,20 +63,21 @@
 		"@vue/test-utils": "^2.0.0-rc.6",
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-jest": "^26.6.3",
-		"babel-preset-taro": "^3.2.7",
+		"babel-preset-taro": "^3.3.9",
 		"cross-env": "^7.0.2",
 		"eslint": "^7.25.0",
-		"eslint-config-taro": "^3.2.7",
+		"eslint-config-taro": "^3.3.9",
 		"eslint-plugin-vue": "^7.9.0",
+		"git-revision-webpack-plugin": "^5.0.0",
 		"jest": "^26.6.3",
 		"jest-serializer-vue": "^2.0.2",
 		"jest-transform-stub": "^2.0.0",
-		"prettier": "^2.3.0",
+		"prettier": "^2.4.0",
 		"ts-jest": "^26.5.5",
-		"ts-loader": "^8.0.2",
-		"typescript": "^4.2.0",
+		"ts-loader": "^9.2.6",
+		"typescript": "^4.4.3",
 		"vue-jest": "^5.0.0-alpha.7",
-		"vue-loader": "^16.2.0",
-		"webpack-bundle-analyzer": "^4.2.0"
+		"vue-loader": "^16.8.1",
+		"webpack-bundle-analyzer": "^4.4.2"
 	}
 }

@@ -2,16 +2,14 @@
 	<header-tab-view title="考试信息" :img="require('@/assets/exam/exam.png')" :show-tab="false">
 		<template v-slot:content>
 			<view v-if="!exam" style="text-align: center">
-				<image src="@/assets/g/noData.svg"></image>
 				<view> 无记录</view>
 			</view>
 			<card class="item" v-for="item in exam" :key="item.id" @tap="pop(item)">
-				<view class="cicle" v-if="item.lessonName">
-					{{ item.lessonName[0] }}
-				</view>
-				<view class="item-text">
+				<view class="item-text" v-if="item">
 					<view> {{ item.lessonName }}-{{ item.id }}</view>
-					<view> <text class="iconfont icon-laoshi"></text>{{ item.teacherName }}</view>
+					<view v-for="name in item.teacherName?.split(';')" :key="name"
+						><view><text class="iconfont icon-laoshi"></text>{{ name }}</view></view
+					>
 					<view> {{ item.examTime }}</view>
 					<view>{{ calcDayLeft(item.examTime) }}</view>
 				</view>
@@ -25,9 +23,11 @@
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop">
-		<card v-if="selectedItem">
+		<card v-if="selectedItem" class="pop-card">
 			<view class="title">{{ selectedItem.lessonName }}</view>
-			<view><text class="iconfont icon-laoshi"></text>{{ selectedItem.teacherName }}</view>
+			<view v-for="name in selectedItem.teacherName.split(';')" :key="name"
+				><view><text class="iconfont icon-laoshi"></text>{{ name }}</view></view
+			>
 			<view>{{ selectedItem.lessonPlace }}</view>
 			<view>{{ selectedItem.className }}</view>
 			<view>{{ selectedItem.credits }}</view>
@@ -39,18 +39,18 @@
 </template>
 
 <script lang="ts">
-	import RefleshButton from '@/components/refleshButton/index.vue';
-	import Card from '@/components/card/index.vue';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
-	import PopView from '@/components/popView/index.vue';
-	import TermPicker from '@/components/termPicker/index.vue';
-	import HeaderTabView from '@/components/headerTabView/index.vue';
-	import './index.scss';
-	import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
-	import { ZFService } from '@/services';
+	import { Ref, computed, defineComponent, onMounted, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
+	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import Card from '@/components/Card/index.vue';
+	import { Exam } from '@/types/Exam';
+	import HeaderTabView from '@/components/headerTabView/index.vue';
+	import PopView from '@/components/PopView/index.vue';
+	import RefleshButton from '@/components/RefleshButton/index.vue';
+	import TermPicker from '@/components/TermPicker/index.vue';
+	import { ZFService } from '@/services';
 	import dayjs from 'dayjs';
-	import { Exam } from '@/interface/Exam';
+	import './index.scss';
 	export default defineComponent({
 		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel, RefleshButton },
 		computed: {

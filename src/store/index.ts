@@ -1,10 +1,8 @@
+import Taro from '@tarojs/taro';
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
-import { IServiceStore, ServiceStore } from './service';
-import Taro from '@tarojs/taro';
-import { SystemStore } from './system';
-import { AppListItem } from '@/interface/AppList';
-import { Announcement } from '@/interface/Announcement';
+import { ServiceStoreType, ServiceStore } from './service';
+import { SystemStoreType, SystemStore } from './system';
 
 const persistedStateStorage = {
 	setItem(key: string, value: string) {
@@ -18,17 +16,12 @@ const persistedStateStorage = {
 	}
 };
 
-interface IStore {
-	service: IServiceStore;
-	system: {
-		loading: boolean;
-		appList: Array<AppListItem>;
-		announcement: { announcements: Array<Announcement> };
-		generalInfo: any;
-	};
+interface StoreType {
+	service: ServiceStoreType;
+	system: SystemStoreType;
 }
 
-const store = createStore<IStore>({
+const store = createStore<StoreType>({
 	modules: {
 		service: ServiceStore,
 		system: SystemStore

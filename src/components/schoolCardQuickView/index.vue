@@ -12,12 +12,12 @@
 	</card>
 </template>
 <script lang="ts">
+	import Card from '../card/index.vue';
+	import { CardService } from '@/services';
 	import Taro from '@tarojs/taro';
+	import dayjs from 'dayjs';
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
-	import { CardService } from '@/services';
-	import Card from '../card/index.vue';
-	import dayjs from 'dayjs';
 
 	export default defineComponent({
 		components: { Card },
@@ -45,6 +45,7 @@
 <style>
 	.quickcard-balance {
 		font-size: 3rem;
+		margin-top: 1rem;
 		font-weight: bolder;
 		text-align: center;
 	}

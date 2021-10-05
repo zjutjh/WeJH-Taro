@@ -1,14 +1,14 @@
 import { api } from '../api/apiList';
 import { updateDateState } from '../utils/updateDateState';
-import { AppListItem } from '@/interface/AppList';
-import { Announcement } from '@/interface/Announcement';
+import { AppListItem } from '@/types/AppList';
+import { Announcement } from '@/types/Announcement';
 
 export default class SystemService {
-	static async getAnnouncement(): Promise<Array<Announcement>> {
-		return updateDateState(api.announcement, null, 'setAnnouncements', null);
+	static async getAnnouncement(page: number = 1, size: number = 10): Promise<Array<Announcement>> {
+		return updateDateState(api.announcement, { page, size }, 'setAnnouncements', null);
 	}
 
-	static async getAppList(): Promise<Array<AppListItem>> {
+	static async getAppList(): Promise<AppListItem[]> {
 		return updateDateState(api.applist, null, 'setApplist', 'clearApplist');
 	}
 

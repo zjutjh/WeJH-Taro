@@ -2,7 +2,6 @@
 	<header-tab-view title="成绩" :img="require('@/assets/exam/exam.png')" :show-tab="false">
 		<template v-slot:content>
 			<view v-if="!score" style="text-align: center">
-				<image src="@/assets/g/noData.svg"></image>
 				<view> 无当前学期成绩信息</view>
 			</view>
 			<view class="item card" v-for="item in score" :key="item.lessonID" @tap="pop(item)">
@@ -24,31 +23,28 @@
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop">
-		<card v-if="selectedItem">
+		<card v-if="selectedItem" class="pop-card">
 			<view class="title">{{ selectedItem.lessonName }}</view>
 			<view>{{ selectedItem.lessonType }}</view>
 			<view>{{ selectedItem.lessonID }}</view>
 			<view><text class="iconfont icon-laoshi"></text>{{ selectedItem.teacherName }}</view>
-			<view>{{ selectedItem.score }}</view>
+			<view class="score-text">{{ selectedItem.score }}</view>
 		</card>
 	</pop-view>
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
-	import { ZFService } from '@/services';
+	import { Ref, computed, defineComponent, onMounted, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
-	import RefleshButton from '@/components/refleshButton/index.vue';
-	import Card from '@/components/card/index.vue';
 	import BottomPanel from '@/components/bottomPanel/index.vue';
-
-	import PopView from '@/components/popView/index.vue';
-	import TermPicker from '@/components/termPicker/index.vue';
-
+	import Card from '@/components/Card/index.vue';
 	import HeaderTabView from '@/components/headerTabView/index.vue';
-
+	import PopView from '@/components/popView/index.vue';
+	import RefleshButton from '@/components/RefleshButton/index.vue';
+	import { Score } from '@/types/Score';
+	import TermPicker from '@/components/TermPicker/index.vue';
+	import { ZFService } from '@/services';
 	import './index.scss';
-	import { Score } from '@/interface/Score';
 
 	export default defineComponent({
 		components: { HeaderTabView, PopView, Card, TermPicker, BottomPanel, RefleshButton },

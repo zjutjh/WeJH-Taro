@@ -5,7 +5,6 @@
 		</template>
 		<template v-slot:content>
 			<view v-if="!announcement" style="text-align: center">
-				<image src="@/assets/g/noData.svg"></image>
 				<view>无通知</view>
 			</view>
 			<card class="item" v-for="item in announcement" :key="item.id" @tap="pop(item)">
@@ -32,24 +31,23 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, Ref, ref } from 'vue';
-	import { serviceStore, systemStore } from '@/store';
+	import { computed, defineComponent, ref } from 'vue';
+	import { Announcement } from '@/types/Announcement';
+	import Card from '@/components/Card/index.vue';
+	import HeaderTabView from '@/components/HeaderTabView/index.vue';
+	import PopView from '@/components/PopView/index.vue';
 	import { SystemService } from '@/services';
-	import Card from '@/components/card/index.vue';
-	import PopView from '@/components/popView/index.vue';
-
-	import HeaderTabView from '@/components/headerTabView/index.vue';
-	import './index.scss';
-	import { Announcement } from '@/interface/Announcement';
 	import dayjs from 'dayjs';
+	import { serviceStore } from '@/store';
 
+	import './index.scss';
 	export default defineComponent({
 		components: { Card, HeaderTabView, PopView },
 		setup() {
 			function reflesh() {
 				SystemService.getAnnouncement();
 			}
-			const announcement = computed(() => systemStore.announcement.announcements);
+			const announcement = computed(() => serviceStore.announcement.announcements);
 			let itemIpm: Announcement | undefined;
 			let selectedItem = ref(itemIpm);
 			let showPop = ref(false);

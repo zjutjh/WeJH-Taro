@@ -28,7 +28,6 @@ export const UserServiceStore = {
 		},
 		setUserInfo(state: any, value: any) {
 			state.info = value;
-
 			state.isBindZF = value.bind.zf;
 			state.isBindCard = value.bind.card;
 			state.isBindLibrary = value.bind.lib;

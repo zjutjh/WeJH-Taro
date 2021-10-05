@@ -12,6 +12,7 @@
 }
 
 .pop-card {
+	@include blur;
 	width: 80%;
 	height: 70%;
 	.title {

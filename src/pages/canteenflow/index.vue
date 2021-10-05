@@ -2,7 +2,7 @@
 	<header-tab-view title="食堂流量" :img="require('@/assets/canteen/food.png')" :show-tab="false">
 		<template v-slot:content>
 			<view v-if="!flow" style="text-align: center">
-				<image src="@/assets/g/noData.svg"></image>
+				
 				<view>无食堂流量信息</view>
 			</view>
 			<card class="item" v-for="item in flow" :key="item.restaurantName">
@@ -22,11 +22,11 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent } from 'vue';
 	import { CanteenService } from '@/services';
-	import { serviceStore } from '@/store';
-	import Card from '@/components/card/index.vue';
+	import Card from '@/components/Card/index.vue';
 	import HeaderTabView from '@/components/headerTabView/index.vue';
+	import { defineComponent } from 'vue';
+	import { serviceStore } from '@/store';
 
 	import './index.scss';
 
@@ -49,8 +49,8 @@
 		},
 		methods: {
 			getCanteenFlow: CanteenService.getCanteenFlow,
-			reflesh(e) {
-				this.getCanteenFlow(e);
+			reflesh() {
+				this.getCanteenFlow();
 			}
 		},
 		mounted() {

@@ -1,3 +1,20 @@
+import { Exam } from "@/types/Exam";
+import { Lesson } from "@/types/Lesson";
+import { Score } from "@/types/Score";
+
+export interface ZFServiceType {
+	lessonsTable: Lesson[];
+	practiceLessons: [];
+	examInfo: Exam[];
+	scoreInfo: Score[];
+	room: Array<any>;
+	updateTime: {
+		lessonsTable: string;
+		practiceLessons: string;
+		room: Date;
+	};
+}
+
 export const ZFServiceStore = {
 	state: () => ({
 		lessonsTable: [],
@@ -6,11 +23,12 @@ export const ZFServiceStore = {
 		scoreInfo: [],
 		updateTime: {
 			lessonsTable: undefined,
-			practiceLessons: undefined
+			practiceLessons: undefined,
+			room: undefined
 		}
 	}),
 	mutations: {
-		setLessonTable(state: any, value: { term: string; year: string; lessonsTable: []; practiceLessons: [] }) {
+		setLessonTable(state: ZFServiceType, value: { term: string; year: string; lessonsTable: []; practiceLessons: [] }) {
 			if (!state[value.year]) state[value.year] = {};
 			state[value.year][value.term] = {
 				lessons: {
@@ -22,7 +40,7 @@ export const ZFServiceStore = {
 				}
 			};
 		},
-		setExamInfo(state: any, value: { term: string; year: string; examInfo: [] }) {
+		setExamInfo(state: ZFServiceType, value: { term: string; year: string; examInfo: [] }) {
 			if (!state[value.year]) state[value.year] = {};
 			state[value.year][value.term] = {
 				exam: {
@@ -31,7 +49,7 @@ export const ZFServiceStore = {
 				}
 			};
 		},
-		setScoreInfo(state: any, value: { term: string; year: string; scoreInfo: [] }) {
+		setScoreInfo(state: ZFServiceType, value: { term: string; year: string; scoreInfo: [] }) {
 			if (!state[value.year]) state[value.year] = {};
 			state[value.year][value.term] = {
 				score: {
@@ -40,7 +58,7 @@ export const ZFServiceStore = {
 				}
 			};
 		},
-		setRoomInfo(state: any, value: []) {
+		setRoomInfo(state: ZFServiceType, value: []) {
 			state.room = value;
 			state.updateTime.room = new Date();
 		}

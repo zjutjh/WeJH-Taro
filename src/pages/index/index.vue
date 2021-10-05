@@ -11,7 +11,6 @@
 	<view class="no-active" v-else>
 		<card>
 			<view class="title">激活微精弘</view>
-			<image mode="aspectFit" style="width: 100%" :src="require('@/assets/g/welcome.png')"></image>
 			<button class="active" @tap="nav2activation">激活</button>
 		</card>
 	</view>
@@ -23,24 +22,23 @@
 	<nav-bar @plusClick="plusClick" :show-plus="isActive"></nav-bar>
 </template>
 <script lang="ts">
+	import AppList from '@/components/AppList/index.vue';
+	import Card from '@/components/Card/index.vue';
+	import LessonTableQuickView from '@/components/LessonsTableQuickView/index.vue';
+	import LibraryQuickView from '@/components/LibraryQuickView/index.vue';
+	import NavBar from '@/components/NavBar/index.vue';
+	import PopView from '@/components/popView/index.vue';
+	import SchoolCardQuickView from '@/components/SchoolCardQuickView/index.vue';
 	import Taro from '@tarojs/taro';
+	import TitleBar from '@/components/TitleBar/index.vue';
+	import { ZFService } from '@/services';
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
-
-	import AppList from '@/components/applist/index.vue';
-	import Card from '@/components/card/index.vue';
-	import NavBar from '@/components/navBar/index.vue';
-	import LessonTableQuickView from '@/components/lessonsTableQuickView/index.vue';
-	import LibraryQuickView from '@/components/libraryQuickView/index.vue';
-	import PopView from '@/components/popView/index.vue';
-	import SchoolCardQuickView from '@/components/schoolCardQuickView/index.vue';
-	import TitleBar from '@/components/titleBar/index.vue';
-	import { ZFService } from '@/services';
 	import './index.scss';
 	export default defineComponent({
 		components: {
-			NavBar,
 			AppList,
+			NavBar,
 			SchoolCardQuickView,
 			LibraryQuickView,
 			LessonTableQuickView,

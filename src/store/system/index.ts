@@ -1,38 +1,26 @@
-import { AppListItem } from '@/interface/AppList';
-import { AnnouncementStore } from './announcement';
 import { RuntimeStore } from './runtime';
-export interface ISystemStore {
+export interface SystemStoreType {
 	loading: boolean;
-	appList: Array<AppListItem>;
-	announcement: any;
 	generalInfo: any;
 	runtime: any;
 }
 
 export const SystemStore = {
 	modules: {
-		announcement: AnnouncementStore,
 		runtime: RuntimeStore
 	},
 	state: () => ({
-		appList: undefined,
-		generalInfo: undefined,
 		runtime: {}
 	}),
 	mutations: {
-		startLoading(state: any) {
+		startLoading(state: SystemStoreType) {
 			state.loading = true;
 		},
-		stopLoading(state: any) {
+		stopLoading(state: SystemStoreType) {
 			state.loading = false;
 		},
-		setApplist(state: any, value) {
-			state.appList = value;
-		},
-		clearApplist(state) {
-			state.appList = undefined;
-		},
-		setGeneralInfo(state: any, value) {
+
+		setGeneralInfo(state: SystemStoreType, value) {
 			state.generalInfo = value;
 		}
 	},
