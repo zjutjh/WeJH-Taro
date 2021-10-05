@@ -1,4 +1,5 @@
 export default {
 	navigationBarTitleText: '首页',
-	backgroundColor: '#fff'
+	backgroundColor: '#fff',
+	disableScroll: true,
 };

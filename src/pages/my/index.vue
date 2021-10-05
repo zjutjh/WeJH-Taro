@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<scroll-view :scrollY="true">
 		<title-bar title="我的"></title-bar>
 		<card class="my-header">
 			<view class="avatar">
@@ -27,13 +27,13 @@
 			<text class="sub-text centet">激活享受更多精彩</text>
 		</view>
 		<nav-bar :show-plus="false"></nav-bar>
-	</view>
+	</scroll-view>
 </template>
 
 <script lang="ts">
 	import { serviceStore, systemStore } from '@/store';
 	import Card from '@/components/Card/index.vue';
-	import NavBar from '@/components/navBar/index.vue';
+	import NavBar from '@/components/NavBar/index.vue';
 	import Taro from '@tarojs/taro';
 	import TitleBar from '@/components/TitleBar/index.vue';
 	import { UserService } from '@/services';

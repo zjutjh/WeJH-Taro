@@ -1,16 +1,14 @@
 export const CanteenServiceStore = {
 	state: () => ({
-		canteen: {
-			flow: undefined,
-			updateTime: {
-				flow: undefined
-			}
+		flow: undefined,
+		updateTime: {
+			flow: undefined
 		}
 	}),
 	mutations: {
 		setCanteenFlow(state: any, value) {
-			state.canteen.flow = value;
-			state.canteen.updateTime.flow = new Date();
+			state.flow = value;
+			state.updateTime.flow = new Date();
 		}
 	}
 };

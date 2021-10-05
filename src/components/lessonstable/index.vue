@@ -85,7 +85,7 @@
 				const begin = parseInt(theClass.sections.split('-')[0]);
 				const end = parseInt(theClass.sections.split('-')[1]);
 				const weekday = parseInt(theClass.weekday);
-				const FontSize = Math.max(14, this.offsetWidth ? Math.min(this.offsetWidth / 5 / 5, ((this.offsetHeight / 12) * (end - begin + 1)) / 5) / 1.5 : (end - begin + 2) * 4) + 'px';
+				const FontSize = Math.min(14, this.offsetWidth ? Math.min(this.offsetWidth / 5 / 5, ((this.offsetHeight / 12) * (end - begin + 1)) / 5) / 1.5 : (end - begin + 2) * 4) + 'px';
 				const Height = ((end - begin + 1) * 100) / 12 + '%';
 				const Top = 'calc(' + ((begin - 1) * 100) / 12 + '%)';
 				const Left = 'calc(' + ((weekday - 1) * 90) / 5 + '%)';

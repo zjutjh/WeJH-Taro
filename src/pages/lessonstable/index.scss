@@ -1,12 +1,16 @@
 .index {
 	width: calc(100vw - 2 rem);
-	height: calc(100% - 12rem);
+	height: calc(100% - 9rem);
 	position: fixed;
 	background-color: white;
 
 	border-radius: 1rem;
 	margin-left: 1rem;
 	margin-right: 1rem;
+}
+
+.index-ios {
+	height: calc(100% - 12rem);
 }
 @media (prefers-color-scheme: dark) {
 	.index {

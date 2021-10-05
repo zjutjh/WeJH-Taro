@@ -2,18 +2,21 @@
 	<title-bar title="微精弘">
 		<text class="iconfont icon-notification-badge-line" @tap="nav2announcement"></text>
 	</title-bar>
-
-	<view class="quick-card-view" v-if="isActive">
-		<lesson-table-quick-view v-if="isBindZf" :hide="pageHide"></lesson-table-quick-view>
-		<school-card-quick-view v-if="isBindCard"></school-card-quick-view>
-		<library-quick-view v-if="isBindLibrary"></library-quick-view>
-	</view>
-	<view class="no-active" v-else>
-		<card>
-			<view class="title">激活微精弘</view>
-			<button class="active" @tap="nav2activation">激活</button>
-		</card>
-	</view>
+	<scroll-view v-if="isActive" :scrollY="true">
+		<view class="quick-card-view">
+			<lesson-table-quick-view v-if="isBindZf" :hide="pageHide"></lesson-table-quick-view>
+			<school-card-quick-view v-if="isBindCard"></school-card-quick-view>
+			<library-quick-view v-if="isBindLibrary"></library-quick-view>
+		</view>
+	</scroll-view>
+	<scroll-view v-else :scrollY="true">
+		<view class="no-active">
+			<card>
+				<view class="title">激活微精弘</view>
+				<button class="active" @tap="nav2activation">激活</button>
+			</card>
+		</view>
+	</scroll-view>
 	<pop-view v-model:show="showPop">
 		<view class="app-list-card card">
 			<app-list></app-list>
@@ -27,7 +30,7 @@
 	import LessonTableQuickView from '@/components/LessonsTableQuickView/index.vue';
 	import LibraryQuickView from '@/components/LibraryQuickView/index.vue';
 	import NavBar from '@/components/NavBar/index.vue';
-	import PopView from '@/components/popView/index.vue';
+	import PopView from '@/components/PopView/index.vue';
 	import SchoolCardQuickView from '@/components/SchoolCardQuickView/index.vue';
 	import Taro from '@tarojs/taro';
 	import TitleBar from '@/components/TitleBar/index.vue';
