@@ -1,6 +1,6 @@
 <template>
 	<view class="room-selecter">
-		<picker mode="multiSelector" :range="selector" @change="onChange">
+		<picker mode="multiSelector" :range="selector" @change="onChange" :value="selectorValue">
 			<view class="picker"> {{ selectorChecked[0] }} {{ selectorChecked[1] }} {{ selectorChecked[2] }} {{ selectorChecked[3] }} </view>
 		</picker>
 	</view>
@@ -23,13 +23,24 @@
 			for (let i = 1; i <= 20; i++) selectorData[1].push('第' + i + '周');
 
 			for (let i = 1; i <= 12; i++) selectorData[3].push('第' + i + '节');
-			console.log(props);
-			let selector = reactive(selectorData);
+			const selector = reactive(selectorData);
 			const selectorChecked = ref([campus[0], selectorData[1][props.week < 20 ? props.week - 1 : 0], selectorData[2][new Date().getDay() - 1], '第一节']);
+			const selectorValue = reactive([0, props.week < 20 ? props.week - 1 : 0, new Date().getDay() - 1, 0]);
 			return {
 				selector,
-				selectorChecked
+				selectorChecked,
+				selectorValue
 			};
+		},
+		mounted() {
+			this.$emit('changed', {
+				year: systemStore.generalInfo.termYear,
+				term: systemStore.generalInfo.term,
+				campus: campus[this.selectorValue[0]],
+				week: Math.pow(2, this.selectorValue[1]).toString(),
+				weekday: Math.pow(2, this.selectorValue[2]).toString(),
+				sections: Math.pow(2, this.selectorValue[3]).toString()
+			});
 		},
 		methods: {
 			onChange: function (e) {
