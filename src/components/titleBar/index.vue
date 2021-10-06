@@ -13,7 +13,7 @@
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
 	import { systemStore } from '@/store';
-	import './index.scss';
+	import './titleBar.scss';
 	export default defineComponent({
 		props: {
 			title: String,

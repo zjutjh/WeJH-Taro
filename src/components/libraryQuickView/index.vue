@@ -8,7 +8,10 @@
 		<text class="sub-text">当前借阅({{ dayjs(updateTime.current).fromNow() }})</text>
 		<view v-if="!current" class="no-data-text">当前无借阅图书</view>
 		<view v-for="item in current" :key="item.id">
-			<view class="lesson">{{ item }} </view>
+			<view> {{ item.name }}</view>
+			<view>借阅日期：{{ item.time }}</view>
+			<view class="ext" v-if="item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
+			<view class="ext red" v-if="item.isExtended > 0">{{ Math.abs(item.isExtended) }}天</view>
 		</view>
 	</card>
 </template>

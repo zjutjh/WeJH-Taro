@@ -6,10 +6,7 @@
 				<open-data type="userAvatarUrl" />
 			</view>
 			<view>
-				<view class="name" v-if="userInfo">
-					{{ userInfo.username }}
-				</view>
-				<open-data v-else class="name" type="userNickName" />
+				<open-data class="name" type="userNickName" />
 				<view class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</view>
 
 				<button class="active" v-if="!isActive" @tap="nav2activation">激活</button>
@@ -60,7 +57,8 @@
 					},
 					{
 						icon: require('@/assets/icons/feedback.svg'),
-						title: '反馈'
+						title: '反馈',
+						url: '/pages/connect/index'
 					},
 					{
 						icon: require('@/assets/icons/about.svg'),

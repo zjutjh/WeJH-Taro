@@ -1,6 +1,5 @@
-export interface IUser {
-	info: {
-		username: string;
+export interface UserType {
+	info?: {
 		studentID: string;
 	};
 	isActive: boolean;
@@ -10,31 +9,31 @@ export interface IUser {
 }
 export const UserServiceStore = {
 	state: () => ({
-		info: {},
+		info: undefined,
 		isActive: false,
 		isBindZF: false,
 		isBindCard: false,
 		isBindLibrary: false
 	}),
 	mutations: {
-		setBindZF(state: any, value: boolean) {
+		setBindZF(state: UserType, value: boolean) {
 			state.isBindZF = value;
 		},
-		setBindSchoolCard(state: any, value: boolean) {
+		setBindSchoolCard(state: UserType, value: boolean) {
 			state.isBindCard = value;
 		},
-		setBindLibrary(state: any, value: boolean) {
+		setBindLibrary(state: UserType, value: boolean) {
 			state.isBindLibrary = value;
 		},
-		setUserInfo(state: any, value: any) {
+		setUserInfo(state: UserType, value: { studentID: string, bind: { zf: boolean, card: boolean, lib: boolean } }) {
 			state.info = value;
 			state.isBindZF = value.bind.zf;
 			state.isBindCard = value.bind.card;
 			state.isBindLibrary = value.bind.lib;
 			state.isActive = true;
 		},
-		clearUserInfo(state: any) {
-			state.info = {};
+		clearUserInfo(state: UserType) {
+			state.info = undefined;
 			state.isActive = false;
 		}
 	}

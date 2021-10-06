@@ -1,6 +1,6 @@
 export default {
-	navigationBarTitleText: '校车',
-	disableScroll: true,
+	navigationBarTitleText: '联系与反馈',
 	backgroundColor: '#dfdfdf',
+	disableScroll: true,
 	navigationStyle: 'custom'
 };

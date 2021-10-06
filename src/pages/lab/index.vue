@@ -2,34 +2,22 @@
 	<title-bar title="实验室" :showBackButton="true"></title-bar>
 	<card>
 		<view>
-			<text> >>微精弘是是碎片化、一站式、一体化校园移动门户，适用于浙江工业大学学生，集课表、成绩、考试、空教室、一卡通、借阅等功能于一身。 </text><br />
-			<text> >>微精弘有更好用的课表查询，本周视图、学期视图、对应日期及时钟轴，清晰明了。 >>微精弘有更方便的考试安排，帮你折算出考试周对应的日期，以及考试时间倒计时，一目了然。</text><br />
-			<text> >>微精弘还是校园生活助手与管家，一卡通余额及消费一览无余，让同学们更合理安排生活费。微精弘更是/更有... （期待您的发现）</text>
+			<text>当前没有实验功能，尽情期待！😚</text>
 		</view>
 	</card>
 	<card>
-		<view>
-			<view>
-				{{ commitHash }}
-			</view>
-			精弘网络@2021
-		</view>
+		<view class="info-p"> 精弘网络@2021 </view>
 	</card>
 </template>
 
 <script>
-	import './index.scss';
 	import Card from '@/components/Card/index.vue';
 	import TitleBar from '@/components/TitleBar/index.vue';
+	import './index.scss';
 	export default {
 		components: {
 			TitleBar,
 			Card
-		},
-		computed: {
-			commitHash() {
-				return process.env.COMMIT_HASH;
-			}
 		}
 	};
 </script>

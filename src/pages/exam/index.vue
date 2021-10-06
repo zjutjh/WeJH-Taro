@@ -41,7 +41,7 @@
 <script lang="ts">
 	import { Ref, computed, defineComponent, onMounted, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Card from '@/components/Card/index.vue';
 	import { Exam } from '@/types/Exam';
 	import HeaderTabView from '@/components/HeaderTabView/index.vue';

@@ -3,8 +3,6 @@
 }
 .lesson {
   border-radius: 0.5rem;
-
-  box-shadow: 0.3em 0.3em 0.5em rgba(0, 0, 0, 0.3);
   display: flex;
   margin: 0.5rem;
   margin-left: 0rem;
@@ -15,7 +13,7 @@
   text-align: left;
   .name {
     font-weight: bolder;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
   .col {
     margin-left: 0.5rem;

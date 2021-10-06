@@ -44,9 +44,10 @@
 <script lang="ts">
 	import { computed, onMounted, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Card from '@/components/Card/index.vue';
 	import FixedNav from '@/components/FixedNav/index.vue';
+	import { Lesson } from '@/types/Lesson';
 	import LessonsTable from '@/components/LessonsTable/index.vue';
 	import { Popup } from '@nutui/nutui-taro';
 	import RefleshButton from '@/components/RefleshButton/index.vue';
@@ -57,7 +58,6 @@
 	import { ZFService } from '@/services';
 
 	import './index.scss';
-	import { Lesson } from '@/types/Lesson';
 	export default {
 		components: { LessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton, FixedNav, Popup, WeekPicker, Card },
 		setup() {

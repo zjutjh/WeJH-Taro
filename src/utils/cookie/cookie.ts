@@ -11,12 +11,12 @@ function ejectCookies(cookies: String[]) {
 		let ckie: ICookie = { Key: '', Value: '', Expires: new Date(), MaxAge: 0 };
 		if (keyValves.length > 0) {
 			keyValves.forEach((item) => {
-				let key, value;
+				let key: string, value: string;
 				[key, value] = item.split('=');
 				if (key === 'Expires') {
-					ckie.Expires = value;
+					ckie.Expires = new Date(value);
 				} else if (key === 'Max-Age') {
-					ckie.MaxAge = value;
+					ckie.MaxAge = parseInt(value);
 				} else if (ckie.Key === '') {
 					ckie.Key = key;
 					ckie.Value = value;

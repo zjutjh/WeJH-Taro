@@ -1,6 +1,6 @@
 export default {
-	navigationBarTitleText: '校车',
-	disableScroll: true,
+	navigationBarTitleText: 'FAQ',
 	backgroundColor: '#dfdfdf',
+	disableScroll: true,
 	navigationStyle: 'custom'
 };

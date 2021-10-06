@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro';
 import store from '@/store';
-import fetch from '@/utils/fetch';
+import fetch, { FetchResult } from '@/utils/fetch';
 import { api } from '../api/apiList';
 import { updateDateStateWithSession } from '../utils/updateDateState';
 import errCodeHandler from '../utils/errHandler';
@@ -8,15 +8,15 @@ import { ServerCode } from '../api/codes';
 
 export default class UserService {
 	static async bindLibrary(data?: { password: string }, showModal = true) {
-		return updateDateStateWithSession(api.user.bind.library, data, 'setBindLibrary', (res) => res.data.code === 1, showModal);
+		return updateDateStateWithSession(api.user.bind.library, data, 'setBindLibrary', (res: FetchResult) => res.data.code === 1, showModal);
 	}
 
 	static async bindZF(data?: { password: string }, showModal = true) {
-		return updateDateStateWithSession(api.user.bind.zf, data, 'setBindZF', (res) => res.data.code === 1, showModal);
+		return updateDateStateWithSession(api.user.bind.zf, data, 'setBindZF', (res: FetchResult) => res.data.code === 1, showModal);
 	}
 
 	static async bindSchoolCard(data?: { password: string }, showModal = true): Promise<any> {
-		return updateDateStateWithSession(api.user.bind.schoolCard, data, 'setBindSchoolCard', (res) => res.data.code === 1, showModal);
+		return updateDateStateWithSession(api.user.bind.schoolCard, data, 'setBindSchoolCard', (res: FetchResult) => res.data.code === 1, showModal);
 	}
 
 	static async getUserInfo(autoLogin = true): Promise<any> {
@@ -24,7 +24,7 @@ export default class UserService {
 			api.user.info,
 			null,
 			'setUserInfo',
-			function (res) {
+			(res: FetchResult) => {
 				return res.data.data.user;
 			},
 			autoLogin

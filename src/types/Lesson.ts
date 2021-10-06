@@ -14,3 +14,9 @@ export interface Lesson {
 	week: string;
 	weekday: string;
 }
+export interface PracticeLesson {
+	className: string;
+	credits: string;
+	lessonName: string;
+	teacherName: string;
+}

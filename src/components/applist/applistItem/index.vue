@@ -9,7 +9,8 @@
 <script lang="ts">
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
-	import './index.scss';
+
+	import './appListiItem.scss';
 	export default defineComponent({
 		name: 'AppListItem',
 		props: {

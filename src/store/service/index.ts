@@ -1,27 +1,22 @@
 import { CardServiceStore, CardServiceType } from './card';
-import { IUser, UserServiceStore } from './user';
+import { UserType, UserServiceStore } from './user';
 import { LibraryServiceStore } from './library';
 import { ZFServiceStore } from './zf';
 import { BorrowBooksInfo } from '@/types/BorrowBooksInfo';
 import { Lesson } from '@/types/Lesson';
 import { Exam } from '@/types/Exam';
 import { Score } from '@/types/Score';
-import { AnnouncementStore } from './announcement';
+import { AnnouncementStore, AnnouncementType } from './announcement';
 import { AppListItem } from '@/types/AppList';
 import { CanteenServiceStore } from './canteen';
 
 export interface ServiceStoreType {
 	appList?: AppListItem[];
 	card: CardServiceType;
-	user: IUser;
+	user: UserType;
 	sessionID?: string;
 	schoolBus: {};
-	announcement: {
-		announcements: [],
-		updateTime: {
-			announcements: undefined
-		}
-	};
+	announcement: AnnouncementType;
 	canteen: {
 		flow: any;
 		updateTime: {

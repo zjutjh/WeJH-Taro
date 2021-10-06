@@ -1,6 +1,6 @@
 import { ServerCode } from '../api/codes';
 import Taro from '@tarojs/taro';
-export default async function errCodeHandler(code, showModal = true) {
+export default async function errCodeHandler(code: ServerCode, showModal = true) {
 	if (showModal)
 		switch (code) {
 			case ServerCode.NoThatPasswordORWrong:
@@ -50,7 +50,7 @@ export default async function errCodeHandler(code, showModal = true) {
 			default:
 				await Taro.showModal({
 					title: '提示',
-					content: code,
+					content: code.toString(),
 					confirmText: '确定'
 				});
 		}

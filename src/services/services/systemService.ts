@@ -4,7 +4,7 @@ import { AppListItem } from '@/types/AppList';
 import { Announcement } from '@/types/Announcement';
 
 export default class SystemService {
-	static async getAnnouncement(page: number = 1, size: number = 10): Promise<Array<Announcement>> {
+	static async getAnnouncement(page: number = 1, size: number = 10): Promise<Announcement[]> {
 		return updateDateState(api.announcement, { page, size }, 'setAnnouncements', null);
 	}
 

@@ -1,5 +1,5 @@
 export default {
-	navigationBarTitleText: '校车',
+	navigationBarTitleText: '设置',
 	disableScroll: true,
 	backgroundColor: '#dfdfdf',
 	navigationStyle: 'custom'

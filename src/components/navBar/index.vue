@@ -12,7 +12,7 @@
 	</bottom-panel>
 </template>
 <script lang="ts">
-	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
 	export default defineComponent({

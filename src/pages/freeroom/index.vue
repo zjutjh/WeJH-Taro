@@ -29,14 +29,14 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { serviceStore } from '@/store';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
+	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Card from '@/components/Card/index.vue';
 	import HeaderTabView from '@/components/HeaderTabView/index.vue';
 	import PopView from '@/components/PopView/index.vue';
 	import RoomPicker from '@/components/RoomPicker/index.vue';
 	import { ZFService } from '@/services';
 	import { groupBy } from '@/utils/tools';
+	import { serviceStore } from '@/store';
 
 	import './index.scss';
 	export default defineComponent({
