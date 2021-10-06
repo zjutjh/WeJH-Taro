@@ -71,6 +71,8 @@
 	.week-selector {
 		border-radius: 1rem;
 		text-align: center;
-		font-size: 1rem;
+		font-size: 0.9rem;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
 	}
 </style>

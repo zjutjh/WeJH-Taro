@@ -25,8 +25,7 @@
 	<pop-view v-model:show="showPop">
 		<card v-if="selectedItem" class="pop-card">
 			<view class="title">{{ selectedItem.lessonName }}</view>
-			<view>{{ selectedItem.lessonType }}</view>
-			<view>{{ selectedItem.lessonID }}</view>
+			<view><b>课程类型：</b>{{ selectedItem.lessonType }}</view>
 			<view><text class="iconfont icon-laoshi"></text>{{ selectedItem.teacherName }}</view>
 			<view class="score-text">{{ selectedItem.score }}</view>
 		</card>

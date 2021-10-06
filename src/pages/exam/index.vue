@@ -28,11 +28,11 @@
 			<view v-for="name in selectedItem.teacherName.split(';')" :key="name"
 				><view><text class="iconfont icon-laoshi"></text>{{ name }}</view></view
 			>
-			<view>{{ selectedItem.lessonPlace }}</view>
-			<view>{{ selectedItem.className }}</view>
-			<view>{{ selectedItem.credits }}</view>
-			<view>{{ selectedItem.campus }}-{{ selectedItem.examPlace }}</view>
-			<view>{{ selectedItem.examTime }}</view>
+			<view><b>上课地点：</b>{{ selectedItem.lessonPlace }}</view>
+			<view><b>教学班：</b>{{ selectedItem.className }}</view>
+			<view><b>学分：</b>{{ selectedItem.credits }}</view>
+			<view><b>考试地点：</b>{{ selectedItem.campus }}-{{ selectedItem.examPlace }}</view>
+			<view><b>考试时间：</b>{{ selectedItem.examTime }}</view>
 			<button class="active" v-if="isWechat" @tap="selectedItem && addToCalendar(selectedItem)">添加到日历</button>
 		</card>
 	</pop-view>

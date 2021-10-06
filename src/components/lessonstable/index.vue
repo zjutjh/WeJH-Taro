@@ -1,6 +1,6 @@
 <template>
-	<view class="warp" ref="table">
-		<view class="jc-index-panel index-panel">
+	<view class="warp">
+		<view class="jc-index-panel index-panel" :style="jcStyle">
 			<view v-for="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" :key="i">
 				<view class="num-index">
 					{{ i }}
@@ -14,18 +14,20 @@
 				</view>
 			</view>
 		</view>
-		<view class="table" v-if="lessonsTable">
+		<view class="now-index" :style="nowStyle" />
+		<view class="now-week-index" :style="nowWeekStyle" />
+		<view class="table table-box" v-if="lessonsTable">
 			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id + cl.week + cl.weekday" :style="getStyle(cl)">
 				<card class="class-card" :style="getColorStyle(cl)" @click="classCardClick(cl)">
 					<view class="title">{{ cl.lessonPlace }}</view>
 					<text class="item-content">{{ cl.lessonName }}</text>
-					<text v-if="cl.mark">Mark</text>
 				</card>
 			</view>
 		</view>
 	</view>
 </template>
 <script lang="ts">
+	import Taro, { eventCenter, getCurrentInstance } from '@tarojs/taro';
 	import Card from '@/components/Card/index.vue';
 	import { Lesson } from '@/types/Lesson';
 	import { defineComponent } from 'vue';
@@ -41,19 +43,42 @@
 		computed: {
 			lessonsTable(): Lesson[] {
 				return this.MarkConflictLesson(this.lessons);
+			},
+			jcStyle() {
+				return `height: ${this.Height}px; top: ${this.Top}px;`;
+			},
+			nowWeekStyle() {
+				const now = new Date();
+				const weekday = now.getDay();
+				const left = 'calc(' + ((weekday - 1) * 92) / 5 + '% + 2rem)';
+				return `left: ${left};`;
+			},
+			nowStyle() {
+				const now = new Date();
+				const hour = now.getHours();
+				const min = now.getMinutes();
+				const rate = (hour * 60 + min) / ((21 - 8) * 60 + 5);
+				return `top: ${rate * this.Height}px;`;
 			}
 		},
 		data() {
 			return {
-				offsetWidth: 0,
-				offsetHeight: 0
+				Height: Number,
+				Width: Number,
+				Top: Number
 			};
 		},
 		mounted() {
-			this.offsetWidth = this.$refs.table.offsetWidth;
-			this.offsetHeight = this.$refs.table.offsetHeight;
+			eventCenter.on(getCurrentInstance()?.router?.onReady || 'onReady', () => {
+				console.log('onReady');
+				const query = Taro.createSelectorQuery();
+				query.select('.table-box').boundingClientRect();
+				query.exec((res) => {
+					if (typeof res[0].height === 'number') this.Height = Number(res[0].height);
+					if (typeof res[0].top === 'number') this.Top = Number(res[0].top);
+				});
+			});
 		},
-
 		methods: {
 			MarkConflictLesson(lessons: Lesson[]) {
 				if (lessons)
@@ -85,14 +110,14 @@
 				const begin = parseInt(theClass.sections.split('-')[0]);
 				const end = parseInt(theClass.sections.split('-')[1]);
 				const weekday = parseInt(theClass.weekday);
-				const FontSize = Math.min(14, this.offsetWidth ? Math.min(this.offsetWidth / 5 / 5, ((this.offsetHeight / 12) * (end - begin + 1)) / 5) / 1.5 : (end - begin + 2) * 4) + 'px';
+				const FontSize = Math.min(12, (end - begin + 2) * 4) + 'px';
 				const Height = ((end - begin + 1) * 100) / 12 + '%';
 				const Top = 'calc(' + ((begin - 1) * 100) / 12 + '%)';
 				const Left = 'calc(' + ((weekday - 1) * 90) / 5 + '%)';
 				return `top: ${Top};
-	      				left: ${Left};
-	      				height: ${Height};
-	      				font-size: ${FontSize};`;
+				      				left: ${Left};
+				      				height: ${Height};
+				      				font-size: ${FontSize};`;
 			}
 		}
 	});

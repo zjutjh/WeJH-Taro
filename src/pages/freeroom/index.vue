@@ -19,7 +19,7 @@
 	</header-tab-view>
 	<bottom-panel>
 		<button class="button"></button>
-		<room-picker class="picker" @changed="roomChanged"></room-picker>
+		<room-picker class="picker" @changed="roomChanged" :week="selectWeek"></room-picker>
 		<button class="button"></button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop">
@@ -28,7 +28,8 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent } from 'vue';
+	import { computed, defineComponent, ref } from 'vue';
+	import { serviceStore, systemStore } from '@/store';
 	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Card from '@/components/Card/index.vue';
 	import HeaderTabView from '@/components/HeaderTabView/index.vue';
@@ -36,7 +37,6 @@
 	import RoomPicker from '@/components/RoomPicker/index.vue';
 	import { ZFService } from '@/services';
 	import { groupBy } from '@/utils/tools';
-	import { serviceStore } from '@/store';
 
 	import './index.scss';
 	export default defineComponent({
@@ -45,18 +45,15 @@
 			function roomChanged(e) {
 				ZFService.getFreeRoomInfo(e);
 			}
-			// function reflesh() {
-			//   ZFService.getExamInfo(selectTerm);
-			// }
 			const room = computed(() => {
 				let res = groupBy(serviceStore.zf.room, (item) => [item.buildName]);
 				return res;
 			});
+			const selectWeek = ref(systemStore.generalInfo.week);
 			return {
 				room,
-				roomChanged
-
-				// reflesh
+				roomChanged,
+				selectWeek
 			};
 		},
 		mounted() {},

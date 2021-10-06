@@ -1,32 +1,34 @@
 <template>
 	<view class="room-selecter">
 		<picker mode="multiSelector" :range="selector" @change="onChange">
-			<view class="picker"> {{ selectorChecked[0] }}-{{ selectorChecked[1] }}-{{ selectorChecked[2] }}-{{ selectorChecked[3] }} </view>
+			<view class="picker"> {{ selectorChecked[0] }} {{ selectorChecked[1] }} {{ selectorChecked[2] }} {{ selectorChecked[3] }} </view>
 		</picker>
 	</view>
 </template>
 
 <script lang="ts">
-	import { defineComponent, reactive } from 'vue';
+	import { defineComponent, reactive, ref } from 'vue';
 	import { campus } from './constants';
 	import { systemStore } from '@/store';
 	export default defineComponent({
-		setup() {
+		props: {
+			week: {
+				default: 1,
+				type: Number
+			}
+		},
+		setup(props) {
 			let selectorData = [campus, [], ['周一', '周二', '周三', '周四', '周五', '周六', '周日'], []];
 
 			for (let i = 1; i <= 20; i++) selectorData[1].push('第' + i + '周');
 
 			for (let i = 1; i <= 12; i++) selectorData[3].push('第' + i + '节');
-
+			console.log(props);
 			let selector = reactive(selectorData);
-
+			const selectorChecked = ref([campus[0], selectorData[1][props.week < 20 ? props.week - 1 : 0], selectorData[2][new Date().getDay() - 1], '第一节']);
 			return {
-				selector
-			};
-		},
-		data() {
-			return {
-				selectorChecked: [campus[0], '第一周', '周一', '第一节']
+				selector,
+				selectorChecked
 			};
 		},
 		methods: {

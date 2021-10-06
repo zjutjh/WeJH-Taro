@@ -33,8 +33,8 @@
 					</view>
 					<view class="item-text">
 						<view :class="{ tirm: item.isExtended }"> {{ item.name }}</view>
-						<view>借阅日期：{{ item.time }}</view>
-						<view v-if="item.returnTime">归还日期：{{ item.returnTime }}</view>
+						<view><b>借阅日期：</b>{{ item.time }}</view>
+						<view v-if="item.returnTime"><b>归还日期：</b>{{ item.returnTime }}</view>
 						<view class="ext" v-if="item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
 						<view class="ext red" v-if="item.isExtended > 0">{{ Math.abs(item.isExtended) }}天</view>
 					</view>
