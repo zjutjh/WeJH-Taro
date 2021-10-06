@@ -69,7 +69,7 @@
 </script>
 <style>
 	.week-selector {
-		border-radius: 1rem;
+		border-radius: 0.5rem;
 		text-align: center;
 		font-size: 0.9rem;
 		padding-left: 0.5rem;

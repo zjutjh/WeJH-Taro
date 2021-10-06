@@ -41,7 +41,7 @@
 </script>
 <style>
 	.term-selector {
-		border-radius: 1rem;
+		border-radius: 0.5rem;
 		text-align: center;
 		font-size: 1rem;
 	}

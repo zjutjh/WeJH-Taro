@@ -60,7 +60,7 @@
 <style>
 	.room-selecter {
 		padding: 0.5rem 1rem 0.5rem 1rem;
-		border-radius: 1rem;
+		border-radius: 0.5rem;
 		text-align: center;
 		background-color: rgba(218, 218, 218, 0.7);
 	}

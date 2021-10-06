@@ -61,7 +61,7 @@
 						url: '/pages/connect/index'
 					},
 					{
-						icon: require('@/assets/icons/about.svg'),
+						icon: require('@/assets/icons/setting.svg'),
 						title: '设置',
 						url: '/pages/setting/index'
 					},

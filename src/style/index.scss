@@ -10,10 +10,16 @@ page {
 	background-color: rgba(255, 255, 255, 0.7);
 	@include blur;
 }
+.background {
+	background-color: rgba(255, 255, 255, 0.7);
+}
 
 @media (prefers-color-scheme: dark) {
 	page {
 		background-color: black;
+	}
+	.background {
+		background-color: #6d6d6dc4;
 	}
 	.jc-index-panel {
 		background-color: #6d6d6dc4;

@@ -2,6 +2,7 @@
 	<title-bar style="position: fixed" :show-background="true" title="反馈和帮助" :showBackButton="true"></title-bar>
 	<scroll-view :scrollY="true">
 		<view class="feedback-view">
+			<image mode="aspectFit" :src="require('@/assets/feedback/feedback.svg')" style="height: 40vh;width:100%; margin: auto; display: block"></image>
 			<cell-group title="反馈和帮助">
 				<cell title="常见问题" is-link @click="nav2FAQ" />
 				<cell title="加入交流群" @click="showGroups" />

@@ -1,5 +1,5 @@
 <template>
-	<header-tab-view title="通知" :show-tab="false">
+	<header-tab-view title="通知" :show-tab="false" :img="require('@/assets/notice/notice.svg')">
 		<template v-slot:prefix>
 			<text class="iconfont icon-notification-badge-line"></text>
 		</template>
