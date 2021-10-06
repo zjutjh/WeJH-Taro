@@ -1,6 +1,6 @@
 <template>
 	<title-bar title="设置" :showBackButton="true"></title-bar>
-	<scroll-view scrollY>
+	<scroll-view :scrollY="true">
 		<card class="card-view">
 			<view>
 				<text>当前没有可设置功能，尽情期待！😚</text>

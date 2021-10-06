@@ -8,10 +8,12 @@
 		<text class="sub-text">当前借阅({{ dayjs(updateTime.current).fromNow() }})</text>
 		<view v-if="!current" class="no-data-text">当前无借阅图书</view>
 		<view v-for="item in current" :key="item.id">
-			<view> {{ item.name }}</view>
-			<view>借阅日期：{{ item.time }}</view>
-			<view class="ext" v-if="item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
-			<view class="ext red" v-if="item.isExtended > 0">{{ Math.abs(item.isExtended) }}天</view>
+			<view class="library-book">
+				<view> {{ item.name }}</view>
+				<view>借阅日期：{{ item.time }}</view>
+				<view class="ext" v-if="item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
+				<view class="ext red" v-if="item.isExtended > 0">{{ Math.abs(item.isExtended) }}天</view>
+			</view>
 		</view>
 	</card>
 </template>
@@ -23,6 +25,7 @@
 	import { defineComponent } from 'vue';
 	import { serviceStore } from '@/store';
 	import { throttle } from '@/utils/tools';
+	import './index.scss';
 	export default defineComponent({
 		components: { Card },
 		setup() {

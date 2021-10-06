@@ -8,7 +8,7 @@
 	<lessons-table @longpress="switchLessonType" v-else-if="showLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="lessonsTable" @classClick="ClassClick" />
 	<scroll-view :scrollY="true" v-if="!showLessonType">
 		<view class="practice-lessons-list" @longpress="switchLessonType">
-			<view class="prectice-title"> 实践课程 </view>
+			<view class="prectice-title">实践课程</view>
 			<view v-for="item in practiceLessons" :key="item.lessonName">
 				<card>
 					<view class="lesson-title">

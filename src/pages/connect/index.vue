@@ -4,9 +4,9 @@
 		<view class="feedback-view">
 			<cell-group title="反馈和帮助">
 				<cell title="常见问题" is-link @click="nav2FAQ" />
+				<cell title="加入交流群" @click="showGroups" />
 				<button class="cell-button" open-type="contact">联系我们</button>
 				<button class="cell-button" open-type="feedback">反馈问题</button>
-				<cell title="加入交流群" @click="showGroups" />
 			</cell-group>
 		</view>
 	</scroll-view>

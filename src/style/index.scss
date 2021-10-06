@@ -11,8 +11,27 @@ page {
 	page {
 		background-color: black;
 	}
-	.nut-popup{
+	.nut-popup {
 		background-color: #6d6d6d;
+	}
+	.nut-collapse-item .collapse-item {
+		background-color: #6d6d6d;
+		color: white;
+	}
+	.nut-collapse-item .collapse-wrapper .collapse-content {
+		background-color: #6d6d6d;
+		color: white;
+	}
+	.nut-cell-group__warp {
+		background-color: #6d6d6d;
+		.nut-cell {
+			background-color: #6d6d6d;
+			color: white;
+		}
+		.cell-button {
+			background-color: #6d6d6d;
+			color: white;
+		}
 	}
 }
 

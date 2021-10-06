@@ -48,10 +48,6 @@ export default async function errCodeHandler(code: ServerCode, showModal = true)
 				});
 				break;
 			default:
-				await Taro.showModal({
-					title: '提示',
-					content: code.toString(),
-					confirmText: '确定'
-				});
+				break
 		}
 }
