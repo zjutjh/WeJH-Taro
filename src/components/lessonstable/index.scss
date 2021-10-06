@@ -87,8 +87,9 @@
 
 .now-index {
 	border: 1px solid skyblue;
-	width: 100%;
+	width: 126%;
 	position: absolute;
+	z-index: 10;
 }
 .now-week-index {
 	height: 100%;

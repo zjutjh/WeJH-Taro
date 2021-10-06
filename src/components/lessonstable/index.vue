@@ -14,7 +14,6 @@
 				</view>
 			</view>
 		</view>
-		<view class="now-index" :style="nowStyle" />
 		<view class="now-week-index" :style="nowWeekStyle" />
 		<view class="table table-box" v-if="lessonsTable">
 			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id + cl.week + cl.weekday" :style="getStyle(cl)">
@@ -24,6 +23,7 @@
 				</card>
 			</view>
 		</view>
+		<view class="now-index" :style="nowStyle" />
 	</view>
 </template>
 <script lang="ts">
@@ -57,8 +57,8 @@
 				const now = new Date();
 				const hour = now.getHours();
 				const min = now.getMinutes();
-				const rate = (hour * 60 + min) / ((21 - 8) * 60 + 5);
-				return `top: ${rate * this.Height}px;`;
+				const rate = ((hour - 8) * 60 + min) / ((21 - 8) * 60 + 5);
+				return `top: calc(${rate > 0 ? rate : 0 * this.Height}px + 2rem);`;
 			}
 		},
 		data() {
