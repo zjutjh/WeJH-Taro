@@ -43,5 +43,6 @@
 	.term-selector {
 		border-radius: 1rem;
 		text-align: center;
+		font-size: 1rem;
 	}
 </style>

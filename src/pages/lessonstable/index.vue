@@ -25,7 +25,7 @@
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 		<week-picker v-if="showWeekPicker" class="picker" :week="selectWeek" @changed="weekChanged" />
 		<term-picker v-else class="picker" @changed="termChanged"></term-picker>
-		<button @click="pickerModeSwitch">X</button>
+		<button class="circle" @click="pickerModeSwitch"><view class="iconfont icon-stack-fill" /></button>
 	</bottom-panel>
 	<popup position="bottom" v-model:visible="show" round :style="{ height: '40%' }">
 		<view v-if="selection" class="popup-lesson">
