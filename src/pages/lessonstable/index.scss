@@ -1,6 +1,6 @@
 .index {
-	width: calc(100vw - 2 rem);
-	height: calc(100% - 9 rem);
+	width: calc(100vw - 2rem);
+	height: calc(100vh - 9rem);
 	position: fixed;
 	background-color: white;
 
@@ -9,7 +9,7 @@
 	margin-right: 1rem;
 }
 .index-ios {
-	height: calc(100% - 12rem);
+	height: calc(10vh - 12rem);
 }
 scroll-view {
 	height: 100vh;
