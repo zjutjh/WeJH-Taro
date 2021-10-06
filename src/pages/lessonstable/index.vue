@@ -4,7 +4,7 @@
 			<text class="iconfont icon-calendar-event-fill" />
 		</template>
 	</title-bar>
-	<lessons-table @longpress="switchLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="showLessonType ? lessonsTable : lessonsTableWeek" @classClick="ClassClick" />
+	<lessons-table v-show="showLessonType" @longpress="switchLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="showLessonType ? lessonsTable : lessonsTableWeek" @classClick="ClassClick" />
 
 	<scroll-view :scrollY="true" v-if="!showLessonType">
 		<view class="practice-lessons-list" @longpress="switchLessonType">
