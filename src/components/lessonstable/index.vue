@@ -58,7 +58,7 @@
 				const hour = now.getHours();
 				const min = now.getMinutes();
 				const rate = ((hour - 8) * 60 + min) / ((21 - 8) * 60 + 5);
-				return `top: calc(${rate > 0 ? rate : 0 * this.Height}px + 2rem);`;
+				return `top: calc(${(rate > 0 ? rate : 0) * this.Height}px + 2rem);`;
 			}
 		},
 		data() {
