@@ -12,6 +12,7 @@ declare const process: {
 		[key: string]: any;
 	}
 }
+declare var wx: any
 declare module '*.vue' {
 	import type { DefineComponent } from 'vue'
 	const component: DefineComponent<{}, {}, any>

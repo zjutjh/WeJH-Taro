@@ -17,6 +17,7 @@
 			label: String,
 			iconUrl: String,
 			url: String,
+			appId: { type: String },
 			bg: {
 				default: 'red',
 				type: String
@@ -31,7 +32,8 @@
 		},
 		methods: {
 			async appTaped() {
-				if (this.url) await Taro.navigateTo({ url: this.url });
+				if (this.appId) await Taro.navigateToMiniProgram({ appId: this.appId, path: this.url });
+				else if (this.url) await Taro.navigateTo({ url: this.url });
 			}
 		}
 	});

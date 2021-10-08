@@ -1,6 +1,6 @@
 <template>
 	<view class="applist">
-		<app-list-item v-for="(item, index) in applist" :key="index" :label="item.title" :url="item.route" :icon-url="item.icon" :bg="item.backgroundColor" />
+		<app-list-item v-for="(item, index) in applist" :key="index" :label="item.title" :url="item.route" :app-id="item.appId" :icon-url="item.icon" :bg="item.backgroundColor" />
 	</view>
 </template>
 <script lang="ts">

@@ -3,5 +3,7 @@ export interface AppListItem {
 	title: string;
 	icon: string;
 	route: string;
+	appId?: string;
+	type?: "mini" | 'route'
 	backgroundColor: string;
 }

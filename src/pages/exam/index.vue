@@ -81,6 +81,24 @@
 				isRefleshing.value = false;
 			}
 
+			function calcDayLeft(dayString: string) {
+				return dayjs(dayString, 'YYYY-MM-DD(HH:mm)').fromNow();
+			}
+			function pop(item) {
+				selectedItem.value = item;
+				this.showPop = true;
+			}
+			function addToCalendar(item: Exam) {
+				if (process.env.TARO_ENV === 'weapp')
+					wx.addPhoneCalendar({
+						title: item.lessonName + '考试',
+						startTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm)').unix(),
+						endTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm-HH:mm)').unix(),
+						location: item.examPlace,
+						alarmOffset: 3600
+					});
+			}
+
 			onMounted(async () => {
 				if (serviceStore.user.isBindZF) {
 					await reflesh();
@@ -91,7 +109,10 @@
 				termChanged,
 				reflesh,
 				isRefleshing,
-				selectedItem
+				selectedItem,
+				calcDayLeft,
+				pop,
+				addToCalendar
 			};
 		},
 		data() {
@@ -99,25 +120,6 @@
 				showPop: false
 			};
 		},
-		methods: {
-			calcDayLeft(dayString: string) {
-				const dd = dayjs(dayString, 'YYYY-MM-DD(HH:mm)');
-				return dayjs(dayString, 'YYYY-MM-DD(HH:mm)').fromNow();
-			},
-			pop(item) {
-				this.selectedItem = item;
-				this.showPop = true;
-			},
-			addToCalendar(item: Exam) {
-				if (process.env.TARO_ENV === 'weapp')
-					wx?.addPhoneCalendar({
-						title: item.lessonName + '考试',
-						startTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm)').unix(),
-						endTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm-HH:mm)').unix(),
-						location: item.examPlace,
-						alarmOffset: 3600
-					});
-			}
-		}
+		methods: {}
 	});
 </script>
