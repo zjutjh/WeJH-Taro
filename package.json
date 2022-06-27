@@ -1,6 +1,5 @@
 {
 	"name": "wejh-taro",
-	"version": "2.0.0.alpha",
 	"private": true,
 	"description": "",
 	"author": "ZJUTJH",
@@ -73,6 +72,7 @@
 		"jest-serializer-vue": "^2.0.2",
 		"jest-transform-stub": "^2.0.0",
 		"prettier": "^2.4.0",
+		"taro-plugin-sync-in-wsl": "^2.0.2",
 		"ts-jest": "^26.5.5",
 		"ts-loader": "^9.2.6",
 		"typescript": "^4.4.3",

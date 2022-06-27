@@ -13,8 +13,9 @@
 	import { FixedNav as NutFixedNav } from '@nutui/nutui-taro';
 	import PopView from '@/components/PopView/index.vue';
 	import Taro from '@tarojs/taro';
-	import { defineComponent } from '@vue/runtime-core';
+	import { defineComponent } from 'vue';
 	import './index.scss';
+
 	export default defineComponent({
 		components: {
 			NutFixedNav,

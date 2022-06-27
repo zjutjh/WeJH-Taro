@@ -20,6 +20,7 @@ export default class UserService {
 	}
 
 	static async getUserInfo(autoLogin = true): Promise<any> {
+		// comment:
 		return await updateDateStateWithSession(
 			api.user.info,
 			null,
@@ -32,6 +33,7 @@ export default class UserService {
 	}
 
 	static async createUserApp(userForm: { username: string; password: string; studentID: string; idCardNumber: string; email?: string; code?: string }) {
+		// 获取表单信息之后再获得微信认证
 		if (!userForm.code) {
 			let res = await Taro.login({ timeout: 3000 });
 			if (res.code) userForm.code = res.code;

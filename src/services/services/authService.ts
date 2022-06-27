@@ -8,6 +8,7 @@ import { throttle2 } from '@/utils/tools';
 import errCodeHandler from '../utils/errHandler';
 import { ServerCode } from '../api/codes';
 
+// comment: 与微信建立链接
 async function LoginByTaroImpl(): Promise<Boolean> {
 	if ((serviceStore.sessionID && serviceStore.sessionID !== '') || process.env.TARO_ENV === 'h5') if (await testSession()) return true;
 
@@ -16,6 +17,7 @@ async function LoginByTaroImpl(): Promise<Boolean> {
 	if (process.env.TARO_ENV !== 'h5') {
 		let res = await Taro.login({ timeout: 3000 });
 		let code = res.code;
+		console.log('code in login:', code);
 		if (!code) return false;
 		fet = await fetch.post(api.user.login.wechat, { code: res.code });
 	} else

@@ -1,9 +1,22 @@
 module.exports = {
-  env: {
-    NODE_ENV: '"development"',
-    HOST:'"http://localhost:8080"'
-  },
-  defineConstants: {},
-  mini: {},
-  h5: {},
+	env: {
+		NODE_ENV: '"development"',
+		HOST: '"http://api.cnpatrickstar.com"'
+	},
+	defineConstants: {},
+	mini: {},
+	h5: {},
+	plugins: [
+		[
+			'taro-plugin-sync-in-wsl',
+			{
+				weapp: [
+					{
+						sourcePath: 'dist',
+						outputPath: '/mnt/d/out/wejh'
+					}
+				]
+			}
+		]
+	]
 };

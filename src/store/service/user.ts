@@ -25,7 +25,8 @@ export const UserServiceStore = {
 		setBindLibrary(state: UserType, value: boolean) {
 			state.isBindLibrary = value;
 		},
-		setUserInfo(state: UserType, value: { studentID: string, bind: { zf: boolean, card: boolean, lib: boolean } }) {
+		// comment: 设置用户信息
+		setUserInfo(state: UserType, value: { studentID: string; bind: { zf: boolean; card: boolean; lib: boolean } }) {
 			state.info = value;
 			state.isBindZF = value.bind.zf;
 			state.isBindCard = value.bind.card;
