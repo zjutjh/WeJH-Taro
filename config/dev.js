@@ -1,7 +1,7 @@
 module.exports = {
 	env: {
 		NODE_ENV: '"development"',
-		HOST: '"http://api.cnpatrickstar.com"'
+		HOST: '"https://api.cnpatrickstar.com"'
 	},
 	defineConstants: {},
 	mini: {},
