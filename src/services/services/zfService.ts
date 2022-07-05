@@ -99,6 +99,7 @@ export default class ZFService {
 		return lenssons;
 	}
 
+	// comment: 从全局状态中取出课表
 	static getLessonTable(data?: { year: string; term: string }): Lesson[] {
 		if (!data) {
 			data = {
@@ -111,6 +112,7 @@ export default class ZFService {
 		return serviceStore?.zf[data.year][data.term]?.lessons?.data.lessonsTable;
 	}
 
+	// comment: practiceLessonTable
 	static getPracticeLessonsTable(data?: { year: string; term: string }): Lesson[] {
 		if (!data) {
 			data = {
@@ -123,6 +125,7 @@ export default class ZFService {
 		return serviceStore?.zf[data.year][data.term]?.lessons?.data.practiceLessons;
 	}
 
+	// comment: 获取周课表
 	static getWeekLessonTable(data?: { year: string; term: string; week: string }) {
 		if (!data) {
 			data = {

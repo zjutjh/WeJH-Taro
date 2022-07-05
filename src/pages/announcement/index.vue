@@ -66,8 +66,6 @@
 					return str;
 				},
 				timeFotmat: (time: string) => {
-					console.log(time);
-					console.log(dayjs(time));
 					return dayjs(time).format('MM月DD日 HH:mm');
 				}
 			};

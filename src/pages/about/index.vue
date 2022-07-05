@@ -20,18 +20,19 @@
 						版本：<nut-tag round type="primary">{{ commitTag }}</nut-tag>
 					</view>
 					<view> 编译时间：{{ buildTime }} </view>
-					<view>精弘网络@2021</view>
+					<view>精弘网络@{{ currentYear }}</view>
 				</view>
 			</card>
 		</view>
 	</scroll-view>
 </template>
 
-<script>
+<script lang="ts">
 	import Card from '@/components/Card/index.vue';
 	import { Tag as NutTag } from '@nutui/nutui-taro';
 	import TitleBar from '@/components/TitleBar/index.vue';
 	import './index.scss';
+
 	export default {
 		components: {
 			TitleBar,
@@ -47,6 +48,9 @@
 			},
 			buildTime() {
 				return process.env.BUILD_TIME;
+			},
+			currentYear() {
+				return new Date().getFullYear();
 			}
 		}
 	};

@@ -39,7 +39,6 @@ export interface ServiceStoreType {
 			practiceLessons: string;
 		};
 	};
-
 }
 
 export const ServiceStore = {
@@ -52,7 +51,7 @@ export const ServiceStore = {
 		canteen: CanteenServiceStore
 	},
 	state: () => ({
-		sessionID: undefined,
+		sessionID: undefined
 	}),
 	mutations: {
 		setSession(state: ServiceStoreType, value) {
@@ -66,6 +65,6 @@ export const ServiceStore = {
 		},
 		clearApplist(state: ServiceStoreType) {
 			state.appList = undefined;
-		},
+		}
 	}
 };

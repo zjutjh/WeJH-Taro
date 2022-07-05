@@ -33,6 +33,7 @@ export const UserServiceStore = {
 			state.isBindLibrary = value.bind.lib;
 			state.isActive = true;
 		},
+		// comment: 删除用户信息
 		clearUserInfo(state: UserType) {
 			state.info = undefined;
 			state.isActive = false;

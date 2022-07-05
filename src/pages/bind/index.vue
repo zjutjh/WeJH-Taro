@@ -19,8 +19,8 @@
 				<input v-if="!user.isBindCard" type="password" placeholder="输入校园卡密码" v-model="cardpass" />
 				<input v-else type="password" placeholder="********" v-model="cardpass" />
 				<button class="active" @tap="bindCardClick" :disabled="cardpass === ''">
-					<text v-if="!user.isBindCard"> 绑定 </text>
-					<text v-else> 修改 </text>
+					<text v-if="!user.isBindCard">绑定</text>
+					<text v-else>修改</text>
 				</button>
 			</view>
 			<text>图书馆密码</text>
@@ -28,8 +28,8 @@
 				<input v-if="!user.isBindLibrary" type="password" placeholder="输入图书馆密码" v-model="libpass" />
 				<input v-else type="password" placeholder="********" v-model="libpass" />
 				<button class="active" @tap="bindLibClick" :disabled="libpass === ''">
-					<text v-if="!user.isBindLibrary"> 绑定 </text>
-					<text v-else> 修改 </text>
+					<text v-if="!user.isBindLibrary">绑定</text>
+					<text v-else>修改</text>
 				</button>
 			</view>
 		</card>
@@ -40,10 +40,10 @@
 	import Card from '@/components/Card/index.vue';
 	import Taro from '@tarojs/taro';
 	import TitleBar from '@/components/TitleBar/index.vue';
-	import { UserService } from '@/services';
+	import { UserService, errCodeHandler } from '@/services';
 	import { serviceStore } from '@/store';
-
 	import './index.scss';
+
 	export default {
 		components: {
 			TitleBar,
@@ -77,9 +77,10 @@
 			async popModal(code) {
 				if (code === 1) {
 					await Taro.showToast({
+						icon: 'success',
 						title: '绑定成功'
 					});
-				}
+				} else errCodeHandler(code);
 			}
 		}
 	};

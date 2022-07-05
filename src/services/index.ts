@@ -5,4 +5,6 @@ import UserService from './services/userService';
 import LibraryService from './services/libraryService';
 import CanteenService from './services/canteenService';
 import { LoginByTaro } from './services/authService';
-export { ZFService, CardService, SystemService, UserService, LibraryService, CanteenService, LoginByTaro };
+import errCodeHandler from './utils/errHandler';
+import { api } from './api/apiList';
+export { ZFService, CardService, SystemService, UserService, LibraryService, CanteenService, LoginByTaro, errCodeHandler, api };

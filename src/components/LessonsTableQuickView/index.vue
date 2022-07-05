@@ -12,8 +12,8 @@
 					<text class="name">{{ item.lessonName }}</text>
 					<text class="teacher">
 						<text class="iconfont icon-laoshi"></text>
-						{{ item.teacherName }}</text
-					>
+						{{ item.teacherName }}
+					</text>
 					<text v-if="item.detMin > 30"> <text class="iconfont icon-timer-flash-line"></text>还有 {{ item.detTime }}上课 </text>
 					<text v-if="item.detMin <= 30 && item.detMin >= 0"> <text class="iconfont icon-run-fill red"></text>还有 {{ item.detTime.split(':')[1] }}分钟上课 </text>
 				</view>

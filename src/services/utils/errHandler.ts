@@ -1,5 +1,8 @@
 import { ServerCode } from '../api/codes';
 import Taro from '@tarojs/taro';
+import store, { serviceStore } from '@/store';
+
+// comment: 微信相关登录异常处理
 export default async function errCodeHandler(code: ServerCode, showModal = true) {
 	if (showModal)
 		switch (code) {
@@ -47,7 +50,46 @@ export default async function errCodeHandler(code: ServerCode, showModal = true)
 					confirmText: '确定'
 				});
 				break;
+			case ServerCode.UsernamePasswordUnmatched:
+				await Taro.showToast({
+					icon: 'none',
+					title: '密码错误'
+				});
+				break;
+			case ServerCode.UserNotLogin:
+				if (serviceStore.user.isActive) {
+					store.commit('clearUserInfo');
+					await Taro.showModal({
+						title: '错误',
+						content: '未登录'
+					});
+				}
+				break;
+			case ServerCode.SystemError:
+				await Taro.showToast({
+					icon: 'none',
+					title: '系统异常'
+				});
+				break;
+
+			case ServerCode.UserAlreadyExisted:
+				await Taro.showModal({
+					title: '提示',
+					content: '用户已存在',
+					confirmText: '去登录',
+					success: (res) => {
+						console.log('res', res);
+					}
+				});
+				break;
+
 			default:
-				break
+				console.log(code);
+				if (process.env.NODE_ENV === 'development')
+					await Taro.showToast({
+						icon: 'none',
+						title: `${code}`
+					});
+				break;
 		}
 }

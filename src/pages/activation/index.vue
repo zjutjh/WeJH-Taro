@@ -31,6 +31,10 @@
 	import Taro from '@tarojs/taro';
 	import { UserService } from '@/services';
 	import './index.scss';
+	import { ExecFileOptionsWithOtherEncoding } from 'child_process';
+	import fetch, { FetchResult } from '@/utils/fetch';
+	import { api } from '@/services';
+	import store from '@/store';
 
 	export default {
 		components: {
@@ -49,6 +53,7 @@
 		},
 		methods: {
 			async activeClick() {
+				Taro.showLoading({ title: '正在绑定通行证', mask: true });
 				const res = await UserService.createUserApp({
 					username: this.studentid,
 					studentID: this.studentid,
@@ -56,11 +61,28 @@
 					idCardNumber: this.idcard,
 					email: this.email
 				});
+				Taro.hideLoading();
 				if (res) {
 					await Taro.navigateTo({
 						url: '/pages/my/index'
 					});
 				}
+			},
+			// TODO: 手动登录
+			async loginByHand() {
+				Taro.showLoading({ title: 'loading', mask: true });
+				let fet: FetchResult | undefined;
+				fet = await fetch.post(api.user.login.password, { username: '202103340221', password: '11111111' });
+				console.log(fet);
+
+				if (fet.cookies && fet.cookies.length > 0) {
+					store.commit('setSession', fet.cookies[0]);
+					store.commit('setUserInfo', fet.data.data.user);
+					await Taro.navigateTo({
+						url: '/pages/my/index'
+					});
+				}
+				Taro.hideLoading();
 			}
 		}
 	};
