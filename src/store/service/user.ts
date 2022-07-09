@@ -2,6 +2,10 @@ export interface UserType {
 	info?: {
 		studentID: string;
 	};
+	wxProfile: {
+		avatarUrl: string;
+		nickName: string;
+	};
 	isActive: boolean;
 	isBindZF: boolean;
 	isBindCard: boolean;
@@ -27,11 +31,14 @@ export const UserServiceStore = {
 		},
 		// comment: 设置用户信息
 		setUserInfo(state: UserType, value: { studentID: string; bind: { zf: boolean; card: boolean; lib: boolean } }) {
-			state.info = value;
+			state.info = { studentID: value.studentID };
 			state.isBindZF = value.bind.zf;
 			state.isBindCard = value.bind.card;
 			state.isBindLibrary = value.bind.lib;
 			state.isActive = true;
+		},
+		setUserWXProfile(state: UserType, value: { avatarUrl: string; nickName: string }) {
+			state.wxProfile = value;
 		},
 		// comment: 删除用户信息
 		clearUserInfo(state: UserType) {

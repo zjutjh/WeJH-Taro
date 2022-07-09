@@ -4,6 +4,7 @@ export interface AppListItem {
 	icon: string;
 	route: string;
 	appId?: string;
-	type?: "mini" | 'route'
+	// comment: 后端无类似参数
+	type?: 'mini' | 'route';
 	backgroundColor: string;
 }

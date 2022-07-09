@@ -31,7 +31,6 @@
 	import Taro from '@tarojs/taro';
 	import { UserService } from '@/services';
 	import './index.scss';
-	import { ExecFileOptionsWithOtherEncoding } from 'child_process';
 	import fetch, { FetchResult } from '@/utils/fetch';
 	import { api } from '@/services';
 	import store from '@/store';
@@ -67,9 +66,9 @@
 						url: '/pages/my/index'
 					});
 				}
-			},
+			}
 			// TODO: 手动登录
-			async loginByHand() {
+			/* 			async loginByHand() {
 				Taro.showLoading({ title: 'loading', mask: true });
 				let fet: FetchResult | undefined;
 				fet = await fetch.post(api.user.login.password, { username: '202103340221', password: '11111111' });
@@ -83,7 +82,7 @@
 					});
 				}
 				Taro.hideLoading();
-			}
+			} */
 		}
 	};
 </script>

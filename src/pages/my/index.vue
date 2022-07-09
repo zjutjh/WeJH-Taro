@@ -3,16 +3,17 @@
 		<title-bar title="我的"></title-bar>
 		<card class="my-header">
 			<view class="avatar">
-				<open-data type="userAvatarUrl" />
+				<image v-if="userWXProfile" class="avatar" :src="userWXProfile.avatarUrl"></image>
 			</view>
 			<view>
-				<open-data class="name" type="userNickName" />
+				<view v-if="userWXProfile" class="name">{{ userWXProfile.nickName }}</view>
+				<view v-else class="name" @tap="getUserWXInfo">点击获取头像昵称</view>
 				<view class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</view>
 
 				<button class="active" v-if="!isActive" @tap="nav2activation">激活</button>
-				<view v-else class="sub-text"
-					>微精弘 <nut-tag round type="primary">{{ buildTag }}</nut-tag></view
-				>
+				<view v-else class="sub-text">
+					微精弘 <nut-tag round type="primary">{{ buildTag }}</nut-tag>
+				</view>
 			</view>
 		</card>
 
@@ -38,6 +39,7 @@
 	import TitleBar from '@/components/TitleBar/index.vue';
 	import { UserService } from '@/services';
 	import { defineComponent } from 'vue';
+	import store from '@/store';
 
 	import './index.scss';
 	export default defineComponent({
@@ -84,11 +86,28 @@
 					Taro.navigateTo({
 						url: url
 					});
+			},
+			getUserWXInfo() {
+				if (!serviceStore.user.wxProfile)
+					Taro.getUserProfile({
+						desc: '用于获取头像和昵称',
+						success: (res: any) => {
+							const { avatarUrl, nickName } = res.userInfo;
+							store.commit('setUserWXProfile', { avatarUrl, nickName });
+						},
+						complete: (res) => {
+							console.log(res);
+						}
+					});
 			}
 		},
 		computed: {
 			userInfo() {
 				return serviceStore.user.info;
+			},
+			userWXProfile() {
+				console.log(serviceStore.user.wxProfile);
+				return serviceStore.user.wxProfile;
 			},
 			isActive() {
 				return serviceStore.user.isActive;
@@ -98,6 +117,7 @@
 			}
 		},
 		mounted() {
+			let info;
 			UserService.getUserInfo();
 			console.log(systemStore);
 		}

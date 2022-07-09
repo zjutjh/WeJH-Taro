@@ -4,7 +4,7 @@ import { LoginByTaro } from './services';
 import { SystemService } from './services';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Tabbar, TabbarItem, Icon } from '@nutui/nutui-taro';
+import { Tabbar, TabbarItem, Icon, Avatar } from '@nutui/nutui-taro';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'; // dependent on utc plugin
 import 'dayjs/locale/zh-cn';

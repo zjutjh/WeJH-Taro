@@ -14,5 +14,18 @@ module.exports = {
 		 *     .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
 		 * }
 		 */
-	}
+	},
+	plugins: [
+		[
+			'taro-plugin-sync-in-wsl',
+			{
+				weapp: [
+					{
+						sourcePath: 'dist',
+						outputPath: '/mnt/d/out/wejh'
+					}
+				]
+			}
+		]
+	]
 };
