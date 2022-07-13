@@ -2,18 +2,16 @@
 	<title-bar style="position: fixed" :show-background="true" title="反馈和帮助" :showBackButton="true"></title-bar>
 	<scroll-view :scrollY="true">
 		<view class="feedback-view">
-			<image mode="aspectFit" :src="require('@/assets/feedback/feedback.svg')" style="height: 40vh;width:100%; margin: auto; display: block"></image>
+			<image mode="aspectFit" :src="require('@/assets/feedback/feedback.svg')" style="height: 40vh; width: 100%; margin: auto; display: block"></image>
 			<cell-group title="反馈和帮助">
-				<cell title="常见问题" is-link @click="nav2FAQ" />
-				<cell title="加入交流群" @click="showGroups" />
-				<button class="cell-button" open-type="contact">联系我们</button>
-				<button class="cell-button" open-type="feedback">反馈问题</button>
+				<cell class="cell-button" title="常见问题" is-link @tap="nav2FAQ" />
+				<cell class="cell-button" title="加入交流群" @tap="showGroups" />
 			</cell-group>
 		</view>
 	</scroll-view>
 </template>
 
-<script>
+<script lang="ts">
 	import { Cell, CellGroup } from '@nutui/nutui-taro';
 	import Taro from '@tarojs/taro';
 	import TitleBar from '@/components/TitleBar/index.vue';
@@ -36,9 +34,9 @@
 			CellGroup
 		},
 		methods: {
-			nav2FAQ() {
+			nav2FAQ(e) {
 				Taro.navigateTo({
-					url: '/pages/connect/qna/index'
+					url: '/pages/connect/faq/index'
 				});
 			},
 			showGroups() {

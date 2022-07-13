@@ -13,7 +13,7 @@ export default {
 		'pages/score/index',
 		'pages/setting/index',
 		'pages/connect/index',
-		'pages/connect/qna/index',
+		'pages/connect/faq/index',
 		'pages/lab/index',
 		'pages/freeroom/index',
 		'pages/canteenflow/index',

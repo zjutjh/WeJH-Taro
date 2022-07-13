@@ -13,10 +13,14 @@ scroll-view {
 	line-height: 20Px;
 	padding: 13Px 16Px;
 	background: #fff;
-	border-radius: 6Px;
 	font-size: 14Px;
 	color: #666666;
 	margin: 0;
-    box-shadow: none;
+	box-shadow: none;
 	box-sizing: border-box;
+}
+
+.nut-cell-group__title {
+  font-size: 14Px;
+  line-height: 20Px
 }

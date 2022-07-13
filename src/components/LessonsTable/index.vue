@@ -17,7 +17,7 @@
 		<view class="now-week-index" :style="nowWeekStyle" />
 		<view class="table table-box" v-if="lessonsTable">
 			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id + cl.week + cl.weekday" :style="getStyle(cl)">
-				<card class="class-card" :style="getColorStyle(cl)" @click="classCardClick(cl)">
+				<card class="class-card" :style="getColorStyle(cl)" @tap="classCardClick(cl)">
 					<view class="title">{{ cl.lessonPlace }}</view>
 					<text class="item-content">{{ cl.lessonName }}</text>
 				</card>

@@ -9,7 +9,7 @@
 	</scroll-view>
 </template>
 
-<script>
+<script lang="ts">
 	import Card from '@/components/Card/index.vue';
 	import TitleBar from '@/components/TitleBar/index.vue';
 	import './index.scss';

@@ -7,3 +7,4 @@ data/
 dist/
 yarn.lock
 yarn-error.log
+*.scss

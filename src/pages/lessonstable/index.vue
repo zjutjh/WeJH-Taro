@@ -20,12 +20,12 @@
 			</view>
 		</view>
 	</scroll-view>
-	<FixedNav />
+	<fixed-nav />
 	<bottom-panel>
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 		<week-picker v-if="showWeekPicker" class="picker" :week="selectWeek" @changed="weekChanged" />
 		<term-picker v-else class="picker" @changed="termChanged"></term-picker>
-		<button class="circle" @click="pickerModeSwitch"><view class="iconfont icon-stack-fill" /></button>
+		<button class="circle" @tap="pickerModeSwitch"><view class="iconfont icon-stack-fill" /></button>
 	</bottom-panel>
 	<popup position="bottom" v-model:visible="show" round :style="{ height: '40%' }">
 		<view v-if="selection" class="popup-lesson">
@@ -42,22 +42,22 @@
 </template>
 
 <script lang="ts">
-	import { computed, onMounted, ref } from 'vue';
+	import { computed, onMounted, reactive, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
 	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Card from '@/components/Card/index.vue';
 	import FixedNav from '@/components/FixedNav/index.vue';
 	import { Lesson } from '@/types/Lesson';
 	import LessonsTable from '@/components/LessonsTable/index.vue';
-	import { Popup } from '@nutui/nutui-taro';
+	import { Popup, OverLay } from '@nutui/nutui-taro';
 	import RefleshButton from '@/components/RefleshButton/index.vue';
 	import Taro from '@tarojs/taro';
 	import TermPicker from '@/components/TermPicker/index.vue';
 	import TitleBar from '@/components/TitleBar/index.vue';
 	import WeekPicker from '@/components/WeekPicker/index.vue';
 	import { ZFService } from '@/services';
-
 	import './index.scss';
+
 	export default {
 		components: { LessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton, FixedNav, Popup, WeekPicker, Card },
 		setup() {
@@ -96,12 +96,14 @@
 				let isNewIphone = info.model.match('(iPhone X|iPhone XS|iPhone 11|iPhone 12|iPhone 13|iPhone14)')?.length;
 				return isNewIphone !== undefined && isNewIphone > 0;
 			});
+
 			const isRefleshing = ref(false);
 			async function reflesh() {
 				isRefleshing.value = true;
 				await ZFService.updateLessonTable(selectTerm.value);
 				isRefleshing.value = false;
 			}
+
 			async function termChanged(e) {
 				isRefleshing.value = true;
 				selectTerm.value = e;
@@ -114,11 +116,12 @@
 				selectWeek.value = week;
 			}
 
-			const show = ref(false);
+			let show = ref(false);
 			const selection = ref<Lesson>();
 			async function ClassClick(theClass: Lesson) {
 				selection.value = theClass;
-				show.value = true;
+				// show.value = true;
+				// TODO: 处理 click 问题
 			}
 
 			onMounted(async () => {

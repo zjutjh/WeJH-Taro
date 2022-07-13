@@ -10,7 +10,6 @@
 	"rules": {
 		"semi": "error",
 		"space-before-blocks": "error",
-		"no-trailing-spaces": "error",
-		"sort-imports": "warn"
+		"no-trailing-spaces": "error"
 	}
 }

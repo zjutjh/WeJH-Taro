@@ -11,6 +11,7 @@
 		"sourceMap": true,
 		"strictNullChecks": true,
 		"resolveJsonModule": true,
+		"jsx": "preserve",
 		"module": "CommonJS",
 		"target": "es2017",
 		"outDir": "./lib",
