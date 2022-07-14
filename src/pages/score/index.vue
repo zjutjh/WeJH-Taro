@@ -1,10 +1,13 @@
 <template>
 	<header-tab-view title="成绩" :img="require('@/assets/exam/exam.png')" :show-tab="false">
 		<template v-slot:content>
-			<view v-if="!score" style="text-align: center">
+			<view v-if="!scoreList" style="text-align: center">
 				<view> 无当前学期成绩信息</view>
 			</view>
-			<view class="item card" v-for="item in score" :key="item.lessonID" @tap="pop(item)">
+			<view v-if="scoreList && scoreList.length !== 0" style="text-align: center">
+				<view>平均学分绩点 {{ averageScorePoint }}</view>
+			</view>
+			<view class="item card" v-for="item in scoreList" :key="item.lessonID" @tap="pop(item)">
 				<view class="cicle" v-if="item.lessonName">
 					{{ item.lessonName[0] }}
 				</view>
@@ -27,6 +30,11 @@
 			<view class="title">{{ selectedItem.lessonName }}</view>
 			<view><b>课程类型：</b>{{ selectedItem.lessonType }}</view>
 			<view><text class="iconfont icon-laoshi"></text>{{ selectedItem.teacherName }}</view>
+			<view>
+				学分：
+				<text>{{ selectedItem.credits }}</text>
+			</view>
+
 			<view class="score-text">{{ selectedItem.score }}</view>
 		</card>
 	</pop-view>
@@ -53,7 +61,7 @@
 				term: systemStore.generalInfo.term
 			});
 			const selectedItem: Ref<null | Score> = ref(null);
-			const score = computed(() => ZFService.getScoreInfo(selectTerm.value).data);
+			const scoreList = computed(() => ZFService.getScoreInfo(selectTerm.value).data);
 			const isRefleshing = ref(false);
 
 			async function termChanged(e) {
@@ -72,12 +80,26 @@
 				if (serviceStore.user.isBindZF) await reflesh();
 			});
 			return {
-				score,
+				scoreList,
 				termChanged,
 				reflesh,
 				isRefleshing,
 				selectedItem
 			};
+		},
+		computed: {
+			averageScorePoint() {
+				const vaildCourse = this.scoreList.filter((item) => item.lessonType !== '任选课');
+				let totalCredits = 0;
+				let totalScorePoint = 0;
+				vaildCourse.forEach((item) => {
+					let scorePoint = item.scorePoint * 1;
+					let credits = item.credits * 1;
+					totalScorePoint += scorePoint * credits;
+					totalCredits += credits;
+				});
+				return Math.floor((totalScorePoint / totalCredits) * 100) / 100;
+			}
 		},
 		data() {
 			return {

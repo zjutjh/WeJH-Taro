@@ -79,7 +79,8 @@ export default class ZFService {
 
 	static getTodayLessonTable() {
 		const lessonsTable = this.getLessonTable();
-		let lenssons = lessonsTable?.filter((value) => {
+		console.log(lessonsTable);
+		let lessons = lessonsTable?.filter((value) => {
 			let v = value.week.split('-');
 			let st = parseInt(v[0]);
 			let ed = parseInt(v[1]);
@@ -87,7 +88,8 @@ export default class ZFService {
 			let isOddWeek = value.week.includes('单');
 			let isEvenWeek = value.week.includes('双');
 
-			let currentWeek = systemStore.generalInfo.week;
+			// let currentWeek = systemStore.generalInfo.week;
+			let currentWeek = 12;
 			if (isOddWeek && currentWeek % 2 === 0) return false;
 			if (isEvenWeek && currentWeek % 2 === 1) return false;
 
@@ -96,7 +98,8 @@ export default class ZFService {
 
 			if (currentWeek <= ed && currentWeek >= st) if (parseInt(value.weekday) === currentDay) return true;
 		});
-		return lenssons;
+
+		return lessons;
 	}
 
 	// comment: 从全局状态中取出课表
