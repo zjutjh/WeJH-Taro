@@ -31,9 +31,6 @@
 	import Taro from '@tarojs/taro';
 	import { UserService } from '@/services';
 	import './index.scss';
-	import fetch, { FetchResult } from '@/utils/fetch';
-	import { api } from '@/services';
-	import store from '@/store';
 
 	export default {
 		components: {
@@ -62,8 +59,12 @@
 				});
 				Taro.hideLoading();
 				if (res) {
-					await Taro.navigateTo({
-						url: '/pages/my/index'
+					await Taro.redirectTo({
+						url: '/pages/bind/index'
+					});
+					await Taro.showToast({
+						icon: 'none',
+						title: '自动导航至绑定页面'
 					});
 				}
 			}

@@ -13,7 +13,7 @@ import { ServerCode } from '../api/codes';
 async function LoginByTaroImpl(): Promise<Boolean> {
 	// TODO:
 
-	// comment: 已经有 session 了，无需再获取 session
+	// comment: 已经有 session 了，并且有激活记录了，无需再获取 session 激活
 	if (serviceStore.sessionID && serviceStore.sessionID !== '') {
 		if (await testSession()) return true;
 	}
@@ -36,6 +36,7 @@ async function LoginByTaroImpl(): Promise<Boolean> {
 	return false;
 }
 
+// TODO: 密码登录
 async function LoginWithPasswordImpl(username: string, password: string): Promise<Boolean> {
 	let fet: FetchResult | undefined;
 	fet = await fetch.post(api.user.login.password, { username: '202103340221', password: '11111111' });

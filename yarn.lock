@@ -15663,7 +15663,7 @@ taro-css-to-react-native@^2.0.4:
 
 taro-plugin-sync-in-wsl@^2.0.2:
   version "2.0.2"
-  resolved "https://registry.yarnpkg.com/taro-plugin-sync-in-wsl/-/taro-plugin-sync-in-wsl-2.0.2.tgz#7ab1541c7d8dc8e8deea6b64512379657cbd4dac"
+  resolved "https://registry.npmmirror.com/taro-plugin-sync-in-wsl/-/taro-plugin-sync-in-wsl-2.0.2.tgz#7ab1541c7d8dc8e8deea6b64512379657cbd4dac"
   integrity sha512-5CfjoQF+Y42AcJZb/zYK/1jcmqCUFRctPjXVqNMTrl4gk6+EMNdXQZn1muE1cgnhohoo/kHRU/mB8oBJkqrTYA==
   dependencies:
     "@tarojs/service" "^3.3.3"

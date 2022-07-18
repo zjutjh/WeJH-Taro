@@ -12,7 +12,8 @@
 
 				<button class="active" v-if="!isActive" @tap="nav2activation">激活</button>
 				<view v-else class="sub-text">
-					微精弘 <nut-tag round type="primary">{{ buildTag }}</nut-tag>
+					微精弘
+					<!--           <nut-tag round type="primary">{{ buildTag }}</nut-tag> -->
 				</view>
 			</view>
 		</card>
@@ -111,13 +112,12 @@
 			},
 			isActive() {
 				return serviceStore.user.isActive;
-			},
-			buildTag() {
-				return process.env.TAG;
 			}
+			/* 			buildTag() {
+				return process.env.TAG;
+			} */
 		},
 		mounted() {
-			let info;
 			UserService.getUserInfo();
 			console.log(systemStore);
 		}

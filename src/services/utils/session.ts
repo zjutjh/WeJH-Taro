@@ -35,9 +35,11 @@ function checkSession(): boolean {
 	return (serviceStore.sessionID && serviceStore.sessionID !== '') || false;
 }
 
+// comment: 检查 session 对应的微信用户有没有激活记录
 async function testSession(): Promise<boolean> {
 	if (checkSession()) {
 		const res = await UserService.getUserInfo(false);
+		// comment: 未激活状态下，若已有激活记录，则在当前设备上自动激活
 		if (res && !serviceStore.user.isActive && res.data?.code === ServerCode.OK) {
 			store.commit('setUserInfo', res.data.user);
 			return true;

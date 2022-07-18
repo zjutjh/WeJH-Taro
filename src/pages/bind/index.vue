@@ -5,7 +5,8 @@
 			<view>
 				<text class="title">信息绑定</text>
 			</view>
-			<text>正方教务系统密码</text>
+			<text>正方教务系统</text>
+			<text v-if="user.isBindZF" class="bind-info">(已绑定)</text>
 			<view>
 				<input v-if="!user.isBindZF" type="password" placeholder="输入正方教务系统密码" v-model="zfpass" />
 				<input v-else type="password" placeholder="*******" v-model="zfpass" />
@@ -14,7 +15,8 @@
 					<text v-else>修改</text>
 				</button>
 			</view>
-			<text>校园卡密码</text>
+			<text>校园卡</text>
+			<text v-if="user.isBindCard" class="bind-info">(已绑定)</text>
 			<view>
 				<input v-if="!user.isBindCard" type="password" placeholder="输入校园卡密码" v-model="cardpass" />
 				<input v-else type="password" placeholder="********" v-model="cardpass" />
@@ -23,7 +25,8 @@
 					<text v-else>修改</text>
 				</button>
 			</view>
-			<text>图书馆密码</text>
+			<text>图书馆</text>
+			<text v-if="user.isBindLibrary" class="bind-info">(已绑定)</text>
 			<view>
 				<input v-if="!user.isBindLibrary" type="password" placeholder="输入图书馆密码" v-model="libpass" />
 				<input v-else type="password" placeholder="********" v-model="libpass" />

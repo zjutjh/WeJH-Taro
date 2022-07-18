@@ -79,7 +79,6 @@ export default class ZFService {
 
 	static getTodayLessonTable() {
 		const lessonsTable = this.getLessonTable();
-		console.log(lessonsTable);
 		let lessons = lessonsTable?.filter((value) => {
 			let v = value.week.split('-');
 			let st = parseInt(v[0]);

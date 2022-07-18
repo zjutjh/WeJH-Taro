@@ -18,7 +18,7 @@ async function updateDateState(api: string, data, commitName: string, clearCommi
 	return res.data;
 }
 
-// comment:
+// comment: 带 session 发送请求，并更新状态
 async function updateDateStateWithSession(api: string, data, commitName: string, commitData: Function = (res: FetchResult) => res.data.data, autoLogin = true, showModal = true) {
 	store.commit('startLoading');
 	let res = await postWithSession(api, data, autoLogin);

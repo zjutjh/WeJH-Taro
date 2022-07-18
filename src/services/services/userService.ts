@@ -20,6 +20,7 @@ export default class UserService {
 		return updateDateStateWithSession(api.user.bind.schoolCard, data, 'setBindSchoolCard', (res: FetchResult) => res.data.code === 1, true, showModal);
 	}
 
+	// comment: 返回用户信息
 	static async getUserInfo(autoLogin = true): Promise<any> {
 		// comment: 创号成功，打开我的，每次 testSession 执行一次
 		// testSession 进入时，autoLogin === false

@@ -8,6 +8,9 @@
 			<lesson-table-quick-view v-if="isBindZf" :hide="pageHide"></lesson-table-quick-view>
 			<school-card-quick-view v-if="isBindCard"></school-card-quick-view>
 			<library-quick-view v-if="isBindLibrary"></library-quick-view>
+			<card v-if="!(isBindZf || isBindCard || isBindLibrary)">
+				<text>还没有绑定任何服务，请到我的页面绑定</text>
+			</card>
 		</view>
 
 		<view v-else class="no-active">
