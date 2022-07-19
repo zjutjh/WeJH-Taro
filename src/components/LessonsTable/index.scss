@@ -7,6 +7,7 @@
 	justify-content: space-around;
 	.num-index {
 		text-align: center;
+		font-size: 0.8rem;
 	}
 }
 
@@ -35,14 +36,13 @@
 	box-sizing: border-box;
 	.title {
 		line-height: 100%;
-		font-size: 120%;
+		font-size: 0.75rem;
 		display: block;
 		font-weight: bolder;
 	}
-
 	.item-content {
 		line-height: 125%;
-		font-size: 100%;
+		font-size: 0.667rem;
 		overflow: hidden;
 		width: 100%;
 	}

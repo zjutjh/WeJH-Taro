@@ -1,8 +1,5 @@
 <template>
 	<header-tab-view title="图书馆" :show-tab="true" :img="require('@/assets/library/library.svg')">
-		<template v-slot:prefix>
-			<text class="iconfont icon-book-fill"></text>
-		</template>
 		<template v-slot:tab>
 			<view>
 				<text> 借阅 {{ currentCount }} 本 </text>

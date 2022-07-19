@@ -1,9 +1,5 @@
 <template>
-	<title-bar title="课程表" :show-back-button="true" :show-background="true">
-		<template v-slot:prefix>
-			<text class="iconfont icon-calendar-event-fill" />
-		</template>
-	</title-bar>
+	<title-bar title="课程表" :show-back-button="true" :show-background="true"> </title-bar>
 	<lessons-table v-show="showLessonType" @longpress="switchLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="showLessonType ? lessonsTable : lessonsTableWeek" @classClick="ClassClick" />
 
 	<scroll-view :scrollY="true" v-if="!showLessonType">

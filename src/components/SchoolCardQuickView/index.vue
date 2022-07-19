@@ -1,7 +1,8 @@
 <template>
-	<card @tap="nev2Card">
+	<quick-view @tap="nev2Card">
 		<view class="title">
 			<text class="iconfont icon-wallet-3-fill"></text>
+			<view class="title-split"></view>
 			<text>校园卡</text>
 		</view>
 		<view class="div-line"></view>
@@ -9,10 +10,10 @@
 		<view class="quickcard-balance">
 			<text> {{ balance }} </text>
 		</view>
-	</card>
+	</quick-view>
 </template>
 <script lang="ts">
-	import Card from '../Card/index.vue';
+	import QuickView from '../QuickView/index.vue';
 	import { CardService } from '@/services';
 	import Taro from '@tarojs/taro';
 	import dayjs from 'dayjs';
@@ -20,7 +21,7 @@
 	import { serviceStore } from '@/store';
 
 	export default defineComponent({
-		components: { Card },
+		components: { 'quick-view': QuickView },
 		async mounted() {
 			await CardService.updateCardBalance();
 		},

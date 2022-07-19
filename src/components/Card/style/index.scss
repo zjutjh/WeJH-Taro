@@ -7,8 +7,22 @@
 	padding: 40px;
 	.title {
 		font-size: 1.5rem;
-		margin: 0.5rem;
-		font-weight: bolder;
+		margin-bottom: 0.5rem;
+    vertical-align: middle;
+		font-weight: lighter;
+
+    .iconfont {
+      vertical-align: middle;
+    }
+
+    .title-split {
+      display: inline-block;
+      background-color: black;
+      vertical-align: middle;
+      height: 1.4rem;
+      width: .1rem;
+      margin: 0 .7rem;
+    }
 	}
 	.sub-text {
 		font-size: 0.8rem;

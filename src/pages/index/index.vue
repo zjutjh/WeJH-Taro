@@ -1,8 +1,6 @@
 <template>
 	<scroll-view :scrollY="true">
-		<title-bar title="微精弘">
-			<text class="iconfont icon-notification-badge-line" @tap="nav2announcement"></text>
-		</title-bar>
+		<title-bar title="微精弘"></title-bar>
 
 		<view class="quick-card-view" v-if="isActive">
 			<lesson-table-quick-view v-if="isBindZf" :hide="pageHide"></lesson-table-quick-view>
@@ -21,9 +19,7 @@
 		</view>
 	</scroll-view>
 	<pop-view v-model:show="showPop">
-		<view class="app-list-card card">
-			<app-list></app-list>
-		</view>
+		<app-list></app-list>
 	</pop-view>
 	<nav-bar @plusClick="plusClick" :show-plus="isActive"></nav-bar>
 </template>

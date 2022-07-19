@@ -1,8 +1,9 @@
 <template>
-	<card @tap="nav">
+	<quick-view @tap="nav">
 		<view class="title">
 			<text class="iconfont icon-book-fill"></text>
-			<text>图书馆</text>
+			<view class="title-split"></view>
+			<text>借阅信息</text>
 		</view>
 		<view class="div-line"></view>
 		<text class="sub-text">当前借阅({{ dayjs(updateTime.current).fromNow() }})</text>
@@ -11,14 +12,14 @@
 			<view class="library-book">
 				<view> {{ item.name }}</view>
 				<view>借阅日期：{{ item.time }}</view>
-				<view class="ext" v-if="item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
-				<view class="ext red" v-if="item.isExtended > 0">{{ Math.abs(item.isExtended) }}天</view>
+				<view class="ext" v-if="item.isExtended && item.isExtended < 0">{{ Math.abs(item.isExtended) }}天</view>
+				<view class="ext red" v-if="item.isExtended && item.isExtended > 0">{{ Math.abs(item.isExtended) }}天</view>
 			</view>
 		</view>
-	</card>
+	</quick-view>
 </template>
 <script lang="ts">
-	import Card from '../Card/index.vue';
+	import QuickView from '../QuickView/index.vue';
 	import { LibraryService } from '@/services';
 	import Taro from '@tarojs/taro';
 	import dayjs from 'dayjs';
@@ -27,7 +28,7 @@
 	import { throttle } from '@/utils/tools';
 	import './index.scss';
 	export default defineComponent({
-		components: { Card },
+		components: { 'quick-view': QuickView },
 		setup() {
 			return {
 				dayjs

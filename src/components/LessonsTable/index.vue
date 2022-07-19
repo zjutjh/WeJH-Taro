@@ -1,14 +1,14 @@
 <template>
 	<view class="warp">
 		<view class="jc-index-panel index-panel" :style="jcStyle">
-			<view v-for="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" :key="i">
+			<view v-for="i in 12" :key="i">
 				<view class="num-index">
 					{{ i }}
 				</view>
 			</view>
 		</view>
 		<view class="weekday-index-panel index-panel">
-			<view v-for="i in [1, 2, 3, 4, 5, 6, 7]" :key="i">
+			<view v-for="i in weekdayEnum" :key="i">
 				<view class="num-index">
 					{{ i }}
 				</view>
@@ -17,8 +17,9 @@
 		<view class="now-week-index" :style="nowWeekStyle" />
 		<view class="table table-box" v-if="lessonsTable">
 			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id + cl.week + cl.weekday" :style="getStyle(cl)">
-				<card class="class-card" :style="getColorStyle(cl)" @tap="classCardClick(cl)">
-					<view class="title">{{ cl.lessonPlace }}</view>
+				<card class="class-card" :color="parseInt(cl.id)" @tap="classCardClick(cl)">
+					<view class="title">{{ splitNameAndRoom(cl.lessonPlace)[0] }}</view>
+					<view class="title">{{ splitNameAndRoom(cl.lessonPlace)[1] }}</view>
 					<text class="item-content">{{ cl.lessonName }}</text>
 				</card>
 			</view>
@@ -32,7 +33,6 @@
 	import { Lesson } from '@/types/Lesson';
 	import { defineComponent } from 'vue';
 	import './index.scss';
-	const colorSet = ['ef8d6c', '58cc9d', '68a9df', 'fad65f', 'f7ac83'];
 	export default defineComponent({
 		components: { Card },
 		props: {
@@ -41,6 +41,9 @@
 			}
 		},
 		computed: {
+			weekdayEnum() {
+				return ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+			},
 			lessonsTable(): Lesson[] {
 				return this.MarkConflictLesson(this.lessons);
 			},
@@ -100,8 +103,12 @@
 					}
 				return lessons;
 			},
-			getColorStyle(theClass) {
-				return `background-color: #${colorSet[parseInt(theClass.classID, 16) % colorSet.length]};`;
+			splitNameAndRoom(str: string) {
+				let index = 0;
+				for (; index < str.length; index++) {
+					if (str.charCodeAt(index) <= 255) break;
+				}
+				return [str.slice(0, index), str.slice(index)];
 			},
 			classCardClick(theClass) {
 				this.$emit('classClick', theClass);

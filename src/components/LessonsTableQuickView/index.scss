@@ -1,35 +1,51 @@
 .bolder {
 	font-weight: bolder;
 }
-.lesson {
+.small {
+	font-size: 0.75rem;
+}
+.inner-card {
+	margin: 0;
+	padding: 0;
+}
+.lesson-item {
 	border-radius: 0.5rem;
 	display: flex;
-	margin: 0.5rem;
-	margin-left: 0rem;
-	margin-right: 0rem;
-	padding: 0.2rem;
-	border: 1px gray solid;
+	margin: 0.5rem 0rem;
+	padding: 1rem;
 	justify-content: space-between;
 	align-items: center;
 	text-align: left;
+	height: 4rem;
 	.name {
-		font-weight: bolder;
-		font-size: 1.25rem;
+		font-size: 0.875rem;
 	}
 	.col {
-		margin-left: 0.5rem;
 		min-width: 4rem;
 		display: flex;
 		flex-direction: column;
-	}
-	.right {
-		text-align: center;
+		justify-content: space-between;
+		height: 100%;
 	}
 	.red {
 		color: red;
 	}
+	.split {
+		display: inline-block;
+		background-color: black;
+		vertical-align: middle;
+		height: 4rem;
+		width: 0.05rem;
+	}
 }
 
+.left {
+	width: 64%;
+}
+.right {
+	width: 36%;
+	text-align: end;
+}
 .div-line {
 	background: #e0e3da;
 	width: 100%;
