@@ -1,8 +1,7 @@
-@import './light.scss';
-@import './dark.scss';
+// @import './light.scss';
+// @import './dark.scss';
 
 .bottom-bar {
-	backdrop-filter: blur(10px);
 	height: 3rem;
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
@@ -13,6 +12,10 @@
 	align-items: center;
 	width: 100vw;
 	box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+	border-top-right-radius: 1rem;
+	border-top-left-radius: 1rem;
+	z-index: 3000;
+	background: white;
 }
 .bottom-bar-ios {
 	padding-bottom: 2rem;

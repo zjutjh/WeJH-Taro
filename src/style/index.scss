@@ -14,7 +14,8 @@ page {
 	background-color: rgba(255, 255, 255, 0.7);
 }
 
-@media (prefers-color-scheme: dark) {
+// comment: disable dark mode
+/* @media (prefers-color-scheme: dark) {
 	page {
 		background-color: black;
 	}
@@ -47,7 +48,7 @@ page {
 			color: white;
 		}
 	}
-}
+} */
 
 .circle {
 	border-radius: 999px;

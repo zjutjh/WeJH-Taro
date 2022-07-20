@@ -7,6 +7,7 @@
 	import Taro from '@tarojs/taro';
 	import { defineComponent } from 'vue';
 	import './style/index.scss';
+
 	export default defineComponent({
 		computed: {
 			isNewIPhone(): boolean {

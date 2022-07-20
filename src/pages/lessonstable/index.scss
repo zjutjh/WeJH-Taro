@@ -1,3 +1,5 @@
+@import '@/style/theme.scss';
+
 .index {
 	width: calc(100vw - 2rem);
 	height: calc(100vh - 9rem);
@@ -19,21 +21,27 @@ scroll-view {
 	padding-bottom: 10rem;
 }
 
-@media (prefers-color-scheme: dark) {
-	.index {
-		background-color: rgba(68, 68, 68, 0.7);
-	}
-}
-
 .prectice-title {
 	padding: 1.5rem;
 	font-size: 1.5rem;
 	font-weight: 500;
 }
-.lesson-title {
-	font-size: 1.5rem;
-	font-weight: 500;
+.lesson-detail {
+	padding: 1.5rem 0 3rem 0;
+	width: 80%;
+	margin: 0 auto;
+	font-size: 0.75rem;
+	.lesson-title {
+		font-size: 1.5rem;
+		font-weight: 800;
+		margin-bottom: 1rem;
+		color: var(--wjh-green);
+	}
 }
-.popup-lesson {
-	padding: 2rem;
-}
+
+// comment: disable dark mode
+/* @media (prefers-color-scheme: dark) {
+	.index {
+		background-color: rgba(68, 68, 68, 0.7);
+	}
+} */

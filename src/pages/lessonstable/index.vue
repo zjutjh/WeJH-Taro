@@ -1,6 +1,6 @@
 <template>
 	<title-bar title="课程表" :show-back-button="true" :show-background="true"> </title-bar>
-	<lessons-table v-show="showLessonType" @longpress="switchLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="showLessonType ? lessonsTable : lessonsTableWeek" @classClick="ClassClick" />
+	<lessons-table v-show="showLessonType" @longpress="switchLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="showLessonType ? lessonsTable : lessonsTableWeek" @classClick="classClick" />
 
 	<scroll-view :scrollY="true" v-if="!showLessonType">
 		<view class="practice-lessons-list" @longpress="switchLessonType">
@@ -23,18 +23,18 @@
 		<term-picker v-else class="picker" @changed="termChanged"></term-picker>
 		<button class="circle" @tap="pickerModeSwitch"><view class="iconfont icon-stack-fill" /></button>
 	</bottom-panel>
-	<popup position="bottom" v-model:visible="show" round :style="{ height: '40%' }">
-		<view v-if="selection" class="popup-lesson">
+	<pop-view v-model:show="showPop" style="z-index: 4000">
+		<view v-if="selection" class="lesson-detail">
 			<view class="lesson-title">
 				{{ selection.lessonName }}
 			</view>
-			<view> <b>上课地点：</b>{{ selection.campus }}-{{ selection.lessonPlace }} </view>
-			<view> <b>班级：</b>{{ selection.className }} </view>
-			<view> <b>教师：</b>{{ selection.teacherName }} </view>
-			<view> <b>上课时间: </b>{{ selection.week }} - {{ selection.weekday }} （{{ selection.sections }}） </view>
-			<view> <b>学分：</b>{{ selection.credits }} </view>
+			<view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
+			<view>班级：{{ selection.className }} </view>
+			<view>教师：{{ selection.teacherName }} </view>
+			<view>时间：{{ selection.week }} - {{ selection.weekday }} （{{ selection.sections }}） </view>
+			<view>学分：{{ selection.credits }} </view>
 		</view>
-	</popup>
+	</pop-view>
 </template>
 
 <script lang="ts">
@@ -45,7 +45,7 @@
 	import FixedNav from '@/components/FixedNav/index.vue';
 	import { Lesson } from '@/types/Lesson';
 	import LessonsTable from '@/components/LessonsTable/index.vue';
-	import { Popup, OverLay } from '@nutui/nutui-taro';
+	import PopView from '@/components/PopView/index.vue';
 	import RefleshButton from '@/components/RefleshButton/index.vue';
 	import Taro from '@tarojs/taro';
 	import TermPicker from '@/components/TermPicker/index.vue';
@@ -55,7 +55,13 @@
 	import './index.scss';
 
 	export default {
-		components: { LessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton, FixedNav, Popup, WeekPicker, Card },
+		components: { LessonsTable, TermPicker, TitleBar, BottomPanel, RefleshButton, FixedNav, PopView, WeekPicker, Card },
+		data() {
+			return {
+				showPop: false,
+				selection: undefined
+			};
+		},
 		setup() {
 			const selectTerm = ref({
 				year: systemStore.generalInfo.termYear,
@@ -112,14 +118,6 @@
 				selectWeek.value = week;
 			}
 
-			let show = ref(false);
-			const selection = ref<Lesson>();
-			async function ClassClick(theClass: Lesson) {
-				selection.value = theClass;
-				// show.value = true;
-				// TODO: 处理 click 问题
-			}
-
 			onMounted(async () => {
 				if (serviceStore.user.isBindZF) {
 					await reflesh();
@@ -149,12 +147,15 @@
 				selectTerm,
 				termChanged,
 				reflesh,
-				ClassClick,
 				isRefleshing,
-				selection,
-				show,
 				lessonsTableWeek
 			};
+		},
+		methods: {
+			classClick(theClass: Lesson) {
+				this.showPop = true;
+				this.selection = theClass;
+			}
 		}
 	};
 </script>

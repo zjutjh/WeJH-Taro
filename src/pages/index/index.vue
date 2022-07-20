@@ -10,7 +10,6 @@
 				<text>还没有绑定任何服务，请到我的页面绑定</text>
 			</card>
 		</view>
-
 		<view v-else class="no-active">
 			<card>
 				<view class="title">激活微精弘</view>
@@ -77,7 +76,7 @@
 		},
 		methods: {
 			plusClick() {
-				this.showPop = true;
+				this.showPop = !this.showPop;
 			},
 			nav2announcement() {
 				Taro.navigateTo({ url: '/pages/announcement/index' });

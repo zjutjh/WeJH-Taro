@@ -19,12 +19,14 @@ export default {
 		'pages/canteenflow/index',
 		'pages/announcement/index'
 	],
+	darkmode: false,
 	window: {
 		backgroundTextStyle: 'light',
-		navigationBarBackgroundColor: '@navBgColor',
-		navigationBarTextStyle: '@navTxtStyle',
+		navigationBarBackgroundColor: '#fff',
+		// navigationBarBackgroundColor: '@navBgColor',
+		// navigationBarTextStyle: '@navTxtStyle',
+		navigationBarTextStyle: 'black',
 		navigationStyle: 'custom'
-	},
-	darkmode: true,
-	themeLocation: 'theme.json'
+	}
+	// themeLocation: 'theme.json'
 };

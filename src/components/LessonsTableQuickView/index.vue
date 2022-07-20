@@ -7,7 +7,7 @@
 		</view>
 		<view class="div-line"></view>
 		<text class="sub-text">今日课表({{ balanceUpdateTimeString }})</text>
-		<card v-for="item in todayLessonTable" :key="item.lessonName" inner :color="parseInt(item.id)" colormode="light">
+		<card v-for="item in todayLessonTable" :key="item.lessonName" inner :color="parseInt(item.classID.slice(6), 16)" colormode="light">
 			<view class="lesson-item">
 				<view class="col left">
 					<text class="name bolder">{{ item.lessonName }}</text>
@@ -114,7 +114,6 @@
 				let arr = sections.split('-');
 				let detAfter = dayjs(section2time(arr[0]), 'HH:mm').valueOf() - dayjs().valueOf();
 				let detBefore = dayjs(section2time(arr[1]), 'HH:mm').valueOf() - dayjs().valueOf();
-				console.log(detAfter, detBefore);
 				if (detAfter > 0) return 'before';
 				if (detAfter < 0 && detBefore > 0) return 'taking';
 				return 'after';
