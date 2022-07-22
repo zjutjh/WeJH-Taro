@@ -1,15 +1,15 @@
 // @import './light.scss';
 // @import './dark.scss';
 
-.bottom-bar {
+.bottom-panel {
 	height: 3rem;
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
 	position: fixed;
 	display: flex;
+	align-items: center;
 	justify-content: space-around;
 	bottom: 0;
-	align-items: center;
 	width: 100vw;
 	box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 	border-top-right-radius: 1rem;

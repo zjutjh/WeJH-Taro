@@ -1,11 +1,8 @@
 <template>
 	<header-tab-view title="校园卡" :show-tab="true">
-		<template v-slot:prefix>
-			<text class="iconfont icon-wallet-3-fill"></text>
-		</template>
 		<template v-slot:image>
 			<view class="schoolcard" @tap="getCardBalance">
-				<image mode="aspectFit" src="@/assets/schoolcard/card.png" style="height: 100%"></image>
+				<image mode="aspectFit" src="@/assets/photos/card.svg" style="height: 100%"></image>
 				<text class="balance"> ¥{{ balance }}</text>
 			</view>
 		</template>

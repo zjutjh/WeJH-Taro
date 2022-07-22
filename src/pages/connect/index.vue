@@ -1,5 +1,6 @@
 <template>
 	<title-bar style="position: fixed" :show-background="true" title="反馈和帮助" :showBackButton="true"></title-bar>
+	<view class="background"></view>
 	<scroll-view :scrollY="true">
 		<view class="feedback-view">
 			<image mode="aspectFit" :src="require('@/assets/feedback/feedback.svg')" style="height: 40vh; width: 100%; margin: auto; display: block"></image>

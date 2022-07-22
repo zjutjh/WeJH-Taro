@@ -1,5 +1,6 @@
 <template>
 	<title-bar title="设置" :showBackButton="true"></title-bar>
+	<view class="background"></view>
 	<scroll-view :scrollY="true">
 		<card class="card-view">
 			<view>

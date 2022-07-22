@@ -1,11 +1,5 @@
 <template>
-	<quick-view @tap="nav">
-		<view class="title">
-			<text class="iconfont icon-book-fill"></text>
-			<view class="title-split"></view>
-			<text>借阅信息</text>
-		</view>
-		<view class="div-line"></view>
+	<quick-view @tap="nav" title="借阅信息" icon-name="library">
 		<text class="sub-text">当前借阅({{ dayjs(updateTime.current).fromNow() }})</text>
 		<view v-if="!current" class="no-data-text">当前无借阅图书</view>
 		<view v-for="item in current" :key="item.id">
@@ -66,11 +60,6 @@
 		margin: 0.5rem;
 	}
 
-	.div-line {
-		background: #e0e3da;
-		width: 100%;
-		height: 5px;
-	}
 	.no-data-text {
 		font-size: 1rem;
 		padding: 1rem;

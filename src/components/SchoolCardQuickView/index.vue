@@ -1,11 +1,5 @@
 <template>
-	<quick-view @tap="nev2Card">
-		<view class="title">
-			<text class="iconfont icon-wallet-3-fill"></text>
-			<view class="title-split"></view>
-			<text>校园卡</text>
-		</view>
-		<view class="div-line"></view>
+	<quick-view @tap="nev2Card" title="校园卡" icon-name="schoolcard">
 		<text class="sub-text"> 当前余额({{ balanceUpdateTimeString }}) </text>
 		<view class="quickcard-balance">
 			<text> {{ balance }} </text>
@@ -52,10 +46,5 @@
 	}
 	.quickcard-balance::before {
 		content: '¥';
-	}
-	.div-line {
-		background: #e0e3da;
-		width: 100%;
-		height: 5px;
 	}
 </style>

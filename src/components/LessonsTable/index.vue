@@ -17,7 +17,7 @@
 		<view class="now-week-index" :style="nowWeekStyle" />
 		<view class="table table-box" v-if="lessonsTable">
 			<view class="flex class" v-for="cl in lessonsTable" :key="cl.id + cl.week + cl.weekday" :style="getStyle(cl)">
-				<card class="class-card" :color="parseInt(cl.classID.slice(6), 16)" @tap="classCardClick(cl)">
+				<card class="class-card" :color="parseInt(cl.classID.slice(0, 3), 16)" @tap="classCardClick(cl)">
 					<view class="title">{{ splitNameAndRoom(cl.lessonPlace)[0] }}</view>
 					<view class="title">{{ splitNameAndRoom(cl.lessonPlace)[1] }}</view>
 					<text class="item-content">{{ cl.lessonName }}</text>
@@ -45,7 +45,6 @@
 				return ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 			},
 			lessonsTable(): Lesson[] {
-				console.log(this.MarkConflictLesson(this.lessons));
 				return this.MarkConflictLesson(this.lessons);
 			},
 			jcStyle() {

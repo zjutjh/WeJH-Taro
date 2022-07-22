@@ -2,7 +2,7 @@
 	<view class="title-bar" :style="titleStyle" :class="{ background: showBackground }">
 		<view class="bg-default" v-if="loading"></view>
 		<view :style="justTitleStyle">
-			<text v-if="showBackButton" class="back-button iconfont icon-arrow-left-s-line" @tap="goBack"></text>
+			<text v-if="showBackButton" class="back-button iconfont icon-arrow-left" @tap="goBack"></text>
 			<slot name="prefix"></slot>
 			<text class="back-button">{{ title }}</text>
 			<slot> </slot>

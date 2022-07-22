@@ -1,4 +1,5 @@
 <template>
+	<view class="background"></view>
 	<scroll-view :scrollY="true">
 		<title-bar style="position: fixed" :show-background="true" title="关于微精弘2.0" :showBackButton="true"></title-bar>
 		<view class="card-view">

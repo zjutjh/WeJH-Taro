@@ -1,5 +1,6 @@
 <template>
 	<TitleBar style="position: fixed" title="信息绑定" :show-back-button="true" :show-background="true"></TitleBar>
+	<view class="background"></view>
 	<view class="index">
 		<card>
 			<view>

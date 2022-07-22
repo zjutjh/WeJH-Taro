@@ -1,5 +1,6 @@
 <template>
 	<title-bar style="position: fixed" :show-background="true" title="FAQ" :showBackButton="true"></title-bar>
+	<view class="background"></view>
 	<scroll-view :scrollY="true">
 		<view class="collapse-view">
 			<collapse v-model:active="activeName" :accordion="true" icon="down-arrow">

@@ -1,12 +1,12 @@
 <template>
-	<button v-if="week <= 19 && week > 1" class="week-backward circle" @tap="backwardWeek"><view class="iconfont icon-fenxiang" /></button>
+	<button v-if="week <= 19 && week > 1" class="week-backward circle" @tap="backwardWeek"><view class="iconfont icon-arrow-left" /></button>
 	<picker mode="multiSelector" :range="selector" @change="onChange" :value="selectorValue">
 		<button class="week-selector">
 			<text v-if="week > 19 || week < 1">放假中</text>
 			<view v-else class="picker">{{ currentWeek }}</view>
 		</button>
 	</picker>
-	<button v-if="week < 19 && week >= 1" class="week-forward circle" @tap="forwardWeek"><view class="iconfont icon-next-m" /></button>
+	<button v-if="week < 19 && week >= 1" class="week-forward circle" @tap="forwardWeek"><view class="iconfont icon-arrow-right" /></button>
 </template>
 
 <script lang="ts">

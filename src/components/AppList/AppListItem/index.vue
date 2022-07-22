@@ -1,7 +1,7 @@
 <template>
 	<view class="applist-item" @tap="appTaped">
 		<card class="applist-bg" :color="getColorNumber" data-test="bg" inner>
-			<image class="applist-item-icon" :src="iconUrl" />
+			<image class="applist-item-icon" :src="require('@/assets/icons/applist/' + iconUrl)"></image>
 		</card>
 		<text class="label" data-test="label">{{ label }}</text>
 	</view>
@@ -37,6 +37,12 @@
 			async appTaped() {
 				if (this.appId) await Taro.navigateToMiniProgram({ appId: this.appId, path: this.url });
 				else if (this.url) await Taro.navigateTo({ url: this.url });
+			},
+			getRequireWrapper() {
+				let tmp = require('@/assets/icons/bind.svg');
+				console.log(tmp);
+				tmp = '/assets/icons/bind.svg';
+				return tmp;
 			}
 		}
 	});

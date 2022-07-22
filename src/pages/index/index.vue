@@ -1,4 +1,5 @@
 <template>
+	<view class="background"></view>
 	<scroll-view :scrollY="true">
 		<title-bar title="微精弘"></title-bar>
 

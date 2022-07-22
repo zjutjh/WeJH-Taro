@@ -1,5 +1,5 @@
 <template>
-	<button class="circle" @tap="reflesh"><view class="iconfont icon-shuaxin" :class="{ 'reflesh-running': isRefleshing }" /></button>
+	<button class="circle" @tap="reflesh"><view class="iconfont icon-refresh" :class="{ 'reflesh-running': isRefleshing }" /></button>
 </template>
 
 <script lang="ts">

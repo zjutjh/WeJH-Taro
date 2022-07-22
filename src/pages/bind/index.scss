@@ -1,4 +1,4 @@
-@import "@/style/frame";
+@import '@/style/frame';
 
 .index {
 	display: flex;
@@ -9,15 +9,16 @@
 }
 .card {
 	width: 80vw;
+	z-index: 1000;
 }
 
 .title {
-  font-size: 2rem;
-  margin: 1rem;
-  text-align: center;
-  display: block;
+	font-size: 2rem;
+	margin: 1rem;
+	text-align: center;
+	display: block;
 }
 
 .bind-info {
-  color: gray;
+	color: gray;
 }

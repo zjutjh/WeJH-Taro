@@ -1,4 +1,5 @@
 <template>
+	<view class="background"></view>
 	<scroll-view :scrollY="true">
 		<title-bar title="我的"></title-bar>
 		<card class="my-header">
@@ -35,7 +36,6 @@
 	import { serviceStore, systemStore } from '@/store';
 	import Card from '@/components/Card/index.vue';
 	import NavBar from '@/components/NavBar/index.vue';
-	import { Tag as NutTag } from '@nutui/nutui-taro';
 	import Taro from '@tarojs/taro';
 	import TitleBar from '@/components/TitleBar/index.vue';
 	import { UserService } from '@/services';
@@ -44,7 +44,7 @@
 
 	import './index.scss';
 	export default defineComponent({
-		components: { NavBar, TitleBar, Card, NutTag },
+		components: { NavBar, TitleBar, Card },
 		data() {
 			return {
 				items: [

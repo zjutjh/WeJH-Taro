@@ -1,27 +1,36 @@
 <template>
-	<title-bar title="课程表" :show-back-button="true" :show-background="true"> </title-bar>
-	<lessons-table v-show="showLessonType" @longpress="switchLessonType" class="index" :class="{ 'index-ios': isNewIPhone }" :lessons="showLessonType ? lessonsTable : lessonsTableWeek" @classClick="classClick" />
+	<title-bar title="课程表" :show-back-button="true" :show-background="true"></title-bar>
+	<view class="background">
+		<lessons-table
+			v-show="showLessonType"
+			@longpress="switchLessonType"
+			class="index"
+			:class="{ 'index-ios': isNewIPhone }"
+			:lessons="showLessonType ? lessonsTable : lessonsTableWeek"
+			@classClick="classClick"
+		/>
 
-	<scroll-view :scrollY="true" v-if="!showLessonType">
-		<view class="practice-lessons-list" @longpress="switchLessonType">
-			<view class="prectice-title">实践课程</view>
-			<view v-for="item in practiceLessons" :key="item.lessonName">
-				<card>
-					<view class="lesson-title">
-						{{ item.lessonName }}
-					</view>
-					<view> <b>教师：</b>{{ item.teacherName }} </view>
-					<view> <b>时间：</b>{{ item.className }} </view>
-				</card>
+		<scroll-view :scrollY="true" v-if="!showLessonType">
+			<view class="practice-lessons-list" @longpress="switchLessonType">
+				<view class="prectice-title">实践课程</view>
+				<view v-for="item in practiceLessons" :key="item.lessonName">
+					<card>
+						<view class="lesson-title">
+							{{ item.lessonName }}
+						</view>
+						<view> <b>教师：</b>{{ item.teacherName }} </view>
+						<view> <b>时间：</b>{{ item.className }} </view>
+					</card>
+				</view>
 			</view>
-		</view>
-	</scroll-view>
+		</scroll-view>
+	</view>
 	<fixed-nav />
 	<bottom-panel>
 		<reflesh-button @reflesh="reflesh" :is-refleshing="isRefleshing"></reflesh-button>
 		<week-picker v-if="showWeekPicker" class="picker" :week="selectWeek" @changed="weekChanged" />
 		<term-picker v-else class="picker" @changed="termChanged"></term-picker>
-		<button class="circle" @tap="pickerModeSwitch"><view class="iconfont icon-stack-fill" /></button>
+		<button class="circle" @tap="pickerModeSwitch"><view class="iconfont icon-switch" /></button>
 	</bottom-panel>
 	<pop-view v-model:show="showPop" style="z-index: 4000">
 		<view v-if="selection" class="lesson-detail">
@@ -38,7 +47,7 @@
 </template>
 
 <script lang="ts">
-	import { computed, onMounted, reactive, ref } from 'vue';
+	import { computed, onMounted, ref } from 'vue';
 	import { serviceStore, systemStore } from '@/store';
 	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Card from '@/components/Card/index.vue';

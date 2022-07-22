@@ -8,7 +8,7 @@
 				<view class="item-text" v-if="item">
 					<view> {{ item.lessonName }}-{{ item.id }}</view>
 					<view v-for="name in item.teacherName?.split(';')" :key="name"
-						><view><text class="iconfont icon-laoshi"></text>{{ name }}</view></view
+						><view><text class="iconfont icon-teacher"></text>{{ name }}</view></view
 					>
 					<view> {{ item.examTime }}</view>
 					<view>{{ calcDayLeft(item.examTime) }}</view>
@@ -26,7 +26,7 @@
 		<card v-if="selectedItem" class="pop-card">
 			<view class="title">{{ selectedItem.lessonName }}</view>
 			<view v-for="name in selectedItem.teacherName.split(';')" :key="name"
-				><view><text class="iconfont icon-laoshi"></text>{{ name }}</view></view
+				><view><text class="iconfont icon-teacher"></text>{{ name }}</view></view
 			>
 			<view><b>上课地点：</b>{{ selectedItem.lessonPlace }}</view>
 			<view><b>教学班：</b>{{ selectedItem.className }}</view>

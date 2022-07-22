@@ -1,22 +1,16 @@
 <template>
-	<quick-view @tap="nev2Lesson">
-		<view class="title">
-			<text class="iconfont icon-calendar-event-fill"></text>
-			<view class="title-split"></view>
-			<text>课程表</text>
-		</view>
-		<view class="div-line"></view>
+	<quick-view @tap="nev2Lesson" title="课程表" icon-name="lessonstable">
 		<text class="sub-text">今日课表({{ balanceUpdateTimeString }})</text>
-		<card v-for="item in todayLessonTable" :key="item.lessonName" inner :color="parseInt(item.classID.slice(6), 16)" colormode="light">
+		<card v-for="item in todayLessonTable" :key="item.lessonName" inner :color="parseInt(item.classID.slice(0, 3), 16)" colormode="light">
 			<view class="lesson-item">
 				<view class="col left">
 					<text class="name bolder">{{ item.lessonName }}</text>
 					<text class="small">
-						<text class="iconfont icon-laoshi"></text>
+						<text class="iconfont icon-teacher"></text>
 						{{ item.teacherName }}
 					</text>
 					<text v-if="lessonState(item.sections) === 'before'" class="small bolder">
-						<text class="iconfont icon-timer-flash-line"></text>
+						<text class="iconfont icon-timer"></text>
 						还有 {{ getTimeString(item.detTime) }} 上课
 					</text>
 					<text v-if="lessonState(item.sections) === 'taking'" class="time">上课中</text>

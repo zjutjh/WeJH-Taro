@@ -13,7 +13,7 @@
 				</view>
 				<view class="item-text">
 					<view> {{ item.lessonName }}-{{ item.lessonID }}</view>
-					<view> <text class="iconfont icon-laoshi"></text>{{ item.teacherName }}</view>
+					<view> <text class="iconfont icon-teacher"></text>{{ item.teacherName }}</view>
 					<view> {{ item.submitTime }}</view>
 				</view>
 				<view class="score"> {{ item.score }}</view>

@@ -1,16 +1,20 @@
 <template>
 	<bottom-panel>
 		<view @tap="nev('/pages/index/index')">
-			<view class="iconfont icon-home-heart-line large"></view>
+			<view class="iconfont icon-home"></view>
+			<view class="description">首页</view>
+		</view>
+		<view>
+			<view class="iconfont icon-applist" @tap="plusClick"></view>
+			<view class="description">其他</view>
 		</view>
 		<view @tap="nev('/pages/my/index')">
-			<view class="iconfont icon-user-3-line large"></view>
+			<view class="iconfont icon-user"></view>
+			<view class="description">我的</view>
 		</view>
-		<button v-if="showPlus" class="finder" @tap="plusClick">
-			<view class="iconfont icon-apps-2-fill" />
-		</button>
 	</bottom-panel>
 </template>
+
 <script lang="ts">
 	import BottomPanel from '@/components/BottomPanel/index.vue';
 	import Taro from '@tarojs/taro';
@@ -39,16 +43,11 @@
 </script>
 
 <style lang="scss">
-	.finder {
-		border-radius: 100vh;
-		font-size: 1rem;
-		position: absolute;
-		width: 2.5rem;
-		height: 2.5rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		transform: rotate(45deg);
-		margin: auto;
+	.iconfont {
+		color: #888888;
+		font-size: 1.5rem;
+	}
+	.description {
+		font-size: 0.75rem;
 	}
 </style>

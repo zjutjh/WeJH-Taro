@@ -1,5 +1,5 @@
 <template>
-	<view class="bottom-bar" :class="{ 'bottom-bar-ios': isNewIPhone }">
+	<view class="bottom-panel" :class="{ 'bottom-bar-ios': isNewIPhone }">
 		<slot></slot>
 	</view>
 </template>

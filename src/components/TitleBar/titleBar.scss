@@ -1,50 +1,48 @@
 @import '@/style/theme.scss';
-.background {
-  @include blur;
-}
+
 .title-bar {
-  width: 100vw;
-  position: sticky;
-  display: inline-block;
-  z-index: 9999;
+	width: 100vw;
+	position: sticky;
+	display: inline-block;
+	z-index: 9999;
 }
 .back-button {
-  border-radius: 5rem;
-  margin-left: 1rem;
-  z-index: 1000;
-  bottom: 0;
-  font-weight: 500;
-  font-size: 1.5rem;
+	border-radius: 5rem;
+	margin-left: 1rem;
+	z-index: 1000;
+	bottom: 0;
+	font-weight: 500;
+	font-size: 1.5rem;
 }
 .bg-default {
-  animation-duration: 1s;
-  /* 动画时长1s */
-  animation-fill-mode: forwards;
-  /*当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）*/
-  animation-iteration-count: infinite;
-  /* 动画次数 无限次 */
-  animation-name: animationa;
-  /* 执行动画名称 */
-  animation-timing-function: linear;
-  /* 动画速度，线性匀速 */
-  /* background: #f6f7f8; */
-  background: linear-gradient(to right, #3b79ff 8%, #dddddd 18%, #3b79ff  33%);
-  /* 背景颜色 */
-  background-size: 750px auto;
-  /* 背景大小 */
-  width: 100%;
-  min-height: 10px;
-  top:0;
-  position: fixed;
-  z-index: 9999;
+	animation-duration: 1s;
+	/* 动画时长1s */
+	animation-fill-mode: forwards;
+	/*当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）*/
+	animation-iteration-count: infinite;
+	/* 动画次数 无限次 */
+	animation-name: animationa;
+	/* 执行动画名称 */
+	animation-timing-function: linear;
+	/* 动画速度，线性匀速 */
+	/* background: #f6f7f8; */
+	background: linear-gradient(to right, #3b79ff 8%, #dddddd 18%, #3b79ff 33%);
+	/* 背景颜色 */
+	background-size: 750px auto;
+	/* 背景大小 */
+	width: 100%;
+	min-height: 10px;
+	top: 0;
+	position: fixed;
+	z-index: 9999;
 }
 
 @keyframes animationa {
-  /* 修改背景定位 */
-  0% {
-    background-position: -750rpx 0;
-  }
-  100% {
-    background-position: 750rpx 0;
-  }
+	/* 修改背景定位 */
+	0% {
+		background-position: -750rpx 0;
+	}
+	100% {
+		background-position: 750rpx 0;
+	}
 }

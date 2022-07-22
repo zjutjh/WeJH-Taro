@@ -1,7 +1,7 @@
 <template>
 	<header-tab-view title="通知" :show-tab="false" :img="require('@/assets/notice/notice.svg')">
 		<template v-slot:prefix>
-			<text class="iconfont icon-notification-badge-line"></text>
+			<text class="iconfont icon-notification"></text>
 		</template>
 		<template v-slot:content>
 			<view v-if="!announcement" style="text-align: center">
