@@ -24,7 +24,12 @@
   <pop-view v-model:show="showPop">
     <app-list></app-list>
   </pop-view>
-  <nav-bar @plusClick="plusClick" :show-plus="isActive"></nav-bar>
+  <nav-bar
+    @plusClick="plusClick"
+    :show-plus="isActive"
+    page-name="home"
+    :showPop="showPop"
+  ></nav-bar>
 </template>
 <script lang="ts">
   import AppList from '@/components/AppList/index.vue';

@@ -41,23 +41,33 @@
     <view v-else>
       <text class="sub-text centet">激活享受更多精彩</text>
     </view>
-    <nav-bar :show-plus="false"></nav-bar>
+    <pop-view v-model:show="showPop">
+      <app-list></app-list>
+    </pop-view>
+    <nav-bar
+      :show-plus="false"
+      page-name="my"
+      @plusClick="plusClick"
+      :showPop="showPop"
+    ></nav-bar>
   </scroll-view>
 </template>
 
 <script lang="ts">
   import { serviceStore, systemStore } from '@/store';
+  import AppList from '@/components/AppList/index.vue';
   import Card from '@/components/Card/index.vue';
   import NavBar from '@/components/NavBar/index.vue';
-  import Taro from '@tarojs/taro';
   import TitleBar from '@/components/TitleBar/index.vue';
+  import PopView from '@/components/PopView/index.vue';
+  import Taro from '@tarojs/taro';
   import { UserService } from '@/services';
   import { defineComponent } from 'vue';
   import store from '@/store';
 
   import './index.scss';
   export default defineComponent({
-    components: { NavBar, TitleBar, Card },
+    components: { NavBar, TitleBar, Card, PopView, AppList },
     data() {
       return {
         items: [
@@ -86,7 +96,8 @@
             title: '关于',
             url: '/pages/about/index'
           }
-        ]
+        ],
+        showPop: false
       };
     },
     methods: {
@@ -113,6 +124,10 @@
               console.log(res);
             }
           });
+      },
+      plusClick() {
+        console.log('123');
+        this.showPop = !this.showPop;
       }
     },
     computed: {
