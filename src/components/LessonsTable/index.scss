@@ -1,98 +1,98 @@
 .index-panel {
-	height: 100%;
-	position: absolute;
-	z-index: 1;
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
-	.num-index {
-		text-align: center;
-		font-size: 0.8rem;
-	}
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  .num-index {
+    text-align: center;
+    font-size: 0.8rem;
+  }
 }
 
 .weekday-index-panel {
-	left: 2rem;
-	flex-direction: row;
-	border-bottom: 1px solid gainsboro;
-	width: 126%;
-	height: 2rem;
+  left: 2rem;
+  flex-direction: row;
+  border-bottom: 1px solid gainsboro;
+  width: 126%;
+  height: 2rem;
 }
 
 .jc-index-panel {
-	flex-direction: column;
-	top: 7rem;
-	border-right: 1px solid gainsboro;
-	border-top: 1px solid gainsboro;
-	width: 2rem;
-	position: fixed;
+  flex-direction: column;
+  top: 7rem;
+  border-right: 1px solid gainsboro;
+  border-top: 1px solid gainsboro;
+  width: 2rem;
+  position: fixed;
 }
 
 .class {
-	position: absolute;
-	padding: 0.2rem;
-	width: 18%;
-	text-align: center;
-	box-sizing: border-box;
-	.title {
-		line-height: 100%;
-		font-size: 0.75rem;
-		display: block;
-		font-weight: bolder;
-	}
-	.item-content {
-		line-height: 125%;
-		font-size: 0.667rem;
-		overflow: hidden;
-		width: 100%;
-	}
+  position: absolute;
+  padding: 0.2rem;
+  width: 18%;
+  text-align: center;
+  box-sizing: border-box;
+  .title {
+    line-height: 100%;
+    font-size: 0.75rem;
+    display: block;
+    font-weight: bolder;
+  }
+  .item-content {
+    line-height: 125%;
+    font-size: 0.667rem;
+    overflow: hidden;
+    width: 100%;
+  }
 }
 
 .warp {
-	position: absolute;
-	height: 100%;
-	overflow-x: scroll;
-	overflow-y: hidden;
-	width: 100%;
+  position: absolute;
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 100%;
 }
 
 .table {
-	color: white;
-	display: flex;
-	height: 90%;
-	left: 2rem;
-	top: 2rem;
-	position: absolute;
-	width: 100%;
+  color: white;
+  display: flex;
+  height: 90%;
+  left: 2rem;
+  top: 2rem;
+  position: absolute;
+  width: 100%;
 }
 
 .class-card {
-	margin: 0rem;
-	height: calc(100% - 0.4rem);
-	width: calc(100% - 0.4rem);
-	padding: 0.2rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	color: white;
-	.title {
-		margin-bottom: 0.1rem;
-	}
+  margin: 0rem;
+  height: calc(100% - 0.4rem);
+  width: calc(100% - 0.4rem);
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  .title {
+    margin-bottom: 0.1rem;
+  }
 }
 
 .flex {
-	display: flex;
+  display: flex;
 }
 
 .now-index {
-	border: 1px solid skyblue;
-	width: calc(126% + 2rem);
-	position: absolute;
-	z-index: 10;
+  border: 1px solid skyblue;
+  width: calc(126% + 2rem);
+  position: absolute;
+  z-index: 10;
 }
 .now-week-index {
-	height: 100%;
-	width: calc(18%);
-	background-color: rgba(135, 207, 235, 0.829);
-	position: absolute;
+  height: 100%;
+  width: calc(18%);
+  background-color: rgba(135, 207, 235, 0.829);
+  position: absolute;
 }

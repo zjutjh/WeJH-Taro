@@ -2,63 +2,63 @@
 @import './dark.scss';
 @import '@/style/theme.scss';
 .item {
-	transform: translateZ(0);
-	border-radius: 0.5rem;
-	margin: 0.5rem;
-	position: relative;
-	padding: 1rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	text-align: left;
+  transform: translateZ(0);
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
 
-	.cicle {
-		margin-right: 0.5rem;
-		border-radius: 0.5rem;
-		font-size: 1.5rem;
-		min-width: 3rem;
-		height: 3rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+  .cicle {
+    margin-right: 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    min-width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-		text {
-			text-align: center;
-			font-size: 1.5rem;
-			line-height: 3rem;
-			max-width: 3rem;
-			height: 3rem;
-		}
-	}
+    text {
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 3rem;
+      max-width: 3rem;
+      height: 3rem;
+    }
+  }
 
-	.item-text {
-		width: 100%;
-		:first-child {
-			font-weight: bolder;
-		}
-	}
+  .item-text {
+    width: 100%;
+    :first-child {
+      font-weight: bolder;
+    }
+  }
 
-	.tirm {
-		width: 50%;
-	}
+  .tirm {
+    width: 50%;
+  }
 
-	.ext {
-		font-size: 1.5rem;
-		margin-left: 1rem;
-		min-width: 3rem;
-		text-align: center;
-		font-weight: bolder;
-	}
+  .ext {
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    min-width: 3rem;
+    text-align: center;
+    font-weight: bolder;
+  }
 
-	.red {
-		color: red;
-	}
+  .red {
+    color: red;
+  }
 }
 
 .no-item {
-	text-align: center;
+  text-align: center;
 
-	image {
-		width: 100%;
-	}
+  image {
+    width: 100%;
+  }
 }

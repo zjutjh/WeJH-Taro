@@ -1,42 +1,42 @@
 @import '@/style/theme.scss';
 
 .index {
-	width: calc(100vw - 2rem);
-	height: calc(100vh - 9rem);
-	position: fixed;
-	background-color: white;
-	border-radius: 0.5rem;
-	margin-top: 0.5rem;
-	margin-left: 1rem;
-	margin-right: 1rem;
+  width: calc(100vw - 2rem);
+  height: calc(100vh - 9rem);
+  position: fixed;
+  background-color: white;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 .index-ios {
-	height: calc(100vh - 12rem);
+  height: calc(100vh - 12rem);
 }
 scroll-view {
-	height: 100vh;
+  height: 100vh;
 }
 .practice-lessons-list {
-	min-height: 80vh;
-	padding-bottom: 10rem;
+  min-height: 80vh;
+  padding-bottom: 10rem;
 }
 
 .prectice-title {
-	padding: 1.5rem;
-	font-size: 1.5rem;
-	font-weight: 500;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 .lesson-detail {
-	padding: 1.5rem 0 3rem 0;
-	width: 80%;
-	margin: 0 auto;
-	font-size: 0.75rem;
-	.lesson-title {
-		font-size: 1.5rem;
-		font-weight: 800;
-		margin-bottom: 1rem;
-		color: var(--wjh-green);
-	}
+  padding: 1.5rem 0 3rem 0;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 0.75rem;
+  .lesson-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--wjh-green);
+  }
 }
 
 // comment: disable dark mode

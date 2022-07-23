@@ -3,10 +3,10 @@
 @import '@/style/theme.scss';
 
 button {
-	@include radius;
-	margin: 0.5rem;
+  @include radius;
+  margin: 0.5rem;
 }
 
 button:after {
-	border: none;
+  border: none;
 }

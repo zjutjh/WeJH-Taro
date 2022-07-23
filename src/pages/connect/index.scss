@@ -1,26 +1,26 @@
 scroll-view {
-	height: 100vh;
+  height: 100vh;
 }
 .feedback-view {
-	padding: 1rem;
-	padding-top: 200px;
-	padding-bottom: 150px;
+  padding: 1rem;
+  padding-top: 200px;
+  padding-bottom: 150px;
 }
 .cell-button {
-	position: relative;
-	display: flex;
-	width: 100%;
-	line-height: 20Px;
-	padding: 13Px 16Px;
-	background: #fff;
-	font-size: 14Px;
-	color: #666666;
-	margin: 0;
-	box-shadow: none;
-	box-sizing: border-box;
+  position: relative;
+  display: flex;
+  width: 100%;
+  line-height: 20px;
+  padding: 13px 16px;
+  background: #fff;
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+  box-shadow: none;
+  box-sizing: border-box;
 }
 
 .nut-cell-group__title {
-  font-size: 14Px;
-  line-height: 20Px
+  font-size: 14px;
+  line-height: 20px;
 }

@@ -1,23 +1,23 @@
 .applist-item {
-	font-size: 80%;
-	margin: 0.5rem 0;
-	white-space: nowrap;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  font-size: 80%;
+  margin: 0.5rem 0;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-	.applist-bg {
-		border-radius: 0.5rem;
-		height: 120rpx;
-		width: 120rpx;
-	}
-	.label {
-		font-size: 0.75rem;
-	}
+  .applist-bg {
+    border-radius: 0.5rem;
+    height: 120rpx;
+    width: 120rpx;
+  }
+  .label {
+    font-size: 0.75rem;
+  }
 
-	.applist-item-icon {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
+  .applist-item-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 }

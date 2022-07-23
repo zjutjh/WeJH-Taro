@@ -1,16 +1,16 @@
 @import '@/style/frame';
 
 .score {
-	margin-left: 1rem;
-	font-size: 2rem;
-	font-weight: bolder;
-	min-width: 4rem;
-	text-align: center;
+  margin-left: 1rem;
+  font-size: 2rem;
+  font-weight: bolder;
+  min-width: 4rem;
+  text-align: center;
 }
 
 .pop-card {
-	.score-text {
-		text-align: center;
-		font-size: 3rem;
-	}
+  .score-text {
+    text-align: center;
+    font-size: 3rem;
+  }
 }

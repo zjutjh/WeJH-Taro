@@ -1,22 +1,22 @@
 @mixin shadow {
-	box-shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
+  box-shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 }
 $shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 
 @mixin blur {
-	backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
 }
 
 @mixin radius {
-	border-radius: 0.3rem;
+  border-radius: 0.3rem;
 }
 
 :host {
-	--wjh-green: #62e4c7;
-	--wjh-blue: #72d0fe;
-	--wjh-cyan: #22caca;
-	--wjh-orange: #fdc362;
-	--wjh-yellow: #ffcf4d;
-	--wjh-light-orange: #ffedcd;
-	--wjh-light-yellow: #fff6c9;
+  --wjh-green: #62e4c7;
+  --wjh-blue: #72d0fe;
+  --wjh-cyan: #22caca;
+  --wjh-orange: #fdc362;
+  --wjh-yellow: #ffcf4d;
+  --wjh-light-orange: #ffedcd;
+  --wjh-light-yellow: #fff6c9;
 }

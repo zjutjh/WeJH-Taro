@@ -3,49 +3,49 @@
 @import '@/style/theme.scss';
 
 .quick-view {
-	@include radius;
-	margin: 0.5rem 1.5rem;
-	padding: 40px;
-	view {
-		color: #262626;
-	}
-	text {
-		color: #262626;
-	}
-	.title {
-		font-size: 1.5rem;
-		font-weight: 800;
-		margin-bottom: 0.5rem;
-		vertical-align: middle;
-		display: flex;
-		align-items: center;
+  @include radius;
+  margin: 0.5rem 1.5rem;
+  padding: 40px;
+  view {
+    color: #262626;
+  }
+  text {
+    color: #262626;
+  }
+  .title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
 
-		.icon {
-			height: 1.5rem;
-			width: 1.5rem;
-			display: inline-block;
-			background-size: contain;
-			background-repeat: no-repeat;
-			background-position: center;
-		}
+    .icon {
+      height: 1.5rem;
+      width: 1.5rem;
+      display: inline-block;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
 
-		.title-split {
-			display: inline-block;
-			background-color: black;
-			vertical-align: middle;
-			height: 1.4rem;
-			width: 0.2rem;
-			margin: 0 0.7rem;
-		}
-	}
-	.sub-text {
-		font-size: 0.75rem;
-		line-height: 1.2rem;
-		color: #808080;
-	}
-	.div-line {
-		background: #e0e3da;
-		width: 100%;
-		height: 0.1rem;
-	}
+    .title-split {
+      display: inline-block;
+      background-color: black;
+      vertical-align: middle;
+      height: 1.4rem;
+      width: 0.2rem;
+      margin: 0 0.7rem;
+    }
+  }
+  .sub-text {
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+    color: #808080;
+  }
+  .div-line {
+    background: #e0e3da;
+    width: 100%;
+    height: 0.1rem;
+  }
 }

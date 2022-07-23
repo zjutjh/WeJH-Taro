@@ -1,24 +1,24 @@
 @import '@/style/frame';
 
 .index {
-	display: flex;
-	height: 100vh;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .card {
-	width: 80vw;
-	z-index: 1000;
+  width: 80vw;
+  z-index: 1000;
 }
 
 .title {
-	font-size: 2rem;
-	margin: 1rem;
-	text-align: center;
-	display: block;
+  font-size: 2rem;
+  margin: 1rem;
+  text-align: center;
+  display: block;
 }
 
 .bind-info {
-	color: gray;
+  color: gray;
 }
