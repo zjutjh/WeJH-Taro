@@ -1,19 +1,27 @@
 @import '@/style/theme.scss';
 
-.title-bar {
+.wjh-title-bar {
   width: 100vw;
   position: sticky;
-  display: inline-block;
+  display: inline-flex;
+  background-color: var(--wjh-color-background);
   z-index: 9999;
+
+  .wjh-title-bar-back-button {
+    color: var(--wjh-color-text);
+    font-size: 2rem;
+    border-radius: 5rem;
+    z-index: 1000;
+  }
+
+  .wjh-title-bar-title {
+    color: var(--wjh-color-text);
+    font-size: 1.5rem;
+    font-weight: var(--wjh-font-weight-medium);
+    margin-left: 0.3rem;
+  }
 }
-.back-button {
-  border-radius: 5rem;
-  margin-left: 1rem;
-  z-index: 1000;
-  bottom: 0;
-  font-weight: 500;
-  font-size: 1.5rem;
-}
+
 .bg-default {
   animation-duration: 1s;
   /* 动画时长1s */
@@ -38,10 +46,12 @@
 }
 
 @keyframes animationa {
+
   /* 修改背景定位 */
   0% {
     background-position: -750rpx 0;
   }
+
   100% {
     background-position: 750rpx 0;
   }

@@ -1,5 +1,5 @@
 <template>
-  <title-bar title="实验室" :showBackButton="true"></title-bar>
+  <title-bar title="实验室"></title-bar>
   <view class="background"></view>
   <view class="main">
     <card>

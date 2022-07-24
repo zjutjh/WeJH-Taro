@@ -1,19 +1,14 @@
 <template>
-  <view
-    class="title-bar"
-    :style="titleStyle"
-    :class="{ background: showBackground }"
-  >
+  <view class="wjh-title-bar" :style="titleStyle">
     <view class="bg-default" v-if="loading"></view>
     <view :style="justTitleStyle">
       <text
-        v-if="showBackButton"
-        class="back-button iconfont icon-arrow-left"
+        v-if="backButton"
+        class="iconfont wjh-title-bar-back-button icon-arrow-left"
         @tap="goBack"
       ></text>
-      <slot name="prefix"></slot>
-      <text class="back-button">{{ title }}</text>
-      <slot> </slot>
+      <text class="wjh-title-bar-title">{{ title }}</text>
+      <slot></slot>
     </view>
   </view>
 </template>
@@ -21,23 +16,20 @@
   import Taro from '@tarojs/taro';
   import { defineComponent } from 'vue';
   import { systemStore } from '@/store';
-  import './titleBar.scss';
+  import './index.scss';
   export default defineComponent({
     props: {
       title: String,
-      showBackButton: Boolean,
-      showBackground: Boolean
+      backButton: {
+        default: true,
+        type: Boolean
+      }
     },
     computed: {
       loading() {
         return systemStore.loading;
       },
       titleStyle() {
-        if (process.env.TARO_ENV != 'weapp')
-          return {
-            height: '20px'
-          };
-
         let MenuRect = Taro.getMenuButtonBoundingClientRect();
         let statusBarHeight = Taro.getSystemInfoSync().statusBarHeight;
         return {
@@ -50,19 +42,11 @@
         };
       },
       justTitleStyle() {
-        if (process.env.TARO_ENV != 'weapp')
-          return {
-            height: '20px',
-            marginTop: '10px',
-            display: 'flex',
-            fontSize: '1.5rem',
-            lineHeight: '20px'
-          };
-
         let MenuRect = Taro.getMenuButtonBoundingClientRect();
         return {
           height: MenuRect.height + 'px',
           marginTop: MenuRect.top + 'px',
+          marginLeft: '2rem',
           display: 'flex',
           fontSize: '1.5rem',
           lineHeight: MenuRect.height + 'px'

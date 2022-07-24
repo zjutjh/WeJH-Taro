@@ -57,10 +57,10 @@
     font-size: 1.5rem;
   }
   .unselected {
-    color: #888888;
+    color: var(--wjh-color-week);
   }
   .selected {
-    color: var(--wjh-green);
+    color: var(--wjh-color-green);
   }
   .description {
     font-size: 0.75rem;

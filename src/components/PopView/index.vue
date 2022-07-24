@@ -1,21 +1,17 @@
 <template>
   <view class="pop-view" :class="{ hidden: !show }">
     <view v-if="showMask" class="mask" @tap="close"></view>
-    <card class="pop-view-body" :class="positionClass" inner>
+    <view class="pop-view-body" :class="positionClass">
       <slot></slot>
-    </card>
+    </view>
   </view>
 </template>
 
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import Card from '@/components/Card/index.vue';
   import './index.scss';
 
   export default defineComponent({
-    components: {
-      card: Card
-    },
     props: {
       show: {
         default: false,

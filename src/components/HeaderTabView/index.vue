@@ -7,14 +7,10 @@
   >
     <view>
       <view class="header">
-        <title-bar :title="title" :showBackButton="true">
-          <template v-slot:prefix>
-            <slot name="prefix"></slot>
-          </template>
-        </title-bar>
+        <title-bar :title="title"></title-bar>
         <view class="image" :style="imageStyle">
           <slot name="image">
-            <image mode="aspectFit" :src="img" style="height: 100%"></image>
+            <image :src="imageUrl" style="height: 100%"></image>
           </slot>
         </view>
         <view class="keep-header" v-if="showTab">
@@ -39,8 +35,8 @@
   export default defineComponent({
     components: { TitleBar },
     props: {
-      img: {
-        default: require('@/assets/library/library.svg'),
+      imgName: {
+        default: 'library.svg',
         type: String
       },
       showTab: {
@@ -59,7 +55,8 @@
         },
         topStyle: {
           marginTop: '0'
-        }
+        },
+        imageUrl: require('@/assets/photos/' + this.imgName)
       };
     },
     methods: {

@@ -1,9 +1,5 @@
 <template>
-  <title-bar
-    title="课程表"
-    :show-back-button="true"
-    :show-background="true"
-  ></title-bar>
+  <title-bar title="课程表"></title-bar>
   <view class="background">
     <lessons-table
       v-show="showLessonType"

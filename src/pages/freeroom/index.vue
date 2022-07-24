@@ -1,43 +1,29 @@
 <template>
-  <header-tab-view
-    title="空教室"
-    :img="require('@/assets/exam/exam.png')"
-    :show-tab="false"
-  >
-    <template v-slot:content>
-      <view v-if="!room" style="text-align: center">
-        <view> 无记录</view>
-      </view>
-      <view v-for="item in room" :key="item.id">
-        <view class="build-name" v-if="item[0].buildName">
-          {{ item[0].buildName }}
-        </view>
-        <view class="flex item">
-          <card
-            class="room-item"
-            v-for="i in item"
-            :key="i.roomName"
-            @tap="pop(i)"
-          >
-            <view> {{ i.roomName }}</view>
-            <view> {{ i.roomSeats }}</view>
-          </card>
+  <title-bar title="空教室"></title-bar>
+  <view class="background"></view>
+  <scroll-view :scrollY="true" style="height: calc(100vh - 56px - 64px)">
+    <card v-if="!room" title="无记录" style="text-align: center"></card>
+    <card
+      v-for="item in room"
+      class="building-card"
+      :key="item.id"
+      :title="item[0].buildName"
+    >
+      <view class="building-card-body">
+        <view class="room-card" v-for="i in item" :key="i.roomName">
+          <view class="room-name">{{ i.roomName }}</view>
+          <view class="room-seats">{{ i.roomSeats }}</view>
         </view>
       </view>
-    </template>
-  </header-tab-view>
+    </card>
+  </scroll-view>
   <bottom-panel>
-    <button class="button"></button>
     <room-picker
       class="picker"
       @changed="roomChanged"
       :week="selectWeek"
     ></room-picker>
-    <button class="button"></button>
   </bottom-panel>
-  <pop-view v-model:show="showPop">
-    <card v-if="selectedItem"> </card>
-  </pop-view>
 </template>
 
 <script lang="ts">
@@ -45,20 +31,20 @@
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
-  import HeaderTabView from '@/components/HeaderTabView/index.vue';
-  import PopView from '@/components/PopView/index.vue';
+  import TitleBar from '@/components/TitleBar/index.vue';
   import RoomPicker from '@/components/RoomPicker/index.vue';
   import { ZFService } from '@/services';
   import { groupBy } from '@/utils/tools';
 
   import './index.scss';
   export default defineComponent({
-    components: { HeaderTabView, PopView, Card, RoomPicker, BottomPanel },
+    components: { TitleBar, Card, RoomPicker, BottomPanel },
     setup() {
       function roomChanged(e) {
         ZFService.getFreeRoomInfo(e);
       }
       const room = computed(() => {
+        // comment: 数组，每个元素存放一幢教学楼的空教室
         let res = groupBy(serviceStore.zf.room, (item) => [item.buildName]);
         return res;
       });
@@ -69,18 +55,10 @@
         selectWeek
       };
     },
-    mounted() {},
     data() {
       return {
-        selectedItem: null,
-        showPop: false
+        selectedItem: null
       };
-    },
-    methods: {
-      pop(item) {
-        this.selectedItem = item;
-        this.showPop = true;
-      }
     }
   });
 </script>

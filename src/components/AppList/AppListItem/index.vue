@@ -1,39 +1,34 @@
 <template>
   <view class="applist-item" @tap="appTaped">
-    <card class="applist-bg" :color="getColorNumber" data-test="bg" inner>
+    <view
+      class="applist-bg"
+      data-test="bg"
+      :style="`background: var(--wjh-color-${bg})`"
+    >
       <image
         class="applist-item-icon"
         :src="require('@/assets/icons/applist/' + iconUrl)"
       ></image>
-    </card>
+    </view>
     <text class="label" data-test="label">{{ label }}</text>
   </view>
 </template>
 <script lang="ts">
   import Taro from '@tarojs/taro';
-  import Card from '@/components/Card/index.vue';
   import { defineComponent } from 'vue';
-  import './appListiItem.scss';
+  import './index.scss';
 
   const colorSetMap = { green: 0, blue: 1, cyan: 2, orange: 3, yellow: 4 };
   export default defineComponent({
     name: 'AppListItem',
-    components: {
-      card: Card
-    },
     props: {
       label: String,
       iconUrl: String,
       url: String,
       appId: { type: String },
       bg: {
-        default: 'red',
+        default: 'green',
         type: String
-      }
-    },
-    computed: {
-      getColorNumber() {
-        return colorSetMap[this.bg];
       }
     },
     methods: {

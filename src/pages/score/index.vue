@@ -1,7 +1,7 @@
 <template>
   <header-tab-view
     title="成绩"
-    :img="require('@/assets/exam/exam.png')"
+    :img="require('@/assets/photos/exam.svg')"
     :show-tab="false"
   >
     <template v-slot:content>

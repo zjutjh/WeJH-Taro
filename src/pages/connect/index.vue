@@ -1,10 +1,5 @@
 <template>
-  <title-bar
-    style="position: fixed"
-    :show-background="true"
-    title="反馈和帮助"
-    :showBackButton="true"
-  ></title-bar>
+  <title-bar style="position: fixed" title="反馈和帮助"></title-bar>
   <view class="background"></view>
   <scroll-view :scrollY="true">
     <view class="feedback-view">

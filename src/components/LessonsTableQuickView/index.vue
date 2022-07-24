@@ -4,7 +4,6 @@
     <card
       v-for="item in todayLessonTable"
       :key="item.lessonName"
-      inner
       :color="parseInt(item.classID.slice(0, 3), 16)"
       colormode="light"
     >

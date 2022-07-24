@@ -1,6 +1,7 @@
 @mixin shadow {
   box-shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 }
+
 $shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 
 @mixin blur {
@@ -12,12 +13,29 @@ $shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 }
 
 :host {
-  --wjh-green: #62e4c7;
-  --wjh-blue: #72d0fe;
-  --wjh-cyan: #22caca;
-  --wjh-orange: #fdc362;
-  --wjh-yellow: #ffcf4d;
-  --wjh-gray: #888888;
-  --wjh-light-orange: #ffedcd;
-  --wjh-light-yellow: #fff6c9;
+  --wjh-color-green: #62e4c7;
+  --wjh-color-blue: #72d0fe;
+  --wjh-color-cyan: #22caca;
+  --wjh-color-orange: #fdc362;
+  --wjh-color-yellow: #ffcf4d;
+  --wjh-color-gray: #888888;
+  --wjh-color-white: #fdfdfd;
+  --wjh-color-orange-light: #ffedcd;
+  --wjh-color-yellow-light: #fff6c9;
+  --wjh-color-cyan-light: #def9f3;
+}
+
+:host {
+  --wjh-color-text: #333;
+  --wjh-color-text-secondary: #666;
+  --wjh-color-week: #999;
+  --wjh-color-light: #ccc;
+  --wjh-color-border: #eee;
+  --wjh-color-box: #f5f5f5;
+  --wjh-color-background: #fff;
+}
+
+:host {
+  --wjh-font-weight-medium: 800;
+  --wjh-font-weight-regular: 500;
 }

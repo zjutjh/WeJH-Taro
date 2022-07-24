@@ -1,0 +1,27 @@
+@import '@/style/theme.scss';
+
+.wjh-card {
+  @include radius;
+  padding: 0 16Px;
+  background-color: var(--wjh-color-background);
+
+  .wjh-card-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12Px 0;
+    border-bottom: 0.5px solid var(--wjh-color-border);
+
+    .title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      vertical-align: middle;
+      font-weight: lighter;
+    }
+  }
+
+  .wjh-card-body {
+    padding: 12Px 0;
+  }
+}

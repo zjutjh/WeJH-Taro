@@ -1,7 +1,7 @@
 <template>
   <view class="background"></view>
   <scroll-view :scrollY="true">
-    <title-bar title="我的"></title-bar>
+    <title-bar title="我的" :back-button="false"></title-bar>
     <card class="my-header">
       <view class="avatar">
         <image

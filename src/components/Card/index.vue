@@ -1,11 +1,14 @@
 <template>
-  <view class="card" :style="getStyle()">
-    <slot></slot>
+  <view class="wjh-card" :style="getStyle()">
+    <view v-if="title" class="wjh-card-header">{{ title }}</view>
+    <view class="wjh-card-body">
+      <slot></slot>
+    </view>
   </view>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import './style/index.scss';
+  import './index.scss';
   const colorSetDefault = [
     '#62e4c7',
     '#72d0fe',
@@ -16,15 +19,11 @@
   const colorSetLight = ['#ffedcd', '#fff6c9'];
   export default defineComponent({
     props: {
+      title: String,
       color: Number,
-      inner: Boolean,
       colormode: String
     },
     computed: {
-      innerStyle() {
-        if (this.inner) return `margin: 0; padding: 0;`;
-        return undefined;
-      },
       randColorStyle() {
         if (this.color === undefined) return undefined;
         let colorSet = colorSetDefault;
@@ -35,7 +34,7 @@
     },
     methods: {
       getStyle() {
-        const styleList = [this.randColorStyle, this.innerStyle];
+        const styleList = [this.randColorStyle];
         return styleList.join(' ');
       }
     }
