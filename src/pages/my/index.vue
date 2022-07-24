@@ -1,36 +1,40 @@
 <template>
+  <title-bar title="我的" :back-button="false"></title-bar>
   <view class="background"></view>
-  <scroll-view :scrollY="true">
-    <title-bar title="我的" :back-button="false"></title-bar>
-    <card class="my-header">
-      <view class="avatar">
+  <view>
+    <card class="profile-card">
+      <view class="avatar-wrapper">
         <image
           v-if="userWXProfile"
           class="avatar"
           :src="userWXProfile.avatarUrl"
         ></image>
       </view>
-      <view>
-        <view v-if="userWXProfile" class="name">{{
-          userWXProfile.nickName
-        }}</view>
-        <view v-else class="name" @tap="getUserWXInfo">点击获取头像昵称</view>
-        <view class="sub-text" v-if="userInfo">{{ userInfo.studentID }}</view>
-
-        <button class="active" v-if="!isActive" @tap="nav2activation">
-          激活
-        </button>
-        <view v-else class="sub-text">
-          微精弘
-          <!--           <nut-tag round type="primary">{{ buildTag }}</nut-tag> -->
+      <view class="profile-split"></view>
+      <view class="info-wrapper">
+        <view>
+          <view v-if="userWXProfile" class="name">{{
+            userWXProfile.nickName
+          }}</view>
+          <view v-else class="name" @tap="getUserWXInfo">点击获取头像昵称</view>
+          <view class="sub-text">微精弘</view>
         </view>
+        <view class="sub-text" style="bottom: 0" v-if="userInfo">{{
+          userInfo.studentID
+        }}</view>
       </view>
     </card>
 
+    <card v-if="!isActive">
+      <button class="active" v-if="!isActive" @tap="nav2activation">
+        激活
+      </button>
+      <view v-else class="sub-text"> 微精弘 </view>
+    </card>
     <view class="flex" v-if="isActive">
       <card
         class="item"
-        v-for="item in items"
+        v-for="item in options"
         :key="item.title"
         @tap="nav2url(item.url)"
       >
@@ -50,7 +54,7 @@
       @plusClick="plusClick"
       :showPop="showPop"
     ></nav-bar>
-  </scroll-view>
+  </view>
 </template>
 
 <script lang="ts">
@@ -70,7 +74,7 @@
     components: { NavBar, TitleBar, Card, PopView, AppList },
     data() {
       return {
-        items: [
+        options: [
           {
             icon: require('@/assets/icons/bind.svg'),
             title: '绑定',

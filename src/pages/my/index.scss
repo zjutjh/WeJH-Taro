@@ -1,20 +1,5 @@
 @import '@/style/theme.scss';
 
-.avatar {
-  border-radius: 100rem;
-  height: 4rem;
-  min-width: 4rem;
-  max-width: 4rem;
-  overflow: hidden;
-  margin-right: 1rem;
-}
-scroll-view {
-  height: 100vh;
-}
-.name {
-  font-size: 1.5rem;
-  font-weight: bolder;
-}
 
 .flex {
   display: flex;
@@ -23,6 +8,7 @@ scroll-view {
   flex-wrap: wrap;
   padding-bottom: 150px;
 }
+
 .item {
   padding: 0.5rem;
   margin: 0.5rem;
@@ -43,16 +29,53 @@ scroll-view {
   }
 }
 
-.my-header {
-  margin: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  height: 30%;
-  max-height: 150px;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  width: fit-content;
+.profile-card {
+  margin: 1rem 2rem;
+  background: linear-gradient(120deg, var(--wjh-color-orange-light) 25%, var(--wjh-color-green) 85%);
+
+  .wjh-card-body {
+    height: 100Px;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 0;
+  }
+
+  .avatar {
+    border-radius: 100rem;
+    height: 4rem;
+    width: 4rem;
+    overflow: hidden;
+  }
+
+  .avatar-wrapper {
+    height: fit-content;
+    margin: auto 0.5rem;
+  }
+
+  .profile-split {
+    display: inline-block;
+    background-color: var(--wjh-color-white);
+    vertical-align: middle;
+    height: 100%;
+    width: 0.1rem;
+    margin: 0 1rem;
+  }
+
+  .info-wrapper {
+    width: 68%;
+    text-align: end;
+    color: var(--wjh-color-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .name {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .sub-text {
+      font-size: 0.875rem;
+    }
+  }
 }

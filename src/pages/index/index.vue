@@ -1,8 +1,7 @@
 <template>
+  <title-bar title="微精弘" :back-button="false"></title-bar>
   <view class="background"></view>
   <scroll-view :scrollY="true">
-    <title-bar title="微精弘" :back-button="false"></title-bar>
-
     <view class="quick-card-view" v-if="isActive">
       <lesson-table-quick-view
         v-if="isBindZf"
