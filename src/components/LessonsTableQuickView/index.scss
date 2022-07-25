@@ -1,48 +1,61 @@
 .bolder {
   font-weight: bolder;
 }
+
 .small {
   font-size: 0.75rem;
 }
-.inner-card {
-  margin: 0;
-  padding: 0;
-}
-.lesson-item {
-  border-radius: 0.5rem;
-  display: flex;
-  margin: 0.5rem 0rem;
-  padding: 1rem;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-  height: 4rem;
-  .name {
-    font-size: 0.875rem;
-  }
-  .col {
-    min-width: 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-  }
-  .red {
-    color: red;
-  }
-  .split {
-    display: inline-block;
-    background-color: black;
-    vertical-align: middle;
-    height: 4rem;
-    width: 0.05rem;
-  }
-}
 
-.left {
-  width: 64%;
-}
-.right {
-  width: 36%;
-  text-align: end;
+.lessons-table-quick-view {
+  .wjh-card {
+    box-shadow: none;
+  }
+
+  .lesson-item {
+    border-radius: 0.5rem;
+    display: flex;
+    margin: 0.5rem 0;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    height: 4rem;
+
+    .iconfont {
+      font-size: 0.875rem;
+    }
+
+    .name {
+      font-size: 0.875rem;
+    }
+
+    .col {
+      min-width: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .split {
+      display: inline-block;
+      background-color: var(--wjh-color-week);
+      vertical-align: middle;
+      height: 4rem;
+      width: 0.05rem;
+    }
+
+    .left {
+      width: 64%;
+    }
+
+    .right {
+      width: 36%;
+      text-align: end;
+    }
+
+  }
 }

@@ -75,6 +75,7 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import WeekPicker from '@/components/WeekPicker/index.vue';
   import { ZFService } from '@/services';
+  import { isNewIPhone } from '@/utils/effects';
   import './index.scss';
 
   export default {
@@ -123,15 +124,6 @@
 
           return selectWeek.value <= ed && selectWeek.value >= st;
         });
-      });
-
-      const isNewIPhone = computed(() => {
-        let info = Taro.getSystemInfoSync();
-        if (!info.model) return false;
-        let isNewIphone = info.model.match(
-          '(iPhone X|iPhone XS|iPhone 11|iPhone 12|iPhone 13|iPhone14)'
-        )?.length;
-        return isNewIphone !== undefined && isNewIphone > 0;
       });
 
       const isRefleshing = ref(false);

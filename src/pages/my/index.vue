@@ -1,7 +1,6 @@
 <template>
-  <title-bar title="我的" :back-button="false"></title-bar>
-  <view class="background"></view>
-  <view>
+  <view class="background">
+    <title-bar title="我的" :back-button="false"></title-bar>
     <card class="profile-card">
       <view class="avatar-wrapper">
         <image
@@ -30,21 +29,30 @@
         激活
       </button>
       <view v-else class="sub-text"> 微精弘 </view>
+      <text class="sub-text centet">激活享受更多精彩</text>
     </card>
-    <view class="flex" v-if="isActive">
+
+    <view class="operate">
       <card
-        class="item"
-        v-for="item in options"
-        :key="item.title"
-        @tap="nav2url(item.url)"
+        style="margin: 0 2rem"
+        v-for="(column, index) in options"
+        :key="index"
       >
-        <image v-if="item.icon" mode="heightFix" :src="item.icon"></image>
-        <text>{{ item.title }}</text>
+        <w-list v-if="isActive">
+          <w-list-item
+            v-for="item in column"
+            :key="item.title"
+            @tap="nav2url(item.url)"
+          >
+            <text>{{ item.title }}</text>
+          </w-list-item>
+        </w-list>
+        <view v-else>
+          <text class="sub-text centet">激活享受更多精彩</text>
+        </view>
       </card>
     </view>
-    <view v-else>
-      <text class="sub-text centet">激活享受更多精彩</text>
-    </view>
+
     <pop-view v-model:show="showPop">
       <app-list></app-list>
     </pop-view>
@@ -64,6 +72,7 @@
   import NavBar from '@/components/NavBar/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import PopView from '@/components/PopView/index.vue';
+  import { WList, WListItem } from '@/components/list/index';
   import Taro from '@tarojs/taro';
   import { UserService } from '@/services';
   import { defineComponent } from 'vue';
@@ -71,35 +80,41 @@
 
   import './index.scss';
   export default defineComponent({
-    components: { NavBar, TitleBar, Card, PopView, AppList },
+    components: { NavBar, TitleBar, Card, PopView, AppList, WList, WListItem },
     data() {
       return {
         options: [
-          {
-            icon: require('@/assets/icons/bind.svg'),
-            title: '绑定',
-            url: '/pages/bind/index'
-          },
-          {
-            icon: require('@/assets/icons/lab.svg'),
-            title: '实验室',
-            url: '/pages/lab/index'
-          },
-          {
-            icon: require('@/assets/icons/feedback.svg'),
-            title: '反馈',
-            url: '/pages/connect/index'
-          },
-          {
-            icon: require('@/assets/icons/setting.svg'),
-            title: '设置',
-            url: '/pages/setting/index'
-          },
-          {
-            icon: require('@/assets/icons/about.svg'),
-            title: '关于',
-            url: '/pages/about/index'
-          }
+          [
+            {
+              icon: require('@/assets/icons/bind.svg'),
+              title: '绑定',
+              url: '/pages/bind/index'
+            },
+            {
+              icon: require('@/assets/icons/lab.svg'),
+              title: '实验室',
+              url: '/pages/lab/index'
+            }
+          ],
+          [
+            {
+              icon: require('@/assets/icons/feedback.svg'),
+              title: '反馈',
+              url: '/pages/connect/index'
+            },
+            {
+              icon: require('@/assets/icons/about.svg'),
+              title: '关于',
+              url: '/pages/about/index'
+            }
+          ],
+          [
+            {
+              icon: require('@/assets/icons/setting.svg'),
+              title: '设置',
+              url: '/pages/setting/index'
+            }
+          ]
         ],
         showPop: false
       };

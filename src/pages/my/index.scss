@@ -79,3 +79,13 @@
     }
   }
 }
+
+.operate {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .wjh-list-item__content {
+    font-size: 0.875rem;
+  }
+}

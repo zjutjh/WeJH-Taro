@@ -1,8 +1,13 @@
 <template>
   <view class="wjh-card" :style="getStyle()">
-    <view v-if="title" class="wjh-card-header">{{ title }}</view>
+    <view v-if="title" class="wjh-card-header">
+      {{ title }}
+    </view>
     <view class="wjh-card-body">
       <slot></slot>
+    </view>
+    <view class="wjh-card-footer">
+      <slot name="footer"></slot>
     </view>
   </view>
 </template>

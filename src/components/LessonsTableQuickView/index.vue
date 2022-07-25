@@ -1,11 +1,17 @@
 <template>
-  <quick-view @tap="nev2Lesson" title="课程表" icon-name="lessonstable">
+  <quick-view
+    @tap="nev2Lesson"
+    title="课程表"
+    icon-name="lessonstable"
+    class="lessons-table-quick-view"
+  >
     <text class="sub-text">今日课表({{ balanceUpdateTimeString }})</text>
     <card
       v-for="item in todayLessonTable"
       :key="item.lessonName"
       :color="parseInt(item.classID.slice(0, 3), 16)"
       colormode="light"
+      style="margin: 0.5rem 0"
     >
       <view class="lesson-item">
         <view class="col left">

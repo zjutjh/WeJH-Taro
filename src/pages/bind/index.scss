@@ -1,24 +1,23 @@
 @import '@/style/frame';
 
-.index {
-  display: flex;
+.bind {
   height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.card {
-  width: 80vw;
-  z-index: 1000;
-}
 
-.title {
-  font-size: 2rem;
-  margin: 1rem;
-  text-align: center;
-  display: block;
-}
+  .wjh-card-header {
+    font-size: 1.5rem;
+    font-weight: var(--wjh-font-weight-medium);
+    justify-content: center;
+  }
 
-.bind-info {
-  color: gray;
+  .title {
+    font-size: 2rem;
+    margin: 1rem;
+    text-align: center;
+    display: block;
+  }
+
+  .bind-info {
+    color: gray;
+  }
+
 }

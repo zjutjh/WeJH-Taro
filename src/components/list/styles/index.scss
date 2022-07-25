@@ -1,0 +1,28 @@
+@import '@/style/theme.scss';
+
+.wjh-list {
+  --padding-left: 12px;
+  --padding-right: 12px;
+  --aligin-item: center;
+  --border-inner: solid 1px var(--wjh-color-border);
+}
+
+.wjh-list-item {
+  padding-left: var(--padding-left);
+  position: relative;
+  background-color: var(--wjh-color-background);
+  line-height: 2.25rem;
+
+  .wjh-list-item__content {
+    padding-right: var(--padding-right);
+    display: flex;
+    align-items: var(--aligin-item);
+    justify-content: flex-start;
+  }
+}
+
+.wjh-list-item:not(:first-child) {
+  .wjh-list-item__content {
+    border-top: var(--border-inner);
+  }
+}

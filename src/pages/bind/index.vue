@@ -1,16 +1,8 @@
 <template>
-  <TitleBar
-    style="position: fixed"
-    title="信息绑定"
-    :show-back-button="true"
-    :show-background="true"
-  ></TitleBar>
+  <TitleBar title="绑定"></TitleBar>
   <view class="background"></view>
-  <view class="index">
-    <card>
-      <view>
-        <text class="title">信息绑定</text>
-      </view>
+  <view class="bind">
+    <card title="信息绑定" style="margin: 1.5rem 2rem">
       <text>正方教务系统</text>
       <text v-if="user.isBindZF" class="bind-info">(已绑定)</text>
       <view>

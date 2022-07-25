@@ -1,7 +1,7 @@
 <template>
   <title-bar title="空教室"></title-bar>
   <view class="background"></view>
-  <scroll-view :scrollY="true" style="height: calc(100vh - 56px - 64px)">
+  <scroll-view :scrollY="true" :style="scrollViewHeight()">
     <card v-if="!room" title="无记录" style="text-align: center"></card>
     <card
       v-for="item in room"
@@ -34,6 +34,7 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import RoomPicker from '@/components/RoomPicker/index.vue';
   import { ZFService } from '@/services';
+  import { scrollViewHeight } from '@/utils/effects';
   import { groupBy } from '@/utils/tools';
 
   import './index.scss';
@@ -52,7 +53,8 @@
       return {
         room,
         roomChanged,
-        selectWeek
+        selectWeek,
+        scrollViewHeight
       };
     },
     data() {

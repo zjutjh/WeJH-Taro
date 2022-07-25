@@ -4,14 +4,18 @@
 
 .quick-view {
   @include radius;
+  @include shadow;
   margin: 0.5rem 1.5rem;
   padding: 40px;
+
   view {
     color: #262626;
   }
+
   text {
     color: #262626;
   }
+
   .title {
     font-size: 1.5rem;
     font-weight: 800;
@@ -38,11 +42,13 @@
       margin: 0 0.7rem;
     }
   }
+
   .sub-text {
     font-size: 0.75rem;
     line-height: 1.2rem;
     color: #808080;
   }
+
   .div-line {
     background: #e0e3da;
     width: 100%;
