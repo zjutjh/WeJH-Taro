@@ -1,6 +1,4 @@
-@import './components/button';
 @import './components/input';
-@import './components/header';
 @import './components/list';
 
 page {
@@ -111,7 +109,3 @@ scroll-view {
 		}
 	}
 } */
-
-.circle {
-  border-radius: 999px;
-}

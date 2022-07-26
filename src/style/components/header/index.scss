@@ -1,8 +1,0 @@
-@import './light.scss';
-@import './dark.scss';
-.header {
-  @include blur;
-  box-shadow: $shadow;
-  width: 100vw;
-  z-index: 999;
-}

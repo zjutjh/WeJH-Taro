@@ -1,24 +1,26 @@
 <template>
-  <view class="room-selecter">
-    <picker
-      mode="multiSelector"
-      :range="selector"
-      @change="onChange"
-      :value="selectorValue"
-    >
-      <view class="picker">
-        {{ selectorChecked[0] }} {{ selectorChecked[1] }}
-        {{ selectorChecked[2] }} {{ selectorChecked[3] }}
-      </view>
-    </picker>
-  </view>
+  <picker
+    mode="multiSelector"
+    :range="selector"
+    @change="onChange"
+    :value="selectorValue"
+  >
+    <w-button>
+      {{ selectorChecked[0] }} {{ selectorChecked[1] }}
+      {{ selectorChecked[2] }} {{ selectorChecked[3] }}
+    </w-button>
+  </picker>
 </template>
 
 <script lang="ts">
+  import { WButton } from '../button';
   import { defineComponent, reactive, ref } from 'vue';
   import { campus } from './constants';
   import { systemStore } from '@/store';
   export default defineComponent({
+    components: {
+      WButton
+    },
     props: {
       week: {
         default: 1,
@@ -82,11 +84,3 @@
     }
   });
 </script>
-<style>
-  .room-selecter {
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    background-color: rgba(218, 218, 218, 0.7);
-  }
-</style>

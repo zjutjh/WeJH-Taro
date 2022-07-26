@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 import '../styles/index.scss';
 
 export default defineComponent({
-  name: 'List',
+  name: 'WList',
   props: {},
   render() {
     const { $slots } = this;

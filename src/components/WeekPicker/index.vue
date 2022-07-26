@@ -1,34 +1,39 @@
 <template>
-  <button
+  <w-button
     v-if="week <= 19 && week > 1"
     class="week-backward circle"
     @tap="backwardWeek"
   >
     <view class="iconfont icon-arrow-left" />
-  </button>
+  </w-button>
   <picker
     mode="multiSelector"
     :range="selector"
     @change="onChange"
     :value="selectorValue"
   >
-    <button class="week-selector">
+    <w-button class="week-selector">
       <text v-if="week > 19 || week < 1">放假中</text>
       <view v-else class="picker">{{ currentWeek }}</view>
-    </button>
+    </w-button>
   </picker>
-  <button
+  <w-button
     v-if="week < 19 && week >= 1"
     class="week-forward circle"
     @tap="forwardWeek"
   >
     <view class="iconfont icon-arrow-right" />
-  </button>
+  </w-button>
 </template>
 
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
+  import { WButton } from '../button';
+
   export default defineComponent({
+    components: {
+      WButton
+    },
     name: 'WeekPick',
     props: {
       week: {

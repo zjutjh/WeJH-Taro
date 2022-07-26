@@ -1,26 +1,2 @@
 @import './style/icons.scss';
 @import './style';
-.icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
-.center {
-  text-align: center;
-}
-.pop-card {
-  @include blur;
-  width: 80%;
-  height: 70%;
-  .title {
-    font-size: 2rem;
-    text-align: center;
-    font-weight: bolder;
-    margin: 1rem;
-  }
-}
-.h5-b {
-  font-weight: 500;
-}

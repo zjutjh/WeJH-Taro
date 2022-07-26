@@ -1,14 +1,19 @@
 <template>
-  <button class="circle" @tap="reflesh">
+  <w-button shape="circle" @tap="reflesh">
     <view
       class="iconfont icon-refresh"
       :class="{ 'reflesh-running': isRefleshing }"
     />
-  </button>
+  </w-button>
 </template>
 
 <script lang="ts">
-  export default {
+  import { defineComponent } from 'vue';
+  import { WButton } from '../button';
+  export default defineComponent({
+    components: {
+      WButton
+    },
     props: {
       isRefleshing: Boolean
     },
@@ -17,7 +22,7 @@
         this.$emit('reflesh');
       }
     }
-  };
+  });
 </script>
 <style>
   @keyframes rote {

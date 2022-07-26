@@ -5,20 +5,24 @@
     @change="onChange"
     :value="selectorValue"
   >
-    <button class="term-selector">
+    <w-button class="term-selector">
       <view class="picker"
         >{{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}({{
           selectorChecked[1]
         }})</view
       >
-    </button>
+    </w-button>
   </picker>
 </template>
 
 <script lang="ts">
+  import { WButton } from '../button';
   import { defineComponent, reactive } from 'vue';
   import { systemStore } from '@/store';
   export default defineComponent({
+    components: {
+      WButton
+    },
     setup() {
       let year = parseInt(
         systemStore?.generalInfo?.termYear
@@ -62,8 +66,6 @@
 </script>
 <style>
   .term-selector {
-    border-radius: 0.5rem;
     text-align: center;
-    font-size: 1rem;
   }
 </style>

@@ -39,12 +39,12 @@
         @changed="weekChanged"
       />
       <term-picker v-else class="picker" @changed="termChanged"></term-picker>
-      <button class="circle" @tap="pickerModeSwitch">
-        <view class="iconfont icon-switch" />
-      </button>
+      <w-button shape="circle" @tap="pickerModeSwitch">
+        <view class="iconfont icon-switch"></view>
+      </w-button>
     </bottom-panel>
   </view>
-  <pop-view v-model:show="showPop" style="z-index: 4000">
+  <pop-view v-model:show="showPop">
     <view v-if="selection" class="lesson-detail">
       <view class="lesson-title">
         {{ selection.lessonName }}
@@ -66,8 +66,8 @@
   import { computed, onMounted, ref } from 'vue';
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
-  import Card from '@/components/Card/index.vue';
   import { Lesson } from '@/types/Lesson';
+  import { WButton } from '@/components/button';
   import LessonsTable from '@/components/LessonsTable/index.vue';
   import PopView from '@/components/PopView/index.vue';
   import RefleshButton from '@/components/RefleshButton/index.vue';
@@ -87,7 +87,7 @@
       RefleshButton,
       PopView,
       WeekPicker,
-      Card
+      WButton
     },
     data() {
       return {
