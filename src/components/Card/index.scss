@@ -3,7 +3,7 @@
 .wjh-card {
   @include radius;
   @include shadow;
-  padding: 0 16px;
+  padding: 0 16Px;
   background-color: var(--wjh-color-background);
 
   .wjh-card-header {
@@ -11,16 +11,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 0;
+    padding: 16Px 0;
     border-bottom: 1px solid var(--wjh-color-border);
   }
 
   .wjh-card-body {
-    padding: 12px 0;
+    padding: 12Px 0;
   }
 
   .wjh-card-footer {
     border-top: 1px solid var(--wjh-color-border);
-    padding: 12px;
+    padding: 12Px;
   }
 }

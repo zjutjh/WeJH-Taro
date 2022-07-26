@@ -1,29 +1,32 @@
 <template>
-  <title-bar title="空教室"></title-bar>
-  <view class="background"></view>
-  <scroll-view :scrollY="true" :style="scrollViewHeight()">
-    <card v-if="!room" title="无记录" style="text-align: center"></card>
-    <card
-      v-for="item in room"
-      class="building-card"
-      :key="item.id"
-      :title="item[0].buildName"
-    >
-      <view class="building-card-body">
-        <view class="room-card" v-for="i in item" :key="i.roomName">
-          <view class="room-name">{{ i.roomName }}</view>
-          <view class="room-seats">{{ i.roomSeats }}</view>
-        </view>
+  <view class="background">
+    <title-bar title="空教室"></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="flex-column">
+        <card v-if="!room" title="无记录" style="text-align: center"></card>
+        <card
+          v-for="item in room"
+          class="building-card"
+          :key="item.id"
+          :title="item[0].buildName"
+        >
+          <view class="building-card-body">
+            <view class="room-card" v-for="i in item" :key="i.roomName">
+              <view class="room-name">{{ i.roomName }}</view>
+              <view class="room-seats">{{ i.roomSeats }}</view>
+            </view>
+          </view>
+        </card>
       </view>
-    </card>
-  </scroll-view>
-  <bottom-panel>
-    <room-picker
-      class="picker"
-      @changed="roomChanged"
-      :week="selectWeek"
-    ></room-picker>
-  </bottom-panel>
+    </scroll-view>
+    <bottom-panel>
+      <room-picker
+        class="picker"
+        @changed="roomChanged"
+        :week="selectWeek"
+      ></room-picker>
+    </bottom-panel>
+  </view>
 </template>
 
 <script lang="ts">
@@ -34,7 +37,6 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import RoomPicker from '@/components/RoomPicker/index.vue';
   import { ZFService } from '@/services';
-  import { scrollViewHeight } from '@/utils/effects';
   import { groupBy } from '@/utils/tools';
 
   import './index.scss';
@@ -53,8 +55,7 @@
       return {
         room,
         roomChanged,
-        selectWeek,
-        scrollViewHeight
+        selectWeek
       };
     },
     data() {

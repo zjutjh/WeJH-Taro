@@ -1,26 +1,35 @@
 <template>
-  <title-bar style="position: fixed" title="反馈和帮助"></title-bar>
-  <view class="background"></view>
-  <scroll-view :scrollY="true">
-    <view class="feedback-view">
-      <image
-        mode="aspectFit"
-        :src="require('@/assets/feedback/feedback.svg')"
-        style="height: 40vh; width: 100%; margin: auto; display: block"
-      ></image>
-      <cell-group title="反馈和帮助">
-        <cell class="cell-button" title="常见问题" is-link @tap="nav2FAQ" />
-        <cell class="cell-button" title="加入交流群" @tap="showGroups" />
-      </cell-group>
-    </view>
-  </scroll-view>
+  <view class="connect-view background">
+    <title-bar title="反馈"></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="flex-column">
+        <card>
+          <template #header>
+            <view class="header-text">反馈和帮助</view>
+          </template>
+          <w-list>
+            <w-list-item>
+              <image
+                :src="require('@/assets/photos/feedback.svg')"
+                style="margin: 8px 0"
+              ></image>
+            </w-list-item>
+            <w-list-item @tap="nav2FAQ">常见问题</w-list-item>
+            <w-list-item @tap="showGroups">加入交流群</w-list-item>
+          </w-list>
+        </card>
+      </view>
+    </scroll-view>
+  </view>
 </template>
 
 <script lang="ts">
-  import { Cell, CellGroup } from '@nutui/nutui-taro';
   import Taro from '@tarojs/taro';
+  import { WList, WListItem } from '@/components/list';
   import TitleBar from '@/components/TitleBar/index.vue';
+  import Card from '@/components/Card/index.vue';
   import './index.scss';
+  import { defineComponent } from 'vue';
 
   const groupInfo = [
     {
@@ -32,11 +41,12 @@
       id: '282402782'
     }
   ];
-  export default {
+  export default defineComponent({
     components: {
       TitleBar,
-      Cell,
-      CellGroup
+      WList,
+      WListItem,
+      Card
     },
     methods: {
       nav2FAQ(e) {
@@ -55,5 +65,5 @@
         });
       }
     }
-  };
+  });
 </script>

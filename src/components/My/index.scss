@@ -30,7 +30,6 @@
 }
 
 .profile-card {
-  margin: 1rem 2rem;
   background: linear-gradient(120deg, var(--wjh-color-orange-light) 25%, var(--wjh-color-green) 85%);
 
   .wjh-card-body {
@@ -84,6 +83,13 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  .operate-list {
+    padding: 8Px;
+    background-color: var(--wjh-color-background);
+    @include radius;
+    @include shadow;
+  }
 
   .wjh-list-item__content {
     font-size: 0.875rem;

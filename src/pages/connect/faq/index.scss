@@ -1,21 +1,16 @@
-.collapse-view {
-  padding-top: 150px;
-  padding-bottom: 50px;
-}
-scroll-view {
-  height: 100vh;
-}
-.collapse-wrapper {
-  height: auto !important;
-}
+@import '@/style/theme.scss';
 
-.collapse-title-value {
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 800;
-}
+.connect-view {
 
-text {
-  font-size: 14px;
-  line-height: 20px;
+  .qa-card {
+    font-size: 0.875rem;
+  }
+
+  .wjh-card-header {
+    font-weight: var(--wjh-font-weight-medium);
+  }
+
+  .wjh-card-item__content {
+    font-size: 0.875rem;
+  }
 }

@@ -1,14 +1,16 @@
 <template>
-  <title-bar title="课程表"></title-bar>
   <view class="background">
-    <lessons-table
-      v-show="showLessonType"
-      @longpress="switchLessonType"
-      class="index"
-      :class="{ 'index-ios': isNewIPhone }"
-      :lessons="showLessonType ? lessonsTable : lessonsTableWeek"
-      @classClick="classClick"
-    />
+    <title-bar title="课程表"></title-bar>
+    <scroll-view :scrollY="true">
+      <lessons-table
+        v-show="showLessonType"
+        @longpress="switchLessonType"
+        class="index"
+        :class="{ 'index-ios': isNewIPhone }"
+        :lessons="showLessonType ? lessonsTable : lessonsTableWeek"
+        @classClick="classClick"
+      />
+    </scroll-view>
 
     <scroll-view :scrollY="true" v-if="!showLessonType">
       <view class="practice-lessons-list" @longpress="switchLessonType">
@@ -24,24 +26,24 @@
         </view>
       </view>
     </scroll-view>
+
+    <bottom-panel>
+      <reflesh-button
+        @reflesh="reflesh"
+        :is-refleshing="isRefleshing"
+      ></reflesh-button>
+      <week-picker
+        v-if="showWeekPicker"
+        class="picker"
+        :week="selectWeek"
+        @changed="weekChanged"
+      />
+      <term-picker v-else class="picker" @changed="termChanged"></term-picker>
+      <button class="circle" @tap="pickerModeSwitch">
+        <view class="iconfont icon-switch" />
+      </button>
+    </bottom-panel>
   </view>
-  <fixed-nav />
-  <bottom-panel>
-    <reflesh-button
-      @reflesh="reflesh"
-      :is-refleshing="isRefleshing"
-    ></reflesh-button>
-    <week-picker
-      v-if="showWeekPicker"
-      class="picker"
-      :week="selectWeek"
-      @changed="weekChanged"
-    />
-    <term-picker v-else class="picker" @changed="termChanged"></term-picker>
-    <button class="circle" @tap="pickerModeSwitch">
-      <view class="iconfont icon-switch" />
-    </button>
-  </bottom-panel>
   <pop-view v-model:show="showPop" style="z-index: 4000">
     <view v-if="selection" class="lesson-detail">
       <view class="lesson-title">
@@ -65,12 +67,10 @@
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
-  import FixedNav from '@/components/FixedNav/index.vue';
   import { Lesson } from '@/types/Lesson';
   import LessonsTable from '@/components/LessonsTable/index.vue';
   import PopView from '@/components/PopView/index.vue';
   import RefleshButton from '@/components/RefleshButton/index.vue';
-  import Taro from '@tarojs/taro';
   import TermPicker from '@/components/TermPicker/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import WeekPicker from '@/components/WeekPicker/index.vue';
@@ -85,7 +85,6 @@
       TitleBar,
       BottomPanel,
       RefleshButton,
-      FixedNav,
       PopView,
       WeekPicker,
       Card

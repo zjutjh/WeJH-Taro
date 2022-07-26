@@ -1,13 +1,13 @@
 <template>
   <view
-    class="pop-view"
+    class="wjh-pop-view"
     :class="{
       hidden: !show
     }"
   >
     <view v-if="showMask" class="mask" @tap="close"></view>
     <view
-      class="pop-view-body"
+      class="wjh-pop-view-body"
       :class="positionClass"
       :style="
         isNewIPhone() && positionClass === 'bottom' ? 'margin-bottom: 2rem' : ''

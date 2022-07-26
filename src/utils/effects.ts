@@ -19,3 +19,8 @@ export function scrollViewHeight(top = true, bottom = true) {
     height: `calc(100vh - ${topHeight} - ${bottomHeight})`
   };
 }
+
+export function getCopyRight() {
+  const currentYear = new Date().getFullYear();
+  return `精弘网络@${currentYear}`;
+}

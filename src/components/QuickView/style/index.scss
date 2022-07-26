@@ -1,20 +1,12 @@
-@import './light.scss';
-@import './dark.scss';
+// @import './light.scss';
+// @import './dark.scss';
 @import '@/style/theme.scss';
 
 .quick-view {
   @include radius;
   @include shadow;
-  margin: 0.5rem 1.5rem;
   padding: 40px;
-
-  view {
-    color: #262626;
-  }
-
-  text {
-    color: #262626;
-  }
+  background-color: var(--wjh-color-background);
 
   .title {
     font-size: 1.5rem;

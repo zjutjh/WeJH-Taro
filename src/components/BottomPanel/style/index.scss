@@ -5,7 +5,6 @@
   height: 3rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -17,6 +16,7 @@
   z-index: 3000;
   background: white;
 }
+
 .bottom-bar-ios {
   padding-bottom: 2rem;
 }

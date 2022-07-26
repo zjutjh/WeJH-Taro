@@ -10,12 +10,11 @@
   margin-left: 1rem;
   margin-right: 1rem;
 }
+
 .index-ios {
   height: calc(100vh - 12rem);
 }
-scroll-view {
-  height: 100vh;
-}
+
 .practice-lessons-list {
   min-height: 80vh;
   padding-bottom: 10rem;
@@ -26,11 +25,13 @@ scroll-view {
   font-size: 1.5rem;
   font-weight: 500;
 }
+
 .lesson-detail {
   padding: 1.5rem 0 3rem 0;
   width: 80%;
   margin: 0 auto;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
+
   .lesson-title {
     font-size: 1.5rem;
     font-weight: 800;

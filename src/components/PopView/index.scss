@@ -1,4 +1,4 @@
-.pop-view {
+.wjh-pop-view {
   transition: all cubic-bezier(0, -0.5, 1, 1.5) 0.2s;
   position: fixed;
   z-index: 1000;
@@ -12,14 +12,14 @@
     height: 100%;
   }
 
-  .pop-view-body {
+  .wjh-pop-view-body {
     background-color: var(--wjh-color-background);
     width: 100%;
     z-index: 1010;
     position: fixed;
     margin: 0;
-    border-top-right-radius: 1rem;
-    border-top-left-radius: 1rem;
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
   }
 
   .bottom {

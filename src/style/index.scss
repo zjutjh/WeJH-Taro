@@ -7,9 +7,16 @@ page {
   background-color: #f5f5f5;
 }
 
+scroll-view {
+  flex: 1;
+  height: 1Px;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
 }
 
 .jc-index-panel {

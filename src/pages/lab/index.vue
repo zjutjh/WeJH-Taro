@@ -1,26 +1,48 @@
 <template>
-  <title-bar title="实验室"></title-bar>
-  <view class="background"></view>
-  <view class="main">
-    <card>
-      <view>
-        <text>当前没有实验功能，尽情期待！😚</text>
+  <view class="lab-view background">
+    <title-bar title="实验室"></title-bar>
+    <scroll-view scrollY="true">
+      <view class="flex-column">
+        <card class="lab-card">
+          <view v-if="isEmpty" class="empty">{{ emptyText }}</view>
+          <template #footer>
+            <view class="footer-text">{{ getCopyRight() }}</view>
+          </template>
+        </card>
       </view>
-    </card>
-    <card>
-      <view class="info-p"> 精弘网络@2021 </view>
-    </card>
+    </scroll-view>
+    <image
+      v-if="isEmpty"
+      src="@/assets/photos/lab.svg"
+      style="margin: 0 auto"
+    ></image>
   </view>
 </template>
 
 <script lang="ts">
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
+  import { labText } from '@/utils/copywriting';
+  import { getCopyRight } from '@/utils/effects';
+  import { defineComponent } from 'vue';
   import './index.scss';
-  export default {
+  export default defineComponent({
+    data() {
+      return {
+        isEmpty: true
+      };
+    },
     components: {
       TitleBar,
       Card
+    },
+    computed: {
+      emptyText() {
+        return labText.empty;
+      }
+    },
+    methods: {
+      getCopyRight
     }
-  };
+  });
 </script>

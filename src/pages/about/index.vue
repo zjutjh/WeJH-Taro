@@ -22,13 +22,13 @@
             </view>
           </view>
         </card>
-        <card title="测试信息" v-if="!isDevelopment">
-          <view> Hash:{{ commitHash.slice(0, 6) }} </view>
+        <card title="测试信息" v-if="isDevelopment">
+          <view>Hash: {{ commitHash.slice(0, 6) }}</view>
           <view>
-            版本：<nut-tag round type="primary">{{ commitTag }}</nut-tag>
+            版本: <nut-tag round type="primary">{{ commitTag }}</nut-tag>
           </view>
-          <view> 编译时间：{{ buildTime }} </view>
-          <view>精弘网络@{{ currentYear }}</view>
+          <view>编译时间: {{ buildTime }}</view>
+          <view>{{ getCopyRight() }}</view>
         </card>
       </view>
     </scroll-view>
@@ -39,8 +39,8 @@
   import Card from '@/components/Card/index.vue';
   import { Tag as NutTag } from '@nutui/nutui-taro';
   import TitleBar from '@/components/TitleBar/index.vue';
-  import { about } from '@/utils/copywriting';
-  import { scrollViewHeight } from '@/utils/effects';
+  import { aboutText } from '@/utils/copywriting';
+  import { getCopyRight } from '@/utils/effects';
   import './index.scss';
 
   export default {
@@ -63,15 +63,12 @@
       buildTime() {
         return process.env.BUILD_TIME;
       },
-      currentYear() {
-        return new Date().getFullYear();
-      },
       description() {
-        return about.description;
+        return aboutText.description;
       }
     },
     methods: {
-      scrollViewHeight
+      getCopyRight
     }
   };
 </script>

@@ -1,7 +1,14 @@
-.info-p {
-  text-align: center;
-}
+@import '@/style/theme.scss';
 
-.main {
-  height: calc(100vh - 60px);
+.lab-card {
+  font-size: 0.875rem;
+
+  .empty {
+    padding: 1rem;
+  }
+
+  .footer-text {
+    text-align: center;
+  }
+
 }

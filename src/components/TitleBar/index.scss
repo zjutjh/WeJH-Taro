@@ -2,10 +2,8 @@
 
 .wjh-title-bar {
   width: 100vw;
-  position: sticky;
   display: inline-flex;
   background-color: var(--wjh-color-background);
-  z-index: 9999;
 
   .wjh-title-bar-back-button {
     color: var(--wjh-color-text);

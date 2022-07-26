@@ -1,44 +1,46 @@
 <template>
-  <view class="background">
-    <title-bar title="我的" :back-button="false"></title-bar>
-    <card class="profile-card">
-      <view class="avatar-wrapper">
-        <image
-          v-if="userWXProfile"
-          class="avatar"
-          :src="userWXProfile.avatarUrl"
-        ></image>
-      </view>
-      <view class="profile-split"></view>
-      <view class="info-wrapper">
-        <view>
-          <view v-if="userWXProfile" class="name">{{
-            userWXProfile.nickName
-          }}</view>
-          <view v-else class="name" @tap="getUserWXInfo">点击获取头像昵称</view>
-          <view class="sub-text">微精弘</view>
+  <title-bar title="我的" :back-button="false"></title-bar>
+  <scroll-view scrollY="true">
+    <view class="flex-column">
+      <card class="profile-card">
+        <view class="avatar-wrapper">
+          <image
+            v-if="userWXProfile"
+            class="avatar"
+            :src="userWXProfile.avatarUrl"
+          ></image>
         </view>
-        <view class="sub-text" style="bottom: 0" v-if="userInfo">{{
-          userInfo.studentID
-        }}</view>
-      </view>
-    </card>
+        <view class="profile-split"></view>
+        <view class="info-wrapper">
+          <view>
+            <view v-if="userWXProfile" class="name">{{
+              userWXProfile.nickName
+            }}</view>
+            <view v-else class="name" @tap="getUserWXInfo"
+              >点击获取头像昵称</view
+            >
+            <view class="sub-text">微精弘</view>
+          </view>
+          <view class="sub-text" style="bottom: 0" v-if="userInfo">{{
+            userInfo.studentID
+          }}</view>
+        </view>
+      </card>
 
-    <card v-if="!isActive">
-      <button class="active" v-if="!isActive" @tap="nav2activation">
-        激活
-      </button>
-      <view v-else class="sub-text"> 微精弘 </view>
-      <text class="sub-text centet">激活享受更多精彩</text>
-    </card>
+      <card v-if="!isActive">
+        <button class="active" v-if="!isActive" @tap="nav2activation">
+          激活
+        </button>
+        <view v-else class="sub-text"> 微精弘 </view>
+        <text class="sub-text centet">激活享受更多精彩</text>
+      </card>
 
-    <view class="operate">
-      <card
-        style="margin: 0 2rem"
-        v-for="(column, index) in options"
-        :key="index"
-      >
-        <w-list v-if="isActive">
+      <view class="operate" v-if="isActive">
+        <w-list
+          :key="index"
+          v-for="(column, index) in options"
+          class="operate-list"
+        >
           <w-list-item
             v-for="item in column"
             :key="item.title"
@@ -47,31 +49,18 @@
             <text>{{ item.title }}</text>
           </w-list-item>
         </w-list>
-        <view v-else>
-          <text class="sub-text centet">激活享受更多精彩</text>
-        </view>
-      </card>
+      </view>
+      <view v-else>
+        <text class="sub-text centet">激活享受更多精彩</text>
+      </view>
     </view>
-
-    <pop-view v-model:show="showPop">
-      <app-list></app-list>
-    </pop-view>
-    <nav-bar
-      :show-plus="false"
-      page-name="my"
-      @plusClick="plusClick"
-      :showPop="showPop"
-    ></nav-bar>
-  </view>
+  </scroll-view>
 </template>
 
 <script lang="ts">
   import { serviceStore, systemStore } from '@/store';
-  import AppList from '@/components/AppList/index.vue';
   import Card from '@/components/Card/index.vue';
-  import NavBar from '@/components/NavBar/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
-  import PopView from '@/components/PopView/index.vue';
   import { WList, WListItem } from '@/components/list/index';
   import Taro from '@tarojs/taro';
   import { UserService } from '@/services';
@@ -80,7 +69,7 @@
 
   import './index.scss';
   export default defineComponent({
-    components: { NavBar, TitleBar, Card, PopView, AppList, WList, WListItem },
+    components: { TitleBar, Card, WList, WListItem },
     data() {
       return {
         options: [

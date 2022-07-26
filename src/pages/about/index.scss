@@ -5,11 +5,6 @@
   flex-direction: column;
 }
 
-.wjh-card {
-  margin: 1.5rem 2rem 0 2rem;
-}
-
-
 .description-card {
   .wjh-card-header {
     font-size: 1.5rem;
@@ -20,7 +15,6 @@
   .description {
     font-size: 0.75rem;
     color: var(--wjh-color-week);
-    padding: 0.5rem 1rem;
 
     .description-item {
       margin-bottom: 1rem;

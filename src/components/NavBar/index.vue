@@ -1,7 +1,7 @@
 <template>
   <bottom-panel>
     <view
-      @tap="nev('/pages/index/index')"
+      @tap="nav('home')"
       :class="pageName === 'home' && !showPop ? 'selected' : 'unselected'"
     >
       <view class="iconfont icon-home"></view>
@@ -12,7 +12,7 @@
       <view class="description">其他</view>
     </view>
     <view
-      @tap="nev('/pages/my/index')"
+      @tap="nav('my')"
       :class="pageName === 'my' && !showPop ? 'selected' : 'unselected'"
     >
       <view class="iconfont icon-user"></view>
@@ -24,7 +24,7 @@
 <script lang="ts">
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Taro from '@tarojs/taro';
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, PropType, ref, toRefs } from 'vue';
   export default defineComponent({
     setup(props, { emit }) {
       // comment: 获取当前页面栈
@@ -34,6 +34,9 @@
         nev: (url: string) => {
           if (currentPage.route !== url && !url.includes(currentPage.route))
             Taro.redirectTo({ url: url });
+        },
+        nav: (val: string) => {
+          emit('update:pageName', val);
         },
         plusClick: () => {
           emit('plusClick');
@@ -46,7 +49,10 @@
         default: true,
         type: Boolean
       },
-      pageName: String,
+      pageName: {
+        type: String,
+        default: 'home'
+      },
       showPop: Boolean
     }
   });

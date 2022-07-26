@@ -3,10 +3,13 @@
     <view v-if="title" class="wjh-card-header">
       {{ title }}
     </view>
+    <view v-if="$slots.header" class="wjh-card-header">
+      <slot name="header"></slot>
+    </view>
     <view class="wjh-card-body">
       <slot></slot>
     </view>
-    <view class="wjh-card-footer">
+    <view v-if="$slots.footer" class="wjh-card-footer">
       <slot name="footer"></slot>
     </view>
   </view>
@@ -23,6 +26,7 @@
   ];
   const colorSetLight = ['#ffedcd', '#fff6c9'];
   export default defineComponent({
+    name: 'Card',
     props: {
       title: String,
       color: Number,
