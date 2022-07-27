@@ -1,7 +1,7 @@
 <template>
   <view class="bind-view background">
     <title-bar title="绑定"></title-bar>
-    <scroll-view scrollY="true">
+    <scroll-view :scrollY="true">
       <view class="flex-column">
         <card title="信息绑定">
           <text>正方教务系统</text>

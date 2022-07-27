@@ -1,16 +1,21 @@
-@import '@/style/frame';
+@import '@/style/theme.scss';
 
-.score {
-  margin-left: 1rem;
-  font-size: 2rem;
-  font-weight: bolder;
-  min-width: 4rem;
-  text-align: center;
-}
+.score-list-collapse {
+  .wjh-collapse-panel-header {
+    font-size: 0.875rem;
+  }
 
-.pop-card {
-  .score-text {
-    text-align: center;
-    font-size: 3rem;
+  .wjh-list-item-content {
+    justify-content: space-between;
+  }
+
+  .score-detail-list {
+    font-size: 0.75rem;
+    color: var(--wjh-color-week);
+    width: 100%;
+  }
+
+  .wjh-collapse-panel-active {
+    color: var(--wjh-color-primary);
   }
 }

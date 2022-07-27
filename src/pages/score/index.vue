@@ -1,67 +1,58 @@
 <template>
-  <header-tab-view
-    title="成绩"
-    :img="require('@/assets/photos/exam.svg')"
-    :show-tab="false"
-  >
-    <template v-slot:content>
-      <view v-if="!scoreList" style="text-align: center">
-        <view> 无当前学期成绩信息</view>
-      </view>
-      <view
-        v-if="scoreList && scoreList.length !== 0"
-        style="text-align: center"
-      >
-        <view>平均学分绩点 {{ averageScorePoint }}</view>
-      </view>
-      <view
-        class="item card"
-        v-for="item in scoreList"
-        :key="item.lessonID"
-        @tap="pop(item)"
-      >
-        <view class="cicle" v-if="item.lessonName">
-          {{ item.lessonName[0] }}
-        </view>
-        <view class="item-text">
-          <view> {{ item.lessonName }}-{{ item.lessonID }}</view>
-          <view>
-            <text class="iconfont icon-teacher"></text
-            >{{ item.teacherName }}</view
-          >
-          <view> {{ item.submitTime }}</view>
-        </view>
-        <view class="score"> {{ item.score }}</view>
-      </view>
-    </template>
-  </header-tab-view>
-  <bottom-panel>
-    <reflesh-button
-      @reflesh="reflesh"
-      :is-refleshing="isRefleshing"
-    ></reflesh-button>
-    <term-picker class="picker" @changed="termChanged"></term-picker>
-    <reflesh-button
-      @reflesh="reflesh"
-      :is-refleshing="isRefleshing"
-    ></reflesh-button>
-  </bottom-panel>
-  <pop-view v-model:show="showPop">
-    <card v-if="selectedItem" class="pop-card">
-      <view class="title">{{ selectedItem.lessonName }}</view>
-      <view><b>课程类型：</b>{{ selectedItem.lessonType }}</view>
-      <view
-        ><text class="iconfont icon-laoshi"></text
-        >{{ selectedItem.teacherName }}</view
-      >
-      <view>
-        学分：
-        <text>{{ selectedItem.credits }}</text>
-      </view>
+  <view class="background">
+    <title-bar title="成绩查询"></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="flex-column">
+        <card v-if="!scoreList" style="text-align: center">
+          <view>无当前学期成绩信息</view>
+        </card>
 
-      <view class="score-text">{{ selectedItem.score }}</view>
-    </card>
-  </pop-view>
+        <card v-else>
+          <template #header>
+            <view
+              v-if="scoreList && scoreList.length !== 0"
+              style="text-align: center"
+            >
+              <view>平均学分绩点 {{ averageScorePoint }}</view>
+            </view>
+          </template>
+          <w-collapse class="score-list-collapse">
+            <w-collapse-panel
+              v-for="item in scoreList"
+              :key="item.lessonID"
+              max-height="100px"
+            >
+              <template #header>
+                <view>{{ item.lessonName }}</view>
+                <view>{{ item.score }}</view>
+              </template>
+              <w-list class="score-detail-list">
+                <w-list-item>
+                  <view>课程性质</view>
+                  <view>{{ item.lessonType }}</view>
+                </w-list-item>
+                <w-list-item>
+                  <view>课程学分</view>
+                  <view>{{ item.credits }}</view>
+                </w-list-item>
+              </w-list>
+            </w-collapse-panel>
+          </w-collapse>
+        </card>
+      </view>
+    </scroll-view>
+    <bottom-panel>
+      <reflesh-button
+        @reflesh="reflesh"
+        :is-refleshing="isRefleshing"
+      ></reflesh-button>
+      <term-picker class="picker" @changed="termChanged"></term-picker>
+      <reflesh-button
+        @reflesh="reflesh"
+        :is-refleshing="isRefleshing"
+      ></reflesh-button>
+    </bottom-panel>
+  </view>
 </template>
 
 <script lang="ts">
@@ -69,9 +60,10 @@
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
-  import HeaderTabView from '@/components/HeaderTabView/index.vue';
-  import PopView from '@/components/PopView/index.vue';
   import RefleshButton from '@/components/RefleshButton/index.vue';
+  import TitleBar from '@/components/TitleBar/index.vue';
+  import { WCollapse, WCollapsePanel } from '@/components/collapse/index';
+  import { WList, WListItem } from '@/components/list';
   import { Score } from '@/types/Score';
   import TermPicker from '@/components/TermPicker/index.vue';
   import { ZFService } from '@/services';
@@ -79,12 +71,15 @@
 
   export default defineComponent({
     components: {
-      HeaderTabView,
-      PopView,
       Card,
       TermPicker,
       BottomPanel,
-      RefleshButton
+      RefleshButton,
+      TitleBar,
+      WCollapse,
+      WCollapsePanel,
+      WList,
+      WListItem
     },
     setup() {
       let selectTerm = ref({

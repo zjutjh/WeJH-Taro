@@ -3,7 +3,7 @@
 .wjh-list {
   --padding-left: 12Px;
   --padding-right: 12Px;
-  --aligin-item: center;
+  --align-item: flex-start;
   --border-inner: solid 1px var(--wjh-color-border);
 }
 
@@ -13,16 +13,16 @@
   background-color: var(--wjh-color-background);
   line-height: 2.25rem;
 
-  .wjh-list-item__content {
+  .wjh-list-item-content {
     padding-right: var(--padding-right);
     display: flex;
-    align-items: var(--aligin-item);
+    align-items: var(--align-item);
     justify-content: flex-start;
   }
 }
 
 .wjh-list-item:not(:first-child) {
-  .wjh-list-item__content {
+  .wjh-list-item-content {
     border-top: var(--border-inner);
   }
 }

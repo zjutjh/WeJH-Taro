@@ -8,9 +8,13 @@ export default defineComponent({
     const { $slots } = this;
     return (
       <view class="wjh-list">
-        {$slots.header ? <view class="wjh-list__header"></view> : null}
+        {$slots.header ? (
+          <view class="wjh-list-header">{$slots.header()}</view>
+        ) : null}
         {$slots.default?.()}
-        {$slots.footer ? <view class="wjh-list__footer"></view> : null}
+        {$slots.footer ? (
+          <view class="wjh-list-footer">{$slots.footer()}</view>
+        ) : null}
       </view>
     );
   }

@@ -1,5 +1,5 @@
 <template>
-  <view class="wjh-card" :style="getStyle()">
+  <view :class="`wjh-card wjh-card-size-${size}`" :style="getStyle()">
     <view v-if="title" class="wjh-card-header">
       {{ title }}
     </view>
@@ -14,8 +14,9 @@
     </view>
   </view>
 </template>
+
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, PropType } from 'vue';
   import './index.scss';
   const colorSetDefault = [
     '#62e4c7',
@@ -30,7 +31,11 @@
     props: {
       title: String,
       color: Number,
-      colormode: String
+      colormode: String,
+      size: {
+        type: String as PropType<'small' | 'middle'>,
+        default: 'middle'
+      }
     },
     computed: {
       randColorStyle() {

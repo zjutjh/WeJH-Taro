@@ -1,0 +1,17 @@
+@import "@/style/theme.scss";
+
+.wjh-collapse {
+  overflow: hidden;
+  color: var(--wjh-color-text);
+
+  .wjh-collapse-panel-content {
+    max-height: 0;
+    transition: max-height 0.5s;
+  }
+
+  .wjh-collapse-panel-active {
+    transition: all 0.5s;
+    max-height: 100Px;
+  }
+
+}

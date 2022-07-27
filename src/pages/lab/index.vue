@@ -1,7 +1,7 @@
 <template>
   <view class="lab-view background">
     <title-bar title="实验室"></title-bar>
-    <scroll-view scrollY="true">
+    <scroll-view :scrollY="true">
       <view class="flex-column">
         <card class="lab-card">
           <view v-if="isEmpty" class="empty">{{ emptyText }}</view>

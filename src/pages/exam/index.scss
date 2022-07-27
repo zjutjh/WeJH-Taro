@@ -1,5 +1,11 @@
 @import '@/style/frame';
 
-.pop-card {
-  width: 80vw;
+.exam-card {
+  .wjh-collapse-panel-header {
+    .wjh-list-item-content {
+      line-height: initial;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
 }

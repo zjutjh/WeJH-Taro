@@ -13,6 +13,7 @@ $shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 }
 
 :host {
+  --wjh-color-primary: var(--wjh-color-green);
   --wjh-color-green: #62e4c7;
   --wjh-color-blue: #72d0fe;
   --wjh-color-cyan: #22caca;

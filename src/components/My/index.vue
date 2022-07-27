@@ -1,6 +1,6 @@
 <template>
   <title-bar title="我的" :back-button="false"></title-bar>
-  <scroll-view scrollY="true">
+  <scroll-view :scrollY="true">
     <view class="flex-column">
       <card class="profile-card">
         <view class="avatar-wrapper">
