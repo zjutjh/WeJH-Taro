@@ -13,46 +13,30 @@
           class="exam-card"
         >
           <w-collapse>
-            <w-collapse-panel>
+            <w-collapse-panel max-height="200px">
               <template #header>
-                <view style="font-weight: var(--wjh-font-weight-medium)">{{
-                  item.lessonName
-                }}</view>
+                <view class="lesson-name">{{ item.lessonName }}</view>
                 <view style="font-size: 14px; color: var(--wjh-color-week)">
                   <view class="exam-time">{{ item.examTime }}</view>
                   <view class="exam-place">{{ item.examPlace }}</view>
                 </view>
               </template>
-              <w-list>
-                <w-list-item
-                  ><view>日期</view
-                  ><view>{{ item.examTime }}</view></w-list-item
-                >
-                <w-list-item
-                  ><view>考试地点</view>{{ item.examPlace }}</w-list-item
-                >
-                <w-list-item
-                  ><view>考试名称</view>{{ item.className }}</w-list-item
-                >
-                <w-list-item
-                  ><view>教师名称</view> {{ item.teacherName }}</w-list-item
-                >
-              </w-list>
+              <w-descriptions class="exam-detail-list" size="small">
+                <w-descriptions-item label="日期" :label-span="6">
+                  {{ item.examTime }}
+                </w-descriptions-item>
+                <w-descriptions-item label="考试地点" :label-span="6">
+                  {{ item.examPlace }}
+                </w-descriptions-item>
+                <w-descriptions-item label="考试全称" :label-span="6">
+                  {{ item.className }}
+                </w-descriptions-item>
+                <w-descriptions-item label="教师列表" :label-span="6">
+                  {{ item.teacherName }}
+                </w-descriptions-item>
+              </w-descriptions>
             </w-collapse-panel>
           </w-collapse>
-        </card>
-        <card class="item" v-for="item in exam" :key="item.id" @tap="pop(item)">
-          <view class="item-text" v-if="item">
-            <view> {{ item.lessonName }}-{{ item.id }}</view>
-            <view v-for="name in item.teacherName?.split(';')" :key="name"
-              ><view
-                ><text class="iconfont icon-teacher"></text>{{ name }}</view
-              ></view
-            >
-            <view> {{ item.examTime }}</view>
-            <view>{{ calcDayLeft(item.examTime) }}</view>
-          </view>
-          <view class="ext">{{ item.examPlace }}</view>
         </card>
       </view>
     </scroll-view>
@@ -81,6 +65,7 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WCollapse, WCollapsePanel } from '@/components/collapse';
   import { WList, WListItem } from '@/components/list';
+  import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
   import { ZFService } from '@/services';
   import dayjs from 'dayjs';
   import './index.scss';
@@ -94,7 +79,9 @@
       WCollapse,
       WCollapsePanel,
       WList,
-      WListItem
+      WListItem,
+      WDescriptions,
+      WDescriptionsItem
     },
     computed: {
       isWechat() {

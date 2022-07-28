@@ -21,10 +21,9 @@
   import My from '@/components/My/index.vue';
   import Taro from '@tarojs/taro';
   import { ZFService } from '@/services';
-  import { defineComponent, PropType } from 'vue';
+  import { defineComponent } from 'vue';
   import { serviceStore } from '@/store';
   import './index.scss';
-  import { propertyOf } from 'lodash';
   export default defineComponent({
     components: {
       AppList,

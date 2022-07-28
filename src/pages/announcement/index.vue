@@ -43,7 +43,6 @@
   import { computed, defineComponent, ref } from 'vue';
   import { Announcement } from '@/types/Announcement';
   import Card from '@/components/Card/index.vue';
-  import HeaderTabView from '@/components/HeaderTabView/index.vue';
   import PopView from '@/components/PopView/index.vue';
   import { SystemService } from '@/services';
   import dayjs from 'dayjs';
@@ -51,7 +50,7 @@
 
   import './index.scss';
   export default defineComponent({
-    components: { Card, HeaderTabView, PopView },
+    components: { Card, PopView },
     setup() {
       function reflesh() {
         SystemService.getAnnouncement();

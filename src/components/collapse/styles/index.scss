@@ -4,6 +4,10 @@
   overflow: hidden;
   color: var(--wjh-color-text);
 
+  .wjh-collapse-panel-header {
+    margin: 0 6Px;
+  }
+
   .wjh-collapse-panel-content {
     max-height: 0;
     transition: max-height 0.5s;

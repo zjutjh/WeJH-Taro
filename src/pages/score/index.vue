@@ -7,13 +7,29 @@
           <view>无当前学期成绩信息</view>
         </card>
 
-        <card v-else>
+        <card v-else class="score-card">
           <template #header>
-            <view
-              v-if="scoreList && scoreList.length !== 0"
-              style="text-align: center"
-            >
-              <view>平均学分绩点 {{ averageScorePoint }}</view>
+            <view class="row">
+              <view class="score-icon-wrapper">
+                <image
+                  src="@/assets/icons/applist/score.svg"
+                  class="score-icon"
+                ></image>
+              </view>
+              <view class="col">
+                <view class="term-info">{{ termInfo }}</view>
+                <view class="relative-term-info">{{ relativeTermInfo }}</view>
+              </view>
+            </view>
+
+            <view class="col" style="align-items: flex-end">
+              <view class="gpa-text">GPA</view>
+              <view
+                v-if="scoreList && scoreList.length !== 0"
+                class="credit-text"
+              >
+                {{ averageScorePoint }}
+              </view>
             </view>
           </template>
           <w-collapse class="score-list-collapse">
@@ -82,7 +98,7 @@
       WListItem
     },
     setup() {
-      let selectTerm = ref({
+      const selectTerm = ref({
         year: systemStore.generalInfo.termYear,
         term: systemStore.generalInfo.term
       });
@@ -94,6 +110,7 @@
 
       async function termChanged(e) {
         isRefleshing.value = true;
+        console.log(selectTerm);
         selectTerm.value = e;
         await ZFService.updateScoreInfo(e);
         isRefleshing.value = false;
@@ -111,24 +128,34 @@
         scoreList,
         termChanged,
         reflesh,
+        selectTerm,
         isRefleshing,
         selectedItem
       };
     },
     computed: {
       averageScorePoint() {
-        const vaildCourse = this.scoreList.filter(
+        const validCourse = this.scoreList.filter(
           (item) => item.lessonType !== '任选课'
         );
         let totalCredits = 0;
         let totalScorePoint = 0;
-        vaildCourse.forEach((item) => {
+        validCourse.forEach((item) => {
           let scorePoint = item.scorePoint * 1;
           let credits = item.credits * 1;
           totalScorePoint += scorePoint * credits;
           totalCredits += credits;
         });
-        return Math.floor((totalScorePoint / totalCredits) * 100) / 100;
+        return Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
+      },
+      termInfo() {
+        return `${this.selectTerm?.year}/${this.selectTerm?.year + 1}（${
+          this.selectTerm?.term
+        }）`;
+      },
+      relativeTermInfo() {
+        const charEmum = ['一', '二', '三', '四'];
+        return `大${this.selectTerm?.term}学期`;
       }
     },
     data() {

@@ -1,104 +1,105 @@
 <template>
-  <header-tab-view title="校园卡" :show-tab="true">
-    <template v-slot:image>
-      <view class="schoolcard" @tap="getCardBalance">
-        <image
-          mode="aspectFit"
-          src="@/assets/photos/card.svg"
-          style="height: 100%"
-        ></image>
+  <view class="background">
+    <title-bar title="校园卡"></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="school-card" @tap="getCardBalance">
+        <view class="school-card-background">
+          <view style="background: var(--wjh-color-yellow)"></view>
+          <view style="background: var(--wjh-color-orange)"></view>
+          <view style="background: var(--wjh-color-green)"></view>
+          <view style="background: var(--wjh-color-cyan)"></view>
+          <view style="background: var(--wjh-color-blue)"></view>
+        </view>
+        <image mode="aspectFit" src="@/assets/photos/card.svg"></image>
         <text class="balance"> ¥{{ balance }}</text>
       </view>
-    </template>
-    <template v-slot:tab>
-      <view class="tabs">
-        <button :class="{ 'button-active': isSelectToday }" @tap="todayClick">
-          今日
-        </button>
-        <button
-          :class="{ 'button-active': isSelectHistory }"
-          @tap="historyClick"
-        >
-          历史
-        </button>
-      </view>
-    </template>
-    <template v-slot:content>
-      <view>
-        <view v-if="isSelectToday" class="title">
-          <text>今日消费</text>
-        </view>
+      <card class="consume-card">
+        <template #header>
+          <view class="col"> </view>
+          <view class="col">
+            <view class="swicher">
+              <w-button
+                :class="{ 'button-not-active': !isSelectToday }"
+                @tap="todayClick"
+              >
+                今日
+              </w-button>
+              <w-button
+                :class="{ 'button-not-active': !isSelectHistory }"
+                @tap="historyClick"
+                shape="rounded"
+              >
+                历史
+              </w-button>
+            </view>
+          </view>
+          <view class="col"><reflesh-button></reflesh-button></view>
+        </template>
+        <view v-if="isSelectToday" class="flex-column">
+          <card v-for="index in 20" :key="index">今日消费</card>
 
-        <view v-if="isSelectHistory" class="title">
-          <text>历史消费</text>
-          <view
-            style="
-              display: inline;
-              font-size: 80%;
-              font-weight: normal;
-              margin-left: 1rem;
-            "
-          >
-            <picker
-              mode="date"
-              fields="month"
-              style="display: inline-block"
-              @change="onDateChange"
+          <view v-if="isSelectHistory" class="flex-column">
+            <text>历史消费</text>
+            <view
+              style="
+                display: inline;
+                font-size: 80%;
+                font-weight: normal;
+                margin-left: 1rem;
+              "
             >
-              <text class="picker"> {{ dateSel }}👋</text>
-            </picker>
+              <picker
+                mode="date"
+                fields="month"
+                style="display: inline-block"
+                @change="onDateChange"
+              >
+                <text class="picker"> {{ dateSel }}👋</text>
+              </picker>
+            </view>
+          </view>
+          <view v-if="!itemList" style="text-align: center">
+            <view> 无消费记录</view>
+          </view>
+          <view
+            class="item card"
+            v-for="item in itemList"
+            :key="item.ID"
+            @tap="pop(item)"
+          >
+            <view class="cicle" v-if="item.transactionType">
+              {{ item.transactionType[0] }}
+            </view>
+            <view class="item-text">
+              <view v-if="item.shop && item.shop !== ' '">
+                {{ item.shop }}</view
+              >
+              <view> {{ item.shopPlace }}</view>
+              <view>{{ item.id }}</view>
+              <view>{{ item.transactionType }}</view>
+              <view> {{ item.time }}</view>
+            </view>
+            <text class="transactions"> {{ item.transactions }}</text>
           </view>
         </view>
-        <view v-if="!itemList" style="text-align: center">
-          <view> 无消费记录</view>
-        </view>
-        <view
-          class="item card"
-          v-for="item in itemList"
-          :key="item.ID"
-          @tap="pop(item)"
-        >
-          <view class="cicle" v-if="item.transactionType">
-            {{ item.transactionType[0] }}
-          </view>
-          <view class="item-text">
-            <view v-if="item.shop && item.shop !== ' '"> {{ item.shop }}</view>
-            <view> {{ item.shopPlace }}</view>
-            <view>{{ item.id }}</view>
-            <view>{{ item.transactionType }}</view>
-            <view> {{ item.time }}</view>
-          </view>
-          <text class="transactions"> {{ item.transactions }}</text>
-        </view>
-      </view>
-    </template>
-  </header-tab-view>
-  <pop-view v-model:show="showPop">
-    <card v-if="selectedItem">
-      <view v-if="selectedItem.shop && selectedItem.shop !== ' '" class="title">
-        {{ selectedItem.shop }}</view
-      >
-      <view> {{ selectedItem.shopPlace }}</view>
-      <view>{{ selectedItem.id }}</view>
-      <text> {{ selectedItem.transactions }}</text>
-      <view>{{ selectedItem.transactionType }}</view>
-      <view> {{ selectedItem.time }}</view>
-    </card>
-  </pop-view>
+      </card>
+    </scroll-view>
+  </view>
 </template>
 
 <script lang="ts">
   import { computed, defineComponent, ref } from 'vue';
   import Card from '@/components/Card/index.vue';
+  import { WButton } from '@/components/button';
+  import TitleBar from '@/components/TitleBar/index.vue';
+  import RefleshButton from '@/components/RefleshButton/index.vue';
   import { CardService } from '@/services';
-  import HeaderTabView from '@/components/HeaderTabView/index.vue';
-  import PopView from '@/components/PopView/index.vue';
   import dayjs from 'dayjs';
   import { serviceStore } from '@/store';
 
   import './index.scss';
   export default defineComponent({
-    components: { HeaderTabView, PopView, Card },
+    components: { Card, WButton, TitleBar, RefleshButton },
     computed: {
       itemList(): Array<any> {
         if (this.isSelectToday) return this.today;

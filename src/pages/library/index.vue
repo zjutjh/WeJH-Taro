@@ -1,75 +1,101 @@
 <template>
-  <header-tab-view
-    title="图书馆"
-    :show-tab="true"
-    :img="require('@/assets/library/library.svg')"
-  >
-    <template v-slot:tab>
-      <view>
-        <text> 借阅 {{ currentCount }} 本 </text>
-        <text> 超期 {{ currentExtendedCount }} 本 </text>
-      </view>
-      <view class="tabs">
-        <button :class="{ 'button-active': isSelectToday }" @tap="todayClick">
-          当前
-        </button>
-        <button
-          :class="{ 'button-active': isSelectHistory }"
-          @tap="historyClick"
-        >
-          历史
-        </button>
-      </view>
-    </template>
-    <template v-slot:content>
-      <view>
-        <view v-if="isSelectToday" class="title">
-          <text>当前借阅</text>
-        </view>
-
-        <view v-if="isSelectHistory" class="title">
-          <text>历史借阅</text>
-        </view>
-        <view v-if="!itemList" class="no-item">
-          <view> 无借阅记录 </view>
-        </view>
-        <card class="item" v-for="item in itemList" :key="item.id">
-          <view class="cicle" v-if="item.name">
+  <view class="background">
+    <title-bar title="借阅信息"></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="header-view">
+        <image src="@/assets/photos/library.svg"></image>
+        <view class="summary">
+          <view>
+            借阅：
+            <text>{{ currentCount }}</text>
+            本
+          </view>
+          <view>
+            超期：
             <text>
-              {{ item.name[0] }}
+              {{ currentExtendedCount }}
             </text>
+            本
           </view>
-          <view class="item-text">
-            <view :class="{ tirm: item.isExtended }"> {{ item.name }}</view>
-            <view><b>借阅日期：</b>{{ item.time }}</view>
-            <view v-if="item.returnTime"
-              ><b>归还日期：</b>{{ item.returnTime }}</view
-            >
-            <view class="ext" v-if="item.isExtended < 0"
-              >{{ Math.abs(item.isExtended) }}天</view
-            >
-            <view class="ext red" v-if="item.isExtended > 0"
-              >{{ Math.abs(item.isExtended) }}天</view
-            >
-          </view>
-        </card>
+        </view>
       </view>
-    </template>
-  </header-tab-view>
+      <card class="borrow-card">
+        <template #header>
+          <view class="col"></view>
+          <view class="col">
+            <view class="swicher">
+              <w-button
+                :class="{ 'button-not-active': !isSelectToday }"
+                @tap="todayClick"
+              >
+                当前
+              </w-button>
+              <w-button
+                :class="{ 'button-not-active': !isSelectHistory }"
+                @tap="historyClick"
+              >
+                历史
+              </w-button>
+            </view>
+          </view>
+          <view class="col">
+            <reflesh-button
+              @tap="updateData"
+              :is-refleshing="isRefleshing"
+            ></reflesh-button>
+          </view>
+        </template>
+        <view>
+          <view v-if="isSelectToday" class="flex-column"></view>
+          <view v-if="isSelectHistory" class="flex-column">
+            <card v-if="!borrowList" class="no-item">无借阅记录</card>
+            <card
+              class="book-card"
+              v-for="(item, index) in borrowList"
+              :key="item.id"
+            >
+              <view> {{ item.name }}</view>
+              <view>{{
+                `借阅日期：${item.time.split(' ')[0]} | ${
+                  item.time.split(' ')[1]
+                }`
+              }}</view>
+              <view v-if="item.returnTime">
+                {{
+                  `归还日期：${item.returnTime.split(' ')[0]} | ${
+                    item.returnTime.split(' ')[1]
+                  }`
+                }}
+              </view>
+              <view v-if="item.isExtended < 0">
+                {{ Math.abs(item.isExtended) }}天
+              </view>
+              <view v-if="item.isExtended > 0">
+                {{ Math.abs(item.isExtended) }}天
+              </view>
+              <view class="book-index">{{ index }}</view>
+            </card>
+          </view>
+        </view>
+      </card>
+    </scroll-view>
+  </view>
 </template>
 
 <script lang="ts">
   import './index.scss';
   import { computed, defineComponent } from 'vue';
   import Card from '@/components/Card/index.vue';
+  import TitleBar from '@/components/TitleBar/index.vue';
+  import RefleshButton from '@/components/RefleshButton/index.vue';
+  import { WButton } from '@/components/button';
   import { LibraryService } from '@/services';
   import dayjs from 'dayjs';
-  import headerTabView from '@/components/HeaderTabView/index.vue';
   import { serviceStore } from '@/store';
   import { throttle } from '@/utils/tools';
 
   export default defineComponent({
-    components: { headerTabView, Card },
+    components: { Card, TitleBar, WButton, RefleshButton },
     setup() {
       const updateTime = computed(() => serviceStore.library.updateTime);
       const todayUpdateTime = computed(() =>
@@ -88,7 +114,7 @@
       this.getLibraryCurrent();
     },
     computed: {
-      itemList(): Array<any> {
+      borrowList(): Array<any> {
         if (this.isSelectToday) return this.current;
         else if (this.isSelectHistory) return this.history;
         return [];
@@ -112,16 +138,23 @@
       return {
         isSelectToday: true,
         isSelectHistory: false,
-        showImage: true,
-        imageStyle: {
-          height: '400rpx',
-          margin: '0rpx'
-        }
+        isRefleshing: false
       };
     },
     methods: {
-      getLibraryCurrent: throttle(LibraryService.getLibraryCurrent),
-      getLibraryHistory: throttle(LibraryService.getLibraryHistory),
+      async updateData() {
+        this.isRefleshing = true;
+        if (this.isSelectToday) await LibraryService.getLibraryCurrent();
+        else await LibraryService.getLibraryHistory();
+        this.isRefleshing = false;
+      },
+      getLibraryCurrent() {
+        console.log('fucl');
+        throttle(LibraryService.getLibraryCurrent);
+      },
+      getLibraryHistory() {
+        throttle(LibraryService.getLibraryHistory);
+      },
       onDateChange(e) {
         this.dateSel = e.detail.value;
         this.getLibraryHistory();

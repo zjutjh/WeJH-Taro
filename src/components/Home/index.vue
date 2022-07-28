@@ -12,10 +12,9 @@
         <text>还没有绑定任何服务，请到我的页面绑定</text>
       </card>
     </view>
-    <view v-else class="no-active">
-      <card>
-        <view class="title">激活微精弘</view>
-        <button class="active" @tap="nav2activation">激活</button>
+    <view v-else class="flex-column">
+      <card title="未激活">
+        <w-button block class="active" @tap="nav2activation">激活</w-button>
       </card>
     </view>
   </scroll-view>
@@ -28,7 +27,9 @@
   import SchoolCardQuickView from '@/components/SchoolCardQuickView/index.vue';
   import LibraryQuickView from '@/components/LibraryQuickView/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
+  import { WButton } from '@/components/button';
   import Card from '@/components/Card/index.vue';
+  import Taro from '@tarojs/taro';
 
   export default defineComponent({
     components: {
@@ -36,7 +37,8 @@
       SchoolCardQuickView,
       LibraryQuickView,
       TitleBar,
-      Card
+      Card,
+      WButton
     },
     data() {
       return {

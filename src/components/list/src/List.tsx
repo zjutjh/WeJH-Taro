@@ -1,13 +1,20 @@
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import '../styles/index.scss';
 
+const listProps = {
+  size: {
+    type: String as PropType<'small' | 'middle'>,
+    default: 'middle'
+  }
+};
+
 export default defineComponent({
-  name: 'WList',
-  props: {},
+  name: 'List',
+  props: listProps,
   render() {
-    const { $slots } = this;
+    const { $slots, $props } = this;
     return (
-      <view class="wjh-list">
+      <view class={`wjh-list wjh-list-size-${$props.size}`}>
         {$slots.header ? (
           <view class="wjh-list-header">{$slots.header()}</view>
         ) : null}

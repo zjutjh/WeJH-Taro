@@ -1,11 +1,33 @@
-@import '@/style/frame';
+@import '@/style/theme.scss';
 
 .exam-card {
+
   .wjh-collapse-panel-header {
+    .lesson-name {
+      font-weight: var(--wjh-font-weight-medium);
+    }
+
     .wjh-list-item-content {
       line-height: initial;
       flex-direction: column;
       gap: 0.5rem;
     }
+  }
+
+
+  .exam-detail-list {
+    width: 100%;
+    font-size: 0.75rem;
+
+    .wjh-list-item-content {
+      justify-content: space-between;
+    }
+  }
+}
+
+.wjh-collapse-panel-active {
+  .lesson-name {
+    transition: all 0.3s;
+    color: var(--wjh-color-primary);
   }
 }

@@ -1,5 +1,61 @@
 @import '@/style/theme.scss';
 
+.score-card {
+  .wjh-card-header {
+    justify-content: space-between;
+    height: 60Px;
+    padding-left: 12Px;
+    padding-right: 12Px;
+  }
+
+  .row {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 12Px;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    justify-content: space-between;
+  }
+
+  .term-info {
+    font-size: 0.875rem;
+  }
+
+  .relative-term-info {
+    font-size: 0.875rem;
+    color: var(--wjh-color-week);
+  }
+
+  .gpa-text {
+    color: var(--wjh-color-primary);
+    font-size: 1.25rem;
+    font-weight: var(--wjh-font-weight-bold);
+  }
+
+  .credit-text {
+    color: var(--wjh-color-week);
+    font-size: 1.125rem;
+  }
+}
+
+.score-icon-wrapper {
+  border-radius: 8Px;
+  background-color: var(--wjh-color-primary);
+
+  width: 50Px;
+  height: 50Px;
+
+  .score-icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .score-list-collapse {
   .wjh-collapse-panel-header {
     font-size: 0.875rem;

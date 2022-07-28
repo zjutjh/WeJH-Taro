@@ -2,7 +2,7 @@
   <title-bar title="我的" :back-button="false"></title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column">
-      <card class="profile-card">
+      <card class="profile-card" v-if="isActive">
         <view class="avatar-wrapper">
           <image
             v-if="userWXProfile"
@@ -27,12 +27,10 @@
         </view>
       </card>
 
-      <card v-if="!isActive">
-        <button class="active" v-if="!isActive" @tap="nav2activation">
+      <card v-else title="未激活，激活享受更多精彩">
+        <w-button block class="active" v-if="!isActive" @tap="nav2activation">
           激活
-        </button>
-        <view v-else class="sub-text"> 微精弘 </view>
-        <text class="sub-text centet">激活享受更多精彩</text>
+        </w-button>
       </card>
 
       <view class="operate" v-if="isActive">
@@ -50,9 +48,6 @@
           </w-list-item>
         </w-list>
       </view>
-      <view v-else>
-        <text class="sub-text centet">激活享受更多精彩</text>
-      </view>
     </view>
   </scroll-view>
 </template>
@@ -62,6 +57,7 @@
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WList, WListItem } from '@/components/list/index';
+  import { WButton } from '@/components/button';
   import Taro from '@tarojs/taro';
   import { UserService } from '@/services';
   import { defineComponent } from 'vue';
@@ -69,7 +65,7 @@
 
   import './index.scss';
   export default defineComponent({
-    components: { TitleBar, Card, WList, WListItem },
+    components: { TitleBar, Card, WList, WListItem, WButton },
     data() {
       return {
         options: [

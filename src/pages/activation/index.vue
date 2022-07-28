@@ -5,7 +5,7 @@
         <step title="账号激活">1</step>
         <step title="账号绑定">2</step>
       </steps>
-    </view>
+   </view>
     <card class="card">
       <view>
         <view class="large">账号激活</view>

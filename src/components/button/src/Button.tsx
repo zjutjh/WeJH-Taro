@@ -15,8 +15,7 @@ const buttonProps = {
     default: false
   },
   color: {
-    type: String as PropType<'green' | 'yellow' | 'blue' | 'cyan'>,
-    default: 'green'
+    type: String as PropType<'green' | 'yellow' | 'blue' | 'cyan'>
   }
 };
 export default defineComponent({
@@ -24,7 +23,9 @@ export default defineComponent({
   props: buttonProps,
   render() {
     const { $slots } = this;
-    const colorStyle = { backgroundColor: `var(--wjh-color-${this.color})` };
+    const colorStyle = this.color
+      ? { backgroundColor: `var(--wjh-color-${this.color})` }
+      : '';
     const sizeClass = `wjh-button-${this.size}`;
     const blockClass = this.block ? 'wjh-button-block' : undefined;
     const shapeClass = `wjh-button-shape-${this.shape}`;

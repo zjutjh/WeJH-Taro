@@ -1,5 +1,9 @@
 @import '@/style/theme.scss';
 
+button:after {
+  display: none;
+}
+
 .wjh-button {
   --padding-top-small: 3Px;
   --padding-top-middle: 7Px;
@@ -14,6 +18,7 @@
   display: inline-block;
   margin: 0;
   color: var(--wjh-color-white);
+  background-color: var(--wjh-color-primary);
 }
 
 .wjh-button-small {
