@@ -1,15 +1,9 @@
-.index {
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+@import '@/style/theme.scss';
 
 .card {
   width: 80vw;
 }
 
 .steps {
-  width: 100vw;
+  width: 100%;
 }

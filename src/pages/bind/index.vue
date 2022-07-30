@@ -19,10 +19,16 @@
               placeholder="*******"
               v-model="zfpass"
             />
-            <button class="active" @tap="bindZFClick" :disabled="zfpass === ''">
+            <w-button
+              class="active"
+              size="large"
+              block
+              @tap="bindZFClick"
+              :disabled="zfpass === ''"
+            >
               <text v-if="!user.isBindZF">绑定</text>
               <text v-else>修改</text>
-            </button>
+            </w-button>
           </view>
           <text>校园卡</text>
           <text v-if="user.isBindCard" class="bind-info">(已绑定)</text>
@@ -39,14 +45,16 @@
               placeholder="********"
               v-model="cardpass"
             />
-            <button
+            <w-button
               class="active"
+              size="large"
+              block
               @tap="bindCardClick"
               :disabled="cardpass === ''"
             >
               <text v-if="!user.isBindCard">绑定</text>
               <text v-else>修改</text>
-            </button>
+            </w-button>
           </view>
           <text>图书馆</text>
           <text v-if="user.isBindLibrary" class="bind-info">(已绑定)</text>
@@ -63,14 +71,16 @@
               placeholder="********"
               v-model="libpass"
             />
-            <button
+            <w-button
               class="active"
+              size="large"
+              block
               @tap="bindLibClick"
               :disabled="libpass === ''"
             >
               <text v-if="!user.isBindLibrary">绑定</text>
               <text v-else>修改</text>
-            </button>
+            </w-button>
           </view>
         </card>
       </view>
@@ -82,6 +92,7 @@
   import Card from '@/components/Card/index.vue';
   import Taro from '@tarojs/taro';
   import TitleBar from '@/components/TitleBar/index.vue';
+  import { WButton } from '@/components/button';
   import { UserService, errCodeHandler } from '@/services';
   import { serviceStore } from '@/store';
   import './index.scss';
@@ -89,7 +100,8 @@
   export default {
     components: {
       TitleBar,
-      Card
+      Card,
+      WButton
     },
     computed: {
       user() {
