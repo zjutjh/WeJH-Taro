@@ -4,6 +4,8 @@
     title="课程表"
     icon-name="lessonstable"
     class="lessons-table-quick-view"
+    help
+    @handle-tap-help="handleTapHelp"
   >
     <text class="sub-text">今日课表({{ balanceUpdateTimeString }})</text>
     <card
@@ -64,7 +66,8 @@
   let timer: NodeJS.Timeout | undefined = undefined;
 
   export default defineComponent({
-    components: { 'quick-view': QuickView, card: Card },
+    components: { QuickView, Card },
+
     props: {
       hide: Boolean
     },
@@ -141,6 +144,9 @@
         if (detAfter > 0) return 'before';
         if (detAfter < 0 && detBefore > 0) return 'taking';
         return 'after';
+      },
+      handleTapHelp() {
+        this.$emit('showHelp', 'lessons-table');
       }
     }
   });

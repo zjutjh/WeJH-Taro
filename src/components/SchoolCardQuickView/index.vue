@@ -1,5 +1,11 @@
 <template>
-  <quick-view @tap="nev2Card" title="校园卡" icon-name="schoolcard">
+  <quick-view
+    @tap="nev2Card"
+    title="校园卡"
+    icon-name="schoolcard"
+    help
+    @handle-tap-help="handleTapHelp"
+  >
     <text class="sub-text"> 当前余额({{ balanceUpdateTimeString }}) </text>
     <view class="quickcard-balance">
       <text> {{ balance }} </text>
@@ -16,6 +22,7 @@
 
   export default defineComponent({
     components: { 'quick-view': QuickView },
+
     async mounted() {
       await CardService.updateCardBalance();
     },
@@ -33,6 +40,9 @@
     methods: {
       nev2Card() {
         Taro.navigateTo({ url: '/pages/schoolcard/index' });
+      },
+      handleTapHelp() {
+        this.$emit('showHelp', 'school-card');
       }
     }
   });

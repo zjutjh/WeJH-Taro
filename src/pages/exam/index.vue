@@ -18,7 +18,9 @@
                 <view class="lesson-name">{{ item.lessonName }}</view>
                 <view style="font-size: 14px; color: var(--wjh-color-week)">
                   <view class="exam-time">{{ item.examTime }}</view>
-                  <view class="exam-place">{{ item.examPlace }}</view>
+                  <view class="exam-place">{{
+                    `${item.examPlace} - 座位号：${item.seatNum}`
+                  }}</view>
                 </view>
               </template>
               <w-descriptions class="exam-detail-list" size="small">
@@ -26,13 +28,18 @@
                   {{ item.examTime }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试地点" :label-span="6">
-                  {{ item.examPlace }}
+                  {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试全称" :label-span="6">
                   {{ item.className }}
                 </w-descriptions-item>
                 <w-descriptions-item label="教师列表" :label-span="6">
-                  {{ item.teacherName }}
+                  {{
+                    item.teacherName
+                      .split(';')
+                      .map((item) => item.split('/')[1])
+                      .join('；')
+                  }}
                 </w-descriptions-item>
               </w-descriptions>
             </w-collapse-panel>
@@ -64,7 +71,6 @@
   import TermPicker from '@/components/TermPicker/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WCollapse, WCollapsePanel } from '@/components/collapse';
-  import { WList, WListItem } from '@/components/list';
   import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
   import { ZFService } from '@/services';
   import dayjs from 'dayjs';
@@ -78,8 +84,6 @@
       RefleshButton,
       WCollapse,
       WCollapsePanel,
-      WList,
-      WListItem,
       WDescriptions,
       WDescriptionsItem
     },

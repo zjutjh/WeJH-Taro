@@ -149,7 +149,6 @@
         this.isRefleshing = false;
       },
       getLibraryCurrent() {
-        console.log('fucl');
         throttle(LibraryService.getLibraryCurrent);
       },
       getLibraryHistory() {

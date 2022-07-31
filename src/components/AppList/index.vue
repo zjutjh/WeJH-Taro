@@ -1,15 +1,15 @@
 <template>
-  <view class="applist">
+  <view class="applist" v-if="applist">
     <app-list-item
       v-for="(item, index) in applist"
       :key="index"
       :label="item.title"
       :url="item.route"
-      :app-id="item.appId"
       :icon-url="getIconPath(item.route)"
       :bg="item.backgroundColor"
     />
   </view>
+  <card v-else> 无可用服务 </card>
 </template>
 
 <script lang="ts">
@@ -22,8 +22,18 @@
   export default defineComponent({
     components: { AppListItem },
     computed: {
-      applist(): item[] {
-        return serviceStore.appList || [];
+      applist(): item[] | undefined {
+        return serviceStore.appList?.filter((item) => {
+          if (item.require === 'zf' && serviceStore.user.isBindZF) return true;
+          else if (item.require === 'card' && serviceStore.user.isBindCard)
+            return true;
+          else if (
+            item.require === 'library' &&
+            serviceStore.user.isBindLibrary
+          )
+            return true;
+          return false;
+        });
       }
     },
     methods: {

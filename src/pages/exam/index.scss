@@ -14,7 +14,6 @@
     }
   }
 
-
   .exam-detail-list {
     width: 100%;
     font-size: 0.75rem;
@@ -28,6 +27,6 @@
 .wjh-collapse-panel-active {
   .lesson-name {
     transition: all 0.3s;
-    color: var(--wjh-color-primary);
+    color: var(--wjh-color-cyan);
   }
 }

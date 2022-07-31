@@ -19,15 +19,8 @@
               placeholder="*******"
               v-model="zfpass"
             />
-            <w-button
-              class="active"
-              size="large"
-              block
-              @tap="bindZFClick"
-              :disabled="zfpass === ''"
-            >
-              <text v-if="!user.isBindZF">绑定</text>
-              <text v-else>修改</text>
+            <w-button size="large" block @tap="bindZFClick">
+              {{ user.isBindLibrary ? '修改' : '绑定' }}
             </w-button>
           </view>
           <text>校园卡</text>
@@ -45,15 +38,8 @@
               placeholder="********"
               v-model="cardpass"
             />
-            <w-button
-              class="active"
-              size="large"
-              block
-              @tap="bindCardClick"
-              :disabled="cardpass === ''"
-            >
-              <text v-if="!user.isBindCard">绑定</text>
-              <text v-else>修改</text>
+            <w-button size="large" block @tap="bindCardClick">
+              {{ user.isBindLibrary ? '修改' : '绑定' }}
             </w-button>
           </view>
           <text>图书馆</text>
@@ -71,15 +57,8 @@
               placeholder="********"
               v-model="libpass"
             />
-            <w-button
-              class="active"
-              size="large"
-              block
-              @tap="bindLibClick"
-              :disabled="libpass === ''"
-            >
-              <text v-if="!user.isBindLibrary">绑定</text>
-              <text v-else>修改</text>
+            <w-button block size="large" @tap="bindLibClick">
+              {{ user.isBindLibrary ? '修改' : '绑定' }}
             </w-button>
           </view>
         </card>

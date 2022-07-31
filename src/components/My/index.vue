@@ -136,7 +136,6 @@
           });
       },
       plusClick() {
-        console.log('123');
         this.showPop = !this.showPop;
       }
     },
