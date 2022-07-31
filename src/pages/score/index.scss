@@ -74,4 +74,11 @@
   .wjh-collapse-panel-active {
     color: var(--wjh-color-primary);
   }
+
+  .wjh-descriptions-item-container {
+    :last-child {
+      text-align: end;
+    }
+  }
+
 }

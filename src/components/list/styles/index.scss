@@ -30,8 +30,6 @@
   }
 }
 
-.wjh-list-size-middle {}
-
 .wjh-list-item {
   position: relative;
   background-color: var(--wjh-color-background);
@@ -43,6 +41,21 @@
     display: flex;
     align-items: var(--align-item);
     justify-content: flex-start;
+
+    .wjh-list-item-content-main {
+      flex: auto;
+    }
+
+    .wjh-list-item-content-extra {
+      display: inline-block;
+      padding: 0 6Px;
+      max-width: 70%;
+    }
+
+    .wjh-list-item-content-arrow {
+      display: inline-block;
+      font-size: 1.5rem;
+    }
   }
 }
 

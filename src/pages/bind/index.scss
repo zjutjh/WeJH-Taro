@@ -15,8 +15,19 @@
     display: block;
   }
 
-  .bind-info {
-    color: gray;
+}
+
+.bind-list {
+  margin-bottom: 20Px;
+  font-size: 0.875rem;
+
+  .wjh-list-item {
+    @include radius;
+    background-color: var(--wjh-color-week);
+    color: var(--wjh-color-white);
   }
 
+  .binded {
+    background-color: var(--wjh-color-green);
+  }
 }

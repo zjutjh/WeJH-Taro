@@ -4,8 +4,39 @@
     <scroll-view :scrollY="true">
       <view class="flex-column">
         <card title="信息绑定">
+          <w-list class="bind-list">
+            <w-list-item
+              :extra="user.isBindZF ? '已绑定' : '未绑定'"
+              :class="{ binded: user.isBindZF }"
+              :clickable="!user.isBindZF"
+              @tap="renderForm('zf')"
+            >
+              正方教务系统
+            </w-list-item>
+          </w-list>
+          <w-list class="bind-list">
+            <w-list-item
+              :extra="user.isBindCard ? '已绑定' : '未绑定'"
+              :class="{ binded: user.isBindCard }"
+              :clickable="!user.isBindCard"
+              @tap="renderForm('card')"
+            >
+              校园卡
+            </w-list-item>
+          </w-list>
+          <w-list class="bind-list">
+            <w-list-item
+              :extra="user.isBindLibrary ? '已绑定' : '未绑定'"
+              :class="{ binded: user.isBindLibrary }"
+              :clickable="!user.isBindLibrary"
+              @tap="renderForm('library')"
+            >
+              图书馆账号
+            </w-list-item>
+          </w-list>
+        </card>
+        <card title="绑定账号" v-if="bindTab === 'zf'">
           <text>正方教务系统</text>
-          <text v-if="user.isBindZF" class="bind-info">(已绑定)</text>
           <view>
             <input
               v-if="!user.isBindZF"
@@ -20,45 +51,33 @@
               v-model="zfpass"
             />
             <w-button size="large" block @tap="bindZFClick">
-              {{ user.isBindLibrary ? '修改' : '绑定' }}
+              确认绑定
             </w-button>
           </view>
-          <text>校园卡</text>
-          <text v-if="user.isBindCard" class="bind-info">(已绑定)</text>
+        </card>
+        <card title="绑定账号" v-if="bindTab === 'card'">
+          <text>校园卡密码</text>
           <view>
             <input
-              v-if="!user.isBindCard"
               type="password"
-              placeholder="输入校园卡密码"
-              v-model="cardpass"
-            />
-            <input
-              v-else
-              type="password"
-              placeholder="********"
+              placeholder="默认密码为学号后6位"
               v-model="cardpass"
             />
             <w-button size="large" block @tap="bindCardClick">
-              {{ user.isBindLibrary ? '修改' : '绑定' }}
+              确认绑定
             </w-button>
           </view>
-          <text>图书馆</text>
-          <text v-if="user.isBindLibrary" class="bind-info">(已绑定)</text>
+        </card>
+        <card title="绑定账号" v-if="bindTab === 'library'">
+          <text>图书馆账户密码</text>
           <view>
             <input
-              v-if="!user.isBindLibrary"
               type="password"
-              placeholder="输入图书馆密码"
+              placeholder="输入图书馆账户密码"
               v-model="libpass"
             />
-            <input
-              v-else
-              type="password"
-              placeholder="********"
-              v-model="libpass"
-            />
-            <w-button block size="large" @tap="bindLibClick">
-              {{ user.isBindLibrary ? '修改' : '绑定' }}
+            <w-button size="large" block @tap="bindLibClick">
+              确认绑定
             </w-button>
           </view>
         </card>
@@ -72,6 +91,7 @@
   import Taro from '@tarojs/taro';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WButton } from '@/components/button';
+  import { WList, WListItem } from '@/components/list';
   import { UserService, errCodeHandler } from '@/services';
   import { serviceStore } from '@/store';
   import './index.scss';
@@ -80,7 +100,9 @@
     components: {
       TitleBar,
       Card,
-      WButton
+      WButton,
+      WList,
+      WListItem
     },
     computed: {
       user() {
@@ -91,7 +113,8 @@
       return {
         zfpass: '',
         libpass: '',
-        cardpass: ''
+        cardpass: '',
+        bindTab: undefined
       };
     },
     methods: {
@@ -120,6 +143,13 @@
             title: '绑定成功'
           });
         } else errCodeHandler(code);
+      },
+      renderForm(type: string) {
+        if (type === 'zf' && this.user.isBindZF) return;
+        if (type === 'card' && this.user.isBindCard) return;
+        if (type === 'library' && this.user.isBindLibrary) return;
+        this.bindTab = type;
+        console.log(type);
       }
     }
   };

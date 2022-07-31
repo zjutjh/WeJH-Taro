@@ -23,6 +23,7 @@
     components: { AppListItem },
     computed: {
       applist(): item[] | undefined {
+        return serviceStore.appList;
         return serviceStore.appList?.filter((item) => {
           if (item.require === 'zf' && serviceStore.user.isBindZF) return true;
           else if (item.require === 'card' && serviceStore.user.isBindCard)

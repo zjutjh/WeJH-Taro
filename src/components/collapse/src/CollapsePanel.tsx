@@ -11,7 +11,8 @@ const collapsePanelProps = {
   maxHeight: {
     type: String,
     default: '100px'
-  }
+  },
+  extra: String
 };
 
 export default defineComponent({
@@ -32,7 +33,7 @@ export default defineComponent({
     }
   },
   render() {
-    const { $slots, handleClick, title, isActive, maxHeight } = this;
+    const { $slots, handleClick, title, isActive, maxHeight, extra } = this;
 
     return (
       <>
@@ -43,6 +44,7 @@ export default defineComponent({
               isActive ? 'wjh-collapse-panel-active' : undefined
             ]}
             onTap={handleClick}
+            extra={extra}
           >
             {title ? <view>{title}</view> : null}
             {$slots.header()}

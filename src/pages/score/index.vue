@@ -32,26 +32,26 @@
               </view>
             </view>
           </template>
+
           <w-collapse class="score-list-collapse">
             <w-collapse-panel
               v-for="item in scoreList"
               :key="item.lessonID"
               max-height="100px"
+              :extra="item.score"
             >
               <template #header>
                 <view>{{ item.lessonName }}</view>
-                <view>{{ item.score }}</view>
               </template>
-              <w-list class="score-detail-list">
-                <w-list-item>
-                  <view>课程性质</view>
-                  <view>{{ item.lessonType }}</view>
-                </w-list-item>
-                <w-list-item>
-                  <view>课程学分</view>
-                  <view>{{ item.credits }}</view>
-                </w-list-item>
-              </w-list>
+
+              <w-descriptions class="score-detail-list" size="small">
+                <w-descriptions-item label="课程性质" :label-span="18">
+                  {{ item.lessonType }}
+                </w-descriptions-item>
+                <w-descriptions-item label="课程学分" :label-span="18">
+                  {{ item.credits }}
+                </w-descriptions-item>
+              </w-descriptions>
             </w-collapse-panel>
           </w-collapse>
         </card>
@@ -79,7 +79,7 @@
   import RefleshButton from '@/components/RefleshButton/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WCollapse, WCollapsePanel } from '@/components/collapse/index';
-  import { WList, WListItem } from '@/components/list';
+  import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
   import { Score } from '@/types/Score';
   import TermPicker from '@/components/TermPicker/index.vue';
   import { ZFService } from '@/services';
@@ -94,8 +94,8 @@
       TitleBar,
       WCollapse,
       WCollapsePanel,
-      WList,
-      WListItem
+      WDescriptions,
+      WDescriptionsItem
     },
     setup() {
       const selectTerm = ref({
