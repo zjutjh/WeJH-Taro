@@ -30,3 +30,29 @@
     color: var(--wjh-color-cyan);
   }
 }
+
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-green);
+  display: flex;
+
+  image {
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .extra {
+    position: absolute;
+    color: var(--wjh-color-white);
+    right: 16Px;
+    top: 150Px;
+
+    .extra-icon {
+      font-size: 1.5rem;
+    }
+
+    :last-child {
+      font-size: 0.75rem;
+    }
+  }
+}

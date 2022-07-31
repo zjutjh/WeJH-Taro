@@ -1,10 +1,76 @@
-.balance {
-  color: white;
-  position: absolute;
-  font-size: 3rem;
-  font-weight: bolder;
+@import '@/style/theme.scss';
+
+.background {
+  background-image: url("~@/assets/photos/background-yellow.svg");
 }
 
-.green {
-  color: greenyellow;
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-yellow);
+  display: flex;
+
+  image {
+    height: 95%;
+    margin: auto;
+  }
+
+  .extra {
+    position: absolute;
+    color: var(--wjh-color-white);
+    right: 16Px;
+    top: 130Px;
+    text-align: center;
+
+    .extra-button {
+      height: 38Px;
+      width: 38Px
+    }
+
+    .extra-icon {
+      font-size: 1.5rem;
+    }
+
+    .extra-text {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.canteeen-flow-item-card {}
+
+.canteen-flow-list {
+  display: flex;
+  align-items: center;
+  gap: 16Px;
+
+  .name-wrapper {
+    @include radius;
+    display: inline-block;
+    padding: 0.5rem;
+    height: 40Px;
+    width: 40Px;
+    color: var(--wjh-color-white);
+    font-size: 1.875rem;
+    background-color: var(--wjh-color-green);
+    text-align: center;
+  }
+
+  .col:not(:first-child):not(:last-child) {
+    flex: 1;
+    font-size: 0.875rem;
+    line-height: 1.8rem;
+
+    :last-child {
+      color: var(--wjh-color-week);
+    }
+  }
+
+  .col:first-child {
+    flex: 0 0 20%;
+  }
+
+  .col:last-child {
+    flex: 0 0 20%;
+    font-size: 1.5rem;
+  }
 }

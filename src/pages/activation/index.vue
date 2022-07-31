@@ -21,9 +21,9 @@
             <input type="email" placeholder="邮箱" v-model="email" />
           </view>
           <template #footer>
-            <w-button block size="large" class="active" @tap="activeClick">
+            <button block size="large" class="active" @tap="activeClick">
               绑定通行证
-            </w-button>
+            </button>
           </template>
         </card>
       </view>

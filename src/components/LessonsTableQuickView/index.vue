@@ -44,7 +44,7 @@
       </view>
     </card>
     <view
-      class="no-class"
+      class="empty"
       v-if="!todayLessonTable || todayLessonTable?.length === 0"
     >
       今天居然没有课😄
@@ -151,12 +151,3 @@
     }
   });
 </script>
-<style>
-  .no-class {
-    margin-top: 1rem;
-    font-size: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-  }
-</style>

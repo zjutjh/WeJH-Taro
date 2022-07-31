@@ -5,7 +5,7 @@
 .quick-view {
   @include radius;
   @include shadow;
-  padding: 40px;
+  padding: 16Px 20Px;
   background-color: var(--wjh-color-background);
   opacity: 95%;
 
@@ -24,8 +24,8 @@
     align-items: center;
 
     .quick-view-name-icon {
-      height: 1.5rem;
-      width: 1.5rem;
+      height: 18Px;
+      width: 20Px;
       display: inline-block;
       background-size: contain;
       background-repeat: no-repeat;

@@ -32,6 +32,7 @@
             serviceStore.user.isBindLibrary
           )
             return true;
+          else if (item.require === '') return true;
           return false;
         });
       }

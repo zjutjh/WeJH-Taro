@@ -2,6 +2,13 @@
   <view class="background">
     <title-bar title="考试安排"></title-bar>
     <scroll-view :scrollY="true">
+      <view class="header-view">
+        <image src="@/assets/photos/exam.svg"></image>
+        <view class="extra">
+          <view class="extra-icon iconfont icon-announce"></view>
+          <view>公告</view>
+        </view>
+      </view>
       <view class="flex-column">
         <card v-if="!exam" style="text-align: center">
           <view>无记录</view>
@@ -59,6 +66,7 @@
       ></reflesh-button>
     </bottom-panel>
   </view>
+  <w-modal title="公告"></w-modal>
 </template>
 
 <script lang="ts">
@@ -70,6 +78,7 @@
   import RefleshButton from '@/components/RefleshButton/index.vue';
   import TermPicker from '@/components/TermPicker/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
+  import { WModal } from '@/components/modal';
   import { WCollapse, WCollapsePanel } from '@/components/collapse';
   import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
   import { ZFService } from '@/services';
@@ -85,7 +94,8 @@
       WCollapse,
       WCollapsePanel,
       WDescriptions,
-      WDescriptionsItem
+      WDescriptionsItem,
+      WModal
     },
     computed: {
       isWechat() {
