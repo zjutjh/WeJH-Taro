@@ -65,11 +65,26 @@
   }
 }
 
-.box-card {
-  background-color: var(--wjh-color-green);
+.book-card {
+  .wjh-card-body {
 
-  :not(:first-child) {
-    font-size: 0.875rem;
-    color: var(--wjh-color-week);
+    :not(:first-child) {
+      font-size: 0.875rem;
+      color: var(--wjh-color-week);
+    }
   }
+
+  .book-name {
+    margin-bottom: 10Px;
+    font-weight: var(--wjh-font-weight-medium);
+    word-break: break-all;
+  }
+
+  .book-index {
+    position: relative;
+    top: -12Px;
+    float: right;
+    font-weight: var(--wjh-font-weight-medium);
+  }
+
 }

@@ -1,3 +1,4 @@
+import { Button } from '@tarojs/components';
 import { defineComponent, PropType } from 'vue';
 import '../styles/index.scss';
 
@@ -30,12 +31,12 @@ export default defineComponent({
     const blockClass = this.block ? 'wjh-button-block' : undefined;
     const shapeClass = `wjh-button-shape-${this.shape}`;
     return (
-      <button
+      <Button
         style={[colorStyle]}
         class={['wjh-button', sizeClass, blockClass, shapeClass]}
       >
         {$slots.default?.()}
-      </button>
+      </Button>
     );
   }
 });

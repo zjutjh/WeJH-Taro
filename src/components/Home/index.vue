@@ -1,5 +1,7 @@
 <template>
-  <title-bar title="微精弘" :back-button="false"></title-bar>
+  <title-bar title="微精弘" :back-button="false">
+    <alarm></alarm>
+  </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
       <lesson-table-quick-view
@@ -36,6 +38,7 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WButton } from '@/components/button';
   import Card from '@/components/Card/index.vue';
+  import Alarm from '@/components/Alarm/index.vue';
   import { WModal } from '../modal';
   import { helpText } from '@/utils/copywriting';
   import Taro from '@tarojs/taro';
@@ -48,7 +51,8 @@
       TitleBar,
       Card,
       WButton,
-      WModal
+      WModal,
+      Alarm
     },
     data() {
       return {
