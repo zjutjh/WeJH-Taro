@@ -11,7 +11,7 @@
 
 .wjh-modal {
   position: fixed;
-  z-index: 3000;
+  z-index: 2000;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -22,7 +22,7 @@
   @include radius;
   position: relative;
   background-color: var(--wjh-color-background);
-  z-index: 3100;
+  z-index: 2100;
   width: 300Px;
   top: 30vh;
   padding: 0 16Px;

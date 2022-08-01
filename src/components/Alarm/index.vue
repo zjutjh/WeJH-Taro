@@ -11,14 +11,12 @@
   import './index.scss';
 
   export default defineComponent({
-    data() {
-      return {
-        counter: 5
-      };
+    props: {
+      counter: Number
     },
     methods: {
       resetCounter() {
-        this.counter = 0;
+        // this.counter = 0;
       }
     }
   });

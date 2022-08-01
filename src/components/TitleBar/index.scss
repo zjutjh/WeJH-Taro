@@ -4,12 +4,12 @@
   width: 100vw;
   display: inline-flex;
   background-color: var(--wjh-color-background);
+  z-index: 3000;
 
   .wjh-title-bar-back-button {
     color: var(--wjh-color-text);
     font-size: 2rem;
     border-radius: 5rem;
-    z-index: 1000;
   }
 
   .wjh-title-bar-title {

@@ -1,14 +1,32 @@
-.balance {
-  color: white;
-  position: absolute;
-  font-size: 3rem;
-  font-weight: bolder;
+@import "@/style/theme.scss";
+
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-green);
+  display: flex;
+
+  image {
+    height: 100%;
+    margin: 0 auto;
+  }
 }
 
-.green {
-  color: greenyellow;
-}
+.announcement-card {
 
-.pop-card {
-  width: 80vw;
+  .wjh-card-header {
+    font-size: 1.5rem;
+    font-weight: var(--wjh-font-weight-medium);
+    justify-content: center;
+  }
+
+  .wjh-card-body {
+    font-size: 0.875rem;
+    color: var(--wjh-color-week);
+    white-space: break-spaces;
+  }
+
+  .time-wrapper {
+    font-size: 0.75rem;
+    text-align: end;
+  }
 }

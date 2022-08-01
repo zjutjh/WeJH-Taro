@@ -18,7 +18,7 @@ export default async function errCodeHandler(code: number, showModal = true) {
           }
         });
         break;
-      case ServerCode.UserNotFind:
+      case ServerCode.UserNotFound:
         await Taro.showModal({
           title: '提示',
           content: '当前账号未激活',
@@ -37,7 +37,7 @@ export default async function errCodeHandler(code: number, showModal = true) {
           confirmText: '确定'
         });
         break;
-      case ServerCode.UserCenterNotFind:
+      case ServerCode.UserCenterNotFound:
         await Taro.showModal({
           title: '提示',
           content: '当前信息不存在',
@@ -83,7 +83,30 @@ export default async function errCodeHandler(code: number, showModal = true) {
           }
         });
         break;
-
+      case ServerCode.activation.passportExisted:
+        await Taro.showToast({
+          icon: 'none',
+          title: '通行证已存在'
+        });
+        break;
+      case ServerCode.activation.schoolIdOrIdNotExistNotMatch:
+        await Taro.showToast({
+          icon: 'none',
+          title: '学号或身份证号不存在或者不匹配'
+        });
+        break;
+      case ServerCode.activation.passwordLenghtError:
+        await Taro.showToast({
+          icon: 'none',
+          title: '密码长度请在6~20位之间'
+        });
+        break;
+      case ServerCode.bind.schoolCardServerError:
+        await Taro.showToast({
+          icon: 'none',
+          title: '服务器暂不可用'
+        });
+        break;
       default:
         if (process.env.NODE_ENV === 'development')
           await Taro.showToast({

@@ -1,6 +1,6 @@
 <template>
   <title-bar title="微精弘" :back-button="false">
-    <alarm></alarm>
+    <alarm @tap="nav2announcement" :counter="diffAnnouncement()"></alarm>
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
@@ -26,7 +26,10 @@
       </card>
     </view>
   </scroll-view>
-  <w-modal v-model:show="isShowHelp" :content="helpContent"></w-modal>
+  <w-modal
+    v-model:show="isShowHelp"
+    :content="`&emsp;&emsp;${helpContent}`"
+  ></w-modal>
 </template>
 
 <script lang="ts">
@@ -42,6 +45,8 @@
   import { WModal } from '../modal';
   import { helpText } from '@/utils/copywriting';
   import Taro from '@tarojs/taro';
+  import { SystemService } from '@/services';
+  import { SystemStore } from 'src/store/system';
 
   export default defineComponent({
     components: {
@@ -81,10 +86,25 @@
           url: '/pages/activation/index'
         });
       },
+      nav2announcement() {
+        Taro.navigateTo({
+          url: '/pages/announcement/index'
+        });
+      },
       showHelp(prop: 'lessons-table' | 'school-card') {
         this.isShowHelp = true;
         if (prop === 'lessons-table') this.helpContent = helpText.lessonsTable;
         else if (prop === 'school-card') this.helpContent = helpText.schoolCard;
+      },
+      diffAnnouncement() {
+        const oldList = serviceStore.announcement.announcements;
+        SystemService.getAnnouncement();
+        const newList = serviceStore.announcement.announcements;
+
+        console.log(
+          newList.data.length - oldList.filter((item) => item.readTime).length
+        );
+        return 1;
       }
     }
   });

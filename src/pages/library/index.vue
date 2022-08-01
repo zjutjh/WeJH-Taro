@@ -46,10 +46,7 @@
           </view>
         </template>
         <view>
-          <view v-if="isSelectToday" class="flex-column">
-            <card v-if="!borrowList" class="no-item">无借阅记录</card>
-          </view>
-          <view v-if="isSelectHistory" class="flex-column">
+          <view class="flex-column">
             <card v-if="!borrowList" class="no-item">无借阅记录</card>
             <card
               class="book-card"

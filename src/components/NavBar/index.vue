@@ -36,6 +36,7 @@
             Taro.redirectTo({ url: url });
         },
         nav: (val: string) => {
+          emit('update:showPop', false);
           emit('update:pageName', val);
         },
         plusClick: () => {

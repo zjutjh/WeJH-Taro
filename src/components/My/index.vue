@@ -70,6 +70,7 @@
   import store from '@/store';
 
   import './index.scss';
+  import { UserServiceStore } from 'src/store/service/user';
   export default defineComponent({
     components: { TitleBar, Card, WList, WListItem, WButton },
     data() {
@@ -77,31 +78,26 @@
         options: [
           [
             {
-              icon: require('@/assets/icons/bind.svg'),
               title: '绑定',
               url: '/pages/bind/index'
             },
             {
-              icon: require('@/assets/icons/lab.svg'),
               title: '实验室',
               url: '/pages/lab/index'
             }
           ],
           [
             {
-              icon: require('@/assets/icons/feedback.svg'),
               title: '反馈',
               url: '/pages/connect/index'
             },
             {
-              icon: require('@/assets/icons/about.svg'),
               title: '关于',
               url: '/pages/about/index'
             }
           ],
           [
             {
-              icon: require('@/assets/icons/setting.svg'),
               title: '设置',
               url: '/pages/setting/index'
             }
@@ -155,8 +151,8 @@
 			} */
     },
     mounted() {
-      UserService.getUserInfo();
-      console.log(systemStore);
+      if (serviceStore.user.isActive && !serviceStore.user.info)
+        UserService.getUserInfo();
     }
   });
 </script>

@@ -12,6 +12,7 @@
     </view>
   </view>
 </template>
+
 <script lang="ts">
   import Taro from '@tarojs/taro';
   import { defineComponent } from 'vue';

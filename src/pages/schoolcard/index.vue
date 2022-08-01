@@ -114,7 +114,7 @@
     },
     setup() {
       let dateSel = ref(dayjs().format('YYYY-MM'));
-      let balance = computed(() => serviceStore.card.balance);
+      let balance = computed(() => serviceStore.card.balance || 0);
       let today = computed(() => serviceStore.card.today);
       let history = computed(() =>
         CardService.getCardHistory({

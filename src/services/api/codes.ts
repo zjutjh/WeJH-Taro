@@ -2,9 +2,9 @@ export const ServerCode = {
   OK: 1,
   // static SystemError: -1;
   ParamError: 100501,
-  UserNotFind: -301,
+  UserNotFound: -301,
   // static UserAlreadyExisted: -302;
-  UserCenterNotFind: 300501,
+  UserCenterNotFound: 300501,
   UserCenterNotMatch: 300502,
   NotLogin: 100401,
   NotAdmin: 100403,
@@ -22,7 +22,9 @@ export const ServerCode = {
   GetOpenIDFail: 200500,
   SystemError: 200507,
 
-  bind: {},
+  bind: {
+    schoolCardServerError: 200507
+  },
   activation: {
     schoolIdOrIdNotExistNotMatch: 200510,
     passwordLenghtError: 200511,

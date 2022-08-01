@@ -163,12 +163,12 @@
         } else errCodeHandler(code);
       },
       renderForm(type: string) {
-        /*  if (type === 'zf' && this.user.isBindZF) return;
+        if (type === 'zf' && this.user.isBindZF) return;
         if (type === 'card' && this.user.isBindCard) return;
-        if (type === 'library' && this.user.isBindLibrary) return; */
+        if (type === 'library' && this.user.isBindLibrary) return;
         this.bindTab = type;
       },
-      showHelp(prop) {
+      showHelp(prop: 'zf') {
         this.isShowHelp = true;
         if (prop === 'zf') this.helpContent = helpText.bind.zf;
       }

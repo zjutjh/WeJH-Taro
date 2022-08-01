@@ -9,7 +9,7 @@
       @plusClick="plusClick"
       :show-plus="isActive"
       v-model:page-name="pageName"
-      :showPop="showPop"
+      v-model:showPop="showPop"
     ></nav-bar>
   </view>
 </template>
@@ -34,7 +34,6 @@
     },
     data() {
       return {
-        show: false,
         showPop: false,
         pageHide: false,
         pageName: 'home'

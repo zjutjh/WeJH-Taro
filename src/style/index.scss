@@ -1,5 +1,4 @@
 @import './components/input';
-@import './components/list';
 
 page {
   background-color: #f5f5f5;
@@ -30,7 +29,7 @@ scroll-view {
   width: 100vw;
   z-index: 0;
   background-image: url('~@/assets/photos/background.svg');
-  background-position: 50% 150%;
+  background-position: bottom 0 right 50%;
   background-repeat: no-repeat;
 }
 
