@@ -81,7 +81,7 @@
           url: '/pages/activation/index'
         });
       },
-      showHelp(prop) {
+      showHelp(prop: 'lessons-table' | 'school-card') {
         this.isShowHelp = true;
         if (prop === 'lessons-table') this.helpContent = helpText.lessonsTable;
         else if (prop === 'school-card') this.helpContent = helpText.schoolCard;

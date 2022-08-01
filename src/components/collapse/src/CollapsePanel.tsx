@@ -29,7 +29,6 @@ export default defineComponent({
   methods: {
     handleClick() {
       this.isActive = !this.isActive;
-      console.log(this.isActive);
     }
   },
   render() {

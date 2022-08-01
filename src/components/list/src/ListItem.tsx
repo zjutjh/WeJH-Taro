@@ -13,7 +13,6 @@ export default defineComponent({
   props: listItemProps,
   render() {
     const { $slots, $props } = this;
-    console.log(this);
     return (
       <view class="wjh-list-item">
         <view class="wjh-list-item-content">

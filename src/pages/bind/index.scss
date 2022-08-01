@@ -31,3 +31,22 @@
     background-color: var(--wjh-color-green);
   }
 }
+
+.form-help-wrapper {
+  text-align: end;
+
+  .form-help {
+    display: inline-flex;
+    justify-content: flex-end;
+    padding: 0 10Px 10Px 10Px;
+
+    .iconfont {
+      color: var(--wjh-color-cyan);
+    }
+
+    :last-child {
+      font-size: 0.75rem;
+      color: var(--wjh-color-week);
+    }
+  }
+}
