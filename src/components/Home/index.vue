@@ -1,6 +1,6 @@
 <template>
   <title-bar title="微精弘" :back-button="false">
-    <alarm @tap="nav2announcement" :counter="diffAnnouncement()"></alarm>
+    <alarm @tap="nav2announcement" :counter="announcementsCounter"></alarm>
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
@@ -46,7 +46,6 @@
   import { helpText } from '@/utils/copywriting';
   import Taro from '@tarojs/taro';
   import { SystemService } from '@/services';
-  import { SystemStore } from 'src/store/system';
 
   export default defineComponent({
     components: {
@@ -63,7 +62,8 @@
       return {
         pageHide: false,
         isShowHelp: false,
-        helpContent: undefined
+        helpContent: undefined,
+        announcementsCounter: 0
       };
     },
     computed: {
@@ -87,6 +87,7 @@
         });
       },
       nav2announcement() {
+        this.announcementsCounter = 0;
         Taro.navigateTo({
           url: '/pages/announcement/index'
         });
@@ -96,16 +97,19 @@
         if (prop === 'lessons-table') this.helpContent = helpText.lessonsTable;
         else if (prop === 'school-card') this.helpContent = helpText.schoolCard;
       },
-      diffAnnouncement() {
-        const oldList = serviceStore.announcement.announcements;
-        SystemService.getAnnouncement();
-        const newList = serviceStore.announcement.announcements;
 
-        console.log(
-          newList.data.length - oldList.filter((item) => item.readTime).length
-        );
-        return 1;
+      // 计算更新条数
+      // FIXME: 只对比了请求前后的公告数量
+      async diffAnnouncement() {
+        const oldListLength = serviceStore.announcement.announcements.length;
+        await SystemService.getAnnouncement();
+        const newListLength: any =
+          serviceStore.announcement.announcements.length;
+        return newListLength - oldListLength;
       }
+    },
+    async mounted() {
+      this.announcementsCounter = await this.diffAnnouncement();
     }
   });
 </script>

@@ -1,4 +1,5 @@
-import { Announcement } from '@/types/Announcement';
+import { Announcement } from 'src/types/Announcement';
+
 export interface AnnouncementType {
   announcements: Announcement[];
   updateTime: {
@@ -8,15 +9,11 @@ export interface AnnouncementType {
 
 export const AnnouncementStore = {
   state: () => ({
-    announcements: [],
-    updateTime: {
-      announcements: undefined
-    }
+    announcements: []
   }),
   mutations: {
     setAnnouncements(state: AnnouncementType, value: Announcement[]) {
       state.announcements = value;
-      state.updateTime.announcements = new Date();
     },
     clearAnnouncements(state: AnnouncementType) {
       state.announcements = [];

@@ -4,7 +4,7 @@ import store, { serviceStore } from '@/store';
 
 // comment: 微信相关登录异常处理
 export default async function errCodeHandler(code: number, showModal = true) {
-  console.log('code', code);
+  console.log('Error code', code);
   if (showModal)
     switch (code) {
       case ServerCode.NoThatPasswordORWrong:

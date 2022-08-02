@@ -23,7 +23,7 @@ export const ServerCode = {
   SystemError: 200507,
 
   bind: {
-    schoolCardServerError: 200507
+    schoolCardServerError: 200506
   },
   activation: {
     schoolIdOrIdNotExistNotMatch: 200510,

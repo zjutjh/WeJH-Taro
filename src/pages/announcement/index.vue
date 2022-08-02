@@ -28,11 +28,9 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, ref } from 'vue';
-  import { Announcement } from '@/types/Announcement';
+  import { computed, defineComponent } from 'vue';
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
-  import { SystemService } from '@/services';
   import dayjs from 'dayjs';
   import { serviceStore } from '@/store';
 
@@ -40,23 +38,16 @@
   export default defineComponent({
     components: { Card, TitleBar },
     setup() {
-      function reflesh() {
-        SystemService.getAnnouncement();
-      }
       const announcement = computed(
         () => serviceStore.announcement.announcements
       );
 
       return {
-        reflesh,
         announcement,
         timeFotmat: (time: string) => {
           return dayjs(time).format('YYYY年MM月DD日');
         }
       };
-    },
-    mounted() {
-      this.reflesh();
     }
   });
 </script>
