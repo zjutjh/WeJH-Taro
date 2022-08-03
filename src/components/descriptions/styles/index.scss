@@ -55,28 +55,3 @@
     border-top: var(--border-inner);
   }
 }
-
-.wjh-col-1 {
-  flex: 0 0 calc(100% / 24 * 1);
-  max-height: 0 0 calc(100% / 24 * 1);
-}
-
-.wjh-col-6 {
-  flex: 0 0 calc(100% / 24 * 6);
-  max-height: 0 0 calc(100% / 24 * 6);
-}
-
-.wjh-col-12 {
-  flex: 0 0 calc(100% / 24 * 12);
-  max-height: 0 0 calc(100% / 24 * 12);
-}
-
-.wjh-col-18 {
-  flex: 0 0 calc(100% / 24 * 18);
-  max-height: 0 0 calc(100% / 24 * 18);
-}
-
-.wjh-col-24 {
-  flex: 0 0 100%;
-  max-height: 0 0 100%;
-}

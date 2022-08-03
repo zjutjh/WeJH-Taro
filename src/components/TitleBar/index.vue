@@ -47,7 +47,7 @@
         return {
           height: MenuRect.height + 'px',
           marginTop: MenuRect.top + 'px',
-          marginLeft: '2rem',
+          marginLeft: '1rem',
           display: 'flex',
           fontSize: '1.5rem',
           lineHeight: MenuRect.height + 'px'

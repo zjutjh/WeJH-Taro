@@ -39,6 +39,7 @@
 
 .consume-card {
   margin-top: 24Px;
+  min-height: calc(100% - 200Px - 24Px);
 
   .swicher {
     flex: 1;

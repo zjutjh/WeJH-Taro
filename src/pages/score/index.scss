@@ -76,9 +76,7 @@
   }
 
   .wjh-descriptions-item-container {
-    :last-child {
-      text-align: end;
-    }
+    justify-content: space-between;
   }
 
 }

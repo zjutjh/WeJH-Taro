@@ -11,7 +11,7 @@
           <view style="background: var(--wjh-color-blue)"></view>
         </view>
         <image mode="aspectFit" src="@/assets/photos/card.svg"></image>
-        <text class="balance"> ¥{{ balance }}</text>
+        <text class="balance"> ¥ {{ balance }}</text>
       </view>
       <card class="consume-card">
         <template #header>

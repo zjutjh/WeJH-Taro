@@ -24,7 +24,23 @@
               <template #header>
                 <view class="lesson-name">{{ item.lessonName }}</view>
                 <view style="font-size: 14px; color: var(--wjh-color-week)">
-                  <view class="exam-time">{{ item.examTime }}</view>
+                  <view
+                    v-if="
+                      timeInterval(item.examTime) < 0 ||
+                      timeInterval(item.examTime) > 14
+                    "
+                    class="exam-time"
+                    >{{ item.examTime }}
+                  </view>
+                  <view
+                    v-else
+                    :style="
+                      timeInterval(item.examTime) === 0
+                        ? 'color: var(--wjh-color-orange)'
+                        : undefined
+                    "
+                    >距离考试还有 {{ timeInterval(item.examTime) }} 天</view
+                  >
                   <view class="exam-place">{{
                     `${item.examPlace} - 座位号：${item.seatNum}`
                   }}</view>
@@ -32,7 +48,7 @@
               </template>
               <w-descriptions class="exam-detail-list" size="small">
                 <w-descriptions-item label="日期" :label-span="6">
-                  {{ item.examTime }}
+                  {{ getDetailedTime(item.examTime) }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试地点" :label-span="6">
                   {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
@@ -82,8 +98,9 @@
   import { WCollapse, WCollapsePanel } from '@/components/collapse';
   import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
   import { ZFService } from '@/services';
-  import dayjs from 'dayjs';
+  import dayjs, { ConfigType } from 'dayjs';
   import './index.scss';
+
   export default defineComponent({
     components: {
       TitleBar,
@@ -142,6 +159,13 @@
             alarmOffset: 3600
           });
       }
+      function getDetailedTime(timeString: ConfigType) {
+        const dayChars = ['日', '一', '二', '三', '四', '五', '六'];
+        return `${timeString} - 周${dayChars[dayjs(timeString).day()]}`;
+      }
+      function timeInterval(timeString: ConfigType) {
+        return dayjs(timeString).diff(dayjs(), 'day');
+      }
 
       onMounted(async () => {
         if (serviceStore.user.isBindZF) {
@@ -156,7 +180,9 @@
         selectedItem,
         calcDayLeft,
         pop,
-        addToCalendar
+        addToCalendar,
+        getDetailedTime,
+        timeInterval
       };
     },
     data() {

@@ -3,6 +3,7 @@
     v-if="week <= 19 && week > 1"
     class="week-backward circle"
     @tap="backwardWeek"
+    shape="circle"
   >
     <view class="iconfont icon-arrow-left" />
   </w-button>
@@ -18,6 +19,7 @@
     </w-button>
   </picker>
   <w-button
+    shape="circle"
     v-if="week < 19 && week >= 1"
     class="week-forward circle"
     @tap="forwardWeek"

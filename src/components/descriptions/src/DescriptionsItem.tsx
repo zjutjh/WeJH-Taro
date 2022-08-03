@@ -18,7 +18,11 @@ export default defineComponent({
       <view class="wjh-descriptions-item">
         <view class="wjh-descriptions-item-container">
           <view
-            class={`wjh-descriptions-item-label wjh-col-${$props.labelSpan}`}
+            class="wjh-descriptions-item-label"
+            style={{
+              flex: `0 0 calc(100% / 24 * ${$props.labelSpan})`,
+              maxHeight: `0 0 calc(100% / 24 * ${$props.labelSpan})`
+            }}
           >
             {$props.label}
           </view>
