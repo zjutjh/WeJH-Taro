@@ -1,12 +1,12 @@
 <template>
-  <w-button
+  <!-- <w-button
     v-if="week <= 19 && week > 1"
     class="week-backward circle"
     @tap="backwardWeek"
     shape="circle"
   >
     <view class="iconfont icon-arrow-left" />
-  </w-button>
+  </w-button> -->
   <picker
     mode="multiSelector"
     :range="selector"
@@ -18,14 +18,14 @@
       <view v-else class="picker">{{ currentWeek }}</view>
     </w-button>
   </picker>
-  <w-button
+  <!-- <w-button
     shape="circle"
     v-if="week < 19 && week >= 1"
     class="week-forward circle"
     @tap="forwardWeek"
   >
     <view class="iconfont icon-arrow-right" />
-  </w-button>
+  </w-button> -->
 </template>
 
 <script lang="ts">
@@ -33,10 +33,10 @@
   import { WButton } from '../button';
 
   export default defineComponent({
+    name: 'WeekPick',
     components: {
       WButton
     },
-    name: 'WeekPick',
     props: {
       week: {
         default: 1,
@@ -69,8 +69,8 @@
         this.$emit('changed', {
           week: e.detail.value[0] + 1
         });
-      },
-      backwardWeek() {
+      }
+      /*       backwardWeek() {
         if (this.selectorValue[0] > 0) {
           this.selectorValue[0] = this.selectorValue[0] - 1;
           this.currentWeek = this.selector[0][this.selectorValue[0]];
@@ -87,7 +87,7 @@
             week: this.selectorValue[0] + 1
           });
         }
-      }
+      } */
     }
   });
 </script>

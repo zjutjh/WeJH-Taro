@@ -16,11 +16,12 @@
   import AppListItem from './AppListItem/index.vue';
   import { defineComponent } from 'vue';
   import { AppListItem as item } from '@/types/AppList';
+  import Card from '@/components/Card/index.vue';
   import { serviceStore } from '@/store';
   import './index.scss';
 
   export default defineComponent({
-    components: { AppListItem },
+    components: { AppListItem, Card },
     computed: {
       applist(): item[] | undefined {
         return serviceStore.appList;

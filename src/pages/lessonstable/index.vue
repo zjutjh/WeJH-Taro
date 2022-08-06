@@ -12,7 +12,7 @@
       />
     </scroll-view>
 
-    <scroll-view :scrollY="true" v-if="!showLessonType">
+    <!-- <scroll-view :scrollY="true" v-if="!showLessonType">
       <view class="practice-lessons-list" @longpress="switchLessonType">
         <view class="prectice-title">实践课程</view>
         <view v-for="item in practiceLessons" :key="item.lessonName">
@@ -25,7 +25,7 @@
           </card>
         </view>
       </view>
-    </scroll-view>
+    </scroll-view> -->
 
     <bottom-panel>
       <reflesh-button

@@ -140,8 +140,8 @@
         isSelectToday.value = false;
         isSelectHistory.value = true;
         await getCardHistory({
-          year: parseInt(this.dateSel.split('-')[0]),
-          month: parseInt(this.dateSel.split('-')[1])
+          year: parseInt(dateSel.value.split('-')[0]),
+          month: parseInt(dateSel.value.split('-')[1])
         });
       }
       function todayClick() {

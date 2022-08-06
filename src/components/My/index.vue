@@ -68,9 +68,8 @@
   import { UserService } from '@/services';
   import { defineComponent } from 'vue';
   import store from '@/store';
-
   import './index.scss';
-  import { UserServiceStore } from 'src/store/service/user';
+
   export default defineComponent({
     components: { TitleBar, Card, WList, WListItem, WButton },
     data() {

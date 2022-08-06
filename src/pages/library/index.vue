@@ -167,10 +167,6 @@
       getLibraryHistory() {
         throttle(LibraryService.getLibraryHistory);
       },
-      onDateChange(e) {
-        this.dateSel = e.detail.value;
-        this.getLibraryHistory();
-      },
       historyClick() {
         this.isSelectToday = false;
         this.isSelectHistory = true;
