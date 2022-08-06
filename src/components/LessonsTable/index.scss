@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+
   .num-index {
     text-align: center;
     font-size: 0.8rem;
@@ -29,17 +30,20 @@
 }
 
 .class {
+  display: flex;
   position: absolute;
   padding: 0.2rem;
   width: 18%;
   text-align: center;
   box-sizing: border-box;
+
   .title {
     line-height: 100%;
     font-size: 0.75rem;
     display: block;
     font-weight: bolder;
   }
+
   .item-content {
     line-height: 125%;
     font-size: 0.667rem;
@@ -75,13 +79,10 @@
   flex-direction: column;
   justify-content: center;
   color: white;
+
   .title {
     margin-bottom: 0.1rem;
   }
-}
-
-.flex {
-  display: flex;
 }
 
 .now-index {
@@ -90,6 +91,7 @@
   position: absolute;
   z-index: 10;
 }
+
 .now-week-index {
   height: 100%;
   width: calc(18%);

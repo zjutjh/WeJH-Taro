@@ -2,7 +2,7 @@
   <view class="background">
     <title-bar title="校园卡"></title-bar>
     <scroll-view :scrollY="true">
-      <view class="school-card" @tap="getCardBalance">
+      <view class="school-card">
         <view class="school-card-background">
           <view style="background: var(--wjh-color-yellow)"></view>
           <view style="background: var(--wjh-color-orange)"></view>
@@ -11,6 +11,7 @@
           <view style="background: var(--wjh-color-blue)"></view>
         </view>
         <image mode="aspectFit" src="@/assets/photos/card.svg"></image>
+
         <text class="balance"> ¥ {{ balance }}</text>
       </view>
       <card class="consume-card">
@@ -33,7 +34,12 @@
               </w-button>
             </view>
           </view>
-          <view class="col"><reflesh-button></reflesh-button></view>
+          <view class="col">
+            <reflesh-button
+              @tap="updateData"
+              :is-refleshing="isRefleshing"
+            ></reflesh-button>
+          </view>
         </template>
         <view v-if="isSelectToday" class="flex-column">
           <card v-for="index in 20" :key="index">今日消费</card>
@@ -113,7 +119,15 @@
       }
     },
     setup() {
+      const isRefleshing = ref(false);
       let dateSel = ref(dayjs().format('YYYY-MM'));
+
+      let obj: any | undefined;
+      let selectedItem = ref(obj);
+      let showPop = ref(false);
+      let isSelectToday = ref(true);
+      let isSelectHistory = ref(false);
+
       let balance = computed(() => serviceStore.card.balance || 0);
       let today = computed(() => serviceStore.card.today);
       let history = computed(() =>
@@ -122,15 +136,17 @@
           month: parseInt(dateSel.value.split('-')[1])
         })
       );
-      let getCardBalance = CardService.updateCardBalance;
-      let getCardToday = CardService.updateCardToday;
-      let getCardHistory = CardService.updateCardHistory;
 
-      let obj: any | undefined;
-      let selectedItem = ref(obj);
-      let showPop = ref(false);
-      let isSelectToday = ref(true);
-      let isSelectHistory = ref(false);
+      async function updateData() {
+        isRefleshing.value = true;
+        await CardService.updateCardBalance();
+        await CardService.updateCardToday();
+        await CardService.updateCardHistory({
+          year: parseInt(dateSel.value.split('-')[0]),
+          month: parseInt(dateSel.value.split('-')[1])
+        });
+        isRefleshing.value = false;
+      }
 
       function pop(item) {
         selectedItem.value = item;
@@ -139,25 +155,19 @@
       async function historyClick() {
         isSelectToday.value = false;
         isSelectHistory.value = true;
-        await getCardHistory({
-          year: parseInt(dateSel.value.split('-')[0]),
-          month: parseInt(dateSel.value.split('-')[1])
-        });
       }
       function todayClick() {
         isSelectToday.value = true;
         isSelectHistory.value = false;
-        getCardToday();
       }
 
       async function onDateChange(e) {
         dateSel.value = e.detail.value;
-        await getCardHistory({
-          year: parseInt(dateSel.value.split('-')[0]),
-          month: parseInt(dateSel.value.split('-')[1])
-        });
       }
+      updateData();
+
       return {
+        isRefleshing,
         dateSel,
         onDateChange,
         isSelectToday,
@@ -168,17 +178,11 @@
         balance,
         today,
         history,
-        getCardBalance,
-        getCardToday,
-        getCardHistory,
         pop,
+        updateData,
         showPop,
         dayjs
       };
-    },
-    mounted() {
-      this.getCardBalance();
-      this.getCardToday();
     }
   });
 </script>

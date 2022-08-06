@@ -17,7 +17,7 @@
     <view class="now-week-index" :style="nowWeekStyle" />
     <view class="table table-box" v-if="lessonsTable">
       <view
-        class="flex class"
+        class="class"
         v-for="cl in lessonsTable"
         :key="cl.id + cl.week + cl.weekday"
         :style="getStyle(cl)"
@@ -36,6 +36,7 @@
     <view class="now-index" :style="nowStyle" />
   </view>
 </template>
+
 <script lang="ts">
   import Taro, { eventCenter, getCurrentInstance } from '@tarojs/taro';
   import Card from '@/components/Card/index.vue';
@@ -45,9 +46,8 @@
   export default defineComponent({
     components: { card: Card },
     props: {
-      lessons: {
-        type: Array
-      }
+      lessons: Array,
+      currentWeek: Number
     },
     computed: {
       weekdayEnum() {

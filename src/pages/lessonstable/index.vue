@@ -3,11 +3,10 @@
     <title-bar title="课程表"></title-bar>
     <scroll-view :scrollY="true">
       <lessons-table
-        v-show="showLessonType"
-        @longpress="switchLessonType"
         class="index"
         :class="{ 'index-ios': isNewIPhone }"
-        :lessons="showLessonType ? lessonsTable : lessonsTableWeek"
+        :lessons="!showWeekPicker ? lessonsTable : lessonsTableWeek"
+        :current-week="selectWeek"
         @classClick="classClick"
       />
     </scroll-view>
@@ -89,13 +88,9 @@
       WeekPicker,
       WButton
     },
-    data() {
-      return {
-        showPop: false,
-        selection: undefined
-      };
-    },
     setup() {
+      const showPop = ref(false);
+      const selection = ref<Lesson>();
       const selectTerm = ref({
         year: systemStore.generalInfo.termYear,
         term: systemStore.generalInfo.term
@@ -111,10 +106,9 @@
       const selectWeek = ref(systemStore.generalInfo.week);
       const lessonsTableWeek = computed(() => {
         return lessonsTable.value.filter((item) => {
-          let v = item.week.split('-');
+          let v = item.week.slice(0, item.week.length - 1).split('-');
           let st = parseInt(v[0]);
           let ed = parseInt(v[1]);
-
           let isOddWeek = item.week.includes('单');
           let isEvenWeek = item.week.includes('双');
 
@@ -155,15 +149,15 @@
         showWeekPicker.value = !showWeekPicker.value;
       }
 
-      const showLessonType = ref(true);
-      function switchLessonType() {
-        showLessonType.value = !showLessonType.value;
+      function classClick(theClass: Lesson) {
+        showPop.value = true;
+        selection.value = theClass;
       }
 
       return {
-        showLessonType,
+        showPop,
+        selection,
         practiceLessons,
-        switchLessonType,
         showWeekPicker,
         selectWeek,
         pickerModeSwitch,
@@ -174,15 +168,11 @@
         termChanged,
         reflesh,
         isRefleshing,
-        lessonsTableWeek
+        lessonsTableWeek,
+        classClick
       };
     },
-    methods: {
-      classClick(theClass: Lesson) {
-        this.showPop = true;
-        this.selection = theClass;
-      }
-    }
+    methods: {}
   };
 </script>
 <style>
