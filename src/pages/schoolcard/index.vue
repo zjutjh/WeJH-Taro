@@ -26,7 +26,7 @@
                 今日
               </w-button>
               <w-button
-                :class="{ 'button-not-active': !isSelectHistory }"
+                :class="{ 'button-not-active': isSelectToday }"
                 @tap="historyClick"
                 shape="rounded"
               >
@@ -42,9 +42,7 @@
           </view>
         </template>
         <view v-if="isSelectToday" class="flex-column">
-          <card v-for="index in 20" :key="index">今日消费</card>
-
-          <view v-if="isSelectHistory" class="flex-column">
+          <view v-if="!isSelectToday" class="flex-column">
             <text>历史消费</text>
             <view
               style="
@@ -64,14 +62,14 @@
               </picker>
             </view>
           </view>
-          <view v-if="!itemList" style="text-align: center">
+          <view v-if="!consumeList.length" style="text-align: center">
             <view> 无消费记录</view>
           </view>
           <view
+            v-else
             class="item card"
-            v-for="item in itemList"
+            v-for="item in consumeList"
             :key="item.ID"
-            @tap="pop(item)"
           >
             <view class="cicle" v-if="item.transactionType">
               {{ item.transactionType[0] }}
@@ -106,79 +104,60 @@
   import './index.scss';
   export default defineComponent({
     components: { Card, WButton, TitleBar, RefleshButton },
-    computed: {
-      itemList(): Array<any> {
-        if (this.isSelectToday) return this.today;
-        else if (this.isSelectHistory) return this?.history?.data;
-        return [];
-      },
-      updateTime() {
-        if (this.isSelectToday) return serviceStore.card.updateTime;
-        else if (this.isSelectHistory) return this?.history?.updateTime;
-        return '';
-      }
-    },
     setup() {
       const isRefleshing = ref(false);
       let dateSel = ref(dayjs().format('YYYY-MM'));
 
-      let obj: any | undefined;
-      let selectedItem = ref(obj);
       let showPop = ref(false);
       let isSelectToday = ref(true);
-      let isSelectHistory = ref(false);
 
       let balance = computed(() => serviceStore.card.balance || 0);
-      let today = computed(() => serviceStore.card.today);
-      let history = computed(() =>
-        CardService.getCardHistory({
-          year: parseInt(dateSel.value.split('-')[0]),
-          month: parseInt(dateSel.value.split('-')[1])
-        })
-      );
+      let today = computed(() => serviceStore.card.today || []);
+      let history = computed(() => serviceStore.card.history || []);
+      const consumeList: any = computed(() => {
+        if (isSelectToday.value) return today;
+        else if (!isSelectToday.value) return history;
+        return [];
+      });
 
       async function updateData() {
+        if (isRefleshing.value) return;
         isRefleshing.value = true;
-        await CardService.updateCardBalance();
-        await CardService.updateCardToday();
-        await CardService.updateCardHistory({
-          year: parseInt(dateSel.value.split('-')[0]),
-          month: parseInt(dateSel.value.split('-')[1])
-        });
+        if (isSelectToday.value) await CardService.updateCardToday();
+        else
+          await CardService.updateCardHistory({
+            year: parseInt(dateSel.value.split('-')[0]),
+            month: parseInt(dateSel.value.split('-')[1])
+          });
         isRefleshing.value = false;
       }
 
-      function pop(item) {
-        selectedItem.value = item;
-        showPop.value = true;
-      }
       async function historyClick() {
         isSelectToday.value = false;
-        isSelectHistory.value = true;
       }
       function todayClick() {
         isSelectToday.value = true;
-        isSelectHistory.value = false;
       }
 
       async function onDateChange(e) {
         dateSel.value = e.detail.value;
       }
-      updateData();
+
+      CardService.updateCardBalance();
+      CardService.updateCardToday();
+      CardService.updateCardHistory();
 
       return {
         isRefleshing,
         dateSel,
         onDateChange,
         isSelectToday,
-        isSelectHistory,
         historyClick,
         todayClick,
-        selectedItem,
+        consumeList,
         balance,
         today,
         history,
-        pop,
         updateData,
         showPop,
         dayjs

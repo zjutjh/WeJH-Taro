@@ -137,6 +137,7 @@
         isRefleshing.value = false;
       }
       async function reflesh() {
+        if (isRefleshing.value) return;
         isRefleshing.value = true;
         await ZFService.updateExamInfo(selectTerm.value);
         isRefleshing.value = false;

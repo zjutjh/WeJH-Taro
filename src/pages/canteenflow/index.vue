@@ -4,12 +4,6 @@
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/canteenflow.svg"> </image>
-        <view class="extra">
-          <w-button shape="circle" class="extra-button">
-            <view class="extra-icon iconfont icon-announce"> </view>
-          </w-button>
-          <view class="extra-text">排序</view>
-        </view>
       </view>
       <view class="flex-column">
         <card v-if="!flow"> 无食堂流量信息 </card>
@@ -20,7 +14,11 @@
         >
           <view class="canteen-flow-list">
             <view class="col">
-              <view class="name-wrapper" v-if="item.restaurantName">
+              <view
+                class="name-wrapper"
+                v-if="item.restaurantName"
+                :style="nameMapColor(item.restaurantName[0])"
+              >
                 {{ item.restaurantName[0] }}
               </view>
             </view>
@@ -54,13 +52,12 @@
   import { CanteenService } from '@/services';
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
-  import { WButton } from '@/components/button';
   import { defineComponent } from 'vue';
   import { serviceStore } from '@/store';
   import './index.scss';
 
   export default defineComponent({
-    components: { Card, TitleBar, WButton },
+    components: { Card, TitleBar },
     computed: {
       updateTime(): string {
         return serviceStore.canteen.updateTime.flow;
@@ -80,6 +77,16 @@
       getCanteenFlow: CanteenService.getCanteenFlow,
       reflesh() {
         this.getCanteenFlow();
+      },
+      nameMapColor(char: string) {
+        const colorMap = {
+          家: 'blue',
+          养: 'blue',
+          精: 'green',
+          毓: 'green',
+          博: 'green'
+        };
+        return { backgroundColor: `var(--wjh-color-${colorMap[char]})` };
       }
     },
     mounted() {

@@ -105,11 +105,13 @@
   import { LibraryService } from '@/services';
   import dayjs from 'dayjs';
   import { serviceStore } from '@/store';
-  import { throttle } from '@/utils/tools';
 
   export default defineComponent({
     components: { Card, TitleBar, WButton, RefleshButton },
     setup() {
+      LibraryService.getLibraryCurrent();
+      LibraryService.getLibraryHistory();
+
       const updateTime = computed(() => serviceStore.library.updateTime);
       const todayUpdateTime = computed(() =>
         dayjs(updateTime.value.current).format('MM-DD HH:mm')
@@ -122,9 +124,6 @@
         todayUpdateTime,
         historyUpdateTime
       };
-    },
-    mounted() {
-      this.getLibraryCurrent();
     },
     computed: {
       borrowList(): Array<any> {
@@ -156,26 +155,19 @@
     },
     methods: {
       async updateData() {
+        if (this.isRefleshing) return;
         this.isRefleshing = true;
         if (this.isSelectToday) await LibraryService.getLibraryCurrent();
         else await LibraryService.getLibraryHistory();
         this.isRefleshing = false;
       },
-      getLibraryCurrent() {
-        throttle(LibraryService.getLibraryCurrent);
-      },
-      getLibraryHistory() {
-        throttle(LibraryService.getLibraryHistory);
-      },
       historyClick() {
         this.isSelectToday = false;
         this.isSelectHistory = true;
-        this.getLibraryHistory();
       },
       todayClick() {
         this.isSelectToday = true;
         this.isSelectHistory = false;
-        this.getLibraryCurrent();
       }
     }
   });

@@ -103,6 +103,7 @@
       const practiceLessons = computed(() => {
         return ZFService.getPracticeLessonsTable(selectTerm.value);
       });
+
       const selectWeek = ref(systemStore.generalInfo.week);
       const lessonsTableWeek = computed(() => {
         return lessonsTable.value.filter((item) => {
@@ -121,6 +122,7 @@
 
       const isRefleshing = ref(false);
       async function reflesh() {
+        if (isRefleshing.value) return;
         isRefleshing.value = true;
         await ZFService.updateLessonTable(selectTerm.value);
         isRefleshing.value = false;
