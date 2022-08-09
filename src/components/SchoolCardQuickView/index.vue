@@ -6,7 +6,7 @@
     help
     @handle-tap-help="handleTapHelp"
   >
-    <text class="sub-text"> 当前余额({{ balanceUpdateTimeString }}) </text>
+    <text class="sub-text"> 当前余额 ({{ balanceUpdateTimeString }}) </text>
     <view class="quickcard-balance">
       <text> {{ balance }} </text>
     </view>

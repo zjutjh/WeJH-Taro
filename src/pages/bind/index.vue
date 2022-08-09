@@ -108,7 +108,7 @@
   import { WModal } from '@/components/modal';
   import { UserService, errCodeHandler } from '@/services';
   import { serviceStore } from '@/store';
-  import { helpText } from '@/utils/copywriting';
+  import { helpText } from '@/constants/copywriting';
   import './index.scss';
 
   export default {

@@ -29,7 +29,7 @@
 <script lang="ts">
   import TitleBar from '@/components/TitleBar/index.vue';
   import Card from '@/components/Card/index.vue';
-  import { faqText } from '@/utils/copywriting';
+  import { faqText } from '@/constants/copywriting';
   import { defineComponent, ref } from 'vue';
   import './index.scss';
   export default defineComponent({

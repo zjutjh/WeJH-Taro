@@ -1,6 +1,30 @@
-.library-book {
+@import "@/style/theme.scss";
+
+.book-card {
   padding: 0.2rem;
-  border: 1px solid gray;
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  box-shadow: none;
+  padding: 0 16Px;
+
+  .wjh-card-body {
+    :not(:first-child) {
+      font-size: 0.75rem;
+      color: var(--wjh-color-week);
+    }
+  }
+
+  .book-name {
+    margin-bottom: 10Px;
+  }
+}
+
+.empty {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.more-detail {
+  color: var(--wjh-color-cyan);
+  text-align: center;
+  margin-top: 10Px;
 }

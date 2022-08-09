@@ -43,7 +43,7 @@
   import Card from '@/components/Card/index.vue';
   import Alarm from '@/components/Alarm/index.vue';
   import { WModal } from '../modal';
-  import { helpText } from '@/utils/copywriting';
+  import { helpText } from '@/constants/copywriting';
   import Taro from '@tarojs/taro';
   import { SystemService } from '@/services';
 

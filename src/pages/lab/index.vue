@@ -22,7 +22,7 @@
 <script lang="ts">
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
-  import { labText } from '@/utils/copywriting';
+  import { labText } from '@/constants/copywriting';
   import { getCopyRight } from '@/utils/effects';
   import { defineComponent } from 'vue';
   import './index.scss';

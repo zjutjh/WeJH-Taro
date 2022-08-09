@@ -25,7 +25,7 @@
 <script lang="ts">
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
-  import { settingText } from '@/utils/copywriting';
+  import { settingText } from '@/constants/copywriting';
   import { getCopyRight } from '@/utils/effects';
   import { defineComponent } from 'vue';
   import './index.scss';

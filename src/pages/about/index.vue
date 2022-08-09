@@ -39,7 +39,7 @@
   import Card from '@/components/Card/index.vue';
   import { Tag as NutTag } from '@nutui/nutui-taro';
   import TitleBar from '@/components/TitleBar/index.vue';
-  import { aboutText } from '@/utils/copywriting';
+  import { aboutText } from '@/constants/copywriting';
   import { getCopyRight } from '@/utils/effects';
   import './index.scss';
 

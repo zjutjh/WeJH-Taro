@@ -51,7 +51,7 @@
             <card
               class="book-card"
               v-for="(item, index) in borrowList"
-              :key="item.id"
+              :key="index"
               :style="
                 index % 2
                   ? 'background-color: var(--wjh-color-yellow-light)'
@@ -65,17 +65,7 @@
                 }`
               }}</view>
               <view v-if="item.returnTime">
-                {{
-                  `归还日期：${item.returnTime.split(' ')[0]} | ${
-                    item.returnTime.split(' ')[1]
-                  }`
-                }}
-              </view>
-              <view v-if="item.isExtended < 0">
-                {{ Math.abs(item.isExtended) }}天
-              </view>
-              <view v-if="item.isExtended > 0">
-                {{ Math.abs(item.isExtended) }}天
+                {{ `归还日期：${item.returnTime.split(' ')[0]}` }}
               </view>
               <view
                 class="book-index"
@@ -105,6 +95,7 @@
   import { LibraryService } from '@/services';
   import dayjs from 'dayjs';
   import { serviceStore } from '@/store';
+  import { BorrowBooksInfo } from '@/types/BorrowBooksInfo';
 
   export default defineComponent({
     components: { Card, TitleBar, WButton, RefleshButton },
@@ -126,7 +117,7 @@
       };
     },
     computed: {
-      borrowList(): Array<any> {
+      borrowList(): BorrowBooksInfo[] {
         if (this.isSelectToday) return this.current;
         else if (this.isSelectHistory) return this.history;
         return [];
