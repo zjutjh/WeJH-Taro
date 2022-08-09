@@ -26,21 +26,28 @@
       </view>
     </scroll-view> -->
 
-    <bottom-panel>
-      <reflesh-button
-        @reflesh="reflesh"
-        :is-refleshing="isRefleshing"
-      ></reflesh-button>
-      <week-picker
-        v-if="showWeekPicker"
-        class="picker"
-        :week="selectWeek"
-        @changed="weekChanged"
-      />
-      <term-picker v-else class="picker" @changed="termChanged"></term-picker>
-      <w-button shape="circle" @tap="pickerModeSwitch">
-        <view class="iconfont icon-switch"></view>
-      </w-button>
+    <bottom-panel class="lessons-table-bottom-panel">
+      <view class="col">
+        <reflesh-button
+          @reflesh="reflesh"
+          :is-refleshing="isRefleshing"
+        ></reflesh-button>
+      </view>
+      <view class="col" v-if="showWeekPicker">
+        <week-picker
+          class="picker"
+          :week="selectWeek"
+          @changed="weekChanged"
+        ></week-picker>
+      </view>
+      <view class="col" v-else>
+        <term-picker class="picker" @changed="termChanged"></term-picker>
+      </view>
+      <view class="col">
+        <w-button shape="circle" @tap="pickerModeSwitch">
+          <view class="iconfont icon-switch"></view>
+        </w-button>
+      </view>
     </bottom-panel>
   </view>
   <pop-view v-model:show="showPop">

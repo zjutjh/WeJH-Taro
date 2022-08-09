@@ -72,16 +72,17 @@
         </card>
       </view>
     </scroll-view>
-    <bottom-panel>
-      <reflesh-button
-        @reflesh="reflesh"
-        :is-refleshing="isRefleshing"
-      ></reflesh-button>
-      <term-picker class="picker" @changed="termChanged"></term-picker>
-      <reflesh-button
-        @reflesh="reflesh"
-        :is-refleshing="isRefleshing"
-      ></reflesh-button>
+    <bottom-panel class="exam-bottom-panel">
+      <view class="col"> </view>
+      <view class="col">
+        <term-picker class="picker" @changed="termChanged"></term-picker>
+      </view>
+      <view class="col">
+        <reflesh-button
+          @reflesh="reflesh"
+          :is-refleshing="isRefleshing"
+        ></reflesh-button>
+      </view>
     </bottom-panel>
   </view>
   <w-modal title="公告"></w-modal>
@@ -102,6 +103,7 @@
   import { ZFService } from '@/services';
   import dayjs, { ConfigType } from 'dayjs';
   import './index.scss';
+  import { times } from 'lodash';
 
   export default defineComponent({
     components: {
@@ -115,11 +117,6 @@
       WDescriptions,
       WDescriptionsItem,
       WModal
-    },
-    computed: {
-      isWechat() {
-        return process.env.TARO_ENV === 'weapp';
-      }
     },
     setup() {
       let selectTerm = ref({
@@ -162,12 +159,14 @@
             alarmOffset: 3600
           });
       }
-      function getDetailedTime(timeString: ConfigType) {
+      function getDetailedTime(timeString: string) {
+        const tmp: ConfigType = timeString.split('(')[0];
         const dayChars = ['日', '一', '二', '三', '四', '五', '六'];
-        return `${timeString} - 周${dayChars[dayjs(timeString).day()]}`;
+        return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
       }
-      function timeInterval(timeString: ConfigType) {
-        return dayjs(timeString).diff(dayjs(), 'day');
+      function timeInterval(timeString: string) {
+        const tmp: ConfigType = timeString.split('(')[0];
+        return dayjs(tmp).diff(dayjs(), 'day');
       }
 
       onMounted(async () => {

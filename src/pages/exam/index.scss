@@ -62,3 +62,21 @@
     }
   }
 }
+
+.exam-bottom-panel {
+
+  .col {
+    text-align: center;
+    flex: auto;
+  }
+
+  .col:first-child {
+    flex: 0 0 20%;
+    text-align: end;
+  }
+
+  .col:last-child {
+    flex: 0 0 20%;
+    text-align: start;
+  }
+}

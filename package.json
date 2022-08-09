@@ -42,7 +42,7 @@
     "@tarojs/runtime": "^3.3.9",
     "@tarojs/taro": "^3.3.9",
     "babel-plugin-import": "^1.13.3",
-    "dayjs": "^1.10.4",
+    "dayjs": "^1.11.4",
     "vue": "^3.2.19",
     "vuex": "^4.0.0",
     "vuex-persistedstate": "^4.1.0"

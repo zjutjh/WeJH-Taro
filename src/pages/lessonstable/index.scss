@@ -40,6 +40,23 @@
   }
 }
 
+.lessons-table-bottom-panel {
+  .col {
+    flex: auto;
+    text-align: center;
+  }
+
+  .col:first-child {
+    text-align: end;
+    flex: 0 0 20%;
+  }
+
+  .col:last-child {
+    text-align: start;
+    flex: 0 0 20%;
+  }
+}
+
 // comment: disable dark mode
 /* @media (prefers-color-scheme: dark) {
 	.index {

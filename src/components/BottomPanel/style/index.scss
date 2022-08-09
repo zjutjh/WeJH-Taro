@@ -1,5 +1,6 @@
 // @import './light.scss';
 // @import './dark.scss';
+@import '@/style/theme.scss';
 
 .bottom-panel {
   height: 3rem;
@@ -14,7 +15,7 @@
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
   z-index: 3000;
-  background: white;
+  background: var(--wjh-color-white);
 }
 
 .bottom-bar-ios {

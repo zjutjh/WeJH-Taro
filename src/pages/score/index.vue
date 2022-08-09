@@ -60,16 +60,17 @@
         </card>
       </view>
     </scroll-view>
-    <bottom-panel>
-      <reflesh-button
-        @reflesh="reflesh"
-        :is-refleshing="isRefleshing"
-      ></reflesh-button>
-      <term-picker class="picker" @changed="termChanged"></term-picker>
-      <reflesh-button
-        @reflesh="reflesh"
-        :is-refleshing="isRefleshing"
-      ></reflesh-button>
+    <bottom-panel class="score-bottom-panel">
+      <view class="col"> </view>
+      <view class="col">
+        <term-picker class="picker" @changed="termChanged"></term-picker>
+      </view>
+      <view class="col">
+        <reflesh-button
+          @reflesh="reflesh"
+          :is-refleshing="isRefleshing"
+        ></reflesh-button>
+      </view>
     </bottom-panel>
   </view>
 </template>
