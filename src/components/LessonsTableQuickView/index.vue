@@ -88,7 +88,8 @@
           if (val == true) {
             if (timer) clearInterval(timer);
           } else {
-            if (!serviceStore.zf.lessonsTable) ZFService.updateLessonTable();
+            if (!serviceStore.zf.lessonsTableInfo)
+              ZFService.updateLessonTable();
             this.getTodayLessonTable();
             timer = setInterval(this.getTodayLessonTable, 30000);
             // 30 秒刷新一次

@@ -5,12 +5,14 @@
       <view class="header-view">
         <image src="@/assets/photos/exam.svg"></image>
         <view class="extra">
-          <view class="extra-icon iconfont icon-announce"></view>
-          <view>公告</view>
+          <view class="icon-wrapper">
+            <view class="extra-icon iconfont icon-announcement"></view>
+          </view>
+          <view class="label">公告</view>
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="!exam" style="text-align: center">
+        <card v-if="!exam || exam.length === 0" style="text-align: center">
           <view>无记录</view>
         </card>
         <card

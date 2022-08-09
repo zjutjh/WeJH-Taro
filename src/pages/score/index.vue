@@ -3,7 +3,10 @@
     <title-bar title="成绩查询"></title-bar>
     <scroll-view :scrollY="true">
       <view class="flex-column">
-        <card v-if="!scoreList" style="text-align: center">
+        <card
+          v-if="!scoreList || scoreList.length === 0"
+          style="text-align: center"
+        >
           <view>无当前学期成绩信息</view>
         </card>
 
@@ -150,7 +153,7 @@
         return Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
       },
       termInfo() {
-        return `${this.selectTerm?.year}/${this.selectTerm?.year + 1}（${
+        return `${this.selectTerm?.year}/${this.selectTerm?.year * 1 + 1}（${
           this.selectTerm?.term
         }）`;
       },

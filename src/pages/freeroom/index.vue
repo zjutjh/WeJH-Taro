@@ -48,7 +48,9 @@
       }
       const room = computed(() => {
         // comment: 数组，每个元素存放一幢教学楼的空教室
-        let res = groupBy(serviceStore.zf.room, (item) => [item.buildName]);
+        let res = groupBy(serviceStore.zf.roomInfo.data, (item) => [
+          item.buildName
+        ]);
         return res;
       });
       const selectWeek = ref(systemStore.generalInfo.week);
