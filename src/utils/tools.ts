@@ -26,15 +26,4 @@ function throttle2(fn, delay = 1000): Function {
   };
 }
 
-function groupBy(array: Array<any>, f: Function) {
-  let groups = {};
-  array?.forEach(function (o) {
-    let group = JSON.stringify(f(o));
-    groups[group] = groups[group] || [];
-    groups[group].push(o);
-  });
-  return Object.keys(groups).map(function (group) {
-    return groups[group];
-  });
-}
-export { throttle, throttle2, groupBy };
+export { throttle, throttle2 };

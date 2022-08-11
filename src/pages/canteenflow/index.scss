@@ -18,25 +18,27 @@
     position: absolute;
     color: var(--wjh-color-white);
     right: 16Px;
-    top: 130Px;
+    top: 145Px;
     text-align: center;
 
-    .extra-button {
-      height: 38Px;
-      width: 38Px
+    .icon-wrapper {
+      width: 32Px;
+      height: 32Px;
+      background-color: var(--wjh-color-white);
+      text-align: center;
+      border-radius: 50%;
+
+      .extra-icon {
+        color: var(--wjh-color-yellow);
+        font-size: 1.5rem;
+      }
     }
 
-    .extra-icon {
-      font-size: 1.5rem;
-    }
-
-    .extra-text {
+    .label {
       font-size: 0.75rem;
     }
   }
 }
-
-.canteeen-flow-item-card {}
 
 .canteen-flow-list {
   display: flex;

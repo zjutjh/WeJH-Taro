@@ -1,7 +1,7 @@
 <template>
   <view class="wjh-alarm" @tap="resetCounter">
     <view class="iconfont icon-alarm wjh-alarm-icon"></view>
-    <view v-if="counter" class="wjh-alarm-counter-background">{{
+    <view v-if="counter || 0 > 0" class="wjh-alarm-counter-background">{{
       counter
     }}</view>
   </view>

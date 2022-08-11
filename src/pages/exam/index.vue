@@ -4,7 +4,7 @@
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/exam.svg"></image>
-        <view class="extra">
+        <view class="extra" @tap="showHelp">
           <view class="icon-wrapper">
             <view class="extra-icon iconfont icon-announcement"></view>
           </view>
@@ -85,11 +85,15 @@
       </view>
     </bottom-panel>
   </view>
-  <w-modal title="公告"></w-modal>
+  <w-modal
+    title="公告"
+    v-model:show="showModal"
+    :content="helpContent"
+  ></w-modal>
 </template>
 
 <script lang="ts">
-  import { Ref, computed, defineComponent, onMounted, ref } from 'vue';
+  import { computed, defineComponent, onMounted, ref } from 'vue';
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
@@ -102,8 +106,8 @@
   import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
   import { ZFService } from '@/services';
   import dayjs, { ConfigType } from 'dayjs';
+  import { helpText } from '@/constants/copywriting';
   import './index.scss';
-  import { times } from 'lodash';
 
   export default defineComponent({
     components: {
@@ -119,15 +123,16 @@
       WModal
     },
     setup() {
-      let selectTerm = ref({
+      const selectTerm = ref({
         year: systemStore.generalInfo.termYear,
         term: systemStore.generalInfo.term
       });
       const isRefleshing = ref(false);
-      const selectedItem: Ref<null | Exam> = ref(null);
       const exam = computed(() => {
         return ZFService.getExamInfo(selectTerm.value)?.data;
       });
+      const showModal = ref(false);
+      const helpContent = helpText.exam;
 
       async function termChanged(e) {
         isRefleshing.value = true;
@@ -144,10 +149,6 @@
 
       function calcDayLeft(dayString: string) {
         return dayjs(dayString, 'YYYY-MM-DD(HH:mm)').fromNow();
-      }
-      function pop(item) {
-        selectedItem.value = item;
-        this.showPop = true;
       }
       function addToCalendar(item: Exam) {
         if (process.env.TARO_ENV === 'weapp')
@@ -168,6 +169,9 @@
         const tmp: ConfigType = timeString.split('(')[0];
         return dayjs(tmp).diff(dayjs(), 'day');
       }
+      function showHelp() {
+        showModal.value = true;
+      }
 
       onMounted(async () => {
         if (serviceStore.user.isBindZF) {
@@ -176,22 +180,17 @@
       });
       return {
         exam,
+        isRefleshing,
+        showModal,
+        helpContent,
         termChanged,
         reflesh,
-        isRefleshing,
-        selectedItem,
         calcDayLeft,
-        pop,
         addToCalendar,
         getDetailedTime,
-        timeInterval
+        timeInterval,
+        showHelp
       };
-    },
-    data() {
-      return {
-        showPop: false
-      };
-    },
-    methods: {}
+    }
   });
 </script>

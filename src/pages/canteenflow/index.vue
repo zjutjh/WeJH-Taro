@@ -4,6 +4,12 @@
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/canteenflow.svg"> </image>
+        <view class="extra" @tap="showHelp">
+          <view class="icon-wrapper">
+            <view class="extra-icon iconfont icon-announcement"></view>
+          </view>
+          <view class="label">公告</view>
+        </view>
       </view>
       <view class="flex-column">
         <card v-if="!flow"> 无食堂流量信息 </card>
@@ -46,6 +52,11 @@
       </view>
     </scroll-view>
   </view>
+  <w-modal
+    title="公告"
+    v-model:show="showModal"
+    :content="helpContent"
+  ></w-modal>
 </template>
 
 <script lang="ts">
@@ -54,23 +65,25 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import { defineComponent } from 'vue';
   import { serviceStore } from '@/store';
+  import { helpText } from '@/constants/copywriting';
+  import { WModal } from '@/components/modal';
   import './index.scss';
+  import { reverse } from 'lodash';
 
   export default defineComponent({
-    components: { Card, TitleBar },
+    components: { Card, TitleBar, WModal },
     computed: {
       updateTime(): string {
         return serviceStore.canteen.updateTime.flow;
       },
       flow() {
-        if (!serviceStore.canteen.flow) return [];
-        return serviceStore.canteen.flow.data;
+        return reverse(serviceStore.canteen.flow.data) || [];
       }
     },
     data() {
       return {
-        selectedItem: null,
-        showPop: false
+        showModal: false,
+        helpContent: helpText.canteenflow
       };
     },
     methods: {
@@ -87,6 +100,9 @@
           博: 'green'
         };
         return { backgroundColor: `var(--wjh-color-${colorMap[char]})` };
+      },
+      showHelp() {
+        this.showModal = true;
       }
     },
     mounted() {

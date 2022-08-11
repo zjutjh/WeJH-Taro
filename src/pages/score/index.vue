@@ -88,6 +88,7 @@
   import TermPicker from '@/components/TermPicker/index.vue';
   import { ZFService } from '@/services';
   import './index.scss';
+  import { userInfo } from 'os';
 
   export default defineComponent({
     components: {
@@ -140,14 +141,15 @@
     },
     computed: {
       averageScorePoint() {
-        const validCourse = this.scoreList.filter(
+        /* const validCourse = this.scoreList.filter(
           (item) => item.lessonType !== '任选课'
-        );
+        ); */
+        const validCourse = this.scoreList;
         let totalCredits = 0;
         let totalScorePoint = 0;
-        validCourse.forEach((item) => {
-          let scorePoint = item.scorePoint * 1;
-          let credits = item.credits * 1;
+        validCourse.forEach((item: Score) => {
+          let scorePoint = parseFloat(item.scorePoint);
+          let credits = parseFloat(item.credits);
           totalScorePoint += scorePoint * credits;
           totalCredits += credits;
         });
@@ -159,8 +161,17 @@
         }）`;
       },
       relativeTermInfo() {
-        const charEmum = ['一', '二', '三', '四'];
-        return `大${this.selectTerm?.term}学期`;
+        const charEnum = ['一', '二', '三', '四', '五', '六'];
+        let char = charEnum[0];
+        if (serviceStore.user.info?.studentID) {
+          char =
+            charEnum[
+              parseInt(serviceStore.user.info.studentID.slice(0, 4)) -
+                parseInt(this.selectTerm?.year)
+            ];
+        }
+        return `大${char}${this.selectTerm?.term}学期`;
+        // FIXME: 只根据学号来推算大几
       }
     },
     data() {

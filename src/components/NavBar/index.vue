@@ -14,7 +14,7 @@
       @tap="plusClick"
     >
       <view class="iconfont icon-applist"></view>
-      <view class="description">其他</view>
+      <view class="description">功能</view>
     </view>
     <view
       @tap="nav('my')"

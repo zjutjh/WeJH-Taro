@@ -11,11 +11,11 @@
             <w-list-item>
               <image
                 :src="require('@/assets/photos/feedback.svg')"
-                style="margin: 8px 0"
+                style="margin: 8px 0; width: 100%"
               ></image>
             </w-list-item>
             <w-list-item @tap="nav2FAQ">常见问题</w-list-item>
-            <w-list-item @tap="showGroups">加入交流群</w-list-item>
+            <w-list-item @tap="showGroups">加群反馈</w-list-item>
           </w-list>
         </card>
       </view>
