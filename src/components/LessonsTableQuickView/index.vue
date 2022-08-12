@@ -9,10 +9,13 @@
   >
     <text class="sub-text">今日课表 ({{ balanceUpdateTimeString }})</text>
     <card
-      v-for="item in todayLessonTable"
+      v-for="(item, index) in todayLessonTable"
       :key="item.lessonName"
-      :color="parseInt(item.classID.slice(0, 3), 16)"
-      colormode="light"
+      :style="
+        index % 2
+          ? 'background-color: var(--wjh-color-yellow-light)'
+          : 'background-color: var(--wjh-color-orange-light)'
+      "
     >
       <view class="lesson-item">
         <view class="col left">

@@ -24,7 +24,7 @@
       >
         <card
           class="class-card"
-          :color="parseInt(cl.classID.slice(0, 3), 16)"
+          :color="parseInt(cl.classID.slice(0, 7), 16)"
           @tap="classCardClick(cl)"
         >
           <view class="title">{{ splitNameAndRoom(cl.lessonPlace)[0] }}</view>

@@ -1,6 +1,9 @@
 <template>
   <view class="background">
-    <title-bar title="通行证激活"></title-bar>
+    <title-bar
+      title="通行证激活"
+      :back-button="step === 1 ? true : false"
+    ></title-bar>
     <scroll-view :scrollY="true">
       <view class="flex-column">
         <card title="账号注册" class="activation-card" v-if="step === 1">
@@ -8,7 +11,7 @@
             <view>
               <text>学号</text>
               <input type="text" placeholder="输入学号" v-model="studentid" />
-              <view class="prompt" v-show="studentid.length === 0"
+              <view class="prompt" v-show="studentid?.length === 0"
                 >请输入学号</view
               >
             </view>
@@ -19,7 +22,7 @@
                 placeholder="请输入密码"
                 v-model="password"
               />
-              <view class="prompt" v-show="password.length === 0"
+              <view class="prompt" v-show="password?.length === 0"
                 >请输入密码</view
               >
             </view>
@@ -41,7 +44,7 @@
                 placeholder="仅做验证学生身份用"
                 v-model="idcard"
               />
-              <view class="prompt" v-show="idcard.length === 0"
+              <view class="prompt" v-show="idcard?.length === 0"
                 >请输入本人身份证号</view
               >
             </view>
@@ -52,7 +55,7 @@
                 placeholder="请输入邮箱地址"
                 v-model="email"
               />
-              <view class="prompt" v-show="email.length === 0"
+              <view class="prompt" v-show="email?.length === 0"
                 >请输入邮箱地址</view
               >
             </view>
@@ -91,6 +94,7 @@
   import Taro from '@tarojs/taro';
   import { UserService } from '@/services';
   import './index.scss';
+  import store from '@/store';
 
   export default {
     components: {
@@ -102,11 +106,11 @@
     data() {
       return {
         username: '',
-        studentid: '',
-        password: '',
-        comfirmPassword: '',
-        idcard: '',
-        email: '',
+        studentid: undefined,
+        password: undefined,
+        comfirmPassword: undefined,
+        idcard: undefined,
+        email: undefined,
         step: 1
       };
     },
@@ -122,13 +126,25 @@
           idCardNumber: this.idcard,
           email: this.email
         });
-        Taro.hideLoading();
 
         if (res) {
+          Taro.hideLoading();
           this.step++;
         }
       },
       async nav2bind() {
+        Taro.showLoading();
+        await Taro.getUserProfile({
+          desc: '用于获取头像和昵称',
+          success: (res: any) => {
+            const { avatarUrl, nickName } = res.userInfo;
+            store.commit('setUserWXProfile', { avatarUrl, nickName });
+          },
+          complete: (res) => {
+            console.log(res);
+          }
+        });
+        Taro.hideLoading();
         await Taro.redirectTo({
           url: '/pages/bind/index'
         });
@@ -147,6 +163,11 @@
           this.email
         )
           return true;
+        if (!this.studentid) this.studentid = '';
+        if (!this.password) this.password = '';
+        if (!this.comfirmPassword) this.comfirmPassword = '';
+        if (!this.idcard) this.idcard = '';
+        if (!this.email) this.email = '';
         return false;
       }
       // TODO: 手动登录

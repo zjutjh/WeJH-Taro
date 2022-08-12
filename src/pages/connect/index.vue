@@ -5,7 +5,7 @@
       <view class="flex-column">
         <card>
           <template #header>
-            <view class="header-text">反馈和帮助</view>
+            <view>反馈和帮助</view>
           </template>
           <w-list>
             <w-list-item>

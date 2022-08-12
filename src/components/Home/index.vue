@@ -1,6 +1,10 @@
 <template>
   <title-bar title="微精弘" :back-button="false">
-    <alarm @tap="nav2announcement" :counter="announcementsCounter"></alarm>
+    <alarm
+      v-if="isActive"
+      @tap="nav2announcement"
+      :counter="announcementsCounter"
+    ></alarm>
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">

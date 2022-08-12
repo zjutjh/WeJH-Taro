@@ -32,7 +32,7 @@
   animation-timing-function: linear;
   /* 动画速度，线性匀速 */
   /* background: #f6f7f8; */
-  background: linear-gradient(to right, #3b79ff 8%, #dddddd 18%, #3b79ff 33%);
+  background: linear-gradient(to right, var(--wjh-color-cyan) 8%, #dddddd 18%, var(--wjh-color-cyan) 33%);
   /* 背景颜色 */
   background-size: 750px auto;
   /* 背景大小 */

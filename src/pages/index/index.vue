@@ -3,7 +3,7 @@
     <home v-if="pageName === 'home'"></home>
     <my v-if="pageName === 'my'"></my>
     <pop-view v-model:show="showPop">
-      <app-list></app-list>
+      <app-list v-if="showPop"></app-list>
     </pop-view>
     <nav-bar
       @plusClick="plusClick"
@@ -21,7 +21,7 @@
   import My from '@/components/My/index.vue';
   import Taro from '@tarojs/taro';
   import { ZFService } from '@/services';
-  import { defineComponent } from 'vue';
+  import { computed, defineComponent, ref } from 'vue';
   import { serviceStore } from '@/store';
   import './index.scss';
   export default defineComponent({
@@ -32,30 +32,31 @@
       Home,
       My
     },
-    data() {
-      return {
-        showPop: false,
-        pageHide: false,
-        pageName: 'home'
-      };
-    },
-    computed: {
-      isActive() {
-        return serviceStore.user.isActive;
+    setup() {
+      const showPop = ref(false);
+      const pageHide = ref(false);
+      const pageName = ref('home');
+      ZFService.getTodayLessonTable();
+
+      function plusClick() {
+        showPop.value = !showPop.value;
       }
-    },
-    methods: {
-      plusClick() {
-        this.showPop = !this.showPop;
-      },
-      nav2activation() {
+      function nav2activation() {
         Taro.navigateTo({
           url: '/pages/activation/index'
         });
       }
-    },
-    setup() {
-      ZFService.getTodayLessonTable();
+      const isActive = computed(() => {
+        return serviceStore.user.isActive;
+      });
+      return {
+        showPop,
+        pageHide,
+        pageName,
+        isActive,
+        plusClick,
+        nav2activation
+      };
     }
   });
 </script>

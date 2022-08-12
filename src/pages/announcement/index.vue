@@ -42,7 +42,7 @@
     },
     computed: {
       announcementList() {
-        return serviceStore.announcement.announcements.reverse();
+        return [...serviceStore.announcement.announcements].reverse();
       }
     },
     methods: {

@@ -29,6 +29,7 @@
 
 <script lang="ts">
   import BottomPanel from '@/components/BottomPanel/index.vue';
+  import { serviceStore } from '@/store';
   import Taro from '@tarojs/taro';
   import { defineComponent } from 'vue';
   import './index.scss';
@@ -41,6 +42,13 @@
           emit('update:pageName', val);
         },
         plusClick: () => {
+          if (!serviceStore.user.isActive) {
+            Taro.showToast({
+              icon: 'none',
+              title: '激活账号以使用功能'
+            });
+            return;
+          }
           emit('plusClick');
         }
       };

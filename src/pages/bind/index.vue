@@ -137,31 +137,39 @@
     },
     methods: {
       async bindZFClick() {
-        let res = await UserService.bindZF({ password: this.zfpass }, false);
+        Taro.showLoading({
+          title: '正在绑定',
+          mask: true
+        });
+        let res = await UserService.bindZF({ password: this.zfpass });
+        // Taro.hideLoading();
         await this.popModal(res.code);
       },
       async bindLibClick() {
-        let res = await UserService.bindLibrary(
-          { password: this.libpass },
-          false
-        );
+        Taro.showLoading({
+          title: '正在绑定',
+          mask: true
+        });
+        let res = await UserService.bindLibrary({ password: this.libpass });
         await this.popModal(res.code);
       },
       async bindCardClick() {
-        let res = await UserService.bindSchoolCard(
-          { password: this.cardpass },
-          false
-        );
+        Taro.showLoading({
+          title: '正在绑定',
+          mask: true
+        });
+        let res = await UserService.bindSchoolCard({ password: this.cardpass });
         await this.popModal(res.code);
       },
-      async popModal(code) {
+      async popModal(code: number) {
         if (code === 1) {
           await Taro.showToast({
             icon: 'success',
             title: '绑定成功'
           });
-        } else errCodeHandler(code);
+        }
       },
+
       renderForm(type: string) {
         if (type === 'zf' && this.user.isBindZF) return;
         if (type === 'card' && this.user.isBindCard) return;

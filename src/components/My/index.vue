@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-  import { serviceStore, systemStore } from '@/store';
+  import { serviceStore } from '@/store';
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WList, WListItem } from '@/components/list/index';
@@ -118,20 +118,16 @@
           });
       },
       getUserWXInfo() {
-        if (!serviceStore.user.wxProfile)
-          Taro.getUserProfile({
-            desc: '用于获取头像和昵称',
-            success: (res: any) => {
-              const { avatarUrl, nickName } = res.userInfo;
-              store.commit('setUserWXProfile', { avatarUrl, nickName });
-            },
-            complete: (res) => {
-              console.log(res);
-            }
-          });
-      },
-      plusClick() {
-        this.showPop = !this.showPop;
+        Taro.getUserProfile({
+          desc: '用于获取头像和昵称',
+          success: (res: any) => {
+            const { avatarUrl, nickName } = res.userInfo;
+            store.commit('setUserWXProfile', { avatarUrl, nickName });
+          },
+          complete: (res) => {
+            console.log(res);
+          }
+        });
       }
     },
     computed: {
@@ -139,7 +135,6 @@
         return serviceStore.user.info;
       },
       userWXProfile() {
-        console.log(serviceStore.user.wxProfile);
         return serviceStore.user.wxProfile;
       },
       isActive() {

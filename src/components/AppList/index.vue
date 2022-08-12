@@ -7,6 +7,7 @@
       :url="item.route"
       :icon-url="getIconPath(item.route)"
       :bg="item.backgroundColor"
+      :require="item.require"
     />
   </view>
   <card v-else> 无可用服务 </card>
@@ -25,18 +26,6 @@
     computed: {
       applist(): item[] | undefined {
         return serviceStore.appList;
-        return serviceStore.appList?.filter((item) => {
-          if (item.require === 'zf' && serviceStore.user.isBindZF) return true;
-          else if (item.require === 'card' && serviceStore.user.isBindCard)
-            return true;
-          else if (
-            item.require === 'library' &&
-            serviceStore.user.isBindLibrary
-          )
-            return true;
-          else if (item.require === '') return true;
-          return false;
-        });
       }
     },
     methods: {

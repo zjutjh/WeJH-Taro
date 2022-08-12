@@ -61,7 +61,7 @@
           [key: string]: Room[];
         } = {};
 
-        serviceStore.zf.roomInfo.data.forEach((item: Room) => {
+        serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
           if (!tmp[freeroomMap[item.buildName[0]]])
             tmp[freeroomMap[item.buildName[0]]] = [];
           tmp[freeroomMap[item.buildName[0]]].push(item);
