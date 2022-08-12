@@ -61,22 +61,26 @@
       </view>
     </scroll-view>
     <bottom-panel class="score-bottom-panel">
-      <view class="col"> </view>
-      <view class="col">
-        <term-picker class="picker" @changed="termChanged"></term-picker>
-      </view>
       <view class="col">
         <reflesh-button
           @reflesh="reflesh"
           :is-refleshing="isRefleshing"
         ></reflesh-button>
       </view>
+      <view class="col">
+        <term-picker class="picker" @changed="termChanged"></term-picker>
+      </view>
+      <view class="col">
+        <w-button shape="circle">
+          <view class="iconfont icon-paixu" @tap="handleSort"></view>
+        </w-button>
+      </view>
     </bottom-panel>
   </view>
 </template>
 
 <script lang="ts">
-  import { Ref, computed, defineComponent, onMounted, ref } from 'vue';
+  import { computed, defineComponent, onMounted, ref } from 'vue';
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
@@ -84,11 +88,11 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WCollapse, WCollapsePanel } from '@/components/collapse/index';
   import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
+  import { WButton } from '@/components/button';
   import { Score } from '@/types/Score';
   import TermPicker from '@/components/TermPicker/index.vue';
   import { ZFService } from '@/services';
   import './index.scss';
-  import { userInfo } from 'os';
 
   export default defineComponent({
     components: {
@@ -100,16 +104,23 @@
       WCollapse,
       WCollapsePanel,
       WDescriptions,
-      WDescriptionsItem
+      WDescriptionsItem,
+      WButton
     },
     setup() {
+      const showSorted = ref(false);
       const selectTerm = ref({
         year: systemStore.generalInfo.termYear,
         term: systemStore.generalInfo.term
       });
-      const selectedItem: Ref<null | Score> = ref(null);
-      const scoreList = computed(
-        () => ZFService.getScoreInfo(selectTerm.value).data
+      const scoreList = computed(() =>
+        showSorted.value
+          ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
+              let scoreA = a.scorePoint,
+                scoreB = b.scorePoint;
+              return parseFloat(scoreB) - parseFloat(scoreA);
+            })
+          : ZFService.getScoreInfo(selectTerm.value).data
       );
       const isRefleshing = ref(false);
 
@@ -127,16 +138,20 @@
         isRefleshing.value = false;
       }
 
+      function handleSort() {
+        showSorted.value = !showSorted.value;
+      }
+
       onMounted(async () => {
         if (serviceStore.user.isBindZF) await reflesh();
       });
       return {
         scoreList,
-        termChanged,
-        reflesh,
         selectTerm,
         isRefleshing,
-        selectedItem
+        handleSort,
+        termChanged,
+        reflesh
       };
     },
     computed: {
@@ -172,17 +187,6 @@
         }
         return `大${char}${this.selectTerm?.term}学期`;
         // FIXME: 只根据学号来推算大几
-      }
-    },
-    data() {
-      return {
-        showPop: false
-      };
-    },
-    methods: {
-      pop(item) {
-        this.selectedItem = item;
-        this.showPop = true;
       }
     }
   });

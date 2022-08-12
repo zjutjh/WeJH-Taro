@@ -46,9 +46,12 @@
 
   .item-content {
     line-height: 125%;
-    font-size: 0.667rem;
-    overflow: hidden;
+    font-size: 0.6rem;
     width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
   }
 }
 
@@ -71,7 +74,6 @@
 }
 
 .class-card {
-  margin: 0rem;
   height: calc(100% - 0.4rem);
   width: calc(100% - 0.4rem);
   padding: 0.2rem;
@@ -79,6 +81,7 @@
   flex-direction: column;
   justify-content: center;
   color: white;
+  border-radius: 4Px;
 
   .title {
     margin-bottom: 0.1rem;

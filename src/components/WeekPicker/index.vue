@@ -46,7 +46,7 @@
     setup(props) {
       const selector = reactive<string[][]>([]);
       let weeks: string[] = [];
-      for (let i = 1; i <= 20; i++) weeks.push(`第${i}周`);
+      for (let i = 1; i <= 20; i++) weeks.push(`第 ${i} 周`);
       selector.unshift(weeks);
       const selectorValue = reactive([props.week - 1]);
       return {

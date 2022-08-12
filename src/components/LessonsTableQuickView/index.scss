@@ -1,10 +1,4 @@
-.bolder {
-  font-weight: bolder;
-}
-
-.small {
-  font-size: 0.75rem;
-}
+@import '@/style/theme.scss';
 
 .lessons-table-quick-view {
   .wjh-card {
@@ -20,6 +14,22 @@
     align-items: center;
     text-align: left;
     height: 4rem;
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .small {
+      font-size: 0.75rem;
+    }
+
+    .taking {
+      color: var(--wjh-color-cyan);
+    }
+
+    .week {
+      color: var(--wjh-color-week);
+    }
 
     .iconfont {
       font-size: 0.875rem;

@@ -19,27 +19,27 @@
     >
       <view class="lesson-item">
         <view class="col left">
-          <text class="name bolder">{{ item.lessonName }}</text>
+          <text class="name bold">{{ item.lessonName }}</text>
           <text class="small">
             <text class="iconfont icon-teacher"></text>
             {{ item.teacherName }}
           </text>
           <text
             v-if="lessonState(item.sections) === 'before'"
-            class="small bolder"
+            class="small week"
           >
             <text class="iconfont icon-timer"></text>
             还有 {{ getTimeString(item.detTime) }} 上课
           </text>
-          <text v-if="lessonState(item.sections) === 'taking'" class="time"
-            >上课中</text
-          >
+          <text v-if="lessonState(item.sections) === 'taking'" class="taking">
+            上课中
+          </text>
         </view>
         <view class="split"></view>
         <view class="col right">
-          <text class="bolder small">{{ item.lessonPlace }}</text>
-          <text class="bolder small">{{ item.sections }}</text>
-          <text class="bolder small">
+          <text class="bold small">{{ item.lessonPlace }}</text>
+          <text class="bold small">{{ item.sections }}</text>
+          <text class="bold small">
             ({{ sectionsTimeString(item.sections) }})
           </text>
         </view>

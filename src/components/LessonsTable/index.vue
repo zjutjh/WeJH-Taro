@@ -20,17 +20,19 @@
         class="class"
         v-for="cl in lessonsTable"
         :key="cl.id + cl.week + cl.weekday"
-        :style="getStyle(cl)"
+        :style="getPosition(cl)"
       >
-        <card
+        <view
           class="class-card"
-          :color="parseInt(cl.classID.slice(0, 7), 16)"
+          :style="getDynamicColor(parseInt(cl.classID.slice(0, 7), 16))"
           @tap="classCardClick(cl)"
         >
           <view class="title">{{ splitNameAndRoom(cl.lessonPlace)[0] }}</view>
           <view class="title">{{ splitNameAndRoom(cl.lessonPlace)[1] }}</view>
-          <text class="item-content">{{ cl.lessonName }}</text>
-        </card>
+          <text class="item-content" :style="'-webkit-line-clamp: 2'">{{
+            cl.lessonName
+          }}</text>
+        </view>
       </view>
     </view>
     <view class="now-index" :style="nowStyle" />
@@ -39,15 +41,22 @@
 
 <script lang="ts">
   import Taro, { eventCenter, getCurrentInstance } from '@tarojs/taro';
-  import Card from '@/components/Card/index.vue';
   import { Lesson } from '@/types/Lesson';
   import { defineComponent } from 'vue';
   import './index.scss';
   export default defineComponent({
-    components: { card: Card },
     props: {
       lessons: Array,
       currentWeek: Number
+    },
+
+    data() {
+      return {
+        Height: Number,
+        Width: Number,
+        Top: Number,
+        showPop: false
+      };
     },
     computed: {
       weekdayEnum() {
@@ -72,14 +81,6 @@
         const rate = ((hour - 8) * 60 + min) / ((21 - 8) * 60 + 5);
         return `top: calc(${(rate > 0 ? rate : 0) * this.Height}px + 2rem);`;
       }
-    },
-    data() {
-      return {
-        Height: Number,
-        Width: Number,
-        Top: Number,
-        showPop: false
-      };
     },
     mounted() {
       eventCenter.on(getCurrentInstance()?.router?.onReady || 'onReady', () => {
@@ -124,18 +125,23 @@
       classCardClick(theClass: Lesson) {
         this.$emit('classClick', theClass);
       },
-      getStyle(theClass) {
+      getDynamicColor(index = 1) {
+        const colorSet = ['green', 'cyan', 'blue', 'yellow', 'orange'];
+        return {
+          backgroundColor: `var(--wjh-color-${
+            colorSet[index % colorSet.length]
+          })`
+        };
+      },
+      getPosition(theClass) {
         const begin = parseInt(theClass.sections.split('-')[0]);
         const end = parseInt(theClass.sections.split('-')[1]);
         const weekday = parseInt(theClass.weekday);
-        const FontSize = Math.min(12, (end - begin + 2) * 4) + 'px';
-        const Height = ((end - begin + 1) * 100) / 12 + '%';
-        const Top = 'calc(' + ((begin - 1) * 100) / 12 + '%)';
-        const Left = 'calc(' + ((weekday - 1) * 90) / 5 + '%)';
-        return `top: ${Top};
-				      				left: ${Left};
-				      				height: ${Height};
-				      				font-size: ${FontSize};`;
+        const fontSize = Math.min(12, (end - begin + 2) * 4) + 'px';
+        const height = ((end - begin + 1) * 100) / 12 + '%';
+        const top = 'calc(' + ((begin - 1) * 100) / 12 + '%)';
+        const left = 'calc(' + ((weekday - 1) * 90) / 5 + '%)';
+        return { top, left, height, fontSize };
       }
     }
   });
