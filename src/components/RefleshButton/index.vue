@@ -1,5 +1,5 @@
 <template>
-  <w-button shape="circle" @tap="reflesh">
+  <w-button shape="circle" @tap="reflesh" size="large" class="reflesh-button">
     <view
       class="iconfont icon-refresh"
       :class="{ 'reflesh-running': isRefleshing }"
@@ -10,6 +10,8 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import { WButton } from '../button';
+  import './index.scss';
+
   export default defineComponent({
     components: {
       WButton
@@ -24,17 +26,3 @@
     }
   });
 </script>
-<style>
-  @keyframes rote {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .reflesh-running {
-    animation: rote 1s alternate infinite;
-  }
-</style>

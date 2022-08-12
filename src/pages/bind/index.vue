@@ -58,9 +58,7 @@
                 <view>帮助</view>
               </view>
             </view>
-            <w-button size="large" block @tap="bindZFClick">
-              确认绑定
-            </w-button>
+            <w-button block @tap="bindZFClick"> 确认绑定 </w-button>
           </template>
         </card>
         <card title="绑定账号" v-if="bindTab === 'card'">
@@ -73,9 +71,7 @@
             />
           </view>
           <template #footer>
-            <w-button size="large" block @tap="bindCardClick">
-              确认绑定
-            </w-button>
+            <w-button block @tap="bindCardClick"> 确认绑定 </w-button>
           </template>
         </card>
         <card title="绑定账号" v-if="bindTab === 'library'">
@@ -88,9 +84,7 @@
             />
           </view>
           <template #footer>
-            <w-button size="large" block @tap="bindLibClick">
-              确认绑定
-            </w-button>
+            <w-button block @tap="bindLibClick"> 确认绑定 </w-button>
           </template>
         </card>
       </view>

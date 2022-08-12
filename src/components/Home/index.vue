@@ -24,9 +24,7 @@
     </view>
     <view v-else class="flex-column">
       <card title="未激活">
-        <w-button block size="large" class="active" @tap="nav2activation">
-          激活
-        </w-button>
+        <w-button block class="active" @tap="nav2activation"> 激活 </w-button>
       </card>
     </view>
   </scroll-view>

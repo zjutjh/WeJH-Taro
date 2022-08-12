@@ -44,9 +44,13 @@
         <term-picker class="picker" @changed="termChanged"></term-picker>
       </view>
       <view class="col">
-        <w-button shape="circle" @tap="pickerModeSwitch">
-          <view class="iconfont icon-switch"></view>
-        </w-button>
+        <view @tap="pickerModeSwitch" class="switch-button">
+          <image
+            v-if="!showWeekPicker"
+            src="@/assets/icons/term-week-swicher/term.svg"
+          ></image>
+          <image v-else src="@/assets/icons/term-week-swicher/week.svg"></image>
+        </view>
       </view>
     </bottom-panel>
   </view>
@@ -73,7 +77,6 @@
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import { Lesson } from '@/types/Lesson';
-  import { WButton } from '@/components/button';
   import LessonsTable from '@/components/LessonsTable/index.vue';
   import PopView from '@/components/PopView/index.vue';
   import RefleshButton from '@/components/RefleshButton/index.vue';
@@ -92,8 +95,7 @@
       BottomPanel,
       RefleshButton,
       PopView,
-      WeekPicker,
-      WButton
+      WeekPicker
     },
     setup() {
       const showPop = ref(false);

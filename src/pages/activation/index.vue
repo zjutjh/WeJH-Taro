@@ -61,7 +61,7 @@
             </view>
           </view>
           <template #footer>
-            <w-button block size="large" class="active" @tap="activeClick">
+            <w-button block class="active" @tap="activeClick">
               绑定通行证
             </w-button>
             <w-steps :total="2" :current="step"></w-steps>
@@ -75,9 +75,7 @@
             </view>
           </view>
           <template #footer>
-            <w-button block size="large" @tap="nav2bind">
-              去绑定校园账号
-            </w-button>
+            <w-button block @tap="nav2bind"> 去绑定校园账号 </w-button>
             <w-steps :total="2" :current="step"></w-steps>
           </template>
         </card>

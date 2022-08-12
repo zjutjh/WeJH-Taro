@@ -71,7 +71,7 @@
         <term-picker class="picker" @changed="termChanged"></term-picker>
       </view>
       <view class="col">
-        <w-button shape="circle">
+        <w-button shape="circle" size="large" class="sort-button">
           <view class="iconfont icon-paixu" @tap="handleSort"></view>
         </w-button>
       </view>

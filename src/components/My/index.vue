@@ -28,13 +28,7 @@
       </card>
 
       <card v-else title="未激活，激活享受更多精彩">
-        <w-button
-          block
-          size="large"
-          class="active"
-          v-if="!isActive"
-          @tap="nav2activation"
-        >
+        <w-button block class="active" v-if="!isActive" @tap="nav2activation">
           激活
         </w-button>
       </card>

@@ -55,6 +55,21 @@
     text-align: start;
     flex: 0 0 20%;
   }
+
+  .switch-button {
+    background-color: var(--wjh-color-primary);
+    width: 34Px;
+    height: 34Px;
+    border-radius: 50%;
+
+    image {
+      width: 24Px;
+      height: 24Px;
+      padding: 5Px;
+      transition: all 0.3s;
+    }
+
+  }
 }
 
 // comment: disable dark mode
