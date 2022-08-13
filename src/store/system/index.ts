@@ -1,4 +1,3 @@
-import { RuntimeStore } from './runtime';
 export interface SystemStoreType {
   loading: boolean;
   generalInfo: any;

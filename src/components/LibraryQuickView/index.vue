@@ -5,6 +5,7 @@
     </text>
     <view v-if="!current" class="empty">当前无借阅图书</view>
     <card
+      v-else
       v-for="(item, index) in current.slice(0, 3)"
       :key="item.libraryID"
       class="book-card"
@@ -17,7 +18,7 @@
       <view class="book-name"> {{ item.name }}</view>
       <view>借阅日期：{{ item.time }}</view>
     </card>
-    <view class="more-detail" v-if="current.length > 3">点击查看更多记录</view>
+    <view class="more-detail" v-if="current?.length > 3">点击查看更多记录</view>
   </quick-view>
 </template>
 

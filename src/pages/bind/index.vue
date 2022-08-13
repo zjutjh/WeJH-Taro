@@ -8,7 +8,7 @@
             <w-list-item
               :extra="user.isBindZF ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindZF }"
-              :clickable="!user.isBindZF"
+              :clickable="true"
               @tap="renderForm('zf')"
             >
               正方教务系统
@@ -18,7 +18,7 @@
             <w-list-item
               :extra="user.isBindCard ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindCard }"
-              :clickable="!user.isBindCard"
+              :clickable="true"
               @tap="renderForm('card')"
             >
               校园卡
@@ -28,7 +28,7 @@
             <w-list-item
               :extra="user.isBindLibrary ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindLibrary }"
-              :clickable="!user.isBindLibrary"
+              :clickable="true"
               @tap="renderForm('library')"
             >
               图书馆账号
@@ -100,10 +100,11 @@
   import { WButton } from '@/components/button';
   import { WList, WListItem } from '@/components/list';
   import { WModal } from '@/components/modal';
-  import { UserService, errCodeHandler } from '@/services';
-  import { serviceStore } from '@/store';
+  import { UserService } from '@/services';
+  import store, { serviceStore } from '@/store';
   import { helpText } from '@/constants/copywriting';
   import './index.scss';
+  import { computed, onMounted, ref } from 'vue';
 
   export default {
     components: {
@@ -114,66 +115,83 @@
       WListItem,
       WModal
     },
-    computed: {
-      user() {
-        return serviceStore.user;
+    setup() {
+      const zfpass = ref('');
+      const libpass = ref('');
+      const cardpass = ref('');
+      const bindTab = ref<string | undefined>(undefined);
+      const helpContent = ref<string | undefined>(undefined);
+      const isShowHelp = ref(false);
+
+      const user = computed(() => serviceStore.user);
+
+      onMounted(() => {
+        getUserBindInfo();
+      });
+
+      async function getUserBindInfo() {
+        store.commit('startLoading');
+        await UserService.getUserInfo();
+        store.commit('stopLoading');
       }
-    },
-    data() {
-      return {
-        zfpass: '',
-        libpass: '',
-        cardpass: '',
-        bindTab: undefined,
-        helpContent: undefined,
-        isShowHelp: false
-      };
-    },
-    methods: {
-      async bindZFClick() {
+
+      async function bindZFClick() {
         Taro.showLoading({
           title: '正在绑定',
           mask: true
         });
-        let res = await UserService.bindZF({ password: this.zfpass });
-        // Taro.hideLoading();
-        await this.popModal(res.code);
-      },
-      async bindLibClick() {
+        let res = await UserService.bindZF({ password: zfpass.value });
+        await popModal(res.code);
+      }
+      async function bindLibClick() {
         Taro.showLoading({
           title: '正在绑定',
           mask: true
         });
-        let res = await UserService.bindLibrary({ password: this.libpass });
-        await this.popModal(res.code);
-      },
-      async bindCardClick() {
+        let res = await UserService.bindLibrary({ password: libpass.value });
+        await popModal(res.code);
+      }
+      async function bindCardClick() {
         Taro.showLoading({
           title: '正在绑定',
           mask: true
         });
-        let res = await UserService.bindSchoolCard({ password: this.cardpass });
-        await this.popModal(res.code);
-      },
-      async popModal(code: number) {
+        let res = await UserService.bindSchoolCard({
+          password: cardpass.value
+        });
+        await popModal(res.code);
+      }
+      async function popModal(code: number) {
         if (code === 1) {
           await Taro.showToast({
             icon: 'success',
             title: '绑定成功'
           });
         }
-      },
-
-      renderForm(type: string) {
-        if (type === 'zf' && this.user.isBindZF) return;
-        if (type === 'card' && this.user.isBindCard) return;
-        if (type === 'library' && this.user.isBindLibrary) return;
-        this.bindTab = type;
-      },
-      showHelp(prop: 'zf') {
-        this.isShowHelp = true;
-        if (prop === 'zf') this.helpContent = helpText.bind.zf;
       }
+
+      function renderForm(type: string) {
+        bindTab.value = type;
+      }
+      function showHelp(prop: 'zf') {
+        isShowHelp.value = true;
+        if (prop === 'zf') helpContent.value = helpText.bind.zf;
+      }
+      return {
+        zfpass,
+        libpass,
+        cardpass,
+        bindTab,
+        helpContent,
+        isShowHelp,
+        user,
+        bindZFClick,
+        bindCardClick,
+        bindLibClick,
+        popModal,
+        renderForm,
+        showHelp
+      };
     }
   };
 </script>

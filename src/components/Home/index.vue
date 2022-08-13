@@ -35,8 +35,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
-  import { serviceStore } from '@/store';
+  import { computed, defineComponent, ref } from 'vue';
+  import store, { serviceStore } from '@/store';
   import LessonTableQuickView from '@/components/LessonsTableQuickView/index.vue';
   import SchoolCardQuickView from '@/components/SchoolCardQuickView/index.vue';
   import LibraryQuickView from '@/components/LibraryQuickView/index.vue';
@@ -60,58 +60,59 @@
       WModal,
       Alarm
     },
-    data() {
-      return {
-        pageHide: false,
-        isShowHelp: false,
-        helpContent: undefined,
-        announcementsCounter: 0
-      };
-    },
-    computed: {
-      isActive() {
+    setup() {
+      const pageHide = ref(false);
+      const isShowHelp = ref(false);
+      const helpContent = ref<string | undefined>(undefined);
+
+      SystemService.getAnnouncement();
+      const isActive = computed(() => {
         return serviceStore.user.isActive;
-      },
-      isBindZf() {
+      });
+      const isBindZf = computed(() => {
         return serviceStore.user.isBindZF;
-      },
-      isBindCard() {
+      });
+      const isBindCard = computed(() => {
         return serviceStore.user.isBindCard;
-      },
-      isBindLibrary() {
+      });
+      const isBindLibrary = computed(() => {
         return serviceStore.user.isBindLibrary;
-      }
-    },
-    methods: {
-      nav2activation() {
+      });
+      const announcementsCounter = computed(() => {
+        return serviceStore.announcement.updateCounter;
+      });
+
+      function nav2activation() {
         Taro.navigateTo({
           url: '/pages/activation/index'
         });
-      },
-      nav2announcement() {
-        this.announcementsCounter = 0;
+      }
+      function nav2announcement() {
+        store.commit('clearAnnouncementsUpdateCounter');
         Taro.navigateTo({
           url: '/pages/announcement/index'
         });
-      },
-      showHelp(prop: 'lessons-table' | 'school-card') {
-        this.isShowHelp = true;
-        if (prop === 'lessons-table') this.helpContent = helpText.lessonsTable;
-        else if (prop === 'school-card') this.helpContent = helpText.schoolCard;
-      },
-
-      // 计算更新条数
-      // FIXME: 只对比了请求前后的公告数量
-      async diffAnnouncement() {
-        const oldListLength = serviceStore.announcement.announcements.length;
-        await SystemService.getAnnouncement();
-        const newListLength: any =
-          serviceStore.announcement.announcements.length;
-        return newListLength - oldListLength;
       }
-    },
-    async mounted() {
-      this.announcementsCounter = await this.diffAnnouncement();
+      function showHelp(prop: 'lessons-table' | 'school-card') {
+        isShowHelp.value = true;
+        if (prop === 'lessons-table') helpContent.value = helpText.lessonsTable;
+        else if (prop === 'school-card')
+          helpContent.value = helpText.schoolCard;
+      }
+
+      return {
+        pageHide,
+        isShowHelp,
+        helpContent,
+        isActive,
+        isBindZf,
+        isBindCard,
+        isBindLibrary,
+        announcementsCounter,
+        nav2activation,
+        nav2announcement,
+        showHelp
+      };
     }
   });
 </script>
