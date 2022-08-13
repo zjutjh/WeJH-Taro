@@ -106,7 +106,7 @@
       });
 
       const lessonsTable = computed(() => {
-        return ZFService.getLessonTable(selectTerm.value);
+        return ZFService.getLessonTable(selectTerm.value) || [];
       });
 
       const practiceLessons = computed(() => {

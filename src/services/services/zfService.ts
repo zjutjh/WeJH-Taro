@@ -136,14 +136,19 @@ export default class ZFService {
   }
 
   // comment: 从全局状态中取出课表
-  static getLessonTable(data?: { year: string; term: string }): Lesson[] {
+  static getLessonTable(data?: {
+    year: string;
+    term: string;
+  }): Lesson[] | undefined {
     if (!data) {
       data = {
         year: systemStore.generalInfo?.termYear,
         term: systemStore.generalInfo?.term
       };
     }
-    if (!serviceStore?.zf.lessonsTableInfo[data.year]) return [];
+    if (!serviceStore?.zf.lessonsTableInfo[data.year]) return undefined;
+    if (!serviceStore?.zf.lessonsTableInfo[data.year][data.term])
+      return undefined;
     return (
       serviceStore?.zf.lessonsTableInfo[data.year][data.term]?.data
         ?.lessonsTable || []

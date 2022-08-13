@@ -45,12 +45,10 @@
         </view>
       </view>
     </card>
-    <view
-      class="empty"
-      v-if="!todayLessonTable || todayLessonTable?.length === 0"
-    >
+    <view class="empty" v-if="todayLessonTable?.length === 0">
       今天居然没有课😄
     </view>
+    <view class="empty" v-if="!todayLessonTable"> 点击获取你的课表 ～</view>
   </quick-view>
 </template>
 
@@ -125,7 +123,7 @@
         );
         return detMin;
       },
-      getTodayLessonTable(): Lesson[] {
+      getTodayLessonTable(): Lesson[] | undefined {
         let table = ZFService.getTodayLessonTable();
         table?.forEach((item) => {
           item['detMin'] = this.goLessonAlertEm(item.sections);

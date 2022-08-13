@@ -10,7 +10,7 @@
             :src="userWXProfile.avatarUrl"
           ></image>
         </view>
-        <view class="profile-split"></view>
+        <view v-if="userWXProfile" class="profile-split"></view>
         <view class="info-wrapper">
           <view>
             <view v-if="userWXProfile" class="name">{{
