@@ -53,6 +53,14 @@
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
   }
+
+  .conflict:before {
+    content: "*";
+    position: absolute;
+    font-size: 1rem;
+    right: 6Px;
+    top: 0;
+  }
 }
 
 .warp {

@@ -40,20 +40,26 @@
   }
 }
 
+.picker-wrapper {
+  height: 31Px;
+}
+
 .lessons-table-bottom-panel {
   .col {
     flex: auto;
-    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
   }
 
   .col:first-child {
-    text-align: end;
-    flex: 0 0 20%;
+    justify-content: center;
+    flex: 0 0 25%;
   }
 
   .col:last-child {
-    text-align: start;
-    flex: 0 0 20%;
+    justify-content: center;
+    flex: 0 0 25%;
   }
 
   .switch-button {
@@ -70,6 +76,10 @@
     }
 
   }
+}
+
+.back-button {
+  padding: 5Px;
 }
 
 // comment: disable dark mode

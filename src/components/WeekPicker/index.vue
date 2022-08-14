@@ -1,36 +1,40 @@
 <template>
-  <!-- <w-button
-    v-if="week <= 19 && week > 1"
-    class="week-backward circle"
+  <w-button
+    class="arrow-button"
     @tap="backwardWeek"
     shape="circle"
+    size="large"
+    :class="{ disable: week <= 1 }"
   >
     <view class="iconfont icon-arrow-left" />
-  </w-button> -->
+  </w-button>
   <picker
-    mode="multiSelector"
+    mode="selector"
     :range="selector"
     @change="onChange"
     :value="selectorValue"
+    class="picker-wrapper"
   >
     <w-button class="week-selector">
-      <text v-if="week > 19 || week < 1">放假中</text>
+      <text v-if="week > 18 || week < 1">放假中</text>
       <view v-else class="picker">{{ currentWeek }}</view>
     </w-button>
   </picker>
-  <!-- <w-button
+  <w-button
     shape="circle"
-    v-if="week < 19 && week >= 1"
-    class="week-forward circle"
+    class="arrow-button"
     @tap="forwardWeek"
+    size="large"
+    :class="{ disable: week >= 19 }"
   >
     <view class="iconfont icon-arrow-right" />
-  </w-button> -->
+  </w-button>
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { WButton } from '../button';
+  import './index.scss';
 
   export default defineComponent({
     name: 'WeekPick',
@@ -44,11 +48,9 @@
       }
     },
     setup(props) {
-      const selector = reactive<string[][]>([]);
-      let weeks: string[] = [];
-      for (let i = 1; i <= 20; i++) weeks.push(`第 ${i} 周`);
-      selector.unshift(weeks);
-      const selectorValue = reactive([props.week - 1]);
+      let selector: string[] = [];
+      for (let i = 1; i <= 20; i++) selector.push(`第 ${i} 周`);
+      const selectorValue = ref(props.week - 1 < 0 ? 0 : props.week - 1);
       return {
         selector,
         selectorValue
@@ -56,47 +58,34 @@
     },
     data() {
       return {
-        currentWeek: '第周'
+        currentWeek: ''
       };
     },
     mounted() {
-      this.currentWeek = this.selector[0][this.selectorValue[0]];
+      this.currentWeek = this.selector[this.selectorValue];
     },
     methods: {
       onChange(e) {
-        this.currentWeek = this.selector[0][e.detail.value[0]];
-        this.selectorValue[0] = e.detail.value[0];
-        this.$emit('changed', {
-          week: e.detail.value[0] + 1
-        });
-      }
-      /*       backwardWeek() {
-        if (this.selectorValue[0] > 0) {
-          this.selectorValue[0] = this.selectorValue[0] - 1;
-          this.currentWeek = this.selector[0][this.selectorValue[0]];
-          this.$emit('changed', {
-            week: this.selectorValue[0] + 1
-          });
+        this.currentWeek = this.selector[e.detail.value];
+        this.selectorValue = parseInt(e.detail.value);
+        this.$emit('update:week', parseInt(e.detail.value) + 1);
+      },
+      backwardWeek() {
+        if (this.selectorValue > 0) {
+          this.selectorValue = this.week - 1 - 1;
+          if (this.selectorValue < 0) this.selectorValue = 0;
+          this.currentWeek = this.selector[this.selectorValue];
+          this.$emit('update:week', this.week - 1);
         }
       },
       forwardWeek() {
-        if (this.selectorValue[0] < 19) {
-          this.selectorValue[0] = this.selectorValue[0] + 1;
-          this.currentWeek = this.selector[0][this.selectorValue[0]];
-          this.$emit('changed', {
-            week: this.selectorValue[0] + 1
-          });
+        if (this.selectorValue < 18) {
+          this.selectorValue = this.week + 1 - 1;
+          if (this.selectorValue < 0) this.selectorValue = 0;
+          this.currentWeek = this.selector[this.selectorValue];
+          this.$emit('update:week', this.week + 1);
         }
-      } */
+      }
     }
   });
 </script>
-<style>
-  .week-selector {
-    border-radius: 0.5rem;
-    text-align: center;
-    font-size: 0.9rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-</style>

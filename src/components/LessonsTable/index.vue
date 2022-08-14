@@ -25,6 +25,7 @@
         <view
           class="class-card"
           :style="getDynamicColor(parseInt(cl.classID.slice(0, 7), 16))"
+          :class="{ conflict: cl.mark }"
           @tap="classCardClick(cl)"
         >
           <view class="title">{{ splitNameAndRoom(cl.lessonPlace)[0] }}</view>
@@ -70,7 +71,7 @@
       },
       nowWeekStyle() {
         const now = new Date();
-        const weekday = now.getDay();
+        const weekday = now.getDay() ? now.getDay() : 7;
         const left = 'calc(' + ((weekday - 1) * 126) / 7 + '% + 2rem)';
         return `left: ${left};`;
       },
@@ -84,7 +85,6 @@
     },
     mounted() {
       eventCenter.on(getCurrentInstance()?.router?.onReady || 'onReady', () => {
-        console.log('onReady');
         const query = Taro.createSelectorQuery();
         query.select('.table-box').boundingClientRect();
         query.exec((res) => {
@@ -95,6 +95,7 @@
       });
     },
     methods: {
+      // FIXME:
       MarkConflictLesson(lessons: Lesson[]) {
         if (lessons)
           for (let i = 0; i < lessons.length; i++) {

@@ -1,0 +1,17 @@
+@import '@/style/theme.scss';
+
+.week-selector {
+  border-radius: 8Px;
+  text-align: center;
+  font-size: 1rem;
+  padding-left: 8Px;
+  padding-right: 8Px;
+}
+
+.arrow-button {
+  padding: 5Px;
+}
+
+.disable {
+  background-color: var(--wjh-color-light);
+}

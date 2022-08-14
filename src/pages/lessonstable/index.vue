@@ -29,19 +29,33 @@
     <bottom-panel class="lessons-table-bottom-panel">
       <view class="col">
         <reflesh-button
+          v-if="
+            showWeekPicker &&
+            selectWeek === originWeek &&
+            JSON.stringify(originTerm) === JSON.stringify(selectTerm)
+          "
           @reflesh="reflesh"
           :is-refleshing="isRefleshing"
         ></reflesh-button>
+        <w-button
+          v-else-if="showWeekPicker"
+          class="back-button"
+          @tap="backToOriginWeek"
+          size="large"
+          shape="circle"
+        >
+          <view class="iconfont icon-back"> </view>
+        </w-button>
       </view>
       <view class="col" v-if="showWeekPicker">
-        <week-picker
-          class="picker"
-          :week="selectWeek"
-          @changed="weekChanged"
-        ></week-picker>
+        <week-picker v-model:week="selectWeek"></week-picker>
       </view>
       <view class="col" v-else>
-        <term-picker class="picker" @changed="termChanged"></term-picker>
+        <term-picker
+          class="picker"
+          @changed="termChanged"
+          :term="selectTerm"
+        ></term-picker>
       </view>
       <view class="col">
         <view @tap="pickerModeSwitch" class="switch-button">
@@ -77,6 +91,7 @@
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import { Lesson } from '@/types/Lesson';
+  import { WButton } from '@/components/button';
   import LessonsTable from '@/components/LessonsTable/index.vue';
   import PopView from '@/components/PopView/index.vue';
   import RefleshButton from '@/components/RefleshButton/index.vue';
@@ -95,15 +110,23 @@
       BottomPanel,
       RefleshButton,
       PopView,
-      WeekPicker
+      WeekPicker,
+      WButton
     },
     setup() {
       const showPop = ref(false);
       const selection = ref<Lesson>();
-      const selectTerm = ref({
+
+      //本学期
+      const originTerm = {
         year: systemStore.generalInfo.termYear,
         term: systemStore.generalInfo.term
-      });
+      };
+      const selectTerm = ref(originTerm);
+
+      // 本周
+      const originWeek = Math.max(systemStore.generalInfo.week, 0);
+      const selectWeek = ref(originWeek);
 
       const lessonsTable = computed(() => {
         return ZFService.getLessonTable(selectTerm.value) || [];
@@ -113,19 +136,21 @@
         return ZFService.getPracticeLessonsTable(selectTerm.value);
       });
 
-      const selectWeek = ref(systemStore.generalInfo.week);
       const lessonsTableWeek = computed(() => {
         return lessonsTable.value.filter((item) => {
-          let v = item.week.slice(0, item.week.length - 1).split('-');
-          let st = parseInt(v[0]);
-          let ed = parseInt(v[1]);
-          let isOddWeek = item.week.includes('单');
-          let isEvenWeek = item.week.includes('双');
-
-          if (isOddWeek && selectWeek.value % 2 === 0) return false;
-          if (isEvenWeek && selectWeek.value % 2 === 1) return false;
-
-          return selectWeek.value <= ed && selectWeek.value >= st;
+          for (const time of item.week.split(',')) {
+            if (time.includes('-')) {
+              const start = parseInt(time.split('-')[0]);
+              const end = parseInt(time.split('-')[1]);
+              if (selectWeek.value <= end && selectWeek.value >= start)
+                if (!time.includes('单') && !time.includes('双')) return true;
+                else if (time.includes('单') && selectWeek.value % 2 === 1)
+                  return true;
+                else if (time.includes('双') && selectWeek.value % 2 === 0)
+                  return true;
+            } else if (selectWeek.value === parseInt(time)) return true;
+          }
+          return false;
         });
       });
 
@@ -144,11 +169,6 @@
         isRefleshing.value = false;
       }
 
-      async function weekChanged({ week }) {
-        console.log(week);
-        selectWeek.value = week;
-      }
-
       onMounted(async () => {
         if (serviceStore.user.isBindZF) {
           await reflesh();
@@ -157,12 +177,17 @@
 
       const showWeekPicker = ref(true);
       function pickerModeSwitch() {
+        selectWeek.value = 1;
         showWeekPicker.value = !showWeekPicker.value;
       }
 
       function classClick(theClass: Lesson) {
         showPop.value = true;
         selection.value = theClass;
+      }
+      function backToOriginWeek() {
+        selectTerm.value = originTerm;
+        selectWeek.value = originWeek;
       }
 
       return {
@@ -171,19 +196,20 @@
         practiceLessons,
         showWeekPicker,
         selectWeek,
+        originWeek,
         pickerModeSwitch,
-        weekChanged,
         isNewIPhone,
         lessonsTable,
         selectTerm,
+        originTerm,
         termChanged,
         reflesh,
         isRefleshing,
         lessonsTableWeek,
-        classClick
+        classClick,
+        backToOriginWeek
       };
-    },
-    methods: {}
+    }
   };
 </script>
 <style>
