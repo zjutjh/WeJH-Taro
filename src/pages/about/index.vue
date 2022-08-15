@@ -24,9 +24,6 @@
         </card>
         <card title="测试信息" v-if="isDevelopment">
           <view>Hash: {{ commitHash.slice(0, 6) }}</view>
-          <view>
-            版本: <nut-tag round type="primary">{{ commitTag }}</nut-tag>
-          </view>
           <view>编译时间: {{ buildTime }}</view>
           <view>{{ getCopyRight() }}</view>
         </card>
@@ -37,7 +34,6 @@
 
 <script lang="ts">
   import Card from '@/components/Card/index.vue';
-  import { Tag as NutTag } from '@nutui/nutui-taro';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { aboutText } from '@/constants/copywriting';
   import { getCopyRight } from '@/utils/effects';
@@ -46,8 +42,7 @@
   export default {
     components: {
       TitleBar,
-      Card,
-      NutTag
+      Card
     },
     computed: {
       isDevelopment() {

@@ -72,39 +72,3 @@ scroll-view {
 .wjh-icon-library-fill {
   background: url('~@/assets/icons/quickview/library.svg');
 }
-
-// comment: disable dark mode
-/* @media (prefers-color-scheme: dark) {
-	page {
-		background-color: black;
-	}
-	.background {
-		background-color: #6d6d6dc4;
-	}
-	.jc-index-panel {
-		background-color: #6d6d6dc4;
-		@include blur;
-	}
-	.nut-popup {
-		background-color: #6d6d6d;
-	}
-	.nut-collapse-item .collapse-item {
-		background-color: #6d6d6d;
-		color: white;
-	}
-	.nut-collapse-item .collapse-wrapper .collapse-content {
-		background-color: #6d6d6d;
-		color: white;
-	}
-	.nut-cell-group__warp {
-		background-color: #6d6d6d;
-		.nut-cell {
-			background-color: #6d6d6d;
-			color: white;
-		}
-		.cell-button {
-			background-color: #6d6d6d;
-			color: white;
-		}
-	}
-} */
