@@ -14,7 +14,8 @@
         </view>
       </view>
     </view>
-    <view class="now-week-index" :style="nowWeekStyle" />
+    <view v-show="isThisWeek" class="now-index" :style="nowStyle" />
+    <view v-show="isThisWeek" class="now-week-index" :style="nowWeekStyle" />
     <view class="table table-box" v-if="lessonsTable">
       <view
         class="class"
@@ -36,7 +37,6 @@
         </view>
       </view>
     </view>
-    <view class="now-index" :style="nowStyle" />
   </view>
 </template>
 
@@ -48,7 +48,10 @@
   export default defineComponent({
     props: {
       lessons: Array,
-      currentWeek: Number
+      isThisWeek: {
+        type: Boolean,
+        default: false
+      }
     },
 
     data() {
@@ -73,14 +76,18 @@
         const now = new Date();
         const weekday = now.getDay() ? now.getDay() : 7;
         const left = 'calc(' + ((weekday - 1) * 126) / 7 + '% + 2rem)';
-        return `left: ${left};`;
+        return { left };
       },
       nowStyle() {
         const now = new Date();
         const hour = now.getHours();
         const min = now.getMinutes();
         const rate = ((hour - 8) * 60 + min) / ((21 - 8) * 60 + 5);
-        return `top: calc(${(rate > 0 ? rate : 0) * this.Height}px + 2rem);`;
+        const weekday = now.getDay() ? now.getDay() : 7;
+        // const left = 'calc(' + ((weekday - 1) * 126) / 7 + '% + 2rem)';
+        return {
+          top: `calc(${(rate > 0 ? rate : 0) * this.Height}px + 2rem)`
+        };
       }
     },
     mounted() {

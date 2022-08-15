@@ -6,7 +6,7 @@
         class="index"
         :class="{ 'index-ios': isNewIPhone }"
         :lessons="!showWeekPicker ? lessonsTable : lessonsTableWeek"
-        :current-week="selectWeek"
+        :is-this-week="isThisWeek"
         @classClick="classClick"
       />
     </scroll-view>
@@ -29,11 +29,7 @@
     <bottom-panel class="lessons-table-bottom-panel">
       <view class="col">
         <reflesh-button
-          v-if="
-            showWeekPicker &&
-            selectWeek === originWeek &&
-            JSON.stringify(originTerm) === JSON.stringify(selectTerm)
-          "
+          v-if="showWeekPicker && isThisWeek"
           @reflesh="reflesh"
           :is-refleshing="isRefleshing"
         ></reflesh-button>
@@ -153,7 +149,12 @@
           return false;
         });
       });
-
+      const isThisWeek = computed(() => {
+        return (
+          selectWeek.value === originWeek &&
+          JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
+        );
+      });
       const isRefleshing = ref(false);
       async function reflesh() {
         if (isRefleshing.value) return;
@@ -199,6 +200,7 @@
         originWeek,
         pickerModeSwitch,
         isNewIPhone,
+        isThisWeek,
         lessonsTable,
         selectTerm,
         originTerm,

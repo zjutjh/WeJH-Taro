@@ -1,7 +1,7 @@
 .index-panel {
   height: 100%;
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -97,15 +97,17 @@
 }
 
 .now-index {
-  border: 1px solid skyblue;
-  width: calc(126% + 2rem);
+  height: 2Px;
+  background-color: #00b8ff;
   position: absolute;
-  z-index: 10;
+  width: calc(126% + 2rem);
+  z-index: 10 // width: calc(18%);
+    // z-index: 2;
 }
 
 .now-week-index {
   height: 100%;
   width: calc(18%);
-  background-color: rgba(135, 207, 235, 0.829);
+  background: -webkit-gradient(linear, left top, left bottom, from(#eff7ff), color-stop(0.5, #bbe1ff), to(#eff7ff));
   position: absolute;
 }

@@ -18,7 +18,7 @@
 
 <script lang="ts">
   import { WButton } from '../button';
-  import { defineComponent, reactive, ref } from 'vue';
+  import { computed, defineComponent, reactive, ref } from 'vue';
   import { systemStore } from '@/store';
   export default defineComponent({
     components: {
@@ -39,7 +39,7 @@
 
       for (let i = 0; i < 4; i++) years.push(`${year - i}/${year - i + 1}`);
       selector.unshift(years);
-      const selectorValue = reactive([
+      const selectorValue = computed(() => [
         selector[0].indexOf(
           `${selectorChecked.value[0]}/${
             parseInt(selectorChecked.value[0]) + 1

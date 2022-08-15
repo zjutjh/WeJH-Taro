@@ -68,7 +68,11 @@
         ></reflesh-button>
       </view>
       <view class="col">
-        <term-picker class="picker" @changed="termChanged"></term-picker>
+        <term-picker
+          class="picker"
+          :term="selectTerm"
+          @changed="termChanged"
+        ></term-picker>
       </view>
       <view class="col">
         <w-button shape="circle" size="large" class="sort-button">
@@ -126,7 +130,6 @@
 
       async function termChanged(e) {
         isRefleshing.value = true;
-        console.log(selectTerm);
         selectTerm.value = e;
         await ZFService.updateScoreInfo(e);
         isRefleshing.value = false;

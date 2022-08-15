@@ -68,7 +68,6 @@
   import { helpText } from '@/constants/copywriting';
   import { WModal } from '@/components/modal';
   import './index.scss';
-  import { reverse } from 'lodash';
 
   export default defineComponent({
     components: { Card, TitleBar, WModal },
@@ -77,7 +76,9 @@
         return serviceStore.canteen.updateTime.flow;
       },
       flow() {
-        return reverse(serviceStore.canteen.flow.data) || [];
+        if (serviceStore.canteen.flow?.data)
+          return [...serviceStore.canteen.flow.data].reverse();
+        else return [];
       }
     },
     data() {
@@ -88,9 +89,6 @@
     },
     methods: {
       getCanteenFlow: CanteenService.getCanteenFlow,
-      reflesh() {
-        this.getCanteenFlow();
-      },
       nameMapColor(char: string) {
         const colorMap = {
           家: 'blue',

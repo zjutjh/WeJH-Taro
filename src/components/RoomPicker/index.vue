@@ -47,7 +47,7 @@
       ]);
       const selectorValue = reactive([
         0,
-        props.week < 20 ? props.week - 1 : 0,
+        props.week < 20 && props.week > 0 ? props.week - 1 : 0,
         new Date().getDay() - 1,
         0
       ]);

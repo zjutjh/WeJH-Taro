@@ -75,7 +75,11 @@
     <bottom-panel class="exam-bottom-panel">
       <view class="col"> </view>
       <view class="col">
-        <term-picker class="picker" @changed="termChanged"></term-picker>
+        <term-picker
+          class="picker"
+          :term="selectTerm"
+          @changed="termChanged"
+        ></term-picker>
       </view>
       <view class="col">
         <reflesh-button
@@ -107,6 +111,7 @@
   import { ZFService } from '@/services';
   import dayjs, { ConfigType } from 'dayjs';
   import { helpText } from '@/constants/copywriting';
+  import Taro from '@tarojs/taro';
   import './index.scss';
 
   export default defineComponent({
@@ -150,16 +155,15 @@
       function calcDayLeft(dayString: string) {
         return dayjs(dayString, 'YYYY-MM-DD(HH:mm)').fromNow();
       }
-      function addToCalendar(item: Exam) {
-        if (process.env.TARO_ENV === 'weapp')
-          wx.addPhoneCalendar({
-            title: item.lessonName + '考试',
-            startTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm)').unix(),
-            endTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm-HH:mm)').unix(),
-            location: item.examPlace,
-            alarmOffset: 3600
-          });
-      }
+      /*       function addToCalendar(item: Exam) {
+        Taro.addPhoneCalendar({
+          title: item.lessonName + '考试',
+          startTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm)').unix(),
+          endTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm-HH:mm)').unix(),
+          location: item.examPlace,
+          alarmOffset: 3600
+        });
+      } */
       function getDetailedTime(timeString: string) {
         const tmp: ConfigType = timeString.split('(')[0];
         const dayChars = ['日', '一', '二', '三', '四', '五', '六'];
@@ -183,10 +187,10 @@
         isRefleshing,
         showModal,
         helpContent,
+        selectTerm,
         termChanged,
         reflesh,
         calcDayLeft,
-        addToCalendar,
         getDetailedTime,
         timeInterval,
         showHelp
