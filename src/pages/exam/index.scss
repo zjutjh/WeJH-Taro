@@ -1,1 +1,82 @@
-@import "@/style/frame";
+@import '@/style/theme.scss';
+
+.exam-card {
+
+  .wjh-collapse-panel-header {
+    .lesson-name {
+      font-weight: var(--wjh-font-weight-medium);
+    }
+
+    .wjh-list-item-content {
+      line-height: initial;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  .exam-detail-list {
+    width: 100%;
+    font-size: 0.75rem;
+  }
+}
+
+.wjh-collapse-panel-active {
+  .lesson-name {
+    transition: all 0.3s;
+    color: var(--wjh-color-cyan);
+  }
+}
+
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-green);
+  display: flex;
+
+  image {
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .extra {
+    position: absolute;
+    color: var(--wjh-color-white);
+    right: 16Px;
+    top: 145Px;
+    text-align: center;
+
+    .icon-wrapper {
+      width: 32Px;
+      height: 32Px;
+      background-color: var(--wjh-color-white);
+      text-align: center;
+      border-radius: 50%;
+
+      .extra-icon {
+        color: var(--wjh-color-green);
+        font-size: 1.5rem;
+      }
+    }
+
+    .label {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.exam-bottom-panel {
+
+  .col {
+    text-align: center;
+    flex: auto;
+  }
+
+  .col:first-child {
+    flex: 0 0 20%;
+    text-align: end;
+  }
+
+  .col:last-child {
+    flex: 0 0 20%;
+    text-align: start;
+  }
+}

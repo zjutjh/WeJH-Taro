@@ -1,0 +1,62 @@
+// @import './light.scss';
+// @import './dark.scss';
+@import '@/style/theme.scss';
+
+.quick-view {
+  @include radius;
+  @include shadow;
+  padding: 16Px 20Px;
+  background-color: var(--wjh-color-background);
+  opacity: 95%;
+
+  .quick-view-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .quick-view-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+
+    .quick-view-name-icon {
+      height: 18Px;
+      width: 20Px;
+      display: inline-block;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .title-split {
+      display: inline-block;
+      background-color: black;
+      vertical-align: middle;
+      height: 1.4rem;
+      width: 0.2rem;
+      margin: 0 0.7rem;
+    }
+  }
+
+  .sub-text {
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+    color: #808080;
+  }
+
+  .quick-view-split {
+    background-color: var(--wjh-color-light);
+    width: 100%;
+    height: 0.1rem;
+  }
+
+  .quick-view-help-icon {
+    font-size: 1rem;
+    color: var(--wjh-color-cyan);
+    padding: 0.5rem;
+  }
+}

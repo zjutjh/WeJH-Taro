@@ -1,0 +1,57 @@
+@import '@/style/theme.scss';
+
+.wjh-descriptions {
+  --padding-left-small: 12Px;
+  --padding-right-small: 12Px;
+  --padding-left-middle: 6Px;
+  --padding-right-middle: 6Px;
+
+  --align-item: flex-start;
+  --border-inner: solid 1px var(--wjh-color-border);
+
+  .wjh-descriptions-item-ellipsis {
+    overflow: hidden;
+    text-overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+.wjh-descriptions-size-small {
+  .wjh-descriptions-item {
+    padding-left: var(--padding-left-small);
+  }
+
+  .wjh-descriptions-item-container {
+    padding-right: var(--padding-right-small);
+  }
+}
+
+.wjh-descriptions-size-middle {
+  .wjh-descriptions-item {
+    padding-left: var(--padding-left-middle);
+  }
+
+  .wjh-descriptions-item-container {
+    padding-right: var(--padding-right-middle);
+  }
+}
+
+.wjh-descriptions-size-middle {}
+
+.wjh-descriptions-item {
+  position: relative;
+  background-color: var(--wjh-color-background);
+  line-height: 2.25rem;
+  padding-left: var(--padding-left-middle);
+
+  .wjh-descriptions-item-container {
+    padding-right: var(--padding-right-middle);
+    display: flex;
+  }
+}
+
+.wjh-descriptions-item:not(:first-child) {
+  .wjh-descriptions-item-container {
+    border-top: var(--border-inner);
+  }
+}

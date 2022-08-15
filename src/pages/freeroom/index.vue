@@ -1,77 +1,87 @@
 <template>
-	<header-tab-view title="空教室" :img="require('@/assets/exam/exam.png')" :show-tab="false">
-		<template v-slot:content>
-			<view v-if="!room" style="text-align: center">
-				<image src="@/assets/g/noData.svg"></image>
-				<view> 无记录</view>
-			</view>
-			<view v-for="item in room" :key="item.id">
-				<view class="build-name" v-if="item[0].buildName">
-					{{ item[0].buildName }}
-				</view>
-				<view class="flex item">
-					<card class="room-item" v-for="i in item" :key="i.roomName" @tap="pop(i)">
-						<view> {{ i.roomName }}</view>
-						<view> {{ i.roomSeats }}</view>
-					</card>
-				</view>
-			</view>
-		</template>
-	</header-tab-view>
-	<bottom-panel>
-		<button class="button"></button>
-		<room-picker class="picker" @changed="roomChanged"></room-picker>
-		<button class="button"></button>
-	</bottom-panel>
-	<pop-view v-model:show="showPop">
-		<card v-if="selectedItem"> </card>
-	</pop-view>
+  <view class="background">
+    <title-bar title="空教室"></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="flex-column">
+        <card v-if="!room" title="无记录" style="text-align: center"></card>
+        <card
+          v-for="(item, index) in room"
+          class="building-card"
+          :key="index"
+          :title="item.buildName"
+        >
+          <view class="building-card-body">
+            <view
+              class="room-card"
+              v-for="(i, index) in item.roomList"
+              :key="index"
+            >
+              <view class="room-name">{{ i.roomName }}</view>
+              <view class="room-seats">{{ i.roomSeats }}</view>
+            </view>
+          </view>
+        </card>
+      </view>
+    </scroll-view>
+    <bottom-panel>
+      <room-picker
+        class="picker"
+        @changed="roomChanged"
+        :week="selectWeek"
+      ></room-picker>
+    </bottom-panel>
+  </view>
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent } from 'vue';
-	import { ZFService } from '@/services';
-	import { serviceStore, systemStore } from '@/store';
-	import Card from '@/components/card/index.vue';
-	import BottomPanel from '@/components/bottomPanel/index.vue';
-	import PopView from '@/components/popView/index.vue';
-	import RoomPicker from '@/components/roomPicker/index.vue';
+  import { computed, defineComponent, ref } from 'vue';
+  import { serviceStore, systemStore } from '@/store';
+  import BottomPanel from '@/components/BottomPanel/index.vue';
+  import Card from '@/components/Card/index.vue';
+  import TitleBar from '@/components/TitleBar/index.vue';
+  import RoomPicker from '@/components/RoomPicker/index.vue';
+  import { ZFService } from '@/services';
+  import { freeroomMap } from '@/constants/freeroomMap';
 
-	import HeaderTabView from '@/components/headerTabView/index.vue';
-	import './index.scss';
-	import { groupBy } from '@/utils/tools';
-	export default defineComponent({
-		components: { HeaderTabView, PopView, Card, RoomPicker, BottomPanel },
-		setup() {
-			function roomChanged(e) {
-				ZFService.getFreeRoomInfo(e);
-			}
-			// function reflesh() {
-			//   ZFService.getExamInfo(selectTerm);
-			// }
-			const room = computed(() => {
-				let res = groupBy(serviceStore.zf.room, (item) => [item.buildName]);
-				return res;
-			});
-			return {
-				room,
-				roomChanged
+  import './index.scss';
+  import { Room } from '@/types/Room';
+  export default defineComponent({
+    components: { TitleBar, Card, RoomPicker, BottomPanel },
+    setup() {
+      function roomChanged(e) {
+        ZFService.getFreeRoomInfo(e);
+      }
+      const room = computed(() => {
+        // comment: 数组，每个元素存放一幢教学楼的空教室
+        const buildingList: {
+          buildName: string;
+          roomList: Room[];
+        }[] = [];
+        const tmp: {
+          [key: string]: Room[];
+        } = {};
 
-				// reflesh
-			};
-		},
-		mounted() {},
-		data() {
-			return {
-				selectedItem: null,
-				showPop: false
-			};
-		},
-		methods: {
-			pop(item) {
-				this.selectedItem = item;
-				this.showPop = true;
-			}
-		}
-	});
+        serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
+          if (!tmp[freeroomMap[item.buildName[0]]])
+            tmp[freeroomMap[item.buildName[0]]] = [];
+          tmp[freeroomMap[item.buildName[0]]].push(item);
+        });
+        Object.keys(tmp).forEach((key) => {
+          buildingList.push({
+            buildName: key,
+            roomList: tmp[key].sort((a, b) => {
+              return a.roomName > b.roomName ? 1 : -1;
+            })
+          });
+        });
+        return buildingList;
+      });
+      const selectWeek = ref(systemStore.generalInfo.week);
+      return {
+        room,
+        roomChanged,
+        selectWeek
+      };
+    }
+  });
 </script>

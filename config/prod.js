@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     NODE_ENV: '"production"',
-    HOST:'"https://test.wejh.jh.zjutjh.com"'
+    HOST: '"https://api.cnpatrickstar.com"'
   },
   defineConstants: {},
   mini: {},
@@ -14,5 +14,5 @@ module.exports = {
      *     .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
      * }
      */
-  },
+  }
 };

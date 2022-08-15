@@ -1,31 +1,91 @@
-@import "@/style/frame";
-.index {
-  height: 100vh;
+@import '@/style/theme.scss';
+
+.background {
+  background-image: none;
 }
 
-.library {
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-green);
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-
-  .zeroHeight {
-    height: 1px;
-    margin: 0;
-  }
 
   image {
-    transition: all 0.5s;
-    height: 400px;
-    margin: 1rem;
+    height: 100%;
+    flex: 0 0 60%;
+  }
+
+  .summary {
+    line-height: 1.5rem;
+    color: var(--wjh-color-white);
+    font-weight: var(--wjh-font-weight-medium);
+
+    text {
+      font-size: 1.7rem;
+    }
   }
 }
 
+.borrow-card {
+  margin-top: 24Px;
+  min-height: calc(100% - 200Px - 24Px);
 
-.balance {
-  color: white;
-  position: absolute;
-  font-size: 3rem;
-  font-weight: bolder;
+  .swicher {
+    flex: 1;
+
+    button {
+      border-radius: 0;
+      font-size: 0.875rem;
+    }
+
+    button:first-child {
+      border-radius: 1000px 0 0 1000px;
+    }
+
+    button:last-child {
+      border-radius: 0 1000px 1000px 0;
+    }
+
+    .button-not-active {
+      background-color: #def9f3;
+      color: var(--wjh-color-cyan);
+    }
+  }
+
+  .col {
+    flex: 1;
+    text-align: center;
+  }
+
+  .col:first-child {
+    flex: 0 0 20%;
+  }
+
+  .col:last-child {
+    flex: 0 0 20%;
+  }
 }
 
+.book-card {
+  .wjh-card-body {
+
+    :not(:first-child) {
+      font-size: 0.875rem;
+      color: var(--wjh-color-week);
+    }
+  }
+
+  .book-name {
+    margin-bottom: 10Px;
+    font-weight: var(--wjh-font-weight-medium);
+    word-break: break-all;
+  }
+
+  .book-index {
+    position: relative;
+    top: -12Px;
+    float: right;
+    font-weight: var(--wjh-font-weight-medium);
+  }
+
+}

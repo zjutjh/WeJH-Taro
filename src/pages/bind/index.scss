@@ -1,22 +1,52 @@
-@import "@/style/frame";
+@import '@/style/theme.scss';
 
-.header {
-  top: 0;
-  margin-bottom: 1rem;
-  padding: 0;
-  position: sticky;
+.bind-view {
 
-  image {
-    width: 100%;
-    margin: -15px;
-    opacity: 0.8;
-    height: 350px;
+  .wjh-card-header {
+    font-size: 1.2rem;
+    font-weight: var(--wjh-font-weight-medium);
+    justify-content: center;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin: 1rem;
+    text-align: center;
+    display: block;
+  }
+
+}
+
+.bind-list {
+  margin-bottom: 20Px;
+  font-size: 0.875rem;
+
+  .wjh-list-item {
+    @include radius;
+    background-color: var(--wjh-color-week);
+    color: var(--wjh-color-white);
+  }
+
+  .binded {
+    background-color: var(--wjh-color-green);
   }
 }
 
-.title {
-  font-size: 2rem;
-  margin: 1rem;
-  text-align: center;
-  display: block;
+.form-help-wrapper {
+  text-align: end;
+
+  .form-help {
+    display: inline-flex;
+    justify-content: flex-end;
+    padding: 0 10Px 10Px 10Px;
+
+    .iconfont {
+      color: var(--wjh-color-cyan);
+    }
+
+    :last-child {
+      font-size: 0.75rem;
+      color: var(--wjh-color-week);
+    }
+  }
 }

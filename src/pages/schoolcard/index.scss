@@ -1,30 +1,78 @@
-@import '@/style/frame';
+@import "@/style/theme.scss";
 
-.schoolcard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.background {
+  background-image: none;
+  // background-image: url("~@/assets/photos/background-yellow.svg");
+}
+
+.school-card {
   text-align: center;
-  height: 100%;
-  width: 100%;
+  height: 200Px;
+
+  .school-card-background {
+    position: absolute;
+    height: 200Px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+    z-index: 100;
+  }
 
   image {
-    height: 400px;
+    position: absolute;
+    height: 150Px;
+    width: 100%;
+    left: 0;
+    z-index: 200;
+    top: 20Px;
+  }
+
+  .balance {
+    color: var(--wjh-color-cyan);
+    position: relative;
+    top: 72Px;
+    font-size: 2rem;
+    font-weight: var(--wjh-font-weight-medium);
+    z-index: 300;
   }
 }
 
-.index {
-  height: 100vh;
-}
+.consume-card {
+  margin-top: 24Px;
+  min-height: calc(100% - 200Px - 24Px);
 
-.balance {
-  color: white;
-  position: absolute;
-  font-size: 2rem;
-  font-weight: bolder;
-}
+  .swicher {
+    flex: 1;
 
-.transactions {
-  margin-left: 1rem;
-  font-size: 1.5rem;
+    button {
+      border-radius: 0;
+      font-size: 0.875rem;
+    }
+
+    button:first-child {
+      border-radius: 1000px 0 0 1000px;
+    }
+
+    button:last-child {
+      border-radius: 0 1000px 1000px 0;
+    }
+
+    .button-not-active {
+      background-color: #def9f3;
+      color: var(--wjh-color-cyan);
+    }
+  }
+
+  .col {
+    flex: 1;
+    text-align: center;
+  }
+
+  .col:first-child {
+    flex: 0 0 20%;
+  }
+
+  .col:last-child {
+    flex: 0 0 20%
+  }
 }

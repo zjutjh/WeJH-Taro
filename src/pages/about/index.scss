@@ -1,0 +1,23 @@
+@import '@/style/theme.scss';
+
+.background {
+  display: flex;
+  flex-direction: column;
+}
+
+.description-card {
+  .wjh-card-header {
+    font-size: 1.2rem;
+    font-weight: var(--wjh-font-weight-medium);
+    justify-content: center;
+  }
+
+  .description {
+    font-size: 0.75rem;
+    color: var(--wjh-color-week);
+
+    .description-item {
+      margin-bottom: 1rem;
+    }
+  }
+}

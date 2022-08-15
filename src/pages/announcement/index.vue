@@ -1,81 +1,54 @@
 <template>
-	<header-tab-view title="通知" :show-tab="false">
-		<template v-slot:prefix>
-			<text class="iconfont icon-notification-badge-line"></text>
-		</template>
-		<template v-slot:content>
-			<view v-if="!announcement" style="text-align: center">
-				<image src="@/assets/g/noData.svg"></image>
-				<view>无通知</view>
-			</view>
-			<card class="item" v-for="item in announcement" :key="item.id" @tap="pop(item)">
-				<view class="cicle" v-if="item.title">
-					{{ item.title[0] }}
-				</view>
-				<view class="item-text">
-					<view> {{ item.title }}</view>
-					<view> {{ cutString(item.content, 30) }}</view>
-					<view>发布于：{{ timeFotmat(item.publishTime) }}</view>
-				</view>
-			</card>
-		</template>
-	</header-tab-view>
-	<pop-view v-model:show="showPop">
-		<card class="pop-card">
-			<scroll-view v-if="selectedItem">
-				<view class="title">{{ selectedItem.title }}</view>
-				<view class="center">{{ timeFotmat(selectedItem.publishTime) }}</view>
-				<view>{{ selectedItem.content }}</view>
-			</scroll-view>
-		</card>
-	</pop-view>
+  <view class="background">
+    <title-bar title="公告"></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="header-view">
+        <image src="@/assets/photos/announcement.svg"></image>
+      </view>
+      <view class="flex-column">
+        <card v-if="!announcementList" style="text-align: center">
+          <view>无通知</view>
+        </card>
+        <card
+          class="announcement-card"
+          v-for="(item, index) in announcementList"
+          :key="index"
+          :title="item.title"
+        >
+          <view> {{ item.content.replace(/\\n/g, '\n') }}</view>
+          <template #footer>
+            <view class="time-wrapper">
+              <view>发布于：{{ timeFotmat(item.publishTime) }}</view>
+            </view>
+          </template>
+        </card>
+      </view>
+    </scroll-view>
+  </view>
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, Ref, ref } from 'vue';
-	import { serviceStore, systemStore } from '@/store';
-	import { SystemService } from '@/services';
-	import Card from '@/components/card/index.vue';
-	import PopView from '@/components/popView/index.vue';
+  import { defineComponent } from 'vue';
+  import Card from '@/components/Card/index.vue';
+  import TitleBar from '@/components/TitleBar/index.vue';
+  import dayjs from 'dayjs';
+  import { serviceStore } from '@/store';
+  import './index.scss';
 
-	import HeaderTabView from '@/components/headerTabView/index.vue';
-	import './index.scss';
-	import { Announcement } from '@/interface/Announcement';
-	import dayjs from 'dayjs';
-
-	export default defineComponent({
-		components: { Card, HeaderTabView, PopView },
-		setup() {
-			function reflesh() {
-				SystemService.getAnnouncement();
-			}
-			const announcement = computed(() => systemStore.announcement.announcements);
-			let itemIpm: Announcement | undefined;
-			let selectedItem = ref(itemIpm);
-			let showPop = ref(false);
-			function pop(item: Announcement) {
-				selectedItem.value = item;
-				showPop.value = true;
-			}
-			return {
-				reflesh,
-				announcement,
-				pop,
-				showPop,
-				selectedItem,
-				cutString: (str: string, n) => {
-					if (str.length > n) return str.substring(0, 30) + '...';
-					return str;
-				},
-				timeFotmat: (time: string) => {
-					console.log(time);
-					console.log(dayjs(time));
-					return dayjs(time).format('MM月DD日 HH:mm');
-				}
-			};
-		},
-		mounted() {
-			this.reflesh();
-		}
-	});
+  export default defineComponent({
+    components: { Card, TitleBar },
+    data() {
+      return {};
+    },
+    computed: {
+      announcementList() {
+        return [...serviceStore.announcement.announcements].reverse();
+      }
+    },
+    methods: {
+      timeFotmat: (time: string) => {
+        return dayjs(time).format('YYYY年MM月DD日');
+      }
+    }
+  });
 </script>

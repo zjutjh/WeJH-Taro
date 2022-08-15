@@ -1,0 +1,69 @@
+<template>
+  <bottom-panel>
+    <view
+      @tap="nav('home')"
+      :class="pageName === 'home' && !showPop ? 'selected' : 'unselected'"
+      class="nav-bar-icon-wrapper"
+    >
+      <view class="iconfont icon-home"></view>
+      <view class="description">首页</view>
+    </view>
+    <view
+      :class="showPop ? 'selected' : 'unselected'"
+      class="nav-bar-icon-wrapper"
+      @tap="plusClick"
+    >
+      <view class="iconfont icon-applist"></view>
+      <view class="description">功能</view>
+    </view>
+    <view
+      @tap="nav('my')"
+      :class="pageName === 'my' && !showPop ? 'selected' : 'unselected'"
+      class="nav-bar-icon-wrapper"
+    >
+      <view class="iconfont icon-user"></view>
+      <view class="description">我的</view>
+    </view>
+  </bottom-panel>
+</template>
+
+<script lang="ts">
+  import BottomPanel from '@/components/BottomPanel/index.vue';
+  import { serviceStore } from '@/store';
+  import Taro from '@tarojs/taro';
+  import { defineComponent } from 'vue';
+  import './index.scss';
+
+  export default defineComponent({
+    setup(props, { emit }) {
+      return {
+        nav: (val: string) => {
+          emit('update:showPop', false);
+          emit('update:pageName', val);
+        },
+        plusClick: () => {
+          if (!serviceStore.user.isActive) {
+            Taro.showToast({
+              icon: 'none',
+              title: '激活账号以使用功能'
+            });
+            return;
+          }
+          emit('plusClick');
+        }
+      };
+    },
+    components: { BottomPanel },
+    props: {
+      showPlus: {
+        default: true,
+        type: Boolean
+      },
+      pageName: {
+        type: String,
+        default: 'home'
+      },
+      showPop: Boolean
+    }
+  });
+</script>

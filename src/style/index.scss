@@ -1,18 +1,74 @@
-@import './components/button';
 @import './components/input';
-@import './components/header';
-@import './components/list';
 
 page {
-	background-color: #f0f0f0;
+  background-color: #f5f5f5;
 }
 
-@media (prefers-color-scheme: dark) {
-	page {
-		background-color: black;
-	}
+scroll-view {
+  flex: 1;
+  height: 1Px;
 }
 
-.circle {
-	border-radius: 999px;
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem 1rem;
+}
+
+.jc-index-panel {
+  background-color: rgba(255, 255, 255, 0.7);
+  @include blur;
+}
+
+.background {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-image: url('~@/assets/photos/background.svg');
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
+}
+
+.wjh-icon-exam {
+  background-image: url('~@/assets/icons/applist/exam.svg');
+}
+
+.wjh-icon-freeroom {
+  background-image: url('~@/assets/icons/applist/freeroom.svg');
+}
+
+.wjh-icon-lessonstable {
+  background: url('~@/assets/icons/applist/lessonstable.svg');
+}
+
+.wjh-icon-library {
+  background-image: url('~@/assets/icons/applist/library.svg');
+}
+
+.wjh-icon-schoolbus {
+  background-image: url('~@/assets/icons/applist/schoolbus.svg');
+}
+
+.wjh-icon-schoolecard {
+  background-image: url('~@/assets/icons/applist/schoolcard.svg');
+}
+
+.wjh-icon-score {
+  background-image: url('~@/assets/icons/applist/score.svg');
+}
+
+.wjh-icon-lessonstable-fill {
+  background: url('~@/assets/icons/quickview/lessonstable.svg');
+}
+
+.wjh-icon-schoolcard-fill {
+  background: url('~@/assets/icons/quickview/schoolcard.svg');
+}
+
+.wjh-icon-library-fill {
+  background: url('~@/assets/icons/quickview/library.svg');
 }

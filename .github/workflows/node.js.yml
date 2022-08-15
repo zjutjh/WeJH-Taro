@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [15.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -27,5 +27,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn install
     - run: yarn global add @tarojs/cli 
-    - run: yarn run check
-    - run: yarn run build:weapp --if-present
+    - run: yarn build:weapp --if-present

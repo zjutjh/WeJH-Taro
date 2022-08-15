@@ -1,0 +1,16 @@
+@import '@/style/theme.scss';
+
+.connect-view {
+
+  .qa-card {
+    font-size: 0.875rem;
+  }
+
+  .wjh-card-header {
+    font-weight: var(--wjh-font-weight-medium);
+  }
+
+  .wjh-card-item-content {
+    font-size: 0.875rem;
+  }
+}

@@ -1,17 +1,69 @@
 <template>
-	<view class="index">
-		<view class="header">微精弘 2.0</view>
-		<view></view>
-	</view>
+  <view class="background">
+    <title-bar title="关于"></title-bar>
+    <scroll-view :scrollY="true" style="flex: 1">
+      <view class="flex-column">
+        <card>
+          <image
+            mode="aspectFit"
+            :src="require('@/assets/jh-logo.png')"
+            style="height: 20vh; width: 70%; display: block; margin: auto"
+          ></image>
+        </card>
+        <card title="微精弘2.0" class="description-card">
+          <view class="description">
+            <view
+              v-for="item in description"
+              :key="item"
+              class="description-item"
+            >
+              <text>| </text>
+              <text>{{ item }}</text>
+            </view>
+          </view>
+        </card>
+        <card title="测试信息" v-if="isDevelopment">
+          <view>Hash: {{ commitHash.slice(0, 6) }}</view>
+          <view>编译时间: {{ buildTime }}</view>
+          <view>{{ getCopyRight() }}</view>
+        </card>
+      </view>
+    </scroll-view>
+  </view>
 </template>
 
-<script>
-	import { reactive, ref } from 'vue';
-	import Taro from '@tarojs/taro';
-	import './index.scss';
+<script lang="ts">
+  import Card from '@/components/Card/index.vue';
+  import TitleBar from '@/components/TitleBar/index.vue';
+  import { aboutText } from '@/constants/copywriting';
+  import { getCopyRight } from '@/utils/effects';
+  import './index.scss';
 
-	export default {
-		setup() {},
-		mounted() {}
-	};
+  export default {
+    components: {
+      TitleBar,
+      Card
+    },
+    computed: {
+      isDevelopment() {
+        if (process.env.NODE_ENV === 'development') return true;
+        return false;
+      },
+      commitHash() {
+        return process.env.COMMIT_HASH;
+      },
+      commitTag() {
+        return process.env.TAG;
+      },
+      buildTime() {
+        return process.env.BUILD_TIME;
+      },
+      description() {
+        return aboutText.description;
+      }
+    },
+    methods: {
+      getCopyRight
+    }
+  };
 </script>

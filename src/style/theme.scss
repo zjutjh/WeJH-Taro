@@ -1,16 +1,44 @@
-.large {
-	font-size: 2rem;
-	padding: 0.5rem;
-}
 @mixin shadow {
-	box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.1);
 }
-$shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+
+$shadow: 0.1em 0.1px 0.1em rgba(0, 0, 0, 0.2);
 
 @mixin blur {
-	backdrop-filter: blur(10px);
+  backdrop-filter: saturate(180%) blur(20px);
 }
 
 @mixin radius {
-	border-radius: 1rem;
+  border-radius: 8Px;
+}
+
+:host {
+  --wjh-color-primary: var(--wjh-color-green);
+  --wjh-color-green: #62e4c7;
+  --wjh-color-blue: #72d0fe;
+  --wjh-color-cyan: #22caca;
+  --wjh-color-orange: #fdc362;
+  --wjh-color-yellow: #ffcf4d;
+  --wjh-color-gray: #888888;
+  --wjh-color-white: #fdfdfd;
+  --wjh-color-green-light: #bdf4e8;
+  --wjh-color-orange-light: #ffedcd;
+  --wjh-color-yellow-light: #fff6c9;
+  --wjh-color-cyan-light: #def9f3;
+}
+
+:host {
+  --wjh-color-text: #333;
+  --wjh-color-text-secondary: #666;
+  --wjh-color-week: #999;
+  --wjh-color-light: #ccc;
+  --wjh-color-border: #eee;
+  --wjh-color-box: #f5f5f5;
+  --wjh-color-background: #fff;
+}
+
+:host {
+  --wjh-font-weight-bold: 1000;
+  --wjh-font-weight-medium: 800;
+  --wjh-font-weight-regular: 500;
 }

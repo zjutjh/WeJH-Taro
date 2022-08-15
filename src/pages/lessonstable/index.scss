@@ -1,5 +1,90 @@
+@import '@/style/theme.scss';
+
 .index {
-	width: 100vw;
-	height: calc(100% - 8rem);
-	position: fixed;
+  width: calc(100vw - 2rem);
+  height: calc(100vh - 9rem);
+  position: fixed;
+  background-color: white;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
+
+.index-ios {
+  height: calc(100vh - 12rem);
+}
+
+.practice-lessons-list {
+  min-height: 80vh;
+  padding-bottom: 10rem;
+}
+
+.prectice-title {
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.lesson-detail {
+  padding: 1.5rem 0 3rem 0;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 0.875rem;
+
+  .lesson-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--wjh-color-green);
+  }
+}
+
+.picker-wrapper {
+  height: 31Px;
+}
+
+.lessons-table-bottom-panel {
+  .col {
+    flex: auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .col:first-child {
+    justify-content: center;
+    flex: 0 0 25%;
+  }
+
+  .col:last-child {
+    justify-content: center;
+    flex: 0 0 25%;
+  }
+
+  .switch-button {
+    background-color: var(--wjh-color-primary);
+    width: 34Px;
+    height: 34Px;
+    border-radius: 50%;
+
+    image {
+      width: 24Px;
+      height: 24Px;
+      padding: 5Px;
+      transition: all 0.3s;
+    }
+
+  }
+}
+
+.back-button {
+  padding: 5Px;
+}
+
+// comment: disable dark mode
+/* @media (prefers-color-scheme: dark) {
+	.index {
+		background-color: rgba(68, 68, 68, 0.7);
+	}
+} */

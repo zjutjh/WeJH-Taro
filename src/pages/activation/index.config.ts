@@ -1,4 +1,5 @@
 export default {
 	navigationBarTitleText: '激活',
-	backgroundColor: '#fff'
+	backgroundColor: '#fff',
+	disableScroll: true,
 };

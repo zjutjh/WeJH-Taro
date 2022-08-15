@@ -1,5 +1,6 @@
 export default {
 	navigationBarTitleText: '图书馆',
 	backgroundColor: '#dfdfdf',
-	navigationStyle: 'custom'
+	navigationStyle: 'custom',
+	disableScroll: true,
 };

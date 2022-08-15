@@ -1,0 +1,23 @@
+// @import './light.scss';
+// @import './dark.scss';
+@import '@/style/theme.scss';
+
+.bottom-panel {
+  height: 49Px;
+  padding-top: 8Px;
+  padding-bottom: 8Px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  bottom: 0;
+  width: 100vw;
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+  z-index: 3000;
+  background: var(--wjh-color-white);
+}
+
+.bottom-bar-ios {
+  padding-bottom: 2rem;
+}

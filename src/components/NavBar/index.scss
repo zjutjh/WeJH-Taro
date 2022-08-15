@@ -1,0 +1,21 @@
+@import "@/style/theme.scss";
+
+.nav-bar-icon-wrapper {
+  padding: 0 16Px;
+}
+
+.iconfont {
+  font-size: 1.5rem;
+}
+
+.unselected {
+  color: var(--wjh-color-week);
+}
+
+.selected {
+  color: var(--wjh-color-green);
+}
+
+.description {
+  font-size: 0.75rem;
+}

@@ -1,0 +1,15 @@
+.quick-card-view {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-list-card {
+  @include blur;
+  padding: 1rem 0;
+  margin: 1rem;
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}

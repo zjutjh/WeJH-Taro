@@ -1,3 +1,13 @@
+export interface CardServiceType {
+	balance?: number;
+	today: any;
+	history: any;
+	updateTime: {
+		today?: Date;
+		history?: Date;
+		balance?: Date;
+	};
+}
 export const CardServiceStore = {
 	state: () => ({
 		balance: 0,
@@ -10,22 +20,22 @@ export const CardServiceStore = {
 		}
 	}),
 	mutations: {
-		setCardBalance(state: any, value: number) {
+		setCardBalance(state: CardServiceType, value: number) {
 			state.balance = value;
 			state.updateTime.balance = new Date();
 		},
-		setCardHistory(state: any, value: { month: string; year: string; data: [] }) {
+		setCardHistory(state: CardServiceType, value: { month: string; year: string; data: [] }) {
 			if (!state[value.year]) state[value.year] = {};
 			state[value.year][value.month] = {
 				data: value.data,
 				updateTime: new Date()
 			};
 		},
-		setCardToday(state: any, value: Array<object>) {
+		setCardToday(state: CardServiceType, value: Array<object>) {
 			state.today = value;
 			state.updateTime.today = new Date();
 		},
-		clearCardToday(state: any) {
+		clearCardToday(state: CardServiceType) {
 			state.today = [];
 		}
 	}

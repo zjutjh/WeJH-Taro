@@ -1,0 +1,113 @@
+.index-panel {
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .num-index {
+    text-align: center;
+    font-size: 0.8rem;
+  }
+}
+
+.weekday-index-panel {
+  left: 2rem;
+  flex-direction: row;
+  border-bottom: 1px solid gainsboro;
+  width: 126%;
+  height: 2rem;
+}
+
+.jc-index-panel {
+  flex-direction: column;
+  top: 7rem;
+  border-right: 1px solid gainsboro;
+  border-top: 1px solid gainsboro;
+  width: 2rem;
+  position: fixed;
+}
+
+.class {
+  display: flex;
+  position: absolute;
+  padding: 0.2rem;
+  width: 18%;
+  text-align: center;
+  box-sizing: border-box;
+
+  .title {
+    line-height: 100%;
+    font-size: 0.75rem;
+    display: block;
+    font-weight: bolder;
+  }
+
+  .item-content {
+    line-height: 125%;
+    font-size: 0.6rem;
+    width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+
+  .conflict:before {
+    content: "*";
+    position: absolute;
+    font-size: 1rem;
+    right: 6Px;
+    top: 0;
+  }
+}
+
+.warp {
+  position: absolute;
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.table {
+  color: white;
+  display: flex;
+  height: 90%;
+  left: 2rem;
+  top: 2rem;
+  position: absolute;
+  width: 100%;
+}
+
+.class-card {
+  height: calc(100% - 0.4rem);
+  width: calc(100% - 0.4rem);
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  border-radius: 4Px;
+
+  .title {
+    margin-bottom: 0.1rem;
+  }
+}
+
+.now-index {
+  height: 2Px;
+  background-color: #00b8ff;
+  position: absolute;
+  width: calc(126% + 2rem);
+  z-index: 10 // width: calc(18%);
+    // z-index: 2;
+}
+
+.now-week-index {
+  height: 100%;
+  width: calc(18%);
+  background: -webkit-gradient(linear, left top, left bottom, from(#eff7ff), color-stop(0.5, #bbe1ff), to(#eff7ff));
+  position: absolute;
+}

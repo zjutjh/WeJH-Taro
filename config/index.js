@@ -1,5 +1,6 @@
+import { buildDate, commit } from './utils/version';
+import PackageJson from '../package.json';
 import path from 'path';
-
 const config = {
   projectName: 'WeJh-Taro',
   date: '2021-4-20',
@@ -7,12 +8,27 @@ const config = {
   deviceRatio: {
     640: 2.34 / 2,
     750: 1,
-    828: 1.81 / 2
+    828: 1.81 / 2,
+    375: 2 / 1
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [],
-  defineConstants: {},
+  plugins: [
+    [
+      '@tarojs/plugin-html',
+      {
+        // 包含 `nut-`、`van-` 的类名选择器中的 px 单位不会被解析
+        pxtransformBlackList: [/nut-/, /van-/]
+      }
+    ]
+  ],
+  defineConstants: {
+    APP_VERSION: JSON.stringify(PackageJson.version),
+    'process.env.APP_NAME': JSON.stringify(PackageJson.name),
+    'process.env.COMMIT_HASH': JSON.stringify(commit),
+    'process.env.BUILD_TIME': JSON.stringify(buildDate),
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  },
   copy: {
     patterns: [],
     options: {}
@@ -22,12 +38,16 @@ const config = {
     '@/assets': path.resolve(__dirname, '..', 'src/assets'),
     '@/store': path.resolve(__dirname, '..', 'src/store'),
     '@/utils': path.resolve(__dirname, '..', 'src/utils'),
-    '@/interface': path.resolve(__dirname, '..', 'src/interface'),
+    '@/types': path.resolve(__dirname, '..', 'src/types'),
     '@/services': path.resolve(__dirname, '..', 'src/services'),
+    '@/constants': path.resolve(__dirname, '..', 'src/constants'),
     '@/components': path.resolve(__dirname, '..', 'src/components'),
     '@/style': path.resolve(__dirname, '..', 'src/style')
   },
   mini: {
+    miniCssExtractPluginOption: {
+      ignoreOrder: true
+    },
     postcss: {
       pxtransform: {
         enable: true,

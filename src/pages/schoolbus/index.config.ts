@@ -1,4 +1,5 @@
 export default {
 	navigationBarTitleText: '校车',
-	backgroundColor: '#dfdfdf'
+	disableScroll: true,
+	backgroundColor: '#dfdfdf',
 };

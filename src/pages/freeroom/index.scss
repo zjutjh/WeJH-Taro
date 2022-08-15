@@ -1,20 +1,35 @@
-@import '@/style/frame';
 @import '@/style/theme';
 
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-.room-item {
-  margin: 0.5rem;
-  padding: 0.5rem;
-  text-align: center;
-  @include radius;
-}
-.build-name{
-  text-align: center;
-  font-size: 1.5rem;
-  margin: 1rem;
+.building-card {
+
+  .wjh-card-header {
+    font-size: 1.2rem;
+    font-weight: var(--wjh-font-weight-medium);
+    justify-content: center;
+  }
+
+  .room-card {
+    padding: 0.1rem;
+    margin: 0.3rem;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+    border: 3px solid var(--wjh-color-cyan);
+    background-color: var(--wjh-color-cyan-light);
+    border-radius: 8Px;
+  }
+
+  .building-card-body {
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    margin: 0 auto;
+  }
+
+  .room-name {
+    color: var(--wjh-color-cyan);
+  }
+
+  .room-seats {
+    color: var(--wjh-color-weak);
+  }
 }

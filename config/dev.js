@@ -1,9 +1,9 @@
 module.exports = {
   env: {
     NODE_ENV: '"development"',
-    HOST:'"http://localhost:8080"'
+    HOST: '"https://api.cnpatrickstar.com"'
   },
   defineConstants: {},
   mini: {},
-  h5: {},
+  h5: {}
 };

@@ -1,0 +1,38 @@
+@import '@/style/theme.scss';
+
+.wjh-card-size-small {
+  padding: 0 8Px;
+
+  .wjh-card-body {
+    padding: 6Px 0;
+  }
+}
+
+.wjh-card-size-middle {
+  padding: 0 16Px;
+
+  .wjh-card-body {
+    padding: 12Px 0;
+  }
+}
+
+.wjh-card {
+  @include radius;
+  @include shadow;
+  background-color: var(--wjh-color-background);
+
+  .wjh-card-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16Px 0;
+    border-bottom: 1px solid var(--wjh-color-border);
+  }
+
+
+  .wjh-card-footer {
+    border-top: 1px solid var(--wjh-color-border);
+    padding: 12Px 0;
+  }
+}
