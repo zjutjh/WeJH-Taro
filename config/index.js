@@ -1,13 +1,4 @@
-import {
-  buildDate,
-  buildTag,
-  buildUserMail,
-  buildUserName,
-  commit,
-  commitDate,
-  commitUserMail,
-  commitUserName
-} from './utils/version';
+import { buildDate, commit } from './utils/version';
 import PackageJson from '../package.json';
 import path from 'path';
 const config = {
@@ -36,7 +27,6 @@ const config = {
     'process.env.APP_NAME': JSON.stringify(PackageJson.name),
     'process.env.COMMIT_HASH': JSON.stringify(commit),
     'process.env.BUILD_TIME': JSON.stringify(buildDate),
-    'process.env.TAG': JSON.stringify(buildTag),
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   },
   copy: {
