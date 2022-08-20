@@ -21,8 +21,8 @@
           size="small"
           class="exam-card"
         >
-          <w-collapse>
-            <w-collapse-panel max-height="200px">
+          <w-collapse class="exam-collapse-item">
+            <w-collapse-panel>
               <template #header>
                 <view class="lesson-name">{{ item.lessonName }}</view>
                 <view style="font-size: 14px; color: var(--wjh-color-week)">
@@ -101,7 +101,6 @@
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
-  import { Exam } from '@/types/Exam';
   import RefleshButton from '@/components/RefleshButton/index.vue';
   import TermPicker from '@/components/TermPicker/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';

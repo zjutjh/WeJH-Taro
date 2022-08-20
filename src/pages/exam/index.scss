@@ -20,10 +20,22 @@
   }
 }
 
-.wjh-collapse-panel-active {
+.exam-collapse-item {
+  .wjh-list-item-content-main {
+    width: 100%;
+  }
+
   .lesson-name {
-    transition: all 0.3s;
-    color: var(--wjh-color-cyan);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .wjh-collapse-panel-header-active {
+    .lesson-name {
+      transition: all 0.3s;
+      color: var(--wjh-color-cyan);
+    }
   }
 }
 

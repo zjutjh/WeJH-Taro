@@ -43,7 +43,7 @@ export const faqText = {
     },
     {
       title: '问题紧急请添加反馈 QQ 群',
-      content: '462530805（一群)\n282402782（二群)'
+      content: '721519763（三群）'
     }
   ]
 };

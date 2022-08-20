@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build:weapp": "taro build --type weapp",
+    "build:weapp:upload": "taro build --type weapp --upload",
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",
     "build:tt": "taro build --type tt",

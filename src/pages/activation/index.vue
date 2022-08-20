@@ -33,7 +33,11 @@
                 placeholder="请再次输入密码"
                 v-model="comfirmPassword"
               />
-              <view class="prompt" v-show="comfirmPassword != password"
+              <view
+                class="prompt"
+                v-show="
+                  comfirmPassword !== undefined && comfirmPassword != password
+                "
                 >两次密码不匹配</view
               >
             </view>
@@ -131,7 +135,9 @@
         }
       },
       async nav2bind() {
-        Taro.showLoading();
+        Taro.showLoading({
+          title: '加载中'
+        });
         await Taro.getUserProfile({
           desc: '用于获取头像和昵称',
           success: (res: any) => {

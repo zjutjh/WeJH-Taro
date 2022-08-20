@@ -40,18 +40,22 @@
             <w-collapse-panel
               v-for="item in scoreList"
               :key="item.lessonID"
-              max-height="100px"
               :extra="item.score"
             >
               <template #header>
-                <view>{{ item.lessonName }}</view>
+                <view className="score-list-collapse-item-title">{{
+                  item.lessonName
+                }}</view>
               </template>
 
               <w-descriptions class="score-detail-list" size="small">
-                <w-descriptions-item label="课程性质" :label-span="18">
+                <w-descriptions-item label="课程名称">
+                  {{ item.lessonName }}
+                </w-descriptions-item>
+                <w-descriptions-item label="课程性质">
                   {{ item.lessonType }}
                 </w-descriptions-item>
-                <w-descriptions-item label="课程学分" :label-span="18">
+                <w-descriptions-item label="课程学分">
                   {{ item.credits }}
                 </w-descriptions-item>
               </w-descriptions>
@@ -180,12 +184,13 @@
       },
       relativeTermInfo() {
         const charEnum = ['一', '二', '三', '四', '五', '六'];
+        console.log(serviceStore.user.info?.studentID);
         let char = charEnum[0];
         if (serviceStore.user.info?.studentID) {
           char =
             charEnum[
-              parseInt(serviceStore.user.info.studentID.slice(0, 4)) -
-                parseInt(this.selectTerm?.year)
+              parseInt(this.selectTerm?.year) -
+                parseInt(serviceStore.user.info.studentID.slice(0, 4))
             ];
         }
         return `大${char}${this.selectTerm?.term}学期`;

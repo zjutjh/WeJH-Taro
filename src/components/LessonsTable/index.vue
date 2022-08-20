@@ -25,7 +25,7 @@
       >
         <view
           class="class-card"
-          :style="getDynamicColor(parseInt(cl.classID.slice(0, 7), 16))"
+          :style="getDynamicColor(cl.classID)"
           :class="{ conflict: cl.mark }"
           @tap="classCardClick(cl)"
         >
@@ -133,7 +133,8 @@
       classCardClick(theClass: Lesson) {
         this.$emit('classClick', theClass);
       },
-      getDynamicColor(index = 1) {
+      getDynamicColor(classID = '1') {
+        const index = parseInt(classID.slice(4, 8) + classID.slice(12, 16), 16);
         const colorSet = ['green', 'cyan', 'blue', 'yellow', 'orange'];
         return {
           backgroundColor: `var(--wjh-color-${

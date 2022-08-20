@@ -61,8 +61,18 @@
     font-size: 0.875rem;
   }
 
+  .score-list-collapse-item-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .wjh-list-item-content {
     justify-content: space-between;
+  }
+
+  .wjh-list-item-content-main {
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .score-detail-list {
@@ -71,7 +81,8 @@
     width: 100%;
   }
 
-  .wjh-collapse-panel-active {
+  .wjh-collapse-panel-header-active {
+    transition: all 0.5s;
     color: var(--wjh-color-primary);
   }
 

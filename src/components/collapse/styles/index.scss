@@ -6,6 +6,7 @@
 
   .wjh-collapse-panel-header {
     margin: 0 6Px;
+
   }
 
   .wjh-collapse-panel-content {
@@ -13,9 +14,9 @@
     transition: max-height 0.5s;
   }
 
-  .wjh-collapse-panel-active {
+  .wjh-collapse-panel-content-active {
     transition: all 0.5s;
-    max-height: 100Px;
+    max-height: 500Px;
   }
 
 }

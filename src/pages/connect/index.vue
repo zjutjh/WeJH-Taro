@@ -33,12 +33,8 @@
 
   const groupInfo = [
     {
-      name: '一群',
-      id: '462530805'
-    },
-    {
-      name: '二群',
-      id: '282402782'
+      name: '三群',
+      id: '721519763'
     }
   ];
   export default defineComponent({

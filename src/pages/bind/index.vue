@@ -79,7 +79,7 @@
           <view>
             <input
               type="password"
-              placeholder="输入图书馆账户密码"
+              placeholder="默认密码为学号"
               v-model="libpass"
             />
           </view>
