@@ -4,7 +4,7 @@
     <scroll-view :scrollY="true">
       <lessons-table
         class="index"
-        :class="{ 'index-ios': isNewIPhone }"
+        :class="{ 'index-ios': isNewIPhone() }"
         :lessons="!showWeekPicker ? lessonsTable : lessonsTableWeek"
         :is-this-week="isThisWeek"
         @classClick="classClick"

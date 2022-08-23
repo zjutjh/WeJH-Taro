@@ -102,7 +102,6 @@
       });
     },
     methods: {
-      // FIXME:
       MarkConflictLesson(lessons: Lesson[]) {
         if (lessons)
           for (let i = 0; i < lessons.length; i++) {

@@ -4,7 +4,7 @@ export function isNewIPhone(): boolean {
   let info = Taro.getSystemInfoSync();
   if (!info.model) return false;
   let isNewIphone = info.model.match(
-    '(iPhone X|iPhone XS|iPhone 11|iPhone 12|iPhone 13|iPhone14)'
+    '(iPhone X|iPhone XS|iPhone 11|iPhone 12|iPhone 13|iPhone 14|iPhone 15)'
   )?.length;
   return isNewIphone !== undefined && isNewIphone > 0;
 }
