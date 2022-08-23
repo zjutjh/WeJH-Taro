@@ -3,8 +3,6 @@
     <title-bar title="课程表"></title-bar>
     <scroll-view :scrollY="true">
       <lessons-table
-        class="index"
-        :class="{ 'index-ios': isNewIPhone() }"
         :lessons="!showWeekPicker ? lessonsTable : lessonsTableWeek"
         :is-this-week="isThisWeek"
         @classClick="classClick"

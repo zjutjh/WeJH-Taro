@@ -1,41 +1,54 @@
 <template>
-  <view class="warp">
-    <view class="jc-index-panel index-panel" :style="jcStyle">
+  <view class="lessons-table-wrapper">
+    <view class="jc-index-panel index-panel">
       <view v-for="i in 12" :key="i">
         <view class="num-index">
           {{ i }}
         </view>
       </view>
     </view>
-    <view class="weekday-index-panel index-panel">
-      <view v-for="i in weekdayEnum" :key="i">
-        <view class="num-index">
-          {{ i }}
-        </view>
-      </view>
-    </view>
-    <view v-show="isThisWeek" class="now-index" :style="nowStyle" />
-    <view v-show="isThisWeek" class="now-week-index" :style="nowWeekStyle" />
-    <view class="table table-box" v-if="lessonsTable">
-      <view
-        class="class"
-        v-for="cl in lessonsTable"
-        :key="cl.id + cl.week + cl.weekday"
-        :style="getPosition(cl)"
-      >
+    <view class="lessons-table">
+      <view class="col"></view>
+      <view class="col">
         <view
-          class="class-card"
-          :style="getDynamicColor(cl.classID)"
-          :class="{ conflict: cl.mark }"
-          @tap="classCardClick(cl)"
-        >
-          <view class="title">{{ splitNameAndRoom(cl.lessonPlace)[0] }}</view>
-          <view class="title">{{ splitNameAndRoom(cl.lessonPlace)[1] }}</view>
-          <text class="item-content" :style="'-webkit-line-clamp: 2'">{{
-            cl.lessonName
-          }}</text>
+          v-show="isThisWeek"
+          class="now-week-index"
+          :style="nowWeekStyle"
+        />
+        <view class="weekday-index-panel index-panel">
+          <view v-for="i in weekdayEnum" :key="i">
+            <view class="num-index">
+              {{ i }}
+            </view>
+          </view>
+        </view>
+        <view class="table table-box" v-if="lessonsTable">
+          <view
+            class="class"
+            v-for="cl in lessonsTable"
+            :key="cl.id + cl.week + cl.weekday"
+            :style="getPosition(cl)"
+          >
+            <view
+              class="class-card"
+              :style="getDynamicColor(cl.classID)"
+              :class="{ conflict: cl.mark }"
+              @tap="classCardClick(cl)"
+            >
+              <view class="title">{{
+                splitNameAndRoom(cl.lessonPlace)[0]
+              }}</view>
+              <view class="title">{{
+                splitNameAndRoom(cl.lessonPlace)[1]
+              }}</view>
+              <text class="item-content" :style="'-webkit-line-clamp: 2'">{{
+                cl.lessonName
+              }}</text>
+            </view>
+          </view>
         </view>
       </view>
+      <view v-show="isThisWeek" class="now-index" :style="nowStyle" />
     </view>
   </view>
 </template>
@@ -57,8 +70,6 @@
     data() {
       return {
         Height: Number,
-        Width: Number,
-        Top: Number,
         showPop: false
       };
     },
@@ -67,15 +78,12 @@
         return ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
       },
       lessonsTable(): Lesson[] {
-        return this.MarkConflictLesson(this.lessons);
-      },
-      jcStyle() {
-        return `height: ${this.Height}px; top: ${this.Top}px;`;
+        return this.markConflictLesson(this.lessons);
       },
       nowWeekStyle() {
         const now = new Date();
         const weekday = now.getDay() ? now.getDay() : 7;
-        const left = 'calc(' + ((weekday - 1) * 126) / 7 + '% + 2rem)';
+        const left = `calc(100% / 7 * ${weekday - 1})`;
         return { left };
       },
       nowStyle() {
@@ -83,8 +91,9 @@
         const hour = now.getHours();
         const min = now.getMinutes();
         const rate = ((hour - 8) * 60 + min) / ((21 - 8) * 60 + 5);
-        const weekday = now.getDay() ? now.getDay() : 7;
+        // const weekday = now.getDay() ? now.getDay() : 7;
         // const left = 'calc(' + ((weekday - 1) * 126) / 7 + '% + 2rem)';
+        // FIXME:
         return {
           top: `calc(${(rate > 0 ? rate : 0) * this.Height}px + 2rem)`
         };
@@ -97,12 +106,11 @@
         query.exec((res) => {
           if (typeof res[0].height === 'number')
             this.Height = Number(res[0].height);
-          if (typeof res[0].top === 'number') this.Top = Number(res[0].top);
         });
       });
     },
     methods: {
-      MarkConflictLesson(lessons: Lesson[]) {
+      markConflictLesson(lessons: Lesson[]) {
         if (lessons)
           for (let i = 0; i < lessons.length; i++) {
             for (let j = i + 1; j < lessons.length; j++) {
@@ -146,9 +154,9 @@
         const end = parseInt(theClass.sections.split('-')[1]);
         const weekday = parseInt(theClass.weekday);
         const fontSize = Math.min(12, (end - begin + 2) * 4) + 'px';
-        const height = ((end - begin + 1) * 100) / 12 + '%';
-        const top = 'calc(' + ((begin - 1) * 100) / 12 + '%)';
-        const left = 'calc(' + ((weekday - 1) * 90) / 5 + '%)';
+        const height = `calc(100% / 12 * ${end - begin + 1})`;
+        const top = `calc(100% / 12 * ${begin - 1})`;
+        const left = `calc(100% / 7 * ${weekday - 1})`;
         return { top, left, height, fontSize };
       }
     }
