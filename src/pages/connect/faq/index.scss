@@ -1,16 +1,20 @@
 @import '@/style/theme.scss';
 
-.connect-view {
+.faq-view {
 
-  .qa-card {
-    font-size: 0.875rem;
+  .wjh-collapse-panel-header {
+    .wjh-list-item-content-main {
+      font-weight: var(--wjh-font-weight-medium);
+    }
   }
 
-  .wjh-card-header {
-    font-weight: var(--wjh-font-weight-medium);
-  }
+  .answer-wrapper {
+    display: flex;
+    flex-direction: column;
 
-  .wjh-card-item-content {
-    font-size: 0.875rem;
+    text {
+      font-size: 0.875rem;
+      line-height: 170%;
+    }
   }
 }

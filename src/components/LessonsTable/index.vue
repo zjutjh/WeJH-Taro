@@ -60,7 +60,6 @@
   import { dayScheduleStartTime } from '@/constants/index';
   import { Lesson } from '@/types/Lesson';
   import { computed, toRefs } from 'vue';
-  import { defineProps, defineEmits } from 'vue';
   import './index.scss';
 
   const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();

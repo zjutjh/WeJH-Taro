@@ -45,7 +45,7 @@
       Card
     },
     methods: {
-      nav2FAQ(e) {
+      nav2FAQ() {
         Taro.navigateTo({
           url: '/pages/connect/faq/index'
         });
@@ -53,7 +53,7 @@
       showGroups() {
         Taro.showActionSheet({
           itemList: groupInfo.map((item) => `${item.name}(${item.id})`),
-          success({ tapIndex }) {
+          success: ({ tapIndex }) => {
             Taro.setClipboardData({
               data: groupInfo[tapIndex].id
             });

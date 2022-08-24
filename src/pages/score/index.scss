@@ -64,6 +64,11 @@
   .score-list-collapse-item-title {
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: auto;
+  }
+
+  .score-list-collapse-extra {
+    flex: 0 0 10%;
   }
 
   .wjh-list-item-content {

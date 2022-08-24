@@ -40,11 +40,14 @@
             <w-collapse-panel
               v-for="item in scoreList"
               :key="item.lessonID"
-              :extra="item.score"
+              arrow
             >
               <template #header>
-                <view className="score-list-collapse-item-title">{{
+                <view class="score-list-collapse-item-title">{{
                   item.lessonName
+                }}</view>
+                <view className="score-list-collapse-item-extra">{{
+                  item.score
                 }}</view>
               </template>
 
@@ -184,7 +187,6 @@
       },
       relativeTermInfo() {
         const charEnum = ['一', '二', '三', '四', '五', '六'];
-        console.log(serviceStore.user.info?.studentID);
         let char = charEnum[0];
         if (serviceStore.user.info?.studentID) {
           char =

@@ -1,10 +1,10 @@
 @import '@/style/theme.scss';
 
 .wjh-list {
-  --padding-left-small: 12Px;
-  --padding-right-small: 12Px;
-  --padding-left-middle: 6Px;
-  --padding-right-middle: 6Px;
+  --padding-left-small: 6Px;
+  --padding-right-small: 6Px;
+  --padding-left-middle: 12Px;
+  --padding-right-middle: 12Px;
 
   --align-item: flex-start;
   --border-inner: solid 1px var(--wjh-color-border);
@@ -33,30 +33,29 @@
 .wjh-list-item {
   position: relative;
   background-color: var(--wjh-color-background);
-  line-height: 2.25rem;
-  padding-left: var(--padding-left-middle);
+  line-height: 2.5rem;
 
   .wjh-list-item-content {
-    padding-right: var(--padding-right-middle);
     display: flex;
     align-items: var(--align-item);
     justify-content: flex-start;
+    align-items: center;
 
     .wjh-list-item-content-main {
       flex: auto;
-    }
-
-    .wjh-list-item-content-extra {
-      display: inline-block;
-      padding: 0 6Px;
-      max-width: 70%;
-      white-space: nowrap;
+      display: flex;
+      gap: 0.4rem;
     }
 
     .wjh-list-item-content-arrow {
+      flex: 0 0 1.2rem;
+      transform: rotate(90deg);
       display: inline-block;
       font-size: 1.2rem;
+      font-weight: var(--wjh-font-weight-bold);
+      color: var(--wjh-color-light);
     }
+
   }
 }
 

@@ -16,7 +16,7 @@
               >
             </view>
             <view>
-              <text>密码</text>
+              <text>设置密码</text>
               <input
                 type="password"
                 placeholder="请输入密码"
@@ -128,7 +128,6 @@
           idCardNumber: this.idcard,
           email: this.email
         });
-
         if (res) {
           Taro.hideLoading();
           this.step++;

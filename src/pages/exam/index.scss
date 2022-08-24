@@ -7,10 +7,9 @@
       font-weight: var(--wjh-font-weight-medium);
     }
 
-    .wjh-list-item-content {
+    .wjh-list-item-content-main {
       line-height: initial;
       flex-direction: column;
-      gap: 0.5rem;
     }
   }
 
@@ -21,9 +20,6 @@
 }
 
 .exam-collapse-item {
-  .wjh-list-item-content-main {
-    width: 100%;
-  }
 
   .lesson-name {
     overflow: hidden;

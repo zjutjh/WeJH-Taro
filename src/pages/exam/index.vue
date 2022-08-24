@@ -22,7 +22,7 @@
           class="exam-card"
         >
           <w-collapse class="exam-collapse-item">
-            <w-collapse-panel>
+            <w-collapse-panel arrow>
               <template #header>
                 <view class="lesson-name">{{ item.lessonName }}</view>
                 <view style="font-size: 14px; color: var(--wjh-color-week)">
