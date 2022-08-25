@@ -31,8 +31,7 @@ export default class CardService {
     );
   }
   static getCardHistory(data: { year: number; month: number }): any {
-    if (!serviceStore?.card[data.year]) return { data: [], updateTime: null };
-    return serviceStore?.card[data.year][data.month];
+    return serviceStore?.card.history || [];
   }
   static async updateCardToday(): Promise<any> {
     return updateDateStateWithSession(api.card.today, null, 'setCardToday');

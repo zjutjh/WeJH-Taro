@@ -71,7 +71,7 @@
       <view>班级：{{ selection.className }} </view>
       <view>教师：{{ selection.teacherName }} </view>
       <view>
-        时间：{{ selection.week }} - {{ selection.weekday }} （{{
+        时间：{{ selection.week }} - {{ detailWeekDay(selection.weekday) }} （{{
           selection.sections
         }}）
       </view>
@@ -189,6 +189,11 @@
         selectWeek.value = originWeek;
       }
 
+      function detailWeekDay(weekDay: string) {
+        const charEnum = ['一', '二', '三', '四', '五', '六', '日'];
+        return `周${charEnum[parseInt(weekDay) - 1]}`;
+      }
+
       return {
         showPop,
         selection,
@@ -207,7 +212,8 @@
         isRefleshing,
         lessonsTableWeek,
         classClick,
-        backToOriginWeek
+        backToOriginWeek,
+        detailWeekDay
       };
     }
   };

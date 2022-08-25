@@ -8,6 +8,12 @@
 .school-card {
   text-align: center;
   height: 200Px;
+  background: linear-gradient(to right,
+      var(--wjh-color-yellow) 20%,
+      var(--wjh-color-orange) 20% 40%,
+      var(--wjh-color-green) 40% 60%,
+      var(--wjh-color-cyan) 60% 80%,
+      var(--wjh-color-blue) 80%);
 
   .school-card-background {
     position: absolute;
@@ -63,16 +69,70 @@
     }
   }
 
-  .col {
-    flex: 1;
-    text-align: center;
+  .wjh-card-header {
+    .col {
+      flex: 1;
+      text-align: center;
+    }
+
+    .col:first-child {
+      flex: 0 0 20%;
+    }
+
+    .col:last-child {
+      flex: 0 0 20%
+    }
   }
 
-  .col:first-child {
-    flex: 0 0 20%;
-  }
+}
 
-  .col:last-child {
-    flex: 0 0 20%
+.consume-item-card {
+  padding: 0;
+  box-shadow: none;
+
+  .content-wrapper {
+    display: flex;
+    gap: 1rem;
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .col:first-child {
+      min-width: 3.3rem;
+      font-size: 1.2rem;
+      font-weight: var(--wjh-font-weight-bold);
+      padding: 0 0.8rem;
+    }
+
+    .col:first-child::before {
+      position: absolute;
+      content: '';
+      height: 100%;
+      width: 1Px;
+      right: 0;
+      background-color: var(--wjh-color-week);
+    }
+
+    .col:last-child {
+      color: var(--wjh-color-week);
+      font-size: 0.8rem;
+      gap: 0.3rem;
+    }
+
+    .transactions {
+      text-align: center;
+    }
   }
+}
+
+.consume-item-positive {
+  background-color: var(--wjh-color-yellow-light);
+}
+
+.consume-item-negative {
+  background-color: var(--wjh-color-green-light);
 }

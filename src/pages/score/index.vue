@@ -186,7 +186,7 @@
         }）`;
       },
       relativeTermInfo() {
-        const charEnum = ['一', '二', '三', '四', '五', '六'];
+        const charEnum = ['一', '二', '三', '四', '五', '六', '日'];
         let char = charEnum[0];
         if (serviceStore.user.info?.studentID) {
           char =
