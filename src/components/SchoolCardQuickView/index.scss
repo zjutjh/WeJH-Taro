@@ -1,0 +1,9 @@
+@import "@/style/theme.scss";
+
+.quickcard-balance {
+  font-size: 2.5rem;
+  margin-top: 1rem;
+  font-weight: var(--wjh-font-weight-bold);
+  text-align: center;
+  color: var(--wjh-color-green);
+}

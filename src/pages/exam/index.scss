@@ -1,9 +1,14 @@
 @import '@/style/theme.scss';
 
+.background {
+  background-image: url("~@/assets/photos/background-blue.svg");
+}
+
 .exam-card {
 
   .wjh-collapse-panel-header {
     .lesson-name {
+      color: var(--wjh-color-font-text);
       font-weight: var(--wjh-font-weight-medium);
     }
 
@@ -27,6 +32,10 @@
     white-space: nowrap;
   }
 
+  .wjh-list-item-content-arrow {
+    color: var(--wjh-color-week);
+  }
+
   .wjh-collapse-panel-header-active {
     .lesson-name {
       transition: all 0.3s;
@@ -37,7 +46,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-green);
+  background-color: var(--wjh-color-blue);
   display: flex;
 
   image {
@@ -60,7 +69,7 @@
       border-radius: 50%;
 
       .extra-icon {
-        color: var(--wjh-color-green);
+        color: var(--wjh-color-blue);
         font-size: 1.5rem;
       }
     }
@@ -87,4 +96,13 @@
     flex: 0 0 20%;
     text-align: start;
   }
+
+  .term-selector {
+    background-color: var(--wjh-color-blue);
+  }
+
+  .reflesh-button {
+    background-color: var(--wjh-color-blue);
+  }
+
 }

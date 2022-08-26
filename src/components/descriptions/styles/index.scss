@@ -47,6 +47,10 @@
     display: flex;
     white-space: normal;
   }
+
+  .wjh-descriptions-item-label {
+    color: var(--wjh-color-text-secondary);
+  }
 }
 
 .wjh-descriptions-item:not(:first-child) {

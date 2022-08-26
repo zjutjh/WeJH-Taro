@@ -59,6 +59,10 @@
 .score-list-collapse {
   .wjh-collapse-panel-header {
     font-size: 0.875rem;
+
+    .wjh-list-item-content-arrow {
+      color: var(--wjh-color-week);
+    }
   }
 
   .score-list-collapse-item-title {
@@ -82,7 +86,7 @@
 
   .score-detail-list {
     font-size: 0.75rem;
-    color: var(--wjh-color-week);
+    color: var(--wjh-color-text);
     width: 100%;
   }
 

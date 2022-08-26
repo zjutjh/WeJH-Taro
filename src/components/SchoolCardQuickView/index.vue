@@ -19,6 +19,7 @@
   import dayjs from 'dayjs';
   import { defineComponent } from 'vue';
   import { serviceStore } from '@/store';
+  import './index.scss';
 
   export default defineComponent({
     components: { 'quick-view': QuickView },
@@ -47,11 +48,3 @@
     }
   });
 </script>
-<style>
-  .quickcard-balance {
-    font-size: 2.7rem;
-    margin-top: 1rem;
-    font-weight: bolder;
-    text-align: center;
-  }
-</style>

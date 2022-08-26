@@ -12,7 +12,6 @@
         @tap.stop="handleTapHelp"
       ></view>
     </view>
-    <view class="quick-view-split"></view>
     <slot></slot>
   </view>
 </template>

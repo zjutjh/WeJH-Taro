@@ -25,7 +25,12 @@
             <w-collapse-panel arrow>
               <template #header>
                 <view class="lesson-name">{{ item.lessonName }}</view>
-                <view style="font-size: 14px; color: var(--wjh-color-week)">
+                <view
+                  style="
+                    font-size: 14px;
+                    color: var(--wjh-color-text-secondary);
+                  "
+                >
                   <view
                     v-if="
                       timeInterval(item.examTime) < 0 ||

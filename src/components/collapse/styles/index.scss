@@ -8,6 +8,16 @@
     margin: 0 6Px;
   }
 
+  .wjh-collapse-panel-header-active {
+    .wjh-list-item-content-arrow {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .wjh-list-item-content-arrow {
+    transition: all 0.3s;
+  }
+
   .wjh-collapse-panel-content {
     max-height: 0;
     transition: max-height 0.3s;

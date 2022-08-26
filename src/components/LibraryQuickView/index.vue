@@ -16,7 +16,7 @@
       "
     >
       <view class="book-name"> {{ item.name }}</view>
-      <view>借阅日期：{{ item.time }}</view>
+      <view class="borrrow-date">借阅日期：{{ item.time }}</view>
     </card>
     <view class="more-detail" v-if="current?.length > 3">点击查看更多记录</view>
   </quick-view>

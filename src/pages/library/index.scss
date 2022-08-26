@@ -6,7 +6,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-green);
+  background-color: var(--wjh-color-cyan);
   display: flex;
   align-items: center;
 
@@ -68,6 +68,7 @@
 
 .book-card {
   .wjh-card-body {
+    position: relative;
 
     :not(:first-child) {
       font-size: 0.875rem;
@@ -76,15 +77,16 @@
   }
 
   .book-name {
+    color: var(--wjh-color-text-secondary);
     margin-bottom: 10Px;
     font-weight: var(--wjh-font-weight-medium);
     word-break: break-all;
   }
 
   .book-index {
-    position: relative;
-    top: -12Px;
-    float: right;
+    position: absolute;
+    bottom: 12Px;
+    right: 0;
     font-weight: var(--wjh-font-weight-medium);
   }
 
