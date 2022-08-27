@@ -114,6 +114,20 @@
       const isRefleshing = ref(false);
       let dateSel = ref(dayjs().format('YYYY-MM'));
 
+      CardService.updateCardBalance();
+      CardService.updateCardToday();
+      CardService.updateCardHistory({
+        year: parseInt(dateSel.value.split('-')[0]),
+        month: parseInt(dateSel.value.split('-')[1])
+      });
+      /*
+  /*       CardService.updateCardBalance();
+        CardService.updateCardToday();
+        CardService.updateCardHistory({
+            year: 2022,
+            month: 4
+        }); */
+
       let showPop = ref(false);
       let isSelectToday = ref(true);
 
@@ -162,17 +176,6 @@
       async function onDateChange(e) {
         dateSel.value = e.detail.value;
       }
-
-      CardService.updateCardBalance();
-      CardService.updateCardToday();
-      CardService.updateCardHistory({
-        year: parseInt(dateSel.value.split('-')[0]),
-        month: parseInt(dateSel.value.split('-')[1])
-        /*
-          year: 2022,
-          month: 4
-          */
-      });
 
       return {
         isRefleshing,

@@ -14,6 +14,11 @@
               <view class="prompt" v-show="studentid?.length === 0"
                 >请输入学号</view
               >
+              <view
+                class="prompt"
+                v-show="studentid?.length && invalidStudentId"
+                >学号格式错误</view
+              >
             </view>
             <view>
               <text>设置密码</text>
@@ -24,6 +29,9 @@
               />
               <view class="prompt" v-show="password?.length === 0"
                 >请输入密码</view
+              >
+              <view class="prompt" v-show="password?.length && invalidPassword"
+                >密码长度应在6～20位之间</view
               >
             </view>
             <view>
@@ -50,6 +58,9 @@
               />
               <view class="prompt" v-show="idcard?.length === 0"
                 >请输入本人身份证号</view
+              >
+              <view class="prompt" v-show="idcard?.length && invalidIdCard"
+                >身份证号格式错误</view
               >
             </view>
             <view>
@@ -83,7 +94,7 @@
             <w-steps :total="2" :current="step"></w-steps>
           </template>
         </card>
-        <card>
+        <card v-if="step === 1">
           <view class="activation-help"> {{ helpContent }}</view>
         </card>
       </view>
@@ -96,21 +107,12 @@
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WButton } from '@/components/button';
   import { WSteps } from '@/components/steps';
-  import { WModal } from '@/components/modal';
   import Taro from '@tarojs/taro';
   import { UserService } from '@/services';
   import './index.scss';
   import store from '@/store';
   import { helpText } from '@/constants/copywriting';
-  import { computed, defineComponent, ref } from 'vue';
-
-  defineComponent({
-    Card,
-    TitleBar,
-    WButton,
-    WSteps,
-    WModal
-  });
+  import { computed, ref } from 'vue';
 
   const studentid = ref<string | undefined>(undefined);
   const password = ref<string | undefined>(undefined);
@@ -118,13 +120,16 @@
   const idcard = ref<string | undefined>(undefined);
   const email = ref<string | undefined>(undefined);
   const step = ref(1);
+  const invalidStudentId = ref(false);
+  const invalidPassword = ref(false);
+  const invalidIdCard = ref(false);
 
   const helpContent = computed(() => {
     return helpText.activtion;
   });
 
   async function activeClick() {
-    if (!checkFrom()) return;
+    if (!checkForm()) return;
     Taro.showLoading({ title: '正在绑定通行证', mask: true });
 
     const res = await UserService.createUserApp({
@@ -139,6 +144,7 @@
       Taro.hideLoading();
       step.value++;
     }
+    resetForm();
   }
   async function nav2bind() {
     Taro.showLoading({
@@ -163,21 +169,51 @@
       title: '自动导航至绑定页面'
     });
   }
+  function checkStudentId() {
+    if (!studentid.value) return false;
+    return /^\d{12}$/.test(studentid.value);
+  }
+  function checkPassword() {
+    if (!password.value) return false;
+    return password.value.length >= 6;
+  }
+  function checkIdCard() {
+    if (!idcard.value) return false;
+    return /^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(
+      idcard.value
+    );
+  }
 
-  function checkFrom() {
+  function resetForm() {
+    if (!studentid.value) studentid.value = '';
+    else if (!checkStudentId()) invalidStudentId.value = true;
+    else invalidStudentId.value = false;
+
+    if (!password.value) password.value = '';
+    else if (!checkPassword()) invalidPassword.value = true;
+    else invalidPassword.value = false;
+
+    if (!comfirmPassword.value) comfirmPassword.value = '';
+
+    if (!idcard.value) idcard.value = '';
+    else if (!checkIdCard()) invalidIdCard.value = true;
+    else invalidIdCard.value = false;
+
+    if (!email.value) email.value = '';
+  }
+  function checkForm() {
     if (
       studentid.value &&
       password.value &&
       comfirmPassword.value === password.value &&
       idcard.value &&
-      email.value
+      email.value &&
+      checkStudentId() &&
+      checkPassword() &&
+      checkIdCard()
     )
       return true;
-    if (!studentid.value) studentid.value = '';
-    if (!password.value) password.value = '';
-    if (!comfirmPassword.value) comfirmPassword.value = '';
-    if (!idcard.value) idcard.value = '';
-    if (!email.value) email.value = '';
+    resetForm();
     return false;
   }
 

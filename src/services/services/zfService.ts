@@ -119,8 +119,7 @@ export default class ZFService {
       let isOddWeek = value.week.includes('单');
       let isEvenWeek = value.week.includes('双');
 
-      // let currentWeek = systemStore.generalInfo.week;
-      let currentWeek = 12;
+      let currentWeek = systemStore.generalInfo.week;
 
       if (isOddWeek && currentWeek % 2 === 0) return false;
       if (isEvenWeek && currentWeek % 2 === 1) return false;
@@ -131,7 +130,6 @@ export default class ZFService {
       if (currentWeek <= ed && currentWeek >= st)
         if (parseInt(value.weekday) === currentDay) return true;
     });
-
     return lessons;
   }
 

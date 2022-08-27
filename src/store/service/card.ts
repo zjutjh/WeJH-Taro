@@ -21,6 +21,7 @@ export const CardServiceStore = {
       today: undefined
     }
   }),
+
   mutations: {
     setCardBalance(state: CardServiceType, value: number) {
       state.balance = value;
@@ -30,11 +31,12 @@ export const CardServiceStore = {
       state: CardServiceType,
       value: { month: string; year: string; data: [] }
     ) {
-      state.history = value.data;
+      if (value !== null) state.history = value.data;
       state.updateTime.history = new Date();
     },
+
     setCardToday(state: CardServiceType, value: CardConsume[]) {
-      state.today = value;
+      if (value !== null) state.today = value;
       state.updateTime.today = new Date();
     },
     clearCardToday(state: CardServiceType) {
