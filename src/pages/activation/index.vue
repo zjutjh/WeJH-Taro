@@ -59,9 +59,6 @@
               <view class="prompt" v-show="idcard?.length === 0"
                 >请输入本人身份证号</view
               >
-              <view class="prompt" v-show="idcard?.length && invalidIdCard"
-                >身份证号格式错误</view
-              >
             </view>
             <view>
               <text>邮箱</text>
@@ -122,7 +119,6 @@
   const step = ref(1);
   const invalidStudentId = ref(false);
   const invalidPassword = ref(false);
-  const invalidIdCard = ref(false);
 
   const helpContent = computed(() => {
     return helpText.activtion;
@@ -177,12 +173,6 @@
     if (!password.value) return false;
     return password.value.length >= 6;
   }
-  function checkIdCard() {
-    if (!idcard.value) return false;
-    return /^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(
-      idcard.value
-    );
-  }
 
   function resetForm() {
     if (!studentid.value) studentid.value = '';
@@ -196,8 +186,6 @@
     if (!comfirmPassword.value) comfirmPassword.value = '';
 
     if (!idcard.value) idcard.value = '';
-    else if (!checkIdCard()) invalidIdCard.value = true;
-    else invalidIdCard.value = false;
 
     if (!email.value) email.value = '';
   }
@@ -209,8 +197,7 @@
       idcard.value &&
       email.value &&
       checkStudentId() &&
-      checkPassword() &&
-      checkIdCard()
+      checkPassword()
     )
       return true;
     resetForm();

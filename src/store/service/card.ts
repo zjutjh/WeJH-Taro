@@ -31,12 +31,13 @@ export const CardServiceStore = {
       state: CardServiceType,
       value: { month: string; year: string; data: [] }
     ) {
-      if (value !== null) state.history = value.data;
+      if (value.data !== null) state.history = value.data;
+      else state.history = [];
       state.updateTime.history = new Date();
     },
-
     setCardToday(state: CardServiceType, value: CardConsume[]) {
       if (value !== null) state.today = value;
+      else state.history = [];
       state.updateTime.today = new Date();
     },
     clearCardToday(state: CardServiceType) {
