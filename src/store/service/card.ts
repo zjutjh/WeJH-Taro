@@ -37,7 +37,7 @@ export const CardServiceStore = {
     },
     setCardToday(state: CardServiceType, value: CardConsume[]) {
       if (value !== null) state.today = value;
-      else state.history = [];
+      else state.today = [];
       state.updateTime.today = new Date();
     },
     clearCardToday(state: CardServiceType) {

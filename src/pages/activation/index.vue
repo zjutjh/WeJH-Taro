@@ -14,11 +14,6 @@
               <view class="prompt" v-show="studentid?.length === 0"
                 >请输入学号</view
               >
-              <view
-                class="prompt"
-                v-show="studentid?.length && invalidStudentId"
-                >学号格式错误</view
-              >
             </view>
             <view>
               <text>设置密码</text>
@@ -52,7 +47,7 @@
             <view>
               <text>身份证号</text>
               <input
-                type="idcard"
+                type="text"
                 placeholder="仅做验证学生身份用"
                 v-model="idcard"
               />
@@ -129,10 +124,10 @@
     Taro.showLoading({ title: '正在绑定通行证', mask: true });
 
     const res = await UserService.createUserApp({
-      username: studentid.value!,
-      studentID: studentid.value!,
+      username: studentid.value!.toUpperCase(),
+      studentID: studentid.value!.toUpperCase(),
       password: password.value!,
-      idCardNumber: idcard.value!,
+      idCardNumber: idcard.value!.toUpperCase(),
       email: email.value!
     });
 
@@ -165,10 +160,6 @@
       title: '自动导航至绑定页面'
     });
   }
-  function checkStudentId() {
-    if (!studentid.value) return false;
-    return /^\d{12}$/.test(studentid.value);
-  }
   function checkPassword() {
     if (!password.value) return false;
     return password.value.length >= 6;
@@ -176,8 +167,6 @@
 
   function resetForm() {
     if (!studentid.value) studentid.value = '';
-    else if (!checkStudentId()) invalidStudentId.value = true;
-    else invalidStudentId.value = false;
 
     if (!password.value) password.value = '';
     else if (!checkPassword()) invalidPassword.value = true;
@@ -196,7 +185,6 @@
       comfirmPassword.value === password.value &&
       idcard.value &&
       email.value &&
-      checkStudentId() &&
       checkPassword()
     )
       return true;

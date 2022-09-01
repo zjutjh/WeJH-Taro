@@ -24,7 +24,15 @@
           <w-collapse class="exam-collapse-item">
             <w-collapse-panel arrow>
               <template #header>
-                <view class="lesson-name">{{ item.lessonName }}</view>
+                <view
+                  class="lesson-name"
+                  :style="
+                    timeInterval(item.examTime) === 0
+                      ? 'color: var(--wjh-color-orange)'
+                      : undefined
+                  "
+                  >{{ item.lessonName }}</view
+                >
                 <view
                   style="
                     font-size: 14px;
@@ -48,9 +56,15 @@
                     "
                     >距离考试还有 {{ timeInterval(item.examTime) }} 天</view
                   >
-                  <view class="exam-place">{{
-                    `${item.examPlace} - 座位号：${item.seatNum}`
-                  }}</view>
+                  <view
+                    class="exam-place"
+                    :style="
+                      timeInterval(item.examTime) === 0
+                        ? 'color: var(--wjh-color-orange)'
+                        : undefined
+                    "
+                    >{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</view
+                  >
                 </view>
               </template>
               <w-descriptions class="exam-detail-list" size="small">
@@ -155,10 +169,6 @@
         await ZFService.updateExamInfo(selectTerm.value);
         isRefleshing.value = false;
       }
-
-      function calcDayLeft(dayString: string) {
-        return dayjs(dayString, 'YYYY-MM-DD(HH:mm)').fromNow();
-      }
       /*       function addToCalendar(item: Exam) {
         Taro.addPhoneCalendar({
           title: item.lessonName + '考试',
@@ -175,7 +185,7 @@
       }
       function timeInterval(timeString: string) {
         const tmp: ConfigType = timeString.split('(')[0];
-        return dayjs(tmp).diff(dayjs(), 'day');
+        return dayjs(tmp).diff(dayjs(dayjs().format('YYYY-MM-DD')), 'day');
       }
       function showHelp() {
         showModal.value = true;
@@ -194,7 +204,6 @@
         selectTerm,
         termChanged,
         reflesh,
-        calcDayLeft,
         getDetailedTime,
         timeInterval,
         showHelp

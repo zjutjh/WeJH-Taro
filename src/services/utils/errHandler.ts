@@ -101,6 +101,12 @@ export default async function errCodeHandler(code: number, showModal = true) {
           title: '密码长度请在6~20位之间'
         });
         break;
+      case ServerCode.activation.schooldIdError:
+        await Taro.showToast({
+          icon: 'none',
+          title: '学号格式错误'
+        });
+        break;
       case ServerCode.bind.schoolCardServerError:
         await Taro.showToast({
           icon: 'none',

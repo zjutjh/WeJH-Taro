@@ -71,9 +71,9 @@
       <view>班级：{{ selection.className }} </view>
       <view>教师：{{ selection.teacherName }} </view>
       <view>
-        时间：{{ selection.week }} - {{ detailWeekDay(selection.weekday) }} （{{
+        时间：{{ selection.week }}丨{{ detailWeekDay(selection.weekday) }} ({{
           selection.sections
-        }}）
+        }}) 丨 {{ detailTimeInterval }}
       </view>
       <view>学分：{{ selection.credits }} </view>
     </view>
@@ -95,6 +95,10 @@
   import { ZFService } from '@/services';
   import { isNewIPhone } from '@/utils/effects';
   import './index.scss';
+  import dayjs from 'dayjs';
+  import { dayScheduleStartTime } from '@/constants/dayScheduleStartTime';
+  const objectSupport = require('dayjs/plugin/objectSupport');
+  dayjs.extend(objectSupport);
 
   export default {
     components: {
@@ -160,6 +164,24 @@
         await ZFService.updateLessonTable(selectTerm.value);
         isRefleshing.value = false;
       }
+      const detailTimeInterval = computed(() => {
+        const startIndex = parseInt(selection?.value!.sections.split('-')[0]);
+        const endIndex = parseInt(selection?.value!.sections.split('-')[1]);
+
+        const startTime = dayjs({
+          minutes:
+            dayScheduleStartTime[parseInt(startIndex - 1)].hour * 60 +
+            dayScheduleStartTime[parseInt(startIndex - 1)].min
+        }).format('HH: mm');
+        const endTime = dayjs({
+          minutes:
+            dayScheduleStartTime[parseInt(endIndex - 1)].hour * 60 +
+            dayScheduleStartTime[parseInt(endIndex - 1)].min +
+            45
+        }).format('HH: mm');
+
+        return `${startTime}-${endTime}`;
+      });
 
       async function termChanged(e) {
         isRefleshing.value = true;
@@ -213,7 +235,8 @@
         lessonsTableWeek,
         classClick,
         backToOriginWeek,
-        detailWeekDay
+        detailWeekDay,
+        detailTimeInterval
       };
     }
   };

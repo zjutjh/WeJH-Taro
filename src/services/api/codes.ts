@@ -28,6 +28,7 @@ export const ServerCode = {
   activation: {
     schoolIdOrIdNotExistNotMatch: 200510,
     passwordLenghtError: 200511,
-    passportExisted: 200512
+    passportExisted: 200512,
+    schooldIdError: 200513
   }
 };
