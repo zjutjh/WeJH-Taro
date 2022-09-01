@@ -1,6 +1,6 @@
 <template>
   <quick-view
-    @tap="nev2Card"
+    @tap="nav2Card"
     title="校园卡"
     icon-name="schoolcard"
     help
@@ -39,7 +39,7 @@
       }
     },
     methods: {
-      nev2Card() {
+      nav2Card() {
         Taro.navigateTo({ url: '/pages/schoolcard/index' });
       },
       handleTapHelp() {

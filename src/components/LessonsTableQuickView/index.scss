@@ -10,24 +10,44 @@
     padding: 0.5rem 0;
   }
 
+
   .lesson-item {
     border-radius: 0.5rem;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     text-align: left;
-    height: 4rem;
+    gap: 4Px;
 
-    .bold {
-      font-weight: bold;
+    .important-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4Px;
     }
 
-    .small {
-      font-size: 0.75rem;
-    }
-
-    .taking {
+    .lesson-place {
       color: var(--wjh-color-cyan);
+      font-weight: var(--wjh-font-weight-bold);
+      font-size: 1.1rem;
+    }
+
+    .taking-lesson {
+      color: var(--wjh-color-cyan);
+      font-size: 0.8rem;
+    }
+
+    .before-lesson {
+      color: var(--wjh-color-text-secondary);
+      font-size: 0.8rem;
+    }
+
+    .lesson-name {
+      font-size: 0.9rem;
+    }
+
+    .teacher {
+      font-size: 0.8rem;
     }
 
     .week {
@@ -35,10 +55,6 @@
     }
 
     .iconfont {
-      font-size: 0.875rem;
-    }
-
-    .name {
       font-size: 0.875rem;
     }
 

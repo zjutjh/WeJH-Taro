@@ -73,7 +73,7 @@
       <view>
         时间：{{ selection.week }}丨{{ detailWeekDay(selection.weekday) }} ({{
           selection.sections
-        }}) 丨 {{ detailTimeInterval }}
+        }})丨{{ detailTimeInterval }}
       </view>
       <view>学分：{{ selection.credits }} </view>
     </view>
@@ -95,10 +95,8 @@
   import { ZFService } from '@/services';
   import { isNewIPhone } from '@/utils/effects';
   import './index.scss';
-  import dayjs from 'dayjs';
   import { dayScheduleStartTime } from '@/constants/dayScheduleStartTime';
-  const objectSupport = require('dayjs/plugin/objectSupport');
-  dayjs.extend(objectSupport);
+  import { useTimeInstance } from '@/utils/hooks';
 
   export default {
     components: {
@@ -167,18 +165,14 @@
       const detailTimeInterval = computed(() => {
         const startIndex = parseInt(selection?.value!.sections.split('-')[0]);
         const endIndex = parseInt(selection?.value!.sections.split('-')[1]);
-
-        const startTime = dayjs({
-          minutes:
-            dayScheduleStartTime[parseInt(startIndex - 1)].hour * 60 +
-            dayScheduleStartTime[parseInt(startIndex - 1)].min
-        }).format('HH: mm');
-        const endTime = dayjs({
-          minutes:
-            dayScheduleStartTime[parseInt(endIndex - 1)].hour * 60 +
-            dayScheduleStartTime[parseInt(endIndex - 1)].min +
-            45
-        }).format('HH: mm');
+        const startTime = useTimeInstance(
+          dayScheduleStartTime[startIndex - 1].hour,
+          dayScheduleStartTime[startIndex - 1].min
+        ).format('HH:mm');
+        const endTime = useTimeInstance(
+          dayScheduleStartTime[endIndex - 1].hour,
+          dayScheduleStartTime[endIndex - 1].min + 45
+        ).format('HH:mm');
 
         return `${startTime}-${endTime}`;
       });

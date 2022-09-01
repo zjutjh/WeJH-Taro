@@ -9,6 +9,8 @@ export const SystemStore = {
     runtime: RuntimeStore
   }, */
   state: () => ({
+    loading: false,
+    getSystemInfo: {},
     runtime: {}
   }),
   mutations: {

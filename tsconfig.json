@@ -19,7 +19,7 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["./src/components/*"],
-      "@/utils/*": ["./src/utils/*"],
+      "@/utils/*": ["src/hooks/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/types/*": ["./src/types/*"],
       "@/constants/*": ["./src/constants/*"],

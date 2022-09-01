@@ -41,21 +41,25 @@
                 >
                   <view
                     v-if="
-                      timeInterval(item.examTime) < 0 ||
-                      timeInterval(item.examTime) > 14
+                      timeInterval(item.examTime) >= 0 &&
+                      timeInterval(item.examTime) <= 14
                     "
-                    class="exam-time"
-                    >{{ item.examTime }}
-                  </view>
-                  <view
-                    v-else
                     :style="
                       timeInterval(item.examTime) === 0
                         ? 'color: var(--wjh-color-orange)'
                         : undefined
                     "
-                    >距离考试还有 {{ timeInterval(item.examTime) }} 天</view
-                  >
+                    >距离考试还有 {{ timeInterval(item.examTime) }} 天
+                  </view>
+                  <view
+                    class="exam-time"
+                    :style="
+                      timeInterval(item.examTime) === 0
+                        ? 'color: var(--wjh-color-orange)'
+                        : undefined
+                    "
+                    >{{ item.examTime }}
+                  </view>
                   <view
                     class="exam-place"
                     :style="
@@ -129,7 +133,6 @@
   import { ZFService } from '@/services';
   import dayjs, { ConfigType } from 'dayjs';
   import { helpText } from '@/constants/copywriting';
-  import Taro from '@tarojs/taro';
   import './index.scss';
 
   export default defineComponent({

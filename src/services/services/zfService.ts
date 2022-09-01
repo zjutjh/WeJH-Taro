@@ -120,11 +120,11 @@ export default class ZFService {
       let isEvenWeek = value.week.includes('双');
 
       let currentWeek = systemStore.generalInfo.week;
+      let currentDay = new Date().getDay();
 
       if (isOddWeek && currentWeek % 2 === 0) return false;
       if (isEvenWeek && currentWeek % 2 === 1) return false;
 
-      let currentDay = new Date().getDay();
       if (currentDay == 0) currentDay = 7;
 
       if (currentWeek <= ed && currentWeek >= st)

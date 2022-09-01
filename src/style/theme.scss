@@ -12,11 +12,13 @@
 
 :host {
   --wjh-color-primary: var(--wjh-color-green);
-  --wjh-color-green: #4dd4b5;
-  --wjh-color-blue: #6cc7f3;
-  --wjh-color-cyan: #22bdbd;
-  --wjh-color-orange: #febc4f;
-  --wjh-color-yellow: #ffcf4d;
+  --wjh-color-green: #53d1b6;
+  --wjh-color-blue: #81c6e7;
+  --wjh-color-cyan: #51bbbb;
+  --wjh-color-orange: #f0ad3e;
+  --wjh-color-yellow: #f0c03e;
+  --wjh-color-red: #eb8888;
+  --wjh-color-purple: #8191cf;
   --wjh-color-gray: #888888;
   --wjh-color-white: #fdfdfd;
   --wjh-color-green-light: #bdf4e8;
@@ -36,7 +38,7 @@
 }
 
 :host {
-  --wjh-font-weight-bold: 900;
-  --wjh-font-weight-medium: 800;
-  --wjh-font-weight-regular: 500;
+  --wjh-font-weight-bold: 700;
+  --wjh-font-weight-medium: 500;
+  --wjh-font-weight-regular: 400;
 }

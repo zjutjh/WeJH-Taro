@@ -37,14 +37,25 @@
   text-align: center;
   box-sizing: border-box;
 
+  .row {
+    display: flex;
+  }
+
+  .row:first-child {
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 0 0 50%;
+  }
+
   .title {
-    line-height: 100%;
+    line-height: 1rem;
     font-size: 0.75rem;
     display: block;
     font-weight: bolder;
   }
 
   .item-content {
+    height: 100%;
     line-height: 125%;
     font-size: 0.6rem;
     width: 100%;
@@ -108,13 +119,9 @@
   padding: 0.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   color: white;
   border-radius: 4Px;
 
-  .title {
-    margin-bottom: 0.1rem;
-  }
 }
 
 .now-index {

@@ -38,15 +38,21 @@
               :class="{ conflict: cl.mark }"
               @tap="classCardClick(cl)"
             >
-              <view class="title">{{
-                splitNameAndRoom(cl.lessonPlace)[0]
-              }}</view>
-              <view class="title">{{
-                splitNameAndRoom(cl.lessonPlace)[1]
-              }}</view>
-              <text class="item-content" :style="'-webkit-line-clamp: 2'">{{
-                cl.lessonName
-              }}</text>
+              <view class="row">
+                <view class="title">{{
+                  splitNameAndRoom(cl.lessonPlace)[0]
+                }}</view>
+                <view class="title">{{
+                  splitNameAndRoom(cl.lessonPlace)[1]
+                }}</view>
+              </view>
+              <view class="row">
+                <text
+                  class="item-content"
+                  :style="`-webkit-line-clamp: ${2}`"
+                  >{{ cl.lessonName }}</text
+                >
+              </view>
             </view>
           </view>
         </view>
@@ -144,7 +150,15 @@
   }
   function getDynamicColor(classID = '1') {
     const index = parseInt(classID.slice(4, 8) + classID.slice(12, 16), 16);
-    const colorSet = ['green', 'cyan', 'blue', 'yellow', 'orange'];
+    const colorSet = [
+      'green',
+      'cyan',
+      'blue',
+      'yellow',
+      'orange',
+      'red',
+      'purple'
+    ];
     return {
       backgroundColor: `var(--wjh-color-${colorSet[index % colorSet.length]})`
     };
@@ -159,4 +173,28 @@
     const left = `calc(100% / 7 * ${weekday - 1})`;
     return { top, left, height, fontSize };
   }
+  /*   function getRenderLineNumber(index: number) {
+    let height;
+    let width;
+    Taro.nextTick(() => {
+      Taro.createSelectorQuery()
+        .selectAll('.class-card')
+        .fields({ size: true })
+        .exec((res) => {
+          height = res[0][index].height;
+          width = res[0][index].width;
+          console.log(height);
+        });
+    });
+    console.log(height);
+    return Math.floor(height / (width / 12));
+  }
+  () => {
+    Taro.createSelectorQuery()
+      .selectAll('.class-card')
+      .fields({ size: true })
+      .exec((res) => {
+        console.log(res);
+      });
+  }; */
 </script>
