@@ -105,9 +105,9 @@
       },
       sectionsTimeString(sections: string) {
         let arr = sections.split('-');
-        return `${this.getLessonTimeInstance(arr[0]).format(
+        return `${this.getLessonTimeInstance(parseInt(arr[0])).format(
           'HH:mm'
-        )}-${this.getLessonTimeInstance(arr[1]).format('HH:mm')}`;
+        )}-${this.getLessonTimeInstance(parseInt(arr[1]), 45).format('HH:mm')}`;
       },
       getLessonTimeInstance(jc: number, offset: number = 0) {
         return useTimeInstance(

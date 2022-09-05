@@ -95,8 +95,8 @@
   </view>
 </template>
 
-<script lang="ts">
-  import { computed, defineComponent, ref } from 'vue';
+<script setup lang="ts">
+  import { computed, ref } from 'vue';
   import Card from '@/components/Card/index.vue';
   import { WButton } from '@/components/button';
   import TitleBar from '@/components/TitleBar/index.vue';
@@ -108,19 +108,16 @@
 
   import './index.scss';
 
-  export default defineComponent({
-    components: { Card, WButton, TitleBar, RefleshButton },
-    setup() {
-      const isRefleshing = ref(false);
-      let dateSel = ref(dayjs().format('YYYY-MM'));
+  const isRefleshing = ref(false);
+  let dateSel = ref(dayjs().format('YYYY-MM'));
 
-      CardService.updateCardBalance();
-      CardService.updateCardToday();
-      CardService.updateCardHistory({
-        year: parseInt(dateSel.value.split('-')[0]),
-        month: parseInt(dateSel.value.split('-')[1])
-      });
-      /*
+  CardService.updateCardBalance();
+  CardService.updateCardToday();
+  CardService.updateCardHistory({
+    year: parseInt(dateSel.value.split('-')[0]),
+    month: parseInt(dateSel.value.split('-')[1])
+  });
+  /*
   /*       CardService.updateCardBalance();
         CardService.updateCardToday();
         CardService.updateCardHistory({
@@ -128,70 +125,50 @@
             month: 4
         }); */
 
-      let showPop = ref(false);
-      let isSelectToday = ref(true);
+  let showPop = ref(false);
+  let isSelectToday = ref(true);
 
-      let balance = computed(() => serviceStore.card.balance || 0);
-      let today = computed(() => [...serviceStore.card.today].reverse() || []);
-      let history = computed(
-        () => [...serviceStore.card.history].reverse() || []
-      );
+  let balance = computed(() => serviceStore.card.balance || 0);
+  let today = computed(() => [...serviceStore.card.today].reverse() || []);
+  let history = computed(() => [...serviceStore.card.history].reverse() || []);
 
-      const totalConsume = ref(0);
-      const consumeList = computed(() => {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        totalConsume.value = 0;
-        let tmp: CardConsume[];
-        if (isSelectToday.value) tmp = today.value;
-        else tmp = history.value;
-        return (
-          tmp.filter((item) => {
-            if (parseFloat(item.transactions) < 0)
-              totalConsume.value += Math.abs(parseFloat(item.transactions));
-            return parseFloat(item.transactions) !== 0;
-          }) || []
-        );
-      });
-
-      async function updateData() {
-        if (isRefleshing.value) return;
-        isRefleshing.value = true;
-        if (isSelectToday.value) await CardService.updateCardToday();
-        else
-          await CardService.updateCardHistory({
-            year: parseInt(dateSel.value.split('-')[0]),
-            month: parseInt(dateSel.value.split('-')[1])
-          });
-        isRefleshing.value = false;
-      }
-
-      async function historyClick() {
-        isSelectToday.value = false;
-      }
-
-      function todayClick() {
-        isSelectToday.value = true;
-      }
-
-      async function onDateChange(e) {
-        dateSel.value = e.detail.value;
-      }
-
-      return {
-        isRefleshing,
-        dateSel,
-        totalConsume,
-        onDateChange,
-        isSelectToday,
-        historyClick,
-        todayClick,
-        consumeList,
-        balance,
-        today,
-        history,
-        updateData,
-        showPop
-      };
-    }
+  const totalConsume = ref(0);
+  const consumeList = computed(() => {
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    totalConsume.value = 0;
+    let tmp: CardConsume[];
+    if (isSelectToday.value) tmp = today.value;
+    else tmp = history.value;
+    return (
+      tmp.filter((item) => {
+        if (parseFloat(item.transactions) < 0)
+          totalConsume.value += Math.abs(parseFloat(item.transactions));
+        return parseFloat(item.transactions) !== 0;
+      }) || []
+    );
   });
+
+  async function updateData() {
+    if (isRefleshing.value) return;
+    isRefleshing.value = true;
+    if (isSelectToday.value) await CardService.updateCardToday();
+    else
+      await CardService.updateCardHistory({
+        year: parseInt(dateSel.value.split('-')[0]),
+        month: parseInt(dateSel.value.split('-')[1])
+      });
+    isRefleshing.value = false;
+  }
+
+  async function historyClick() {
+    isSelectToday.value = false;
+  }
+
+  function todayClick() {
+    isSelectToday.value = true;
+  }
+
+  async function onDateChange(e) {
+    dateSel.value = e.detail.value;
+  }
 </script>
