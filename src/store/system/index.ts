@@ -1,6 +1,14 @@
 export interface SystemStoreType {
   loading: boolean;
-  generalInfo: any;
+  generalInfo: {
+    is_begin: boolean;
+    schoolBusUrl: string;
+    term: '上' | '下' | '短';
+    termStartDate: string;
+    termYear: string;
+    time: string;
+    week: number;
+  };
   runtime: any;
 }
 

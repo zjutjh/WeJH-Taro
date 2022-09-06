@@ -34,7 +34,7 @@
           >
             <view
               class="class-card"
-              :style="getDynamicColor(cl.classID)"
+              :style="classCardColor(cl.color)"
               :class="{ conflict: cl.mark }"
               @tap="classCardClick(cl)"
             >
@@ -65,16 +65,34 @@
 <script setup lang="ts">
   import { dayScheduleStartTime } from '@/constants/index';
   import { Lesson } from '@/types/Lesson';
-  import { computed, toRefs } from 'vue';
+  import { computed, toRefs, watch } from 'vue';
   import './index.scss';
 
   const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
   const { lessons } = toRefs(props);
   const emit = defineEmits(['classClick']);
+  const surroundedLessons: {
+    top: Lesson[];
+    bottom: Lesson[];
+    left: Lesson[];
+    right: Lesson[];
+  } = {
+    top: [],
+    bottom: [],
+    left: [],
+    right: []
+  };
+  const colorSet = [
+    'green',
+    'cyan',
+    'blue',
+    'yellow',
+    'orange',
+    'red',
+    'purple'
+  ];
+  const weekdayEnum = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
-  const weekdayEnum = computed(() => {
-    return ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-  });
   const lessonsTable = computed(() => {
     return markConflictLesson(lessons?.value);
   });
@@ -138,6 +156,11 @@
       }
     return lessons;
   }
+
+  function classCardColor(color: string = 'primary') {
+    return { backgroundColor: `var(--wjh-color-${color})` };
+  }
+
   function splitNameAndRoom(str: string) {
     let index = 0;
     for (; index < str.length; index++) {
@@ -148,21 +171,61 @@
   function classCardClick(theClass: Lesson) {
     emit('classClick', theClass);
   }
-  function getDynamicColor(classID = '1') {
-    const index = parseInt(classID.slice(4, 8) + classID.slice(12, 16), 16);
-    const colorSet = [
-      'green',
-      'cyan',
-      'blue',
-      'yellow',
-      'orange',
-      'red',
-      'purple'
-    ];
-    return {
-      backgroundColor: `var(--wjh-color-${colorSet[index % colorSet.length]})`
-    };
+
+  function initialLessonsColor() {
+    let colorSetTemp = new Set(colorSet);
+    for (
+      let currentIndex: number = 0;
+      currentIndex < lessons.value.length;
+      currentIndex++
+    ) {
+      if (lessons.value[currentIndex].color) continue;
+
+      if (!colorSetTemp.size) colorSetTemp = new Set(colorSet);
+      const { classID, weekday, sections } = lessons.value[currentIndex];
+
+      // calculate top position
+      surroundedLessons.top = [];
+      for (let i = currentIndex - 1; i >= 0; i--) {
+        if (lessons.value[i].weekday === weekday) {
+          if (surroundedLessons.top.length === 0) {
+            surroundedLessons.top.push(lessons.value[i]);
+          } else if (
+            surroundedLessons.top.length !== 0 &&
+            lessons.value[i].sections ===
+              surroundedLessons.top.slice(-1)[0].sections
+          )
+            surroundedLessons.top.push(lessons.value[i]);
+          else break;
+        } else break;
+      }
+
+      const currentStart = parseInt(sections.split('-')[0]);
+      const currentEnd = parseInt(sections.split('-')[1]);
+
+      // calculate left position
+      if (parseInt(weekday) > 1) {
+        surroundedLessons.left =
+          lessons.value.filter(
+            (item) =>
+              parseInt(item.weekday) === parseInt(weekday) - 1 &&
+              ((currentStart <= parseInt(item.sections.split('-')[0]) &&
+                currentEnd >= parseInt(item.sections.split('-')[1])) ||
+                (currentStart >= parseInt(item.sections.split('-')[0]) &&
+                  currentEnd <= parseInt(item.sections.split('-')[1])))
+          ) || [];
+      }
+
+      colorSetTemp.delete(surroundedLessons.top[0]?.color || '');
+      colorSetTemp.delete(surroundedLessons.left[0]?.color || '');
+
+      lessons.value.forEach((item) => {
+        if (item.classID == classID)
+          item.color = colorSetTemp.values().next().value;
+      });
+    }
   }
+
   function getPosition(theClass) {
     const begin = parseInt(theClass.sections.split('-')[0]);
     const end = parseInt(theClass.sections.split('-')[1]);
@@ -173,6 +236,11 @@
     const left = `calc(100% / 7 * ${weekday - 1})`;
     return { top, left, height, fontSize };
   }
+
+  watch(lessons, () => {
+    initialLessonsColor();
+  });
+
   /*   function getRenderLineNumber(index: number) {
     let height;
     let width;
