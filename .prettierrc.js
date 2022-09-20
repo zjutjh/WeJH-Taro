@@ -8,5 +8,5 @@ module.exports = {
   bracketSpacing: true,
   vueIndentScriptAndStyle: true,
   printWidth: 80,
-  endOfLine: 'lf',
+  endOfLine: 'lf'
 };

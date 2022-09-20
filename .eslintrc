@@ -1,15 +1,15 @@
 {
-	"extends": ["taro/vue3"],
-	"settings": {
-		"exclude": ["/dist", "/node_modules", "/coverage"]
-	},
-	"parserOptions": {
-		"ecmaVersion": 6,
-		"sourceType": "module"
-	},
-	"rules": {
-		"semi": "error",
-		"space-before-blocks": "error",
-		"no-trailing-spaces": "error"
-	}
+  "extends": ["taro/vue3"],
+  "settings": {
+    "exclude": ["/dist", "/node_modules", "/coverage"]
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    "semi": "error",
+    "space-before-blocks": "error",
+    "no-trailing-spaces": "error"
+  }
 }

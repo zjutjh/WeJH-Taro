@@ -1,6 +1,5 @@
-
 export const RuntimeStore = {
-	state: () => ({
-		process: process,
-	})
+  state: () => ({
+    process: process
+  })
 };
