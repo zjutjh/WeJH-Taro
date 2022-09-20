@@ -1,3 +1,4 @@
 import { dayScheduleStartTime } from './dayScheduleStartTime';
+import { updateInfo } from './updateInfo';
 
-export { dayScheduleStartTime };
+export { dayScheduleStartTime, updateInfo };

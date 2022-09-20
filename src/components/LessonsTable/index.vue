@@ -200,6 +200,22 @@
         } else break;
       }
 
+      // calculate bottom position
+      surroundedLessons.bottom = [];
+      for (let i = currentIndex + 1; i < lessons.value.length; i++) {
+        if (lessons.value[i].weekday === weekday) {
+          if (surroundedLessons.bottom.length === 0) {
+            surroundedLessons.bottom.push(lessons.value[i]);
+          } else if (
+            surroundedLessons.bottom.length !== 0 &&
+            lessons.value[i].sections ===
+              surroundedLessons.bottom.slice(-1)[0].sections
+          )
+            surroundedLessons.bottom.push(lessons.value[i]);
+          else break;
+        } else break;
+      }
+
       const currentStart = parseInt(sections.split('-')[0]);
       const currentEnd = parseInt(sections.split('-')[1]);
 
@@ -216,8 +232,23 @@
           ) || [];
       }
 
+      // calculate right position
+      if (parseInt(weekday) < 7) {
+        surroundedLessons.right =
+          lessons.value.filter(
+            (item) =>
+              parseInt(item.weekday) === parseInt(weekday) - 1 &&
+              ((currentStart <= parseInt(item.sections.split('-')[0]) &&
+                currentEnd >= parseInt(item.sections.split('-')[1])) ||
+                (currentStart >= parseInt(item.sections.split('-')[0]) &&
+                  currentEnd <= parseInt(item.sections.split('-')[1])))
+          ) || [];
+      }
+
       colorSetTemp.delete(surroundedLessons.top[0]?.color || '');
+      colorSetTemp.delete(surroundedLessons.bottom[0]?.color || '');
       colorSetTemp.delete(surroundedLessons.left[0]?.color || '');
+      colorSetTemp.delete(surroundedLessons.right[0]?.color || '');
 
       lessons.value.forEach((item) => {
         if (item.classID == classID)
@@ -237,9 +268,13 @@
     return { top, left, height, fontSize };
   }
 
-  watch(lessons, () => {
-    initialLessonsColor();
-  });
+  watch(
+    lessons,
+    () => {
+      initialLessonsColor();
+    },
+    { immediate: true }
+  );
 
   /*   function getRenderLineNumber(index: number) {
     let height;

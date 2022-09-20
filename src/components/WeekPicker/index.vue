@@ -32,12 +32,11 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, ref, watch } from 'vue';
+  import { ref } from 'vue';
   import { WButton } from '@/components/button';
   import './index.scss';
 
   const emit = defineEmits(['update:week']);
-
   const props = defineProps<{ week: number }>();
 
   const selectorValue = ref(props.week - 1 < 0 ? 0 : props.week - 1);

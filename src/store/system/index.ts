@@ -10,6 +10,7 @@ export interface SystemStoreType {
     week: number;
   };
   runtime: any;
+  version: string;
 }
 
 export const SystemStore = {
@@ -19,7 +20,8 @@ export const SystemStore = {
   state: () => ({
     loading: false,
     getSystemInfo: {},
-    runtime: {}
+    runtime: {},
+    version: ''
   }),
   mutations: {
     startLoading(state: SystemStoreType) {
@@ -28,9 +30,14 @@ export const SystemStore = {
     stopLoading(state: SystemStoreType) {
       state.loading = false;
     },
-
-    setGeneralInfo(state: SystemStoreType, value) {
+    setGeneralInfo(
+      state: SystemStoreType,
+      value: SystemStoreType['generalInfo']
+    ) {
       state.generalInfo = value;
+    },
+    setVersion(state: SystemStoreType, value: string) {
+      state.version = value;
     }
   },
   actions: {

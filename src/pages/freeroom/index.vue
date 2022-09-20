@@ -33,8 +33,8 @@
   </view>
 </template>
 
-<script lang="ts">
-  import { computed, defineComponent, ref } from 'vue';
+<script setup lang="ts">
+  import { computed, ref } from 'vue';
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
@@ -42,46 +42,38 @@
   import RoomPicker from '@/components/RoomPicker/index.vue';
   import { ZFService } from '@/services';
   import { freeroomMap } from '@/constants/freeroomMap';
-
-  import './index.scss';
   import { Room } from '@/types/Room';
-  export default defineComponent({
-    components: { TitleBar, Card, RoomPicker, BottomPanel },
-    setup() {
-      function roomChanged(e) {
-        ZFService.getFreeRoomInfo(e);
-      }
-      const room = computed(() => {
-        // comment: 数组，每个元素存放一幢教学楼的空教室
-        const buildingList: {
-          buildName: string;
-          roomList: Room[];
-        }[] = [];
-        const tmp: {
-          [key: string]: Room[];
-        } = {};
+  import './index.scss';
 
-        serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
-          if (!tmp[freeroomMap[item.buildName[0]]])
-            tmp[freeroomMap[item.buildName[0]]] = [];
-          tmp[freeroomMap[item.buildName[0]]].push(item);
-        });
-        Object.keys(tmp).forEach((key) => {
-          buildingList.push({
-            buildName: key,
-            roomList: tmp[key].sort((a, b) => {
-              return a.roomName > b.roomName ? 1 : -1;
-            })
-          });
-        });
-        return buildingList;
+  function roomChanged(e) {
+    console.log(e.weekday);
+    ZFService.getFreeRoomInfo(e);
+  }
+
+  const room = computed(() => {
+    // comment: 数组，每个元素存放一幢教学楼的空教室
+    const buildingList: {
+      buildName: string;
+      roomList: Room[];
+    }[] = [];
+    const tmp: {
+      [key: string]: Room[];
+    } = {};
+
+    serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
+      if (!tmp[freeroomMap[item.buildName[0]]])
+        tmp[freeroomMap[item.buildName[0]]] = [];
+      tmp[freeroomMap[item.buildName[0]]].push(item);
+    });
+    Object.keys(tmp).forEach((key) => {
+      buildingList.push({
+        buildName: key,
+        roomList: tmp[key].sort((a, b) => {
+          return a.roomName > b.roomName ? 1 : -1;
+        })
       });
-      const selectWeek = ref(systemStore.generalInfo.week);
-      return {
-        room,
-        roomChanged,
-        selectWeek
-      };
-    }
+    });
+    return buildingList;
   });
+  const selectWeek = ref(systemStore.generalInfo.week);
 </script>
