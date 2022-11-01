@@ -29,7 +29,9 @@
   import { serviceStore } from '@/store';
   import './index.scss';
   const borrowUpdateTimeString = computed(() => {
-    return dayjs(serviceStore.library.updateTime.current).fromNow();
+    const updateTime = serviceStore.library.updateTime?.current;
+    if (updateTime) return dayjs(updateTime).fromNow();
+    else return '更新失败';
   });
   const current = computed(() => {
     return serviceStore.library.current;

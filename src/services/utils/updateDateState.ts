@@ -36,11 +36,9 @@ async function updateDateStateWithSession(
 ) {
   store.commit('startLoading');
   let res = await postWithSession(api, data, autoLogin);
-  if (res?.statusCode === 200 && res.data) {
+  if (res?.statusCode === 200 && res.data && res.data.code === ServerCode.OK) {
     // comment: 为啥默认给绑定值true
-    if (res.data.code === ServerCode.OK)
-      store.commit(commitName, commitData(res));
-    else errCodeHandler(res.data.code, showModal);
+    store.commit(commitName, commitData(res));
   } else errCodeHandler(res?.data.code, showModal);
   store.commit('stopLoading');
   return res?.data;

@@ -7,7 +7,7 @@
     help
     @handle-tap-help="handleTapHelp"
   >
-    <text class="sub-text">今日课表 ({{ balanceUpdateTimeString }})</text>
+    <text class="sub-text">今日课表 ({{ updateTimeString }})</text>
     <card
       v-for="(item, index) in todayLessonTable"
       :key="item.lessonName"
@@ -59,7 +59,7 @@
   import { ZFService } from '@/services';
   import dayjs from 'dayjs';
   import { defineComponent } from 'vue';
-  import { serviceStore } from '@/store';
+  import { serviceStore, systemStore } from '@/store';
   import './index.scss';
   import { Lesson } from '@/types/Lesson';
   import { dayScheduleStartTime } from '@/constants/dayScheduleStartTime';
@@ -76,11 +76,23 @@
       todayLessonTable() {
         return this.getTodayLessonTable();
       },
-      balanceUpdateTimeString() {
-        return dayjs(this.updateTime.balance).fromNow();
+      updateTimeString() {
+        if (!this.updateTime) return '更新失败';
+        return dayjs(this.updateTime).fromNow();
       },
       updateTime() {
-        return serviceStore.card.updateTime;
+        let updateTime: Date | undefined = undefined;
+        try {
+          updateTime =
+            serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear][
+              systemStore.generalInfo.term
+            ]?.updateTime;
+          if (updateTime) return updateTime;
+          else return undefined;
+        } catch (e) {
+          console.log(e);
+          return undefined;
+        }
       }
     },
     watch: {

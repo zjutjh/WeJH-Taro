@@ -10,7 +10,6 @@
     <view class="flex-column" v-if="isActive">
       <lesson-table-quick-view
         v-if="isBindZf"
-        :hide="pageHide"
         @show-help="showHelp"
       ></lesson-table-quick-view>
       <school-card-quick-view
@@ -61,7 +60,6 @@
       Alarm
     },
     setup() {
-      const pageHide = ref(false);
       const isShowHelp = ref(false);
       const helpContent = ref<string | undefined>(undefined);
 
@@ -101,7 +99,6 @@
       }
 
       return {
-        pageHide,
         isShowHelp,
         helpContent,
         isActive,

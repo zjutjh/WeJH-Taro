@@ -27,17 +27,18 @@
     async mounted() {
       await CardService.updateCardBalance();
     },
+
     computed: {
       balanceUpdateTimeString() {
-        return dayjs(this.updateTime.balance).fromNow();
-      },
-      updateTime() {
-        return serviceStore.card.updateTime;
+        const updateTime = serviceStore.card.updateTime;
+        if (updateTime?.balance) return dayjs(updateTime.balance).fromNow();
+        else return '更新失败';
       },
       balance() {
         return serviceStore.card.balance;
       }
     },
+
     methods: {
       nav2Card() {
         Taro.navigateTo({ url: '/pages/schoolcard/index' });
