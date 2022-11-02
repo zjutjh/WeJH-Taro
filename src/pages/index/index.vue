@@ -54,7 +54,7 @@
   });
 
   const newVersion = Taro.getAccountInfoSync().miniProgram.version;
-  if (systemStore.version !== newVersion) {
+  if (newVersion && systemStore.version !== newVersion) {
     store.commit('setVersion', newVersion);
     showUpdateInfo.value = true;
   }

@@ -134,9 +134,6 @@
       isActive() {
         return serviceStore.user.isActive;
       }
-      /* 			buildTag() {
-				return process.env.TAG;
-			} */
     },
     mounted() {
       if (serviceStore.user.isActive && !serviceStore.user.info)

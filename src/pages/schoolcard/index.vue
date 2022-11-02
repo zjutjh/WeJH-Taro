@@ -125,7 +125,6 @@
             month: 4
         }); */
 
-  let showPop = ref(false);
   let isSelectToday = ref(true);
 
   let balance = computed(() => serviceStore.card.balance || 0);

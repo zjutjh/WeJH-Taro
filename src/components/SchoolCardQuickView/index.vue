@@ -8,7 +8,7 @@
   >
     <text class="sub-text"> 当前余额 ({{ balanceUpdateTimeString }}) </text>
     <view class="quickcard-balance">
-      <text> ¥ {{ balance }} </text>
+      <text> ¥ {{ balance || 0 }} </text>
     </view>
   </quick-view>
 </template>

@@ -46,7 +46,6 @@
   import './index.scss';
 
   function roomChanged(e) {
-    console.log(e.weekday);
     ZFService.getFreeRoomInfo(e);
   }
 
