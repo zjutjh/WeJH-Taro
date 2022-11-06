@@ -1,0 +1,65 @@
+@import '@/style/theme.scss';
+
+.quick-view {
+  @include radius;
+  @include shadow;
+  padding: 16Px 20Px;
+  background-color: var(--wjh-color-background);
+  opacity: 95%;
+
+  .quick-view-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--wjh-color-text);
+  }
+
+  .quick-view-body {
+    margin-top: 0.5rem;
+    border-top: 2Px solid var(--wjh-color-border);
+  }
+
+  .quick-view-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+
+    .quick-view-name-icon {
+      height: 18Px;
+      width: 20Px;
+      display: inline-block;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .title-split {
+      display: inline-block;
+      background-color: var(--wjh-color-text);
+      vertical-align: middle;
+      height: 1.2rem;
+      width: 3Px;
+      margin: 0 0.7rem;
+    }
+  }
+
+  .sub-text {
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+    color: var(--wjh-color-week);
+  }
+
+  .quick-view-help-icon {
+    font-size: 1.2rem;
+    color: var(--wjh-color-cyan);
+    line-height: 150%;
+  }
+
+  .default-content {
+    margin: 1.2rem;
+    text-align: center;
+    line-height: 200%;
+  }
+
+}

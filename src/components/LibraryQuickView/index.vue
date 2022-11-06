@@ -1,7 +1,7 @@
 <template>
   <quick-view @tap="nav" title="借阅信息" icon-name="library">
     <text class="sub-text"> 当前借阅 ({{ borrowUpdateTimeString }}) </text>
-    <view v-if="!current" class="empty">当前无借阅图书</view>
+    <view v-if="!current" class="default-content">当前无借阅图书</view>
     <card
       v-else
       v-for="(item, index) in current.slice(0, 3)"

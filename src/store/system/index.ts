@@ -9,19 +9,19 @@ export interface SystemStoreType {
     time: string;
     week: number;
   };
-  runtime: any;
   version: string;
+  questionnaire: {
+    path: string;
+    state: 'fold' | 'close' | 'open';
+  };
 }
 
 export const SystemStore = {
-  /*   modules: {
-    runtime: RuntimeStore
-  }, */
   state: () => ({
     loading: false,
-    getSystemInfo: {},
-    runtime: {},
-    version: ''
+    generalInfo: {},
+    version: '',
+    questionnaire: {}
   }),
   mutations: {
     startLoading(state: SystemStoreType) {
@@ -38,11 +38,12 @@ export const SystemStore = {
     },
     setVersion(state: SystemStoreType, value: string) {
       state.version = value;
-    }
-  },
-  actions: {
-    updateGeneralInfo(context) {
-      context.commit('setGeneralInfo');
+    },
+    setQuestionnaire(
+      state: SystemStoreType,
+      value: SystemStoreType['questionnaire']
+    ) {
+      state.questionnaire = value;
     }
   }
 };

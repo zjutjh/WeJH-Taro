@@ -1,31 +1,45 @@
-// @import './light.scss';
-// @import './dark.scss';
 @import '@/style/theme.scss';
 
-.quick-view {
+.questionnaire {
   @include radius;
   @include shadow;
   padding: 16Px 20Px;
   background-color: var(--wjh-color-background);
   opacity: 95%;
 
-  .quick-view-header {
+  .questionnaire-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     color: var(--wjh-color-text);
-    border-bottom: 2Px solid var(--wjh-color-border)
+
+    .questionnaire-action {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+
+      text {
+        font-size: .9rem;
+        color: var(--wjh-color-cyan);
+      }
+    }
   }
 
-  .quick-view-title {
+  .questionnaire-body {
+    overflow: hidden;
+    max-height: 500px;
+    margin-top: 0.5rem;
+    border-top: 2Px solid var(--wjh-color-border);
+    transition: all 0.3s;
+  }
+
+  .questionnaire-title {
+    flex: auto;
     font-size: 1.3rem;
     font-weight: 800;
-    margin-bottom: 0.5rem;
     vertical-align: middle;
     display: flex;
     align-items: center;
 
-    .quick-view-name-icon {
+    .questionnaire-name-icon {
       height: 18Px;
       width: 20Px;
       display: inline-block;
@@ -50,9 +64,16 @@
     color: var(--wjh-color-week);
   }
 
-  .quick-view-help-icon {
+  .questionnaire-close-icon {
     font-size: 1.2rem;
     color: var(--wjh-color-cyan);
-    padding: 0.5rem;
+    line-height: 150%;
   }
+
+  .default-content {
+    margin: 1.2rem;
+    text-align: center;
+    line-height: 200%;
+  }
+
 }

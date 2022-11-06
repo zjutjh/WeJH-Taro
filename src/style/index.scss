@@ -34,6 +34,8 @@ scroll-view {
   background-repeat: no-repeat;
 }
 
+// TODO: 静态图标统一到 iconfont 中
+
 .wjh-icon-exam {
   background-image: url('~@/assets/icons/applist/exam.svg');
 }
@@ -72,4 +74,8 @@ scroll-view {
 
 .wjh-icon-library-fill {
   background: url('~@/assets/icons/quickview/library.svg');
+}
+
+.wjh-icon-questionnaire-fill {
+  background: url('~@/assets/icons/quickview/questionnaire.svg');
 }

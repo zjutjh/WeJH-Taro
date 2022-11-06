@@ -45,10 +45,12 @@
         <text class="lesson-name">{{ item.lessonName }}</text>
       </view>
     </card>
-    <view class="empty" v-if="todayLessonTable?.length === 0">
+    <view class="default-content" v-if="todayLessonTable?.length === 0">
       今天居然没有课😄
     </view>
-    <view class="empty" v-if="!todayLessonTable"> 点击获取你的课表 ～</view>
+    <view class="default-content" v-if="!todayLessonTable">
+      点击获取你的课表 ～</view
+    >
   </quick-view>
 </template>
 
