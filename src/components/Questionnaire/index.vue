@@ -73,6 +73,7 @@
   };
 
   const openQuestionnaire = () => {
+    toggleFold(true);
     Taro.navigateToMiniProgram({
       appId: 'wxd947200f82267e58',
       path: 'pages/wjxqList/wjxqList?activityId=O5XQdXK'
