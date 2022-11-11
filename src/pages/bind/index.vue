@@ -41,7 +41,7 @@
             <input
               v-if="!user.isBindZF"
               type="password"
-              placeholder="输入正方教务系统密码"
+              placeholder="默认密码为zjut+身份证后六位"
               v-model="zfpass"
             />
             <input
@@ -79,11 +79,17 @@
           <view>
             <input
               type="password"
-              placeholder="输入图书馆账户密码"
+              placeholder="默认密码为学号"
               v-model="libpass"
             />
           </view>
           <template #footer>
+            <view class="form-help-wrapper">
+              <view class="form-help" @tap="showHelp('library')">
+                <view class="iconfont icon-help"></view>
+                <view>帮助</view>
+              </view>
+            </view>
             <w-button block @tap="bindLibClick"> 确认绑定 </w-button>
           </template>
         </card>
@@ -173,9 +179,10 @@
       function renderForm(type: string) {
         bindTab.value = type;
       }
-      function showHelp(prop: 'zf') {
+      function showHelp(prop: 'zf' | 'library') {
         isShowHelp.value = true;
         if (prop === 'zf') helpContent.value = helpText.bind.zf;
+        else if (prop === 'library') helpContent.value = helpText.bind.library;
       }
       return {
         zfpass,

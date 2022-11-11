@@ -8,9 +8,9 @@
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
+      <questionnaire v-if="isNeverShowQuestionnaire" />
       <lesson-table-quick-view
         v-if="isBindZf"
-        :hide="pageHide"
         @show-help="showHelp"
       ></lesson-table-quick-view>
       <school-card-quick-view
@@ -36,10 +36,11 @@
 
 <script lang="ts">
   import { computed, defineComponent, ref } from 'vue';
-  import store, { serviceStore } from '@/store';
+  import store, { serviceStore, systemStore } from '@/store';
   import LessonTableQuickView from '@/components/LessonsTableQuickView/index.vue';
   import SchoolCardQuickView from '@/components/SchoolCardQuickView/index.vue';
   import LibraryQuickView from '@/components/LibraryQuickView/index.vue';
+  import Questionnaire from '@/components/Questionnaire/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WButton } from '@/components/button';
   import Card from '@/components/Card/index.vue';
@@ -48,9 +49,11 @@
   import { helpText } from '@/constants/copywriting';
   import Taro from '@tarojs/taro';
   import { SystemService } from '@/services';
+  import { questionnaireInfo } from '@/constants/updateInfo';
 
   export default defineComponent({
     components: {
+      Questionnaire,
       LessonTableQuickView,
       SchoolCardQuickView,
       LibraryQuickView,
@@ -61,13 +64,25 @@
       Alarm
     },
     setup() {
-      const pageHide = ref(false);
       const isShowHelp = ref(false);
       const helpContent = ref<string | undefined>(undefined);
+      const questionnairePath = questionnaireInfo.path;
+
+      if (questionnairePath != systemStore.questionnaire.path) {
+        store.commit('setQuestionnaire', {
+          path: questionnairePath,
+          state: 'open'
+        });
+      }
 
       SystemService.getAnnouncement();
       const isActive = computed(() => {
         return serviceStore.user.isActive;
+      });
+      const isNeverShowQuestionnaire = computed(() => {
+        if (systemStore.questionnaire.state === 'close') {
+          return false;
+        } else return true;
       });
       const isBindZf = computed(() => {
         return serviceStore.user.isBindZF;
@@ -101,13 +116,13 @@
       }
 
       return {
-        pageHide,
         isShowHelp,
         helpContent,
         isActive,
         isBindZf,
         isBindCard,
         isBindLibrary,
+        isNeverShowQuestionnaire,
         announcementsCounter,
         nav2activation,
         nav2announcement,

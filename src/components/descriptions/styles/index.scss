@@ -36,8 +36,6 @@
   }
 }
 
-.wjh-descriptions-size-middle {}
-
 .wjh-descriptions-item {
   position: relative;
   background-color: var(--wjh-color-background);
@@ -47,6 +45,11 @@
   .wjh-descriptions-item-container {
     padding-right: var(--padding-right-middle);
     display: flex;
+    white-space: normal;
+  }
+
+  .wjh-descriptions-item-label {
+    color: var(--wjh-color-text-secondary);
   }
 }
 

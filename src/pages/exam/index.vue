@@ -21,31 +21,54 @@
           size="small"
           class="exam-card"
         >
-          <w-collapse>
-            <w-collapse-panel max-height="200px">
+          <w-collapse class="exam-collapse-item">
+            <w-collapse-panel arrow>
               <template #header>
-                <view class="lesson-name">{{ item.lessonName }}</view>
-                <view style="font-size: 14px; color: var(--wjh-color-week)">
+                <view
+                  class="lesson-name"
+                  :style="
+                    timeInterval(item.examTime) === 0
+                      ? 'color: var(--wjh-color-orange)'
+                      : undefined
+                  "
+                  >{{ item.lessonName }}</view
+                >
+                <view
+                  style="
+                    font-size: 14px;
+                    color: var(--wjh-color-text-secondary);
+                  "
+                >
                   <view
                     v-if="
-                      timeInterval(item.examTime) < 0 ||
-                      timeInterval(item.examTime) > 14
+                      timeInterval(item.examTime) >= 0 &&
+                      timeInterval(item.examTime) <= 14
                     "
-                    class="exam-time"
-                    >{{ item.examTime }}
-                  </view>
-                  <view
-                    v-else
                     :style="
                       timeInterval(item.examTime) === 0
                         ? 'color: var(--wjh-color-orange)'
                         : undefined
                     "
-                    >距离考试还有 {{ timeInterval(item.examTime) }} 天</view
+                    >距离考试还有 {{ timeInterval(item.examTime) }} 天
+                  </view>
+                  <view
+                    class="exam-time"
+                    :style="
+                      timeInterval(item.examTime) === 0
+                        ? 'color: var(--wjh-color-orange)'
+                        : undefined
+                    "
+                    >{{ item.examTime }}
+                  </view>
+                  <view
+                    class="exam-place"
+                    :style="
+                      timeInterval(item.examTime) === 0
+                        ? 'color: var(--wjh-color-orange)'
+                        : undefined
+                    "
+                    >{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</view
                   >
-                  <view class="exam-place">{{
-                    `${item.examPlace} - 座位号：${item.seatNum}`
-                  }}</view>
                 </view>
               </template>
               <w-descriptions class="exam-detail-list" size="small">
@@ -101,7 +124,6 @@
   import { serviceStore, systemStore } from '@/store';
   import BottomPanel from '@/components/BottomPanel/index.vue';
   import Card from '@/components/Card/index.vue';
-  import { Exam } from '@/types/Exam';
   import RefleshButton from '@/components/RefleshButton/index.vue';
   import TermPicker from '@/components/TermPicker/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
@@ -111,7 +133,6 @@
   import { ZFService } from '@/services';
   import dayjs, { ConfigType } from 'dayjs';
   import { helpText } from '@/constants/copywriting';
-  import Taro from '@tarojs/taro';
   import './index.scss';
 
   export default defineComponent({
@@ -151,10 +172,6 @@
         await ZFService.updateExamInfo(selectTerm.value);
         isRefleshing.value = false;
       }
-
-      function calcDayLeft(dayString: string) {
-        return dayjs(dayString, 'YYYY-MM-DD(HH:mm)').fromNow();
-      }
       /*       function addToCalendar(item: Exam) {
         Taro.addPhoneCalendar({
           title: item.lessonName + '考试',
@@ -171,7 +188,7 @@
       }
       function timeInterval(timeString: string) {
         const tmp: ConfigType = timeString.split('(')[0];
-        return dayjs(tmp).diff(dayjs(), 'day');
+        return dayjs(tmp).diff(dayjs(dayjs().format('YYYY-MM-DD')), 'day');
       }
       function showHelp() {
         showModal.value = true;
@@ -190,7 +207,6 @@
         selectTerm,
         termChanged,
         reflesh,
-        calcDayLeft,
         getDetailedTime,
         timeInterval,
         showHelp

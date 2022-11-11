@@ -63,21 +63,26 @@
         term: systemStore.generalInfo.term,
         campus: campus[this.selectorValue[0]],
         week: Math.pow(2, this.selectorValue[1]).toString(),
-        weekday: Math.pow(2, this.selectorValue[2]).toString(),
+        weekday: (this.selectorValue[2] + 1).toString(),
+
+        // FIXME: 时间段
         sections: Math.pow(2, this.selectorValue[3]).toString()
       });
     },
     methods: {
       onChange: function (e) {
         this.selectorChecked = this.selector.map(
-          (ex, index) => ex[e.detail.value[index]]
+          (item, index) => item[e.detail.value[index]]
         );
+        this.selectorValue = e.detail.value;
         this.$emit('changed', {
           year: systemStore.generalInfo.termYear,
           term: systemStore.generalInfo.term,
           campus: campus[e.detail.value[0]],
           week: Math.pow(2, e.detail.value[1]).toString(),
-          weekday: Math.pow(2, e.detail.value[2]).toString(),
+          weekday: (this.selectorValue[2] + 1).toString(),
+
+          // FIXME: 时间段
           sections: Math.pow(2, e.detail.value[3]).toString()
         });
       }

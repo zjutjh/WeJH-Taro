@@ -1,25 +1,22 @@
 <template>
-  <view class="connect-view background">
+  <view class="faq-view background">
     <title-bar title="常见问题"></title-bar>
     <scroll-view :scrollY="true">
       <view class="flex-column">
-        <card
-          v-for="(item, index) in data"
-          :key="index"
-          :title="item.title"
-          class="qa-card"
-        >
-          <image
-            v-if="item.img"
-            :style="{ height: item.img?.height, width: '100%' }"
-            :src="item.img.url"
-          />
-          <view
-            v-for="str in item.content?.split('\n')"
-            class="answer-text"
-            :key="str"
-            >{{ str }}</view
-          >
+        <card v-for="(item, index) in data" :key="index" size="small">
+          <w-collapse>
+            <w-collapse-panel :title="item.title" arrow>
+              <view class="answer-wrapper">
+                <text
+                  v-for="str in item.content.split('\n')"
+                  class="answer-text"
+                  :key="str"
+                >
+                  {{ str }}
+                </text>
+              </view>
+            </w-collapse-panel>
+          </w-collapse>
         </card>
       </view>
     </scroll-view>
@@ -29,13 +26,17 @@
 <script lang="ts">
   import TitleBar from '@/components/TitleBar/index.vue';
   import Card from '@/components/Card/index.vue';
+  import { WCollapse, WCollapsePanel } from '@/components/collapse';
   import { faqText } from '@/constants/copywriting';
   import { defineComponent, ref } from 'vue';
   import './index.scss';
+
   export default defineComponent({
     components: {
       TitleBar,
-      Card
+      Card,
+      WCollapse,
+      WCollapsePanel
     },
     setup() {
       const activeName = ref(1);

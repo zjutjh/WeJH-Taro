@@ -3,8 +3,6 @@
     <title-bar title="课程表"></title-bar>
     <scroll-view :scrollY="true">
       <lessons-table
-        class="index"
-        :class="{ 'index-ios': isNewIPhone }"
         :lessons="!showWeekPicker ? lessonsTable : lessonsTableWeek"
         :is-this-week="isThisWeek"
         @classClick="classClick"
@@ -73,9 +71,9 @@
       <view>班级：{{ selection.className }} </view>
       <view>教师：{{ selection.teacherName }} </view>
       <view>
-        时间：{{ selection.week }} - {{ selection.weekday }} （{{
+        时间：{{ selection.week }}丨{{ detailWeekDay(selection.weekday) }} ({{
           selection.sections
-        }}）
+        }})丨{{ detailTimeInterval }}
       </view>
       <view>学分：{{ selection.credits }} </view>
     </view>
@@ -97,6 +95,8 @@
   import { ZFService } from '@/services';
   import { isNewIPhone } from '@/utils/effects';
   import './index.scss';
+  import { dayScheduleStartTime } from '@/constants/dayScheduleStartTime';
+  import { useTimeInstance } from '@/utils/hooks';
 
   export default {
     components: {
@@ -162,6 +162,20 @@
         await ZFService.updateLessonTable(selectTerm.value);
         isRefleshing.value = false;
       }
+      const detailTimeInterval = computed(() => {
+        const startIndex = parseInt(selection?.value!.sections.split('-')[0]);
+        const endIndex = parseInt(selection?.value!.sections.split('-')[1]);
+        const startTime = useTimeInstance(
+          dayScheduleStartTime[startIndex - 1].hour,
+          dayScheduleStartTime[startIndex - 1].min
+        ).format('HH:mm');
+        const endTime = useTimeInstance(
+          dayScheduleStartTime[endIndex - 1].hour,
+          dayScheduleStartTime[endIndex - 1].min + 45
+        ).format('HH:mm');
+
+        return `${startTime}-${endTime}`;
+      });
 
       async function termChanged(e) {
         isRefleshing.value = true;
@@ -191,6 +205,11 @@
         selectWeek.value = originWeek;
       }
 
+      function detailWeekDay(weekDay: string) {
+        const charEnum = ['一', '二', '三', '四', '五', '六', '日'];
+        return `周${charEnum[parseInt(weekDay) - 1]}`;
+      }
+
       return {
         showPop,
         selection,
@@ -209,7 +228,9 @@
         isRefleshing,
         lessonsTableWeek,
         classClick,
-        backToOriginWeek
+        backToOriginWeek,
+        detailWeekDay,
+        detailTimeInterval
       };
     }
   };

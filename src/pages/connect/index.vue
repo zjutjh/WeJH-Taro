@@ -33,12 +33,8 @@
 
   const groupInfo = [
     {
-      name: '一群',
-      id: '462530805'
-    },
-    {
-      name: '二群',
-      id: '282402782'
+      name: '三群',
+      id: '721519763'
     }
   ];
   export default defineComponent({
@@ -49,7 +45,7 @@
       Card
     },
     methods: {
-      nav2FAQ(e) {
+      nav2FAQ() {
         Taro.navigateTo({
           url: '/pages/connect/faq/index'
         });
@@ -57,7 +53,7 @@
       showGroups() {
         Taro.showActionSheet({
           itemList: groupInfo.map((item) => `${item.name}(${item.id})`),
-          success({ tapIndex }) {
+          success: ({ tapIndex }) => {
             Taro.setClipboardData({
               data: groupInfo[tapIndex].id
             });

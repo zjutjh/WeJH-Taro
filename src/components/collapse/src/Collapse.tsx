@@ -18,7 +18,7 @@ export default defineComponent({
     const { $slots } = this;
     return (
       <view class="wjh-collapse">
-        <WList>{$slots.default?.()}</WList>
+        <WList size="small">{$slots.default?.()}</WList>
       </view>
     );
   }

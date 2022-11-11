@@ -1,15 +1,27 @@
 export interface SystemStoreType {
   loading: boolean;
-  generalInfo: any;
-  runtime: any;
+  generalInfo: {
+    is_begin: boolean;
+    schoolBusUrl: string;
+    term: '上' | '下' | '短';
+    termStartDate: string;
+    termYear: string;
+    time: string;
+    week: number;
+  };
+  version: string;
+  questionnaire: {
+    path: string;
+    state: 'fold' | 'close' | 'open';
+  };
 }
 
 export const SystemStore = {
-  /*   modules: {
-    runtime: RuntimeStore
-  }, */
   state: () => ({
-    runtime: {}
+    loading: false,
+    generalInfo: {},
+    version: '',
+    questionnaire: {}
   }),
   mutations: {
     startLoading(state: SystemStoreType) {
@@ -18,14 +30,20 @@ export const SystemStore = {
     stopLoading(state: SystemStoreType) {
       state.loading = false;
     },
-
-    setGeneralInfo(state: SystemStoreType, value) {
+    setGeneralInfo(
+      state: SystemStoreType,
+      value: SystemStoreType['generalInfo']
+    ) {
       state.generalInfo = value;
-    }
-  },
-  actions: {
-    updateGeneralInfo(context) {
-      context.commit('setGeneralInfo');
+    },
+    setVersion(state: SystemStoreType, value: string) {
+      state.version = value;
+    },
+    setQuestionnaire(
+      state: SystemStoreType,
+      value: SystemStoreType['questionnaire']
+    ) {
+      state.questionnaire = value;
     }
   }
 };

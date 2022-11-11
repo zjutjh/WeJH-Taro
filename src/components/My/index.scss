@@ -85,13 +85,10 @@
   gap: 1rem;
 
   .operate-list {
-    padding: 8Px;
+    padding: 4Px;
     background-color: var(--wjh-color-background);
     @include radius;
     @include shadow;
   }
 
-  .wjh-list-item-content {
-    font-size: 0.875rem;
-  }
 }

@@ -111,25 +111,22 @@ export default class ZFService {
 
   static getTodayLessonTable() {
     const lessonsTable = this.getLessonTable();
-    let lessons = lessonsTable?.filter((value) => {
-      let v = value.week.split('-');
-      let st = parseInt(v[0]);
-      let ed = parseInt(v[1]);
+    let lessons = lessonsTable?.filter((item: Lesson) => {
+      let currentDay = new Date().getDay() || 7;
+      if (currentDay !== parseInt(item.weekday)) return false;
+      let currentWeek = systemStore.generalInfo.week;
 
-      let isOddWeek = value.week.includes('单');
-      let isEvenWeek = value.week.includes('双');
-
-      // let currentWeek = systemStore.generalInfo.week;
-      let currentWeek = 12;
-
-      if (isOddWeek && currentWeek % 2 === 0) return false;
-      if (isEvenWeek && currentWeek % 2 === 1) return false;
-
-      let currentDay = new Date().getDay();
-      if (currentDay == 0) currentDay = 7;
-
-      if (currentWeek <= ed && currentWeek >= st)
-        if (parseInt(value.weekday) === currentDay) return true;
+      for (const time of item.week.split(',')) {
+        if (time.includes('-')) {
+          const start = parseInt(time.split('-')[0]);
+          const end = parseInt(time.split('-')[1]);
+          if (currentWeek <= end && currentWeek >= start)
+            if (!time.includes('单') && !time.includes('双')) return true;
+            else if (time.includes('单') && currentWeek % 2 === 1) return true;
+            else if (time.includes('双') && currentWeek % 2 === 0) return true;
+        } else if (currentWeek === parseInt(time)) return true;
+      }
+      return false;
     });
 
     return lessons;
@@ -171,33 +168,5 @@ export default class ZFService {
       serviceStore?.zf.lessonsTableInfo[data.year][data.term]?.data
         ?.practiceLessons || []
     );
-  }
-
-  // comment: 获取周课表
-  static getWeekLessonTable(data?: {
-    year: string;
-    term: string;
-    week: string;
-  }) {
-    if (!data) {
-      data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term,
-        week: systemStore.generalInfo?.week
-      };
-    }
-    const lessonsTable = this.getLessonTable(data);
-    let lenssons = lessonsTable?.filter((value) => {
-      if (data) {
-        let v = value.week.split('-');
-        let st = parseInt(v[0]);
-        let ed = parseInt(v[1]);
-        if (parseInt(data.week) <= ed && st >= parseInt(data.week)) {
-          return true;
-        }
-      }
-      return false;
-    });
-    return lenssons;
   }
 }

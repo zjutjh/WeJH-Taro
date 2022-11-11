@@ -8,14 +8,25 @@
     margin: 0 6Px;
   }
 
-  .wjh-collapse-panel-content {
-    max-height: 0;
-    transition: max-height 0.5s;
+  .wjh-collapse-panel-header-active {
+    .wjh-list-item-content-arrow {
+      transform: rotate(-90deg);
+    }
   }
 
-  .wjh-collapse-panel-active {
+  .wjh-list-item-content-arrow {
+    transition: all 0.3s;
+  }
+
+  .wjh-collapse-panel-content {
+    max-height: 0;
+    transition: max-height 0.3s;
+    box-sizing: border-box;
+  }
+
+  .wjh-collapse-panel-content-active {
     transition: all 0.5s;
-    max-height: 100Px;
+    max-height: 500Px;
   }
 
 }

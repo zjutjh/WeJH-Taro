@@ -1,19 +1,5 @@
 @import '@/style/theme.scss';
 
-.index {
-  width: calc(100vw - 2rem);
-  height: calc(100vh - 9rem);
-  position: fixed;
-  background-color: white;
-  border-radius: 0.5rem;
-  margin-top: 0.5rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.index-ios {
-  height: calc(100vh - 12rem);
-}
 
 .practice-lessons-list {
   min-height: 80vh;
@@ -81,10 +67,3 @@
 .back-button {
   padding: 5Px;
 }
-
-// comment: disable dark mode
-/* @media (prefers-color-scheme: dark) {
-	.index {
-		background-color: rgba(68, 68, 68, 0.7);
-	}
-} */

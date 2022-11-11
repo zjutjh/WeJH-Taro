@@ -16,7 +16,7 @@
               >
             </view>
             <view>
-              <text>密码</text>
+              <text>设置密码</text>
               <input
                 type="password"
                 placeholder="请输入密码"
@@ -24,6 +24,9 @@
               />
               <view class="prompt" v-show="password?.length === 0"
                 >请输入密码</view
+              >
+              <view class="prompt" v-show="password?.length && invalidPassword"
+                >密码长度应在6～20位之间</view
               >
             </view>
             <view>
@@ -33,14 +36,18 @@
                 placeholder="请再次输入密码"
                 v-model="comfirmPassword"
               />
-              <view class="prompt" v-show="comfirmPassword != password"
+              <view
+                class="prompt"
+                v-show="
+                  comfirmPassword !== undefined && comfirmPassword != password
+                "
                 >两次密码不匹配</view
               >
             </view>
             <view>
               <text>身份证号</text>
               <input
-                type="idcard"
+                type="text"
                 placeholder="仅做验证学生身份用"
                 v-model="idcard"
               />
@@ -79,12 +86,15 @@
             <w-steps :total="2" :current="step"></w-steps>
           </template>
         </card>
+        <card v-if="step === 1">
+          <view class="activation-help"> {{ helpContent }}</view>
+        </card>
       </view>
     </scroll-view>
   </view>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
   import Card from '@/components/Card/index.vue';
   import TitleBar from '@/components/TitleBar/index.vue';
   import { WButton } from '@/components/button';
@@ -93,97 +103,109 @@
   import { UserService } from '@/services';
   import './index.scss';
   import store from '@/store';
+  import { helpText } from '@/constants/copywriting';
+  import { computed, ref } from 'vue';
 
-  export default {
-    components: {
-      Card,
-      TitleBar,
-      WButton,
-      WSteps
-    },
-    data() {
-      return {
-        username: '',
-        studentid: undefined,
-        password: undefined,
-        comfirmPassword: undefined,
-        idcard: undefined,
-        email: undefined,
-        step: 1
-      };
-    },
-    methods: {
-      async activeClick() {
-        if (!this.checkFrom()) return;
-        Taro.showLoading({ title: '正在绑定通行证', mask: true });
+  const studentid = ref<string | undefined>(undefined);
+  const password = ref<string | undefined>(undefined);
+  const comfirmPassword = ref<string | undefined>(undefined);
+  const idcard = ref<string | undefined>(undefined);
+  const email = ref<string | undefined>(undefined);
+  const step = ref(1);
+  const invalidStudentId = ref(false);
+  const invalidPassword = ref(false);
 
-        const res = await UserService.createUserApp({
-          username: this.studentid,
-          studentID: this.studentid,
-          password: this.password,
-          idCardNumber: this.idcard,
-          email: this.email
-        });
+  const helpContent = computed(() => {
+    return helpText.activtion;
+  });
 
-        if (res) {
-          Taro.hideLoading();
-          this.step++;
-        }
-      },
-      async nav2bind() {
-        Taro.showLoading();
-        await Taro.getUserProfile({
-          desc: '用于获取头像和昵称',
-          success: (res: any) => {
-            const { avatarUrl, nickName } = res.userInfo;
-            store.commit('setUserWXProfile', { avatarUrl, nickName });
-          },
-          complete: (res) => {
-            console.log(res);
-          }
-        });
-        Taro.hideLoading();
-        await Taro.redirectTo({
-          url: '/pages/bind/index'
-        });
-        await Taro.showToast({
-          icon: 'none',
-          title: '自动导航至绑定页面'
-        });
-      },
+  async function activeClick() {
+    if (!checkForm()) return;
+    Taro.showLoading({ title: '正在绑定通行证', mask: true });
 
-      checkFrom() {
-        if (
-          this.studentid &&
-          this.password &&
-          this.comfirmPassword === this.password &&
-          this.idcard &&
-          this.email
-        )
-          return true;
-        if (!this.studentid) this.studentid = '';
-        if (!this.password) this.password = '';
-        if (!this.comfirmPassword) this.comfirmPassword = '';
-        if (!this.idcard) this.idcard = '';
-        if (!this.email) this.email = '';
-        return false;
-      }
-      // TODO: 手动登录
-      /* 			async loginByHand() {
-  		Taro.showLoading({ title: 'loading', mask: true });
-  		let fet: FetchResult | undefined;
-  		fet = await fetch.post(api.user.login.password, { username: '202103340221', password: '11111111' });
-  		console.log(fet);
+    const res = await UserService.createUserApp({
+      username: studentid.value!.toUpperCase(),
+      studentID: studentid.value!.toUpperCase(),
+      password: password.value!,
+      idCardNumber: idcard.value!.toUpperCase(),
+      email: email.value!
+    });
 
-  		if (fet.cookies && fet.cookies.length > 0) {
-  			store.commit('setSession', fet.cookies[0]);
-  			store.commit('setUserInfo', fet.data.data.user);
-  			await Taro.navigateTo({
-  				url: '/pages/my/index'
-  			});
-  		}
-  		Taro.hideLoading();
-  	} */
+    if (res) {
+      Taro.hideLoading();
+      step.value++;
     }
-  };
+    resetForm();
+  }
+  async function nav2bind() {
+    Taro.showLoading({
+      title: '加载中'
+    });
+    await Taro.getUserProfile({
+      desc: '用于获取头像和昵称',
+      success: (res: any) => {
+        const { avatarUrl, nickName } = res.userInfo;
+        store.commit('setUserWXProfile', { avatarUrl, nickName });
+      },
+      complete: (res) => {
+        console.log(res);
+      }
+    });
+    Taro.hideLoading();
+    await Taro.redirectTo({
+      url: '/pages/bind/index'
+    });
+    await Taro.showToast({
+      icon: 'none',
+      title: '自动导航至绑定页面'
+    });
+  }
+  function checkPassword() {
+    if (!password.value) return false;
+    return password.value.length >= 6;
+  }
+
+  function resetForm() {
+    if (!studentid.value) studentid.value = '';
+
+    if (!password.value) password.value = '';
+    else if (!checkPassword()) invalidPassword.value = true;
+    else invalidPassword.value = false;
+
+    if (!comfirmPassword.value) comfirmPassword.value = '';
+
+    if (!idcard.value) idcard.value = '';
+
+    if (!email.value) email.value = '';
+  }
+  function checkForm() {
+    if (
+      studentid.value &&
+      password.value &&
+      comfirmPassword.value === password.value &&
+      idcard.value &&
+      email.value &&
+      checkPassword()
+    )
+      return true;
+    resetForm();
+    return false;
+  }
+
+  // TODO: 手动登录
+  /* 			async loginByHand() {
+      		Taro.showLoading({ title: 'loading', mask: true });
+      		let fet: FetchResult | undefined;
+      		fet = await fetch.post(api.user.login.password, { username: '202103340221', password: '11111111' });
+      		console.log(fet);
+
+      		if (fet.cookies && fet.cookies.length > 0) {
+      			store.commit('setSession', fet.cookies[0]);
+      			store.commit('setUserInfo', fet.data.data.user);
+      			await Taro.navigateTo({
+      				url: '/pages/my/index'
+      			});
+      		}
+      		Taro.hideLoading();
+      	} */
 </script>

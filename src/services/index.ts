@@ -7,4 +7,14 @@ import CanteenService from './services/canteenService';
 import { LoginByTaro } from './services/authService';
 import errCodeHandler from './utils/errHandler';
 import { api } from './api/apiList';
-export { ZFService, CardService, SystemService, UserService, LibraryService, CanteenService, LoginByTaro, errCodeHandler, api };
+export {
+  ZFService,
+  CardService,
+  SystemService,
+  UserService,
+  LibraryService,
+  CanteenService,
+  LoginByTaro,
+  errCodeHandler,
+  api
+};

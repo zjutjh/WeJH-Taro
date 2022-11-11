@@ -12,20 +12,20 @@
         @tap.stop="handleTapHelp"
       ></view>
     </view>
-    <view class="quick-view-split"></view>
-    <slot></slot>
+    <view class="quick-view-body">
+      <slot></slot>
+    </view>
   </view>
 </template>
+
 <script lang="ts">
-  import { defineComponent } from 'vue';
-  import './style/index.scss';
-  export default defineComponent({
+  import './index.scss';
+  export default {
     data() {
       return {
         isShowHelp: false
       };
     },
-    components: {},
     props: {
       title: String,
       iconName: String,
@@ -37,5 +37,5 @@
         this.$emit('handleTapHelp');
       }
     }
-  });
+  };
 </script>

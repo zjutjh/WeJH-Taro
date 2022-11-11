@@ -13,15 +13,6 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [
-    [
-      '@tarojs/plugin-html',
-      {
-        // 包含 `nut-`、`van-` 的类名选择器中的 px 单位不会被解析
-        pxtransformBlackList: [/nut-/, /van-/]
-      }
-    ]
-  ],
   defineConstants: {
     APP_VERSION: JSON.stringify(PackageJson.version),
     'process.env.APP_NAME': JSON.stringify(PackageJson.name),

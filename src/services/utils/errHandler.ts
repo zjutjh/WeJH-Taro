@@ -7,50 +7,6 @@ export default async function errCodeHandler(code: number, showModal = true) {
   console.log('Error code', code);
   if (showModal)
     switch (code) {
-      case ServerCode.NoThatPasswordORWrong:
-        await Taro.showModal({
-          title: '错误',
-          content: '密码变更或未初始化，请重新绑定服务账号，获取信息',
-          success: (res) => {
-            if (res.confirm) {
-              Taro.navigateTo({ url: '/pages/bind/index' });
-            }
-          }
-        });
-        break;
-      case ServerCode.UserNotFound:
-        await Taro.showModal({
-          title: '提示',
-          content: '当前账号未激活',
-          confirmText: '激活',
-          success: (res) => {
-            if (res.confirm) {
-              Taro.navigateTo({ url: '/pages/activation/index' });
-            }
-          }
-        });
-        break;
-      case ServerCode.UserCenterNotMatch:
-        await Taro.showModal({
-          title: '提示',
-          content: '当前信息不匹配',
-          confirmText: '确定'
-        });
-        break;
-      case ServerCode.UserCenterNotFound:
-        await Taro.showModal({
-          title: '提示',
-          content: '当前信息不存在',
-          confirmText: '确定'
-        });
-        break;
-      case ServerCode.ParamError:
-        await Taro.showModal({
-          title: '提示',
-          content: '当前输入信息不匹配',
-          confirmText: '确定'
-        });
-        break;
       case ServerCode.UsernamePasswordUnmatched:
         await Taro.showToast({
           icon: 'none',
@@ -69,10 +25,9 @@ export default async function errCodeHandler(code: number, showModal = true) {
       case ServerCode.SystemError:
         await Taro.showToast({
           icon: 'none',
-          title: '系统异常'
+          title: '服务器暂不可用'
         });
         break;
-
       case ServerCode.UserAlreadyExisted:
         await Taro.showModal({
           title: '提示',
@@ -99,6 +54,12 @@ export default async function errCodeHandler(code: number, showModal = true) {
         await Taro.showToast({
           icon: 'none',
           title: '密码长度请在6~20位之间'
+        });
+        break;
+      case ServerCode.activation.schooldIdError:
+        await Taro.showToast({
+          icon: 'none',
+          title: '学号格式错误'
         });
         break;
       case ServerCode.bind.schoolCardServerError:

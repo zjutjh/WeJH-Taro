@@ -1,5 +1,3 @@
-// @import './light.scss';
-// @import './dark.scss';
 @import '@/style/theme.scss';
 
 .quick-view {
@@ -13,13 +11,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: var(--wjh-color-text);
+  }
+
+  .quick-view-body {
+    margin-top: 0.5rem;
+    border-top: 2Px solid var(--wjh-color-border);
   }
 
   .quick-view-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 800;
-    margin-bottom: 0.5rem;
-    vertical-align: middle;
     display: flex;
     align-items: center;
 
@@ -34,10 +36,10 @@
 
     .title-split {
       display: inline-block;
-      background-color: black;
+      background-color: var(--wjh-color-text);
       vertical-align: middle;
-      height: 1.4rem;
-      width: 0.2rem;
+      height: 1.2rem;
+      width: 3Px;
       margin: 0 0.7rem;
     }
   }
@@ -45,18 +47,19 @@
   .sub-text {
     font-size: 0.75rem;
     line-height: 1.2rem;
-    color: #808080;
-  }
-
-  .quick-view-split {
-    background-color: var(--wjh-color-light);
-    width: 100%;
-    height: 0.1rem;
+    color: var(--wjh-color-week);
   }
 
   .quick-view-help-icon {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--wjh-color-cyan);
-    padding: 0.5rem;
+    line-height: 150%;
   }
+
+  .default-content {
+    margin: 1.2rem;
+    text-align: center;
+    line-height: 200%;
+  }
+
 }

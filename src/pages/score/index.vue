@@ -40,23 +40,33 @@
             <w-collapse-panel
               v-for="item in scoreList"
               :key="item.lessonID"
-              max-height="100px"
-              :extra="item.score"
+              arrow
             >
               <template #header>
-                <view>{{ item.lessonName }}</view>
+                <view class="score-list-collapse-item-title">{{
+                  item.lessonName
+                }}</view>
+                <view className="score-list-collapse-item-extra">{{
+                  item.score
+                }}</view>
               </template>
 
               <w-descriptions class="score-detail-list" size="small">
-                <w-descriptions-item label="课程性质" :label-span="18">
+                <w-descriptions-item label="课程名称">
+                  {{ item.lessonName }}
+                </w-descriptions-item>
+                <w-descriptions-item label="课程性质">
                   {{ item.lessonType }}
                 </w-descriptions-item>
-                <w-descriptions-item label="课程学分" :label-span="18">
+                <w-descriptions-item label="课程学分">
                   {{ item.credits }}
                 </w-descriptions-item>
               </w-descriptions>
             </w-collapse-panel>
           </w-collapse>
+        </card>
+        <card v-if="scoreList?.length !== 0">
+          <view class="score-help">{{ helpContent }}</view>
         </card>
       </view>
     </scroll-view>
@@ -96,6 +106,7 @@
   import { Score } from '@/types/Score';
   import TermPicker from '@/components/TermPicker/index.vue';
   import { ZFService } from '@/services';
+  import { helpText } from '@/constants/copywriting';
   import './index.scss';
 
   export default defineComponent({
@@ -128,6 +139,10 @@
       );
       const isRefleshing = ref(false);
 
+      const helpContent = computed(() => {
+        return helpText.score;
+      });
+
       async function termChanged(e) {
         isRefleshing.value = true;
         selectTerm.value = e;
@@ -148,21 +163,14 @@
       onMounted(async () => {
         if (serviceStore.user.isBindZF) await reflesh();
       });
-      return {
-        scoreList,
-        selectTerm,
-        isRefleshing,
-        handleSort,
-        termChanged,
-        reflesh
-      };
-    },
-    computed: {
-      averageScorePoint() {
-        /* const validCourse = this.scoreList.filter(
-          (item) => item.lessonType !== '任选课'
-        ); */
-        const validCourse = this.scoreList;
+
+      const averageScorePoint = computed(() => {
+        const validCourse = scoreList.value.filter((item) => {
+          if (item.score === '缓考' || item.score === '免修') return false;
+          if (item.examType === '重修' || item.examType === '补考')
+            return false;
+          return true;
+        });
         let totalCredits = 0;
         let totalScorePoint = 0;
         validCourse.forEach((item: Score) => {
@@ -172,25 +180,38 @@
           totalCredits += credits;
         });
         return Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
-      },
-      termInfo() {
-        return `${this.selectTerm?.year}/${this.selectTerm?.year * 1 + 1}（${
-          this.selectTerm?.term
+      });
+      const termInfo = computed(() => {
+        return `${selectTerm.value?.year}/${selectTerm.value?.year * 1 + 1}（${
+          selectTerm.value?.term
         }）`;
-      },
-      relativeTermInfo() {
-        const charEnum = ['一', '二', '三', '四', '五', '六'];
+      });
+      const relativeTermInfo = computed(() => {
+        const charEnum = ['一', '二', '三', '四', '五', '六', '日'];
         let char = charEnum[0];
         if (serviceStore.user.info?.studentID) {
           char =
             charEnum[
-              parseInt(serviceStore.user.info.studentID.slice(0, 4)) -
-                parseInt(this.selectTerm?.year)
+              parseInt(selectTerm.value?.year) -
+                parseInt(serviceStore.user.info.studentID.slice(0, 4))
             ];
         }
-        return `大${char}${this.selectTerm?.term}学期`;
+        return `大${char}${selectTerm.value?.term}学期`;
         // FIXME: 只根据学号来推算大几
-      }
+      });
+
+      return {
+        scoreList,
+        selectTerm,
+        isRefleshing,
+        handleSort,
+        termChanged,
+        reflesh,
+        termInfo,
+        relativeTermInfo,
+        averageScorePoint,
+        helpContent
+      };
     }
   });
 </script>

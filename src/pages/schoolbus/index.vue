@@ -1,8 +1,8 @@
 <template>
-  <web-view src="https://mp.weixin.qq.com/s/Xq-golNPMVQGnXxbeMagtg" />
+  <web-view :src="schoolBusUrl" />
 </template>
-<script lang="ts">
-  import { defineComponent } from 'vue';
+<script setup lang="ts">
+  import { systemStore } from '@/store';
   import './index.scss';
-  export default defineComponent({});
+  const schoolBusUrl = systemStore.generalInfo.schoolBusUrl;
 </script>

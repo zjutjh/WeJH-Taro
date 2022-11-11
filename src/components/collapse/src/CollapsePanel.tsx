@@ -3,16 +3,21 @@ import '../styles/index.scss';
 import { WListItem } from '@/components/list';
 
 const collapsePanelProps = {
-  title: String,
+  title: {
+    type: String
+  },
   defaultActive: {
     type: Boolean,
     default: false
   },
   maxHeight: {
     type: String,
-    default: '100px'
+    default: '500px'
   },
-  extra: String
+  arrow: {
+    type: Boolean,
+    default: false
+  }
 };
 
 export default defineComponent({
@@ -32,25 +37,26 @@ export default defineComponent({
     }
   },
   render() {
-    const { $slots, handleClick, title, isActive, maxHeight, extra } = this;
+    const { $slots, handleClick, isActive, maxHeight, arrow, title } = this;
 
     return (
       <>
-        {$slots.header ? (
-          <WListItem
-            class={[
-              'wjh-collapse-panel-header',
-              isActive ? 'wjh-collapse-panel-active' : undefined
-            ]}
-            onTap={handleClick}
-            extra={extra}
-          >
-            {title ? <view>{title}</view> : null}
-            {$slots.header()}
-          </WListItem>
-        ) : null}
+        <WListItem
+          class={[
+            'wjh-collapse-panel-header',
+            isActive ? 'wjh-collapse-panel-header-active' : undefined
+          ]}
+          onTap={handleClick}
+          clickable={arrow}
+        >
+          {title}
+          {$slots.header?.()}
+        </WListItem>
         <view
-          class="wjh-collapse-panel-content"
+          class={[
+            'wjh-collapse-panel-content',
+            isActive ? 'wjh-collapse-panel-content-active' : undefined
+          ]}
           style={{ maxHeight: isActive ? maxHeight : '0' }}
         >
           <WListItem>{$slots.default?.()}</WListItem>

@@ -59,25 +59,50 @@
 .score-list-collapse {
   .wjh-collapse-panel-header {
     font-size: 0.875rem;
+
+    .wjh-list-item-content-arrow {
+      color: var(--wjh-color-week);
+    }
+  }
+
+  .score-list-collapse-item-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: auto;
+  }
+
+  .score-list-collapse-extra {
+    flex: 0 0 10%;
   }
 
   .wjh-list-item-content {
     justify-content: space-between;
   }
 
+  .wjh-list-item-content-main {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   .score-detail-list {
     font-size: 0.75rem;
-    color: var(--wjh-color-week);
+    color: var(--wjh-color-text);
     width: 100%;
   }
 
-  .wjh-collapse-panel-active {
+  .wjh-collapse-panel-header-active {
+    transition: all 0.5s;
     color: var(--wjh-color-primary);
   }
 
   .wjh-descriptions-item-container {
     justify-content: space-between;
   }
+}
+
+.score-help {
+  font-size: 0.8rem;
+  color: var(--wjh-color-week);
 }
 
 .score-bottom-panel {

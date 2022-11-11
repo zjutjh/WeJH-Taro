@@ -17,7 +17,7 @@
   >
     <w-button class="week-selector">
       <text v-if="week > 18 || week < 1">放假中</text>
-      <view v-else class="picker">{{ currentWeek }}</view>
+      <view v-else class="picker">第 {{ props.week }} 周</view>
     </w-button>
   </picker>
   <w-button
@@ -31,61 +31,36 @@
   </w-button>
 </template>
 
-<script lang="ts">
-  import { defineComponent, ref } from 'vue';
-  import { WButton } from '../button';
+<script setup lang="ts">
+  import { ref } from 'vue';
+  import { WButton } from '@/components/button';
   import './index.scss';
 
-  export default defineComponent({
-    name: 'WeekPick',
-    components: {
-      WButton
-    },
-    props: {
-      week: {
-        default: 1,
-        type: Number
-      }
-    },
-    setup(props) {
-      let selector: string[] = [];
-      for (let i = 1; i <= 20; i++) selector.push(`第 ${i} 周`);
-      const selectorValue = ref(props.week - 1 < 0 ? 0 : props.week - 1);
-      return {
-        selector,
-        selectorValue
-      };
-    },
-    data() {
-      return {
-        currentWeek: ''
-      };
-    },
-    mounted() {
-      this.currentWeek = this.selector[this.selectorValue];
-    },
-    methods: {
-      onChange(e) {
-        this.currentWeek = this.selector[e.detail.value];
-        this.selectorValue = parseInt(e.detail.value);
-        this.$emit('update:week', parseInt(e.detail.value) + 1);
-      },
-      backwardWeek() {
-        if (this.selectorValue > 0) {
-          this.selectorValue = this.week - 1 - 1;
-          if (this.selectorValue < 0) this.selectorValue = 0;
-          this.currentWeek = this.selector[this.selectorValue];
-          this.$emit('update:week', this.week - 1);
-        }
-      },
-      forwardWeek() {
-        if (this.selectorValue < 18) {
-          this.selectorValue = this.week + 1 - 1;
-          if (this.selectorValue < 0) this.selectorValue = 0;
-          this.currentWeek = this.selector[this.selectorValue];
-          this.$emit('update:week', this.week + 1);
-        }
-      }
+  const emit = defineEmits(['update:week']);
+  const props = defineProps<{ week: number }>();
+
+  const selectorValue = ref(props.week - 1 < 0 ? 0 : props.week - 1);
+  let selector: string[] = [];
+
+  for (let i = 1; i <= 20; i++) selector.push(`第 ${i} 周`);
+
+  function onChange(e) {
+    selectorValue.value = parseInt(e.detail.value);
+    emit('update:week', parseInt(e.detail.value) + 1);
+  }
+
+  function backwardWeek() {
+    if (selectorValue.value > 0) {
+      selectorValue.value = props.week - 1 - 1;
+      if (selectorValue.value < 0) selectorValue.value = 0;
+      emit('update:week', props.week - 1);
     }
-  });
+  }
+  function forwardWeek() {
+    if (selectorValue.value < 18) {
+      selectorValue.value = props.week + 1 - 1;
+      if (selectorValue.value < 0) selectorValue.value = 0;
+      emit('update:week', props.week + 1);
+    }
+  }
 </script>
