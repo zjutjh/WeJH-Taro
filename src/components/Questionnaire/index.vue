@@ -41,6 +41,7 @@
   import Taro from '@tarojs/taro';
   import { ref } from 'vue';
   import store, { systemStore } from '@/store';
+  import { questionnaireInfo } from '@/constants/updateInfo';
 
   const showQuestionnaire = ref(true);
   const isFold = ref(false);
@@ -75,8 +76,8 @@
   const openQuestionnaire = () => {
     toggleFold(true);
     Taro.navigateToMiniProgram({
-      appId: 'wxd947200f82267e58',
-      path: 'pages/wjxqList/wjxqList?activityId=O5XQdXK'
+      appId: questionnaireInfo.appId,
+      path: questionnaireInfo.path
     });
   };
 </script>
