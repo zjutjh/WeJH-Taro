@@ -20,8 +20,7 @@ async function postWithSession(
 
   // comment: 如果刚才发出了请求，并且有结果，就直接返回结果
   // TODO: NotLogin
-  if (res !== null && hasSession && res?.data.code !== ServerCode.NotLogin)
-    return res;
+  if (res !== null && hasSession) return res;
 
   // !hasSession 非自动登录，就直接取消继续获取 session
   // 如testSession 就不用再获取 session
