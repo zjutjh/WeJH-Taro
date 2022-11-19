@@ -24,10 +24,6 @@
   export default defineComponent({
     components: { 'quick-view': QuickView },
 
-    async mounted() {
-      await CardService.updateCardBalance();
-    },
-
     computed: {
       balanceUpdateTimeString() {
         const updateTime = serviceStore.card.updateTime;

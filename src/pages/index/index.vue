@@ -53,7 +53,7 @@
     });
   });
 
-  const newVersion = Taro.getAccountInfoSync().miniProgram.version;
+  const newVersion = updateInfo.version;
   if (newVersion && systemStore.version !== newVersion) {
     store.commit('setVersion', newVersion);
     showUpdateInfo.value = true;
