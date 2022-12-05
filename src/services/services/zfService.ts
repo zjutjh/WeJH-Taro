@@ -103,7 +103,7 @@ export default class ZFService {
     term: string;
     campus: string;
     weekday: string;
-    section: string;
+    sections: string;
     week: string;
   }) {
     return updateDateStateWithSession(api.zf.freeroom, data, 'setRoomInfo');

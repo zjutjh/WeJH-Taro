@@ -45,7 +45,17 @@
   import { Room } from '@/types/Room';
   import './index.scss';
 
-  function roomChanged(e) {
+  type freeRoomQueryType = {
+    campus: string;
+    sections: string; // 可扩展区间选择
+    term: string;
+    week: string;
+    weekday: string;
+    year: string;
+  }
+
+  function roomChanged(e: freeRoomQueryType) {
+    console.log(e);
     ZFService.getFreeRoomInfo(e);
   }
 
@@ -64,6 +74,7 @@
         tmp[freeroomMap[item.buildName[0]]] = [];
       tmp[freeroomMap[item.buildName[0]]].push(item);
     });
+
     Object.keys(tmp).forEach((key) => {
       buildingList.push({
         buildName: key,
