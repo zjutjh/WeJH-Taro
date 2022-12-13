@@ -1,4 +1,5 @@
-@import './components/input';
+@import "./icons.scss";
+@import "./puhuiti.scss";
 
 page {
   background-color: #f5f5f5;
@@ -17,11 +18,6 @@ scroll-view {
   padding: 1.2rem 1rem;
 }
 
-.jc-index-panel {
-  background-color: rgba(255, 255, 255, 0.7);
-  @include blur;
-}
-
 .background {
   position: fixed;
   display: flex;
@@ -34,48 +30,9 @@ scroll-view {
   background-repeat: no-repeat;
 }
 
-// TODO: 静态图标统一到 iconfont 中
-
-.wjh-icon-exam {
-  background-image: url('~@/assets/icons/applist/exam.svg');
-}
-
-.wjh-icon-freeroom {
-  background-image: url('~@/assets/icons/applist/freeroom.svg');
-}
-
-.wjh-icon-lessonstable {
-  background: url('~@/assets/icons/applist/lessonstable.svg');
-}
-
-.wjh-icon-library {
-  background-image: url('~@/assets/icons/applist/library.svg');
-}
-
-.wjh-icon-schoolbus {
-  background-image: url('~@/assets/icons/applist/schoolbus.svg');
-}
-
-.wjh-icon-schoolecard {
-  background-image: url('~@/assets/icons/applist/schoolcard.svg');
-}
-
-.wjh-icon-score {
-  background-image: url('~@/assets/icons/applist/score.svg');
-}
-
-.wjh-icon-lessonstable-fill {
-  background: url('~@/assets/icons/quickview/lessonstable.svg');
-}
-
-.wjh-icon-schoolcard-fill {
-  background: url('~@/assets/icons/quickview/schoolcard.svg');
-}
-
-.wjh-icon-library-fill {
-  background: url('~@/assets/icons/quickview/library.svg');
-}
-
-.wjh-icon-questionnaire-fill {
-  background: url('~@/assets/icons/quickview/questionnaire.svg');
+input {
+  border: 2Px solid var(--wjh-color-light);
+  padding: 0.3rem 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 0.2rem;
 }

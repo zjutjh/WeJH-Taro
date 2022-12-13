@@ -1,6 +1,6 @@
 export default {
-  navigationBarTitleText: '校园卡',
+  navigationBarTitleText: "校园卡",
   disableScroll: true,
-  backgroundColor: '#dfdfdf',
-  navigationStyle: 'custom'
+  backgroundColor: "#dfdfdf",
+  navigationStyle: "custom"
 };

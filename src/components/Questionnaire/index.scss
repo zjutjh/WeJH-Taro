@@ -1,4 +1,5 @@
 @import '@/style/theme.scss';
+@import '@/style/mixin.scss';
 
 .questionnaire {
   @include radius;

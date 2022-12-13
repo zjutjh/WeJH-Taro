@@ -1,9 +1,9 @@
-import { defineComponent } from 'vue';
-import '../styles/index.scss';
+import { defineComponent } from "vue";
+import "../styles/index.scss";
 
 const modalProps = {
   title: {
-    default: '帮助',
+    default: "帮助",
     type: String
   },
   mask: {
@@ -19,17 +19,17 @@ const modalProps = {
   }
 };
 export default defineComponent({
-  name: 'WModal',
+  name: "WModal",
   props: modalProps,
   methods: {
     closeModal() {
-      this.$emit('update:show', false);
+      this.$emit("update:show", false);
     }
   },
   render() {
     const { $slots, $props, closeModal } = this;
     return (
-      <view class={['wjh-modal', !$props.show ? 'hidden' : undefined]}>
+      <view class={["wjh-modal", !$props.show ? "hidden" : undefined]}>
         <view class="wjh-modal-container">
           <view class="wjh-modal-header">
             {$props.title}

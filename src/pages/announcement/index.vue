@@ -1,6 +1,6 @@
 <template>
   <view class="background">
-    <title-bar title="公告"></title-bar>
+    <title-bar title="公告" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/announcement.svg"></image>
@@ -27,28 +27,20 @@
   </view>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import Card from '@/components/Card/index.vue';
-  import TitleBar from '@/components/TitleBar/index.vue';
-  import dayjs from 'dayjs';
-  import { serviceStore } from '@/store';
-  import './index.scss';
+<script setup lang="ts">
+import Card from "@/components/Card/index.vue";
+import TitleBar from "@/components/TitleBar/index.vue";
+import dayjs from "dayjs";
+import { serviceStore } from "@/store";
+import "./index.scss";
+import { computed } from "vue";
 
-  export default defineComponent({
-    components: { Card, TitleBar },
-    data() {
-      return {};
-    },
-    computed: {
-      announcementList() {
-        return [...serviceStore.announcement.announcements].reverse();
-      }
-    },
-    methods: {
-      timeFotmat: (time: string) => {
-        return dayjs(time).format('YYYY年MM月DD日');
-      }
-    }
-  });
+const announcementList = computed(() => {
+  return [...serviceStore.announcement.announcements].reverse();
+});
+
+const timeFotmat = (time: string) => {
+  return dayjs(time).format("YYYY年MM月DD日");
+};
+
 </script>

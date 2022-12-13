@@ -1,7 +1,7 @@
-import { Exam } from '@/types/Exam';
-import { Lesson, PracticeLesson } from '@/types/Lesson';
-import { Room } from '@/types/Room';
-import { Score } from '@/types/Score';
+import { Exam } from "@/types/Exam";
+import { Lesson, PracticeLesson } from "@/types/Lesson";
+import { Room } from "@/types/Room";
+import { Score } from "@/types/Score";
 
 export interface ZFServiceType {
   lessonsTableInfo: {

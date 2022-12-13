@@ -32,35 +32,35 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { WButton } from '@/components/button';
-  import './index.scss';
+import { ref } from "vue";
+import { WButton } from "@/components/button";
+import "./index.scss";
 
-  const emit = defineEmits(['update:week']);
-  const props = defineProps<{ week: number }>();
+const emit = defineEmits(["update:week"]);
+const props = defineProps<{ week: number }>();
 
-  const selectorValue = ref(props.week - 1 < 0 ? 0 : props.week - 1);
-  let selector: string[] = [];
+const selectorValue = ref(props.week - 1 < 0 ? 0 : props.week - 1);
+let selector: string[] = [];
 
-  for (let i = 1; i <= 20; i++) selector.push(`第 ${i} 周`);
+for (let i = 1; i <= 20; i++) selector.push(`第 ${i} 周`);
 
-  function onChange(e) {
-    selectorValue.value = parseInt(e.detail.value);
-    emit('update:week', parseInt(e.detail.value) + 1);
+function onChange(e) {
+  selectorValue.value = parseInt(e.detail.value);
+  emit("update:week", parseInt(e.detail.value) + 1);
+}
+
+function backwardWeek() {
+  if (selectorValue.value > 0) {
+    selectorValue.value = props.week - 1 - 1;
+    if (selectorValue.value < 0) selectorValue.value = 0;
+    emit("update:week", props.week - 1);
   }
-
-  function backwardWeek() {
-    if (selectorValue.value > 0) {
-      selectorValue.value = props.week - 1 - 1;
-      if (selectorValue.value < 0) selectorValue.value = 0;
-      emit('update:week', props.week - 1);
-    }
+}
+function forwardWeek() {
+  if (selectorValue.value < 18) {
+    selectorValue.value = props.week + 1 - 1;
+    if (selectorValue.value < 0) selectorValue.value = 0;
+    emit("update:week", props.week + 1);
   }
-  function forwardWeek() {
-    if (selectorValue.value < 18) {
-      selectorValue.value = props.week + 1 - 1;
-      if (selectorValue.value < 0) selectorValue.value = 0;
-      emit('update:week', props.week + 1);
-    }
-  }
+}
 </script>

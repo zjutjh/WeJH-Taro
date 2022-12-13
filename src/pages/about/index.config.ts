@@ -1,5 +1,5 @@
 export default {
-  navigationBarTitleText: '关于',
-  backgroundColor: '#dfdfdf',
+  navigationBarTitleText: "关于",
+  backgroundColor: "#dfdfdf",
   disableScroll: true
 };

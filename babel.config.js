@@ -3,9 +3,9 @@
 module.exports = {
   presets: [
     [
-      'taro',
+      "taro",
       {
-        framework: 'vue3',
+        framework: "vue3",
         ts: true,
         loose: false
       }

@@ -1,1 +1,1 @@
-export { default as WModal } from './src/Modal';
+export { default as WModal } from "./src/Modal";

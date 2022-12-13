@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue';
-import '../styles/index.scss';
+import { defineComponent } from "vue";
+import "../styles/index.scss";
 
 const descriptionsItemProps = {
   label: String,
@@ -10,7 +10,7 @@ const descriptionsItemProps = {
 };
 
 export default defineComponent({
-  name: 'DescriptionsItem',
+  name: "DescriptionsItem",
   props: descriptionsItemProps,
   render() {
     const { $slots, $props } = this;

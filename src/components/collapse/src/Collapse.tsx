@@ -1,6 +1,6 @@
-import { WList } from '@/components/list';
-import { defineComponent } from 'vue';
-import '../styles/index.scss';
+import { WList } from "@/components/list";
+import { defineComponent } from "vue";
+import "../styles/index.scss";
 
 const collapseProps = {
   defaultAvtiveKey: {
@@ -9,7 +9,7 @@ const collapseProps = {
   }
 };
 export default defineComponent({
-  name: 'Collapse',
+  name: "Collapse",
   props: collapseProps,
   components: {
     WList

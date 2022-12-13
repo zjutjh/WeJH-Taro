@@ -1,1 +1,1 @@
-export { default as WButton } from './src/Button';
+export { default as WButton } from "./src/Button";

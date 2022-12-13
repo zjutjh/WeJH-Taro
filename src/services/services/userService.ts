@@ -1,10 +1,10 @@
-import Taro from '@tarojs/taro';
-import store from '@/store';
-import fetch, { FetchResult } from '@/utils/fetch';
-import { api } from '../api/apiList';
-import { updateDateStateWithSession } from '../utils/updateDateState';
-import errCodeHandler from '../utils/errHandler';
-import { ServerCode } from '../api/codes';
+import Taro from "@tarojs/taro";
+import store from "@/store";
+import { fetch, FetchResult } from "@/utils";
+import { api } from "../api/apiList";
+import { updateDateStateWithSession } from "../utils/updateDateState";
+import errCodeHandler from "../utils/errHandler";
+import { ServerCode } from "../api/codes";
 
 export default class UserService {
   // fix: param autoLogin is overriden by showModal
@@ -12,7 +12,7 @@ export default class UserService {
     return updateDateStateWithSession(
       api.user.bind.library,
       data,
-      'setBindLibrary',
+      "setBindLibrary",
       (res: FetchResult) => res.data.code === 1,
       true,
       showModal
@@ -23,7 +23,7 @@ export default class UserService {
     return updateDateStateWithSession(
       api.user.bind.zf,
       data,
-      'setBindZF',
+      "setBindZF",
       (res: FetchResult) => res.data.code === 1,
       true,
       showModal
@@ -37,7 +37,7 @@ export default class UserService {
     return updateDateStateWithSession(
       api.user.bind.schoolCard,
       data,
-      'setBindSchoolCard',
+      "setBindSchoolCard",
       (res: FetchResult) => res.data.code === 1,
       true,
       showModal
@@ -51,7 +51,7 @@ export default class UserService {
     return await updateDateStateWithSession(
       api.user.info,
       null,
-      'setUserInfo',
+      "setUserInfo",
       (res: FetchResult) => {
         return res.data.data.user;
       },
@@ -78,7 +78,7 @@ export default class UserService {
     let res = await fetch.post(api.user.create.wechat, userForm);
     if (res.statusCode === 200 && res.data.code === ServerCode.OK) {
       if (res.cookies && res.cookies.length > 0) {
-        store.commit('setSession', res.cookies[0]);
+        store.commit("setSession", res.cookies[0]);
         UserService.getUserInfo();
       }
       return true;
@@ -99,7 +99,7 @@ export default class UserService {
     let res = await fetch.post(api.user.create.h5, userForm);
     if (res.statusCode === 200) {
       if (res.cookies && res.cookies.length > 0) {
-        store.commit('setSession', res.cookies[0]);
+        store.commit("setSession", res.cookies[0]);
         UserService.getUserInfo();
       }
       return true;

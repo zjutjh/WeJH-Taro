@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue';
-import '../styles/index.scss';
+import { defineComponent } from "vue";
+import "../styles/index.scss";
 
 const listItemProps = {
   clickable: {
@@ -8,7 +8,7 @@ const listItemProps = {
   }
 };
 export default defineComponent({
-  name: 'ListItem',
+  name: "ListItem",
   props: listItemProps,
   render() {
     const { $slots, $props } = this;

@@ -1,5 +1,5 @@
-import Taro from '@tarojs/taro';
-import { cookiesToString, ICookie } from '../cookie/cookie';
+import Taro from "@tarojs/taro";
+import { cookiesToString, ICookie } from "./cookie";
 
 interface FetchResult extends Taro.request.SuccessCallbackResult<any> {
   cookies?: string[];
@@ -8,17 +8,17 @@ interface FetchResult extends Taro.request.SuccessCallbackResult<any> {
 function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
   const header = cookies
     ? {
-        'Content-type': 'application/json',
-        Cookie: cookiesToString(cookies)
-      }
+      "Content-type": "application/json",
+      Cookie: cookiesToString(cookies)
+    }
     : {
-        'Content-type': 'application/json'
-      };
+      "Content-type": "application/json"
+    };
   return new Promise((resolve, reject) => {
     Taro.request({
       url: url,
       header: header,
-      mode: 'cors',
+      mode: "cors",
       success: (res) => {
         resolve(res);
       },
@@ -38,19 +38,19 @@ function postJson(
   return new Promise((resolve, reject) => {
     const header = cookies
       ? {
-          'Content-type': 'application/json',
-          Cookie: cookiesToString(cookies)
-        }
+        "Content-type": "application/json",
+        Cookie: cookiesToString(cookies)
+      }
       : {
-          'Content-type': 'application/json'
-        };
+        "Content-type": "application/json"
+      };
 
     Taro.request({
       url: url,
       data: data ? data : undefined,
       header: header,
-      method: 'POST',
-      mode: 'cors',
+      method: "POST",
+      mode: "cors",
       success: (res) => {
         resolve(res);
       },
@@ -64,9 +64,7 @@ function postJson(
 
 let fetch = {
   get: get,
-  postJson: postJson,
   post: postJson
 };
 
-export default fetch;
-export { FetchResult };
+export { fetch, FetchResult };

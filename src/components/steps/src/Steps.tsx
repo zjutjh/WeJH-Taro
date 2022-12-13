@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue';
-import '../styles/index.scss';
+import { defineComponent } from "vue";
+import "../styles/index.scss";
 
 const stepProps = {
   total: Number,
@@ -7,7 +7,7 @@ const stepProps = {
 };
 
 export default defineComponent({
-  name: 'WSteps',
+  name: "WSteps",
   props: stepProps,
   render() {
     const { $slots, $props } = this;
@@ -20,13 +20,13 @@ export default defineComponent({
           return (
             <view
               class={[
-                'wjh-steps-item',
+                "wjh-steps-item",
                 index === $props.current - 1
-                  ? 'wjh-steps-item-active'
+                  ? "wjh-steps-item-active"
                   : undefined
               ]}
             >
-              {index === $props.current - 1 ? `0${$props.current}` : ''}
+              {index === $props.current - 1 ? `0${$props.current}` : ""}
             </view>
           );
         })}

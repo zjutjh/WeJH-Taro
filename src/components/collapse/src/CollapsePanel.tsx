@@ -1,6 +1,6 @@
-import { defineComponent } from 'vue';
-import '../styles/index.scss';
-import { WListItem } from '@/components/list';
+import { defineComponent } from "vue";
+import "../styles/index.scss";
+import { WListItem } from "@/components/list";
 
 const collapsePanelProps = {
   title: {
@@ -12,7 +12,7 @@ const collapsePanelProps = {
   },
   maxHeight: {
     type: String,
-    default: '500px'
+    default: "500px"
   },
   arrow: {
     type: Boolean,
@@ -21,7 +21,7 @@ const collapsePanelProps = {
 };
 
 export default defineComponent({
-  name: 'CollapsePanel',
+  name: "CollapsePanel",
   props: collapsePanelProps,
   components: {
     WListItem
@@ -43,8 +43,8 @@ export default defineComponent({
       <>
         <WListItem
           class={[
-            'wjh-collapse-panel-header',
-            isActive ? 'wjh-collapse-panel-header-active' : undefined
+            "wjh-collapse-panel-header",
+            isActive ? "wjh-collapse-panel-header-active" : undefined
           ]}
           onTap={handleClick}
           clickable={arrow}
@@ -54,10 +54,10 @@ export default defineComponent({
         </WListItem>
         <view
           class={[
-            'wjh-collapse-panel-content',
-            isActive ? 'wjh-collapse-panel-content-active' : undefined
+            "wjh-collapse-panel-content",
+            isActive ? "wjh-collapse-panel-content-active" : undefined
           ]}
-          style={{ maxHeight: isActive ? maxHeight : '0' }}
+          style={{ maxHeight: isActive ? maxHeight : "0" }}
         >
           <WListItem>{$slots.default?.()}</WListItem>
         </view>

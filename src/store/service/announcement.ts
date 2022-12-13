@@ -1,4 +1,4 @@
-import { Announcement } from 'src/types/Announcement';
+import { Announcement } from "src/types/Announcement";
 
 export interface AnnouncementType {
   announcements: Announcement[];

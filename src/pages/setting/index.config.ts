@@ -1,6 +1,6 @@
 export default {
-  navigationBarTitleText: '设置',
+  navigationBarTitleText: "设置",
   disableScroll: true,
-  backgroundColor: '#dfdfdf',
-  navigationStyle: 'custom'
+  backgroundColor: "#dfdfdf",
+  navigationStyle: "custom"
 };

@@ -1,69 +1,48 @@
 <template>
   <view class="background">
-    <home v-if="pageName === 'home'"></home>
-    <my v-if="pageName === 'my'"></my>
-    <pop-view v-model:show="showPop">
-      <app-list v-if="showPop"></app-list>
-    </pop-view>
-    <nav-bar
-      @plusClick="plusClick"
-      :show-plus="isActive"
-      v-model:page-name="pageName"
-      v-model:showPop="showPop"
-    ></nav-bar>
+    <home v-if="pageName === 'home'" />
+    <my v-if="pageName === 'my'" />
+    <nav-bar @onChange="setPageName" :pageName="pageName" />
   </view>
-  <w-modal
-    :title="updateInfo.title"
-    :content="updateInfo.content"
-    v-model:show="showUpdateInfo"
-  ></w-modal>
+  <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content" />
 </template>
 
 <script setup lang="ts">
-  import AppList from '@/components/AppList/index.vue';
-  import NavBar from '@/components/NavBar/index.vue';
-  import PopView from '@/components/PopView/index.vue';
-  import Home from '@/components/Home/index.vue';
-  import My from '@/components/My/index.vue';
-  import Taro from '@tarojs/taro';
-  import { WModal } from '@/components/modal';
-  import { ZFService } from '@/services';
-  import { computed, ref } from 'vue';
-  import store, { serviceStore, systemStore } from '@/store';
-  import { updateInfo } from '@/constants/index';
-  import './index.scss';
+import NavBar from "@/components/NavBar/index.vue";
+import Home from "@/components/Home/index.vue";
+import My from "@/components/My/index.vue";
+import Taro from "@tarojs/taro";
+import { WModal } from "@/components/modal";
+import { ref } from "vue";
+import store, { systemStore } from "@/store";
+import { updateInfo } from "@/constants/index";
+import "./index.scss";
 
-  const showPop = ref(false);
-  const pageName = ref('home');
-  const showUpdateInfo = ref(false);
+const pageName = ref("home");
+const showUpdateInfo = ref(false);
 
-  ZFService.getTodayLessonTable();
+const updateManager = Taro.getUpdateManager();
 
-  const updateManager = Taro.getUpdateManager();
-
-  updateManager.onUpdateReady(function () {
-    Taro.showModal({
-      title: '微精弘更新提示',
-      content: '新版本已经准备好，是否重启应用？',
-      success: function (res) {
-        if (res.confirm) {
-          updateManager.applyUpdate();
-        }
+updateManager.onUpdateReady(function () {
+  Taro.showModal({
+    title: "微精弘更新提示",
+    content: "新版本已经准备好，是否重启应用？",
+    success: function (res) {
+      if (res.confirm) {
+        updateManager.applyUpdate();
       }
-    });
+    }
   });
+});
 
-  const newVersion = updateInfo.version;
-  if (newVersion && systemStore.version !== newVersion) {
-    store.commit('setVersion', newVersion);
-    showUpdateInfo.value = true;
-  }
+const setPageName = (key: string) => {
+  pageName.value = key;
+};
 
-  function plusClick() {
-    showPop.value = !showPop.value;
-  }
+const newVersion = updateInfo.version;
+if (newVersion && systemStore.version !== newVersion) {
+  store.commit("setVersion", newVersion);
+  showUpdateInfo.value = true;
+}
 
-  const isActive = computed(() => {
-    return serviceStore.user.isActive;
-  });
 </script>

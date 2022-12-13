@@ -1,15 +1,15 @@
-import { defineComponent, PropType } from 'vue';
-import '../styles/index.scss';
+import { defineComponent, PropType } from "vue";
+import "../styles/index.scss";
 
 const listProps = {
   size: {
-    type: String as PropType<'small' | 'middle'>,
-    default: 'middle'
+    type: String as PropType<"small" | "middle">,
+    default: "middle"
   }
 };
 
 export default defineComponent({
-  name: 'List',
+  name: "List",
   props: listProps,
   render() {
     const { $slots, $props } = this;

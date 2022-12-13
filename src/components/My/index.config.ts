@@ -1,5 +1,5 @@
 export default {
-  navigationBarTitleText: '我的',
+  navigationBarTitleText: "我的",
   disableScroll: true,
-  backgroundColor: '#fff'
+  backgroundColor: "#fff"
 };

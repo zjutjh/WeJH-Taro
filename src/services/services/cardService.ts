@@ -1,14 +1,14 @@
-import { serviceStore } from '@/store';
-import { FetchResult } from '@/utils/fetch';
-import { api } from '../api/apiList';
-import { updateDateStateWithSession } from '../utils/updateDateState';
+import { serviceStore } from "@/store";
+import { FetchResult } from "@/utils";
+import { api } from "../api/apiList";
+import { updateDateStateWithSession } from "../utils/updateDateState";
 
 export default class CardService {
   static async updateCardBalance(): Promise<any> {
     return updateDateStateWithSession(
       api.card.balance,
       null,
-      'setCardBalance',
+      "setCardBalance",
       (res: FetchResult) => res.data.data.balance
     );
   }
@@ -20,7 +20,7 @@ export default class CardService {
     return updateDateStateWithSession(
       api.card.history,
       data,
-      'setCardHistory',
+      "setCardHistory",
       (res: FetchResult) => {
         return {
           data: res.data.data,
@@ -34,6 +34,6 @@ export default class CardService {
     return serviceStore?.card.history || [];
   }
   static async updateCardToday(): Promise<any> {
-    return updateDateStateWithSession(api.card.today, null, 'setCardToday');
+    return updateDateStateWithSession(api.card.today, null, "setCardToday");
   }
 }
