@@ -17,13 +17,15 @@ import SchoolCardQuickView from "./SchoolCardQuickView/index.vue";
 import TermPicker from "./TermPicker/index.vue";
 import TitleBar from "./TitleBar/index.vue";
 import WeekPicker from "./WeekPicker/index.vue";
-
-import { WList, WListItem } from "./list";
-import { WButton } from "./button";
-import { WCollapse, WCollapsePanel } from "./collapse/";
-import { WDescriptions, WDescriptionsItem }  from "./descriptions";
-import { WModal } from "./modal";
-import { WSteps } from "./steps";
+import WButton from "./Button/index.vue";
+import WList from "./List/List.vue";
+import WListItem from "./List/ListItem.vue";
+import WModal from "./Modal/index.vue";
+import WCollapse from "./Collapse/Collapse.vue";
+import WCollapsePanel from "./Collapse/CollapsePanel.vue";
+import WSteps from "./Steps/index.vue";
+import WDescriptions  from "./Descriptions/Descriptions.vue";
+import WDescriptionsItem from "./Descriptions/DescriptionsItem.vue";
 
 export {
   Alarm,

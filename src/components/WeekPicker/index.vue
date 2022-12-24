@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { WButton } from "@/components/button";
+import WButton from "../Button/index.vue";
 import "./index.scss";
 
 const emit = defineEmits(["update:week"]);

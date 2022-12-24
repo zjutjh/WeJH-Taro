@@ -31,9 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import TitleBar from "@/components/TitleBar/index.vue";
-import Card from "@/components/Card/index.vue";
-import { WCollapse, WCollapsePanel } from "@/components/collapse";
+import { TitleBar, Card, WCollapsePanel, WCollapse } from "@/components";
 import { faqText } from "@/constants/copywriting";
 import "./index.scss";
 

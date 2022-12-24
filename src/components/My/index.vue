@@ -54,10 +54,11 @@
 
 <script setup lang="ts">
 import { serviceStore } from "@/store";
-import Card from "@/components/Card/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
-import { WList, WListItem } from "@/components/list/index";
-import { WButton } from "@/components/button";
+import Card from "../Card/index.vue";
+import TitleBar from "../TitleBar/index.vue";
+import WList from "../List/List.vue";
+import WListItem from "../List/ListItem.vue";
+import WButton from "../Button/index.vue";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
 import { onMounted, ref } from "vue";

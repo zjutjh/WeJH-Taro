@@ -40,7 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { Card, QuickView } from "@/components/index";
+import Card from "../Card/index.vue";
+import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import { ZFService } from "@/services";
 import dayjs from "dayjs";

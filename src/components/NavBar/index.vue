@@ -21,9 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import AppList from "@/components/AppList/index.vue";
-import PopView from "@/components/PopView/index.vue";
-import BottomPanel from "@/components/BottomPanel/index.vue";
+import AppList from "../AppList/index.vue";
+import PopView from "../PopView/index.vue";
+import BottomPanel from "../BottomPanel/index.vue";
 import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import "./index.scss";

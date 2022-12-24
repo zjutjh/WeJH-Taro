@@ -95,10 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import Card from "@/components/Card/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
-import { WButton } from "@/components/button";
-import { WSteps } from "@/components/steps";
+import { Card, TitleBar, WButton, WSteps } from "@/components";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
 import "./index.scss";

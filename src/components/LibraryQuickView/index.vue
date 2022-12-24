@@ -25,7 +25,7 @@
 import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
-import Card from "@/components/Card/index.vue";
+import Card from "../Card/index.vue";
 import { CSSProperties, computed } from "vue";
 import { serviceStore } from "@/store";
 import "./index.scss";

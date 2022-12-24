@@ -77,10 +77,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import Card from "@/components/Card/index.vue";
-import { WButton, } from "@/components/button";
-import TitleBar from "@/components/TitleBar/index.vue";
-import RefreshButton from "@/components/RefreshButton/index.vue";
+import { Card, WButton, TitleBar, RefreshButton } from "@/components";
 import { CardService } from "@/services";
 import dayjs from "dayjs";
 import { CardConsume } from "@/types/CardConsume";

@@ -61,12 +61,10 @@
 
 <script setup lang="ts">
 import { CanteenService } from "@/services";
-import Card from "@/components/Card/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
+import { Card, TitleBar, WModal } from "@/components";
 import { computed, onMounted, ref } from "vue";
 import { serviceStore } from "@/store";
 import { helpText } from "@/constants/copywriting";
-import { WModal } from "@/components/modal";
 import "./index.scss";
 
 const showModal = ref(false);

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { toRefs } from "vue";
-import { WButton } from "../button";
+import WButton from "../Button/index.vue";
 import "./index.scss";
 
 const props = defineProps<{ isRefreshing: boolean }>();

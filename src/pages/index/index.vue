@@ -8,11 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import NavBar from "@/components/NavBar/index.vue";
-import Home from "@/components/Home/index.vue";
-import My from "@/components/My/index.vue";
+import { NavBar, Home, My, WModal } from "@/components";
 import Taro from "@tarojs/taro";
-import { WModal } from "@/components/modal";
 import { ref } from "vue";
 import store, { systemStore } from "@/store";
 import { updateInfo } from "@/constants/index";

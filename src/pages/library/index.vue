@@ -88,10 +88,7 @@
 <script setup lang="ts">
 import "./index.scss";
 import { computed, ref, onMounted } from "vue";
-import Card from "@/components/Card/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
-import RefreshButton from "@/components/RefreshButton/index.vue";
-import { WButton } from "@/components/button";
+import { Card, TitleBar, RefreshButton, WButton } from "@/components";
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";

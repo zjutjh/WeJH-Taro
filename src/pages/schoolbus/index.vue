@@ -1,6 +1,7 @@
 <template>
   <web-view :src="schoolBusUrl" />
 </template>
+
 <script setup lang="ts">
 import { systemStore } from "@/store";
 import "./index.scss";

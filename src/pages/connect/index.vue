@@ -29,9 +29,7 @@
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
-import { WList, WListItem } from "@/components/list";
-import TitleBar from "@/components/TitleBar/index.vue";
-import Card from "@/components/Card/index.vue";
+import { WList, WListItem, Card, TitleBar } from "@/components";
 import "./index.scss";
 
 const groupInfo = [

@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { WButton } from "../button";
+import WButton from "../Button/index.vue";
 import { computed, reactive, ref } from "vue";
 import { systemStore } from "@/store";
 

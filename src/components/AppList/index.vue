@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import AppListItem  from "./AppListItem/index.vue";
-import { Card } from "@/components/index";
+import Card from "../Card/index.vue";
 import { serviceStore } from "@/store";
 import "./index.scss";
 

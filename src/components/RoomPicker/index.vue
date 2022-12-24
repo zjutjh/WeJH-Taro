@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { WButton } from "../button";
+import WButton from "../Button/index.vue";
 import { reactive, ref, onMounted } from "vue";
 import { systemStore } from "@/store";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";

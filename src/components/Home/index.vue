@@ -39,16 +39,15 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import store, { serviceStore, systemStore } from "@/store";
-import { Alarm,
-  WButton,
-  Card,
-  LibraryQuickView,
-  LessonsTableQuickView,
-  Questionnaire,
-  WModal,
-  SchoolCardQuickView,
-  TitleBar
-} from "@/components/index";
+import Alarm from "../Alarm/index.vue";
+import WButton from "../Button/index.vue";
+import Card from "../Card/index.vue";
+import LibraryQuickView from "../LibraryQuickView/index.vue";
+import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
+import Questionnaire from "../Questionnaire/index.vue";
+import WModal from "../Modal/index.vue";
+import SchoolCardQuickView from "../SchoolCardQuickView/index.vue";
+import TitleBar from "../TitleBar/index.vue";
 import { helpText } from "@/constants/copywriting";
 import Taro from "@tarojs/taro";
 import { SystemService } from "@/services";

@@ -69,12 +69,17 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
-import BottomPanel from "@/components/BottomPanel/index.vue";
+import {
+  BottomPanel,
+  TermPicker,
+  TitleBar,
+  LessonsTable,
+  PopView,
+  RefreshButton,
+  WeekPicker,
+  WButton
+} from "@/components";
 import { Lesson } from "@/types/Lesson";
-import TermPicker from "@/components/TermPicker/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
-import { PopView, RefreshButton, WeekPicker, WButton } from "@/components/index";
-import LessonsTable from "@/components/LessonsTable/index.vue";
 import { ZFService } from "@/services";
 import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";

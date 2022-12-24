@@ -82,15 +82,19 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
-import BottomPanel from "@/components/BottomPanel/index.vue";
-import Card from "@/components/Card/index.vue";
-import RefreshButton from "@/components/RefreshButton/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
-import { WCollapse, WCollapsePanel } from "@/components/collapse/index";
-import { WDescriptions, WDescriptionsItem } from "@/components/descriptions";
-import { WButton } from "@/components/button";
+import {
+  Card,
+  BottomPanel,
+  RefreshButton,
+  TitleBar,
+  WCollapsePanel,
+  WCollapse,
+  WDescriptions,
+  WDescriptionsItem,
+  WButton,
+  TermPicker
+} from "@/components";
 import { Score } from "@/types/Score";
-import TermPicker from "@/components/TermPicker/index.vue";
 import { ZFService } from "@/services";
 import { helpText } from "@/constants/copywriting";
 import "./index.scss";

@@ -36,10 +36,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
-import BottomPanel from "@/components/BottomPanel/index.vue";
-import Card from "@/components/Card/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
-import RoomPicker from "@/components/RoomPicker/index.vue";
+import { BottomPanel, Card, TitleBar, RoomPicker } from "@/components";
 import { ZFService } from "@/services";
 import { freeroomMap } from "@/constants/freeroomMap";
 import { Room } from "@/types/Room";

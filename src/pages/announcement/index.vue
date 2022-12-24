@@ -28,8 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import Card from "@/components/Card/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
+import { Card, TitleBar } from "@/components";
 import dayjs from "dayjs";
 import { serviceStore } from "@/store";
 import "./index.scss";

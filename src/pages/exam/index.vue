@@ -123,14 +123,18 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
-import BottomPanel from "@/components/BottomPanel/index.vue";
-import Card from "@/components/Card/index.vue";
-import RefreshButton from "@/components/RefreshButton/index.vue";
-import TermPicker from "@/components/TermPicker/index.vue";
-import TitleBar from "@/components/TitleBar/index.vue";
-import { WModal } from "@/components/modal";
-import { WCollapse, WCollapsePanel } from "@/components/collapse";
-import { WDescriptions, WDescriptionsItem } from "@/components/descriptions";
+import {
+  BottomPanel,
+  Card,
+  RefreshButton,
+  TermPicker,
+  TitleBar,
+  WModal,
+  WCollapsePanel,
+  WCollapse,
+  WDescriptions,
+  WDescriptionsItem,
+} from "@/components";
 import { ZFService } from "@/services";
 import dayjs, { ConfigType } from "dayjs";
 import { helpText } from "@/constants/copywriting";

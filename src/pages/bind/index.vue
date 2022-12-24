@@ -100,12 +100,8 @@
 </template>
 
 <script setup lang="ts">
-import Card from "@/components/Card/index.vue";
 import Taro from "@tarojs/taro";
-import TitleBar from "@/components/TitleBar/index.vue";
-import { WButton } from "@/components/button";
-import { WList, WListItem } from "@/components/list";
-import { WModal } from "@/components/modal";
+import { Card, WList, WListItem, TitleBar, WButton, WModal } from "@/components";
 import { UserService } from "@/services";
 import store, { serviceStore } from "@/store";
 import { helpText } from "@/constants/copywriting";
