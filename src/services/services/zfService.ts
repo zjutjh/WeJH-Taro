@@ -1,9 +1,9 @@
-import { updateDateStateWithSession } from '../utils/updateDateState';
-import { api } from '../api/apiList';
-import { serviceStore, systemStore } from '@/store';
-import { Lesson, PracticeLesson } from '@/types/Lesson';
-import { Exam } from '@/types/Exam';
-import { Score } from '@/types/Score';
+import { updateDateStateWithSession } from "../utils/updateDateState";
+import { api } from "../api/apiList";
+import { serviceStore, systemStore } from "@/store";
+import { Lesson, PracticeLesson } from "@/types/Lesson";
+import { Exam } from "@/types/Exam";
+import { Score } from "@/types/Score";
 export default class ZFService {
   static async updateLessonTable(data?: { year: string; term: string }) {
     if (!data) {
@@ -15,10 +15,10 @@ export default class ZFService {
     return updateDateStateWithSession(
       api.zf.lessonTable,
       data,
-      'setLessonTable',
+      "setLessonTable",
       (res: any) => {
-        res.data.data['year'] = data?.year;
-        res.data.data['term'] = data?.term;
+        res.data.data["year"] = data?.year;
+        res.data.data["term"] = data?.term;
         return res.data.data;
       }
     );
@@ -34,7 +34,7 @@ export default class ZFService {
     return updateDateStateWithSession(
       api.zf.examInfo,
       data,
-      'setExamInfo',
+      "setExamInfo",
       (res) => {
         return {
           examInfo: res.data.data,
@@ -71,7 +71,7 @@ export default class ZFService {
     return updateDateStateWithSession(
       api.zf.scoreInfo,
       data,
-      'setScoreInfo',
+      "setScoreInfo",
       (res) => {
         return {
           scoreInfo: res.data.data,
@@ -103,10 +103,10 @@ export default class ZFService {
     term: string;
     campus: string;
     weekday: string;
-    section: string;
+    sections: string;
     week: string;
   }) {
-    return updateDateStateWithSession(api.zf.freeroom, data, 'setRoomInfo');
+    return updateDateStateWithSession(api.zf.freeroom, data, "setRoomInfo");
   }
 
   static getTodayLessonTable() {
@@ -116,14 +116,14 @@ export default class ZFService {
       if (currentDay !== parseInt(item.weekday)) return false;
       let currentWeek = systemStore.generalInfo.week;
 
-      for (const time of item.week.split(',')) {
-        if (time.includes('-')) {
-          const start = parseInt(time.split('-')[0]);
-          const end = parseInt(time.split('-')[1]);
+      for (const time of item.week.split(",")) {
+        if (time.includes("-")) {
+          const start = parseInt(time.split("-")[0]);
+          const end = parseInt(time.split("-")[1]);
           if (currentWeek <= end && currentWeek >= start)
-            if (!time.includes('单') && !time.includes('双')) return true;
-            else if (time.includes('单') && currentWeek % 2 === 1) return true;
-            else if (time.includes('双') && currentWeek % 2 === 0) return true;
+            if (!time.includes("单") && !time.includes("双")) return true;
+            else if (time.includes("单") && currentWeek % 2 === 1) return true;
+            else if (time.includes("双") && currentWeek % 2 === 0) return true;
         } else if (currentWeek === parseInt(time)) return true;
       }
       return false;
@@ -132,7 +132,11 @@ export default class ZFService {
     return lessons;
   }
 
-  // comment: 从全局状态中取出课表
+  /**
+   * 从缓存中取出课表
+   * @param data 学期信息
+   * @returns 该学期课表
+   */
   static getLessonTable(data?: {
     year: string;
     term: string;
@@ -152,7 +156,12 @@ export default class ZFService {
     );
   }
 
-  // comment: practiceLessonTable
+  /**
+   * 从缓存中获取 **实践** 课表
+   * @Deprecated 无此需求，没使用过
+   * @param 学期信息
+   * @returns
+   */
   static getPracticeLessonsTable(data?: {
     year: string;
     term: string;

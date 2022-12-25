@@ -1,0 +1,17 @@
+@keyframes rote {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-button {
+  padding: 5Px;
+}
+
+.refresh-running {
+  animation: rote 1s alternate infinite;
+}

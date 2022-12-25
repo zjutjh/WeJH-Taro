@@ -1,6 +1,6 @@
 <template>
   <view class="background">
-    <title-bar title="借阅信息"></title-bar>
+    <title-bar title="借阅信息" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/library.svg"></image>
@@ -39,10 +39,10 @@
             </view>
           </view>
           <view class="col">
-            <reflesh-button
+            <refresh-button
               @tap="updateData"
-              :is-refleshing="isRefleshing"
-            ></reflesh-button>
+              :is-refreshing="isRefreshing"
+            ></refresh-button>
           </view>
         </template>
         <view>
@@ -52,11 +52,11 @@
               class="book-card"
               v-for="(item, index) in borrowList"
               :key="index"
-              :style="
-                index % 2
-                  ? 'background-color: var(--wjh-color-yellow-light)'
-                  : 'background-color: var(--wjh-color-green-light)'
-              "
+              :style="{
+                backgroundColor: index % 2
+                  ? 'var(--wjh-color-yellow-light)'
+                  : 'var(--wjh-color-green-light)'
+              }"
             >
               <view class="book-name"> {{ item.name }}</view>
               <view>{{
@@ -85,81 +85,67 @@
   </view>
 </template>
 
-<script lang="ts">
-  import './index.scss';
-  import { computed, defineComponent } from 'vue';
-  import Card from '@/components/Card/index.vue';
-  import TitleBar from '@/components/TitleBar/index.vue';
-  import RefleshButton from '@/components/RefleshButton/index.vue';
-  import { WButton } from '@/components/button';
-  import { LibraryService } from '@/services';
-  import dayjs from 'dayjs';
-  import { serviceStore } from '@/store';
-  import { BorrowBooksInfo } from '@/types/BorrowBooksInfo';
+<script setup lang="ts">
+import "./index.scss";
+import { computed, ref, onMounted } from "vue";
+import { Card, TitleBar, RefreshButton, WButton } from "@/components";
+import { LibraryService } from "@/services";
+import { serviceStore } from "@/store";
+import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 
-  export default defineComponent({
-    components: { Card, TitleBar, WButton, RefleshButton },
-    setup() {
-      LibraryService.getLibraryCurrent();
-      LibraryService.getLibraryHistory();
+const isSelectToday = ref(true);
+const isSelectHistory = ref(false);
+const isRefreshing = ref(false);
 
-      const updateTime = computed(() => serviceStore.library.updateTime);
-      const todayUpdateTime = computed(() =>
-        dayjs(updateTime.value.current).format('MM-DD HH:mm')
-      );
-      const historyUpdateTime = computed(() =>
-        dayjs(updateTime.value.history).format('MM-DD HH:mm')
-      );
-      return {
-        updateTime,
-        todayUpdateTime,
-        historyUpdateTime
-      };
-    },
-    computed: {
-      borrowList(): BorrowBooksInfo[] {
-        if (this.isSelectToday) return this.current;
-        else if (this.isSelectHistory) return this.history;
-        return [];
-      },
-      history() {
-        return serviceStore.library.history;
-      },
-      current() {
-        return serviceStore.library.current;
-      },
-      currentCount() {
-        return this.current ? this.current.length : 0;
-      },
-      currentExtendedCount() {
-        return this.current
-          ? this.current.filter((item) => item.IsExtended > 0).length
-          : 0;
-      }
-    },
-    data() {
-      return {
-        isSelectToday: true,
-        isSelectHistory: false,
-        isRefleshing: false
-      };
-    },
-    methods: {
-      async updateData() {
-        if (this.isRefleshing) return;
-        this.isRefleshing = true;
-        if (this.isSelectToday) await LibraryService.getLibraryCurrent();
-        else await LibraryService.getLibraryHistory();
-        this.isRefleshing = false;
-      },
-      historyClick() {
-        this.isSelectToday = false;
-        this.isSelectHistory = true;
-      },
-      todayClick() {
-        this.isSelectToday = true;
-        this.isSelectHistory = false;
-      }
-    }
-  });
+onMounted(() => {
+  LibraryService.getLibraryCurrent();
+  LibraryService.getLibraryHistory();
+});
+
+const borrowList = computed((): BorrowBooksInfo[] => {
+  if (isSelectToday.value) return current.value;
+  else if (isSelectHistory.value) return history.value;
+  return [];
+});
+
+const history = computed(() => {
+  return serviceStore.library.history;
+});
+
+const current = computed(() => {
+  return serviceStore.library.current;
+});
+
+const currentCount = computed(() => {
+  return current.value ? current.value.length : 0;
+});
+
+/**
+ * 超期本书
+ */
+const currentExtendedCount = computed(() => {
+  // FIXME: 缺数据，判断条件待完善
+  return current.value
+    ? current.value.filter((item) => item.overdueTime).length
+    : 0;
+});
+
+async function updateData() {
+  if (isRefreshing.value) return;
+  isRefreshing.value = true;
+  if (isSelectToday.value) await LibraryService.getLibraryCurrent();
+  else await LibraryService.getLibraryHistory();
+  isRefreshing.value = false;
+}
+
+function historyClick() {
+  isSelectToday.value = false;
+  isSelectHistory.value = true;
+}
+
+function todayClick() {
+  isSelectToday.value = true;
+  isSelectHistory.value = false;
+}
+
 </script>

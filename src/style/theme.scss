@@ -2,14 +2,6 @@
   box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
 }
 
-@mixin blur {
-  backdrop-filter: saturate(180%) blur(20px);
-}
-
-@mixin radius {
-  border-radius: 8Px;
-}
-
 :host {
   --wjh-color-primary: var(--wjh-color-green);
   --wjh-color-green: #53d1b6;

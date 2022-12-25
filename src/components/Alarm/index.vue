@@ -1,19 +1,17 @@
 <template>
   <view class="wjh-alarm">
-    <view class="iconfont icon-alarm wjh-alarm-icon"></view>
-    <view v-if="counter && counter > 0" class="wjh-alarm-counter-background">{{
-      counter
-    }}</view>
+    <view class="wjh-alarm-icon iconfont icon-alarm" />
+    <view v-if="counter && counter > 0" class="wjh-alarm-counter-background">
+      {{ counter }}
+    </view>
   </view>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import './index.scss';
+<script setup lang="ts">
+import { toRefs } from "vue";
+import "./index.scss";
 
-  export default defineComponent({
-    props: {
-      counter: Number
-    }
-  });
+const props = defineProps<{ counter: number }>();
+const { counter } = toRefs(props);
+
 </script>

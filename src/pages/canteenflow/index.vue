@@ -1,6 +1,6 @@
 <template>
   <view class="background">
-    <title-bar title="食堂流量"></title-bar>
+    <title-bar title="食堂流量" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/canteenflow.svg"> </image>
@@ -23,7 +23,7 @@
               <view
                 class="name-wrapper"
                 v-if="item.restaurantName"
-                :style="nameMapColor(item.restaurantName[0])"
+                :style="nameColorMap(item.restaurantName[0])"
               >
                 {{ item.restaurantName[0] }}
               </view>
@@ -59,52 +59,40 @@
   ></w-modal>
 </template>
 
-<script lang="ts">
-  import { CanteenService } from '@/services';
-  import Card from '@/components/Card/index.vue';
-  import TitleBar from '@/components/TitleBar/index.vue';
-  import { defineComponent } from 'vue';
-  import { serviceStore } from '@/store';
-  import { helpText } from '@/constants/copywriting';
-  import { WModal } from '@/components/modal';
-  import './index.scss';
+<script setup lang="ts">
+import { CanteenService } from "@/services";
+import { Card, TitleBar, WModal } from "@/components";
+import { computed, onMounted, ref } from "vue";
+import { serviceStore } from "@/store";
+import { helpText } from "@/constants/copywriting";
+import "./index.scss";
 
-  export default defineComponent({
-    components: { Card, TitleBar, WModal },
-    computed: {
-      updateTime(): string {
-        return serviceStore.canteen.updateTime.flow;
-      },
-      flow() {
-        if (serviceStore.canteen.flow?.data)
-          return [...serviceStore.canteen.flow.data].reverse();
-        else return [];
-      }
-    },
-    data() {
-      return {
-        showModal: false,
-        helpContent: helpText.canteenflow
-      };
-    },
-    methods: {
-      getCanteenFlow: CanteenService.getCanteenFlow,
-      nameMapColor(char: string) {
-        const colorMap = {
-          家: 'blue',
-          养: 'blue',
-          精: 'green',
-          毓: 'green',
-          博: 'green'
-        };
-        return { backgroundColor: `var(--wjh-color-${colorMap[char]})` };
-      },
-      showHelp() {
-        this.showModal = true;
-      }
-    },
-    mounted() {
-      this.getCanteenFlow();
-    }
-  });
+const showModal = ref(false);
+const helpContent = helpText.canteenflow;
+
+const flow = computed(() => {
+  if (serviceStore.canteen.flow?.data)
+    return [...serviceStore.canteen.flow.data].reverse();
+  else return [];
+});
+
+function nameColorMap(char: string) {
+  const colorMap = {
+    家: "blue",
+    养: "blue",
+    精: "green",
+    毓: "green",
+    博: "green"
+  };
+  return { backgroundColor: `var(--wjh-color-${colorMap[char]})` };
+}
+
+function showHelp() {
+  showModal.value = true;
+}
+
+onMounted(() => {
+  CanteenService.getCanteenFlow;
+});
+
 </script>

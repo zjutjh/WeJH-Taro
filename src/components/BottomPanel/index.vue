@@ -1,16 +1,14 @@
 <template>
-  <view class="bottom-panel" :class="{ 'bottom-bar-ios': isNewIPhone() }">
-    <slot></slot>
+  <view
+    class="bottom-panel"
+    :class="{ 'bottom-bar-ios': isNewIPhone() }"
+  >
+    <slot />
   </view>
 </template>
-<script lang="ts">
-  import { isNewIPhone } from '@/utils/effects';
-  import { defineComponent } from 'vue';
-  import './style/index.scss';
 
-  export default defineComponent({
-    methods: {
-      isNewIPhone
-    }
-  });
+<script setup lang="ts">
+import { isNewIPhone } from "@/utils";
+import "./index.scss";
+
 </script>

@@ -1,11 +1,19 @@
-import { ejectCookies } from '@/utils/cookie/cookie';
-import store, { serviceStore } from '@/store';
-import fetch, { FetchResult } from '@/utils/fetch';
-import UserService from '../services/userService';
-import { LoginByTaro } from '../services/authService';
-import { ServerCode } from '../api/codes';
+import { ejectCookies } from "@/utils";
+import store, { serviceStore } from "@/store";
+import { fetch, FetchResult } from "@/utils";
+import UserService from "../services/userService";
+import { LoginByTaro } from "../services/authService";
+import { ServerCode } from "../api/codes";
 
-// comment: 一般通过 updateDateStateWithSession 调用
+/**
+ * 调用 fetch 带上 session 发送请求
+ *
+ * 一般通过 `updateDateStateWithSession` 调用
+ * @param url
+ * @param data
+ * @param autoLogin
+ * @returns
+ */
 async function postWithSession(
   url: string,
   data?: undefined | object,
@@ -20,8 +28,7 @@ async function postWithSession(
 
   // comment: 如果刚才发出了请求，并且有结果，就直接返回结果
   // TODO: NotLogin
-  if (res !== null && hasSession && res?.data.code !== ServerCode.NotLogin)
-    return res;
+  if (res !== null && hasSession) return res;
 
   // !hasSession 非自动登录，就直接取消继续获取 session
   // 如testSession 就不用再获取 session
@@ -35,12 +42,18 @@ async function postWithSession(
   return null;
 }
 
+/**
+ * 检查有无 session
+ * @returns 状态
+ */
 function checkSession(): boolean {
-  // comment: 检查有无 session
-  return (serviceStore.sessionID && serviceStore.sessionID !== '') || false;
+  return (serviceStore.sessionID && serviceStore.sessionID !== "") || false;
 }
 
-// comment: 检查 session 对应的微信用户有没有激活记录
+/**
+ * 检查 session 对应的微信用户有没有激活记录
+ * @returns 状态
+ */
 async function testSession(): Promise<boolean> {
   if (checkSession()) {
     const res = await UserService.getUserInfo(false);
@@ -50,7 +63,7 @@ async function testSession(): Promise<boolean> {
       !serviceStore.user.isActive &&
       res.data?.code === ServerCode.OK
     ) {
-      store.commit('setUserInfo', res.data.user);
+      store.commit("setUserInfo", res.data.user);
       return true;
     }
   }

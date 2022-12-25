@@ -1,12 +1,12 @@
-import { api } from '../api/apiList';
-import { updateDateStateWithSession } from '../utils/updateDateState';
+import { api } from "../api/apiList";
+import { updateDateStateWithSession } from "../utils/updateDateState";
 
 export default class LibraryService {
   static async getLibraryCurrent(): Promise<any> {
     return updateDateStateWithSession(
       api.library.current,
       null,
-      'setLibraryCurrent'
+      "setLibraryCurrent"
     );
   }
 
@@ -14,7 +14,7 @@ export default class LibraryService {
     return updateDateStateWithSession(
       api.library.history,
       null,
-      'setLibraryHistory'
+      "setLibraryHistory"
     );
   }
 }

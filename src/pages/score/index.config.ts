@@ -1,6 +1,6 @@
 export default {
-  navigationBarTitleText: '成绩',
+  navigationBarTitleText: "成绩",
   disableScroll: true,
-  backgroundColor: '#dfdfdf',
-  navigationStyle: 'custom'
+  backgroundColor: "#dfdfdf",
+  navigationStyle: "custom"
 };

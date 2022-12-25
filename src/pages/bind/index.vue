@@ -1,6 +1,6 @@
 <template>
   <view class="bind-view background">
-    <title-bar title="绑定"></title-bar>
+    <title-bar title="绑定" back-button />
     <scroll-view :scrollY="true">
       <view class="flex-column">
         <card title="信息绑定">
@@ -99,106 +99,79 @@
   </view>
 </template>
 
-<script lang="ts">
-  import Card from '@/components/Card/index.vue';
-  import Taro from '@tarojs/taro';
-  import TitleBar from '@/components/TitleBar/index.vue';
-  import { WButton } from '@/components/button';
-  import { WList, WListItem } from '@/components/list';
-  import { WModal } from '@/components/modal';
-  import { UserService } from '@/services';
-  import store, { serviceStore } from '@/store';
-  import { helpText } from '@/constants/copywriting';
-  import './index.scss';
-  import { computed, onMounted, ref } from 'vue';
+<script setup lang="ts">
+import Taro from "@tarojs/taro";
+import { Card, WList, WListItem, TitleBar, WButton, WModal } from "@/components";
+import { UserService } from "@/services";
+import store, { serviceStore } from "@/store";
+import { helpText } from "@/constants/copywriting";
+import "./index.scss";
+import { computed, onMounted, ref } from "vue";
 
-  export default {
-    components: {
-      TitleBar,
-      Card,
-      WButton,
-      WList,
-      WListItem,
-      WModal
-    },
-    setup() {
-      const zfpass = ref('');
-      const libpass = ref('');
-      const cardpass = ref('');
-      const bindTab = ref<string | undefined>(undefined);
-      const helpContent = ref<string | undefined>(undefined);
-      const isShowHelp = ref(false);
+const zfpass = ref("");
+const libpass = ref("");
+const cardpass = ref("");
+const bindTab = ref<string | undefined>(undefined);
+const helpContent = ref<string | undefined>(undefined);
+const isShowHelp = ref(false);
 
-      const user = computed(() => serviceStore.user);
+const user = computed(() => serviceStore.user);
 
-      onMounted(() => {
-        getUserBindInfo();
-      });
+onMounted(() => {
+  getUserBindInfo();
+});
 
-      async function getUserBindInfo() {
-        store.commit('startLoading');
-        await UserService.getUserInfo();
-        store.commit('stopLoading');
-      }
+async function getUserBindInfo() {
+  store.commit("startLoading");
+  await UserService.getUserInfo();
+  store.commit("stopLoading");
+}
 
-      async function bindZFClick() {
-        Taro.showLoading({
-          title: '正在绑定',
-          mask: true
-        });
-        let res = await UserService.bindZF({ password: zfpass.value });
-        await popModal(res.code);
-      }
-      async function bindLibClick() {
-        Taro.showLoading({
-          title: '正在绑定',
-          mask: true
-        });
-        let res = await UserService.bindLibrary({ password: libpass.value });
-        await popModal(res.code);
-      }
-      async function bindCardClick() {
-        Taro.showLoading({
-          title: '正在绑定',
-          mask: true
-        });
-        let res = await UserService.bindSchoolCard({
-          password: cardpass.value
-        });
-        await popModal(res.code);
-      }
-      async function popModal(code: number) {
-        if (code === 1) {
-          await Taro.showToast({
-            icon: 'success',
-            title: '绑定成功'
-          });
-        }
-      }
+async function bindZFClick() {
+  Taro.showLoading({
+    title: "正在绑定",
+    mask: true
+  });
+  let res = await UserService.bindZF({ password: zfpass.value });
+  await popModal(res.code);
+}
+async function bindLibClick() {
+  Taro.showLoading({
+    title: "正在绑定",
+    mask: true
+  });
+  let res = await UserService.bindLibrary({ password: libpass.value });
+  await popModal(res.code);
+}
 
-      function renderForm(type: string) {
-        bindTab.value = type;
-      }
-      function showHelp(prop: 'zf' | 'library') {
-        isShowHelp.value = true;
-        if (prop === 'zf') helpContent.value = helpText.bind.zf;
-        else if (prop === 'library') helpContent.value = helpText.bind.library;
-      }
-      return {
-        zfpass,
-        libpass,
-        cardpass,
-        bindTab,
-        helpContent,
-        isShowHelp,
-        user,
-        bindZFClick,
-        bindCardClick,
-        bindLibClick,
-        popModal,
-        renderForm,
-        showHelp
-      };
-    }
-  };
+async function bindCardClick() {
+  Taro.showLoading({
+    title: "正在绑定",
+    mask: true
+  });
+  let res = await UserService.bindSchoolCard({
+    password: cardpass.value
+  });
+  await popModal(res.code);
+}
+
+async function popModal(code: number) {
+  if (code === 1) {
+    await Taro.showToast({
+      icon: "success",
+      title: "绑定成功"
+    });
+  }
+}
+
+function renderForm(type: string) {
+  bindTab.value = type;
+}
+
+function showHelp(prop: "zf" | "library") {
+  isShowHelp.value = true;
+  if (prop === "zf") helpContent.value = helpText.bind.zf;
+  else if (prop === "library") helpContent.value = helpText.bind.library;
+}
+
 </script>

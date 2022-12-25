@@ -1,6 +1,6 @@
 <template>
   <view class="background">
-    <title-bar title="考试安排"></title-bar>
+    <title-bar title="考试安排" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/exam.svg"></image>
@@ -100,15 +100,16 @@
       <view class="col">
         <term-picker
           class="picker"
-          :term="selectTerm"
+          :year="selectTerm.year"
+          :term="selectTerm.term"
           @changed="termChanged"
         ></term-picker>
       </view>
       <view class="col">
-        <reflesh-button
-          @reflesh="reflesh"
-          :is-refleshing="isRefleshing"
-        ></reflesh-button>
+        <refresh-button
+          @refresh="refresh"
+          :is-refreshing="isRefreshing"
+        ></refresh-button>
       </view>
     </bottom-panel>
   </view>
@@ -119,98 +120,70 @@
   ></w-modal>
 </template>
 
-<script lang="ts">
-  import { computed, defineComponent, onMounted, ref } from 'vue';
-  import { serviceStore, systemStore } from '@/store';
-  import BottomPanel from '@/components/BottomPanel/index.vue';
-  import Card from '@/components/Card/index.vue';
-  import RefleshButton from '@/components/RefleshButton/index.vue';
-  import TermPicker from '@/components/TermPicker/index.vue';
-  import TitleBar from '@/components/TitleBar/index.vue';
-  import { WModal } from '@/components/modal';
-  import { WCollapse, WCollapsePanel } from '@/components/collapse';
-  import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
-  import { ZFService } from '@/services';
-  import dayjs, { ConfigType } from 'dayjs';
-  import { helpText } from '@/constants/copywriting';
-  import './index.scss';
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { serviceStore, systemStore } from "@/store";
+import {
+  BottomPanel,
+  Card,
+  RefreshButton,
+  TermPicker,
+  TitleBar,
+  WModal,
+  WCollapsePanel,
+  WCollapse,
+  WDescriptions,
+  WDescriptionsItem,
+} from "@/components";
+import { ZFService } from "@/services";
+import dayjs, { ConfigType } from "dayjs";
+import { helpText } from "@/constants/copywriting";
+import "./index.scss";
 
-  export default defineComponent({
-    components: {
-      TitleBar,
-      Card,
-      TermPicker,
-      BottomPanel,
-      RefleshButton,
-      WCollapse,
-      WCollapsePanel,
-      WDescriptions,
-      WDescriptionsItem,
-      WModal
-    },
-    setup() {
-      const selectTerm = ref({
-        year: systemStore.generalInfo.termYear,
-        term: systemStore.generalInfo.term
-      });
-      const isRefleshing = ref(false);
-      const exam = computed(() => {
-        return ZFService.getExamInfo(selectTerm.value)?.data;
-      });
-      const showModal = ref(false);
-      const helpContent = helpText.exam;
+const selectTerm = ref({
+  year: systemStore.generalInfo.termYear,
+  term: systemStore.generalInfo.term
+});
+const isRefreshing = ref(false);
+const exam = computed(() => {
+  return ZFService.getExamInfo(selectTerm.value)?.data;
+});
+const showModal = ref(false);
+const helpContent = helpText.exam;
 
-      async function termChanged(e) {
-        isRefleshing.value = true;
-        selectTerm.value = e;
-        await ZFService.updateExamInfo(e);
-        isRefleshing.value = false;
-      }
-      async function reflesh() {
-        if (isRefleshing.value) return;
-        isRefleshing.value = true;
-        await ZFService.updateExamInfo(selectTerm.value);
-        isRefleshing.value = false;
-      }
-      /*       function addToCalendar(item: Exam) {
-        Taro.addPhoneCalendar({
-          title: item.lessonName + '考试',
-          startTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm)').unix(),
-          endTime: dayjs(item.examTime, 'YYYY-MM-DD(HH:mm-HH:mm)').unix(),
-          location: item.examPlace,
-          alarmOffset: 3600
-        });
-      } */
-      function getDetailedTime(timeString: string) {
-        const tmp: ConfigType = timeString.split('(')[0];
-        const dayChars = ['日', '一', '二', '三', '四', '五', '六'];
-        return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-      }
-      function timeInterval(timeString: string) {
-        const tmp: ConfigType = timeString.split('(')[0];
-        return dayjs(tmp).diff(dayjs(dayjs().format('YYYY-MM-DD')), 'day');
-      }
-      function showHelp() {
-        showModal.value = true;
-      }
+async function termChanged(e) {
+  isRefreshing.value = true;
+  selectTerm.value = e;
+  await ZFService.updateExamInfo(e);
+  isRefreshing.value = false;
+}
 
-      onMounted(async () => {
-        if (serviceStore.user.isBindZF) {
-          await reflesh();
-        }
-      });
-      return {
-        exam,
-        isRefleshing,
-        showModal,
-        helpContent,
-        selectTerm,
-        termChanged,
-        reflesh,
-        getDetailedTime,
-        timeInterval,
-        showHelp
-      };
-    }
-  });
+async function refresh() {
+  if (isRefreshing.value) return;
+  isRefreshing.value = true;
+  await ZFService.updateExamInfo(selectTerm.value);
+  isRefreshing.value = false;
+}
+
+function getDetailedTime(timeString: string) {
+  const tmp: ConfigType = timeString.split("(")[0];
+  const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
+  return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
+}
+
+function timeInterval(timeString: string) {
+  const tmp: ConfigType = timeString.split("(")[0];
+  return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
+}
+
+function showHelp() {
+  showModal.value = true;
+}
+
+onMounted(async () => {
+  if (serviceStore.user.isBindZF) {
+    await refresh();
+  }
+});
+
 </script>

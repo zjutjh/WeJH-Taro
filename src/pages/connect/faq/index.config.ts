@@ -1,6 +1,6 @@
 export default {
-  navigationBarTitleText: 'FAQ',
-  backgroundColor: '#dfdfdf',
+  navigationBarTitleText: "FAQ",
+  backgroundColor: "#dfdfdf",
   disableScroll: true,
-  navigationStyle: 'custom'
+  navigationStyle: "custom"
 };

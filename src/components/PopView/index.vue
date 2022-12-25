@@ -1,55 +1,47 @@
 <template>
-  <view
-    class="wjh-pop-view"
-    :class="{
-      hidden: !show
-    }"
-  >
+  <view class="wjh-pop-view" :class="{
+    hidden: !show
+  }">
     <view v-if="showMask" class="mask" @tap="close"></view>
-    <view
-      class="wjh-pop-view-body"
-      :class="positionClass"
-      :style="
-        isNewIPhone() && positionClass === 'bottom' ? 'margin-bottom: 2rem' : ''
-      "
-    >
+    <view class="wjh-pop-view-body" :class="positionClass" :style="
+  isNewIPhone() && positionClass === 'bottom' ? 'margin-bottom: 2rem' : ''
+    ">
       <slot></slot>
     </view>
   </view>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import { isNewIPhone } from '@/utils/effects';
-  import './index.scss';
+<script setup lang="ts">
+import { isNewIPhone } from "@/utils";
+import "./index.scss";
+import { computed, toRefs } from "vue";
 
-  export default defineComponent({
-    props: {
-      show: {
-        default: false,
-        type: Boolean
-      },
-      position: {
-        default: 'bottom'
-      },
-      mask: {
-        default: true,
-        type: Boolean
-      }
-    },
-    computed: {
-      positionClass(): 'bottom' | 'top' | 'left' | 'right' {
-        return this.position;
-      },
-      showMask(): boolean {
-        return this.mask;
-      }
-    },
-    methods: {
-      isNewIPhone,
-      close() {
-        this.$emit('update:show', false);
-      }
-    }
-  });
+interface PropsType {
+  show: boolean;
+  position?: "bottom" | "top" | "left" | "right";
+  mask?: boolean
+}
+
+const props = defineProps<PropsType>();
+const {
+  show,
+  position,
+  mask,
+} = toRefs(props);
+
+const emit = defineEmits(["update:show"]);
+
+
+const positionClass = computed((): "bottom" | "top" | "left" | "right" => {
+  return position?.value || "bottom";
+});
+
+const showMask = computed((): boolean => {
+  return mask?.value || true;
+});
+
+function close() {
+  emit("update:show");
+}
+
 </script>

@@ -1,3 +1,4 @@
+@import '@/style/mixin.scss';
 @import '@/style/theme.scss';
 
 .bind-view {
@@ -42,6 +43,7 @@
 
     .iconfont {
       color: var(--wjh-color-cyan);
+      font-size: 1rem;
     }
 
     :last-child {

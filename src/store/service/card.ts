@@ -1,4 +1,4 @@
-import { CardConsume } from '@/types/CardConsume';
+import { CardConsume } from "@/types/CardConsume";
 
 export interface CardServiceType {
   balance?: number;

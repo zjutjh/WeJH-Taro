@@ -1,11 +1,11 @@
-import { CardServiceStore, CardServiceType } from './card';
-import { UserType, UserServiceStore } from './user';
-import { LibraryServiceStore } from './library';
-import { ZFServiceStore, ZFServiceType } from './zf';
-import { BorrowBooksInfo } from '@/types/BorrowBooksInfo';
-import { AnnouncementStore, AnnouncementType } from './announcement';
-import { AppListItem } from '@/types/AppList';
-import { CanteenServiceStore } from './canteen';
+import { CardServiceStore, CardServiceType } from "./card";
+import { UserType, UserServiceStore } from "./user";
+import { LibraryServiceStore } from "./library";
+import { ZFServiceStore, ZFServiceType } from "./zf";
+import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
+import { AnnouncementStore, AnnouncementType } from "./announcement";
+import { AppListItem } from "@/types/AppList";
+import { CanteenServiceStore } from "./canteen";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];

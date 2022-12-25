@@ -3,7 +3,7 @@ export interface SystemStoreType {
   generalInfo: {
     is_begin: boolean;
     schoolBusUrl: string;
-    term: '上' | '下' | '短';
+    term: "上" | "下" | "短";
     termStartDate: string;
     termYear: string;
     time: string;
@@ -12,7 +12,7 @@ export interface SystemStoreType {
   version: string;
   questionnaire: {
     path: string;
-    state: 'fold' | 'close' | 'open';
+    state: "fold" | "close" | "open";
   };
 }
 
@@ -20,7 +20,7 @@ export const SystemStore = {
   state: () => ({
     loading: false,
     generalInfo: {},
-    version: '',
+    version: "",
     questionnaire: {}
   }),
   mutations: {
@@ -32,7 +32,7 @@ export const SystemStore = {
     },
     setGeneralInfo(
       state: SystemStoreType,
-      value: SystemStoreType['generalInfo']
+      value: SystemStoreType["generalInfo"]
     ) {
       state.generalInfo = value;
     },
@@ -41,7 +41,7 @@ export const SystemStore = {
     },
     setQuestionnaire(
       state: SystemStoreType,
-      value: SystemStoreType['questionnaire']
+      value: SystemStoreType["questionnaire"]
     ) {
       state.questionnaire = value;
     }

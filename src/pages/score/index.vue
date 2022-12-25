@@ -1,12 +1,9 @@
 <template>
   <view class="background">
-    <title-bar title="成绩查询"></title-bar>
+    <title-bar title="成绩查询" back-button />
     <scroll-view :scrollY="true">
       <view class="flex-column">
-        <card
-          v-if="!scoreList || scoreList.length === 0"
-          style="text-align: center"
-        >
+        <card v-if="!scoreList || scoreList.length === 0" style="text-align: center">
           <view>无当前学期成绩信息</view>
         </card>
 
@@ -14,10 +11,7 @@
           <template #header>
             <view class="row">
               <view class="score-icon-wrapper">
-                <image
-                  src="@/assets/icons/applist/score.svg"
-                  class="score-icon"
-                ></image>
+                <image src="@/assets/icons/applist/score.svg" class="score-icon"></image>
               </view>
               <view class="col">
                 <view class="term-info">{{ termInfo }}</view>
@@ -27,27 +21,20 @@
 
             <view class="col" style="align-items: flex-end">
               <view class="gpa-text">GPA</view>
-              <view
-                v-if="scoreList && scoreList.length !== 0"
-                class="credit-text"
-              >
+              <view v-if="scoreList && scoreList.length !== 0" class="credit-text">
                 {{ averageScorePoint }}
               </view>
             </view>
           </template>
 
           <w-collapse class="score-list-collapse">
-            <w-collapse-panel
-              v-for="item in scoreList"
-              :key="item.lessonID"
-              arrow
-            >
+            <w-collapse-panel v-for="item in scoreList" :key="item.lessonID" arrow>
               <template #header>
                 <view class="score-list-collapse-item-title">{{
-                  item.lessonName
+                    item.lessonName
                 }}</view>
                 <view className="score-list-collapse-item-extra">{{
-                  item.score
+                    item.score
                 }}</view>
               </template>
 
@@ -72,17 +59,16 @@
     </scroll-view>
     <bottom-panel class="score-bottom-panel">
       <view class="col">
-        <reflesh-button
-          @reflesh="reflesh"
-          :is-refleshing="isRefleshing"
-        ></reflesh-button>
+        <refresh-button @refresh="refresh"
+        :is-refreshing="isRefreshing">
+      </refresh-button>
       </view>
       <view class="col">
-        <term-picker
-          class="picker"
-          :term="selectTerm"
-          @changed="termChanged"
-        ></term-picker>
+        <term-picker class="picker"
+          :term="selectTerm.term"
+          :year="selectTerm.year"
+          @changed="termChanged">
+        </term-picker>
       </view>
       <view class="col">
         <w-button shape="circle" size="large" class="sort-button">
@@ -93,139 +79,119 @@
   </view>
 </template>
 
-<script lang="ts">
-  import { computed, defineComponent, onMounted, ref } from 'vue';
-  import { serviceStore, systemStore } from '@/store';
-  import BottomPanel from '@/components/BottomPanel/index.vue';
-  import Card from '@/components/Card/index.vue';
-  import RefleshButton from '@/components/RefleshButton/index.vue';
-  import TitleBar from '@/components/TitleBar/index.vue';
-  import { WCollapse, WCollapsePanel } from '@/components/collapse/index';
-  import { WDescriptions, WDescriptionsItem } from '@/components/descriptions';
-  import { WButton } from '@/components/button';
-  import { Score } from '@/types/Score';
-  import TermPicker from '@/components/TermPicker/index.vue';
-  import { ZFService } from '@/services';
-  import { helpText } from '@/constants/copywriting';
-  import './index.scss';
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { serviceStore, systemStore } from "@/store";
+import {
+  Card,
+  BottomPanel,
+  RefreshButton,
+  TitleBar,
+  WCollapsePanel,
+  WCollapse,
+  WDescriptions,
+  WDescriptionsItem,
+  WButton,
+  TermPicker
+} from "@/components";
+import { Score } from "@/types/Score";
+import { ZFService } from "@/services";
+import { helpText } from "@/constants/copywriting";
+import "./index.scss";
 
-  export default defineComponent({
-    components: {
-      Card,
-      TermPicker,
-      BottomPanel,
-      RefleshButton,
-      TitleBar,
-      WCollapse,
-      WCollapsePanel,
-      WDescriptions,
-      WDescriptionsItem,
-      WButton
-    },
-    setup() {
-      const showSorted = ref(false);
-      const selectTerm = ref({
-        year: systemStore.generalInfo.termYear,
-        term: systemStore.generalInfo.term
-      });
-      const scoreList = computed(() =>
-        showSorted.value
-          ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
-              let scoreA = a.scorePoint,
-                scoreB = b.scorePoint;
-              return parseFloat(scoreB) - parseFloat(scoreA);
-            })
-          : ZFService.getScoreInfo(selectTerm.value).data
-      );
-      const isRefleshing = ref(false);
+const showSorted = ref(false);
+const selectTerm = ref({
+  year: systemStore.generalInfo.termYear,
+  term: systemStore.generalInfo.term
+});
 
-      const helpContent = computed(() => {
-        return helpText.score;
-      });
+const scoreList = computed(() =>
+  showSorted.value
+    ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
+      let scoreA = a.scorePoint,
+        scoreB = b.scorePoint;
+      return parseFloat(scoreB) - parseFloat(scoreA);
+    })
+    : ZFService.getScoreInfo(selectTerm.value).data
+);
+const isRefreshing = ref(false);
 
-      async function termChanged(e) {
-        isRefleshing.value = true;
-        selectTerm.value = e;
-        await ZFService.updateScoreInfo(e);
-        isRefleshing.value = false;
-      }
-      async function reflesh() {
-        if (isRefleshing.value) return;
-        isRefleshing.value = true;
-        await ZFService.updateScoreInfo(selectTerm.value);
-        isRefleshing.value = false;
-      }
+const helpContent = computed(() => {
+  return helpText.score;
+});
 
-      function handleSort() {
-        showSorted.value = !showSorted.value;
-      }
+async function termChanged(e) {
+  isRefreshing.value = true;
+  selectTerm.value = e;
+  await ZFService.updateScoreInfo(e);
+  isRefreshing.value = false;
+}
 
-      onMounted(async () => {
-        if (serviceStore.user.isBindZF) await reflesh();
-      });
+async function refresh() {
+  if (isRefreshing.value) return;
+  isRefreshing.value = true;
+  await ZFService.updateScoreInfo(selectTerm.value);
+  isRefreshing.value = false;
+}
 
-      const averageScorePoint = computed(() => {
-        const validCourse = scoreList.value.filter((item) => {
-          if (item.score === '缓考' || item.score === '免修') return false;
-          if (item.examType === '重修' || item.examType === '补考')
-            return false;
-          return true;
-        });
-        let totalCredits = 0;
-        let totalScorePoint = 0;
-        validCourse.forEach((item: Score) => {
-          let scorePoint = parseFloat(item.scorePoint);
-          let credits = parseFloat(item.credits);
-          totalScorePoint += scorePoint * credits;
-          totalCredits += credits;
-        });
-        return Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
-      });
-      const termInfo = computed(() => {
-        return `${selectTerm.value?.year}/${selectTerm.value?.year * 1 + 1}（${
-          selectTerm.value?.term
-        }）`;
-      });
-      const relativeTermInfo = computed(() => {
-        const charEnum = ['一', '二', '三', '四', '五', '六', '日'];
-        let char = charEnum[0];
-        if (serviceStore.user.info?.studentID) {
-          char =
-            charEnum[
-              parseInt(selectTerm.value?.year) -
-                parseInt(serviceStore.user.info.studentID.slice(0, 4))
-            ];
-        }
-        return `大${char}${selectTerm.value?.term}学期`;
-        // FIXME: 只根据学号来推算大几
-      });
+function handleSort() {
+  showSorted.value = !showSorted.value;
+}
 
-      return {
-        scoreList,
-        selectTerm,
-        isRefleshing,
-        handleSort,
-        termChanged,
-        reflesh,
-        termInfo,
-        relativeTermInfo,
-        averageScorePoint,
-        helpContent
-      };
-    }
+onMounted(async () => {
+  if (serviceStore.user.isBindZF) await refresh();
+});
+
+const averageScorePoint = computed(() => {
+  const validCourse = scoreList.value.filter((item) => {
+    if (item.score === "缓考" || item.score === "免修") return false;
+    if (item.examType === "重修" || item.examType === "补考")
+      return false;
+    return true;
   });
-</script>
-<style>
-  @keyframes rote {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  let totalCredits = 0;
+  let totalScorePoint = 0;
+  validCourse.forEach((item: Score) => {
+    let scorePoint = parseFloat(item.scorePoint);
+    let credits = parseFloat(item.credits);
+    totalScorePoint += scorePoint * credits;
+    totalCredits += credits;
+  });
+  return Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
+});
 
-  .reflesh-running {
-    animation: rote 1s alternate infinite;
+const termInfo = computed(() => {
+  return `${selectTerm.value?.year}/${parseInt(selectTerm.value?.year) * 1 + 1}（${selectTerm.value?.term
+  }）`;
+});
+
+const relativeTermInfo = computed(() => {
+  const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
+  let char = charEnum[0];
+  if (serviceStore.user.info?.studentID) {
+    char =
+          charEnum[
+            parseInt(selectTerm.value?.year) -
+          parseInt(serviceStore.user.info.studentID.slice(0, 4))
+          ];
   }
+  return `大${char}${selectTerm.value?.term}学期`;
+  // FIXME: 只根据学号来推算大几
+});
+
+</script>
+
+<style>
+@keyframes rote {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-running {
+  animation: rote 1s alternate infinite;
+}
 </style>
