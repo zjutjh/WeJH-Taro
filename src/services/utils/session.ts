@@ -20,7 +20,7 @@ async function postWithSession(
   autoLogin = true
 ): Promise<FetchResult | null> {
   let res: FetchResult | null = null;
-  let hasSession = checkSession();
+  const hasSession = checkSession();
   // comment: 有 session
   if (hasSession && serviceStore.sessionID) {
     res = await fetch.post(url, data, ejectCookies([serviceStore.sessionID]));
@@ -35,7 +35,7 @@ async function postWithSession(
   if (!autoLogin) return null;
 
   // comment: 没有 session 才会到这一步，先获取 session，再请求
-  let success = await LoginByTaro();
+  const success = await LoginByTaro();
   if (success && serviceStore.sessionID) {
     return await fetch.post(url, data, ejectCookies([serviceStore.sessionID]));
   }

@@ -62,7 +62,7 @@ function postJson(
   });
 }
 
-let fetch = {
+const fetch = {
   get: get,
   post: postJson
 };
