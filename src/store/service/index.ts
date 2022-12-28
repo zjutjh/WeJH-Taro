@@ -29,29 +29,29 @@ export interface ServiceStoreType {
 }
 
 export const ServiceStore = {
-  modules: {
-    card: CardServiceStore,
-    user: UserServiceStore,
-    library: LibraryServiceStore,
-    zf: ZFServiceStore,
-    announcement: AnnouncementStore,
-    canteen: CanteenServiceStore
-  },
-  state: () => ({
-    sessionID: undefined
-  }),
-  mutations: {
-    setSession(state: ServiceStoreType, value) {
-      state.sessionID = value;
+    modules: {
+        card: CardServiceStore,
+        user: UserServiceStore,
+        library: LibraryServiceStore,
+        zf: ZFServiceStore,
+        announcement: AnnouncementStore,
+        canteen: CanteenServiceStore
     },
-    clearSession(state: ServiceStoreType) {
-      state.sessionID = undefined;
-    },
-    setApplist(state: ServiceStoreType, value) {
-      state.appList = value;
-    },
-    clearApplist(state: ServiceStoreType) {
-      state.appList = undefined;
+    state: () => ({
+        sessionID: undefined
+    }),
+    mutations: {
+        setSession(state: ServiceStoreType, value) {
+            state.sessionID = value;
+        },
+        clearSession(state: ServiceStoreType) {
+            state.sessionID = undefined;
+        },
+        setApplist(state: ServiceStoreType, value) {
+            state.appList = value;
+        },
+        clearApplist(state: ServiceStoreType) {
+            state.appList = undefined;
+        }
     }
-  }
 };

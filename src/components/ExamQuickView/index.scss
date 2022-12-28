@@ -1,0 +1,105 @@
+@import '@/style/theme.scss';
+
+
+.exam-quick-view {
+  .wjh-card {
+    box-shadow: none;
+    margin: 0.5rem 0;
+  }
+
+  .exam-card {
+    background: #FEDFA9;
+    position: relative;
+    .exam-place {
+      font-size: 0.65rem;
+      color: var(--wjh-color-week);
+    }
+
+    .exam-name {
+      font-size: 1rem;
+      text-decoration: underline;
+      text-underline-offset: 0.3rem;
+      text-decoration-color: rgb(216, 193, 154);
+    }
+    .exam-res {
+        color: var(--wjh-color-week);
+        font-size: 0.7rem;
+        float: right;
+    }
+  }
+  .wjh-card-body {
+    padding: 0.5rem 0;
+  }
+
+
+  .exam-item {
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    gap: 4Px;
+
+    .important-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4Px;
+    }
+
+
+    //.taking-lesson {
+    //  color: var(--wjh-color-cyan);
+    //  font-size: 0.8rem;
+    //}
+
+    //.before-lesson {
+    //  color: var(--wjh-color-text-secondary);
+    //  font-size: 0.8rem;
+    //}
+
+
+    //.teacher {
+    //  font-size: 0.8rem;
+    //}
+
+    //.week {
+    //  color: var(--wjh-color-week);
+    //}
+
+    .iconfont {
+      font-size: 0.875rem;
+    }
+
+    .col {
+      min-width: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .split {
+      display: inline-block;
+      background-color: var(--wjh-color-week);
+      vertical-align: middle;
+      height: 4rem;
+      width: 0.05rem;
+    }
+
+    .left {
+      width: 64%;
+    }
+
+    .right {
+      width: 36%;
+      text-align: end;
+    }
+
+  }
+
+}
