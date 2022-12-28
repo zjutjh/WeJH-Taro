@@ -4,14 +4,14 @@ import { fetch, FetchResult } from "./fetch";
 import { throttle, throttle2 } from "./tools";
 
 export {
-  ICookie,
-  FetchResult,
-  ejectCookies,
-  cookiesToString,
-  isNewIPhone,
-  scrollViewHeight,
-  getCopyRight,
-  fetch,
-  throttle,
-  throttle2
+    ICookie,
+    FetchResult,
+    ejectCookies,
+    cookiesToString,
+    isNewIPhone,
+    scrollViewHeight,
+    getCopyRight,
+    fetch,
+    throttle,
+    throttle2
 };
