@@ -6,6 +6,7 @@ export interface Score {
   lessonName: string;
   lessonType: string;
   score: string;
+  scorePeriod: string;
   scorePoint: string;
   submitName: string;
   submitTime: string;

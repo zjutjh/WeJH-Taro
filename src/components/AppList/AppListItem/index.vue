@@ -34,8 +34,8 @@ if (requireActive.value === "library" && !serviceStore.user.isBindLibrary)
 
 async function appTaped() {
   if (isDisabled.value) {
-    await Taro.navigateTo({ url: "/pages/bind/index" });
-    Taro.showToast({
+    await Taro.navigateTo({ url: "/pages/bind/index" });  //保留当前页面，跳转到url界面
+    Taro.showToast({  //显示消息提示框
       icon: "none",
       title: "请绑定相关账号"
     });

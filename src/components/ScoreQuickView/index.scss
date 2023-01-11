@@ -1,0 +1,27 @@
+@import '@/style/theme.scss';
+
+.score-quick-view {
+  .wjh-card {
+    box-shadow: none;
+    margin: 0.5rem 0;
+  }
+
+  .wjh-card-body {
+    padding: 0.5rem 0;
+  }
+
+  .score-card {
+    background: var(--wjh-color-orange-light);
+    position: relative;
+
+    .score-title {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    .score-res {
+      color: var(--wjh-color-week);
+      font-size: 0.8rem;
+    }
+  }
+}

@@ -1,5 +1,10 @@
 import Taro from "@tarojs/taro";
 
+/**
+ * 适配苹果手机的大小
+ * @returns
+ */
+
 export function isNewIPhone(): boolean {
   let info = Taro.getSystemInfoSync();
   if (!info.model) return false;
@@ -18,6 +23,10 @@ export function scrollViewHeight(top = true, bottom = true) {
     height: `calc(100vh - ${topHeight} - ${bottomHeight})`
   };
 }
+
+/**
+ * 实验室页面 精弘网络copyright
+*/
 
 export function getCopyRight() {
   const currentYear = new Date().getFullYear();
