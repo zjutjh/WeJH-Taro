@@ -45,7 +45,7 @@ function handleTapHelp() {
   emit("showHelp", "score-card");
 }
 
-//展示成绩的列表
+//展示成绩列表
 const showSorted = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
