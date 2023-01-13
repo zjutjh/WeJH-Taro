@@ -22,7 +22,7 @@ async function updateDateState(
 ) {
   store.commit("startLoading");
   // comment: 更新数据前发送请求
-  let res = await fetch.post(api, data);
+  const res = await fetch.post(api, data);
   if (clearCommitName) store.commit(clearCommitName);
   if (res.statusCode === 200 && res.data) {
     if (res.data.code === ServerCode.OK)
@@ -52,7 +52,7 @@ async function updateDateStateWithSession(
   showModal = true
 ) {
   store.commit("startLoading");
-  let res = await postWithSession(api, data, autoLogin);
+  const res = await postWithSession(api, data, autoLogin);
   if (res?.statusCode === 200 && res.data && res.data.code === ServerCode.OK) {
     // comment: 为啥默认给绑定值true
     store.commit(commitName, commitData(res));

@@ -7,8 +7,8 @@ import { Announcement } from "@/types/Announcement";
 export default class SystemService {
   // comment: 系统通知
   static async getAnnouncement(
-    page: number = 1,
-    size: number = 10
+    page = 1,
+    size = 10
   ): Promise<Announcement[]> {
     return updateDateState(
       api.announcement,

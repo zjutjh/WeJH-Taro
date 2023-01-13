@@ -29,7 +29,7 @@ import WListItem from "../List/ListItem.vue";
 import "./index.scss";
 
 type PropsType = {
-  title: string;
+  title?: string;
   defaltActive?: boolean
   maxHeight?: string;
   arrow?: boolean
