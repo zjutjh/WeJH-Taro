@@ -15,4 +15,14 @@ Vue3, Typescript, Taro, Vuex
 
 ## 更多资料
 
-- 小程序后端：[https://github.com/zjutjh/wejh-go](https://github.com/zjutjh/wejh-server-docs)
+- 小程序后端: [https://github.com/zjutjh/wejh-go](https://github.com/zjutjh/wejh-server-docs)
+
+- 微精弘1.0: [https://github.com/zjutjh/wejh-weapp](https://github.com/zjutjh/wejh-weapp)
+
+## 开发者
+
+微精弘小程序能走到今天，离不开这些开发者对前端的贡献❤️
+
+<a href="https://github.com/zjutjh/WeJH-Taro/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=zjutjh/WeJH-Taro"/>
+</a>
