@@ -9,6 +9,7 @@
         class="flex-column"
         :style="isEmpty ? 'justify-content: space-between' : undefined"
       >
+        <!--卡片主体-->
         <card class="setting-card">
           <view
             v-if="isEmpty"

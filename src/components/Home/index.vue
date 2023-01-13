@@ -23,6 +23,10 @@
         v-if="isBindCard"
         @show-help="showHelp"
       ></school-card-quick-view>
+      <Score-quick-view
+        v-if="isBindZf"
+        @show-help="showHelp"
+      ></Score-quick-view>
       <library-quick-view v-if="isBindLibrary"></library-quick-view>
       <card v-if="!(isBindZf || isBindCard || isBindLibrary)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
@@ -47,6 +51,7 @@ import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
 import Card from "../Card/index.vue";
 import LibraryQuickView from "../LibraryQuickView/index.vue";
+import ScoreQuickView from "../ScoreQuickView/index.vue"
 import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import WModal from "../Modal/index.vue";
@@ -112,6 +117,7 @@ function showHelp(prop: "lessons-table" | "school-card" | "exam-card") {
   isShowHelp.value = true;
   if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
   else if (prop === "school-card") helpContent.value = helpText.schoolCard;
-  else if(prop === "exam-card") helpContent.value = helpText.examCard;
+  else if (prop === "score-card") helpContent.value = helpText.scoreCard;
+  else if (prop === "exam-card") helpContent.value = helpText.examCard;
 }
 </script>
