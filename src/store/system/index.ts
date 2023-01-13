@@ -1,5 +1,6 @@
 export interface SystemStoreType {
   loading: boolean;
+
   generalInfo: {
     is_begin: boolean;
     schoolBusUrl: string;

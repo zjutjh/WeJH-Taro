@@ -15,6 +15,10 @@
         v-if="isBindZf"
         @show-help="showHelp"
       ></lessons-table-quick-view>
+      <exam-quick-view
+        @show-help="showHelp"
+        v-if="true"
+      ></exam-quick-view>
       <school-card-quick-view
         v-if="isBindCard"
         @show-help="showHelp"
@@ -56,8 +60,8 @@ import TitleBar from "../TitleBar/index.vue";
 import { helpText } from "@/constants/copywriting";
 import Taro from "@tarojs/taro";
 import { SystemService } from "@/services";
+import ExamQuickView from "../ExamQuickView/index.vue";
 import { questionnaireInfo } from "@/constants/updateInfo";
-
 const isShowHelp = ref(false);
 const helpContent = ref<string | undefined>(undefined);
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
@@ -109,10 +113,11 @@ function nav2announcement() {
     url: "/pages/announcement/index"
   });
 }
-function showHelp(prop: "lessons-table" | "school-card") {
+function showHelp(prop: "lessons-table" | "school-card" | "exam-card") {
   isShowHelp.value = true;
   if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
   else if (prop === "school-card") helpContent.value = helpText.schoolCard;
-  else if(prop === "score-card") helpContent.value = helpText.scoreCard;
+  else if (prop === "score-card") helpContent.value = helpText.scoreCard;
+  else if (prop === "exam-card") helpContent.value = helpText.examCard;
 }
 </script>

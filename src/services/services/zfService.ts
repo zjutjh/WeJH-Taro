@@ -9,7 +9,8 @@ export default class ZFService {
     if (!data) {
       data = {
         year: systemStore.generalInfo.termYear,
-        term: systemStore.generalInfo.term
+        term: systemStore.generalInfo.term,
+
       };
     }
     return updateDateStateWithSession(
@@ -37,13 +38,19 @@ export default class ZFService {
       "setExamInfo",
       (res) => {
         return {
-          examInfo: res.data.data,
+          examInfo: res.data.data, //和store/service/zf.ts 相对应
           year: data?.year,
           term: data?.term
         };
       }
     );
   }
+
+  /**
+   * 从缓存中获取考试安排信息
+   * @param data 指定学期
+   * @returns
+   */
   static getExamInfo(data?: { year: string; term: string }): {
     data: Exam[];
     updateTime: Date | null;
@@ -59,7 +66,7 @@ export default class ZFService {
     if (!serviceStore?.zf.examInfo[data.year][data.term]?.data)
       return { data: [], updateTime: null };
     return serviceStore?.zf.examInfo[data.year][data.term];
-  }
+  } //直接得到考试安排信息
 
   static async updateScoreInfo(data?: { year: string; term: string }) {
     if (!data) {
@@ -81,6 +88,7 @@ export default class ZFService {
       }
     );
   }
+
   static getScoreInfo(data?: { year: string; term: string }): {
     data: Score[];
     updateTime: Date | null;
@@ -111,10 +119,10 @@ export default class ZFService {
 
   static getTodayLessonTable() {
     const lessonsTable = this.getLessonTable();
-    let lessons = lessonsTable?.filter((item: Lesson) => {
-      let currentDay = new Date().getDay() || 7;
+    const lessons = lessonsTable?.filter((item: Lesson) => {
+      const currentDay = new Date().getDay() || 7;
       if (currentDay !== parseInt(item.weekday)) return false;
-      let currentWeek = systemStore.generalInfo.week;
+      const currentWeek = systemStore.generalInfo.week;
 
       for (const time of item.week.split(",")) {
         if (time.includes("-")) {

@@ -17,7 +17,7 @@ function throttle2(fn, delay = 1000): Function {
       p = new Promise((resolve) => {
         resolve(fn.apply(this, arguments));
       });
-      let res = await p;
+      const res = await p;
       p = null;
       return res;
     } else {
