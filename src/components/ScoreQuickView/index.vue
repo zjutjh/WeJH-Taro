@@ -13,7 +13,6 @@
           <view class="score-res">
             <text v-if="item.scorePeriod">{{item.scorePeriod}}</text>
             <text v-else>期末</text>
-            <text>{{ ScoreServiceStore.state.checkReadinStore[index+1].val }}</text>
           </view>
         </card>
       </template>
