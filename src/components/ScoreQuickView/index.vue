@@ -78,8 +78,8 @@ const  updateTime = computed(() => {
 //检查当前成绩是否全部已读，是返回True，否则返回False
 
 const checkAllRead= computed(() => {
-  for(var i in todayScoreList.value) {
-    ScoreServiceStore.mutations.setCheckReadinStoreL( ScoreServiceStore.state , todayScoreList.value[i] );
+  for(let i in todayScoreList.value) {
+    ScoreServiceStore.mutations.setCheckReadinStore( ScoreServiceStore.state , todayScoreList.value[i] );
   }
   return ScoreServiceStore.mutations.tryCheckReadinStore( ScoreServiceStore.state );
 })
