@@ -6,6 +6,7 @@ import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 import { AnnouncementStore, AnnouncementType } from "./announcement";
 import { AppListItem } from "@/types/AppList";
 import { CanteenServiceStore } from "./canteen";
+import { ScoreServiceStore } from "./score";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];
@@ -20,6 +21,14 @@ export interface ServiceStoreType {
       flow: string;
     };
   };
+  score: {
+    readScoreMarks: Array<{
+      name: string;
+      scorePoint: string;
+      val: boolean;
+    }>
+    findNewScoresTime: Date;
+  }
   library: {
     history: BorrowBooksInfo[];
     current: BorrowBooksInfo[];
@@ -35,7 +44,8 @@ export const ServiceStore = {
     library: LibraryServiceStore,
     zf: ZFServiceStore,
     announcement: AnnouncementStore,
-    canteen: CanteenServiceStore
+    canteen: CanteenServiceStore,
+    score: ScoreServiceStore
   },
   state: () => ({
     sessionID: undefined

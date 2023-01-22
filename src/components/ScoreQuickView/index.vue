@@ -2,11 +2,18 @@
   <quick-view @tap="nav2Score" title="成绩查询" icon-name="score" class="score-quick-view" help
     @handle-tap-help="handleTapHelp">
     <text class="sub-text">最新成绩 ({{ scoreUpdateTimeString }})</text>
-    <view class="default-content" v-if="!todayScoreList || todayScoreList.length === 0 || checkAllRead">
+    <view class="default-content"
+      v-if="!todayScoreList ||
+      todayScoreList.length === 0"
+    >
       今日没有出新成绩哦～</view>
     <view v-else>
       <template v-for="(item, index) in todayScoreList" :key="item.lessonID">
-        <card class="score-card" :style="{backgroundColor: 'var(--wjh-color-blue-light)'}" v-if="!item.checkRead">
+        <card
+          class="score-card"
+          :style="{ backgroundColor: 'var(--wjh-color-blue-light)' }"
+          v-if="!item.checkRead"
+        >
           <view>
             <text class="score-title">{{ item.lessonName }}</text>
           </view>
@@ -26,13 +33,11 @@ import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import { ZFService } from "@/services";
 import dayjs from "dayjs";
-import { computed,  ref,  Ref,  } from "vue";
-import { systemStore } from "@/store";
-import { ScoreServiceStore } from "../../store/service/score"
+import { computed, onMounted, ref } from "vue";
+import store, { serviceStore, systemStore } from "@/store";
 import "./index.scss";
 import "../../style/theme.scss";
-
-let timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
+import { Score } from "@/types/Score";
 
 //将帮助提示信息传到Home，点击帮助按钮显示该信息
 const emit = defineEmits(["showHelp"]);
@@ -47,15 +52,45 @@ const selectTerm = ref({
   term: systemStore.generalInfo.term
 });
 
-const todayScoreList = computed(() =>
-  showSorted.value
-    ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
+onMounted(() => {
+  ZFService.updateScoreInfo(selectTerm.value);
+});
+
+/**
+ * 当前学期的未读成绩
+ * 可选是否按成绩排序
+ */
+const todayScoreList = computed(() => {
+  const unreadScores = getUnreadScores(selectTerm.value);
+
+  return showSorted.value
+    ? [...unreadScores].sort((a, b) => {
       let scoreA = a.scorePoint,
         scoreB = b.scorePoint;
       return parseFloat(scoreB) - parseFloat(scoreA);
     })
-    : ZFService.getScoreInfo(selectTerm.value).data
-);
+    : unreadScores;
+});
+
+/**
+ * 获取指定学期的未读成绩
+ * @param props 学期信息
+ */
+function getUnreadScores(props?: {year: string; term: string}) {
+  const { data } = ZFService.getScoreInfo(props);
+  const unreadScores: Score[] = [];
+  data.forEach(storeItem => {
+    const existingScore = serviceStore.score.readScoreMarks.find(
+      markItem => (storeItem.lessonID === markItem.name &&
+          storeItem.scorePoint === markItem.scorePoint)
+    );
+    if (!existingScore) unreadScores.push(storeItem);
+  });
+  // 若有新成绩，则更新时间
+  unreadScores.length !== 0 && store.commit("findNewScore");
+
+  return unreadScores;
+}
 
 //最新成绩的更新时间（几天前）
 const scoreUpdateTimeString = computed(() => {
@@ -63,30 +98,19 @@ const scoreUpdateTimeString = computed(() => {
   return dayjs(updateTime.value).fromNow();
 });
 
-const  updateTime = computed(() => {
-  let updateTime: Date | null = null;
+const updateTime = computed(() => {
   try {
-    updateTime =
-      ZFService.getScoreInfo(selectTerm.value)?.updateTime;
-    if (updateTime) return updateTime;
-    else return undefined;
+    return serviceStore.score.findNewScoresTime;
   } catch (e) {
     return undefined;
   }
 });
 
-//检查当前成绩是否全部已读，是返回True，否则返回False
-
-const checkAllRead= computed(() => {
-  for(let i in todayScoreList.value) {
-    ScoreServiceStore.mutations.setCheckReadinStore( ScoreServiceStore.state , todayScoreList.value[i] );
-  }
-  return ScoreServiceStore.mutations.tryCheckReadinStore( ScoreServiceStore.state );
-})
-
 // @tap="nav2Score" 点击卡片，跳转到成绩查询详细页面
 function nav2Score() {
-  ScoreServiceStore.mutations.changeCheckReadinStore(ScoreServiceStore.state);
+  todayScoreList.value.forEach(item => {
+    store.commit("insertReadScore", item);
+  });
   Taro.navigateTo({ url: "/pages/score/index" });
 }
 
