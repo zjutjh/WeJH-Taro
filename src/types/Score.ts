@@ -1,4 +1,5 @@
 export interface Score {
+  checkRead: boolean;
   className: string;
   credits: string;
   examType: string;
