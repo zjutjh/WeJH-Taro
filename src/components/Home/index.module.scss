@@ -1,0 +1,13 @@
+@import "@/style/theme.scss";
+
+.edit-button {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  background-color: var(--wjh-color-primary);
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  color: var(--wjh-color-white);
+  border-radius: 16rpx;
+}

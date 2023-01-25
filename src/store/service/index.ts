@@ -7,6 +7,7 @@ import { AnnouncementStore, AnnouncementType } from "./announcement";
 import { AppListItem } from "@/types/AppList";
 import { CanteenServiceStore } from "./canteen";
 import { ScoreServiceStore } from "./score";
+import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];
@@ -35,6 +36,7 @@ export interface ServiceStoreType {
     updateTime: { history: string; current: string };
   };
   zf: ZFServiceType;
+  homecard: HomeCardServiceType;
 }
 
 export const ServiceStore = {
@@ -45,7 +47,8 @@ export const ServiceStore = {
     zf: ZFServiceStore,
     announcement: AnnouncementStore,
     canteen: CanteenServiceStore,
-    score: ScoreServiceStore
+    score: ScoreServiceStore,
+    homecard: HomeCardServiceStore
   },
   state: () => ({
     sessionID: undefined
