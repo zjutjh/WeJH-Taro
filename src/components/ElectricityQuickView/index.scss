@@ -1,0 +1,24 @@
+.sub-text-left {
+  font-size: 0.75rem;
+  line-height: 1.2rem;
+  color: var(--wjh-color-week);
+  float: left;
+}
+.sub-text-right {
+  font-size: 0.75rem;
+  line-height: 1.2rem;
+  color: var(--wjh-color-week);
+  float: right;
+}
+.electricity-card{
+  background: #FCE5D2;
+
+  .text{
+    font-size: 1.5rem;
+  }
+}
+
+.text-view{
+  display: block;
+  height: 1.2rem;
+}

@@ -8,10 +8,10 @@
   }
 
   .exam-card {
-    background: #FEDFA9;
+    background: rgb(254, 238, 211);
     position: relative;
     .exam-place {
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       color: var(--wjh-color-week);
     }
 
@@ -46,26 +46,6 @@
       align-items: center;
       margin-bottom: 4Px;
     }
-
-
-    //.taking-lesson {
-    //  color: var(--wjh-color-cyan);
-    //  font-size: 0.8rem;
-    //}
-
-    //.before-lesson {
-    //  color: var(--wjh-color-text-secondary);
-    //  font-size: 0.8rem;
-    //}
-
-
-    //.teacher {
-    //  font-size: 0.8rem;
-    //}
-
-    //.week {
-    //  color: var(--wjh-color-week);
-    //}
 
     .iconfont {
       font-size: 0.875rem;
