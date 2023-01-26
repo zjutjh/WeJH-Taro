@@ -41,7 +41,7 @@
               :clickable="true"
               @tap="renderForm('yxy')"
             >
-             易校园账号
+             一卡通账号
             </w-list-item>
           </w-list>
         </card>

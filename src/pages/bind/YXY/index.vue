@@ -89,7 +89,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <card title="绑定易校园账号">
+  <card title="绑定一卡通账号">
     <view>
       <text>手机号</text>
       <input placeholder="请输入手机号" v-model="phoneNumber" />
