@@ -16,7 +16,8 @@ export default {
         "pages/lab/index",
         "pages/freeroom/index",
         "pages/canteenflow/index",
-        "pages/announcement/index"
+        "pages/announcement/index",
+        "pages/electricity/index",
     ],
     darkmode: false,
     window: {

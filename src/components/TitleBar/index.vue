@@ -25,32 +25,32 @@ const props = defineProps<{
 const { title, backButton } = toRefs(props);
 
 const loading = computed(() => {
-  return systemStore.loading;
+    return systemStore.loading;
 });
 
 const titleStyle = computed(() => {
-  let MenuRect = Taro.getMenuButtonBoundingClientRect();
-  let statusBarHeight = Taro.getSystemInfoSync().statusBarHeight || 0;
-  return {
-    height: MenuRect.top + MenuRect.height +
+    let MenuRect = Taro.getMenuButtonBoundingClientRect();
+    let statusBarHeight = Taro.getSystemInfoSync().statusBarHeight || 0;
+    return {
+        height: MenuRect.top + MenuRect.height +
       MenuRect.top - statusBarHeight + "px"
-  };
+    };
 });
 
 const justTitleStyle = computed(() => {
-  let MenuRect = Taro.getMenuButtonBoundingClientRect();
-  return {
-    height: MenuRect.height + "px",
-    marginTop: MenuRect.top + "px",
-    marginLeft: "1rem",
-    display: "flex",
-    fontSize: "1.5rem",
-    lineHeight: MenuRect.height + "px"
-  };
+    let MenuRect = Taro.getMenuButtonBoundingClientRect();
+    return {
+        height: MenuRect.height + "px",
+        marginTop: MenuRect.top + "px",
+        marginLeft: "1rem",
+        display: "flex",
+        fontSize: "1.5rem",
+        lineHeight: MenuRect.height + "px"
+    };
 });
 
 function goBack() {
-  Taro.navigateBack();
+    Taro.navigateBack();
 }
 
 </script>

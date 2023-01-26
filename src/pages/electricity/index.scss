@@ -1,0 +1,24 @@
+@import '@/style/theme.scss';
+
+.background {
+  background-image: url("~@/assets/photos/background-light-yellow.svg");
+}
+
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-flesh);
+  display: flex;
+
+  image {
+    height: 65%;
+    margin: auto auto;
+  }
+
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem 1rem;
+}
+
