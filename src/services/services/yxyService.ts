@@ -26,7 +26,7 @@ export default class YxyService {
       },
       data
     });
-  }
+  };
 
   /**
    * 获取图形验证码 base64 图像
@@ -40,7 +40,7 @@ export default class YxyService {
         "Cookie": serviceStore.sessionID
       },
     });
-  }
+  };
 
   /**
    * 校验图形验证码
@@ -57,7 +57,7 @@ export default class YxyService {
       },
       data
     });
-  }
+  };
 
   /**
    * 登录
@@ -77,5 +77,5 @@ export default class YxyService {
       },
       data
     });
-  }
+  };
 }
