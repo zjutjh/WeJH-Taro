@@ -5,6 +5,12 @@ interface ICookie {
   MaxAge: Number;
 }
 
+/**
+ * 把多个 cookie 字符串转换成 cookie 对象
+ * 用于读取 cookie 的属性值
+ * @param cookies cookie 数组
+ * @returns
+ */
 function ejectCookies(cookies: String[]) {
   let sevCookies: ICookie[] = [];
   cookies.forEach((cookie) => {
@@ -29,6 +35,12 @@ function ejectCookies(cookies: String[]) {
   return sevCookies;
 }
 
+/**
+ * 把对象数组转化成字符串
+ * 在发送请求的时候
+ * @param cookies cookie 对象数组
+ * @returns
+ */
 function cookiesToString(cookies: ICookie[]) {
   let cookieString = "";
   cookies.forEach((cokie) => {

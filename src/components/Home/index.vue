@@ -51,7 +51,7 @@ import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
 import Card from "../Card/index.vue";
 import LibraryQuickView from "../LibraryQuickView/index.vue";
-import ScoreQuickView from "../ScoreQuickView/index.vue"
+import ScoreQuickView from "../ScoreQuickView/index.vue";
 import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import WModal from "../Modal/index.vue";

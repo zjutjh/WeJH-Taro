@@ -10,6 +10,7 @@ export interface UserType {
   isBindZF: boolean;
   isBindCard: boolean;
   isBindLibrary: boolean;
+  isBindYXY: boolean;
 }
 export const UserServiceStore = {
   state: () => ({
@@ -17,7 +18,8 @@ export const UserServiceStore = {
     isActive: false,
     isBindZF: false,
     isBindCard: false,
-    isBindLibrary: false
+    isBindLibrary: false,
+    isBindYXY: false
   }),
   mutations: {
     setBindZF(state: UserType, value: boolean) {
@@ -29,18 +31,22 @@ export const UserServiceStore = {
     setBindLibrary(state: UserType, value: boolean) {
       state.isBindLibrary = value;
     },
+    setBindYXY(state: UserType, value: boolean) {
+      state.isBindYXY = value;
+    },
     // comment: 设置用户信息
     setUserInfo(
       state: UserType,
       value: {
         studentID: string;
-        bind: { zf: boolean; card: boolean; lib: boolean };
+        bind: { zf: boolean; card: boolean; lib: boolean, yxy: boolean };
       }
     ) {
       state.info = { studentID: value.studentID };
       state.isBindZF = value.bind.zf;
       state.isBindCard = value.bind.card;
       state.isBindLibrary = value.bind.lib;
+      state.isBindYXY = value.bind.yxy;
       state.isActive = true;
     },
     setUserWXProfile(
@@ -56,6 +62,7 @@ export const UserServiceStore = {
       state.isBindZF = false;
       state.isBindCard = false;
       state.isBindLibrary = false;
+      state.isBindYXY = false;
     }
   }
 };
