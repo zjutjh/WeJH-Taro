@@ -1,5 +1,5 @@
 <template>
-  <quick-view title="考试安排" icon-name="lessonstable" @tap="nav2Exam" help @handle-tap-help="handleTapHelp" class="exam-quick-view">
+  <quick-view title="考试安排" icon-name="exam" @tap="nav2Exam" help @handle-tap-help="handleTapHelp" class="exam-quick-view">
     <text class="sub-text">近期考试 ({{ updateTimeString }})</text>
     <card v-if="!filteredExamItems || filteredExamItems.length === 0"
       style="text-align: center">
