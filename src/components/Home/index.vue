@@ -23,8 +23,11 @@
         v-if="isBindCard"
         @show-help="showHelp"
       ></school-card-quick-view>
+      <Score-quick-view
+        v-if="isBindZf"
+        @show-help="showHelp"
+      ></Score-quick-view>
       <library-quick-view v-if="isBindLibrary"></library-quick-view>
-      <electricity-quick-view></electricity-quick-view>
       <card v-if="!(isBindZf || isBindCard || isBindLibrary)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
@@ -48,6 +51,7 @@ import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
 import Card from "../Card/index.vue";
 import LibraryQuickView from "../LibraryQuickView/index.vue";
+import ScoreQuickView from "../ScoreQuickView/index.vue";
 import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import WModal from "../Modal/index.vue";
@@ -58,62 +62,62 @@ import Taro from "@tarojs/taro";
 import { SystemService } from "@/services";
 import ExamQuickView from "../ExamQuickView/index.vue";
 import { questionnaireInfo } from "@/constants/updateInfo";
-import ElectricityQuickView from "../ElectricityQuickView/index.vue";
 const isShowHelp = ref(false);
 const helpContent = ref<string | undefined>(undefined);
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
 // 检查问卷可访问状态
 const isQuestionnaireAccess = () => {
-    return questionnaireInfo.isAccess;
+  return questionnaireInfo.isAccess;
 };
 
 // 问卷路径有更新，更新状态，并打开问卷入口
 if (questionnairePath != systemStore.questionnaire.path) {
-    store.commit("setQuestionnaire", {
-        path: questionnairePath,
-        state: "open"
-    });
+  store.commit("setQuestionnaire", {
+    path: questionnairePath,
+    state: "open"
+  });
 }
 
 SystemService.getAnnouncement();
 const isActive = computed(() => {
-    return serviceStore.user.isActive;
+  return serviceStore.user.isActive;
 });
 
 const isNeverShowQuestionnaire = computed(() => {
-    if (systemStore.questionnaire.state === "close") {
-        return false;
-    } else return true;
+  if (systemStore.questionnaire.state === "close") {
+    return false;
+  } else return true;
 });
 const isBindZf = computed(() => {
-    return serviceStore.user.isBindZF;
+  return serviceStore.user.isBindZF;
 });
 const isBindCard = computed(() => {
-    return serviceStore.user.isBindCard;
+  return serviceStore.user.isBindCard;
 });
 const isBindLibrary = computed(() => {
-    return serviceStore.user.isBindLibrary;
+  return serviceStore.user.isBindLibrary;
 });
 const announcementsCounter = computed(() => {
-    return serviceStore.announcement.updateCounter;
+  return serviceStore.announcement.updateCounter;
 });
 
 function nav2activation() {
-    Taro.navigateTo({
-        url: "/pages/activation/index"
-    });
+  Taro.navigateTo({
+    url: "/pages/activation/index"
+  });
 }
 function nav2announcement() {
-    store.commit("clearAnnouncementsUpdateCounter");
-    Taro.navigateTo({
-        url: "/pages/announcement/index"
-    });
+  store.commit("clearAnnouncementsUpdateCounter");
+  Taro.navigateTo({
+    url: "/pages/announcement/index"
+  });
 }
 function showHelp(prop: "lessons-table" | "school-card" | "exam-card") {
-    isShowHelp.value = true;
-    if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
-    else if (prop === "school-card") helpContent.value = helpText.schoolCard;
-    else if(prop === "exam-card") helpContent.value = helpText.examCard;
+  isShowHelp.value = true;
+  if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
+  else if (prop === "school-card") helpContent.value = helpText.schoolCard;
+  else if (prop === "score-card") helpContent.value = helpText.scoreCard;
+  else if (prop === "exam-card") helpContent.value = helpText.examCard;
 }
 </script>

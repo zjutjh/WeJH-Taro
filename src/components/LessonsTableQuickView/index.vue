@@ -56,69 +56,69 @@ const emit = defineEmits(["showHelp"]);
 let timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
 const todayLessonTable = computed(() => {
-    const year = systemStore.generalInfo.termYear;
-    const term = systemStore.generalInfo.term;
-    let tmp: Lesson[] | undefined;
-    try {
-        tmp = ZFService.getTodayLessonTable();
-        serviceStore.zf.lessonsTableInfo[year][term].data.lessonsTable;
-    } catch (error) {
-        tmp = undefined;
-    }
-    return tmp;
+  const year = systemStore.generalInfo.termYear;
+  const term = systemStore.generalInfo.term;
+  let tmp: Lesson[] | undefined;
+  try {
+    tmp = ZFService.getTodayLessonTable();
+    serviceStore.zf.lessonsTableInfo[year][term].data.lessonsTable;
+  } catch (error) {
+    tmp = undefined;
+  }
+  return tmp;
 });
 
 const updateRestTimeCounter = ref(0);
 // TODO: 计时器控制渲染
 
 onMounted(() => {
-    ZFService.getTodayLessonTable();
-    timer.value = setInterval(() => {
-        updateRestTimeCounter.value++;
-    }, 5000);
+  ZFService.getTodayLessonTable();
+  timer.value = setInterval(() => {
+    updateRestTimeCounter.value++;
+  }, 5000);
 });
 
 // FIXME: 等有课了来观察
 
 onUnmounted(() => {
-    if (timer.value) clearInterval(timer.value);
+  if (timer.value) clearInterval(timer.value);
 });
 
 const updateTimeString = computed(() => {
-    if (!updateTime.value) return "更新失败";
-    return dayjs(updateTime.value).fromNow();
+  if (!updateTime.value) return "更新失败";
+  return dayjs(updateTime.value).fromNow();
 });
 
 const updateTime = computed(() => {
-    let updateTime: Date | undefined = undefined;
-    try {
-        updateTime =
+  let updateTime: Date | undefined = undefined;
+  try {
+    updateTime =
       serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear][
-          systemStore.generalInfo.term
+        systemStore.generalInfo.term
       ]?.updateTime;
-        if (updateTime) return updateTime;
-        else return undefined;
-    } catch (e) {
-        return undefined;
-    }
+    if (updateTime) return updateTime;
+    else return undefined;
+  } catch (e) {
+    return undefined;
+  }
 });
 
 function nav2Lesson() {
-    Taro.navigateTo({ url: "/pages/lessonstable/index" });
+  Taro.navigateTo({ url: "/pages/lessonstable/index" });
 }
 
 function sectionsTimeString(sections: string) {
-    let arr = sections.split("-");
-    return `${getLessonTimeInstance(parseInt(arr[0])).format(
-        "HH:mm"
-    )}-${getLessonTimeInstance(parseInt(arr[1]), 45).format("HH:mm")}`;
+  let arr = sections.split("-");
+  return `${getLessonTimeInstance(parseInt(arr[0])).format(
+    "HH:mm"
+  )}-${getLessonTimeInstance(parseInt(arr[1]), 45).format("HH:mm")}`;
 }
 
 function getLessonTimeInstance(jc: number, offset = 0) {
-    return useTimeInstance(
-        dayScheduleStartTime[jc - 1].hour,
-        dayScheduleStartTime[jc - 1].min + offset
-    );
+  return useTimeInstance(
+    dayScheduleStartTime[jc - 1].hour,
+    dayScheduleStartTime[jc - 1].min + offset
+  );
 }
 
 /**
@@ -128,30 +128,30 @@ function getLessonTimeInstance(jc: number, offset = 0) {
  * @return 距离这节课开始的剩余时间
  */
 function getRestTimeString(sections: string) {
-    // FIXME:
-    const begin = parseInt(sections.split("-")[0]);
-    const time = dayScheduleStartTime[begin - 1];
-    const minutesCount = time.hour * 60 + time.min;
-    const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+  // FIXME:
+  const begin = parseInt(sections.split("-")[0]);
+  const time = dayScheduleStartTime[begin - 1];
+  const minutesCount = time.hour * 60 + time.min;
+  const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
 
-    console.log(minutesCount, currentMinutes);
-    const hour = Math.floor((minutesCount - currentMinutes) / 60);
-    const min = minutesCount - currentMinutes - hour * 60;
-    return `${hour ? hour + "小时" : ""}${min ? min + "分钟" : ""}`;
+  console.log(minutesCount, currentMinutes);
+  const hour = Math.floor((minutesCount - currentMinutes) / 60);
+  const min = minutesCount - currentMinutes - hour * 60;
+  return `${hour ? hour + "小时" : ""}${min ? min + "分钟" : ""}`;
 }
 
 function lessonState(sections: string): "before" | "taking" | "after" {
-    let arr = sections.split("-");
-    let detAfter =
+  let arr = sections.split("-");
+  let detAfter =
     getLessonTimeInstance(Number(arr[0])).valueOf() - dayjs().valueOf();
-    let detBefore =
+  let detBefore =
     getLessonTimeInstance(Number(arr[1]), 45).valueOf() - dayjs().valueOf();
-    if (detAfter > 0) return "before";
-    if (detAfter < 0 && detBefore > 0) return "taking";
-    return "after";
+  if (detAfter > 0) return "before";
+  if (detAfter < 0 && detBefore > 0) return "taking";
+  return "after";
 }
 
 function handleTapHelp() {
-    emit("showHelp", "lessons-table");
+  emit("showHelp", "lessons-table");
 }
 </script>
