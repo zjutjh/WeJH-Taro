@@ -3,9 +3,12 @@
     hidden: !show
   }">
     <view v-if="showMask" class="mask" @tap="close"></view>
-    <view class="wjh-pop-view-body" :class="positionClass" :style="
-  isNewIPhone() && positionClass === 'bottom' ? 'margin-bottom: 2rem' : ''
-    ">
+    <view class="wjh-pop-view-body"
+    :class="positionClass"
+    :style="isNewIPhone()
+      && positionClass === 'bottom'
+      ? 'padding-bottom: 2rem' : '' "
+    >
       <slot></slot>
     </view>
   </view>
@@ -41,7 +44,7 @@ const showMask = computed((): boolean => {
 });
 
 function close() {
-  emit("update:show");
+  emit("update:show", false);
 }
 
 </script>

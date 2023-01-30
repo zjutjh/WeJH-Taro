@@ -1,0 +1,108 @@
+@import "@/style/theme.scss";
+
+.mask {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.65);
+  height: 100%;
+  width: 100%;
+  z-index: 4000;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--wjh-color-border);
+  gap: 16rpx;
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
+
+  .card:first-child {
+    border-top-left-radius: 32rpx;
+    border-top-right-radius: 32rpx;
+  }
+
+  .card {
+    padding: 0 30rpx;
+    background-color: var(--wjh-color-background);
+
+    .header {
+      line-height: 300%;
+      font-size: 1.2em;
+      text-align: center;
+      border-bottom: 4rpx solid var(--wjh-color-border);
+    }
+
+    .item:before {
+      position: absolute;
+      top: -16rpx;
+      right: 16rpx;
+      width: 30rpx;
+      height: 30rpx;
+      font-size: 48rpx;
+      color: var(--wjh-color-white);
+      line-height: 50%;
+      padding: 8rpx;
+      border-radius: 100rpx;
+      text-align: center;
+    }
+
+    .selected {
+      .item:before {
+        content: '-';
+        background-color: red;
+      }
+    }
+
+    .unselected {
+      .item:before {
+        content: '+';
+        background-color: var(--wjh-color-cyan);
+      }
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(4, 25%);
+      padding: 24rpx 0;
+
+      .icon-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 16rpx;
+        height: 100rpx;
+        width: 100rpx;
+        color: var(--wjh-color-white);
+
+        .icon {
+          font-size: 1.8em;
+        }
+      }
+
+      .item:active {
+        transform: scale(1.1);
+      }
+
+      .item {
+        transition: all .1s;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 24rpx;
+        gap: 12rpx;
+
+        :global(text) {
+          font-size: .9em;
+          color: var(--wjh-color-text-secondary)
+        }
+      }
+    }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 24rpx;
+    background-color: var(--wjh-color-background);
+  }
+}

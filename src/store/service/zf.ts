@@ -38,59 +38,59 @@ export interface ZFServiceType {
 }
 
 export const ZFServiceStore = {
-    state: () => ({
-        lessonsTableInfo: {},
-        practiceLessons: [],
-        examInfo: {},
-        scoreInfo: {},
-        roomInfo: {}
-    }),
-    mutations: {
-        setLessonTable(
-            state: ZFServiceType,
-            value: {
+  state: () => ({
+    lessonsTableInfo: {},
+    practiceLessons: [],
+    examInfo: {},
+    scoreInfo: {},
+    roomInfo: {}
+  }),
+  mutations: {
+    setLessonTable(
+      state: ZFServiceType,
+      value: {
         term: string;
         year: string;
         lessonsTable: Lesson[];
         practiceLessons: PracticeLesson[];
       }
-        ) {
-            // comment: 可以更新单个学期的课表
-            if (!state.lessonsTableInfo[value.year])
-                state.lessonsTableInfo[value.year] = {};
-            state.lessonsTableInfo[value.year][value.term] = {
-                data: {
-                    lessonsTable: value.lessonsTable,
-                    practiceLessons: value.practiceLessons
-                },
-                updateTime: new Date()
-            };
+    ) {
+      // comment: 可以更新单个学期的课表
+      if (!state.lessonsTableInfo[value.year])
+        state.lessonsTableInfo[value.year] = {};
+      state.lessonsTableInfo[value.year][value.term] = {
+        data: {
+          lessonsTable: value.lessonsTable,
+          practiceLessons: value.practiceLessons
         },
-        setExamInfo(
-            state: ZFServiceType,
-            value: { term: string; year: string; examInfo: Exam[] }
-        ) {
-            if (!state.examInfo[value.year]) state.examInfo[value.year] = {};
-            state.examInfo[value.year][value.term] = {
-                data: value.examInfo,
-                updateTime: new Date()
-            };
-        },
-        setScoreInfo(
-            state: ZFServiceType,
-            value: { term: string; year: string; scoreInfo: Score[] }
-        ) {
-            if (!state.scoreInfo[value.year]) state.scoreInfo[value.year] = {};
-            state.scoreInfo[value.year][value.term] = {
-                data: value.scoreInfo,
-                updateTime: new Date()
-            };
-        },
-        setRoomInfo(state: ZFServiceType, value: []) {
-            state.roomInfo = {
-                data: value,
-                updateTime: new Date()
-            };
-        }
+        updateTime: new Date()
+      };
+    },
+    setExamInfo(
+      state: ZFServiceType,
+      value: { term: string; year: string; examInfo: Exam[] }
+    ) {
+      if (!state.examInfo[value.year]) state.examInfo[value.year] = {};
+      state.examInfo[value.year][value.term] = {
+        data: value.examInfo,
+        updateTime: new Date()
+      };
+    },
+    setScoreInfo(
+      state: ZFServiceType,
+      value: { term: string; year: string; scoreInfo: Score[] }
+    ) {
+      if (!state.scoreInfo[value.year]) state.scoreInfo[value.year] = {};
+      state.scoreInfo[value.year][value.term] = {
+        data: value.scoreInfo,
+        updateTime: new Date()
+      };
+    },
+    setRoomInfo(state: ZFServiceType, value: []) {
+      state.roomInfo = {
+        data: value,
+        updateTime: new Date()
+      };
     }
+  }
 };
