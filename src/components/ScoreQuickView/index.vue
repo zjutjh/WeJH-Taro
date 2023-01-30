@@ -42,18 +42,18 @@ import { Score } from "@/types/Score";
 //将帮助提示信息传到Home，点击帮助按钮显示该信息
 const emit = defineEmits(["showHelp"]);
 function handleTapHelp() {
-    emit("showHelp", "score-card");
+  emit("showHelp", "score-card");
 }
 
 //展示成绩列表
 const showSorted = ref(false);
 const selectTerm = ref({
-    year: systemStore.generalInfo.termYear,
-    term: systemStore.generalInfo.term
+  year: systemStore.generalInfo.termYear,
+  term: systemStore.generalInfo.term
 });
 
 onMounted(() => {
-    ZFService.updateScoreInfo(selectTerm.value);
+  ZFService.updateScoreInfo(selectTerm.value);
 });
 
 /**
@@ -61,15 +61,15 @@ onMounted(() => {
  * 可选是否按成绩排序
  */
 const todayScoreList = computed(() => {
-    const unreadScores = getUnreadScores(selectTerm.value);
+  const unreadScores = getUnreadScores(selectTerm.value);
 
-    return showSorted.value
-        ? [...unreadScores].sort((a, b) => {
-            let scoreA = a.scorePoint,
-                scoreB = b.scorePoint;
-            return parseFloat(scoreB) - parseFloat(scoreA);
-        })
-        : unreadScores;
+  return showSorted.value
+    ? [...unreadScores].sort((a, b) => {
+      let scoreA = a.scorePoint,
+        scoreB = b.scorePoint;
+      return parseFloat(scoreB) - parseFloat(scoreA);
+    })
+    : unreadScores;
 });
 
 /**
@@ -77,41 +77,41 @@ const todayScoreList = computed(() => {
  * @param props 学期信息
  */
 function getUnreadScores(props?: {year: string; term: string}) {
-    const { data } = ZFService.getScoreInfo(props);
-    const unreadScores: Score[] = [];
-    data.forEach(storeItem => {
-        const existingScore = serviceStore.score.readScoreMarks.find(
-            markItem => (storeItem.lessonID === markItem.name &&
+  const { data } = ZFService.getScoreInfo(props);
+  const unreadScores: Score[] = [];
+  data.forEach(storeItem => {
+    const existingScore = serviceStore.score.readScoreMarks.find(
+      markItem => (storeItem.lessonID === markItem.name &&
           storeItem.scorePoint === markItem.scorePoint)
-        );
-        if (!existingScore) unreadScores.push(storeItem);
-    });
-    // 若有新成绩，则更新时间
-    unreadScores.length !== 0 && store.commit("findNewScore");
+    );
+    if (!existingScore) unreadScores.push(storeItem);
+  });
+  // 若有新成绩，则更新时间
+  unreadScores.length !== 0 && store.commit("findNewScore");
 
-    return unreadScores;
+  return unreadScores;
 }
 
 //最新成绩的更新时间（几天前）
 const scoreUpdateTimeString = computed(() => {
-    if (!updateTime.value) return "更新失败";
-    return dayjs(updateTime.value).fromNow();
+  if (!updateTime.value) return "更新失败";
+  return dayjs(updateTime.value).fromNow();
 });
 
 const updateTime = computed(() => {
-    try {
-        return serviceStore.score.findNewScoresTime;
-    } catch (e) {
-        return undefined;
-    }
+  try {
+    return serviceStore.score.findNewScoresTime;
+  } catch (e) {
+    return undefined;
+  }
 });
 
 // @tap="nav2Score" 点击卡片，跳转到成绩查询详细页面
 function nav2Score() {
-    todayScoreList.value.forEach(item => {
-        store.commit("insertReadScore", item);
-    });
-    Taro.navigateTo({ url: "/pages/score/index" });
+  todayScoreList.value.forEach(item => {
+    store.commit("insertReadScore", item);
+  });
+  Taro.navigateTo({ url: "/pages/score/index" });
 }
 
 </script>

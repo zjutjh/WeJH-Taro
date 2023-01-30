@@ -8,10 +8,12 @@
   }
 
   .exam-card {
-    background: rgb(254, 238, 211);
+    // background: #FEDFA9;
+    background: var(--wjh-color-orange-light);
     position: relative;
+
     .exam-place {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       color: var(--wjh-color-week);
     }
 
@@ -21,16 +23,17 @@
       text-underline-offset: 0.3rem;
       text-decoration-color: rgb(216, 193, 154);
     }
+
     .exam-res {
-        color: var(--wjh-color-week);
-        font-size: 0.7rem;
-        float: right;
+      color: var(--wjh-color-week);
+      font-size: 0.7rem;
+      float: right;
     }
   }
+
   .wjh-card-body {
     padding: 0.5rem 0;
   }
-
 
   .exam-item {
     border-radius: 0.5rem;
@@ -59,10 +62,6 @@
       height: 100%;
     }
 
-    .red {
-      color: red;
-    }
-
     .split {
       display: inline-block;
       background-color: var(--wjh-color-week);
@@ -79,7 +78,5 @@
       width: 36%;
       text-align: end;
     }
-
   }
-
 }

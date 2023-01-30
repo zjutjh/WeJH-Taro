@@ -20,7 +20,7 @@ import {Card} from "@/components";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 function nav2electricity(){
-    Taro.navigateTo({url: "/pages/electricity/index"});
+  Taro.navigateTo({url: "/pages/electricity/index"});
 }
 </script>
 

@@ -25,41 +25,41 @@ interface RequestConfigType<TData extends TaroGeneral.IAnyObject, TParams> {
  * @returns
  */
 const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
-    service: (params?: TParams) => Promise<Taro.request.SuccessCallbackResult<TData>>,
-    config?: RequestConfigType<TData, TParams>
+  service: (params?: TParams) => Promise<Taro.request.SuccessCallbackResult<TData>>,
+  config?: RequestConfigType<TData, TParams>
 ) => {
-    const loading = ref(false);
-    const data = ref<TData>();
-    const error = ref<Error>();
+  const loading = ref(false);
+  const data = ref<TData>();
+  const error = ref<Error>();
 
-    const fetch = (params?: TParams) => {
-        loading.value = true;
-        config?.onBefore?.();
-        service(params || config?.defaultParams).then((response) => {
-            config?.onSuccess?.(response);
-            data.value = response.data;
-        }).catch((e) => {
-            config?.onError?.(e);
-            error.value = e;
-        }).finally(() => {
-            config?.onFinally?.();
-            loading.value = false;
-        });
-    };
-
-    onMounted(() => {
-        if (!config?.manual) {
-            fetch();
-        }
+  const fetch = (params?: TParams) => {
+    loading.value = true;
+    config?.onBefore?.();
+    service(params || config?.defaultParams).then((response) => {
+      config?.onSuccess?.(response);
+      data.value = response.data;
+    }).catch((e) => {
+      config?.onError?.(e);
+      error.value = e;
+    }).finally(() => {
+      config?.onFinally?.();
+      loading.value = false;
     });
+  };
 
-    return {
-        loading,
-        data,
-        error,
-        run: fetch,
-        runAsync: service
-    };
+  onMounted(() => {
+    if (!config?.manual) {
+      fetch();
+    }
+  });
+
+  return {
+    loading,
+    data,
+    error,
+    run: fetch,
+    runAsync: service
+  };
 };
 
 export default useRequest;

@@ -11,26 +11,16 @@
       <questionnaire
         v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire"
       />
-      <lessons-table-quick-view
-        v-if="isBindZf"
-        @show-help="showHelp"
-      ></lessons-table-quick-view>
-      <exam-quick-view
-        @show-help="showHelp"
-        v-if="true"
-      ></exam-quick-view>
-      <school-card-quick-view
-        v-if="isBindCard"
-        @show-help="showHelp"
-      ></school-card-quick-view>
-      <Score-quick-view
-        v-if="isBindZf"
-        @show-help="showHelp"
-      ></Score-quick-view>
-      <library-quick-view v-if="isBindLibrary"></library-quick-view>
+      <cards />
       <card v-if="!(isBindZf || isBindCard || isBindLibrary)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
+      <view
+        @tap="showEditPanel"
+        :class="styles[`edit-button`]"
+      >
+        <view class="iconfont icon-edit" />
+      </view>
     </view>
     <view v-else class="flex-column">
       <card title="未激活">
@@ -38,10 +28,7 @@
       </card>
     </view>
   </scroll-view>
-  <w-modal
-    v-model:show="isShowHelp"
-    :content="`&emsp;&emsp;${helpContent}`"
-  ></w-modal>
+  <edit-panel v-model:show="isShowEditPanel"/>
 </template>
 
 <script setup lang="ts">
@@ -50,21 +37,22 @@ import store, { serviceStore, systemStore } from "@/store";
 import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
 import Card from "../Card/index.vue";
-import LibraryQuickView from "../LibraryQuickView/index.vue";
-import ScoreQuickView from "../ScoreQuickView/index.vue";
-import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
-import WModal from "../Modal/index.vue";
-import SchoolCardQuickView from "../SchoolCardQuickView/index.vue";
 import TitleBar from "../TitleBar/index.vue";
-import { helpText } from "@/constants/copywriting";
 import Taro from "@tarojs/taro";
 import { SystemService } from "@/services";
-import ExamQuickView from "../ExamQuickView/index.vue";
 import { questionnaireInfo } from "@/constants/updateInfo";
-const isShowHelp = ref(false);
-const helpContent = ref<string | undefined>(undefined);
+import cards from "./cards.vue";
+import EditPanel from "./edit-panel/index.vue";
+import styles from "./index.module.scss";
+
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
+
+const isShowEditPanel = ref(false);
+
+const showEditPanel = () => {
+  isShowEditPanel.value = true;
+};
 
 // 检查问卷可访问状态
 const isQuestionnaireAccess = () => {
@@ -107,17 +95,11 @@ function nav2activation() {
     url: "/pages/activation/index"
   });
 }
+
 function nav2announcement() {
   store.commit("clearAnnouncementsUpdateCounter");
   Taro.navigateTo({
     url: "/pages/announcement/index"
   });
-}
-function showHelp(prop: "lessons-table" | "school-card" | "exam-card") {
-  isShowHelp.value = true;
-  if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
-  else if (prop === "school-card") helpContent.value = helpText.schoolCard;
-  else if (prop === "score-card") helpContent.value = helpText.scoreCard;
-  else if (prop === "exam-card") helpContent.value = helpText.examCard;
 }
 </script>
