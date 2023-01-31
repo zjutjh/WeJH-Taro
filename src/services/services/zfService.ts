@@ -44,7 +44,13 @@ export default class ZFService {
         };
       }
     );
-  } //获得考试安排信息
+  }
+
+  /**
+   * 从缓存中获取考试安排信息
+   * @param data 指定学期
+   * @returns
+   */
   static getExamInfo(data?: { year: string; term: string }): {
     data: Exam[];
     updateTime: Date | null;
@@ -82,6 +88,7 @@ export default class ZFService {
       }
     );
   }
+
   static getScoreInfo(data?: { year: string; term: string }): {
     data: Score[];
     updateTime: Date | null;

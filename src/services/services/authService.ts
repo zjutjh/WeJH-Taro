@@ -10,7 +10,7 @@ import { ServerCode } from "../api/codes";
 
 // comment: 与微信建立链接，获取 session
 // 场景: 发送带 session 的请求 postWithSession，打开小程序页面
-async function LoginByTaroImpl(): Promise<boolean> {
+async function LoginByTaroImpl(): Promise<Boolean> {
   // TODO:
 
   // comment: 已经有 session 了，并且有激活记录了，无需再获取 session 激活
@@ -20,8 +20,8 @@ async function LoginByTaroImpl(): Promise<boolean> {
 
   store.commit("clearSession");
   let fet: FetchResult | undefined;
-  const res = await Taro.login({ timeout: 3000 });
-  const code = res.code;
+  let res = await Taro.login({ timeout: 3000 });
+  let code = res.code;
   if (!code) return false;
   fet = await fetch.post(api.user.login.wechat, { code: res.code });
 
@@ -40,7 +40,7 @@ async function LoginByTaroImpl(): Promise<boolean> {
 async function LoginWithPasswordImpl(
   username: string,
   password: string
-): Promise<boolean> {
+): Promise<Boolean> {
   let fet: FetchResult | undefined;
   fet = await fetch.post(api.user.login.password, {
     username, password

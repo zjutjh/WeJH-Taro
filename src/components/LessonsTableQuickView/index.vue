@@ -114,7 +114,7 @@ function sectionsTimeString(sections: string) {
   )}-${getLessonTimeInstance(parseInt(arr[1]), 45).format("HH:mm")}`;
 }
 
-function getLessonTimeInstance(jc: number, offset = 0) {
+function getLessonTimeInstance(jc: number, offset: number = 0) {
   return useTimeInstance(
     dayScheduleStartTime[jc - 1].hour,
     dayScheduleStartTime[jc - 1].min + offset

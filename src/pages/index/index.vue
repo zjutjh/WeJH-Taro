@@ -21,25 +21,25 @@ const showUpdateInfo = ref(false);
 const updateManager = Taro.getUpdateManager();
 
 updateManager.onUpdateReady(function () {
-    Taro.showModal({
-        title: "微精弘更新提示",
-        content: "新版本已经准备好，是否重启应用？",
-        success: function (res) {
-            if (res.confirm) {
-                updateManager.applyUpdate();
-            }
-        }
-    });
+  Taro.showModal({
+    title: "微精弘更新提示",
+    content: "新版本已经准备好，是否重启应用？",
+    success: function (res) {
+      if (res.confirm) {
+        updateManager.applyUpdate();
+      }
+    }
+  });
 });
 
 const setPageName = (key: string) => {
-    pageName.value = key;
+  pageName.value = key;
 };
 
 const newVersion = updateInfo.version;
 if (newVersion && systemStore.version !== newVersion) {
-    store.commit("setVersion", newVersion);
-    showUpdateInfo.value = true;
+  store.commit("setVersion", newVersion);
+  showUpdateInfo.value = true;
 }
 
 </script>
