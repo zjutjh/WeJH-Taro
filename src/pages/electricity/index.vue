@@ -17,16 +17,16 @@
 <script setup lang="ts">
 import "./index.scss";
 import {
-    BottomPanel,
-    Card,
-    RefreshButton,
-    TermPicker,
-    TitleBar,
-    WModal,
-    WCollapsePanel,
-    WCollapse,
-    WDescriptions,
-    WDescriptionsItem,
+  BottomPanel,
+  Card,
+  RefreshButton,
+  TermPicker,
+  TitleBar,
+  WModal,
+  WCollapsePanel,
+  WCollapse,
+  WDescriptions,
+  WDescriptionsItem,
 } from "@/components";
 </script>
 
