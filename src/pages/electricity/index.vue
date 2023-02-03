@@ -22,14 +22,14 @@
           </card>
           <text v-if="isUrgent" :style="{'color': 'red','position': 'relative','font-size': '0.5em'}">温馨提示: 电量已不足20度，请及时充电</text>
 
-         <card style="position: relative">
+         <card style="position: relative" @tap="nav2Consumption">
            <view>每日用电记录
              <view class="arrow-wrapper">
                <view class="iconfont icon-arrow-right" />
              </view>
            </view>
          </card>
-         <card style="position: relative">
+         <card style="position: relative" @tap="nav2Record">
            <view >缴费记录
              <view class="arrow-wrapper">
                <view class="iconfont icon-arrow-right" />
@@ -57,6 +57,7 @@ import {useRequest} from "@/hooks";
 import {YxyService} from "@/services";
 import {computed, onMounted, ref} from "vue";
 import store, {serviceStore} from "@/store";
+import Taro from "@tarojs/taro";
 
 const isSuccess = ref<Boolean>(false);
 const isError = ref<Boolean>(false);
@@ -110,6 +111,17 @@ onMounted(() => {
   getBalance();
 });
 
+function nav2Record() {
+  Taro.navigateTo({
+    url: "/pages/electricity/record/index"
+  });
+}
+
+function nav2Consumption() {
+  Taro.navigateTo({
+    url: "/pages/electricity/consumption/index"
+  });
+}
 
 </script>
 

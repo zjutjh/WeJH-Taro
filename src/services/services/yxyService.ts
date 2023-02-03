@@ -105,4 +105,26 @@ export default class YxyService {
   //       return{balance: undefined};
   //   }
   // };
+
+  static queryConsumption = async () => {
+    return Taro.request({
+      method: "GET",
+      url: api.electricity.consumption,
+      header: {
+        "Cookie": serviceStore.sessionID
+      },
+    });
+  };
+
+  static queryRecord = async (data: {"page": string}) => {
+    return Taro.request({
+      method: "POST",
+      url: api.electricity.record,
+      header: {
+        "Cookie": serviceStore.sessionID
+      },
+      data: data
+    });
+  };
+
 }

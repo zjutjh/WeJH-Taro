@@ -11,9 +11,12 @@
   float: right;
 }
 .electricity-card{
-
+  display: flex;
+  height: 10%;
+  text-align: center;
+  justify-content: space-around;
   .text{
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
 }
 

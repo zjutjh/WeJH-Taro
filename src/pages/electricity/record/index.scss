@@ -1,0 +1,73 @@
+@import '@/style/theme.scss';
+
+.background {
+  background-image: none;
+}
+
+.slot {
+  height: 3%;
+  width: 100%;
+}
+
+.header {
+  .swicher {
+    flex: 2;
+    justify-content: space-around;
+    button {
+      border-radius: 0;
+      font-size: 0.875rem;
+      width: 80%;
+    }
+
+    button:first-child {
+      border-radius: 1000px 1000px 1000px 1000px;
+    }
+
+    button:last-child {
+      border-radius: 1000px 1000px 1000px 1000px;
+    }
+
+    .button-not-active {
+      background-color: #def9f3 !important;
+      color: var(--wjh-color-cyan);
+      border-color: var(--wjh-color-cyan);
+    }
+  }
+
+  .col {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+  }
+
+  .col:first-child {
+    flex: 0 0 20%;
+  }
+
+  .col:last-child {
+    flex: 0 0 20%;
+  }
+}
+
+.text {
+  font-size: 1em;
+  width: 100%;
+  height: 2.5em;
+  display: flex;
+  justify-content: space-around;
+
+  .top {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .record {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7em;
+  }
+}

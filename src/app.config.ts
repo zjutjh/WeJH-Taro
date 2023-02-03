@@ -18,6 +18,8 @@ export default {
     "pages/canteenflow/index",
     "pages/announcement/index",
     "pages/electricity/index",
+    "pages/electricity/record/index",
+    "pages/electricity/consumption/index"
   ],
   darkmode: false,
   window: {
