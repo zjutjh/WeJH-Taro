@@ -78,4 +78,31 @@ export default class YxyService {
       data
     });
   };
+
+  /**
+   * 查询电费
+   * @returns
+   */
+  static queryBalance = async () => {
+    return Taro.request({
+      method: "GET",
+      url: api.electricity.balance,
+      header: {
+        "Cookie": serviceStore.sessionID
+      },
+    });
+  };
+
+  // static async getBalance() : {balance: String | undefined}  {
+  //   if (serviceStore.electricity.balance) {
+  //     return {balance: serviceStore.electricity.balance.toString()};
+  //   }
+  //   else {
+  //     const ans = await YxyService.queryBalance();
+  //     if(ans.data?.data?.balance)
+  //       return {balance: serviceStore.electricity.balance};
+  //     else
+  //       return{balance: undefined};
+  //   }
+  // };
 }

@@ -21,8 +21,7 @@
 <script setup lang="ts">
 import { toRefs } from "vue";
 import "./index.scss";
-const props =
-  defineProps<{ title: string; iconName: string; help?: boolean }>();
+const props = defineProps<{ title: string; iconName: string; help?: boolean }>();
 const { title, iconName, help } = toRefs(props);
 
 const emit = defineEmits(["handleTapHelp"]);

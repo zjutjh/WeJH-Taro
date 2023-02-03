@@ -3,7 +3,8 @@ export type HomeCardName =
   "exam-quick-view" |
   "school-card-quick-view" |
   "score-quick-view" |
-  "library-quick-view";
+  "library-quick-view" |
+  "electricity-quick-view";
 
 export const homeCards: {
   [key in HomeCardName]: {
@@ -42,5 +43,11 @@ export const homeCards: {
     label: "成绩查询",
     icon: "score",
     backgroundColor: "green"
+  },
+  "electricity-quick-view": {
+    name: "electricity-quick-view",
+    label: "电费查询",
+    icon: "electricity",
+    backgroundColor: "yellow"
   }
 };

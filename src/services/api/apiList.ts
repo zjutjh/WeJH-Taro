@@ -17,7 +17,7 @@ const api = {
         sendPhoneNumber: "/api/user/bind/yxy/send/verification",
         getGraph: "/api/user/bind/yxy/get/captcha",
         sendGraphAuthCode: "/api/user/bind/yxy/send/captcha",
-        login: "/api/user/bind/yxy/login"
+        login: "/api/user/bind/yxy/login",
       }
     }
   },
@@ -38,6 +38,11 @@ const api = {
   },
   canteen: {
     flow: "/api/func/canteen/flow"
+  },
+  electricity: {
+    balance: "/api/func/electricity/balance",
+    record: "/api/func/electricity/record",
+    consumption: "/api/func/electricity/consumption",
   },
   applist: "/api/applist",
   info: "/api/info",

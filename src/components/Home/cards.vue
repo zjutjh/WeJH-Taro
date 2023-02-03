@@ -8,6 +8,7 @@ import SchoolCardQuickView from "../SchoolCardQuickView/index.vue";
 import ScoreQuickView from "../ScoreQuickView/index.vue";
 import LibraryQuickView from "../LibraryQuickView/index.vue";
 import WModal from "../Modal/index.vue";
+import ElectricityQuickView from "../ElectricityQuickView/index.vue";
 import { HomeCardName } from "@/constants/homeCards";
 
 const helpContent = ref<string | undefined>(undefined);
@@ -61,6 +62,10 @@ const cardsMap: {
   "library-quick-view": isBindLibrary.value ? h(
     LibraryQuickView
   ): null,
+  "electricity-quick-view": h(
+    ElectricityQuickView
+  ),
+  //TODO: 增加isBindyx
 };
 
 selectedCards.value.map(item => {

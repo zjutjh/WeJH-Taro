@@ -1,12 +1,12 @@
 @import '@/style/theme.scss';
 
 .background {
-  background-image: url("~@/assets/photos/background-yellow.svg");
+  background-image: url("~@/assets/photos/background-blank.svg");
 }
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-flesh);
+  background-color: var(--wjh-color-yellow-orange);
   display: flex;
 
   image {
@@ -22,3 +22,41 @@
   padding: 1.2rem 1rem;
 }
 
+.icon-wrapper {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16rpx;
+  height: 100rpx;
+  width: 100rpx;
+  color: var(--wjh-color-white);
+  background: var(--wjh-color-green);
+  .icon {
+    font-size: 1.8em;
+  }
+}
+.text-wrapper {
+  position: absolute;
+  top: 23%;
+  left: 25%;
+  height: 100rpx;
+  width: 600rpx;
+  .week {
+    position: absolute;
+    color: var(--wjh-color-week);
+    font-size: 0.8rem;
+    top: 60%;
+    left: 0;
+  }
+}
+.arrow-wrapper{
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  top: 25%;
+  height: 80rpx;
+  width: 80rpx;
+  right: 2%;
+  color: var(--wjh-color-week);
+}

@@ -124,16 +124,16 @@
 import { computed, onMounted, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
 import {
-    BottomPanel,
-    Card,
-    RefreshButton,
-    TermPicker,
-    TitleBar,
-    WModal,
-    WCollapsePanel,
-    WCollapse,
-    WDescriptions,
-    WDescriptionsItem,
+  BottomPanel,
+  Card,
+  RefreshButton,
+  TermPicker,
+  TitleBar,
+  WModal,
+  WCollapsePanel,
+  WCollapse,
+  WDescriptions,
+  WDescriptionsItem,
 } from "@/components";
 import { ZFService } from "@/services";
 import dayjs, { ConfigType } from "dayjs";
@@ -141,49 +141,49 @@ import { helpText } from "@/constants/copywriting";
 import "./index.scss";
 
 const selectTerm = ref({
-    year: systemStore.generalInfo.termYear,
-    term: systemStore.generalInfo.term
+  year: systemStore.generalInfo.termYear,
+  term: systemStore.generalInfo.term
 });
 const isRefreshing = ref(false);
 const exam = computed(() => {
-    return ZFService.getExamInfo(selectTerm.value)?.data;
+  return ZFService.getExamInfo(selectTerm.value)?.data;
 });
 const showModal = ref(false);
 const helpContent = helpText.exam;
 
 async function termChanged(e) {
-    isRefreshing.value = true;
-    selectTerm.value = e;
-    await ZFService.updateExamInfo(e);
-    isRefreshing.value = false;
+  isRefreshing.value = true;
+  selectTerm.value = e;
+  await ZFService.updateExamInfo(e);
+  isRefreshing.value = false;
 }
 
 async function refresh() {
-    if (isRefreshing.value) return;
-    isRefreshing.value = true;
-    await ZFService.updateExamInfo(selectTerm.value);
-    isRefreshing.value = false;
+  if (isRefreshing.value) return;
+  isRefreshing.value = true;
+  await ZFService.updateExamInfo(selectTerm.value);
+  isRefreshing.value = false;
 }
 
 function getDetailedTime(timeString: string) {
-    const tmp: ConfigType = timeString.split("(")[0];
-    const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-    return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
+  const tmp: ConfigType = timeString.split("(")[0];
+  const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
+  return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
 }
 
 function timeInterval(timeString: string) {
-    const tmp: ConfigType = timeString.split("(")[0];
-    return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
+  const tmp: ConfigType = timeString.split("(")[0];
+  return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
 }
 
 function showHelp() {
-    showModal.value = true;
+  showModal.value = true;
 }
 
 onMounted(async () => {
-    if (serviceStore.user.isBindZF) {
-        await refresh();
-    }
+  if (serviceStore.user.isBindZF) {
+    await refresh();
+  }
 });
 
 </script>

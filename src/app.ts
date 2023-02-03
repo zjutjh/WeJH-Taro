@@ -15,11 +15,11 @@ dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
 const App = createApp({
-    onShow() {
-        SystemService.getGeneralInfo();
-        SystemService.getAppList();
-        LoginByTaro();
-    }
+  onShow() {
+    SystemService.getGeneralInfo();
+    SystemService.getAppList();
+    LoginByTaro();
+  }
 }).use(store);
 
 export default App;
