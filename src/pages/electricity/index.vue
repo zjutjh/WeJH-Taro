@@ -1,56 +1,60 @@
 <template>
- <view class="background">
-   <title-bar title="寝室电费查询" back-button></title-bar>
-   <scroll-view :scrollY="true">
-     <view class="header-view">
-       <image src="@/assets/photos/electricity.svg"></image>
-     </view>
+  <view class="background">
+    <title-bar title="寝室电费查询" back-button></title-bar>
+    <scroll-view :scrollY="true">
+      <view class="header-view">
+        <image src="@/assets/photos/electricity.svg"></image>
+      </view>
+      <view class="flex-column">
+        <card class="info-card">
+          <view class="dormitory-info">
+            <view class="icon-wrapper">
+              <view class="iconfont icon-electricity" />
+            </view>
+            <view class="text-wrapper">
+              <text color="black">{{ roomInfo.roomName }}</text>
+              <text class="week">房间号 {{ roomInfo.roomCode }}</text>
+            </view>
+          </view>
+        </card>
 
-       <view v-if="isSuccess">
-         <view class="flex-column">
-         <card style="position: relative">
-           <view class="icon-wrapper">
-             <view class="iconfont icon-electricity" :style="`font-size: 3em;`"/>
-           </view>
-           <view class="text-wrapper">
-             <text color="black">{{resData.place[0]}} &nbsp&nbsp&nbsp&nbsp {{resData.place[1]}}</text>
-             <text class="week">房间号 &nbsp&nbsp&nbsp&nbsp{{resData.place[2]}}</text>
-           </view>
-         </card >
-          <card style="position: relative">
-            <view>剩余总电量<text :style="{'color': fontColor}">&nbsp&nbsp&nbsp{{resData.balance}}&nbsp&nbsp&nbsp&nbsp</text>度</view>
-          </card>
-          <text v-if="isUrgent" :style="{'color': 'red','position': 'relative','font-size': '0.5em'}">温馨提示: 电量已不足20度，请及时充电</text>
+        <w-list>
+          <w-list-item class="electricity-list-item">
+            <view class="text-wrapper">
+              <text> 剩余总电量 </text>
+              <text :class="[isUrgent ? 'dangerous' : 'normal', 'rest-number']">
+                {{ balance }}
+              </text>
+              <text> 度 </text>
+            </view>
+          </w-list-item>
+        </w-list>
+        <text v-if="isUrgent" class="dangerous" style="font-size: .8rem">
+          温馨提示: 电量已不足20度，请及时充电
+        </text>
 
-         <card style="position: relative" @tap="nav2Consumption">
-           <view>每日用电记录
-             <view v-if="todayConsumption"
-                   class="today">
-               <text>
-                  今日已用: {{todayConsumption}}kwh
-               </text>
-             </view>
-             <view class="arrow-wrapper">
-               <view class="iconfont icon-arrow-right" />
-             </view>
-           </view>
-         </card>
-         <card style="position: relative" @tap="nav2Record">
-           <view >缴费记录
-             <view class="arrow-wrapper">
-               <view class="iconfont icon-arrow-right" />
-             </view>
-           </view>
-         </card>
-       </view>
-       </view>
-         <view v-else>
-       <card style="text-align: center">
-         <view>{{isError? "请求失败,请稍后重试!" : "正在请求中,请稍等..."}}</view>
-       </card>
-     </view>
-   </scroll-view>
- </view>
+        <w-list @tap="nav2Consumption">
+          <w-list-item arrow="right" class="electricity-list-item">
+            <view class="text-wrapper" style="justify-content: space-between;">
+              <text> 每日用电记录 </text>
+              <text v-if="consumptionLoading" class="today">正在加载...</text>
+              <text v-else-if="todayConsumption" class="today">
+                今日已用: {{ todayConsumption }} kwh
+              </text>
+            </view>
+          </w-list-item>
+        </w-list>
+
+        <w-list @tap="nav2Record">
+          <w-list-item arrow="right" class="electricity-list-item">
+            <view class="text-wrapper">
+              <text> 缴费记录 </text>
+            </view>
+          </w-list-item>
+        </w-list>
+      </view>
+    </scroll-view>
+  </view>
 </template>
 
 <script setup lang="ts">
@@ -58,64 +62,61 @@ import "./index.scss";
 import {
   Card,
   TitleBar,
+  WList,
+  WListItem
 } from "@/components";
-import {useRequest} from "@/hooks";
-import {YxyService} from "@/services";
-import {computed, onMounted, ref} from "vue";
-import store, {serviceStore} from "@/store";
+import { useRequest } from "@/hooks";
+import { YxyService } from "@/services";
+import { computed } from "vue";
+import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
-const isSuccess = ref<Boolean>(false);
-const isError = ref<Boolean>(false);
-const resData = ref();
-const todayConsumption = ref<undefined | String | Number>(undefined);
-const {
-  run: getBalance,
-} =  useRequest(YxyService.queryBalance,{
-  manual: true,
-  onSuccess:   (response) => {
-    // console.log(response);
-    if(response.statusCode !== 200){
-      isError.value = true;
-      isSuccess.value = false;
-      getBalance();
+const roomInfo = computed(() => ({
+  roomName: serviceStore.electricity.roomName,
+  roomCode: serviceStore.electricity.roomCode
+}))
+
+const balance = computed(() => serviceStore.electricity.balance)
+
+const todayConsumption = computed(() => (serviceStore.electricity.todayConsumption));
+
+useRequest(YxyService.queryBalance, {
+  onBefore: () => {
+    Taro.showLoading({ title: "正在加载" });
+  },
+  onSuccess: (response) => {
+    if (response.data.code === 1) {
+      store.commit("setElectricityStore", {
+        roomName: response.data.data.display_room_name,
+        roomCode: response.data.data.room_code,
+        balance: response.data.data.surplus
+      });
+    } else {
+      throw new Error(response.data.msg || response.errMsg);
     }
-    else {
-      resData.value = getData(response.data.data);
-      store.commit("setBalance",resData.value.balance);
-      isSuccess.value = true;
-    }
+    Taro.hideLoading();
+  },
+  onError: (error) => {
+    Taro.showToast({ title: error.message, icon: "none" })
   }
 });
 
-function getData(res) {
-  let place = getPlace(res.display_room_name);
-  console.log(place);
-  return {
-    place: place,
-    balance: res.surplus,
-  };
-}
-
-function getPlace(place: string){
-  let tmp = place.split("校区");
-  return [
-    tmp[0],
-    tmp[1].slice(0,tmp[1].indexOf("s")),
-    tmp[1].slice(tmp[1].indexOf("s")),
-  ];
-}
+const { loading: consumptionLoading } = useRequest(YxyService.queryConsumption, {
+  onSuccess: (response) => {
+    if (response.data.code === 1) {
+      store.commit("setConsumption", response.data.data[0].used);
+    } else {
+      throw new Error(response.data.msg || response.errMsg);
+    }
+  },
+  onError: (error) => {
+    Taro.showToast({ title: error.message, icon: "none" })
+  }
+})
 
 const isUrgent = computed(() => {
-  return resData.value.balance < 20;
-});
-const fontColor = computed(() => {
-  console.log(isUrgent.value);
-  return isUrgent.value? "red" : "#00B7B7";
-});
-onMounted(() => {
-  getBalance();
-  todayConsumption.value = serviceStore.electricity.todayConsumption? serviceStore.electricity.todayConsumption : undefined;
+  if (balance) return balance.value < 20;
+  else false
 });
 
 function nav2Record() {
@@ -131,7 +132,3 @@ function nav2Consumption() {
 }
 
 </script>
-
-<style scoped>
-
-</style>

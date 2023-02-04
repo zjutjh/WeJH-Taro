@@ -5,7 +5,7 @@ import Taro from "@tarojs/taro";
 import { ref, onMounted } from "vue";
 
 interface RequestConfigType<TData extends TaroGeneral.IAnyObject, TParams> {
-  manual?: boolean; // 是否立即发起请求(感觉是否手动更准确一点)
+  manual?: boolean; // 是否手动发起请求
   defaultParams?: TParams; // 默认参数
   onBefore?: () => void; // 发送请求之前做的事情
   onSuccess?: (response: Taro.request.SuccessCallbackResult<TData>) => void;

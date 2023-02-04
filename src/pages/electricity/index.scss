@@ -1,20 +1,21 @@
 @import '@/style/theme.scss';
 
 .background {
-  background-image: url("~@/assets/photos/background-blank.svg");
+  background: none;
 }
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-yellow-orange);
+  background-color: var(--wjh-color-desert);
   display: flex;
 
   image {
     height: 65%;
-    margin: auto auto;
+    margin: auto;
   }
 
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -22,48 +23,68 @@
   padding: 1.2rem 1rem;
 }
 
-.icon-wrapper {
-  position: relative;
-  justify-content: center;
-  align-items: center;
+.info-card {
+  .dormitory-info {
+    display: flex;
+    gap: 24rpx;
+    align-items: center;
+  }
+
+  .icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16rpx;
+    height: 50Px;
+    width: 50Px;
+    color: var(--wjh-color-white);
+    background: var(--wjh-color-green);
+    flex-shrink: 0;
+
+    .iconfont {
+      font-size: 2.4rem;
+    }
+  }
+
+  .text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+
+    .week {
+      color: var(--wjh-color-week);
+      font-size: 0.8rem;
+      top: 60%;
+      left: 0;
+    }
+  }
+}
+
+.electricity-list-item {
+  box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
   border-radius: 16rpx;
-  height: 100rpx;
-  width: 100rpx;
-  color: var(--wjh-color-white);
-  background: var(--wjh-color-green);
-  .icon {
-    font-size: 1.8em;
+
+  .text-wrapper {
+    padding: 8rpx 0;
+    display: flex;
+    gap: 16rpx;
+    flex: auto;
   }
 }
-.text-wrapper {
-  position: absolute;
-  top: 23%;
-  left: 25%;
-  height: 100rpx;
-  width: 600rpx;
-  .week {
-    position: absolute;
-    color: var(--wjh-color-week);
-    font-size: 0.8rem;
-    top: 60%;
-    left: 0;
-  }
+
+.rest-number {
+  font-size: 1.2rem;
+  font-weight: 600;
 }
-.arrow-wrapper{
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  font-size: 1em;
-  top: 25%;
-  height: 80rpx;
-  width: 80rpx;
-  right: 2%;
-  color: var(--wjh-color-week);
+
+.dangerous {
+  color: var(--wjh-color-red);
 }
+
+.normal {
+  color: var(--wjh-color-green);
+}
+
 .today {
-  position: absolute;
-  top: 32%;
-  right: 20%;
   color: var(--wjh-color-week);
-  font-size: 0.6em;
 }

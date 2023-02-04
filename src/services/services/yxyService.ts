@@ -84,7 +84,13 @@ export default class YxyService {
    * @returns
    */
   static queryBalance = async () => {
-    return Taro.request({
+    return Taro.request<IResponse<{
+      display_room_name: string;
+      md_name: string;
+      room_code: string;
+      surplus: number; //kwh
+      surplus_amount: number; // rmb
+    }>>({
       method: "GET",
       url: api.electricity.balance,
       header: {
@@ -95,13 +101,14 @@ export default class YxyService {
 
   static async getBalance() {
     if (serviceStore.electricity.balance) {
-      return serviceStore.electricity.balance.toString();
+      return serviceStore.electricity.balance;
     }
     else {
       const ans = await YxyService.queryBalance();
-      if(ans.data?.data?.surplus) {
+      if (ans.data?.data?.surplus) {
         store.commit("setBalance",ans.data.data.surplus);
-        return serviceStore.electricity.balance;
+        // FIXME: 状态兜底
+        return ans.data.data.surplus;
       }
       else
         return undefined;
@@ -109,7 +116,11 @@ export default class YxyService {
   }
 
   static queryConsumption = async () => {
-    return Taro.request({
+    return Taro.request<IResponse<Array<{
+      datetime: string;
+      room_dm: string;
+      used: string;
+    }>>>({
       method: "GET",
       url: api.electricity.consumption,
       header: {
@@ -119,7 +130,14 @@ export default class YxyService {
   };
 
   static queryRecord = async (data: {"page": string}) => {
-    return Taro.request({
+    return Taro.request<IResponse<Array<{
+      buy_type: string;
+      datetime: string;
+      is_send: string;
+      money: string;
+      room_dm: string;
+      using_type: string;
+    }>>>({
       method: "POST",
       url: api.electricity.record,
       header: {

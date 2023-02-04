@@ -24,10 +24,12 @@ export interface ServiceStoreType {
     };
   };
   electricity: {
-    balance: Number | String;
-    todayConsumption: Number | String;
+    roomName: string;
+    roomCode: string;
+    balance: number;
+    todayConsumption: string;
     updateTime: {
-      balance: any;
+      balance: Date;
     }
   }
   score: {

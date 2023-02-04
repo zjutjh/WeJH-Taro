@@ -5,7 +5,7 @@
       isActive ? `wjh-collapse-panel-header-active` : undefined
     ]"
     :onTap="handleClick"
-    :clickable="props.arrow"
+    :arrow="props.arrow ? 'down' : undefined"
   >
     {{ props.title }}
     <slot name="header"></slot>
