@@ -35,6 +35,10 @@ const isBindLibrary = computed(() => {
   return serviceStore.user.isBindLibrary;
 });
 
+const isBindYxy = computed(() => {
+  return serviceStore.user.isBindYXY;
+});
+
 const cardsMap: {
   // eslint-disable-next-line no-unused-vars
   [key in HomeCardName]: VNode | null
@@ -62,10 +66,10 @@ const cardsMap: {
   "library-quick-view": isBindLibrary.value ? h(
     LibraryQuickView
   ): null,
-  "electricity-quick-view": h(
+  "electricity-quick-view": isBindYxy.value ? h(
     ElectricityQuickView
-  ),
-  //TODO: 增加isBindyx
+  ): null,
+
 };
 
 selectedCards.value.map(item => {

@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 import { api } from "../api/apiList";
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 
 interface IResponse<T> {
   code: number;
@@ -93,18 +93,20 @@ export default class YxyService {
     });
   };
 
-  // static async getBalance() : {balance: String | undefined}  {
-  //   if (serviceStore.electricity.balance) {
-  //     return {balance: serviceStore.electricity.balance.toString()};
-  //   }
-  //   else {
-  //     const ans = await YxyService.queryBalance();
-  //     if(ans.data?.data?.balance)
-  //       return {balance: serviceStore.electricity.balance};
-  //     else
-  //       return{balance: undefined};
-  //   }
-  // };
+  static async getBalance() {
+    if (serviceStore.electricity.balance) {
+      return serviceStore.electricity.balance.toString();
+    }
+    else {
+      const ans = await YxyService.queryBalance();
+      if(ans.data?.data?.surplus) {
+        store.commit("setBalance",ans.data.data.surplus);
+        return serviceStore.electricity.balance;
+      }
+      else
+        return undefined;
+    }
+  }
 
   static queryConsumption = async () => {
     return Taro.request({

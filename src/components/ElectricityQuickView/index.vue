@@ -5,7 +5,7 @@
    @tap="nav2electricity"
  >
    <view class="text-view">
-     <text class="sub-text-left">当前电费</text>
+     <text class="sub-text-left">当前电费({{updateTimeString}})</text>
      <text v-if="isUrgent" class="sub-text-right">温馨提示: 电量较低</text>
    </view>
   <view class="electricity-card">
@@ -22,27 +22,12 @@
 
 <script lang="ts" setup>
 import {QuickView} from "@/components";
-import {Card} from "@/components";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 import {computed, onMounted, ref} from "vue";
 import {YxyService} from "@/services";
-import {useRequest} from "@/hooks";
-
-const {
-  run: getBalance,
-} =  useRequest(YxyService.queryBalance,{
-  manual: true,
-  onSuccess:   (response) => {
-    console.log(response);
-    if(response.statusCode !== 200){
-      getBalance();
-    }
-    else {
-      balance.value = response.data.data.surplus;
-    }
-  }
-});
+import {serviceStore} from "@/store";
+import dayjs from "dayjs";
 
 //TODO: 这里本来想用vuex存储电量状态的 但是用了就报错...显示serviceStore.electricity 是 undefined
 
@@ -58,12 +43,26 @@ const isUrgent = computed(() => {
     return false;
 });
 const fontColor = computed(() => {
-  console.log(isUrgent.value);
   return isUrgent.value? "red" : "#00B7B7";
 });
 
+const updateTime = computed( () => {
+  if (serviceStore.electricity.updateTime.balance)
+    return serviceStore.electricity.updateTime.balance;
+  else
+    return undefined;
+});
+
+const updateTimeString = computed( () => {
+  if(updateTime.value !== undefined) return dayjs(updateTime.value).fromNow();
+  else return "更新失败!";
+});
+
 onMounted( () => {
-  getBalance();
+  YxyService.getBalance().then((res) => {
+    balance.value = res;
+  });
+  console.log(balance.value);
 });
 </script>
 

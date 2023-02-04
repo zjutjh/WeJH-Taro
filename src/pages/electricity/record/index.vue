@@ -3,48 +3,11 @@
     <title-bar title="缴费记录" back-button />
     <scroll-view :scrollY="true">
       <view class="slot"/>
-      <view class="slot"/>
-      <view class="header">
-          <view class="col">
-            <view class="swicher">
-              <w-button
-                :class="{ 'button-not-active': !isMy }"
-                @tap="isMy = !isMy"
-              >
-                我的缴费
-              </w-button>
-            </view>
-            <view class="swicher">
-              <w-button
-                :class="{ 'button-not-active': isMy }"
-                @tap="isMy = !isMy"
-              >
-                房间缴费
-              </w-button>
-            </view>
-          </view>
-      </view>
-      <view class="slot"/>
-      <view style="border:0.2px solid #D8D8D8"></view>
-      <view class="slot"/>
-      <view class="text">
-        <view class="top">
-          <text>
-            {{isMy? "我的" : "房间"}}缴费总金额
-          </text>
-        </view>
-        <view class="top">
-          <text>
-            共{{total}}元
-          </text>
-        </view>
-      </view>
-      <view>
+      <card class="card">
           <view class="flex-column">
             <card v-if="!recordList" class="no-item">无缴费记录</card>
-            <list v-if="!isMy"
+            <list
                   class="text"
-                  :style="{'background': '#F7E9C3'}"
                   v-for="record in recordList"
             >
               <view class="record">
@@ -59,20 +22,19 @@
               </view>
             </list>
           </view>
-        </view>
+        </card>
     </scroll-view>
   </view>
 </template>
 
 <script setup lang="ts">
 import "./index.scss";
-import { Card, TitleBar, WButton } from "@/components";
+import { Card, TitleBar } from "@/components";
 import {useRequest} from "@/hooks";
 import {YxyService} from "@/services";
 import {onMounted, ref} from "vue";
 import List from "../../../components/List/List.vue";
 
-const isMy = ref<Boolean>(false);
 const recordList = ref();
 const total = ref<number>(0);
 const {

@@ -25,6 +25,7 @@ export interface ServiceStoreType {
   };
   electricity: {
     balance: Number | String;
+    todayConsumption: Number | String;
     updateTime: {
       balance: any;
     }

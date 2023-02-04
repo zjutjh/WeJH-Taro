@@ -24,6 +24,12 @@
 
          <card style="position: relative" @tap="nav2Consumption">
            <view>每日用电记录
+             <view v-if="todayConsumption"
+                   class="today">
+               <text>
+                  今日已用: {{todayConsumption}}kwh
+               </text>
+             </view>
              <view class="arrow-wrapper">
                <view class="iconfont icon-arrow-right" />
              </view>
@@ -62,7 +68,7 @@ import Taro from "@tarojs/taro";
 const isSuccess = ref<Boolean>(false);
 const isError = ref<Boolean>(false);
 const resData = ref();
-
+const todayConsumption = ref<undefined | String | Number>(undefined);
 const {
   run: getBalance,
 } =  useRequest(YxyService.queryBalance,{
@@ -109,6 +115,7 @@ const fontColor = computed(() => {
 });
 onMounted(() => {
   getBalance();
+  todayConsumption.value = serviceStore.electricity.todayConsumption? serviceStore.electricity.todayConsumption : undefined;
 });
 
 function nav2Record() {
