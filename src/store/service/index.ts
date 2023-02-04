@@ -8,6 +8,7 @@ import { AppListItem } from "@/types/AppList";
 import { CanteenServiceStore } from "./canteen";
 import { ScoreServiceStore } from "./score";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
+import { ElectricityServiceStore } from "./electricity";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];
@@ -22,6 +23,15 @@ export interface ServiceStoreType {
       flow: string;
     };
   };
+  electricity: {
+    roomName: string;
+    roomCode: string;
+    balance: number;
+    todayConsumption: string;
+    updateTime: {
+      balance: Date;
+    }
+  }
   score: {
     readScoreMarks: Array<{
       name: string;
@@ -48,7 +58,8 @@ export const ServiceStore = {
     announcement: AnnouncementStore,
     canteen: CanteenServiceStore,
     score: ScoreServiceStore,
-    homecard: HomeCardServiceStore
+    homecard: HomeCardServiceStore,
+    electricity: ElectricityServiceStore,
   },
   state: () => ({
     sessionID: undefined

@@ -1,0 +1,45 @@
+@import "@/style/theme";
+
+.sub-text-left {
+  font-size: 0.75rem;
+  line-height: 1.2rem;
+  color: var(--wjh-color-week);
+  float: left;
+}
+
+.sub-text-right {
+  font-size: 0.75rem;
+  line-height: 1.2rem;
+  color: var(--wjh-color-red);
+  float: right;
+}
+
+.electricity-card {
+  display: flex;
+  height: 10%;
+  text-align: center;
+  justify-content: space-around;
+  box-shadow: none;
+
+  .text-wrapper {
+    display: flex;
+    gap: 16rpx;
+
+    .dangerous {
+      color: var(--wjh-color-red);
+    }
+
+    .normal {
+      color: var(--wjh-color-green);
+    }
+  }
+
+  text {
+    font-size: 1.2rem;
+  }
+}
+
+.text-view {
+  display: block;
+  height: 1.2rem;
+}

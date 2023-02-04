@@ -1,0 +1,49 @@
+@import '@/style/theme.scss';
+
+.background {
+  background-image: none;
+}
+
+
+.consumption-card {
+  margin-top: 48rpx;
+  border-radius: 40px 40px 0px 0px;
+  height: calc(100% - 48rpx);
+  padding: 0;
+  padding-top: 24rpx;
+
+  .wjh-card-body {
+    height: 100%;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 24rpx;
+    padding: 0 36rpx;
+    padding-bottom: 200rpx;
+  }
+
+  scroll-view {
+    height: calc(100% - 72rpx);
+  }
+
+}
+
+.consumption-list-item {
+  border-radius: 16rpx;
+  background-color: var(--wjh-color-gold);
+
+  .text-wrapper {
+    padding: 8rpx;
+    display: flex;
+    justify-content: space-between;
+    flex: auto;
+  }
+}
+
+.load {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--wjh-color-text);
+}

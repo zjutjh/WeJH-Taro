@@ -39,6 +39,11 @@ const api = {
   canteen: {
     flow: "/api/func/canteen/flow"
   },
+  electricity: {
+    balance: "/api/func/electricity/balance",
+    record: "/api/func/electricity/record",
+    consumption: "/api/func/electricity/consumption"
+  },
   applist: "/api/applist",
   info: "/api/info",
   announcement: "/api/announcement"

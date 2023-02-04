@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 import { api } from "../api/apiList";
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 
 interface IResponse<T> {
   code: number;
@@ -78,4 +78,73 @@ export default class YxyService {
       data
     });
   };
+
+  /**
+   * 查询电费
+   * @returns
+   */
+  static queryBalance = async () => {
+    return Taro.request<IResponse<{
+      display_room_name: string;
+      md_name: string;
+      room_code: string;
+      surplus: number; //kwh
+      surplus_amount: number; // rmb
+    }>>({
+      method: "GET",
+      url: api.electricity.balance,
+      header: {
+        "Cookie": serviceStore.sessionID
+      },
+    });
+  };
+
+  static async getBalance() {
+    if (serviceStore.electricity.balance) {
+      return serviceStore.electricity.balance;
+    }
+    else {
+      const ans = await YxyService.queryBalance();
+      if (ans.data?.data?.surplus) {
+        store.commit("setBalance",ans.data.data.surplus);
+        // FIXME: 状态兜底
+        return ans.data.data.surplus;
+      }
+      else
+        return undefined;
+    }
+  }
+
+  static queryConsumption = async () => {
+    return Taro.request<IResponse<Array<{
+      datetime: string;
+      room_dm: string;
+      used: string;
+    }>>>({
+      method: "GET",
+      url: api.electricity.consumption,
+      header: {
+        "Cookie": serviceStore.sessionID
+      },
+    });
+  };
+
+  static queryRecord = async (data: {"page": string}) => {
+    return Taro.request<IResponse<Array<{
+      buy_type: string;
+      datetime: string;
+      is_send: string;
+      money: string;
+      room_dm: string;
+      using_type: string;
+    }>>>({
+      method: "POST",
+      url: api.electricity.record,
+      header: {
+        "Cookie": serviceStore.sessionID
+      },
+      data: data
+    });
+  };
+
 }
