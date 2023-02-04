@@ -67,6 +67,7 @@
         <term-picker class="picker"
           :term="selectTerm.term"
           :year="selectTerm.year"
+          :period="selectTerm.period"
           @changed="termChanged">
         </term-picker>
       </view>
@@ -81,7 +82,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
 import {
   Card,
   BottomPanel,
@@ -97,12 +97,14 @@ import {
 import { Score } from "@/types/Score";
 import { ZFService } from "@/services";
 import { helpText } from "@/constants/copywriting";
+import store, { serviceStore, systemStore } from "@/store";
 import "./index.scss";
 
 const showSorted = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.term
+  term: systemStore.generalInfo.term,
+  period: serviceStore.score.scorePeriod
 });
 
 const scoreList = computed(() =>
@@ -121,6 +123,7 @@ const helpContent = computed(() => {
 });
 
 async function termChanged(e) {
+  store.commit("changeScorePeriod" , e.period);
   isRefreshing.value = true;
   selectTerm.value = e;
   await ZFService.updateScoreInfo(e);
@@ -143,7 +146,8 @@ onMounted(async () => {
 });
 
 const averageScorePoint = computed(() => {
-  const validCourse = scoreList.value.filter((item) => {
+  if(selectTerm.value.period === "期末") {
+    const validCourse = scoreList.value.filter((item) => {
     if (item.score === "缓考" || item.score === "免修") return false;
     if (item.examType === "重修" || item.examType === "补考")
       return false;
@@ -157,7 +161,10 @@ const averageScorePoint = computed(() => {
     totalScorePoint += scorePoint * credits;
     totalCredits += credits;
   });
-  return Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
+  let ans = Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
+  if(ans !== ans) return "";
+  else return ans;
+  }
 });
 
 const termInfo = computed(() => {

@@ -68,25 +68,42 @@ export default class ZFService {
     return serviceStore?.zf.examInfo[data.year][data.term];
   } //直接得到考试安排信息
 
-  static async updateScoreInfo(data?: { year: string; term: string }) {
+  static async updateScoreInfo(data?: { year: string; term: string, period: "期中" | "期末" }) {
     if (!data) {
       data = {
         year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
+        term: systemStore.generalInfo?.term,
+        period: serviceStore.score.scorePeriod
       };
     }
-    return updateDateStateWithSession(
-      api.zf.scoreInfo,
-      data,
-      "setScoreInfo",
-      (res) => {
-        return {
-          scoreInfo: res.data.data,
-          year: data?.year,
-          term: data?.term
-        };
-      }
-    );
+    if(data.period === "期末") {
+      return updateDateStateWithSession(
+        api.zf.scoreInfo,
+        data,
+        "setScoreInfo",
+        (res) => {
+          return {
+            scoreInfo: res.data.data,
+            year: data?.year,
+            term: data?.term
+          };
+        }
+      );
+    }
+    else if(data.period === "期中") {
+      return updateDateStateWithSession(
+        api.zf.midtermscoreInfo,
+        data,
+        "setScoreInfo",
+        (res) => {
+          return {
+            scoreInfo: res.data.data,
+            year: data?.year,
+            term: data?.term
+          };
+        }
+      );
+    }
   }
 
   static getScoreInfo(data?: { year: string; term: string }): {

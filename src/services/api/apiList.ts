@@ -34,6 +34,7 @@ const api = {
     lessonTable: "/api/func/zf/classtable",
     examInfo: "/api/func/zf/exam",
     scoreInfo: "/api/func/zf/score",
+    midtermscoreInfo: "/api/func/zf/midtermscore",
     freeroom: "/api/func/zf/room"
   },
   canteen: {

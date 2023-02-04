@@ -29,6 +29,7 @@ export interface ServiceStoreType {
       val: boolean;
     }>
     findNewScoresTime: Date;
+    scorePeriod: "期中" | "期末";
   }
   library: {
     history: BorrowBooksInfo[];

@@ -9,8 +9,7 @@
     <w-button class="term-selector">
       <view class="picker"
         >{{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}({{
-          selectorChecked[1]
-        }})</view
+          selectorChecked[1]}})  {{selectorChecked[2]}}</view
       >
     </w-button>
   </picker>
@@ -24,6 +23,7 @@ import { systemStore } from "@/store";
 interface PropsType {
   year: string;
   term: "上" | "下" | "短";
+  period: "期中" | "期末";
 }
 const props = defineProps<PropsType>();
 
@@ -33,9 +33,9 @@ let year = systemStore?.generalInfo?.termYear
   ? parseInt(systemStore?.generalInfo?.termYear)
   : new Date().getFullYear();
 
-const selector = reactive([["上", "下", "短"]]);
+const selector = reactive([["上", "下", "短"],["期中", "期末"]]);
 
-const selectorChecked = ref([props.year, props.term]);
+const selectorChecked = ref([props.year, props.term, props.period]);
 
 let years: string[] = [];
 
@@ -48,7 +48,8 @@ const selectorValue = computed(() => [
       parseInt(selectorChecked.value[0]) + 1
     }`
   ),
-  selector[1].indexOf(selectorChecked.value[1])
+  selector[1].indexOf(selectorChecked.value[1]),
+  selector[2].indexOf(selectorChecked.value[2])
 ]);
 
 function onChange(e) {
@@ -58,7 +59,8 @@ function onChange(e) {
   selectorChecked.value[0] = selectorChecked.value[0].split("/")[0];
   emit("changed", {
     year: selectorChecked.value[0],
-    term: selectorChecked.value[1]
+    term: selectorChecked.value[1],
+    period: selectorChecked.value[2]
   });
 }
 

@@ -6,7 +6,8 @@ type ScoreServiceStoreType = ServiceStoreType["score"];
 export const ScoreServiceStore = {
   state: {
     readScoreMarks: [], // 所有已读成绩的标记
-    findNewScoresTime: undefined
+    findNewScoresTime: undefined,
+    scorePeriod: "期末" //记录当前成绩页面选中的期中/期末
   },
 
   mutations: {
@@ -35,6 +36,18 @@ export const ScoreServiceStore = {
      */
     findNewScore(state: ScoreServiceStoreType) {
       state.findNewScoresTime = new Date();
+    },
+
+    /**
+     * 更新当前选中的成绩时期（期中/期末）
+     * @param state
+     * @param value 更新的period
+     */
+    changeScorePeriod(
+      state: ScoreServiceStoreType,
+      value: "期中" | "期末"
+      ) {
+      state.scorePeriod = value;
     }
 
   },
