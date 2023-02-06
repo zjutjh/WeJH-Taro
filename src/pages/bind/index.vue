@@ -8,7 +8,7 @@
             <w-list-item
               :extra="user.isBindZF ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindZF }"
-              :clickable="true"
+              arrow="down"
               @tap="renderForm('zf')"
             >
               正方教务系统
@@ -18,7 +18,7 @@
             <w-list-item
               :extra="user.isBindCard ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindCard }"
-              :clickable="true"
+              arrow="down"
               @tap="renderForm('card')"
             >
               校园卡
@@ -28,7 +28,7 @@
             <w-list-item
               :extra="user.isBindLibrary ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindLibrary }"
-              :clickable="true"
+              arrow="down"
               @tap="renderForm('library')"
             >
               图书馆账号
@@ -38,7 +38,7 @@
             <w-list-item
               :extra="user.isBindYXY ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindYXY }"
-              :clickable="true"
+              arrow="down"
               @tap="renderForm('yxy')"
             >
              一卡通账号

@@ -1,0 +1,90 @@
+@import '@/style/theme.scss';
+
+.background {
+  background: none;
+}
+
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-desert);
+  display: flex;
+
+  image {
+    height: 65%;
+    margin: auto;
+  }
+
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem 1rem;
+}
+
+.info-card {
+  .dormitory-info {
+    display: flex;
+    gap: 24rpx;
+    align-items: center;
+  }
+
+  .icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16rpx;
+    height: 50Px;
+    width: 50Px;
+    color: var(--wjh-color-white);
+    background: var(--wjh-color-green);
+    flex-shrink: 0;
+
+    .iconfont {
+      font-size: 2.4rem;
+    }
+  }
+
+  .text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+
+    .week {
+      color: var(--wjh-color-week);
+      font-size: 0.8rem;
+      top: 60%;
+      left: 0;
+    }
+  }
+}
+
+.electricity-list-item {
+  box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
+  border-radius: 16rpx;
+
+  .text-wrapper {
+    padding: 8rpx 0;
+    display: flex;
+    gap: 16rpx;
+    flex: auto;
+  }
+}
+
+.rest-number {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.dangerous {
+  color: var(--wjh-color-red);
+}
+
+.normal {
+  color: var(--wjh-color-green);
+}
+
+.today {
+  color: var(--wjh-color-week);
+}

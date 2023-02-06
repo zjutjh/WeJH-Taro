@@ -8,6 +8,7 @@ import SchoolCardQuickView from "../SchoolCardQuickView/index.vue";
 import ScoreQuickView from "../ScoreQuickView/index.vue";
 import LibraryQuickView from "../LibraryQuickView/index.vue";
 import WModal from "../Modal/index.vue";
+import ElectricityQuickView from "../ElectricityQuickView/index.vue";
 import { HomeCardName } from "@/constants/homeCards";
 
 const helpContent = ref<string | undefined>(undefined);
@@ -32,6 +33,10 @@ const isBindCard = computed(() => {
 });
 const isBindLibrary = computed(() => {
   return serviceStore.user.isBindLibrary;
+});
+
+const isBindYxy = computed(() => {
+  return serviceStore.user.isBindYXY;
 });
 
 const cardsMap: {
@@ -61,6 +66,10 @@ const cardsMap: {
   "library-quick-view": isBindLibrary.value ? h(
     LibraryQuickView
   ): null,
+  "electricity-quick-view": isBindYxy.value ? h(
+    ElectricityQuickView
+  ): null,
+
 };
 
 selectedCards.value.map(item => {

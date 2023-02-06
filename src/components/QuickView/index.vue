@@ -6,7 +6,11 @@
         <view class="title-split" />
         <text>{{ title }}</text>
       </view>
-      <view v-if="help" class="quick-view-help-icon iconfont icon-help" @tap.stop="handleTapHelp" />
+      <view
+        v-if="help"
+        class="quick-view-help-icon iconfont icon-help"
+        @tap.stop="handleTapHelp"
+      />
     </view>
     <view class="quick-view-body">
       <slot />
@@ -25,5 +29,4 @@ const emit = defineEmits(["handleTapHelp"]);
 function handleTapHelp() {
   emit("handleTapHelp");
 }
-
 </script>
