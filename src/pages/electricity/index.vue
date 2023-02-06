@@ -74,9 +74,9 @@ import Taro from "@tarojs/taro";
 const roomInfo = computed(() => ({
   roomName: serviceStore.electricity.roomName,
   roomCode: serviceStore.electricity.roomCode
-}))
+}));
 
-const balance = computed(() => serviceStore.electricity.balance)
+const balance = computed(() => serviceStore.electricity.balance);
 
 const todayConsumption = computed(() => (serviceStore.electricity.todayConsumption));
 
@@ -97,26 +97,31 @@ useRequest(YxyService.queryBalance, {
     Taro.hideLoading();
   },
   onError: (error) => {
-    Taro.showToast({ title: error.message, icon: "none" })
+    if (error instanceof Error)
+      return error.message;
+    else return `查询电费余额失败\r\n${error.errMsg}`;
   }
 });
 
-const { loading: consumptionLoading } = useRequest(YxyService.queryConsumption, {
+const {
+  loading: consumptionLoading,
+} = useRequest(YxyService.queryConsumption, {
   onSuccess: (response) => {
     if (response.data.code === 1) {
       store.commit("setConsumption", response.data.data[0].used);
     } else {
-      throw new Error(response.data.msg || response.errMsg);
+      throw new Error(response.data.msg);
     }
   },
   onError: (error) => {
-    Taro.showToast({ title: error.message, icon: "none" })
+    if (error instanceof Error)
+      return error.message;
   }
-})
+});
 
 const isUrgent = computed(() => {
   if (balance) return balance.value < 20;
-  else false
+  else false;
 });
 
 function nav2Record() {

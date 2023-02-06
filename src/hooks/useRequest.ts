@@ -5,11 +5,32 @@ import Taro from "@tarojs/taro";
 import { ref, onMounted } from "vue";
 
 interface RequestConfigType<TData extends TaroGeneral.IAnyObject, TParams> {
-  manual?: boolean; // 是否手动发起请求
-  defaultParams?: TParams; // 默认参数
-  onBefore?: () => void; // 发送请求之前做的事情
+  /** 是否手动发起请求 */
+  manual?: boolean;
+
+  /** 自动发起请求的默认参数 */
+  defaultParams?: TParams;
+
+  /**
+   * 发送请求之前 hook
+   * @param response
+   */
+  onBefore?: () => void;
+
+  /**
+   * 成功接收到响应 hook
+   * @param response 响应体
+   */
   onSuccess?: (response: Taro.request.SuccessCallbackResult<TData>) => void;
-  onError?: (error: Error) => void;
+
+  /**
+   * 请求失败，业务错误 hook
+   * @param error 业务错误 / 请求错误
+   * @returns 要被 toast 的错误信息
+   */
+  onError?: (error: Error | { errMsg: string }) => string | void;
+
+  /** 请求结束后 (不管是否有 error) hook */
   onFinally?: () => void;
 }
 
@@ -30,16 +51,19 @@ const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
 ) => {
   const loading = ref(false);
   const data = ref<TData>();
-  const error = ref<Error>();
+  const error = ref<Error | { errMsg: string }>();
 
   const fetch = (params?: TParams) => {
     loading.value = true;
+    data.value = undefined;
+    error.value = undefined;
     config?.onBefore?.();
     service(params || config?.defaultParams).then((response) => {
       config?.onSuccess?.(response);
       data.value = response.data;
-    }).catch((e) => {
-      config?.onError?.(e);
+    }).catch((e: Error | { errMsg: string }) => {
+      const errMsg = config?.onError?.(e);
+      errMsg && Taro.showToast({ title: errMsg, icon: "none"});
       error.value = e;
     }).finally(() => {
       config?.onFinally?.();

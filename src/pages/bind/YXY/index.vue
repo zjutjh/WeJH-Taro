@@ -17,7 +17,8 @@ const isShowHelp = ref(false);
 const {
   run: getGraphAPI,
   data: imageResponse,
-  loading: imageLoading
+  loading: imageLoading,
+  error: imageError
 } = useRequest(YxyService.getGraph, {
   manual: true,
 });
@@ -105,19 +106,19 @@ onMounted(() => {
       >
         加载中...
       </view>
+      <view
+        v-else-if=" imageError || imageResponse?.data === ''"
+        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
+        @tap="getGraphAPI"
+      >
+        点击重试
+      </view>
       <image
         v-else-if="imageResponse?.data !== ''"
         :src="imageResponse?.data.replace(/[\r\n]/g, '')"
         style="width: 160rpx; height: 60rpx"
         @tap="getGraphAPI"
       />
-      <view
-        v-else-if="imageResponse?.data === ''"
-        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
-        @tap="getGraphAPI"
-      >
-        点击重试
-      </view>
       <WButton @tap="handleSendGraphCode">获取手机验证码</WButton>
     </view>
     <view>

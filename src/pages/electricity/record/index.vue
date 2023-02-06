@@ -36,7 +36,6 @@ import { Card, TitleBar } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import { ref } from "vue";
-import Taro from "@tarojs/taro"
 import List from "../../../components/List/List.vue";
 import ListItem from "../../../components/List/ListItem.vue";
 import dayjs from "dayjs";
@@ -70,26 +69,28 @@ const {
       ) {
         currentPage.value = -1;
         return;
-      };
+      }
       currentPage.value++;
       recordList.value = recordList.value.concat(
         list.map(item => ({
           ...item,
           datetime: dayjs(item.datetime).format("YYYY.MM.DD HH:mm")
         }))
-      )
+      );
     } else {
-      throw new Error(response.data.msg || response.errMsg);
+      throw new Error(response.data.msg);
     }
   },
   onError: (error) => {
-    console.log(error);
-    Taro.showToast({ title: error.message, icon: "none" });
+    if (error instanceof Error)
+      return error.message;
+    else
+      return `获取缴费记录失败\r\n${error.errMsg}`;
   }
 });
 
 const loadMore = () => {
   getRecord({ page: currentPage.value.toString() });
-}
+};
 
 </script>
