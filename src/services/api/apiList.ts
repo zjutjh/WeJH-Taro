@@ -14,7 +14,6 @@ const api = {
       library: "/api/user/bind/library",
       zf: "/api/user/bind/zf",
       yxy: {
-        sendPhoneNumber: "/api/user/bind/yxy/send/verification",
         getGraph: "/api/user/bind/yxy/get/captcha",
         sendGraphAuthCode: "/api/user/bind/yxy/send/captcha",
         login: "/api/user/bind/yxy/login",

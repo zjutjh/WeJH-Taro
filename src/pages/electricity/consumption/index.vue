@@ -27,7 +27,6 @@ import "./index.scss";
 import { Card, TitleBar } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
-import Taro from "@tarojs/taro"
 import List from "../../../components/List/List.vue";
 import ListItem from "../../../components/List/ListItem.vue";
 
@@ -37,11 +36,14 @@ const {
 } = useRequest(YxyService.queryConsumption, {
   onSuccess: (response) => {
     if (response.data.code !== 1) {
-      throw new Error(response.data.msg || response.errMsg)
+      throw new Error(response.data.msg);
     }
   },
   onError: (error) => {
-    Taro.showToast({ title: error.message, icon: "none" })
+    if (error instanceof Error) {
+      return error.message;
+    }
+    else return `查询用电记录失败\r\n${error.errMsg}`;
   }
 });
 
