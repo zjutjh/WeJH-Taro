@@ -68,42 +68,56 @@ export default class ZFService {
     return serviceStore?.zf.examInfo[data.year][data.term];
   } //直接得到考试安排信息
 
-  static async updateScoreInfo(data?: { year: string; term: string }) {
+  static async updateScoreInfo(
+    data?: { year: string; term: string, period: "期中" | "期末" }
+  ) {
     if (!data) {
       data = {
         year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
+        term: systemStore.generalInfo?.term,
+        period: serviceStore.score.scorePeriod
       };
     }
-    return updateDateStateWithSession(
-      api.zf.scoreInfo,
-      data,
-      "setScoreInfo",
-      (res) => {
-        return {
+    if(data.period === "期末") {
+      return updateDateStateWithSession(
+        api.zf.scoreInfo,
+        data,
+        "setScoreInfo",
+        (res) => ({
           scoreInfo: res.data.data,
           year: data?.year,
-          term: data?.term
-        };
-      }
-    );
+          term: data?.term,
+          period: "期末"
+        })
+      );
+    } else if(data.period === "期中") {
+      return updateDateStateWithSession(
+        api.zf.midtermscoreInfo,
+        data,
+        "setScoreInfo",
+        (res) => ({
+          scoreInfo: res.data.data,
+          year: data?.year,
+          term: data?.term,
+          period: "期中"
+        })
+      );
+    }
   }
 
-  static getScoreInfo(data?: { year: string; term: string }): {
+  static getScoreInfo(
+    data: { year: string; term: string, period: "期中" | "期末" }
+  ): {
     data: Score[];
     updateTime: Date | null;
   } {
-    if (!data) {
-      data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
-      };
-    }
     if (!serviceStore?.zf.scoreInfo[data.year])
       return { data: [], updateTime: null };
-    if (!serviceStore?.zf.scoreInfo[data.year][data.term]?.data)
+    if (!serviceStore?.zf.scoreInfo[data.year][data.term])
       return { data: [], updateTime: null };
-    return serviceStore?.zf.scoreInfo[data.year][data.term];
+    if (!serviceStore?.zf.scoreInfo[data.year][data.term][data.period]?.data)
+      return { data: [], updateTime: null };
+    return serviceStore?.zf.scoreInfo[data.year][data.term][data.period];
   }
 
   static async getFreeRoomInfo(data: {

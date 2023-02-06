@@ -35,6 +35,7 @@
           @changed="termChanged"
           :year="selectTerm.year"
           :term="selectTerm.term"
+          :selectflag=0
         ></term-picker>
       </view>
       <view class="col">

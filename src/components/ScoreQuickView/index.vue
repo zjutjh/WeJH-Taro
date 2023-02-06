@@ -5,13 +5,14 @@
     <view class="default-content"
       v-if="!todayScoreList ||
       todayScoreList.length === 0"
-    >
-      今日没有出新成绩哦～</view>
+    > 今日没有出新成绩哦～
+    </view>
     <view v-else>
-      <template v-for="(item, index) in todayScoreList" :key="item.lessonID">
+      <template v-for="item in todayScoreList">
         <card
+          :key="item.lessonID"
           class="score-card"
-          :style="{ backgroundColor: 'var(--wjh-color-blue-light)' }"
+          :style="{ backgroundColor: 'var(--wjh-color-green-light)' }"
           v-if="!item.checkRead"
         >
           <view>
@@ -19,7 +20,7 @@
           </view>
           <view class="score-res">
             <text v-if="item.scorePeriod">{{item.scorePeriod}}</text>
-            <text v-else>期末</text>
+            <text v-else>{{ item.scorePeriod }}</text>
           </view>
         </card>
       </template>
@@ -52,8 +53,9 @@ const selectTerm = ref({
   term: systemStore.generalInfo.term
 });
 
-onMounted(() => {
-  ZFService.updateScoreInfo(selectTerm.value);
+onMounted(async () => {
+  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期中"});
+  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期末"});
 });
 
 /**
@@ -76,10 +78,11 @@ const todayScoreList = computed(() => {
  * 获取指定学期的未读成绩
  * @param props 学期信息
  */
-function getUnreadScores(props?: {year: string; term: string}) {
-  const { data } = ZFService.getScoreInfo(props);
+function getUnreadScores(props: {year: string; term: string}) {
+  const { data: midTermScores } = ZFService.getScoreInfo({...props, period: "期中"});
+  const { data: finalTermScores } = ZFService.getScoreInfo({...props, period: "期末"});
   const unreadScores: Score[] = [];
-  data.forEach(storeItem => {
+  [...midTermScores, ...finalTermScores].forEach(storeItem => {
     const existingScore = serviceStore.score.readScoreMarks.find(
       markItem => (storeItem.lessonID === markItem.name &&
           storeItem.scorePoint === markItem.scorePoint)
@@ -88,6 +91,7 @@ function getUnreadScores(props?: {year: string; term: string}) {
   });
   // 若有新成绩，则更新时间
   unreadScores.length !== 0 && store.commit("findNewScore");
+  console.log([...midTermScores, ...finalTermScores]);
 
   return unreadScores;
 }

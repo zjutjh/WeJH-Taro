@@ -4,7 +4,7 @@
     <scroll-view :scrollY="true">
       <view class="flex-column">
         <card v-if="!scoreList || scoreList.length === 0" style="text-align: center">
-          <view>无当前学期成绩信息</view>
+          <view>无当前阶段成绩信息</view>
         </card>
 
         <card v-else class="score-card">
@@ -20,7 +20,9 @@
             </view>
 
             <view class="col" style="align-items: flex-end">
-              <view class="gpa-text">GPA</view>
+              <view class="gpa-text">
+                {{ selectTerm.period ==="期中" ? "期中" : "GPA" }}
+              </view>
               <view v-if="scoreList && scoreList.length !== 0" class="credit-text">
                 {{ averageScorePoint }}
               </view>
@@ -42,7 +44,7 @@
                 <w-descriptions-item label="课程名称">
                   {{ item.lessonName }}
                 </w-descriptions-item>
-                <w-descriptions-item label="课程性质">
+                <w-descriptions-item v-if="item.lessonType" label="课程性质">
                   {{ item.lessonType }}
                 </w-descriptions-item>
                 <w-descriptions-item label="课程学分">
@@ -59,14 +61,15 @@
     </scroll-view>
     <bottom-panel class="score-bottom-panel">
       <view class="col">
-        <refresh-button @refresh="refresh"
-        :is-refreshing="isRefreshing">
+        <refresh-button @refresh="refresh" :is-refreshing="isRefreshing">
       </refresh-button>
       </view>
       <view class="col">
         <term-picker class="picker"
           :term="selectTerm.term"
           :year="selectTerm.year"
+          :period="selectTerm.period"
+          :selectflag=1
           @changed="termChanged">
         </term-picker>
       </view>
@@ -81,7 +84,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
 import {
   Card,
   BottomPanel,
@@ -97,12 +99,14 @@ import {
 import { Score } from "@/types/Score";
 import { ZFService } from "@/services";
 import { helpText } from "@/constants/copywriting";
+import store, { serviceStore, systemStore } from "@/store";
 import "./index.scss";
 
 const showSorted = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.term
+  term: systemStore.generalInfo.term,
+  period: serviceStore.score.scorePeriod
 });
 
 const scoreList = computed(() =>
@@ -114,6 +118,7 @@ const scoreList = computed(() =>
     })
     : ZFService.getScoreInfo(selectTerm.value).data
 );
+
 const isRefreshing = ref(false);
 
 const helpContent = computed(() => {
@@ -121,6 +126,7 @@ const helpContent = computed(() => {
 });
 
 async function termChanged(e) {
+  store.commit("changeScorePeriod" , e.period);
   isRefreshing.value = true;
   selectTerm.value = e;
   await ZFService.updateScoreInfo(e);
@@ -143,40 +149,44 @@ onMounted(async () => {
 });
 
 const averageScorePoint = computed(() => {
-  const validCourse = scoreList.value.filter((item) => {
-    if (item.score === "缓考" || item.score === "免修") return false;
-    if (item.examType === "重修" || item.examType === "补考")
-      return false;
-    return true;
-  });
-  let totalCredits = 0;
-  let totalScorePoint = 0;
-  validCourse.forEach((item: Score) => {
-    let scorePoint = parseFloat(item.scorePoint);
-    let credits = parseFloat(item.credits);
-    totalScorePoint += scorePoint * credits;
-    totalCredits += credits;
-  });
-  return Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
+  if(selectTerm.value.period === "期末") {
+    const validCourse = scoreList.value.filter((item) => {
+      if (item.score === "缓考" || item.score === "免修") return false;
+      if (item.examType === "重修" || item.examType === "补考")
+        return false;
+      return true;
+    });
+    let totalCredits = 0;
+    let totalScorePoint = 0;
+    validCourse.forEach((item: Score) => {
+      let scorePoint = parseFloat(item.scorePoint);
+      let credits = parseFloat(item.credits);
+      totalScorePoint += scorePoint * credits;
+      totalCredits += credits;
+    });
+    let ans = Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
+    if(ans !== ans) return "";
+    else return ans;
+  }
 });
 
 const termInfo = computed(() => {
-  return `${selectTerm.value?.year}/${parseInt(selectTerm.value?.year) * 1 + 1}（${selectTerm.value?.term
-  }）`;
+  return `
+    ${selectTerm.value?.year}/${parseInt(selectTerm.value?.year) + 1}
+    （${selectTerm.value?.term }）
+  `;
 });
 
 const relativeTermInfo = computed(() => {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
   let char = charEnum[0];
   if (serviceStore.user.info?.studentID) {
-    char =
-          charEnum[
-            parseInt(selectTerm.value?.year) -
-          parseInt(serviceStore.user.info.studentID.slice(0, 4))
-          ];
+    char = charEnum[
+      parseInt(selectTerm.value?.year) -
+      parseInt(serviceStore.user.info.studentID.slice(0, 4))
+    ];
   }
   return `大${char}${selectTerm.value?.term}学期`;
-  // FIXME: 只根据学号来推算大几
 });
 
 </script>

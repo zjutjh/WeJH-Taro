@@ -102,6 +102,7 @@
           class="picker"
           :year="selectTerm.year"
           :term="selectTerm.term"
+          :selectflag=0
           @changed="termChanged"
         ></term-picker>
       </view>
