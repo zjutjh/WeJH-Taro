@@ -8,9 +8,6 @@ export const ServerCode = {
 
   SystemError: 200500,
 
-  bind: {
-    schoolCardServerError: 200506
-  },
   activation: {
     schoolIdOrIdNotExistNotMatch: 200510,
     passwordLenghtError: 200511,

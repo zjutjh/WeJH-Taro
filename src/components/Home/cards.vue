@@ -28,13 +28,9 @@ const cards = () => h(
 const isBindZf = computed(() => {
   return serviceStore.user.isBindZF;
 });
-const isBindCard = computed(() => {
-  return serviceStore.user.isBindCard;
-});
 const isBindLibrary = computed(() => {
   return serviceStore.user.isBindLibrary;
 });
-
 const isBindYxy = computed(() => {
   return serviceStore.user.isBindYXY;
 });
@@ -53,7 +49,7 @@ const cardsMap: {
       "onShowHelp": () => showHelp("exam-card")
     }
   ): null,
-  "school-card-quick-view": isBindCard.value? h(
+  "school-card-quick-view": isBindYxy.value? h(
     SchoolCardQuickView, {
       "onShowHelp": () => showHelp("school-card")
     }
@@ -80,7 +76,6 @@ selectedCards.value.map(item => {
 function showHelp(prop: string) {
   isShowHelp.value = true;
   if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
-  else if (prop === "school-card") helpContent.value = helpText.schoolCard;
   else if (prop === "score-card") helpContent.value = helpText.scoreCard;
   else if (prop === "exam-card") helpContent.value = helpText.examCard;
 }

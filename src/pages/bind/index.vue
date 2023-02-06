@@ -16,16 +16,6 @@
           </w-list>
           <w-list class="bind-list">
             <w-list-item
-              :extra="user.isBindCard ? '已绑定' : '未绑定'"
-              :class="{ binded: user.isBindCard }"
-              arrow="down"
-              @tap="renderForm('card')"
-            >
-              校园卡
-            </w-list-item>
-          </w-list>
-          <w-list class="bind-list">
-            <w-list-item
               :extra="user.isBindLibrary ? '已绑定' : '未绑定'"
               :class="{ binded: user.isBindLibrary }"
               arrow="down"
@@ -46,7 +36,6 @@
           </w-list>
         </card>
         <z-f  v-if="bindTab === 'zf'" />
-        <school-card v-if="bindTab === 'card'"/>
         <library v-if="bindTab === 'library'"/>
         <y-x-y v-if="bindTab === 'yxy'" />
       </view>
@@ -57,7 +46,6 @@
 <script setup lang="ts">
 import { Card, WList, WListItem, TitleBar } from "@/components";
 import Library from "./Library/index.vue";
-import SchoolCard from "./SchoolCard/index.vue";
 import ZF from "./ZF/index.vue";
 import YXY from "./YXY/index.vue";
 import { UserService } from "@/services";

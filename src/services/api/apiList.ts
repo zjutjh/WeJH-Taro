@@ -10,7 +10,6 @@ const api = {
     },
     info: "/api/user/info",
     bind: {
-      schoolCard: "/api/user/bind/schoolcard",
       library: "/api/user/bind/library",
       zf: "/api/user/bind/zf",
       yxy: {
