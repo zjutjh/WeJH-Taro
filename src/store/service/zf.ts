@@ -26,8 +26,10 @@ export interface ZFServiceType {
   scoreInfo: {
     [key: string]: {
       [key: string]: {
-        data: Score[];
-        updateTime: Date;
+        [key: string]: {
+          data: Score[];
+          updateTime: Date;
+        };
       };
     };
   };
@@ -78,11 +80,18 @@ export const ZFServiceStore = {
     },
     setScoreInfo(
       state: ZFServiceType,
-      value: { term: string; year: string; scoreInfo: Score[] }
+      value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] }
     ) {
-      if (!state.scoreInfo[value.year]) state.scoreInfo[value.year] = {};
-      state.scoreInfo[value.year][value.term] = {
-        data: value.scoreInfo,
+      if (!value.scoreInfo) return;
+      if (!state.scoreInfo[value.year])
+        state.scoreInfo[value.year] = {};
+      if (!state.scoreInfo[value.year][value.term])
+        state.scoreInfo[value.year][value.term] = {};
+      state.scoreInfo[value.year][value.term][value.period] = {
+        data: value.scoreInfo.map(item => ({
+          ...item,
+          scorePeriod: value.period
+        })),
         updateTime: new Date()
       };
     },
