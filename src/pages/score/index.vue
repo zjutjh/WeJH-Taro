@@ -68,6 +68,7 @@
           :term="selectTerm.term"
           :year="selectTerm.year"
           :period="selectTerm.period"
+          :selectflag=1
           @changed="termChanged">
         </term-picker>
       </view>
