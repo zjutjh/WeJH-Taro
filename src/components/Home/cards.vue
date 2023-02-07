@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Fragment, VNode, computed, h, ref } from "vue";
+import { Fragment, computed, h, ref } from "vue";
 import { helpText } from "@/constants/copywriting";
 import { serviceStore } from "@/store";
 import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
@@ -9,19 +9,14 @@ import ScoreQuickView from "../ScoreQuickView/index.vue";
 import LibraryQuickView from "../LibraryQuickView/index.vue";
 import WModal from "../Modal/index.vue";
 import ElectricityQuickView from "../ElectricityQuickView/index.vue";
-import { HomeCardName } from "@/constants/homeCards";
 
 const helpContent = ref<string | undefined>(undefined);
 const isShowHelp = ref(false);
 
-const selectedCards = computed(() => {
-  return serviceStore.homecard.selected;
-});
-
 const cards = () => h(
   Fragment,
-  selectedCards.value
-    .map(item => cardsMap[item])
+  serviceStore.homecard.selected
+    .map(item => cardsMap.value[item])
     .filter(item => item !== null)
 );
 
@@ -35,10 +30,7 @@ const isBindYxy = computed(() => {
   return serviceStore.user.isBindYXY;
 });
 
-const cardsMap: {
-  // eslint-disable-next-line no-unused-vars
-  [key in HomeCardName]: VNode | null
-} = {
+const cardsMap = computed(() => ({
   "lessons-table-quick-view": isBindZf.value? h(
     LessonsTableQuickView, {
       "onShowHelp": () => showHelp("lessons-table")
@@ -65,12 +57,9 @@ const cardsMap: {
   "electricity-quick-view": isBindYxy.value ? h(
     ElectricityQuickView
   ): null,
+}));
 
-};
-
-selectedCards.value.map(item => {
-  return cardsMap[item];
-});
+console.log( serviceStore.homecard.selected);
 
 function showHelp(prop: string) {
   isShowHelp.value = true;
