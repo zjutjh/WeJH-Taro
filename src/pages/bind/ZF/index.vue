@@ -30,19 +30,21 @@ async function bindZFClick() {
 </script>
 
 <template>
-  <card title="绑定账号">
+  <card title="">
+    <template #header>
+      <text>绑定账号</text>
+      <view class="form-help-wrapper">
+        <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
+          <view class="iconfont icon-help"></view>
+        </view>
+      </view>
+    </template>
     <text>正方教务系统</text>
     <view>
       <input v-if="!user.isBindZF" type="password" placeholder="默认密码为zjut+身份证后六位" v-model="zfpass" />
       <input v-else type="password" placeholder="*******" v-model="zfpass" />
     </view>
     <template #footer>
-      <view class="form-help-wrapper">
-        <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
-          <view class="iconfont icon-help"></view>
-          <view>帮助</view>
-        </view>
-      </view>
       <w-button block @tap="bindZFClick"> 确认绑定 </w-button>
     </template>
   </card>

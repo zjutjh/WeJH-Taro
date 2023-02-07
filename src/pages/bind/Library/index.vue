@@ -26,18 +26,20 @@ async function bindLibClick() {
 </script>
 
 <template>
-  <card title="绑定账号">
+  <card>
+    <template #header>
+      <text>绑定账号</text>
+      <view class="form-help-wrapper">
+        <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
+          <view class="iconfont icon-help"></view>
+        </view>
+      </view>
+    </template>
     <text>图书馆账户密码</text>
     <view>
       <input type="password" placeholder="默认密码为学号" v-model="libpass" />
     </view>
     <template #footer>
-      <view class="form-help-wrapper">
-        <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
-          <view class="iconfont icon-help"></view>
-          <view>帮助</view>
-        </view>
-      </view>
       <w-button block @tap="bindLibClick"> 确认绑定 </w-button>
     </template>
   </card>
