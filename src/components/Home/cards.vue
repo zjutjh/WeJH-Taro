@@ -76,6 +76,7 @@ function showHelp(prop: string) {
   isShowHelp.value = true;
   if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
   else if (prop === "score-card") helpContent.value = helpText.scoreCard;
+  else if (prop === "school-card") helpContent.value = helpText.schoolCard;
   else if (prop === "exam-card") helpContent.value = helpText.examCard;
 }
 
