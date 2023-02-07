@@ -20,15 +20,41 @@ import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed } from "vue";
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 import "./index.scss";
+import { useRequest } from "@/hooks";
+import { YxyService } from "@/services";
+
+const { error } = useRequest(YxyService.querySchoolCardBalance, {
+  onSuccess: (res) => {
+    if (res.data.code === 1) {
+      if (Number.isFinite(parseFloat(res.data.data)))
+        store.commit("setCardBalance", res.data.data);
+      else throw new Error("无效余额值");
+    } else if (res.data.code === 200514) {
+      Taro.showModal({
+        title: "查询余额失败",
+        content: res.data.msg,
+        confirmText: "重新登录",
+        success: (res) => {
+          if (res.confirm)
+            Taro.navigateTo({ url: "/pages/bind/index" });
+        }
+      });
+    }
+    else throw new Error(res.data.msg);
+  },
+  onError: (error) => {
+    if (!(error instanceof Error)) return `查询校园卡余额\r\n${error.errMsg}`;
+    else return `查询校园卡余额\r\n${error.message}`;
+  }
+});
 
 const emit = defineEmits(["showHelp"]);
 
 const balanceUpdateTimeString = computed(() => {
-  const updateTime = serviceStore.card.updateTime;
-  if (updateTime?.balance) return dayjs(updateTime.balance).fromNow();
-  else return "更新失败";
+  const time = serviceStore.card.updateTime;
+  return time && !error.value ? dayjs(time.balance).fromNow(): "更新失败";
 });
 
 const balance = computed(() => {

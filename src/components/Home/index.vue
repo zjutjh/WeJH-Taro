@@ -12,7 +12,7 @@
         v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire"
       />
       <cards />
-      <card v-if="!(isBindZf || isBindCard || isBindLibrary)" title="提示">
+      <card v-if="!(isBindZf || isBindYXY || isBindLibrary)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
       <view
@@ -80,11 +80,11 @@ const isNeverShowQuestionnaire = computed(() => {
 const isBindZf = computed(() => {
   return serviceStore.user.isBindZF;
 });
-const isBindCard = computed(() => {
-  return serviceStore.user.isBindCard;
-});
 const isBindLibrary = computed(() => {
   return serviceStore.user.isBindLibrary;
+});
+const isBindYXY = computed(() => {
+  return serviceStore.user.isBindYXY;
 });
 const announcementsCounter = computed(() => {
   return serviceStore.announcement.updateCounter;

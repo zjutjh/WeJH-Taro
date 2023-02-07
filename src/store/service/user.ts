@@ -8,7 +8,6 @@ export interface UserType {
   };
   isActive: boolean;
   isBindZF: boolean;
-  isBindCard: boolean;
   isBindLibrary: boolean;
   isBindYXY: boolean;
 }
@@ -17,16 +16,12 @@ export const UserServiceStore = {
     info: undefined,
     isActive: false,
     isBindZF: false,
-    isBindCard: false,
     isBindLibrary: false,
     isBindYXY: false
   }),
   mutations: {
     setBindZF(state: UserType, value: boolean) {
       state.isBindZF = value;
-    },
-    setBindSchoolCard(state: UserType, value: boolean) {
-      state.isBindCard = value;
     },
     setBindLibrary(state: UserType, value: boolean) {
       state.isBindLibrary = value;
@@ -39,12 +34,11 @@ export const UserServiceStore = {
       state: UserType,
       value: {
         studentID: string;
-        bind: { zf: boolean; card: boolean; lib: boolean, yxy: boolean };
+        bind: { zf: boolean; lib: boolean, yxy: boolean };
       }
     ) {
       state.info = { studentID: value.studentID };
       state.isBindZF = value.bind.zf;
-      state.isBindCard = value.bind.card;
       state.isBindLibrary = value.bind.lib;
       state.isBindYXY = value.bind.yxy;
       state.isActive = true;
@@ -60,7 +54,6 @@ export const UserServiceStore = {
       state.info = undefined;
       state.isActive = false;
       state.isBindZF = false;
-      state.isBindCard = false;
       state.isBindLibrary = false;
       state.isBindYXY = false;
     }

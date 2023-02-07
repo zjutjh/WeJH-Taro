@@ -62,12 +62,6 @@ export default async function errCodeHandler(code: number, showModal = true) {
         title: "学号格式错误"
       });
       break;
-    case ServerCode.bind.schoolCardServerError:
-      await Taro.showToast({
-        icon: "none",
-        title: "服务器暂不可用"
-      });
-      break;
     default:
       if (process.env.NODE_ENV === "development")
         await Taro.showToast({

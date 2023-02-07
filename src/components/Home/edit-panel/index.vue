@@ -5,6 +5,26 @@ import styles from "./index.module.scss";
 import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
 import { PopView, WButton } from "@/components";
+import { checkBind } from "@/utils";
+
+/** 依赖于绑定状态的卡片名字列表 */
+const validList = computed(() => {
+  // 先根据绑定状态筛选出名字列表
+  const valid = (Object.entries(homeCards) as Array<[HomeCardName, any]>)
+    .filter(item => checkBind[`${item[1].require}`].value)
+    .map(item => item[0]);
+
+  // 删除缓存中已选，但是未绑定的卡片
+  const selectedInStore = [...serviceStore.homecard.selected];
+  selectedInStore.forEach(item => {
+    const toDelete = valid.find(validItem => item === validItem);
+    if (toDelete === undefined) {
+      store.commit("removeHomeCardItem", item);
+    }
+  });
+
+  return valid;
+});
 
 const selectedList = computed(() => {
   const list = serviceStore.homecard.selected;
@@ -27,8 +47,9 @@ watch(show, () => {
   emit("update:show", show.value);
 });
 
+/** 未选择的卡片名字列表，使用差集运算得到 */
 const unselectedList = computed(() => {
-  const list = Object.keys(homeCards);
+  const list = [...validList.value];
   serviceStore.homecard.selected.forEach((name => {
     const toDelete = list.findIndex(item => item === name);
     list.splice(toDelete, 1);

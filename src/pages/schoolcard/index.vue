@@ -8,28 +8,22 @@
       </view>
       <card class="consume-card">
         <template #header>
-          <view class="col"> </view>
+          <view class="col" />
           <view class="col">
-            <view class="swicher">
-              <w-button
-                :class="{ 'button-not-active': !isSelectToday }"
-                @tap="todayClick"
-              >
-                今日
-              </w-button>
-              <w-button
-                :class="{ 'button-not-active': isSelectToday }"
-                @tap="historyClick"
-                shape="rounded"
-              >
-                历史
-              </w-button>
-            </view>
+            <picker
+              mode="date"
+              :value="selectedDate"
+              :start="dayjs().subtract(69, 'day').format('YYYY-MM-DD')"
+              :end="dayjs().format('YYYY-MM-DD')"
+              @change="handleChangeDate"
+            >
+              <w-button>{{ selectedDate }}</w-button>
+            </picker>
           </view>
           <view class="col">
             <refresh-button
               @tap="updateData"
-              :is-refreshing="isRefreshing"
+              :is-refreshing="loading"
             ></refresh-button>
           </view>
         </template>
@@ -38,33 +32,30 @@
             <view> 无消费记录 </view>
           </card>
           <template v-else>
-            <view>
-              {{ `${isSelectToday ? '今日' : '该月'}` }}消费：
-              {{ totalConsume.toFixed(2) }}</view
-            >
+            <view> 该日消费: {{ totalConsume.toFixed(2) }} </view>
             <card
               class="consume-item-card"
-              v-for="item in consumeList"
-              :key="item.id"
+              v-for="(item, index) in consumeList"
+              :key="index"
               size="small"
               :class="{
-                'consume-item-positive': parseFloat(item.transactions) >= 0,
-                'consume-item-negative': parseFloat(item.transactions) < 0
+                'consume-item-positive': parseFloat(item.money) >= 0,
+                'consume-item-negative': parseFloat(item.money) < 0
               }"
             >
               <view class="content-wrapper">
                 <view class="col">
                   <text class="transactions">
-                    ¥ {{ Math.abs(parseFloat(item.transactions)) }}
+                    ¥ {{ Math.abs(parseFloat(item.money)).toFixed(1) }}
                   </text>
                 </view>
                 <view class="col">
-                  <view>地点： {{ item.shopPlace }}</view>
-                  <view
-                    >时间： {{ item.time.split(' ')[0] }}
+                  <view>地点： {{ item.address }}</view>
+                  <view >
+                    时间： {{ item.time.split(' ')[0] }}
                     &nbsp;
-                    {{ item.time.split(' ')[1] }}</view
-                  >
+                    {{ item.time.split(' ')[1] }}
+                  </view >
                 </view>
               </view>
             </card>
@@ -76,67 +67,85 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { computed, ref } from "vue";
 import { Card, WButton, TitleBar, RefreshButton } from "@/components";
-import { CardService } from "@/services";
 import dayjs from "dayjs";
 import { CardConsume } from "@/types/CardConsume";
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 
 import "./index.scss";
+import { useRequest } from "@/hooks";
+import { YxyService } from "@/services";
+import { Picker } from "@tarojs/components";
+import Taro from "@tarojs/taro";
 
-const isRefreshing = ref(false);
-let dateSel = ref(dayjs().format("YYYY-MM"));
+const selectedDate = ref(dayjs().format("YYYY-MM-DD")); // YYYY-MM-DD
 
-onMounted(() => {
-  CardService.updateCardBalance();
-  CardService.updateCardToday();
-  CardService.updateCardHistory({
-    year: parseInt(dateSel.value.split("-")[0]),
-    month: parseInt(dateSel.value.split("-")[1])
-  });
+const balance = computed(() => serviceStore.card.balance || 0);
+const records = ref<CardConsume[]>([]);
+
+useRequest(YxyService.querySchoolCardBalance, {
+  onSuccess: (res) => {
+    if (res.data.code === 1) {
+      if (Number.isFinite(parseFloat(res.data.data)))
+        store.commit("setCardBalance", res.data.data);
+      else throw new Error("无效余额值");
+    } else if (res.data.code === 200514) {
+      Taro.showModal({
+        title: "查询余额失败",
+        content: res.data.msg,
+        confirmText: "重新登录",
+        success: (res) => {
+          if (res.confirm)
+            Taro.navigateTo({ url: "/pages/bind/index" });
+        }
+      });
+    }
+    else throw new Error(res.data.msg);
+  },
+  onError: (error) => {
+    if (!(error instanceof Error)) return `查询校园卡余额\r\n${error.errMsg}`;
+    else return `查询校园卡余额\r\n${error.message}`;
+  }
 });
 
-let isSelectToday = ref(true);
-
-let balance = computed(() => serviceStore.card.balance || 0);
-let today = computed(() => [...serviceStore.card.today].reverse() || []);
-let history = computed(() => [...serviceStore.card.history].reverse() || []);
+const { run: queryRecord, loading } = useRequest(
+  YxyService.querySchoolCardRecord, {
+    defaultParams: { queryTime: dayjs().format("YYYYMMDD") },
+    onSuccess: (response) => {
+      if (response.data.code === 1) {
+        if (response.data.data) {
+          records.value = response.data.data;
+          store.commit("setCardToday", records.value);
+        }
+      } else throw new Error(response.data.msg);
+    },
+    onError: (e) => {
+      if (e instanceof Error) return e.message;
+    }
+  }
+);
 
 const totalConsume = ref(0);
 const consumeList = computed(() => {
-  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   totalConsume.value = 0;
-  let tmp: CardConsume[];
-  if (isSelectToday.value) tmp = today.value;
-  else tmp = history.value;
+  let tmp = records.value;
   return (
     tmp.filter((item) => {
-      if (parseFloat(item.transactions) < 0)
-        totalConsume.value += Math.abs(parseFloat(item.transactions));
-      return parseFloat(item.transactions) !== 0;
+      if (parseFloat(item.money) < 0)
+        totalConsume.value += Math.abs(parseFloat(item.money));
+      return parseFloat(item.money) !== 0;
     }) || []
   );
 });
 
 async function updateData() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  if (isSelectToday.value) await CardService.updateCardToday();
-  else
-    await CardService.updateCardHistory({
-      year: parseInt(dateSel.value.split("-")[0]),
-      month: parseInt(dateSel.value.split("-")[1])
-    });
-  isRefreshing.value = false;
+  queryRecord({ queryTime: selectedDate.value.split("-").join("") });
 }
 
-async function historyClick() {
-  isSelectToday.value = false;
-}
-
-function todayClick() {
-  isSelectToday.value = true;
-}
+const handleChangeDate = (e) => {
+  selectedDate.value = e.detail.value;
+  queryRecord({ queryTime: selectedDate.value.split("-").join("") });
+};
 
 </script>

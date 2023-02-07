@@ -27,9 +27,9 @@ const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 let isDisabled = ref(false);
 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
   isDisabled.value = true;
-if (requireActive.value === "card" && !serviceStore.user.isBindCard)
-  isDisabled.value = true;
 if (requireActive.value === "library" && !serviceStore.user.isBindLibrary)
+  isDisabled.value = true;
+if (requireActive.value === "yxy" && !serviceStore.user.isBindYXY)
   isDisabled.value = true;
 
 async function appTaped() {

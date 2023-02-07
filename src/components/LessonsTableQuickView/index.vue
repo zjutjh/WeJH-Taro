@@ -134,7 +134,6 @@ function getRestTimeString(sections: string) {
   const minutesCount = time.hour * 60 + time.min;
   const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
 
-  console.log(minutesCount, currentMinutes);
   const hour = Math.floor((minutesCount - currentMinutes) / 60);
   const min = minutesCount - currentMinutes - hour * 60;
   return `${hour ? hour + "小时" : ""}${min ? min + "分钟" : ""}`;

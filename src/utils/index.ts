@@ -2,6 +2,7 @@ import { ICookie, ejectCookies, cookiesToString } from "./cookie";
 import { isNewIPhone, scrollViewHeight, getCopyRight } from "./effects";
 import { fetch, FetchResult } from "./fetch";
 import { throttle, throttle2 } from "./tools";
+import { checkBind } from "./checkBind";
 
 export {
   ICookie,
@@ -13,5 +14,6 @@ export {
   getCopyRight,
   fetch,
   throttle,
-  throttle2
+  throttle2,
+  checkBind
 };

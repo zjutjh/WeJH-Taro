@@ -12,7 +12,7 @@
         <card
           :key="item.lessonID"
           class="score-card"
-          :style="{ backgroundColor: 'var(--wjh-color-green-light)' }"
+          :style="{ backgroundColor: 'var(--wjh-color-cyan-light)' }"
           v-if="!item.checkRead"
         >
           <view>
@@ -91,7 +91,6 @@ function getUnreadScores(props: {year: string; term: string}) {
   });
   // 若有新成绩，则更新时间
   unreadScores.length !== 0 && store.commit("findNewScore");
-  console.log([...midTermScores, ...finalTermScores]);
 
   return unreadScores;
 }
