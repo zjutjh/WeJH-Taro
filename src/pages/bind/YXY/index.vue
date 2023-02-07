@@ -5,6 +5,7 @@ import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { onMounted, ref } from "vue";
 import { useRequest } from "@/hooks";
+import store from "@/store";
 
 const phoneNumber = ref("");
 const graphCode = ref("");
@@ -46,13 +47,15 @@ const { run: loginYxyAPI } = useRequest(YxyService.loginYxy, {
     });
   },
   onSuccess: (res) => {
+    Taro.hideLoading();
     if (res.data.code !== 1) {
       Taro.showToast({icon: "none", title: res.data.msg});
     } else {
       Taro.showToast({icon: "success", title: "绑定成功"});
+      store.commit("setBindYXY", true);
     }
   },
-  onFinally: () => {
+  onError: () => {
     Taro.hideLoading();
   }
 });
