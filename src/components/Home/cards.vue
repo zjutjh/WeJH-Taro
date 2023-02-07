@@ -69,7 +69,6 @@ const cardsMap: {
 };
 
 selectedCards.value.map(item => {
-  console.log(cardsMap[item]);
   return cardsMap[item];
 });
 

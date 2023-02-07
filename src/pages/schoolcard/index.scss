@@ -64,7 +64,7 @@
     }
 
     .button-not-active {
-      background-color: #def9f3;
+      background-color: #def9f3 !important;
       color: var(--wjh-color-cyan);
     }
   }
@@ -76,11 +76,11 @@
     }
 
     .col:first-child {
-      flex: 0 0 20%;
+      flex: 0 0 30%;
     }
 
     .col:last-child {
-      flex: 0 0 20%
+      flex: 0 0 30%
     }
   }
 
@@ -106,6 +106,7 @@
       font-size: 1.2rem;
       font-weight: var(--wjh-font-weight-bold);
       padding: 0 0.8rem;
+      flex: 0 0 70Px;
     }
 
     .col:first-child::before {

@@ -1,13 +1,9 @@
 export interface CardConsume {
-  account: string;
-  balance: string;
-  cardType: string;
-  id: string;
-  shop: string;
-  shopPlace: string;
-  terminal: string;
+  address: string;
+  deal_time: string;
+  fee_name: string;
+  money: string;
+  serial_no: string;
   time: string;
-  transactionType: string;
-  transactions: string;
-  wallet: string;
+  type: string;
 }

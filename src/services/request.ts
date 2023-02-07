@@ -7,7 +7,7 @@ interface IResponse<T> {
 }
 
 const globalConfig: Partial<Taro.request.Option> = {
-  timeout: 8 * 1000
+  timeout: 12 * 1000
 };
 
 // eslint-disable-next-line no-undef

@@ -21,8 +21,7 @@ const api = {
   },
   card: {
     balance: "/api/func/card/balance",
-    today: "/api/func/card/today",
-    history: "/api/func/card/history"
+    record: "/api/func/card/record",
   },
   library: {
     current: "/api/func/library/current",
