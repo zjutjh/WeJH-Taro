@@ -5,6 +5,13 @@ import styles from "./index.module.scss";
 import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
 import { PopView, WButton } from "@/components";
+import { checkBind } from "@/utils";
+
+const validList = computed(() =>
+  (Object.entries(homeCards) as Array<[HomeCardName, any]>)
+    .filter(item => checkBind[`${item[1].require}`].value)
+    .map(item => item[0])
+);
 
 const selectedList = computed(() => {
   const list = serviceStore.homecard.selected;
@@ -28,7 +35,7 @@ watch(show, () => {
 });
 
 const unselectedList = computed(() => {
-  const list = Object.keys(homeCards);
+  const list = [...validList.value];
   serviceStore.homecard.selected.forEach((name => {
     const toDelete = list.findIndex(item => item === name);
     list.splice(toDelete, 1);
