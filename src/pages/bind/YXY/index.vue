@@ -93,7 +93,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <card title="绑定一卡通账号">
+  <card title="">
+    <template #header>
+      <text>绑定一卡通账号</text>
+      <view class="form-help-wrapper">
+        <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
+          <view class="iconfont icon-help"></view>
+        </view>
+      </view>
+    </template>
     <view>
       <text>手机号</text>
       <input placeholder="请输入手机号" v-model="phoneNumber" />
@@ -130,13 +138,12 @@ onMounted(() => {
     </view>
 
     <template #footer>
-      <view class="form-help-wrapper">
-        <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
-          <view class="iconfont icon-help"></view>
-          <view>帮助</view>
-        </view>
+      <view style="display: flex; flex-direction: column; gap: 8Px">
+        <text style="color: var(--wjh-color-red); font-size: .9rem;">
+          请先下载易校园app，注册并绑定浙工大校园卡，之后在此界面用同一手机号接收验证码即可完成注册
+        </text>
+        <w-button block @tap="handleLoginYXY">确认绑定</w-button>
       </view>
-      <w-button block @tap="handleLoginYXY">确认绑定</w-button>
     </template>
   </card>
   <w-modal :content="helpContent" v-model:show="isShowHelp" />

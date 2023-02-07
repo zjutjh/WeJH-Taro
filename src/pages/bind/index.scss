@@ -35,20 +35,15 @@
 
 .form-help-wrapper {
   text-align: end;
+  position: absolute;
+  right: 0;
 
   .form-help {
-    display: inline-flex;
-    justify-content: flex-end;
-    padding: 0 10Px 10Px 10Px;
+    padding: 10Px;
 
     .iconfont {
       color: var(--wjh-color-cyan);
-      font-size: 1rem;
-    }
-
-    :last-child {
-      font-size: 0.75rem;
-      color: var(--wjh-color-week);
+      font-size: 1.2rem;
     }
   }
 }

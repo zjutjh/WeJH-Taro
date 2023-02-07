@@ -59,8 +59,6 @@ const cardsMap = computed(() => ({
   ): null,
 }));
 
-console.log( serviceStore.homecard.selected);
-
 function showHelp(prop: string) {
   isShowHelp.value = true;
   if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
