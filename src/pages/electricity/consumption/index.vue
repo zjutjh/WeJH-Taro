@@ -4,7 +4,7 @@
     <card class="consumption-card">
       <scroll-view :scrollY="true">
         <view class="container">
-          <card v-if="!consumptionList?.data.length" class="no-item">无用电记录</card>
+          <card v-if="!loading && !consumptionList?.data.length" class="no-item">无用电记录</card>
           <template v-else>
             <list v-for="consumption in consumptionList?.data">
               <list-item class="consumption-list-item">
