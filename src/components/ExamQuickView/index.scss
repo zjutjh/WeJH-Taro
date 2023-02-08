@@ -11,23 +11,28 @@
     // background: #FEDFA9;
     background: var(--wjh-color-orange-light);
     position: relative;
+    color: var(--wjh-color-text);
+
+    .text-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      width: 100%;
+    }
 
     .exam-place {
-      font-size: 0.75rem;
-      color: var(--wjh-color-week);
+      font-size: 1rem;
     }
 
     .exam-name {
-      font-size: 1rem;
-      text-decoration: underline;
-      text-underline-offset: 0.3rem;
-      text-decoration-color: rgb(216, 193, 154);
+      font-size: 1.2rem;
+      border-bottom: 1Px solid var(--wjh-color-week);
+      padding-bottom: 6Px;
+      padding-right: .5rem;
     }
 
-    .exam-res {
-      color: var(--wjh-color-week);
-      font-size: 0.7rem;
-      float: right;
+    .exam-time {
+      font-size: 0.9rem;
     }
   }
 
@@ -35,48 +40,8 @@
     padding: 0.5rem 0;
   }
 
-  .exam-item {
-    border-radius: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: left;
-    gap: 4Px;
-
-    .important-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4Px;
-    }
-
-    .iconfont {
-      font-size: 0.875rem;
-    }
-
-    .col {
-      min-width: 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    .split {
-      display: inline-block;
-      background-color: var(--wjh-color-week);
-      vertical-align: middle;
-      height: 4rem;
-      width: 0.05rem;
-    }
-
-    .left {
-      width: 64%;
-    }
-
-    .right {
-      width: 36%;
-      text-align: end;
-    }
+  .taking {
+    color: var(--wjh-color-cyan);
   }
+
 }

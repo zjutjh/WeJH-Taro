@@ -1,26 +1,33 @@
 <template>
-  <quick-view title="考试安排" icon-name="exam" @tap="nav2Exam" help @handle-tap-help="handleTapHelp" class="exam-quick-view">
+  <quick-view
+    title="考试安排"
+    icon-name="exam"
+    @tap="nav2Exam"
+    help
+    @handle-tap-help="handleTapHelp"
+    class="exam-quick-view"
+  >
     <text class="sub-text">近期考试 ({{ updateTimeString }})</text>
     <card v-if="!filteredExamItems || filteredExamItems.length === 0"
       style="text-align: center">
       未查询到近日考试信息
     </card>
     <card v-else v-for="item in filteredExamItems" :key=item.id class="exam-card">
-      <view>
-        <view>
-          <text class="exam-name">{{ item.lessonName }}</text>
-        </view>
-        <view>
-          <text class="exam-place">{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</text>
-          <view class="exam-res">
-            <text v-if="examState(item.examTime) === 'taking'">
+      <view style="display: flex; flex-direction: column; gap: 10Px; align-items: flex-start;">
+        <view :class="['exam-name', examState(item.examTime)]"> {{ item.lessonName }} </view>
+        <view class="text-wrapper">
+          <text class="exam-place">
+            {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
+          </text>
+          <view class="exam-time">
+            <text class="taking" v-if="examState(item.examTime) === 'taking'">
               正在考试
             </text>
-            <text v-if="examState(item.examTime) === 'after'">
+            <text v-else-if="examState(item.examTime) === 'after'">
               考试已结束
             </text>
-            <text v-if="examState(item.examTime) === 'before'">
-              还有 {{ getRestTimeString(item.examTime) }} 开始
+            <text v-else-if="examState(item.examTime) === 'before'">
+              还有 {{ timeUtils.getDayInterval(item.examTime) }} 天开始
             </text>
           </view>
         </view>
@@ -34,10 +41,12 @@ import Card from "../Card/index.vue";
 import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import "./index.scss";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { systemStore } from "@/store";
 import { ZFService } from "@/services";
 import dayjs from "dayjs";
+import { timeUtils } from "@/utils";
+import { Exam } from "@/types/Exam";
 
 const emit = defineEmits(["showHelp"]);
 
@@ -57,27 +66,22 @@ const updateTimeString = computed( () => {
  * 未来2日，过去1日
  */
 const filteredExamItems = computed(() => {
-  const nowTime = new Date();
-  return exam.value?.filter(item => {
-    try {
+  let list: Exam[] = [];
+  const exam = ZFService.getExamInfo(selectTerm.value)?.data;
+  try {
+    list = exam.filter(item => {
       if (item.examTime === "未放开不可查") return 0;
-      const examTime = getExamTime(item.examTime);
+      const { date, start } = getExamTime(item.examTime);
       // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
-      const resTime = new Date(examTime[0] + " " + examTime[1] + ":00").getTime() - nowTime.getTime();
-      const resDay = Math.floor(resTime / 1000 / 60 / 60 / 24); // 算出剩下的天数有多少
-      return (resDay <= 2 && resDay >= -1);
-    }
-    catch (e) {
-      console.log(e);
-    }
-  });
-});
-
-/**
- * 当前学期的所有考试
- */
-const exam = computed(() => {
-  return ZFService.getExamInfo(selectTerm.value)?.data;
+      const resDay = timeUtils.getDayInterval(
+        new Date(date + " " + start + ":00")
+      );
+      return (resDay <= 3 && resDay >= -1);
+    });
+  } catch (e) {
+    console.log(e);
+  }
+  return list;
 });
 
 const updateTime = computed(() => {
@@ -104,48 +108,30 @@ function getExamTime(examTimeString: string) {
   const examTime = examTimeString.split("(");
   const detailedTime: string[] = examTime[1].split("-");
   detailedTime[1] = detailedTime[1].slice( 0 , detailedTime[1].length - 1);
-  return [
-    examTime[0],
-    detailedTime[0],
-    detailedTime[1],
-  ];
+  return {
+    date: examTime[0], // e.g. 2023-02-17
+    start: detailedTime[0], // e.g. 13:30
+    end: detailedTime[1], // e.g. 15:30
+  };
 }
 
-function getResTime(leftTime: number){
-  return [
-    Math.floor(leftTime / 1000 / 60 / 60 / 24) + "天",
-    Math.floor(leftTime / 1000 / 60 / 60 % 24) + "小时",
-    Math.floor(leftTime / 1000 / 60 % 60) + "分钟",
-  ];
+/**
+ * 考试状态
+ * @param examTimeString
+ * @returns "before" | "taking" | "after"
+ */
+function examState(examTimeString: string) {
+  const { date, start, end } = getExamTime(examTimeString);
+  let nowTime = new Date();
+  let startTime = new Date(date + " " + start + ":00");
+  let endTime = new Date(date + " " + end);
+  if (nowTime.getTime() - startTime.getTime() < 0) return "before";
+  else if (nowTime.getTime() - endTime.getTime() <= 0) return "taking";
+  else return "after";
 }
 
-function examState(examTimeString: string){
-  try {
-    const examTime = getExamTime(examTimeString);
-    let nowTime = new Date();
-    let startTime = new Date(examTime[0] + " " + examTime[1] + ":00");
-    let endTime = new Date(examTime[0] + " " + examTime[2]);
-    if (nowTime.getTime() - startTime.getTime() < 0) return "before";
-    else if (nowTime.getTime() - endTime.getTime() <= 0) return "taking";
-    else return "after";
-  }
-  catch (e) {
-    console.log(e);
-  }
-}
-
-function getRestTimeString(examTimeString: string){
-  try {
-    const examTime = getExamTime(examTimeString);
-    let res = new Date(examTime[0] + " " + examTime[1] + ":00").getTime() - new Date().getTime();
-    const resTime = getResTime(res);
-    for (let i = 0; i < 3; i++)
-      if (resTime[i][0] !== "0")
-        return resTime[i];
-  }
-  catch (e) {
-    console.log(e);
-  }
-}
+onMounted(() => {
+  ZFService.updateExamInfo(selectTerm.value);
+});
 
 </script>
