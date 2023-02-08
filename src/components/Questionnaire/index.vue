@@ -2,8 +2,7 @@
   <view class="questionnaire" v-if="showQuestionnaire" icon-name="questionnaire">
     <view class="questionnaire-header">
       <view class="questionnaire-title" @tap="openQuestionnaire">
-        <view class="questionnaire-name-icon wjh-icon-questionnaire-fill"></view>
-        <view class="title-split"></view>
+        <view class="iconfont icon-questionnaire" />
         <text>调查问卷</text>
       </view>
       <view class="questionnaire-action">

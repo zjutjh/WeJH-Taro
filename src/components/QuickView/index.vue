@@ -2,8 +2,7 @@
   <view class="quick-view">
     <view class="quick-view-header">
       <view class="quick-view-title">
-        <view :class="`quick-view-name-icon wjh-icon-${iconName}-fill`" />
-        <view class="title-split" />
+        <view :class="`iconfont icon-${iconName}`" />
         <text>{{ title }}</text>
       </view>
       <view

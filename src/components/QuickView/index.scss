@@ -22,26 +22,15 @@
 
   .quick-view-title {
     font-size: 1.3rem;
-    font-weight: 800;
     display: flex;
     align-items: center;
 
-    .quick-view-name-icon {
-      height: 18Px;
-      width: 20Px;
-      display: inline-block;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-
-    .title-split {
-      display: inline-block;
-      background-color: var(--wjh-color-text);
-      vertical-align: middle;
-      height: 1.2rem;
-      width: 3Px;
-      margin: 0 0.7rem;
+    text {
+      font-weight: 800;
+      padding-left: .7rem;
+      margin-left: .7rem;
+      line-height: 100%;
+      border-left: 3Px solid var(--wjh-color-text);
     }
   }
 
