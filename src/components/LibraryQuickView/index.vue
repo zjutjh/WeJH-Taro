@@ -3,7 +3,7 @@
     <text class="sub-text">
       当前借阅 ({{ borrowUpdateTimeString }})
     </text>
-    <view v-if="!current" class="default-content">
+    <view v-if="!current || current.length === 0" class="default-content">
       当前无借阅图书
     </view>
     <card v-for="(item, index) in current.slice(0, 3)" v-else :key="item.libraryID" class="book-card"

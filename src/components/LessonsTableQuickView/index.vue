@@ -128,7 +128,7 @@ function getLessonTimeInstance(jc: number, offset = 0) {
  * @return 距离这节课开始的剩余时间
  */
 function getRestTimeString(sections: string) {
-  // FIXME:
+  // FIXME: 使用 timeUitls
   const begin = parseInt(sections.split("-")[0]);
   const time = dayScheduleStartTime[begin - 1];
   const minutesCount = time.hour * 60 + time.min;

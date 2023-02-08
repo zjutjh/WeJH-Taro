@@ -3,6 +3,7 @@ import { isNewIPhone, scrollViewHeight, getCopyRight } from "./effects";
 import { fetch, FetchResult } from "./fetch";
 import { throttle, throttle2 } from "./tools";
 import { checkBind } from "./checkBind";
+import timeUtils from "./time";
 
 export {
   ICookie,
@@ -15,5 +16,6 @@ export {
   fetch,
   throttle,
   throttle2,
-  checkBind
+  checkBind,
+  timeUtils
 };

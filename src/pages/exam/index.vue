@@ -172,6 +172,7 @@ function getDetailedTime(timeString: string) {
   return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
 }
 
+// TODO:
 function timeInterval(timeString: string) {
   const tmp: ConfigType = timeString.split("(")[0];
   return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
