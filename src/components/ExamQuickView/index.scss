@@ -25,14 +25,22 @@
     }
 
     .exam-name {
-      font-size: 1.2rem;
-      border-bottom: 1Px solid var(--wjh-color-week);
+      font-size: 1.1rem;
+      border-bottom: 1.5Px solid var(--wjh-color-week);
       padding-bottom: 6Px;
       padding-right: .5rem;
     }
 
     .exam-time {
       font-size: 0.9rem;
+      display: flex;
+      gap: 8Px;
+      flex: none;
+    }
+
+    .exam-state {
+      font-size: 0.9rem;
+      flex: none;
     }
   }
 

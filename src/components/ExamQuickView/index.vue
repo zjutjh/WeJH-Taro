@@ -14,21 +14,37 @@
     </card>
     <card v-else v-for="item in filteredExamItems" :key=item.id class="exam-card">
       <view style="display: flex; flex-direction: column; gap: 10Px; align-items: flex-start;">
-        <view :class="['exam-name', examState(item.examTime)]"> {{ item.lessonName }} </view>
+        <view class="text-wrapper">
+          <view :class="['exam-name', examState(item.examTime)]"> {{ item.lessonName }} </view>
+          <view class="exam-time">
+            <text> {{ dayjs(getExamTime(item.examTime).date).format("MM/DD") }} </text>
+            <text> {{ getExamTime(item.examTime).start }} </text>
+          </view>
+        </view>
         <view class="text-wrapper">
           <text class="exam-place">
             {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
           </text>
-          <view class="exam-time">
+          <view class="exam-state">
             <text class="taking" v-if="examState(item.examTime) === 'taking'">
               正在考试
             </text>
             <text v-else-if="examState(item.examTime) === 'after'">
               考试已结束
             </text>
-            <text v-else-if="examState(item.examTime) === 'before'">
-              还有 {{ timeUtils.getDayInterval(item.examTime) }} 天开始
-            </text>
+            <template v-else-if="examState(item.examTime) === 'before'">
+              <text v-if="timeUtils.getDayInterval(getExamTime(item.examTime).date) > 0">
+                还有 {{ timeUtils.getDayInterval(item.examTime) }} 天开始
+              </text>
+              <template v-else>
+                <text v-if="minuteInterval(getExamTime(item.examTime).start) >= 60">
+                  还有 {{ Math.floor(minuteInterval(getExamTime(item.examTime).start) / 60) }} 小时开始
+                </text>
+                <text v-else>
+                  还有 {{ minuteInterval(getExamTime(item.examTime).start) }} 分钟开始
+                </text>
+              </template>
+            </template>
           </view>
         </view>
       </view>
@@ -63,7 +79,7 @@ const updateTimeString = computed( () => {
 /**
  * 筛选近期考试
  *
- * 未来2日，过去1日
+ * 未来3日
  */
 const filteredExamItems = computed(() => {
   let list: Exam[] = [];
@@ -76,12 +92,16 @@ const filteredExamItems = computed(() => {
       const resDay = timeUtils.getDayInterval(
         new Date(date + " " + start + ":00")
       );
-      return (resDay <= 3 && resDay >= -1);
+      return (resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after");
     });
   } catch (e) {
     console.log(e);
   }
-  return list;
+  return list.sort((a, b) => {
+    const { date: dateA, start: timeA } = getExamTime(a.examTime);
+    const { date: dateB, start: timeB } = getExamTime(b.examTime);
+    return dayjs(`${dateA}-${timeA}`) < dayjs(`${dateB}-${timeB}`) ? 1: -1;
+  });
 });
 
 const updateTime = computed(() => {
@@ -114,6 +134,12 @@ function getExamTime(examTimeString: string) {
     end: detailedTime[1], // e.g. 15:30
   };
 }
+
+const minuteInterval = (clock: string) => {
+  const [ hour, minute ] = clock.split(":").map(item => parseInt(item));
+  const { hours, minutes } = timeUtils.getHMInterval({ hour, minute });
+  return hours * 60 + minutes;
+};
 
 /**
  * 考试状态

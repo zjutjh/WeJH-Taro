@@ -42,11 +42,7 @@ const current = computed(() => {
 
 const bookCardBackgroundColor = (index: number): CSSProperties => {
   return {
-    backgroundColor: `
-      var(--wjh-color-
-      ${index % 2 ? "yellow" : "orange"}
-      -light)`
-  };
+    backgroundColor: ` var(--wjh-color-${index % 2 ? "yellow" : "orange"}-light)` };
 };
 
 function nav() {

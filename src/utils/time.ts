@@ -22,13 +22,13 @@ export const getDayInterval = (
  */
 export const getHMInterval = (
   timeBefore: { hour: number; minute: number },
-  timeAfter: { hour: number; minute: number }
+  timeAfter?: { hour: number; minute: number }
 ) => {
   const minutesCount = {
     before: timeBefore.hour * 60 + timeBefore.minute,
-    after: timeAfter.hour * 60 + timeAfter.minute
+    after: timeAfter?.hour || new Date().getHours() * 60 + (timeAfter?.minute || new Date().getMinutes())
   };
-  const restHours = Math.floor(minutesCount.before - minutesCount.after ) / 60;
+  const restHours = Math.floor((minutesCount.before - minutesCount.after) / 60);
   const restMinutes = minutesCount.before - minutesCount.after - restHours * 60;
   return {
     hours: restHours,
