@@ -14,12 +14,18 @@
     </card>
     <card v-else v-for="item in filteredExamItems" :key=item.id class="exam-card">
       <view style="display: flex; flex-direction: column; gap: 10Px; align-items: flex-start;">
-        <view :class="['exam-name', examState(item.examTime)]"> {{ item.lessonName }} </view>
+        <view class="text-wrapper">
+          <view :class="['exam-name', examState(item.examTime)]"> {{ item.lessonName }} </view>
+          <view class="exam-time">
+            <text> {{ dayjs(getExamTime(item.examTime).date).format("MM/DD") }} </text>
+            <text> {{ getExamTime(item.examTime).start }} </text>
+          </view>
+        </view>
         <view class="text-wrapper">
           <text class="exam-place">
             {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
           </text>
-          <view class="exam-time">
+          <view class="exam-state">
             <text class="taking" v-if="examState(item.examTime) === 'taking'">
               正在考试
             </text>
