@@ -31,18 +31,9 @@ const { error } = useRequest(YxyService.querySchoolCardBalance, {
       if (Number.isFinite(parseFloat(res.data.data)))
         store.commit("setCardBalance", res.data.data);
       else throw new Error("无效余额值");
-    } else if (res.data.code === 200514) {
-      Taro.showModal({
-        title: "查询余额失败",
-        content: res.data.msg,
-        confirmText: "重新登录",
-        success: (res) => {
-          if (res.confirm)
-            Taro.navigateTo({ url: "/pages/bind/index" });
-        }
-      });
+    } else {
+      throw new Error(res.data.msg);
     }
-    else throw new Error(res.data.msg);
   },
   onError: (error) => {
     if (!(error instanceof Error)) return `查询校园卡余额\r\n${error.errMsg}`;

@@ -26,6 +26,10 @@
     @include radius;
     background-color: var(--wjh-color-week);
     color: var(--wjh-color-white);
+
+    .wjh-list-item-content-main {
+      align-items: center;
+    }
   }
 
   .binded {
@@ -46,4 +50,23 @@
       font-size: 1.2rem;
     }
   }
+}
+
+.beta-badge::before {
+  position: absolute;
+  content: "beta";
+  top: -1rem;
+  right: 0;
+  padding: 4Px 8Px;
+  line-height: 100%;
+  background-color: var(--wjh-color-red);
+  border-radius: 16Px;
+}
+
+.badge {
+  font-size: .8rem;
+  padding: 4Px 8Px;
+  line-height: 100%;
+  background-color: var(--wjh-color-red);
+  border-radius: 16Px;
 }

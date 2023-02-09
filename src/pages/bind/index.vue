@@ -27,11 +27,12 @@
           <w-list class="bind-list">
             <w-list-item
               :extra="user.isBindYXY ? '已绑定' : '未绑定'"
-              :class="{ binded: user.isBindYXY }"
+              :class="[{ binded: user.isBindYXY }]"
               arrow="down"
               @tap="renderForm('yxy')"
             >
-             一卡通账号
+             <text> 一卡通账号 </text>
+             <view class="badge">测试</view>
             </w-list-item>
           </w-list>
         </card>
