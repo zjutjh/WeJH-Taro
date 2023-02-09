@@ -4,7 +4,7 @@
     <card class="record-card">
       <scroll-view :scrollY="true">
         <view class="container">
-          <card v-if="!recordList.length">无缴费记录</card>
+          <card v-if="!loading && !recordList.length">无缴费记录</card>
           <template v-else>
             <list v-for="item in recordList">
               <list-item class="record-list-item">
