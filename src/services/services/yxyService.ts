@@ -61,8 +61,8 @@ export default class YxyService {
       display_room_name: string;
       md_name: string;
       room_code: string;
-      surplus: number; //kwh
-      surplus_amount: number; // rmb
+      soc: number; //kwh
+      soc_amount: number; // rmb
     }>(
       api.electricity.balance, {
         method: "GET",

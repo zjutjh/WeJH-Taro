@@ -8,7 +8,7 @@
       <view class="text-wrapper" v-if="!loading">
         <text> 寝室剩余电费 </text>
         <text :class="isUrgent ? 'dangerous' : 'normal'">
-          {{ balanceData?.data.surplus || 0 }}
+          {{ balanceData?.data.soc || 0 }}
         </text>
         <text> 度 </text>
       </view>
@@ -35,8 +35,8 @@ function nav2electricity() {
 const { data: balanceData, loading, error } = useRequest(
   YxyService.queryBalance, {
     onSuccess: (res) => {
-      if (res.data.data?.surplus) {
-        store.commit("setBalance",res.data.data.surplus);
+      if (res.data.data?.soc) {
+        store.commit("setBalance",res.data.data.soc);
       } else throw new Error();
     }
   }
@@ -44,7 +44,7 @@ const { data: balanceData, loading, error } = useRequest(
 
 const isUrgent = computed(() => {
   if (balanceData.value)
-    return balanceData.value.data.surplus < 20;
+    return balanceData.value.data.soc < 20;
   else
     return false;
 });

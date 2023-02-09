@@ -89,7 +89,7 @@ useRequest(YxyService.queryBalance, {
       store.commit("setElectricityStore", {
         roomName: response.data.data.display_room_name,
         roomCode: response.data.data.room_code,
-        balance: response.data.data.surplus
+        balance: response.data.data.soc
       });
     } else {
       throw new Error(response.data.msg || response.errMsg);
