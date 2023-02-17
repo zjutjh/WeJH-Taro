@@ -17,7 +17,6 @@
           <text v-if="lessonState(item.sections) === 'taking'" class="taking-lesson">
             上课中
           </text>
-          {{ updateRestTimeCounter }}
         </view>
         <view class="teacher">
           <text class="iconfont icon-teacher"></text>

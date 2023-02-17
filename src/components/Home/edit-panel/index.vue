@@ -28,7 +28,7 @@ const validList = computed(() => {
 
 const selectedList = computed(() => {
   const list = serviceStore.homecard.selected;
-  return list.map(item => homeCards[item]);
+  return list.filter(item => homeCards[item]).map(item => homeCards[item]);
 });
 
 const props = defineProps<{

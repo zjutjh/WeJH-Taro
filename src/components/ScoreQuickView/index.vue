@@ -50,7 +50,7 @@ function handleTapHelp() {
 const showSorted = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.term
+  term: systemStore.generalInfo.score || systemStore.generalInfo.term
 });
 
 onMounted(async () => {

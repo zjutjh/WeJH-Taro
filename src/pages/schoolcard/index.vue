@@ -114,10 +114,8 @@ const { run: queryRecord, loading } = useRequest(
     defaultParams: { queryTime: dayjs().format("YYYYMMDD") },
     onSuccess: (response) => {
       if (response.data.code === 1) {
-        if (response.data.data) {
-          records.value = response.data.data;
-          store.commit("setCardToday", records.value);
-        }
+        records.value = response.data.data || [];
+        store.commit("setCardToday", records.value);
       } else throw new Error(response.data.msg);
     },
     onError: (e) => {
