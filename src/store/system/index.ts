@@ -9,6 +9,7 @@ export interface SystemStoreType {
     termYear: string;
     time: string;
     week: number;
+    score?: "上" | "下" | "短"; // 考虑一些服务与实际学期不同步
   };
   version: string;
   questionnaire: {

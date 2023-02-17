@@ -34,7 +34,7 @@
             </text>
             <template v-else-if="examState(item.examTime) === 'before'">
               <text v-if="timeUtils.getDayInterval(getExamTime(item.examTime).date) > 0">
-                还有 {{ timeUtils.getDayInterval(item.examTime) }} 天开始
+                还有 {{ timeUtils.getDayInterval(getExamTime(item.examTime).date) }} 天开始
               </text>
               <template v-else>
                 <text v-if="minuteInterval(getExamTime(item.examTime).start) >= 60">
@@ -68,7 +68,7 @@ const emit = defineEmits(["showHelp"]);
 
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.term
+  term: systemStore.generalInfo.score || systemStore.generalInfo.term
 });
 
 const updateTimeString = computed( () => {
