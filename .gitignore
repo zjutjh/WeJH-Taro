@@ -11,3 +11,4 @@ coverage/
 config/prod.js
 config/dev.js
 tests/coverage/
+.swc
