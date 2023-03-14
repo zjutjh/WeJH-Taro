@@ -5,18 +5,18 @@
     "node": true
   },
   "extends": [
-    "eslint:recommended"
+    "plugin:vue/vue3-essential",
+    "@vue/eslint-config-typescript/recommended"
   ],
   "overrides": [],
   "parser": "vue-eslint-parser",
   "parserOptions": {
-    "parser": "@typescript-eslint/parser",
     "ecmaVersion": 2021,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
   "plugins": [
-    "vue",
-    "@typescript-eslint"
+    "vue"
   ],
   "rules": {
     "indent": [
@@ -31,9 +31,9 @@
       "error",
       "double"
     ],
-    "semi": [
-      "error",
-      "always"
-    ]
+    "semi": "error",
+    "vue/multi-word-component-names": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "no-trailing-spaces": "error"
   }
 }
