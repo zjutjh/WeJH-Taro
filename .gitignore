@@ -4,11 +4,5 @@ deploy_versions/
 .rn_temp/
 node_modules/
 .DS_Store
-.idea/
-lib/
-.vscode/
-coverage/
-config/prod.js
-config/dev.js
-tests/coverage/
+.idea
 .swc

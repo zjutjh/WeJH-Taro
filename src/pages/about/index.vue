@@ -32,7 +32,6 @@
           v-if="isDevelopment"
           title="测试信息"
         >
-          <view>编译时间: {{ buildTime }}</view>
           <view>{{ copyright }}</view>
         </card>
       </view>
@@ -48,8 +47,6 @@ import "./index.scss";
 
 let isDevelopment = false;
 if (process.env.NODE_ENV === "development") isDevelopment = true;
-
-const buildTime = process.env.BUILD_TIME;
 
 const description = aboutText.description;
 

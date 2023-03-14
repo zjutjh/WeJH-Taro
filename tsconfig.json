@@ -1,25 +1,24 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "target": "es2017",
+    "module": "commonjs",
     "preserveConstEnums": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./lib",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strictNullChecks": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": ".",
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "module": "CommonJS",
-    "target": "es2017",
-    "outDir": "./lib",
     "typeRoots": [
       "node_modules/@types",
-      "global.d.ts"
     ],
-    "baseUrl": ".",
     "paths": {
       "@/components": [
         "./src/components/index.ts"
@@ -53,18 +52,9 @@
       ]
     }
   },
-  "exclude": [
-    "node_modules/*",
-    "dist/*",
-    "src/components/**/__tests__/*",
-    "src/app.config.ts",
-    "src/__tests__/*"
-  ],
   "include": [
     "types",
-    "src/**/*",
-    "./global.d.ts",
-    "src/hooks"
+    "./src",
   ],
   "compileOnSave": false
 }

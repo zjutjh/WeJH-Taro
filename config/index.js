@@ -1,5 +1,3 @@
-import { buildDate, commit } from "./utils/version";
-import PackageJson from "../package.json";
 import path from "path";
 const config = {
   projectName: "WeJh-Taro",
@@ -13,18 +11,15 @@ const config = {
   },
   sourceRoot: "src",
   outputRoot: "dist",
-  defineConstants: {
-    APP_VERSION: JSON.stringify(PackageJson.version),
-    "process.env.APP_NAME": JSON.stringify(PackageJson.name),
-    "process.env.COMMIT_HASH": JSON.stringify(commit),
-    "process.env.BUILD_TIME": JSON.stringify(buildDate),
-    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
-  },
   copy: {
     patterns: [],
     options: {}
   },
   framework: "vue3",
+  compiler: "webpack5",
+  cache: {
+    enable: false
+  },
   alias: {
     "@/assets": path.resolve(__dirname, "..", "src/assets"),
     "@/store": path.resolve(__dirname, "..", "src/store"),
@@ -37,9 +32,6 @@ const config = {
     "@/style": path.resolve(__dirname, "..", "src/style")
   },
   mini: {
-    miniCssExtractPluginOption: {
-      ignoreOrder: true
-    },
     postcss: {
       pxtransform: {
         enable: true,

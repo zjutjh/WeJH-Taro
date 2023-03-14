@@ -1,5 +1,6 @@
 import Taro from "@tarojs/taro";
-import { cookiesToString, ICookie } from "./cookie";
+import { cookiesToString } from "./cookie";
+import type { ICookie } from "./cookie";
 
 interface FetchResult extends Taro.request.SuccessCallbackResult<any> {
   cookies?: string[];
@@ -32,7 +33,7 @@ function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
 
 function postJson(
   url: string,
-  data: Object | null | undefined,
+  data: any,
   cookies?: ICookie[]
 ): Promise<FetchResult> {
   return new Promise((resolve, reject) => {
