@@ -11,7 +11,12 @@
       <questionnaire
         v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire"
       />
+
+      <lostfound-quick-view />
+
+      <!-- 这里是可选卡片列表 -->
       <cards />
+
       <card v-if="!(isBindZf || isBindYXY || isBindLibrary)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
@@ -43,6 +48,7 @@ import Taro from "@tarojs/taro";
 import { SystemService } from "@/services";
 import { questionnaireInfo } from "@/constants/updateInfo";
 import cards from "./cards.vue";
+import LostfoundQuickView from "../LostfoundQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
 
