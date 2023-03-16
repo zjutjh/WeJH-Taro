@@ -19,6 +19,7 @@ export default {
     "pages/announcement/index",
     "pages/electricity/index",
     "pages/electricity/record/index",
+    "pages/lostfound/index",
     "pages/electricity/consumption/index"
   ],
   darkmode: false,
