@@ -21,16 +21,18 @@
           imageList.length > 1 ? styles.multiple : undefined
         ]">
           <view
-            :key="item"
+            :key="`${source.id}-${item}`"
             v-for="item in imageList"
             :class="styles['img-wrapper']"
           >
             <image
               :class="styles.image"
-              :style="needFixWidth ? { width: '100%' } : undefined"
+              :style="needFixWidth
+               ? { width: '100%', height: 'auto' }
+               : { width: 'auto' }"
               :mode="imageList.length > 1
-                ? 'aspectFill'
-                :`${needFixWidth ? 'widthFix' : 'heightFix'}`"
+               ? 'aspectFill'
+               :`${needFixWidth ? 'widthFix' : 'heightFix'}`"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
@@ -66,6 +68,7 @@ const imageList = computed(() => [
 const { source } = toRefs(props);
 
 const handlePreviewImages = (url: string) => {
+  // FIXME: control enter onShow
   Taro.previewImage({
     current: url,
     urls: imageList.value
@@ -75,7 +78,6 @@ const handlePreviewImages = (url: string) => {
 const handleLoadFinish = ({ detail: { height, width }}) => {
   if (height > width) needFixWidth.value = false;
   else needFixWidth.value = true;
-  console.log(height, width);
 };
 
 </script>

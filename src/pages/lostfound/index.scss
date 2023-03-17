@@ -1,5 +1,9 @@
 @import "@/style/theme";
 
+.background {
+  background-image: none;
+}
+
 .campus-selector {
   background-color: var(--wjh-color-background);
   padding: 12Px;
@@ -68,8 +72,6 @@
   }
 }
 
-.list {
-  flex: 1;
+.record-list {
   padding: 16Px;
-  overflow-y: auto;
 }

@@ -28,13 +28,24 @@
         </text>
       </view>
     </view>
-    <view class="list">
-      <preview-card
-        v-for="item in recordList"
-        :source="item"
-        :key="item.id"
-      />
-    </view>
+    <scroll-view
+      lower-threshold="100"
+      :scrollY="true"
+      class="list-wrapper"
+      :onScrolltolower="handleScrollToBottom"
+    >
+      <view class="record-list">
+        <preview-card
+          v-for="item in recordList"
+          :source="item"
+          :key="item.id"
+        />
+        <w-skeleton v-if="loading" :style="{borderRadius: '8Px'}"/>
+        <card v-else-if="!recordList.length && isEmpty">
+          <text>该分类下暂无失物寻物记录</text>
+        </card>
+      </view>
+    </scroll-view>
 
   </view>
 </template>
@@ -46,6 +57,7 @@ import { LostfoundService } from "@/services";
 import { LostfoundRecord } from "@/types/Lostfound";
 import { ref, computed } from "vue";
 import PreviewCard from "./PreviewCard/index.vue";
+import { WSkeleton, Card } from "@/components";
 import { omit } from "lodash-es";
 import "./index.scss";
 
@@ -55,62 +67,96 @@ const recordList = ref<LostfoundRecord[]>([]);
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
 const selectKind = ref("全部");
 const selectCampus = ref("屏峰");
+const isEmpty = ref(false);
 
 const { data: getKindsResponse } = useRequest(
-  LostfoundService.getKindList
+  LostfoundService.getKindList, {
+    onSuccess: (res) => {
+      if (res.data.code !== 1) throw new Error(res.data.msg);
+    },
+    onError: (e: Error) => {
+      return `获取分类失败\r\n${e.message || "网络错误"}`;
+    }
+  }
 );
 
-const { loading, run: getRecords } = useRequest(
+const { loading, run } = useRequest(
   LostfoundService.getRecords, {
     defaultParams: {
       campus: selectCampus.value,
       page_num: currentPage.value + 1,
       page_size: 10
     },
+    loadingDelay: 300,
     onSuccess: (res) => {
       if (res.data.code === 1) {
         recordList.value = recordList.value?.concat(
           res.data.data.data
         );
+        if (recordList.value.length === 0) isEmpty.value = true;
         maxPage.value = res.data.data.total_page_num;
-      }
+        currentPage.value++;
+      } else throw new Error(res.data.msg);
+    },
+    onError: (e: Error) => {
+      return `加载失物寻物信息失败\r\n${e.message || "网络错误"}`;
     }
   }
 );
 
+const getRecords = (data: {
+  campus?: string;
+  kind?: string;
+  page_num: number;
+  page_size: number;
+} ) => {
+  isEmpty.value = false;
+  run(omit(data, [data.kind === "全部"? "kind": null]));
+};
+
 const kindList = computed<string[]>(() => [
   "全部",
-  ...(getKindsResponse.value?.data
-    .map(item => item.kind_name) || [])
+  ...(getKindsResponse.value?.data || [])
+    .map(item => item.kind_name)
 ]);
 
 const handleSelectCampus = (campus: string) => {
   if (selectCampus.value === campus) return;
   selectCampus.value = campus;
   resetList();
-  getRecords(omit({
+  getRecords({
     campus: campus,
     kind: selectKind.value,
     page_num: currentPage.value + 1,
     page_size: 10
-  }, [selectKind.value === "全部" ? "kind": null]));
+  });
 };
 
 const handleSelectKind = (kind: string) => {
   if (selectKind.value === kind) return;
   selectKind.value = kind;
   resetList();
-  getRecords(omit({
+  getRecords({
     campus: selectCampus.value,
     kind,
     page_num: currentPage.value + 1,
     page_size: 10
-  }, [kind === "全部" ? "kind": null]));
+  });
 };
 
 const resetList = () => {
   currentPage.value = 0;
   recordList.value = [];
+};
+
+const handleScrollToBottom = () => {
+  if (loading.value || maxPage.value <= currentPage.value) return;
+  else getRecords({
+    campus: selectCampus.value,
+    kind: selectKind.value,
+    page_num: currentPage.value + 1,
+    page_size: 10
+  });
 };
 
 </script>
