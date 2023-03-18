@@ -1,0 +1,25 @@
+@import "@/style/theme";
+
+.title {
+  font-size: 1.2rem;
+  word-break: break-word;
+}
+
+.publisher {
+  margin-top: 6Px;
+  color: var(--wjh-color-week);
+}
+
+.link {
+  padding-top: 16Px;
+  margin-top: 16Px;
+  font-size: .9rem;
+  text-align: center;
+  color: var(--wjh-color-green);
+}
+
+.publish-time {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--wjh-color-week);
+}

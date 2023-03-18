@@ -3,6 +3,7 @@ export default {
     "pages/index/index",
     "pages/activation/index",
     "pages/bind/index",
+    "pages/webview/index",
     "pages/lessonstable/index",
     "pages/schoolbus/index",
     "pages/library/index",
