@@ -46,7 +46,7 @@
         </card>
       </view>
     </scroll-view>
-
+    <contact-me />
   </view>
 </template>
 
@@ -57,6 +57,7 @@ import { LostfoundService } from "@/services";
 import { LostfoundRecord } from "@/types/Lostfound";
 import { ref, computed } from "vue";
 import PreviewCard from "./PreviewCard/index.vue";
+import ContactMe from "./ContactMe/index.vue";
 import { WSkeleton, Card } from "@/components";
 import { omit } from "lodash-es";
 import "./index.scss";
