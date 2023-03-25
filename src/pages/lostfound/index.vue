@@ -61,13 +61,14 @@ import ContactMe from "./ContactMe/index.vue";
 import { WSkeleton, Card } from "@/components";
 import { omit } from "lodash-es";
 import "./index.scss";
+import store, { serviceStore } from "@/store";
 
 const currentPage = ref(0);
-const maxPage =ref(0);
+const maxPage = ref(0);
 const recordList = ref<LostfoundRecord[]>([]);
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
 const selectKind = ref("全部");
-const selectCampus = ref("屏峰");
+const selectCampus = ref(serviceStore.lostfound.lastOpenCampus || "屏峰");
 const isEmpty = ref(false);
 
 const { data: getKindsResponse } = useRequest(
@@ -124,6 +125,7 @@ const kindList = computed<string[]>(() => [
 const handleSelectCampus = (campus: string) => {
   if (selectCampus.value === campus) return;
   selectCampus.value = campus;
+  store.commit("setLastOpenCampus", campus);
   resetList();
   getRecords({
     campus: campus,

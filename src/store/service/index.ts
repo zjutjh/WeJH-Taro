@@ -11,6 +11,7 @@ import { ScoreServiceStore } from "./score";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { ElectricityServiceStore } from "./electricity";
 import { WebviewStore, WebviewStoreType } from "./webview";
+import { LostfoundStoreType, LostfoundStore } from "./lostfound";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];
@@ -50,6 +51,7 @@ export interface ServiceStoreType {
     updateTime: { history: string; current: string };
   };
   zf: ZFServiceType;
+  lostfound: LostfoundStoreType;
   homecard: HomeCardServiceType;
 }
 
@@ -66,6 +68,7 @@ export const ServiceStore = {
     score: ScoreServiceStore,
     homecard: HomeCardServiceStore,
     electricity: ElectricityServiceStore,
+    lostfound: LostfoundStore
   },
   state: () => ({
     sessionID: undefined
