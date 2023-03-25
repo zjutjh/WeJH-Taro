@@ -26,6 +26,7 @@ import WCollapsePanel from "./Collapse/CollapsePanel.vue";
 import WSteps from "./Steps/index.vue";
 import WDescriptions  from "./Descriptions/Descriptions.vue";
 import WDescriptionsItem from "./Descriptions/DescriptionsItem.vue";
+import WSkeleton from "./Skeleton/index.vue";
 
 export {
   Alarm,
@@ -57,4 +58,5 @@ export {
   WDescriptionsItem,
   WModal,
   WSteps,
+  WSkeleton
 };

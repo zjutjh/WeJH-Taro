@@ -1,0 +1,27 @@
+@import "@/style/theme.scss";
+
+.container {
+  text-align: center;
+  padding: 8Px;
+  font-size: .9rem;
+  color: var(--wjh-color-light);
+  background-color: var(--wjh-color-white);
+  display: flex;
+  justify-content: center;
+  gap: 8Px;
+  align-items: center;
+  z-index: 1000;
+  @include shadow;
+
+  .arrow {
+    rotate: 90deg;
+    width: 0;
+    height: 0;
+    border: 7Px solid transparent;
+    border-bottom: 12Px solid var(--wjh-color-cyan);
+  }
+}
+
+.ios {
+  padding-bottom: 2rem;
+}

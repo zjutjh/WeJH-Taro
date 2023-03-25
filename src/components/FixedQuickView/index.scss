@@ -1,0 +1,49 @@
+@import "@/style/theme";
+
+.fixed-quick-view-container {
+  border-radius: 8Px;
+  @include shadow;
+  padding: 0 20Px;
+  background-color: var(--wjh-color-white);
+  opacity: 95%;
+}
+
+.quick-view-container {
+  .header {
+    padding: 12Px 0 8Px 0;
+    border-bottom: 2Px solid var(--wjh-color-border);
+    text-align: center;
+
+    .title {
+      font-size: 1.1rem;
+    }
+  }
+
+  .content {
+    padding: 8Px 0 16Px 0;
+  }
+
+  .empty {
+    padding-top: 16Px;
+    text-align: center;
+
+    .campus {
+      color: var(--wjh-color-cyan);
+    }
+  }
+
+}
+
+.quick-view-container:not(:last-child) {
+  border-bottom: 6Px solid var(--wjh-color-cyan-light);
+}
+
+.information {
+  .content text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}

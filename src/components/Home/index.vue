@@ -1,24 +1,20 @@
 <template>
   <title-bar title="微精弘" :back-button="false">
-    <alarm
-      v-if="isActive"
-      @tap="nav2announcement"
-      :counter="announcementsCounter"
-    ></alarm>
+    <alarm v-if="isActive" @tap="nav2announcement" :counter="announcementsCounter"></alarm>
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
-      <questionnaire
-        v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire"
-      />
+      <questionnaire v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire" />
+
+      <fixed-quick-view />
+
+      <!-- 这里是可选卡片列表 -->
       <cards />
+
       <card v-if="!(isBindZf || isBindYXY || isBindLibrary)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
-      <view
-        @tap="showEditPanel"
-        :class="styles[`edit-button`]"
-      >
+      <view @tap="showEditPanel" :class="styles[`edit-button`]">
         <view class="iconfont icon-edit" />
       </view>
     </view>
@@ -28,7 +24,7 @@
       </card>
     </view>
   </scroll-view>
-  <edit-panel v-model:show="isShowEditPanel"/>
+  <edit-panel v-model:show="isShowEditPanel" />
 </template>
 
 <script setup lang="ts">
@@ -43,6 +39,7 @@ import Taro from "@tarojs/taro";
 import { SystemService } from "@/services";
 import { questionnaireInfo } from "@/constants/updateInfo";
 import cards from "./cards.vue";
+import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
 
@@ -63,7 +60,7 @@ const isQuestionnaireAccess = () => {
 if (questionnairePath != systemStore.questionnaire.path) {
   store.commit("setQuestionnaire", {
     path: questionnairePath,
-    state: "open"
+    state: "open",
   });
 }
 
@@ -92,14 +89,14 @@ const announcementsCounter = computed(() => {
 
 function nav2activation() {
   Taro.navigateTo({
-    url: "/pages/activation/index"
+    url: "/pages/activation/index",
   });
 }
 
 function nav2announcement() {
   store.commit("clearAnnouncementsUpdateCounter");
   Taro.navigateTo({
-    url: "/pages/announcement/index"
+    url: "/pages/announcement/index",
   });
 }
 </script>

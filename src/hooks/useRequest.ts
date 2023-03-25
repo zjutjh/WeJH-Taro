@@ -11,6 +11,9 @@ interface RequestConfigType<TData extends TaroGeneral.IAnyObject, TParams> {
   /** 自动发起请求的默认参数 */
   defaultParams?: TParams;
 
+  /** loading 延迟 单位 ms */
+  loadingDelay?: number;
+
   /**
    * 发送请求之前 hook
    * @param response
@@ -54,10 +57,14 @@ const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
   const error = ref<Error | { errMsg: string }>();
 
   const fetch = (params?: TParams) => {
-    loading.value = true;
     data.value = undefined;
     error.value = undefined;
     config?.onBefore?.();
+    // TODO: add delay
+    const timer = setTimeout(() => {
+      loading.value = true;
+    }, config?.loadingDelay || 0);
+
     service(params || config?.defaultParams).then((response) => {
       config?.onSuccess?.(response);
       data.value = response.data;
@@ -67,6 +74,8 @@ const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
       error.value = e;
     }).finally(() => {
       config?.onFinally?.();
+
+      if (timer) clearTimeout(timer);
       loading.value = false;
     });
   };

@@ -49,6 +49,7 @@
     "@tarojs/shared": "3.6.2",
     "@tarojs/taro": "3.6.2",
     "dayjs": "^1.11.4",
+    "lodash-es": "^4.17.21",
     "vue": "^3.0.0",
     "vuex": "^4.0.0",
     "vuex-persistedstate": "^4.1.0"

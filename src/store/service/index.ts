@@ -4,19 +4,23 @@ import { LibraryServiceStore } from "./library";
 import { ZFServiceStore, ZFServiceType } from "./zf";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 import { AnnouncementStore, AnnouncementType } from "./announcement";
+import { InformationStore , InformationStoreType } from "./information";
 import { AppListItem } from "@/types/AppList";
 import { CanteenServiceStore } from "./canteen";
 import { ScoreServiceStore } from "./score";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { ElectricityServiceStore } from "./electricity";
+import { WebviewStore, WebviewStoreType } from "./webview";
+import { LostfoundStoreType, LostfoundStore } from "./lostfound";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];
   card: CardServiceType;
   user: UserType;
   sessionID?: string;
-  schoolBus: {};
+  webview: WebviewStoreType;
   announcement: AnnouncementType;
+  information: InformationStoreType;
   canteen: {
     flow: any;
     updateTime: {
@@ -47,6 +51,7 @@ export interface ServiceStoreType {
     updateTime: { history: string; current: string };
   };
   zf: ZFServiceType;
+  lostfound: LostfoundStoreType;
   homecard: HomeCardServiceType;
 }
 
@@ -54,13 +59,16 @@ export const ServiceStore = {
   modules: {
     card: CardServiceStore,
     user: UserServiceStore,
+    webview: WebviewStore,
     library: LibraryServiceStore,
     zf: ZFServiceStore,
     announcement: AnnouncementStore,
+    information: InformationStore,
     canteen: CanteenServiceStore,
     score: ScoreServiceStore,
     homecard: HomeCardServiceStore,
     electricity: ElectricityServiceStore,
+    lostfound: LostfoundStore
   },
   state: () => ({
     sessionID: undefined

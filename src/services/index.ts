@@ -4,6 +4,7 @@ import UserService from "./services/userService";
 import LibraryService from "./services/libraryService";
 import CanteenService from "./services/canteenService";
 import YxyService from "./services/yxyService";
+import LostfoundService from "./services/lostfoundService";
 import { LoginByTaro } from "./services/authService";
 import errCodeHandler from "./utils/errHandler";
 import { api } from "./api/apiList";
@@ -15,6 +16,7 @@ export {
   LibraryService,
   CanteenService,
   YxyService,
+  LostfoundService,
   LoginByTaro,
   errCodeHandler,
   api

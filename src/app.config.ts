@@ -3,6 +3,7 @@ export default {
     "pages/index/index",
     "pages/activation/index",
     "pages/bind/index",
+    "pages/webview/index",
     "pages/lessonstable/index",
     "pages/schoolbus/index",
     "pages/library/index",
@@ -19,6 +20,7 @@ export default {
     "pages/announcement/index",
     "pages/electricity/index",
     "pages/electricity/record/index",
+    "pages/lostfound/index",
     "pages/electricity/consumption/index"
   ],
   darkmode: false,

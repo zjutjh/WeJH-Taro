@@ -42,13 +42,17 @@ const api = {
     record: "/api/func/electricity/record",
     consumption: "/api/func/electricity/consumption"
   },
+  lostfound: {
+    record: "/api/func/lost",
+    kind: "/api/func/lost/kind_list"
+  },
   applist: "/api/applist",
   info: "/api/info",
   announcement: "/api/announcement"
 };
 
 const defDevHost = "http://0.0.0.0:8080";
-function appendHost(api: Object) {
+function appendHost(api: any) {
   for (const key in api)
     if (Object.prototype.hasOwnProperty.call(api, key))
       if (api[key] instanceof Object) appendHost(api[key]);
