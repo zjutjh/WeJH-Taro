@@ -24,57 +24,41 @@
           <view class="col"></view>
           <view class="col">
             <view class="swicher">
-              <w-button
-                :class="{ 'button-not-active': !isSelectToday }"
-                @tap="todayClick"
-              >
+              <w-button :class="{ 'button-not-active': !isSelectToday }" @tap="todayClick">
                 当前
               </w-button>
-              <w-button
-                :class="{ 'button-not-active': !isSelectHistory }"
-                @tap="historyClick"
-              >
+              <w-button :class="{ 'button-not-active': !isSelectHistory }" @tap="historyClick">
                 历史
               </w-button>
             </view>
           </view>
           <view class="col">
-            <refresh-button
-              @tap="updateData"
-              :is-refreshing="isRefreshing"
-            ></refresh-button>
+            <refresh-button @tap="updateData" :is-refreshing="isRefreshing"></refresh-button>
           </view>
         </template>
         <view>
           <view class="flex-column">
             <card v-if="!borrowList" class="no-item">无借阅记录</card>
-            <card
-              class="book-card"
-              v-for="(item, index) in borrowList"
-              :key="index"
-              :style="{
-                backgroundColor: index % 2
+            <card class="book-card" v-for="(item, index) in borrowList" :key="index" :style="{
+              backgroundColor:
+                index % 2
                   ? 'var(--wjh-color-yellow-light)'
-                  : 'var(--wjh-color-green-light)'
-              }"
-            >
+                  : 'var(--wjh-color-green-light)',
+            }">
               <view class="book-name"> {{ item.name }}</view>
               <view>{{
-                `借阅日期：${item.time.split(' ')[0]} | ${
-                  item.time.split(' ')[1]
+                `借阅日期：${item.time.split(" ")[0]} | ${item.time.split(" ")[1]
                 }`
               }}</view>
               <view v-if="item.returnTime">
-                {{ `归还日期：${item.returnTime.split(' ')[0]}` }}
+                {{ `归还日期：${item.returnTime.split(" ")[0]}` }}
               </view>
-              <view
-                class="book-index"
-                :style="
+              <view class="book-index" :style="{
+                color:
                   index % 2
-                    ? 'color: var(--wjh-color-orange)'
-                    : 'color: var(--wjh-color-cyan)'
-                "
-              >
+                    ? 'var(--wjh-color-orange)'
+                    : 'var(--wjh-color-cyan)',
+              }">
                 {{ index + 1 }}
               </view>
             </card>
@@ -120,13 +104,12 @@ const currentCount = computed(() => {
   return current.value ? current.value.length : 0;
 });
 
-/**
- * 超期本书
- */
+/** 超期本数 */
 const currentExtendedCount = computed(() => {
-  // FIXME: 缺数据，判断条件待完善
   return current.value
-    ? current.value.filter((item) => item.overdueTime).length
+    ? current.value.filter((item) => {
+      return parseInt(item.overdueTime) > 0;
+    }).length
     : 0;
 });
 
@@ -147,5 +130,4 @@ function todayClick() {
   isSelectToday.value = true;
   isSelectHistory.value = false;
 }
-
 </script>
