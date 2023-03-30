@@ -1,21 +1,18 @@
 export const updateInfo = {
-  version: "2.3.1",
+  version: "2.3.0",
   title: "微精弘更新公告",
-  content:
-    ` | 版本号 2.2
-校级学生组织【精弘网络】研发的微精弘小程序发布重大更新，众多新功能等你来体验～\n
-| 更新内容
-1. 微精弘首页全面升级，上线首页自定义功能
-2. 新增「考试信息」首页卡片
-3. 新增「成绩查询」首页卡片
-4. 「成绩查询」功能已支持查询期中成绩
-5. 一卡通账号绑定功能开放测试
-6. 校园卡相关查询功能开放测试
-    `
+  content: `丨版本号2.3
+微精弘开启梦幻联动啦！新功能「失物寻物」等你来体验~
+
+丨更新内容
+1. 上新「失物寻物」功能
+2. 公告增加「校园资讯」分类
+3. 首页卡片增加「公告栏」与「失物寻物」
+4. 修复「借阅信息」的超期 bug`,
 };
 
 export const questionnaireInfo = {
   isAccess: false,
   appId: "wxd947200f82267e58",
-  path: "pages/wjxqList/wjxqList?activityId=O5QdXK"
+  path: "pages/wjxqList/wjxqList?activityId=O5QdXK",
 };
