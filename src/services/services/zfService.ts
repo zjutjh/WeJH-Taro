@@ -18,9 +18,12 @@ export default class ZFService {
       data,
       "setLessonTable",
       (res: any) => {
-        res.data.data["year"] = data?.year;
-        res.data.data["term"] = data?.term;
-        return res.data.data;
+        return {
+          ...res.data.data,
+          year: data?.year,
+          term: data?.term,
+        };
+
       }
     );
   }

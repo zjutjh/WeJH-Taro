@@ -57,7 +57,10 @@ export const ZFServiceStore = {
         practiceLessons: PracticeLesson[];
       }
     ) {
-      // comment: 可以更新单个学期的课表
+      if (!value.lessonsTable) {
+        console.error("更新课表失败");
+        return;
+      }
       if (!state.lessonsTableInfo[value.year])
         state.lessonsTableInfo[value.year] = {};
       state.lessonsTableInfo[value.year][value.term] = {
