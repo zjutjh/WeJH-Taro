@@ -39,5 +39,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Generate .env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Build Taro weapp
         run: pnpm build:weapp

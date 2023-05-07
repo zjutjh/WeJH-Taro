@@ -1,4 +1,7 @@
 import path from "path";
+const dotenv = require("dotenv");
+const myEnv = dotenv.config();
+
 const config = {
   projectName: "WeJh-Taro",
   date: "2021-4-20",
@@ -72,8 +75,17 @@ const config = {
 };
 
 module.exports = function (merge) {
+  const myEnvParsed = Object.keys(myEnv.parsed).reduce((acc, cur) => {
+    acc[cur] = JSON.stringify(myEnv.parsed[cur]);
+    return acc;
+  }, {});
+
+  const myConfig = {
+    env: myEnvParsed
+  };
+
   if (process.env.NODE_ENV === "development") {
-    return merge({}, config, require("./dev"));
+    return merge({}, config, require("./dev"), myConfig);
   }
-  return merge({}, config, require("./prod"));
+  return merge({}, config, require("./prod"), myConfig);
 };

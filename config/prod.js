@@ -1,7 +1,6 @@
 module.exports = {
   env: {
     NODE_ENV: "\"production\"",
-    HOST: "\"https://wejh.zjutjh.com\""
   },
   defineConstants: {},
   mini: {},

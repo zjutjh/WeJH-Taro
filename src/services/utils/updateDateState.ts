@@ -47,14 +47,14 @@ async function updateDateStateWithSession(
   api: string,
   data: any,
   commitName: string,
-  commitData: (res: FetchResult) => any,
+  commitData?: (res: FetchResult) => any,
   autoLogin = true,
   showModal = true
 ) {
   store.commit("startLoading");
   const res = await postWithSession(api, data, autoLogin);
   if (res?.statusCode === 200 && res.data && res.data.code === ServerCode.OK) {
-    store.commit(commitName, commitData(res));
+    store.commit(commitName, commitData?.(res) || res.data.data);
   } else errCodeHandler(res?.data.code, showModal);
   store.commit("stopLoading");
   return res?.data;
