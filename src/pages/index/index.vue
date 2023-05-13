@@ -4,7 +4,9 @@
     <my v-if="pageName === 'my'" />
     <nav-bar @onChange="setPageName" :pageName="pageName" />
   </view>
-  <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content" />
+  <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content"
+    :actions="updateInfo.actions">
+  </w-modal>
 </template>
 
 <script setup lang="ts">
@@ -16,6 +18,7 @@ import { updateInfo } from "@/constants/index";
 import "./index.scss";
 
 const pageName = ref("home");
+
 const showUpdateInfo = ref(false);
 
 const updateManager = Taro.getUpdateManager();
