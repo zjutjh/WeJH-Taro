@@ -1,0 +1,19 @@
+.badge {
+  display: inline-flex;
+  color: var(--wjh-color-white);
+  font-size: .8rem;
+  line-height: 100%;
+  background-color: var(--wjh-color-red);
+  border-radius: 16Px;
+}
+
+.middle {
+  padding: 4Px 8Px;
+  min-height: 8Px;
+}
+
+.small {
+  padding: 3Px 6Px;
+  min-height: 6Px;
+}
+

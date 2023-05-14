@@ -31,7 +31,7 @@ export const updateInfo: UpdateInfoType = {
       label: "前往绑定",
       callback: () => {
         Taro.navigateTo({
-          url: "/pages/bind/index"
+          url: "/pages/bind/index?bind=yxy"
         });
       }
     }
