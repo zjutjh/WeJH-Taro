@@ -8,10 +8,12 @@ button:after {
   --padding-top-small: 3Px;
   --padding-top-middle: 7Px;
   --padding-top-large: 11Px;
-  --padding-left: 12Px;
+  --padding-small: 12Px;
+  --padding-middle: 12Px;
+  --padding-large: 16Px;
   --padding-font-size-small: 15Px;
   --padding-font-size-middle: 17Px;
-  --padding-font-size-large: 24Px;
+  --padding-font-size-large: 18Px;
 }
 
 .wjh-button {
@@ -24,19 +26,19 @@ button:after {
 .wjh-button-small {
   font-size: var(--padding-font-size-small);
   line-height: var(--padding-font-size-small);
-  padding: var(--padding-top-small) var(--padding-left);
+  padding: var(--padding-top-small) var(--padding-small);
 }
 
 .wjh-button-middle {
   font-size: var(--padding-font-size-middle);
   line-height: var(--padding-font-size-middle);
-  padding: var(--padding-top-middle) var(--padding-left);
+  padding: var(--padding-top-middle) var(--padding-middle);
 }
 
 .wjh-button-large {
   font-size: var(--padding-font-size-large);
   line-height: var(--padding-font-size-large);
-  padding: var(--padding-top-large) var(--padding-left);
+  padding: var(--padding-top-large) var(--padding-large);
 }
 
 .wjh-button-block {
