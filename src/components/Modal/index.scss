@@ -26,7 +26,6 @@
   width: 80%;
   max-width: 300Px;
   top: 30vh;
-  padding: 0 16Px;
   margin: 0 auto;
 }
 
@@ -37,10 +36,11 @@
   font-size: 1.125rem;
   font-weight: var(--wjh-font-weight-medium);
   padding: 16Px 0;
+  margin: 0 16Px;
 }
 
 .wjh-modal-body {
-  padding: 16Px 0;
+  padding: 16Px;
   font-size: 0.875rem;
   color: var(--wjh-color-week);
   min-height: 120Px;
@@ -50,9 +50,34 @@
 
 .wjh-modal-footer {
   border-top: 1px solid var(--wjh-color-border);
-  padding: 12Px;
 }
 
 .hidden {
   display: none;
+}
+
+.actions {
+  border-top: 1Px solid var(--wjh-color-border);
+
+  .button {
+    flex: 50%;
+    padding: 16Px 0;
+    transition: all .1s;
+    background-color: var(--wjh-color-background);
+
+    &:last-child {
+      border-bottom-right-radius: 8Px;
+    }
+
+    &:first-child {
+      border-right: 1Px solid var(--wjh-color-border);
+      border-bottom-left-radius: 8Px;
+    }
+
+    &:active {
+      filter: brightness(.9);
+    }
+
+  }
+
 }
