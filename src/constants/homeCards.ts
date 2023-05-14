@@ -3,8 +3,8 @@ export type HomeCardName =
   "exam-quick-view" |
   "school-card-quick-view" |
   "score-quick-view" |
-  "library-quick-view"
-  // "electricity-quick-view";
+  "library-quick-view" |
+  "electricity-quick-view";
 
 export const homeCards: {
   [key in HomeCardName]: {
@@ -50,11 +50,11 @@ export const homeCards: {
     backgroundColor: "green",
     require: "isBindZF"
   },
-  /* "electricity-quick-view": {
+  "electricity-quick-view": {
     name: "electricity-quick-view",
     label: "电费查询",
     icon: "electricity",
     backgroundColor: "yellow",
     require: "isBindYXY"
-  } */
+  }
 };

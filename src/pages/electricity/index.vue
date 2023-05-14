@@ -12,7 +12,7 @@
               <view class="iconfont icon-electricity" />
             </view>
             <view class="text-wrapper">
-              <text color="black">{{ roomInfo.roomName }}</text>
+              <text>{{ roomInfo.roomName }}</text>
               <text class="week">房间号 {{ roomInfo.roomCode }}</text>
             </view>
           </view>
@@ -52,6 +52,15 @@
             </view>
           </w-list-item>
         </w-list>
+
+        <w-list @tap="nav2Subscribe">
+          <w-list-item arrow="right" class="electricity-list-item">
+            <view class="text-wrapper">
+              <text> 低电提醒消息订阅 </text>
+            </view>
+          </w-list-item>
+        </w-list>
+
       </view>
     </scroll-view>
   </view>
@@ -120,8 +129,8 @@ const {
 });
 
 const isUrgent = computed(() => {
-  if (balance) return balance.value < 20;
-  else false;
+  if (balance.value) return balance.value < 20;
+  else return false;
 });
 
 function nav2Record() {
@@ -133,6 +142,12 @@ function nav2Record() {
 function nav2Consumption() {
   Taro.navigateTo({
     url: "/pages/electricity/consumption/index"
+  });
+}
+
+function nav2Subscribe() {
+  Taro.navigateTo({
+    url: "/pages/electricity/subscribe/index"
   });
 }
 
