@@ -40,7 +40,8 @@ const api = {
   electricity: {
     balance: "/api/func/electricity/balance",
     record: "/api/func/electricity/record",
-    consumption: "/api/func/electricity/consumption"
+    consumption: "/api/func/electricity/consumption",
+    subscription: "/api/func/electricity/subscription"
   },
   lostfound: {
     record: "/api/func/lost",

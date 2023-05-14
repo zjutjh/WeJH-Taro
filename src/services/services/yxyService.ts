@@ -85,6 +85,18 @@ export default class YxyService {
       });
   };
 
+
+  /** 申请订阅电费警告 */
+  static queryElectricitySubscription = async () => {
+    return request<null>(
+      api.electricity.subscription, {
+        method: "POST",
+        header: {
+          "Cookie": serviceStore.sessionID
+        },
+      });
+  };
+
   /** 查询缴费记录 */
   static queryRecord = async (data: {"page": string}) => {
     return request<Array<{
