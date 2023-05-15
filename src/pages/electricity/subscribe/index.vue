@@ -29,22 +29,40 @@
 import { TitleBar, Card, WButton } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
+import { throttle } from "lodash-es";
 import styles from "./index.module.scss";
 
-
-const handleClickSubscribe = () => {
+const subscribe = async () => {
   const tmpId = process.env.ELECTRICITY_SUBSCRIBE_TEMPLID;
 
   Taro.requestSubscribeMessage({
     tmplIds: [tmpId],
-    success: res => {
+    success: async res => {
       if (res[tmpId] === "accept") {
-        YxyService.queryElectricitySubscription();
+        try {
+          const res = await YxyService.queryElectricitySubscription();
+          if (res.data.code === 1) {
+            Taro.showToast({
+              title: "订阅成功",
+              icon: "none",
+            });
+          } else {
+            throw new Error(res.data.msg);
+          }
+        } catch (e) {
+          Taro.showToast({
+            title: e?.message || "订阅失败",
+            icon: "none",
+          });
+        }
       }
     }
   });
-
 };
 
-</script>>
+const handleClickSubscribe = throttle(() => {
+  subscribe();
+}, 3 * 1000);
+
+</script>
 
