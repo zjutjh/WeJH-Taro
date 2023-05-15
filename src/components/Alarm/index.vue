@@ -1,15 +1,18 @@
 <template>
-  <view class="wjh-alarm">
-    <view class="wjh-alarm-icon iconfont icon-alarm" />
-    <view v-if="counter && counter > 0" class="wjh-alarm-counter-background">
-      {{ counter }}
+  <view :class="styles.alarm">
+    <view :class="[styles['alarm-icon'], 'iconfont', 'icon-alarm']" />
+
+    <view :class="styles['badge-wrapper']">
+      <w-badge :content="counter.toString()" size="small" />
     </view>
+
   </view>
 </template>
 
 <script setup lang="ts">
 import { toRefs } from "vue";
-import "./index.scss";
+import { WBadge } from "..";
+import styles from "./index.module.scss";
 
 const props = defineProps<{ counter: number }>();
 const { counter } = toRefs(props);

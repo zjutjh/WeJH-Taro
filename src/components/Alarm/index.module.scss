@@ -1,0 +1,21 @@
+@import '@/style/theme.scss';
+
+.alarm {
+  margin-left: 10Px;
+  position: relative;
+}
+
+.alarm-icon {
+  font-size: 1.2rem !important;
+  color: var(--wjh-color-text-secondary);
+}
+
+.badge-wrapper {
+  top: -4Px;
+  right: -12Px;
+  position: absolute;
+  display: inline-flex;
+  border: 2Px solid var(--wjh-color-white);
+  border-radius: 1000Px;
+
+}
