@@ -13,6 +13,7 @@ const phoneCode = ref("");
 
 const helpContent = helpText.bind.yxy;
 const isShowHelp = ref(false);
+const timeCounter = ref(0);
 
 //  获取图形验证码
 const {
@@ -30,10 +31,18 @@ const {
   manual: true,
   onSuccess: (res) => {
     if (res.data.code !== 1) {
-      Taro.showToast({title: res.data.msg, icon: "none"});
+      Taro.showToast({ title: res.data.msg, icon: "none" });
       getGraphAPI();
     } else {
-      Taro.showToast({title: "已发送验证码", icon: "success"});
+      Taro.showToast({ title: "已发送验证码", icon: "success" });
+      getGraphAPI();
+      graphCode.value = "";
+      timeCounter.value = 60;
+      const timer = setInterval(() => {
+        timeCounter.value--;
+        if (timeCounter.value === 0)
+          clearInterval(timer);
+      }, 1000);
     }
   }
 });
@@ -49,9 +58,9 @@ const { run: loginYxyAPI } = useRequest(YxyService.loginYxy, {
   onSuccess: (res) => {
     Taro.hideLoading();
     if (res.data.code !== 1) {
-      Taro.showToast({icon: "none", title: res.data.msg});
+      Taro.showToast({ icon: "none", title: res.data.msg });
     } else {
-      Taro.showToast({icon: "success", title: "绑定成功"});
+      Taro.showToast({ icon: "success", title: "绑定成功" });
       store.commit("setBindYXY", true);
     }
   },
@@ -64,13 +73,14 @@ const { run: loginYxyAPI } = useRequest(YxyService.loginYxy, {
  * 验证图形验证码，同时获取手机验证码
  */
 const handleSendGraphCode = () => {
-  if(graphCode.value.length && phoneNumber.value.length)
+  if (timeCounter.value > 0) return;
+  if (graphCode.value.length && phoneNumber.value.length)
     sendGraphAuthCodeAPI({
       captcha: graphCode.value,
       phoneNum: phoneNumber.value
     });
   else {
-    Taro.showToast({icon: "none", title: "请输入手机号和图形验证码"});
+    Taro.showToast({ icon: "none", title: "请输入手机号和图形验证码" });
   }
 };
 
@@ -82,7 +92,7 @@ const handleLoginYXY = () => {
     });
   }
   else {
-    Taro.showToast({icon: "none", title: "请输入手机号和手机验证码"});
+    Taro.showToast({ icon: "none", title: "请输入手机号和手机验证码" });
   }
 };
 
@@ -111,26 +121,19 @@ onMounted(() => {
       <input placeholder="请输入图片验证码" v-model="graphCode" />
     </view>
     <view style="display: flex; justify-content: space-between">
-      <view
-        v-if="imageLoading"
-        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
-      >
+      <view v-if="imageLoading" style="width: 160rpx; height: 60rpx; border: 2rpx solid gray">
         加载中...
       </view>
-      <view
-        v-else-if=" imageError || imageResponse?.data === ''"
-        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
-        @tap="getGraphAPI"
-      >
+      <view v-else-if="imageError || imageResponse?.data === ''"
+        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray" @tap="getGraphAPI">
         点击重试
       </view>
-      <image
-        v-else-if="imageResponse?.data !== ''"
-        :src="imageResponse?.data.replace(/[\r\n]/g, '')"
-        style="width: 160rpx; height: 60rpx"
-        @tap="getGraphAPI"
-      />
-      <WButton @tap="handleSendGraphCode">获取手机验证码</WButton>
+      <image v-else-if="imageResponse?.data" :src="imageResponse.data.replace(/[\r\n]/g, '')"
+        style="width: 160rpx; height: 60rpx" @tap="getGraphAPI" />
+      <WButton @tap="handleSendGraphCode" :disable="timeCounter > 0">
+        <text v-if="timeCounter === 0"> 获取手机验证码 </text>
+        <text v-else> 重新发送({{ timeCounter }})</text>
+      </WButton>
     </view>
     <view>
       <text>手机验证码</text>
@@ -141,6 +144,12 @@ onMounted(() => {
       <view style="display: flex; flex-direction: column; gap: 8Px">
         <text style="color: var(--wjh-color-red); font-size: .9rem;">
           请先下载易校园app，注册并绑定浙工大校园卡，之后在此界面用同一手机号接收验证码即可完成注册
+        </text>
+        <text style="color: var(--wjh-color-red); font-size: .9rem;">
+          tips:验证码获取存在一定的不稳定性，如果无法获取成功，请再不同时间段进行尝试
+        </text>
+        <text style="color: var(--wjh-color-blue); font-size: .9rem;">
+          🔗 如何绑定
         </text>
         <w-button block @tap="handleLoginYXY">确认绑定</w-button>
       </view>
