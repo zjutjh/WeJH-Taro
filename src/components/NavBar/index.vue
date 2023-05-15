@@ -4,15 +4,24 @@
       class="nav-bar-icon-wrapper">
       <view class="iconfont icon-home"></view>
       <view class="description">首页</view>
+      <view class="badge-wrapper" v-if="notificationActive.home">
+        <w-badge size="small" />
+      </view>
     </view>
     <view :class="showPop ? 'selected' : 'unselected'" class="nav-bar-icon-wrapper" @tap="plusClick">
       <view class="iconfont icon-applist"></view>
       <view class="description">功能</view>
+      <view class="badge-wrapper" v-if="notificationActive.applist">
+        <w-badge size="small" />
+      </view>
     </view>
     <view @tap="nav('my')" :class="pageName === 'my' && !showPop ? 'selected' : 'unselected'"
       class="nav-bar-icon-wrapper">
       <view class="iconfont icon-user"></view>
       <view class="description">我的</view>
+      <view class="badge-wrapper" v-if="notificationActive.my">
+        <w-badge size="small" />
+      </view>
     </view>
   </bottom-panel>
   <pop-view v-model:show="showPop">
@@ -24,10 +33,12 @@
 import AppList from "../AppList/index.vue";
 import PopView from "../PopView/index.vue";
 import BottomPanel from "../BottomPanel/index.vue";
+import { WBadge } from "..";
 import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import "./index.scss";
-import { ref, toRefs } from "vue";
+import { ref, toRefs, computed } from "vue";
+import { checkNotification } from "@/utils";
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);
@@ -35,6 +46,16 @@ const showPop = ref(false);
 const props = defineProps<{
   pageName: string
 }>();
+
+const notificationActive = computed(() => {
+  const store = serviceStore.notification.state;
+  return {
+    home: checkNotification("home", store),
+    applist: checkNotification("applist", store),
+    my: checkNotification("my", store)
+  };
+});
+
 const { pageName } = toRefs(props);
 
 /**

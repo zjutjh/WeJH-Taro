@@ -27,6 +27,7 @@ import WSteps from "./Steps/index.vue";
 import WDescriptions  from "./Descriptions/Descriptions.vue";
 import WDescriptionsItem from "./Descriptions/DescriptionsItem.vue";
 import WSkeleton from "./Skeleton/index.vue";
+import WBadge from "./Badge/index.vue";
 
 export {
   Alarm,
@@ -58,5 +59,6 @@ export {
   WDescriptionsItem,
   WModal,
   WSteps,
-  WSkeleton
+  WSkeleton,
+  WBadge,
 };

@@ -2,6 +2,7 @@
 
 .nav-bar-icon-wrapper {
   padding: 0 16Px;
+  position: relative;
 }
 
 .iconfont {
@@ -18,4 +19,11 @@
 
 .description {
   font-size: 0.75rem;
+}
+
+.badge-wrapper {
+  top: -2Px;
+  right: 6Px;
+  display: inline-flex;
+  position: absolute;
 }
