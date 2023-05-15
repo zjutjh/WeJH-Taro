@@ -50,6 +50,9 @@ button:after {
 }
 
 .wjh-button-shape-circle {
+  display: inline-flex;
+  align-items: center;
   border-radius: 1000Px;
   padding: var(--padding-top-middle);
+  aspect-ratio: 1;
 }

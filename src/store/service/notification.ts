@@ -1,7 +1,7 @@
 import type { Notification } from "@/types/Notification";
 
 export interface NotificationStoreType {
-  state: Partial<Notification>;
+  state: Notification;
 }
 
 /**

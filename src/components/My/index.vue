@@ -4,11 +4,7 @@
     <view class="flex-column">
       <card class="profile-card" v-if="userInfo?.isActive">
         <view class="avatar-wrapper">
-          <image
-            v-if="userInfo?.wxProfile"
-            class="avatar"
-            :src="userInfo?.wxProfile.avatarUrl"
-          ></image>
+          <image v-if="userInfo?.wxProfile" class="avatar" :src="userInfo?.wxProfile.avatarUrl"></image>
         </view>
         <view v-if="userInfo?.wxProfile" class="profile-split"></view>
         <view class="info-wrapper">
@@ -16,9 +12,7 @@
             <view v-if="userInfo?.wxProfile" class="name">{{
               userInfo?.wxProfile.nickName
             }}</view>
-            <view v-else class="name" @tap="getUserWXInfo"
-              >点击获取头像昵称</view
-            >
+            <view v-else class="name" @tap="getUserWXInfo">点击获取头像昵称</view>
             <view class="sub-text">微精弘</view>
           </view>
           <view class="sub-text" style="bottom: 0" v-if="userInfo">{{
@@ -34,17 +28,12 @@
       </card>
 
       <view class="operate" v-if="userInfo?.isActive">
-        <w-list
-          :key="index"
-          v-for="(column, index) in options"
-          class="operate-list"
-        >
-          <w-list-item
-            v-for="item in column"
-            :key="item.title"
-            @tap="nav2url(item.url)"
-          >
-            <text>{{ item.title }}</text>
+        <w-list :key="index" v-for="(column, index) in options" class="operate-list">
+          <w-list-item v-for="item in column" :key="item.title" @tap="nav2url(item.url)">
+            <view class="wrapper">
+              <text>{{ item.title }}</text>
+              <w-badge v-if="item.badge" :content="item.badge!" />
+            </view>
           </w-list-item>
         </w-list>
       </view>
@@ -59,26 +48,31 @@ import TitleBar from "../TitleBar/index.vue";
 import WList from "../List/List.vue";
 import WListItem from "../List/ListItem.vue";
 import WButton from "../Button/index.vue";
+import WBadge from "../Badge/index.vue";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import store from "@/store";
 import "./index.scss";
 import { UserType } from "src/store/service/user";
 
-const options = [
-  [
-    { title: "绑定", url: "/pages/bind/index" },
-    { title: "实验室", url: "/pages/lab/index" }
-  ],
-  [
-    { title: "反馈", url: "/pages/connect/index" },
-    { title: "关于", url: "/pages/about/index" }
-  ],
-  [
-    { title: "设置", url: "/pages/setting/index" }
-  ]
-];
+const options = computed(() => {
+  const notificationState = serviceStore.notification.state;
+  const data = [
+    [
+      { title: "绑定", url: "/pages/bind/index", badge: notificationState.my.bind },
+      { title: "实验室", url: "/pages/lab/index" }
+    ],
+    [
+      { title: "反馈", url: "/pages/connect/index" },
+      { title: "关于", url: "/pages/about/index" }
+    ],
+    [
+      { title: "设置", url: "/pages/setting/index" }
+    ]
+  ];
+  return data;
+});
 
 const userInfo = ref<UserType | null>(null);
 
@@ -112,7 +106,7 @@ function getUserInfo() {
   userInfo.value = serviceStore.user;
 }
 
-onMounted(()=> {
+onMounted(() => {
   if (serviceStore.user.isActive && !serviceStore.user.info)
     UserService.getUserInfo();
 });
