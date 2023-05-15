@@ -45,6 +45,10 @@ button:after {
   display: block;
 }
 
+.wjh-button-disable {
+  background-color: var(--wjh-color-gray) !important;
+}
+
 .wjh-button-shape-rounded {
   border-radius: 1000Px;
 }
