@@ -50,6 +50,7 @@ const user = computed(() => serviceStore.user);
 onMounted(() => {
   getUserBindInfo();
   expandDefault();
+  store.commit("updateNotification", { my: { bind: null } });
 });
 
 async function getUserBindInfo() {
