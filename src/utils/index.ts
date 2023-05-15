@@ -1,12 +1,13 @@
 import { ejectCookies, cookiesToString } from "./cookie";
 import { isNewIPhone, scrollViewHeight, getCopyRight } from "./effects";
 import { fetch } from "./fetch";
-import { throttle, throttle2 } from "./tools";
 import { checkBind } from "./checkBind";
 import { checkNotification } from "./checkNotification";
 import timeUtils from "./time";
 import type { ICookie } from "./cookie";
 import type { FetchResult } from "./fetch";
+import { throttle } from "./throttle";
+import { debounce } from "./debounce";
 
 export {
   ICookie,
@@ -17,9 +18,9 @@ export {
   scrollViewHeight,
   getCopyRight,
   fetch,
-  throttle,
-  throttle2,
   checkBind,
   checkNotification,
-  timeUtils
+  timeUtils,
+  throttle,
+  debounce
 };
