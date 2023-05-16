@@ -1,9 +1,13 @@
+$nav-bar-height: 49Px;
+$nav-bar-padding-top: 8Px;
+$applit-padding-top: .8rem;
+
 .applist {
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(4, 25%);
   width: 90%;
   margin: 0 auto;
-  padding-bottom: 4rem;
-  padding-top: 0.8rem;
+  padding-bottom: calc($nav-bar-height + $nav-bar-padding-top + $applit-padding-top);
+  padding-top: $applit-padding-top;
 }

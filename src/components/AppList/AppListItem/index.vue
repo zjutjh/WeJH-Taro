@@ -1,11 +1,9 @@
 <template>
   <view class="applist-item" @tap="appTaped">
-    <view class="applist-bg" :style="backgroundColor">
-      <image class="applist-item-icon" :src="require('@/assets/icons/applist/' + iconUrl)" />
+    <view class="icon-wrapper" :style="backgroundColor">
+      <view :class="['iconfont', `icon-${icon}`]"> </view>
     </view>
-    <text class="label" data-test="label">
-      {{ label }}
-    </text>
+    <text class="label"> {{ label }} </text>
   </view>
 </template>
 
@@ -17,14 +15,14 @@ import "./index.scss";
 
 const props = defineProps<{
   label: string,
-  iconUrl: string,
+  icon: string,
   url: string,
   bg: string,
   require: string,
 }>();
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
-let isDisabled = ref(false);
+const isDisabled = ref(false);
 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
   isDisabled.value = true;
 if (requireActive.value === "library" && !serviceStore.user.isBindLibrary)
