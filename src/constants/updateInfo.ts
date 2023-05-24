@@ -17,7 +17,7 @@ type UpdateInfoType = {
 }
 
 export const updateInfo: UpdateInfoType = {
-  version: "2.3.0",
+  version: "2.4.0",
   title: "微精弘更新公告",
   content: `微精弘小程序更新[电费查询]，注册绑定一卡通以体验！
   > 更新内容

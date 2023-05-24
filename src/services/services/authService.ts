@@ -4,7 +4,6 @@ import { api } from "../api/apiList";
 import { serviceStore } from "@/store";
 import store from "@/store";
 import { testSession } from "../utils/session";
-import { throttle } from "@/utils";
 import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
 
@@ -36,6 +35,6 @@ async function LoginByTaroImpl(): Promise<boolean> {
   return false;
 }
 
-const LoginByTaro = throttle(LoginByTaroImpl, 5000);
+const LoginByTaro = LoginByTaroImpl;
 
 export { LoginByTaro };
