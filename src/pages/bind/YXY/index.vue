@@ -96,6 +96,15 @@ const handleLoginYXY = () => {
   }
 };
 
+const handleClickTutorial = () => {
+  store.commit("setTempUrl", {
+    url: "https://mp.weixin.qq.com/s/uFdF37XSznzPMOe_IfjrEQ"
+  });
+  Taro.navigateTo({
+    url: "/pages/webview/index"
+  });
+};
+
 onMounted(() => {
   getGraphAPI();
 });
@@ -148,7 +157,7 @@ onMounted(() => {
         <text style="color: var(--wjh-color-red); font-size: .9rem;">
           tips:验证码获取存在一定的不稳定性，如果无法获取成功，请再不同时间段进行尝试
         </text>
-        <text style="color: var(--wjh-color-blue); font-size: .9rem;">
+        <text style="color: var(--wjh-color-blue); font-size: .9rem;" @tap="handleClickTutorial">
           🔗 如何绑定
         </text>
         <w-button block @tap="handleLoginYXY">确认绑定</w-button>

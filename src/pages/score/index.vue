@@ -11,7 +11,7 @@
           <template #header>
             <view class="row">
               <view class="score-icon-wrapper">
-                <image src="@/assets/icons/applist/score.svg" class="score-icon"></image>
+                <view class="score-icon iconfont icon-score" />
               </view>
               <view class="col">
                 <view class="term-info">{{ termInfo }}</view>
@@ -21,9 +21,9 @@
 
             <view class="col" style="align-items: flex-end">
               <view class="gpa-text">
-                {{ selectTerm.period ==="期中" ? "期中" : "GPA" }}
+                {{ selectTerm.period === "期中" ? "期中" : "GPA" }}
               </view>
-              <view v-if="scoreList && scoreList.length !== 0" class="credit-text">
+              <view v-if="scoreList && scoreList.length !== 0 && selectTerm.period === '期末'" class="credit-text">
                 {{ averageScorePoint }}
               </view>
             </view>
@@ -32,12 +32,12 @@
           <w-collapse class="score-list-collapse">
             <w-collapse-panel v-for="item in scoreList" :key="item.lessonID" arrow>
               <template #header>
-                <view class="score-list-collapse-item-title">{{
-                    item.lessonName
-                }}</view>
-                <view className="score-list-collapse-item-extra">{{
-                    item.score
-                }}</view>
+                <view class="score-list-collapse-item-title">
+                  {{ item.lessonName }}
+                </view>
+                <view class="score-list-collapse-item-extra">
+                  {{ item.score }}
+                </view>
               </template>
 
               <w-descriptions class="score-detail-list" size="small">
@@ -62,15 +62,11 @@
     <bottom-panel class="score-bottom-panel">
       <view class="col">
         <refresh-button @refresh="refresh" :is-refreshing="isRefreshing">
-      </refresh-button>
+        </refresh-button>
       </view>
       <view class="col">
-        <term-picker class="picker"
-          :term="selectTerm.term"
-          :year="selectTerm.year"
-          :period="selectTerm.period"
-          :selectflag=1
-          @changed="termChanged">
+        <term-picker class="picker" :term="selectTerm.term" :year="selectTerm.year" :period="selectTerm.period"
+          :selectflag=1 @changed="termChanged">
         </term-picker>
       </view>
       <view class="col">
@@ -112,7 +108,7 @@ const selectTerm = ref({
 const scoreList = computed(() =>
   showSorted.value
     ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
-      let scoreA = a.scorePoint,
+      const scoreA = a.scorePoint,
         scoreB = b.scorePoint;
       return parseFloat(scoreB) - parseFloat(scoreA);
     })
@@ -126,7 +122,7 @@ const helpContent = computed(() => {
 });
 
 async function termChanged(e) {
-  store.commit("changeScorePeriod" , e.period);
+  store.commit("changeScorePeriod", e.period);
   isRefreshing.value = true;
   selectTerm.value = e;
   await ZFService.updateScoreInfo(e);
@@ -149,31 +145,29 @@ onMounted(async () => {
 });
 
 const averageScorePoint = computed(() => {
-  if(selectTerm.value.period === "期末") {
-    const validCourse = scoreList.value.filter((item) => {
-      if (item.score === "缓考" || item.score === "免修") return false;
-      if (item.examType === "重修" || item.examType === "补考")
-        return false;
-      return true;
-    });
-    let totalCredits = 0;
-    let totalScorePoint = 0;
-    validCourse.forEach((item: Score) => {
-      let scorePoint = parseFloat(item.scorePoint);
-      let credits = parseFloat(item.credits);
-      totalScorePoint += scorePoint * credits;
-      totalCredits += credits;
-    });
-    let ans = Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
-    if(ans !== ans) return "";
-    else return ans;
-  }
+  const validCourse = scoreList.value.filter((item) => {
+    if (item.score === "缓考" || item.score === "免修") return false;
+    if (item.examType === "重修" || item.examType === "补考")
+      return false;
+    return true;
+  });
+  let totalCredits = 0;
+  let totalScorePoint = 0;
+  validCourse.forEach((item: Score) => {
+    const scorePoint = parseFloat(item.scorePoint);
+    const credits = parseFloat(item.credits);
+    totalScorePoint += scorePoint * credits;
+    totalCredits += credits;
+  });
+  const ans = Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
+  if (ans !== ans) return "";
+  else return ans;
 });
 
 const termInfo = computed(() => {
   return `
     ${selectTerm.value?.year}/${parseInt(selectTerm.value?.year) + 1}
-    （${selectTerm.value?.term }）
+    （${selectTerm.value?.term}）
   `;
 });
 
@@ -190,18 +184,3 @@ const relativeTermInfo = computed(() => {
 });
 
 </script>
-
-<style>
-@keyframes rote {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.refresh-running {
-  animation: rote 1s alternate infinite;
-}
-</style>

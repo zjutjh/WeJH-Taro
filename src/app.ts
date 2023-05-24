@@ -15,7 +15,7 @@ dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
 const App = createApp({
-  onShow() {
+  mounted() {
     SystemService.getGeneralInfo();
     SystemService.getAppList();
     LoginByTaro();
