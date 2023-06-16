@@ -74,17 +74,24 @@ import "./index.scss";
 import { computed } from "vue";
 import dayjs from "dayjs";
 import { timeUtils } from "@/utils";
-import useExamStore from "@/store/service/exam/collections";
+import useGeneralInfo from "@/store/system/generalInfo";
+import useExamQuery from "@/hooks/exam/useExamQuery";
 
 const emit = defineEmits(["showHelp"]);
-const examStore = useExamStore();
+const generalInfo = useGeneralInfo();
+
+const { data: examsInTerm, error, isFetching } = useExamQuery({
+  year: generalInfo.value.termYear,
+  term: generalInfo.value.term
+});
 
 /**
  * 筛选出未来 3 日的考试
  */
 const filteredExams = computed(() => {
-  const examsInTerm = examStore.queryByTermSync()?.exams || [];
-  const filtered = examsInTerm.filter(item => {
+  if (!examsInTerm.value) return [];
+
+  const filtered = examsInTerm.value.list.filter(item => {
     if (item.examTime === "未放开不可查") return 0;
     const { date, start } = getExamTime(item.examTime);
     // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
@@ -101,8 +108,13 @@ const filteredExams = computed(() => {
 });
 
 const updateTimeString = computed(() => {
-  const updateTime = examStore.queryByTermSync()?.updateTime;
-  if (examStore.error || !updateTime) return "更新失败";
+  const updateTime = examsInTerm.value?._upTime;
+  if (isFetching.value) {
+    return "正在更新";
+  } else if (error.value || !updateTime) {
+    return "更新失败";
+  }
+
   return dayjs(updateTime).fromNow();
 });
 

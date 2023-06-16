@@ -1,4 +1,5 @@
 import useGeneralInfo from "@/store/system/generalInfo";
+import { persistedStorage } from "@/utils";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -21,6 +22,10 @@ const useExamQueryOptionsStore = defineStore("exam/queryOptions", () => {
     year,
     setOption
   };
+}, {
+  persist: {
+    storage: persistedStorage
+  }
 });
 
 export default useExamQueryOptionsStore;

@@ -14,11 +14,11 @@
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="examList.length === 0" style="text-align: center">
+        <card v-if="!examsInfo || examsInfo.list.length === 0" style="text-align: center">
           <view>无记录</view>
         </card>
         <card
-          v-for="item in examList"
+          v-for="item in examsInfo?.list"
           :key="item.id"
           size="small"
           class="exam-card"
@@ -110,7 +110,7 @@
         />
       </view>
       <view class="col">
-        <refresh-button :is-refreshing="examStore.loading" @refresh="refresh" />
+        <refresh-button :is-refreshing="isFetching" @refresh="refetch" />
       </view>
     </bottom-panel>
     <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
@@ -118,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref, toRef, watchEffect } from "vue";
 import {
   BottomPanel,
   Card,
@@ -137,35 +137,27 @@ import { helpText } from "@/constants/copywriting";
 import { Image as TaroImage } from "@tarojs/components";
 import ExamCoverImage from "@/assets/photos/exam.svg";
 import "./index.scss";
-import useExamStore from "@/store/service/exam/collections";
-import useExamQueryOptionsStore from "@/store/service/exam/queryOptions";
+import useExamQueryOptionsStore from "@/hooks/exam/queryOptions";
+import Taro from "@tarojs/taro";
+import useExamQuery from "@/hooks/exam/useExamQuery";
 
-const examStore = useExamStore();
 const queryOptions = useExamQueryOptionsStore();
-
 const showModal = ref(false);
 const helpContent = helpText.exam;
 
-const examList = computed(() => {
-  const { year, term } = queryOptions;
-  const collection = examStore.collections.find(
-    (item) => item.year === year && item.term === term
-  );
+const { data: examsInfo, refetch, isFetching, error } = useExamQuery({
+  year: toRef(queryOptions, "year"),
+  term: toRef(queryOptions, "term")
+});
 
-  return collection?.exams ?? [];
+watchEffect(() => {
+  if (error.value instanceof Error) {
+    Taro.showToast({ title: `查询考试失败: ${error.value.message}`, icon: "none" });
+  }
 });
 
 async function termChanged(e) {
   queryOptions.setOption(e);
-  examStore.fetchExam(e);
-}
-
-async function refresh() {
-  if (examStore.loading) return;
-  examStore.fetchExam({
-    year: queryOptions.year,
-    term: queryOptions.term
-  });
 }
 
 function getDetailedTime(timeString: string) {
