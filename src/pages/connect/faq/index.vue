@@ -18,6 +18,7 @@
                   v-for="str in item.content.split('\n')"
                   :key="str"
                   class="answer-text"
+                  :userSelect="true"
                 >
                   {{ str }}
                 </text>

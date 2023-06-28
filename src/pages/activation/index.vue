@@ -87,7 +87,7 @@
           </template>
         </card>
         <card v-if="step === 1">
-          <view class="activation-help"> {{ helpContent }}</view>
+          <text class="activation-help" :userSelect="true"> {{ helpContent }}</text>
         </card>
       </view>
     </scroll-view>
