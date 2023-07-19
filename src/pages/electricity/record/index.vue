@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="缴费记录" back-button />
     <card class="record-card">
       <scroll-view :scrollY="true">
@@ -27,12 +27,12 @@
         </view>
       </scroll-view>
     </card>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
 import "./index.scss";
-import { Card, TitleBar } from "@/components";
+import { Card, TitleBar, ThemeConfig } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import { ref } from "vue";

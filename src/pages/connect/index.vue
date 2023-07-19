@@ -1,5 +1,5 @@
 <template>
-  <view class="connect-view background">
+  <theme-config class="connect-view">
     <title-bar title="反馈" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
@@ -24,12 +24,12 @@
         </card>
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
-import { WList, WListItem, Card, TitleBar } from "@/components";
+import { WList, WListItem, Card, TitleBar, ThemeConfig } from "@/components";
 import "./index.scss";
 
 const groupInfo = [

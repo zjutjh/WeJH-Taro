@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="考试安排" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
@@ -113,7 +113,7 @@
         ></refresh-button>
       </view>
     </bottom-panel>
-  </view>
+  </theme-config>
   <w-modal
     title="公告"
     v-model:show="showModal"
@@ -135,6 +135,7 @@ import {
   WCollapse,
   WDescriptions,
   WDescriptionsItem,
+  ThemeConfig
 } from "@/components";
 import { ZFService } from "@/services";
 import dayjs, { ConfigType } from "dayjs";

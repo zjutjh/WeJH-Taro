@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="空教室" back-button />
     <scroll-view :scrollY="true">
       <view class="flex-column">
@@ -30,13 +30,13 @@
         :week="selectWeek"
       ></room-picker>
     </bottom-panel>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
-import { BottomPanel, Card, TitleBar, RoomPicker } from "@/components";
+import { BottomPanel, Card, TitleBar, RoomPicker, ThemeConfig } from "@/components";
 import { ZFService } from "@/services";
 import { freeroomMap } from "@/constants/freeroomMap";
 import { Room } from "@/types/Room";

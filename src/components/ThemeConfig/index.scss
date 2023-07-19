@@ -1,0 +1,169 @@
+@import "@/style/theme.scss";
+@import "@/style/index.scss";
+
+//  主题色的切换是依赖于覆盖部分原配置色彩
+//  相当于重新调色
+//  未来如果需要修改 需要修改组件中的配色选择
+//  达到一份色彩能够多重选择
+
+.green{
+  --wjh-color-primary: var(--wjh-color-green);
+  --wjh-color-green: #53d1b6;
+  --wjh-color-blue: #81c6e7;
+  --wjh-color-cyan: #51bbbb;
+  --wjh-color-orange: #f0ad3e;
+  --wjh-color-yellow: #f0c03e;
+  --wjh-color-desert: #ffc52a;
+  --wjh-color-gold: #f7e9c3;
+  --wjh-color-red: #eb8888;
+  --wjh-color-purple: #8191cf;
+  --wjh-color-gray: #888888;
+  --wjh-color-white: #fdfdfd;
+  --wjh-color-green-light: #caf7ed;
+  --wjh-color-orange-light: #ffedcd;
+  --wjh-color-yellow-light: #fff6c9;
+  --wjh-color-cyan-light: #def9f3;
+  --wjh-color-blue-light: #D1F2FD;
+  --wjh-color-gray-light: #c1c0c0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-image: url('~@/assets/photos/background.svg');
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
+}
+
+.yellow{
+  //  黄色主题会覆盖掉原有的绿色主题的色彩
+  --wjh-color-primary: var(--wjh-color-yellow);
+  --wjh-color-green: var(--wjh-color-yellow);
+  --wjh-color-blue: var(--wjh-color-yellow);
+  --wjh-color-cyan: #d6c531;
+  --wjh-color-orange: #f0ad3e;
+  --wjh-color-yellow: #f5be26;
+  --wjh-color-desert: #f7be22;
+  --wjh-color-gold: #f7e9c3;
+  --wjh-color-red: #eb8888;
+  --wjh-color-purple: #8191cf;
+  --wjh-color-gray: #888888;
+  --wjh-color-white: #fdfdfd;
+  --wjh-color-green-light: #fcf9ce;
+  --wjh-color-orange-light: #ffedcd;
+  --wjh-color-yellow-light: #ffefc9;
+  --wjh-color-cyan-light: #f8f9de;
+  --wjh-color-blue-light: #fafdd1;
+  --wjh-color-gray-light: #c1c0c0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-image: url('~@/assets/photos/background-yellow.svg');
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
+}
+
+.blank{
+  //  灰色主题会覆盖掉原有的绿色主题的色彩
+  --wjh-color-primary: var(--wjh-color-gray);
+  --wjh-color-green: var(--wjh-color-gray);
+  --wjh-color-blue: var(--wjh-color-gray);
+  --wjh-color-cyan: var(--wjh-color-gray);
+  --wjh-color-orange: #f0ad3e;
+  --wjh-color-yellow: #f0c03e;
+  --wjh-color-desert: #ffc52a;
+  --wjh-color-gold: #f7e9c3;
+  --wjh-color-red: #eb8888;
+  --wjh-color-purple: #8191cf;
+  --wjh-color-gray: #888888;
+  --wjh-color-white: #fdfdfd;
+  --wjh-color-green-light: var(--wjh-color-gray-light);
+  --wjh-color-orange-light: var(--wjh-color-gray-light);
+  --wjh-color-yellow-light: var(--wjh-color-gray-light);
+  --wjh-color-cyan-light: var(--wjh-color-gray-light);
+  --wjh-color-blue-light: var(--wjh-color-gray-light);
+  --wjh-color-gray-light: #c1c0c0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-image: url('~@/assets/photos/background-blank.svg');
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
+}
+
+.blue{
+  //  蓝色主题会覆盖掉原有的绿色主题的色彩
+  --wjh-color-primary: var(--wjh-color-blue);
+  --wjh-color-green: var(--wjh-color-blue);
+  --wjh-color-blue: #6ebfe4;
+  --wjh-color-cyan: #5186bb;
+  --wjh-color-orange: #f0ad3e;
+  --wjh-color-yellow: #f0c03e;
+  --wjh-color-desert: #ffc52a;
+  --wjh-color-gold: #f7e9c3;
+  --wjh-color-red: #eb8888;
+  --wjh-color-purple: #8191cf;
+  --wjh-color-gray: #888888;
+  --wjh-color-white: #fdfdfd;
+  --wjh-color-green-light: #d1eef7;
+  --wjh-color-orange-light: #ffedcd;
+  --wjh-color-yellow-light: #fff6c9;
+  --wjh-color-cyan-light: #def0f9;
+  --wjh-color-blue-light: #d1eef7;
+  --wjh-color-gray-light: #c1c0c0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-image: url('~@/assets/photos/background-blue.svg');
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
+}
+
+.dark{
+  //  深色模式会覆盖掉原有的绿色主题的色彩
+  --wjh-color-primary: #4F4F4F;
+  --wjh-color-green: #4F4F4F;
+  --wjh-color-blue: #4F4F4F;
+  --wjh-color-cyan: #3F3F3F;
+  --wjh-color-orange: #4F4F4F;
+  --wjh-color-yellow: #888888;
+  --wjh-color-desert: #4F4F4F;
+  --wjh-color-gold: #888888;
+  --wjh-color-red: #eb8888;
+  --wjh-color-purple: #4F4F4F;
+  --wjh-color-gray: #888888;
+  --wjh-color-white: #fdfdfd;
+  --wjh-color-green-light: #c1c0c0;
+  --wjh-color-orange-light: #c1c0c0;
+  --wjh-color-yellow-light: #c1c0c0;
+  --wjh-color-cyan-light: #c1c0c0;
+  --wjh-color-blue-light: #c1c0c0;
+  --wjh-color-gray-light: #c1c0c0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-image: url('~@/assets/photos/background-blank.svg');
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
+  --wjh-color-text: #fff;
+  --wjh-color-text-secondary: #666;
+  --wjh-color-week: #999;
+  --wjh-color-light: #ccc;
+  --wjh-color-border: #eee;
+  --wjh-color-box: #f5f5f5;
+  --wjh-color-background: #3f3f3f;
+  color:white;
+}

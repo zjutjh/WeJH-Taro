@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="借阅信息" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
@@ -66,13 +66,13 @@
         </view>
       </card>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
 import "./index.scss";
 import { computed, ref, onMounted } from "vue";
-import { Card, TitleBar, RefreshButton, WButton } from "@/components";
+import { Card, TitleBar, RefreshButton, WButton, ThemeConfig } from "@/components";
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";

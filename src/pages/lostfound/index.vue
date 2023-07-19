@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="失物寻物" back-button />
     <view class="campus-selector">
       <view class="container">
@@ -47,11 +47,11 @@
       </view>
     </scroll-view>
     <contact-me />
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { TitleBar } from "@/components";
+import { TitleBar, ThemeConfig } from "@/components";
 import { useRequest } from "@/hooks";
 import { LostfoundService } from "@/services";
 import { LostfoundRecord } from "@/types/Lostfound";
