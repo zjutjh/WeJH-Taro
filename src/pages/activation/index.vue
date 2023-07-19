@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar
       title="通行证激活"
       :back-button="step === 1 ? true : false"
@@ -91,11 +91,11 @@
         </card>
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar, WButton, WSteps } from "@/components";
+import { Card, TitleBar, WButton, WSteps,ThemeConfig } from "@/components";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
 import "./index.scss";

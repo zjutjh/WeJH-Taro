@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="关于" back-button />
     <scroll-view
       :scroll-y="true"
@@ -36,11 +36,11 @@
         </card>
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar } from "@/components";
+import { Card, TitleBar,ThemeConfig } from "@/components";
 import { aboutText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import "./index.scss";

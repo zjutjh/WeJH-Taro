@@ -1,5 +1,5 @@
 <template>
-  <view class="lab-view background">
+  <theme-config class="lab-view background">
     <title-bar title="实验室" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
@@ -23,11 +23,11 @@
       src="@/assets/photos/lab.svg"
       style="margin: 0 auto"
     />
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar } from "@/components";
+import { Card, TitleBar, ThemeConfig } from "@/components";
 import { labText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import { ref, computed } from "vue";
