@@ -1,5 +1,5 @@
 export interface ThemeStoreType {
-  themeMode?: string;
+  themeMode: string;
 }
 
 export const ThemeStore = {

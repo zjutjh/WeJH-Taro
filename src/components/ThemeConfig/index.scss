@@ -25,15 +25,7 @@
   --wjh-color-cyan-light: #def9f3;
   --wjh-color-blue-light: #D1F2FD;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
 .yellow{
@@ -56,15 +48,7 @@
   --wjh-color-cyan-light: #f8f9de;
   --wjh-color-blue-light: #fafdd1;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-yellow.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
 .blank{
@@ -87,15 +71,7 @@
   --wjh-color-cyan-light: var(--wjh-color-gray-light);
   --wjh-color-blue-light: var(--wjh-color-gray-light);
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-blank.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
 .blue{
@@ -118,15 +94,7 @@
   --wjh-color-cyan-light: #def0f9;
   --wjh-color-blue-light: #d1eef7;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-blue.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
 .dark{
@@ -149,15 +117,7 @@
   --wjh-color-cyan-light: #c1c0c0;
   --wjh-color-blue-light: #c1c0c0;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-blank.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
   --wjh-color-text: #fff;
   --wjh-color-text-secondary: #666;
   --wjh-color-week: #999;
@@ -166,4 +126,15 @@
   --wjh-color-box: #f5f5f5;
   --wjh-color-background: #3f3f3f;
   color:white;
+}
+
+.background-config{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
 }

@@ -1,6 +1,6 @@
 <template>>
   <theme-config>
-    <title-bar title="公告" back-button />
+   <title-bar title="公告" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/announcement.svg"></image>

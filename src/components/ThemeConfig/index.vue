@@ -1,18 +1,14 @@
 <template>
-  <view :class="{  [themeMode]: true }">
-   <slot></slot>
+  <view :class="{ [themeMode]: true }" class="background-config">
+    <slot></slot>
   </view>
 </template>
 
 <script setup lang="ts">
 import "./index.scss";
-import { ref,watch } from "vue";
+import { computed } from "vue";
 import { serviceStore } from "@/store";
 
-const themeMode = ref(serviceStore.theme.themeMode);
-
-watch(() => serviceStore.theme.themeMode, (newValue) => {
-  themeMode.value = newValue;
-});
+const themeMode = computed(() => serviceStore.theme.themeMode);
 
 </script>

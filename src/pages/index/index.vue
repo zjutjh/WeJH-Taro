@@ -1,12 +1,12 @@
 <template>
-<theme-config>
+  <theme-config>
     <home v-if="pageName === 'home'" />
     <my v-if="pageName === 'my'" />
     <nav-bar @onChange="setPageName" :pageName="pageName" />
   <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content"
     :actions="updateInfo.actions">
   </w-modal>
-</theme-config>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
