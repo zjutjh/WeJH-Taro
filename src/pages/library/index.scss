@@ -47,7 +47,7 @@
     }
 
     .button-not-active {
-      background-color: #def9f3 !important;
+      background-color: var(--wjh-color-green-light)!important;
       color: var(--wjh-color-cyan);
     }
   }

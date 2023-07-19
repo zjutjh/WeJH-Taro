@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="食堂流量" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
@@ -51,7 +51,7 @@
         </card>
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
   <w-modal
     title="公告"
     v-model:show="showModal"
@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { CanteenService } from "@/services";
-import { Card, TitleBar, WModal } from "@/components";
+import { Card, TitleBar, WModal, ThemeConfig } from "@/components";
 import { computed, onMounted, ref } from "vue";
 import { serviceStore } from "@/store";
 import { helpText } from "@/constants/copywriting";

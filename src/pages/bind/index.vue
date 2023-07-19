@@ -1,5 +1,5 @@
 <template>
-  <view class="bind-view background">
+  <theme-config>
     <title-bar title="绑定" back-button />
     <scroll-view :scrollY="true">
       <view class="flex-column">
@@ -29,11 +29,11 @@
         <y-x-y v-if="bindTab === 'yxy'" />
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Card, WList, WListItem, WBadge, TitleBar } from "@/components";
+import { Card, WList, WListItem, WBadge, TitleBar, ThemeConfig } from "@/components";
 import Library from "./Library/index.vue";
 import ZF from "./ZF/index.vue";
 import YXY from "./YXY/index.vue";

@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="课程表" back-button />
     <scroll-view :scrollY="true">
       <lessons-table
@@ -48,7 +48,7 @@
         </view>
       </view>
     </bottom-panel>
-  </view>
+  </theme-config>
   <pop-view v-model:show="showPop">
     <view v-if="selection" class="lesson-detail">
       <view class="lesson-title">
@@ -71,6 +71,7 @@
 import { computed, onMounted, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
 import {
+  ThemeConfig,
   BottomPanel,
   TermPicker,
   TitleBar,

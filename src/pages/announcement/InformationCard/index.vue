@@ -14,7 +14,6 @@ const handleClickLink = () => {
   Taro.navigateTo({
     url: "/pages/webview/index"
   });
-
 };
 
 </script>
