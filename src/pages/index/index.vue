@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { NavBar, Home, My, WModal,ThemeConfig } from "@/components";
+import { NavBar, Home, My, WModal, ThemeConfig } from "@/components";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
 import store, { systemStore } from "@/store";

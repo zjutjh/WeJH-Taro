@@ -6,7 +6,7 @@
 //  未来如果需要修改 需要修改组件中的配色选择
 //  达到一份色彩能够多重选择
 
-.green{
+.green {
   --wjh-color-primary: var(--wjh-color-green);
   --wjh-color-green: #53d1b6;
   --wjh-color-blue: #81c6e7;
@@ -28,7 +28,7 @@
   background-image: url('~@/assets/photos/background.svg');
 }
 
-.yellow{
+.yellow {
   //  黄色主题会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: var(--wjh-color-yellow);
   --wjh-color-green: var(--wjh-color-yellow);
@@ -51,7 +51,7 @@
   background-image: url('~@/assets/photos/background-yellow.svg');
 }
 
-.blank{
+.blank {
   //  灰色主题会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: var(--wjh-color-gray);
   --wjh-color-green: var(--wjh-color-gray);
@@ -74,7 +74,7 @@
   background-image: url('~@/assets/photos/background-blank.svg');
 }
 
-.blue{
+.blue {
   //  蓝色主题会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: var(--wjh-color-blue);
   --wjh-color-green: var(--wjh-color-blue);
@@ -97,7 +97,7 @@
   background-image: url('~@/assets/photos/background-blue.svg');
 }
 
-.dark{
+.dark {
   //  深色模式会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: #4F4F4F;
   --wjh-color-green: #4F4F4F;
@@ -125,10 +125,10 @@
   --wjh-color-border: #eee;
   --wjh-color-box: #f5f5f5;
   --wjh-color-background: #3f3f3f;
-  color:white;
+  color: white;
 }
 
-.background-config{
+.background-config {
   position: fixed;
   display: flex;
   flex-direction: column;

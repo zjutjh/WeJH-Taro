@@ -9,7 +9,6 @@
         class="flex-column"
         :style="isEmpty ? 'justify-content: space-between' : undefined"
       >
-        <!--卡片主体-->
         <card class="setting-card">
           <view
             v-if="isEmpty"
@@ -27,9 +26,9 @@
                 > 绿
                 </text>
                 <text
-                class="tab"
-                :class="currentTab === 'yellow' ? 'active' : undefined"
-                @tap="() => handleTabClick('yellow')"
+                  class="tab"
+                  :class="currentTab === 'yellow' ? 'active' : undefined"
+                  @tap="() => handleTabClick('yellow')"
                 > 黄
                 </text>
                 <text
