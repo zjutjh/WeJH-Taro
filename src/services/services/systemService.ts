@@ -2,6 +2,7 @@ import { api } from "../api/apiList";
 import { updateDateState } from "../utils/updateDateState";
 import { AppListItem } from "@/types/AppList";
 import { Announcement } from "@/types/Announcement";
+import { Information } from "@/types/Information";
 
 // comment: 这里的所有请求无需 session
 export default class SystemService {
@@ -16,6 +17,11 @@ export default class SystemService {
       "setAnnouncements",
       null
     );
+  }
+
+  // comment: 校园资讯
+  static async getInformation(): Promise<Information> {
+    return updateDateState(api.information, null, "setInformation", null);
   }
 
   // comment: 首页应用列表

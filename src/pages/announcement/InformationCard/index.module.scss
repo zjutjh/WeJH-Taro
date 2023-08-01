@@ -1,13 +1,38 @@
 @import "@/style/theme";
 
+.container{
+  background-image: url('~@/assets/fy-card.jpg');
+  background-size: 100% 100%;
+}
+
 .title {
   font-size: 1.2rem;
   word-break: break-word;
+  font-weight: var(--wjh-font-weight-medium);
+  justify-content: center;
+  text-align: center;
+  padding: 12Px 0;
+  border-bottom: 1Px solid var(--wjh-color-border);
 }
 
 .publisher {
-  margin-top: 6Px;
+  text-align: center;
+  font-size: 0.75rem;
   color: var(--wjh-color-week);
+}
+
+.content {
+  white-space: break-spaces;
+  font-size: 0.875rem;
+  color: var(--wjh-color-week);
+  color: var(--wjh-color-text);
+  padding: 16Px;
+  line-height: 125%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
 }
 
 .link {
@@ -23,3 +48,21 @@
   font-size: 0.75rem;
   color: var(--wjh-color-week);
 }
+
+.img_container{
+  width: 60%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16Px auto;
+}
+
+.logo_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0.25);
+  height: calc(40Px);
+}
+

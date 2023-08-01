@@ -1,3 +1,4 @@
+import { Information } from './../../types/Information';
 const api = {
   user: {
     login: {
@@ -49,6 +50,7 @@ const api = {
   },
   applist: "/api/applist",
   info: "/api/info",
+  information: "/api/information",
   announcement: "/api/announcement"
 };
 
