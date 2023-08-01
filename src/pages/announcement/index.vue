@@ -69,24 +69,9 @@ const currentTab = ref<"announcement" | "information">(
   instance.router?.params.tab || "announcement"
 );
 
-// const informationList = computed(() => {
-//   return [...serviceStore.information.informationList].reverse();
-// });
-
-const informationList = [
-  {
-    id: 1,
-    title: "关于2023年暑假放假的通知",
-    content: "根据学校安排，2023年暑假放假时间为2023年8月1日至2023年8月30日，共30天。请同学们提前做好假期安排，注意安全，注意防疫。\n根据学校安排，2023年暑假放假时间为2023年8月1日至2023年8月30日，共30天。请同学们提前做好假期安排，注意安全，注意防疫。\n",
-    publisher: "\"For You\"工程",
-    publish_time: "2023-08-01 12:00:00",
-    end_time: "2023-08-30 12:00:00",
-    link: null,
-    image_1: null,//"https://s2.loli.net/2023/07/31/48LEilcZv3GKQuD.jpg"
-    image_2: null,
-    image_3: null
-  },
-];
+const informationList = computed(() => {
+  return [...serviceStore.information.informationList].reverse();
+});
 
 const announcementList = computed(() => {
   return [...serviceStore.announcement.announcements].reverse();

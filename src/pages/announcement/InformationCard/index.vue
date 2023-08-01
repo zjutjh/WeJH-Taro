@@ -4,6 +4,7 @@ import { Information } from "@/types/Information";
 import styles from "./index.module.scss";
 import { Card } from "@/components";
 import store from "@/store";
+import dayjs from "dayjs";
 
 const props = defineProps<{
   source: Information;
@@ -15,6 +16,10 @@ const handleClickLink = () => {
     url: "/pages/webview/index"
   });
 
+};
+
+const timeFormat = (time: string) => {
+  return dayjs(time).format("YYYY年MM月DD日");
 };
 
 const Author = "\"For You\"工程";
@@ -47,7 +52,7 @@ const Author = "\"For You\"工程";
       <image src="@/assets/jh-logo-1.png" alt="logo_jh" :class="styles.logo_jh" mode="aspectFit"></image>
       </view>
       <view :class="styles.publisher">信息来源: {{ props.source.publisher }}</view>
-      <view :class="styles['publish-time']">发布时间: {{ props.source.publish_time }}</view>
+      <view :class="styles['publish-time']">发布时间: {{ timeFormat(props.source.publish_time) }}</view>
     </template>
   </card>
 </template>

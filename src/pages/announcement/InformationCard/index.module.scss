@@ -26,13 +26,14 @@
   font-size: 0.875rem;
   color: var(--wjh-color-week);
   color: var(--wjh-color-text);
-  padding: 16Px;
   line-height: 125%;
+  margin: 16Px auto;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 8;
+  min-height: 7rem; //  设置最小高度，减小背景形变
 }
 
 .link {
