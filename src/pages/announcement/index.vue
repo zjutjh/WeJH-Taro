@@ -1,4 +1,4 @@
-<template>>
+<template>
   <theme-config>
     <title-bar title="公告" back-button />
     <scroll-view :scrollY="true">
@@ -44,8 +44,8 @@
           </card>
           <information-card
             v-for="item in informationList"
-           :source="item"
-           :key="item.id"
+            :source="item"
+            :key="item.id"
           />
         </template>
       </view>

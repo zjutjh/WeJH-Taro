@@ -6,7 +6,7 @@
 //  未来如果需要修改 需要修改组件中的配色选择
 //  达到一份色彩能够多重选择
 
-.green{
+.green {
   --wjh-color-primary: var(--wjh-color-green);
   --wjh-color-green: #53d1b6;
   --wjh-color-blue: #81c6e7;
@@ -25,18 +25,10 @@
   --wjh-color-cyan-light: #def9f3;
   --wjh-color-blue-light: #D1F2FD;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
-.yellow{
+.yellow {
   //  黄色主题会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: var(--wjh-color-yellow);
   --wjh-color-green: var(--wjh-color-yellow);
@@ -56,18 +48,10 @@
   --wjh-color-cyan-light: #f8f9de;
   --wjh-color-blue-light: #fafdd1;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-yellow.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
-.blank{
+.blank {
   //  灰色主题会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: var(--wjh-color-gray);
   --wjh-color-green: var(--wjh-color-gray);
@@ -87,18 +71,10 @@
   --wjh-color-cyan-light: var(--wjh-color-gray-light);
   --wjh-color-blue-light: var(--wjh-color-gray-light);
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-blank.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
-.blue{
+.blue {
   //  蓝色主题会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: var(--wjh-color-blue);
   --wjh-color-green: var(--wjh-color-blue);
@@ -118,18 +94,10 @@
   --wjh-color-cyan-light: #def0f9;
   --wjh-color-blue-light: #d1eef7;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-blue.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
 }
 
-.dark{
+.dark {
   //  深色模式会覆盖掉原有的绿色主题的色彩
   --wjh-color-primary: #4F4F4F;
   --wjh-color-green: #4F4F4F;
@@ -149,15 +117,7 @@
   --wjh-color-cyan-light: #c1c0c0;
   --wjh-color-blue-light: #c1c0c0;
   --wjh-color-gray-light: #c1c0c0;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
   background-image: url('~@/assets/photos/background-blank.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
   --wjh-color-text: #fff;
   --wjh-color-text-secondary: #666;
   --wjh-color-week: #999;
@@ -165,5 +125,16 @@
   --wjh-color-border: #eee;
   --wjh-color-box: #f5f5f5;
   --wjh-color-background: #3f3f3f;
-  color:white;
+  color: white;
+}
+
+.background-config {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-position: bottom 0 right 50%;
+  background-repeat: no-repeat;
 }
