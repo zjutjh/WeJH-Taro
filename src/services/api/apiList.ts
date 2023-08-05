@@ -1,4 +1,3 @@
-import { Information } from './../../types/Information';
 const api = {
   user: {
     login: {
