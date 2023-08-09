@@ -1,11 +1,6 @@
 @import "@/style/theme.scss";
 @import "@/style/index.scss";
 
-//  主题色的切换是依赖于覆盖部分原配置色彩
-//  相当于重新调色
-//  未来如果需要修改 需要修改组件中的配色选择
-//  达到一份色彩能够多重选择
-
 .green {
   --wjh-color-primary: var(--wjh-color-green);
   --wjh-color-green: #53d1b6;
@@ -43,10 +38,10 @@
   --wjh-color-gray: #888888;
   --wjh-color-white: #fdfdfd;
   --wjh-color-green-light: #fcf9ce;
-  --wjh-color-orange-light: #ffedcd;
+  --wjh-color-orange-light: #fce9c8;
   --wjh-color-yellow-light: #ffefc9;
   --wjh-color-cyan-light: #f8f9de;
-  --wjh-color-blue-light: #fafdd1;
+  --wjh-color-blue-light: #fafafa;
   --wjh-color-gray-light: #c1c0c0;
   background-image: url('~@/assets/photos/background-yellow.svg');
 }
