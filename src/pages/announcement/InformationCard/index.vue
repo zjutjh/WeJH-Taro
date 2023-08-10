@@ -15,19 +15,24 @@ const handleClickLink = () => {
   Taro.navigateTo({
     url: "/pages/webview/index"
   });
-
 };
+
+const handleClick = () => {
+  store.commit("setInformation", {  information: props.source });
+  Taro.navigateTo({
+    url: "/pages/information/index"
+  });
+};
+
+console.log(props.source);
 
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
 };
-
-const Author = "\"For You\"工程";   //  目前暂定Author为For You工程，后续可能会有其他来源
-
 </script>
 
 <template>
-  <card :class="{ [styles.container]: props.source.publisher === Author }">
+  <card :class="styles.container" @tap="handleClick">
     <view :class="styles.header">
       <view :class="styles.title">{{ props.source.title }}</view>
     </view>

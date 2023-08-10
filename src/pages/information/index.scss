@@ -1,4 +1,4 @@
-@import "@/style/theme";
+@import "@/style/theme.scss";
 
 .container {
   position: relative;
@@ -17,13 +17,13 @@
 
 .publisher {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--wjh-color-week);
 }
 
 .content {
   white-space: break-spaces;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--wjh-color-week);
   color: var(--wjh-color-text);
   line-height: 125%;
@@ -45,11 +45,11 @@
 
 .publish-time {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--wjh-color-week);
 }
 
-.img_container{
+.img_container {
   width: 60%;
   height: 60%;
   display: flex;
@@ -58,7 +58,7 @@
   margin: 16Px auto;
 }
 
-.x{
+.x {
   font-weight: 900;
   font-size: xx-large;
   width: 50%;
@@ -68,11 +68,10 @@
   align-items: center;
 }
 
-.logo_container{
+.logo_container {
   display: flex;
   justify-content: center;
   align-items: center;
   transform: scale(0.25);
   height: 40Px;
 }
-
