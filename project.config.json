@@ -38,19 +38,8 @@
     "minifyWXSS": true,
     "disableUseStrict": false,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false,
-    "condition": false
+    "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
-  "condition": {},
-  "libVersion": "2.25.3",
-  "srcMiniprogramRoot": "dist/",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
-  }
+  "condition": {}
 }
