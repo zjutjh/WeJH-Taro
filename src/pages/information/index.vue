@@ -44,7 +44,7 @@ const instance = Taro.getCurrentInstance();
 const { informationId } = instance.router?.params as { informationId?: number };
 
 const information = computed(() => {
-  return [...serviceStore.information.informationList].find((information) => information.id == informationId);
+  return serviceStore.information.informationList.find((information) => information.id == informationId);
 });
 
 const timeFormat = (time: string) => {
