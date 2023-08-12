@@ -34,13 +34,20 @@
 <script setup lang="ts">
 import { Card, TitleBar } from "@/components";
 import { serviceStore } from "@/store";
-import store from "@/store";
+import { computed } from "vue";
+import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import "./index.scss";
 
-const information = serviceStore.information.information;
+const instance = Taro.getCurrentInstance();
 
-store.commit("clearInformation");
+const informationList = computed(() => {
+  return [...serviceStore.information.informationList].reverse();
+});
+
+const { informationId } = instance.router?.params as { informationId?: number };
+
+const information = informationList.value.find((information) => information.id == informationId);
 
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");

@@ -18,13 +18,10 @@ const handleClickLink = () => {
 };
 
 const handleClick = () => {
-  store.commit("setInformation", {  information: props.source });
   Taro.navigateTo({
-    url: "/pages/information/index"
+    url: "/pages/information/index?informationId=" + props.source.id
   });
 };
-
-console.log(props.source);
 
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
