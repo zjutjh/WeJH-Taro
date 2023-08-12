@@ -47,7 +47,9 @@ const informationList = computed(() => {
 
 const { informationId } = instance.router?.params as { informationId?: number };
 
-const information = informationList.value.find((information) => information.id == informationId);
+const information = computed(() => {
+  return informationList.value.find((information) => information.id == informationId);
+});
 
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
