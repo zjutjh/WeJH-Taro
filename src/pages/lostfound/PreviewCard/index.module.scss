@@ -23,13 +23,11 @@
     font-size: 1.1rem;
     line-height: 100%;
   }
-
-  .extra {
-    font-size: 1rem;
-  }
 }
 
 .body {
+  border-bottom: 2Px solid var(--wjh-color-border);
+
   .content {
     padding: 12Px 0;
     white-space: pre-wrap;
