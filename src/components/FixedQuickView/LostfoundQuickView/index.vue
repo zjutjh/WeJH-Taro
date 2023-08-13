@@ -3,8 +3,10 @@
     <view class="header">
       <view class="title">失物寻物</view>
     </view>
-    <view v-if="randomContent" class="content">
-      <text> {{ randomContent }}</text>
+    <view v-if="randomContent" class="content flex-column ">
+      <text v-show="randomContent?.item_name" space="emsp" style="margin-left: 50Px"> 物品名称  {{ randomContent?.item_name }}</text>
+      <text v-show="randomContent?.lose_or_found_place" space="emsp" style="margin-left: 50Px"> 拾得地点  {{ randomContent?.lose_or_found_place }}</text>
+      <text v-show="randomContent?.lose_or_found_time" space="emsp" style="margin-left: 50Px"> 拾得时间  {{ randomContent?.lost_or_found_time }}</text>
     </view>
     <view v-else :class="['content', 'empty']">
       <text class="campus">{{ defaultCampus }} </text>
@@ -50,7 +52,7 @@ const randomContent = computed(() => {
   const list = data.value?.data.data;
   const realLength = list?.length || 0;
   return list?.length
-    ? list[Math.floor(Math.random() * realLength)].content
+    ? list[Math.floor(Math.random() * realLength)]
     : "";
 });
 </script>

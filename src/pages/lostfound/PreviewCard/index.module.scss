@@ -14,7 +14,7 @@
   padding-top: 14Px;
   padding-bottom: 10Px;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   border-bottom: 2Px solid var(--wjh-color-border);
 
   .title {
@@ -24,12 +24,23 @@
     line-height: 100%;
   }
 
-  .extra {
-    font-size: 1rem;
+  .joint {
+    display: flex;
+    height: 24Px;
+    gap: 6Px;
+    transform: scale(1.2);
+
+    .logo {
+      aspect-ratio: 1;
+      height: 100%;
+      width: auto;
+    }
   }
 }
 
 .body {
+  border-bottom: 2Px solid var(--wjh-color-border);
+
   .content {
     padding: 12Px 0;
     white-space: pre-wrap;
