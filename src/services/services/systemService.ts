@@ -2,6 +2,10 @@ import { api } from "../api/apiList";
 import { updateDateState } from "../utils/updateDateState";
 import { AppListItem } from "@/types/AppList";
 import { Announcement } from "@/types/Announcement";
+import { Information } from "@/types/Information";
+import { serviceStore } from "@/store";
+import request from "../request";
+
 
 // comment: 这里的所有请求无需 session
 export default class SystemService {
@@ -17,6 +21,17 @@ export default class SystemService {
       null
     );
   }
+
+  // comment: 校园资讯
+  static getInformation = () => {
+    return request<Information[]>(
+      api.information, {
+        method: "GET",
+        header: { "Cookie": serviceStore.sessionID },
+      }
+    );
+  };
+
 
   // comment: 首页应用列表
   static async getAppList(): Promise<AppListItem[]> {

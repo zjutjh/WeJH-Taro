@@ -23,6 +23,7 @@ export default {
     "pages/electricity/consumption/index",
     "pages/electricity/subscribe/index",
     "pages/lostfound/index",
+    "pages/information/index",
   ],
   darkmode: false,
   window: {
