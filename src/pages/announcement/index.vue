@@ -61,7 +61,6 @@ import InformationCard from "./InformationCard/index.vue";
 import "./index.scss";
 import { computed, ref } from "vue";
 import Taro from "@tarojs/taro";
-
 // 根据路由导航
 const instance = Taro.getCurrentInstance();
 const currentTab = ref<"announcement" | "information">(

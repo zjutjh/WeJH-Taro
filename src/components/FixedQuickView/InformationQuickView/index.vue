@@ -16,6 +16,8 @@
 import { ref,onMounted } from "vue";
 import Taro from "@tarojs/taro";
 import { serviceStore } from "@/store";
+import store from "@/store";
+import { SystemService } from "@/services";
 
 const handleClick = () => {
   if (currentPost.value.type === "announcement") {
@@ -65,6 +67,15 @@ const updateCurrentPost = () => {
 
 onMounted(() => {
   updateCurrentPost();
+});
+
+onMounted(async () => {
+  try {
+    const informationList = (await SystemService.getInformation()).data.data || [];
+    store.commit("setInformationList", informationList);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 

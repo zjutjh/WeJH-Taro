@@ -1,6 +1,6 @@
 <template>
   <title-bar title="微精弘" :back-button="false">
-    <alarm v-if="isActive" @tap="nav2announcement" :counter="announcementsCounter"></alarm>
+    <alarm v-if="isActive" @tap="nav2announcement" :counter="counter"></alarm>
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
@@ -42,7 +42,6 @@ import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
-import { useRequest } from "@/hooks";
 import { onMounted } from "vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
@@ -65,21 +64,7 @@ if (questionnairePath != systemStore.questionnaire.path) {
     state: "open",
   });
 }
-
-useRequest(
-  SystemService.getInformation, {
-    onSuccess: (res) => {
-      if (res.data.code !== 1) throw new Error(res.data.msg);
-      store.commit("setInformationList", res.data.data);
-    },
-    onError: (e: Error) => {
-      return `获取校园资讯失败\r\n${e.message || "网络错误"}`;
-    }
-  }
-);
-
-onMounted(async () => {
-  SystemService.getInformation();
+onMounted(() => {
   SystemService.getAnnouncement();
 });
 
@@ -101,7 +86,7 @@ const isBindLibrary = computed(() => {
 const isBindYXY = computed(() => {
   return serviceStore.user.isBindYXY;
 });
-const announcementsCounter = computed(() => {
+const counter = computed(() => {
   return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
 });
 
