@@ -13,9 +13,16 @@
         </view>
       </view>
     </view>
-    <view class="kind-selector">
-      <view class="legend">
-        <text>分类</text>
+    <view class="kind-selector flex-column">
+      <view class="scroll-view">
+        <text
+          v-for="item in mainList"
+          :key="item"
+          :class="selectMain === item ? 'active': undefined"
+          @tap="() => handleSelectMain(item)"
+        >
+          {{ item }}
+        </text>
       </view>
       <view class="scroll-view">
         <text
@@ -46,7 +53,11 @@
         </card>
       </view>
     </scroll-view>
-    <contact-me />
+    <contact-me @show-help="setHelp"/>
+    <w-modal
+      v-model:show="isShowHelp"
+      :content="`&emsp;&emsp;${helpContent}`"
+    ></w-modal>
   </view>
 </template>
 
@@ -62,6 +73,8 @@ import { WSkeleton, Card } from "@/components";
 import { omit } from "lodash-es";
 import "./index.scss";
 import store, { serviceStore } from "@/store";
+import WModal from "../../components/Modal/index.vue";
+import {helpText} from "@/constants/copywriting";
 
 const currentPage = ref(0);
 const maxPage = ref(0);
@@ -69,7 +82,11 @@ const recordList = ref<LostfoundRecord[]>([]);
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
 const selectKind = ref("全部");
 const selectCampus = ref(serviceStore.lostfound.lastOpenCampus || "屏峰");
+const mainList = ref<string[]>(["全部", "失物", "寻物"]);
+const selectMain = ref(serviceStore .lostfound.lastOpenMain || "全部");
 const isEmpty = ref(false);
+const helpContent = ref(helpText.lostfound);
+const isShowHelp = ref(false);
 
 const { data: getKindsResponse } = useRequest(
   LostfoundService.getKindList, {
@@ -87,7 +104,8 @@ const { loading, run } = useRequest(
     defaultParams: {
       campus: selectCampus.value,
       page_num: currentPage.value + 1,
-      page_size: 10
+      page_size: 10,
+      lost_or_found: selectMain.value
     },
     loadingDelay: 300,
     onSuccess: (res) => {
@@ -111,9 +129,10 @@ const getRecords = (data: {
   kind?: string;
   page_num: number;
   page_size: number;
+  lost_or_found?: string;
 } ) => {
   isEmpty.value = false;
-  run(omit(data, [data.kind === "全部"? "kind": null]));
+  run(omit(data, [data.kind === "全部"? "kind": null , data.lost_or_found === "全部"? "lost_or_found": null]));
 };
 
 const kindList = computed<string[]>(() => [
@@ -131,7 +150,22 @@ const handleSelectCampus = (campus: string) => {
     campus: campus,
     kind: selectKind.value,
     page_num: currentPage.value + 1,
-    page_size: 10
+    page_size: 10,
+    lost_or_found: selectMain.value
+  });
+};
+
+const handleSelectMain = (main: string) => {
+  if (selectMain.value === main) return;
+  selectMain.value = main;
+  store.commit("setLastOpenMain", main);
+  resetList();
+  getRecords({
+    campus: selectCampus.value,
+    kind: selectKind.value,
+    page_num: currentPage.value + 1,
+    page_size: 10,
+    lost_or_found: main
   });
 };
 
@@ -143,7 +177,8 @@ const handleSelectKind = (kind: string) => {
     campus: selectCampus.value,
     kind,
     page_num: currentPage.value + 1,
-    page_size: 10
+    page_size: 10,
+    lost_or_found: selectMain.value
   });
 };
 
@@ -158,8 +193,12 @@ const handleScrollToBottom = () => {
     campus: selectCampus.value,
     kind: selectKind.value,
     page_num: currentPage.value + 1,
-    page_size: 10
+    page_size: 10,
+    lost_or_found: selectMain.value
   });
 };
 
+const setHelp = () => {
+  isShowHelp.value = true;
+};
 </script>
