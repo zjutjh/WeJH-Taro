@@ -13,9 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 import Taro from "@tarojs/taro";
 import { serviceStore } from "@/store";
+import store from "@/store";
+import { SystemService } from "@/services";
 
 const handleClick = () => {
   if (currentPost.value.type === "announcement") {
@@ -35,4 +37,46 @@ const currentPost = ref<{ type: string; content: string }>({
     serviceStore.announcement.announcements.length - 1 || 0
   ].content.replace(/\\n/g, "\n"),
 });
+
+const updateCurrentPost = () => {
+  const information = serviceStore.information.informationList;
+  const announcement = serviceStore.announcement.announcements;
+  if (information.length === 0) {
+    return;
+  }
+  const infoTime = new Date(information[information.length - 1].publish_time).getTime();
+  const announcementTime = new Date(announcement[announcement.length - 1].publishTime).getTime();
+  if (infoTime > announcementTime) {
+    currentPost.value = {
+      type: "information",
+      content: information[information.length - 1].content.replace(
+        /\\n/g,
+        "\n"
+      ),
+    };
+  } else {
+    currentPost.value = {
+      type: "announcement",
+      content: announcement[announcement.length - 1].content.replace(
+        /\\n/g,
+        "\n"
+      ),
+    };
+  }
+};
+
+onMounted(() => {
+  updateCurrentPost();
+});
+
+onMounted(async () => {
+  try {
+    const informationList = (await SystemService.getInformation()).data.data || [];
+    store.commit("setInformationList", informationList);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+
 </script>

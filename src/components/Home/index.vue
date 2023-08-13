@@ -1,6 +1,6 @@
 <template>
   <title-bar title="微精弘" :back-button="false">
-    <alarm v-if="isActive" @tap="nav2announcement" :counter="announcementsCounter"></alarm>
+    <alarm v-if="isActive" @tap="nav2announcement" :counter="counter"></alarm>
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
@@ -42,6 +42,7 @@ import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
+import { onMounted } from "vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
@@ -63,8 +64,10 @@ if (questionnairePath != systemStore.questionnaire.path) {
     state: "open",
   });
 }
+onMounted(() => {
+  SystemService.getAnnouncement();
+});
 
-SystemService.getAnnouncement();
 const isActive = computed(() => {
   return serviceStore.user.isActive;
 });
@@ -83,8 +86,8 @@ const isBindLibrary = computed(() => {
 const isBindYXY = computed(() => {
   return serviceStore.user.isBindYXY;
 });
-const announcementsCounter = computed(() => {
-  return serviceStore.announcement.updateCounter;
+const counter = computed(() => {
+  return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
 });
 
 function nav2activation() {
