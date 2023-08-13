@@ -39,9 +39,11 @@ const currentPost = ref<{ type: string; content: string }>({
 const updateCurrentPost = () => {
   const information = serviceStore.information.informationList;
   const announcement = serviceStore.announcement.announcements;
+  if (information.length === 0) {
+    return;
+  }
   const infoTime = new Date(information[information.length - 1].publish_time).getTime();
   const announcementTime = new Date(announcement[announcement.length - 1].publishTime).getTime();
-
   if (information.length !== 0) {
     if (infoTime > announcementTime) {
       currentPost.value = {

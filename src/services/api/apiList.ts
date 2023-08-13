@@ -49,7 +49,7 @@ const api = {
   },
   applist: "/api/applist",
   info: "/api/info",
-  information: "/api/information",
+  information: "/api/func/information",
   announcement: "/api/announcement"
 };
 
