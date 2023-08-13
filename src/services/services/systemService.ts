@@ -6,6 +6,7 @@ import { Information } from "@/types/Information";
 import { serviceStore } from "@/store";
 import request from "../request";
 
+
 // comment: 这里的所有请求无需 session
 export default class SystemService {
   // comment: 系统通知
@@ -30,6 +31,7 @@ export default class SystemService {
       }
     );
   };
+
 
   // comment: 首页应用列表
   static async getAppList(): Promise<AppListItem[]> {
