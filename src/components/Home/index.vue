@@ -43,7 +43,7 @@ import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
 import { useRequest } from "@/hooks";
-
+import { onMounted } from "vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
@@ -66,12 +66,11 @@ if (questionnairePath != systemStore.questionnaire.path) {
   });
 }
 
-SystemService.getAnnouncement();
-
-const { data: Information } = useRequest(
+useRequest(
   SystemService.getInformation, {
     onSuccess: (res) => {
       if (res.data.code !== 1) throw new Error(res.data.msg);
+      store.commit("setInformationList", res.data.data);
     },
     onError: (e: Error) => {
       return `获取校园资讯失败\r\n${e.message || "网络错误"}`;
@@ -79,13 +78,10 @@ const { data: Information } = useRequest(
   }
 );
 
-const InformationList = computed(() => {
-  console.log(Information);
-  console.log(Information.value?.data);
-  return Information.value?.data||[];
+onMounted(async () => {
+  SystemService.getInformation();
+  SystemService.getAnnouncement();
 });
-
-store.commit("setInformationList", InformationList.value);
 
 const isActive = computed(() => {
   return serviceStore.user.isActive;
