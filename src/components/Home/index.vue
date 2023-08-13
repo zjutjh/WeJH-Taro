@@ -1,6 +1,6 @@
 <template>
   <title-bar title="微精弘" :back-button="false">
-    <alarm v-if="isActive" @tap="nav2announcement" :counter="Counter"></alarm>
+    <alarm v-if="isActive" @tap="nav2announcement" :counter="counter"></alarm>
   </title-bar>
   <scroll-view :scrollY="true">
     <view class="flex-column" v-if="isActive">
@@ -86,7 +86,7 @@ const isBindLibrary = computed(() => {
 const isBindYXY = computed(() => {
   return serviceStore.user.isBindYXY;
 });
-const Counter = computed(() => {
+const counter = computed(() => {
   return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
 });
 

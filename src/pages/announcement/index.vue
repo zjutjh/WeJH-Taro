@@ -61,24 +61,12 @@ import InformationCard from "./InformationCard/index.vue";
 import "./index.scss";
 import { computed, ref } from "vue";
 import Taro from "@tarojs/taro";
-import { onMounted } from "vue";
-import store from "@/store";
-import { SystemService } from "@/services";
 // 根据路由导航
 const instance = Taro.getCurrentInstance();
 const currentTab = ref<"announcement" | "information">(
   // @ts-ignore
   instance.router?.params.tab || "announcement"
 );
-
-onMounted(async () => {
-  try {
-    const informationList = (await SystemService.getInformation()).data.data || [];
-    store.commit("setInformationList", informationList);
-  } catch (e) {
-    console.log(e);
-  }
-});
 
 const informationList = computed(() => {
   return [...serviceStore.information.informationList].reverse();
