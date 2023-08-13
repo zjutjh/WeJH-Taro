@@ -42,7 +42,7 @@ import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
-import { onMounted,watch } from "vue";
+import { onMounted } from "vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
@@ -64,15 +64,8 @@ if (questionnairePath != systemStore.questionnaire.path) {
     state: "open",
   });
 }
-
-onMounted(async () => {
-  try {
-    await SystemService.getAnnouncement();
-    const informationList = (await SystemService.getInformation()).data.data || [];
-    store.commit("setInformationList", informationList);
-  } catch (e) {
-    console.log(e);
-  }
+onMounted(() => {
+  SystemService.getAnnouncement();
 });
 
 const isActive = computed(() => {
@@ -93,14 +86,8 @@ const isBindLibrary = computed(() => {
 const isBindYXY = computed(() => {
   return serviceStore.user.isBindYXY;
 });
-
 const Counter = computed(() => {
   return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
-});
-
-watch([() => serviceStore.announcement.updateCounter, () => serviceStore.information.updateCounter], () => {
-  // 当 serviceStore.announcement.updateCounter 或 serviceStore.information.updateCounter 变化时触发
-  Counter.value; // 这里访问 Counter 的值，会触发重新渲染
 });
 
 function nav2activation() {

@@ -13,9 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref,onMounted } from "vue";
+import { ref,onMounted,computed } from "vue";
 import Taro from "@tarojs/taro";
 import { serviceStore } from "@/store";
+
 
 const handleClick = () => {
   if (currentPost.value.type === "announcement") {
