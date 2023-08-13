@@ -7,7 +7,7 @@
       <view :class="styles.title">
         {{ source.type ? "失物招领": "寻物启事" }}
       </view>
-      <view :class="styles.joint">
+      <view :class="styles.joint" v-if="isForyou">
         <image
           src="https://img.cnpatrickstar.com/5eb88a00-1d66-49af-8c75-ff651a077503.png"
           alt="logo_fy"
@@ -53,12 +53,8 @@
           >
             <image
               :class="styles.image"
-              :style="needFixWidth
-               ? { width: '100%', height: 'auto' }
-               : { width: 'auto' }"
-              :mode="imageList.length > 1
-               ? 'aspectFill'
-               :`${needFixWidth ? 'widthFix' : 'heightFix'}`"
+              style="width: 100Px ;height: 100Px"
+              mode="center"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
@@ -98,7 +94,7 @@
             <image
               :class="styles.image"
               style="width: 100Px ;height: 100Px"
-              :mode="top"
+              mode="center"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
@@ -133,6 +129,11 @@ const imageList = computed(() => [
 ].filter(item => !!item) as string[]);
 
 const { source } = toRefs(props);
+
+const isForyou = ref(false);
+if (source.value.publisher.slice(0,4) === "“For") {
+  isForyou.value = true;
+}
 
 const handlePreviewImages = (url: string) => {
   // FIXME: control enter onShow

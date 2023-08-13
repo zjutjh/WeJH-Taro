@@ -4,9 +4,9 @@
       <view class="title">失物寻物</view>
     </view>
     <view v-if="randomContent" class="content flex-column ">
-      <text v-show="randomContent?.item_name" space="emsp" style="margin-left: 50Px"> 物品名称  {{ randomContent?.item_name }}</text>
-      <text v-show="randomContent?.lose_or_found_place" space="emsp" style="margin-left: 50Px"> 拾得地点  {{ randomContent?.lose_or_found_place }}</text>
-      <text v-show="randomContent?.lose_or_found_time" space="emsp" style="margin-left: 50Px"> 拾得时间  {{ randomContent?.lost_or_found_time }}</text>
+      <text v-show="randomContent?.item_name" style="text-align: center"> 物品名称  {{ randomContent?.item_name }}</text>
+      <text v-show="randomContent?.lose_or_found_place" style="text-align: center"> 拾得地点  {{ randomContent?.lose_or_found_place }}</text>
+      <text v-show="randomContent?.lose_or_found_time" style="text-align: center"> 拾得时间  {{ randomContent?.lost_or_found_time }}</text>
     </view>
     <view v-else :class="['content', 'empty']">
       <text class="campus">{{ defaultCampus }} </text>
