@@ -97,12 +97,8 @@
           >
             <image
               :class="styles.image"
-              :style="needFixWidth
-               ? { width: '100%', height: 'auto' }
-               : { width: 'auto' }"
-              :mode="imageList.length > 1
-               ? 'aspectFill'
-               :`${needFixWidth ? 'widthFix' : 'heightFix'}`"
+              style="width: 100Px ;height: 100Px"
+              :mode="top"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
