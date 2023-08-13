@@ -42,6 +42,8 @@ import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
+import { useRequest } from "@/hooks";
+import { onMounted } from "vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
@@ -64,7 +66,23 @@ if (questionnairePath != systemStore.questionnaire.path) {
   });
 }
 
-SystemService.getAnnouncement();
+useRequest(
+  SystemService.getInformation, {
+    onSuccess: (res) => {
+      if (res.data.code !== 1) throw new Error(res.data.msg);
+      store.commit("setInformationList", res.data.data);
+    },
+    onError: (e: Error) => {
+      return `获取校园资讯失败\r\n${e.message || "网络错误"}`;
+    }
+  }
+);
+
+onMounted(async () => {
+  SystemService.getInformation();
+  SystemService.getAnnouncement();
+});
+
 const isActive = computed(() => {
   return serviceStore.user.isActive;
 });
@@ -84,7 +102,7 @@ const isBindYXY = computed(() => {
   return serviceStore.user.isBindYXY;
 });
 const announcementsCounter = computed(() => {
-  return serviceStore.announcement.updateCounter;
+  return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
 });
 
 function nav2activation() {

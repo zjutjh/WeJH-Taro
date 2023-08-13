@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 import Taro from "@tarojs/taro";
 import { serviceStore } from "@/store";
 
@@ -39,30 +39,33 @@ const currentPost = ref<{ type: string; content: string }>({
 const updateCurrentPost = () => {
   const information = serviceStore.information.informationList;
   const announcement = serviceStore.announcement.announcements;
+  if (information.length === 0) {
+    return;
+  }
   const infoTime = new Date(information[information.length - 1].publish_time).getTime();
   const announcementTime = new Date(announcement[announcement.length - 1].publishTime).getTime();
-
-  if (information.length !== 0) {
-    if (infoTime > announcementTime) {
-      currentPost.value = {
-        type: "information",
-        content: information[information.length - 1].content.replace(
-          /\\n/g,
-          "\n"
-        ),
-      };
-    } else {
-      currentPost.value = {
-        type: "announcement",
-        content: announcement[announcement.length - 1].content.replace(
-          /\\n/g,
-          "\n"
-        ),
-      };
-    }
+  if (infoTime > announcementTime) {
+    currentPost.value = {
+      type: "information",
+      content: information[information.length - 1].content.replace(
+        /\\n/g,
+        "\n"
+      ),
+    };
+  } else {
+    currentPost.value = {
+      type: "announcement",
+      content: announcement[announcement.length - 1].content.replace(
+        /\\n/g,
+        "\n"
+      ),
+    };
   }
 };
 
-updateCurrentPost();
+onMounted(() => {
+  updateCurrentPost();
+});
+
 
 </script>
