@@ -44,7 +44,7 @@ function handleTapHelp() {
 <template>
   <view :class="[styles.container, isNewIPhone() ? styles.ios : undefined]">
       <view @tap="handleClick" :class="styles.arrow" />
-      <text @tap="handleClick" >联系方式："For You"工程、学生事务大厅</text>
+      <text @tap="handleClick" >点击查看联系方式："For You"工程、学生事务大厅</text>
     <view
       class="quick-view-help-icon iconfont icon-help"
       @tap="handleTapHelp"
