@@ -54,7 +54,7 @@
             <image
               :class="styles.image"
               style="width: 100Px ;height: 100Px"
-              mode="center"
+              mode="aspectFill"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
@@ -94,7 +94,7 @@
             <image
               :class="styles.image"
               style="width: 100Px ;height: 100Px"
-              mode="center"
+              mode="aspectFill"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
