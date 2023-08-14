@@ -28,11 +28,11 @@
          <text space="emsp" v-show="source.item_name" :class="styles.text">
            物体名称  {{ source.item_name }}
          </text>
-         <text space="emsp" v-show="source.lose_or_found_place" :class="styles.text">
-           遗失地点  {{ source.lose_or_found_place }}
+         <text space="emsp" v-show="source.lost_or_found_place" :class="styles.text">
+           遗失地点  {{ source.lost_or_found_place }}
          </text>
-         <text space="emsp" v-show="source.lose_or_found_time" :class="styles.text">
-           遗失时间  {{ source.lose_or_found_time }}
+         <text space="emsp" v-show="source.lost_or_found_time" :class="styles.text">
+           遗失时间  {{ source.lost_or_found_time }}
          </text>
          <text space="emsp" v-show="source.contact" :class="styles.text">
            联系方式  {{ source.contact }}
@@ -54,7 +54,7 @@
             <image
               :class="styles.image"
               style="width: 100Px ;height: 100Px"
-              mode="center"
+              mode="aspectFill"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
@@ -68,11 +68,11 @@
         <text space="emsp" v-show="source.item_name" :class="styles.text">
           物体名称  {{ source.item_name }}
         </text>
-        <text space="emsp" v-show="source.lose_or_found_place" :class="styles.text">
-          拾得地点  {{ source.lose_or_found_place }}
+        <text space="emsp" v-show="source.lost_or_found_place" :class="styles.text">
+          拾得地点  {{ source.lost_or_found_place }}
         </text>
-        <text space="emsp" v-show="source.lose_or_found_time" :class="styles.text">
-          拾得时间  {{ source.lose_or_found_time }}
+        <text space="emsp" v-show="source.lost_or_found_time" :class="styles.text">
+          拾得时间  {{ source.lost_or_found_time }}
         </text>
         <text space="emsp" v-show="source.pickup_place" :class="styles.text">
           领取地点  {{ source.pickup_place }}
@@ -94,7 +94,7 @@
             <image
               :class="styles.image"
               style="width: 100Px ;height: 100Px"
-              mode="center"
+              mode="aspectFill"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"

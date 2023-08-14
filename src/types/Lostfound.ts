@@ -13,8 +13,8 @@ export interface LostfoundRecord {
   img3: string | null;
   publisher: string;
   item_name: string;
-  lose_or_found_place: string;
-  lose_or_found_time: string;
+  lost_or_found_place: string;
+  lost_or_found_time: string;
   pickup_place: string;
   /** 联系电话 **/
   contact: string;
