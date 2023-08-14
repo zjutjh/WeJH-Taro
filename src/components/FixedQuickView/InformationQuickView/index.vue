@@ -44,12 +44,12 @@ const updateCurrentPost = () => {
   if (information.length === 0) {
     return;
   }
-  const infoTime = new Date(information[information.length - 1].publish_time).getTime();
+  const infoTime = new Date(information[0].publish_time).getTime();
   const announcementTime = new Date(announcement[announcement.length - 1].publishTime).getTime();
   if (infoTime > announcementTime) {
     currentPost.value = {
       type: "information",
-      content: information[information.length - 1].content.replace(
+      content: information[0].content.replace(
         /\\n/g,
         "\n"
       ),
@@ -77,6 +77,5 @@ onMounted(async () => {
     console.log(e);
   }
 });
-
 
 </script>
