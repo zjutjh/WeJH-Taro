@@ -16,35 +16,6 @@
           >
             {{ emptyText }}
           </view>
-          <view class="theme-config">
-            <view class="theme-config-title">主题色彩</view>
-               <view class="tab-bar">
-                <text
-                  class="tab"
-                  :class="currentTab === 'green' ? 'active' : undefined"
-                  @tap="() => handleTabClick('green')"
-                > 绿
-                </text>
-                <text
-                  class="tab"
-                  :class="currentTab === 'yellow' ? 'active' : undefined"
-                  @tap="() => handleTabClick('yellow')"
-                > 黄
-                </text>
-                <text
-                  class="tab"
-                  :class="currentTab === 'blue' ? 'active' : undefined"
-                  @tap="() => handleTabClick('blue')"
-                > 蓝
-                </text>
-                <text
-                  class="tab"
-                  :class="currentTab === 'dark' ? 'active' : undefined"
-                  @tap="() => handleTabClick('dark')"
-                > 暗
-                </text>
-            </view>
-          </view>
           <template #footer>
             <view class="footer-text">
               {{ copyright }}
@@ -70,7 +41,7 @@ import { serviceStore } from "@/store";
 import store from "@/store";
 import "./index.scss";
 
-const isEmpty = ref(false);
+const isEmpty = ref(true);
 const emptyText = settingText.empty;
 const copyright = getCopyRight();
 const themeMode = ref(serviceStore.theme.themeMode);
