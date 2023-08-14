@@ -46,10 +46,10 @@
     white-space: pre-wrap;
 
     .text {
-      text-indent: -180px; //这里很关键
-      padding-left: 180px; // 使用text-indent与padding-left结合实现上图索要的效果
+      margin-left: 6.5em;
+      text-indent: -6em;
       font-weight: normal;
-      margin: 5px 0;
+      //margin: 5px 0;
     }
   }
 
