@@ -69,7 +69,7 @@ const currentTab = ref<"announcement" | "information">(
 );
 
 const informationList = computed(() => {
-  return [...serviceStore.information.informationList].reverse();
+  return [...serviceStore.information.informationList];
 });
 
 const announcementList = computed(() => {

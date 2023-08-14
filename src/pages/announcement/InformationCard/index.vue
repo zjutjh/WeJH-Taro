@@ -34,15 +34,6 @@ const timeFormat = (time: string) => {
       <view :class="styles.title">{{ props.source.title }}</view>
     </view>
     <view :class="styles.content">{{ props.source.content.replace(/\\n/g, '\n') }}</view>
-    <view :class="styles.img_container" v-if="props.source.img1">
-      <image :src="props.source.img1" alt="Card Image" :class="styles.image" mode="aspectFit"></image>
-    </view>
-    <view :class="styles.img_container" v-if="props.source.img2">
-      <image :src="props.source.img2" alt="Card Image" :class="styles.image" mode="aspectFit"></image>
-    </view>
-    <view :class="styles.img_container" v-if="props.source.img3">
-      <image :src="props.source.img3" alt="Card Image" :class="styles.image" mode="aspectFit"></image>
-    </view>
     <view :class="styles.link" @tap="handleClickLink" v-if="props.source.link">点击跳转相关规定</view>
     <template #footer>
       <view :class="styles.logo_container">
