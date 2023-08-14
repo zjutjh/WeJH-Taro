@@ -29,14 +29,14 @@
   .wjh-collapse-panel-header-active {
     .lesson-name {
       transition: all 0.3s;
-      color: var(--wjh-color-cyan);
+      color: var(--wjh-color-secondary);
     }
   }
 }
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-blue);
+  background-color: var(--wjh-color-primary);
   display: flex;
 
   image {
@@ -54,12 +54,12 @@
     .icon-wrapper {
       width: 32Px;
       height: 32Px;
-      background-color: var(--wjh-color-white);
+      background-color: var(--wjh-color-background);
       text-align: center;
       border-radius: 50%;
 
       .extra-icon {
-        color: var(--wjh-color-blue);
+        color: var(--wjh-color-primary);
         font-size: 1.5rem;
       }
     }
@@ -88,11 +88,11 @@
   }
 
   .term-selector {
-    background-color: var(--wjh-color-blue) !important;
+    background-color: var(--wjh-color-primary) !important;
   }
 
   .refresh-button {
-    background-color: var(--wjh-color-blue) !important;
+    background-color: var(--wjh-color-primary) !important;
   }
 
 }

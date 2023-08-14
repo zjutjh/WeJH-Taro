@@ -4,7 +4,7 @@
   border-radius: 8Px;
   @include shadow;
   padding: 0 20Px;
-  background-color: var(--wjh-color-white);
+  background-color: var(--wjh-color-background);
   opacity: 95%;
 }
 
@@ -28,14 +28,14 @@
     text-align: center;
 
     .campus {
-      color: var(--wjh-color-cyan);
+      color: var(--wjh-color-secondary);
     }
   }
 
 }
 
 .quick-view-container:not(:last-child) {
-  border-bottom: 6Px solid var(--wjh-color-cyan-light);
+  border-bottom: 6Px solid var(--wjh-color-secondary-light);
 }
 
 .information {

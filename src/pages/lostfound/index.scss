@@ -18,8 +18,8 @@
     flex: 0 calc(100% / 3);
     padding: 6Px 16Px;
     border-radius: 100Px;
-    background-color: var(--wjh-color-cyan-light);
-    color: var(--wjh-color-cyan);
+    background-color: var(--wjh-color-secondary-light);
+    color: var(--wjh-color-secondary);
     text-align: center;
     transition: all .1s;
   }
@@ -29,7 +29,7 @@
   }
 
   .active {
-    background-color: var(--wjh-color-green);
+    background-color: var(--wjh-color-primary);
     color: var(--wjh-color-white);
   }
 }
@@ -59,7 +59,7 @@
     }
 
     .active {
-      color: var(--wjh-color-cyan);
+      color: var(--wjh-color-secondary);
     }
   }
 }

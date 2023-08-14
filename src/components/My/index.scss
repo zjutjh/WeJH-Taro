@@ -31,7 +31,7 @@
 }
 
 .profile-card {
-  background: linear-gradient(120deg, var(--wjh-color-orange-light) 25%, var(--wjh-color-green) 85%);
+  background: linear-gradient(120deg, var(--wjh-color-third-light) 25%, var(--wjh-color-primary) 85%);
 
   .wjh-card-body {
     height: 100Px;
@@ -54,7 +54,7 @@
 
   .profile-split {
     display: inline-block;
-    background-color: var(--wjh-color-white);
+    background-color: var(--wjh-color-background);
     vertical-align: middle;
     height: 100%;
     width: 0.1rem;
@@ -64,7 +64,7 @@
   .info-wrapper {
     flex: auto;
     text-align: end;
-    color: var(--wjh-color-white);
+    color: var(--wjh-color-background);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

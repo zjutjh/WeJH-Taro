@@ -6,7 +6,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-cyan);
+  background-color: var(--wjh-color-secondary);
   display: flex;
   align-items: center;
 
@@ -47,8 +47,8 @@
     }
 
     .button-not-active {
-      background-color: var(--wjh-color-green-light)!important;
-      color: var(--wjh-color-cyan);
+      background-color: var(--wjh-color-primary-light)!important;
+      color: var(--wjh-color-secondary);
     }
   }
 

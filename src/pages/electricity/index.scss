@@ -6,7 +6,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-desert);
+  background-color: var(--wjh-color-sixth);
   display: flex;
 
   image {
@@ -38,7 +38,7 @@
     height: 50Px;
     width: 50Px;
     color: var(--wjh-color-white);
-    background: var(--wjh-color-green);
+    background: var(--wjh-color-primary);
     flex-shrink: 0;
 
     .iconfont {
@@ -82,7 +82,7 @@
 }
 
 .normal {
-  color: var(--wjh-color-green);
+  color: var(--wjh-color-primary);
 }
 
 .today {

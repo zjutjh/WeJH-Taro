@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="资讯" back-button />
     <scroll-view :scrollY="true">
       <card class="container">
@@ -28,11 +28,11 @@
         </template>
       </card>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar } from "@/components";
+import { Card, ThemeConfig, TitleBar } from "@/components";
 import { serviceStore } from "@/store";
 import { computed } from "vue";
 import Taro from "@tarojs/taro";

@@ -19,7 +19,7 @@
 
       text {
         font-size: .9rem;
-        color: var(--wjh-color-cyan);
+        color: var(--wjh-color-secondary);
       }
     }
   }
@@ -49,12 +49,12 @@
   .sub-text {
     font-size: 0.75rem;
     line-height: 1.2rem;
-    color: var(--wjh-color-week);
+    color: var(--wjh-color-secondary);
   }
 
   .questionnaire-close-icon {
     font-size: 1.2rem;
-    color: var(--wjh-color-cyan);
+    color: var(--wjh-color-secondary);
     line-height: 150%;
   }
 

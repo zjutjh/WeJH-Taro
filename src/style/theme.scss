@@ -3,16 +3,21 @@
 }
 
 :host {
-  --wjh-color-primary: var(--wjh-color-green);
   --wjh-color-green: #53d1b6;
   --wjh-color-blue: #81c6e7;
   --wjh-color-cyan: #51bbbb;
   --wjh-color-orange: #f0ad3e;
   --wjh-color-yellow: #f0c03e;
   --wjh-color-desert: #ffc52a;
+  --wjh-color-duck-yellow: #fcbd0f;
+  --wjh-color-duck-yellow-light: #f5eab3;
+  --wjh-color-sky-blue: #17ade8;
+  --wjh-color-sky-blue-light: #d1f2fd;
   --wjh-color-gold: #f7e9c3;
   --wjh-color-red: #eb8888;
+  --wjh-color-purple-dark: #5a4b7c;
   --wjh-color-purple: #8191cf;
+  --wjh-color-purple-light: #e6e6fa;
   --wjh-color-gray: #888888;
   --wjh-color-white: #fdfdfd;
   --wjh-color-green-light: #bdf4e8;
@@ -21,6 +26,10 @@
   --wjh-color-cyan-light: #def9f3;
   --wjh-color-blue-light: #D1F2FD;
   --wjh-color-gray-light: #c1c0c0;
+  --wjh-color-dark: #4F4F4F;
+  --wjh-color-dark-deep: #3f3f3f ;
+  --wjh-color-dark-light: #a2a2a2;
+  --wjh-color-dark-lighter: #bdbdbd;
 }
 
 :host {
@@ -31,6 +40,7 @@
   --wjh-color-border: #eee;
   --wjh-color-box: #f5f5f5;
   --wjh-color-background: #fff;
+  --wjh-color-background-dark: #2a2a2a;
 }
 
 :host {

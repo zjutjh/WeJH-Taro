@@ -56,7 +56,7 @@
     .unselected {
       .item:before {
         content: '+';
-        background-color: var(--wjh-color-cyan);
+        background-color: var(--wjh-color-secondary);
       }
     }
 
@@ -73,7 +73,7 @@
         height: 100rpx;
         width: 100rpx;
         color: var(--wjh-color-white);
-        background: var(--wjh-color-green);
+        background: var(--wjh-color-primary);
         .icon {
           font-size: 1.8em;
         }
