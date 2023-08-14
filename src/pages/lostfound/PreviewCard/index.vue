@@ -7,13 +7,39 @@
       <view :class="styles.title">
         {{ source.type ? "失物招领": "寻物启事" }}
       </view>
-      <view :class="styles.extra">
-        {{ dayjs(source.publish_time).format("YYYY/MM/DD HH:mm") }}
+      <view :class="styles.joint" v-if="isForyou">
+        <image
+          src="https://img.cnpatrickstar.com/5eb88a00-1d66-49af-8c75-ff651a077503.png"
+          alt="logo_fy"
+          :class="styles.logo"
+          mode="aspectFit"
+        />
+        <text>x</text>
+        <image
+          src="https://img.cnpatrickstar.com/2633992f-415a-4b6b-b54e-f24adaca7d42.png"
+          alt="logo_jh"
+          :class="styles.logo"
+          mode="aspectFit"
+        />
       </view>
     </view>
-    <view :class="styles.body">
-      <view :class="styles.content">
-         {{ source.content }}
+    <view :class="styles.body" v-if="!source.type">
+      <view :class="styles.content" class="flex-column">
+         <text space="emsp" v-show="source.item_name" :class="styles.text">
+           物体名称  {{ source.item_name }}
+         </text>
+         <text space="emsp" v-show="source.lost_or_found_place" :class="styles.text">
+           遗失地点  {{ source.lost_or_found_place }}
+         </text>
+         <text space="emsp" v-show="source.lost_or_found_time" :class="styles.text">
+           遗失时间  {{ source.lost_or_found_time }}
+         </text>
+         <text space="emsp" v-show="source.contact" :class="styles.text">
+           联系方式  {{ source.contact }}
+         </text>
+         <text space="emsp" v-show="source.introduction" :class="styles.text">
+           物品介绍  {{ source.introduction }}
+         </text>
       </view>
       <view :class="styles['img-list']">
         <view :class="[
@@ -27,12 +53,8 @@
           >
             <image
               :class="styles.image"
-              :style="needFixWidth
-               ? { width: '100%', height: 'auto' }
-               : { width: 'auto' }"
-              :mode="imageList.length > 1
-               ? 'aspectFill'
-               :`${needFixWidth ? 'widthFix' : 'heightFix'}`"
+              style="width: 100Px ;height: 100Px"
+              mode="aspectFill"
               :src="item"
               @tap="() => handlePreviewImages(item)"
               :onLoad="handleLoadFinish"
@@ -41,8 +63,49 @@
         </view>
       </view>
     </view>
-    <view :class="styles.footer">
-      <text>数据来源: {{ source.publisher }}</text>
+    <view :class="styles.body" v-else-if="source.type">
+      <view :class="styles.content" class="flex-column">
+        <text space="emsp" v-show="source.item_name" :class="styles.text">
+          物体名称  {{ source.item_name }}
+        </text>
+        <text space="emsp" v-show="source.lost_or_found_place" :class="styles.text">
+          拾得地点  {{ source.lost_or_found_place }}
+        </text>
+        <text space="emsp" v-show="source.lost_or_found_time" :class="styles.text">
+          拾得时间  {{ source.lost_or_found_time }}
+        </text>
+        <text space="emsp" v-show="source.pickup_place" :class="styles.text">
+          领取地点  {{ source.pickup_place }}
+        </text>
+        <text space="emsp" v-show="source.introduction" :class="styles.text">
+          物品介绍  {{ source.introduction }}
+        </text>
+      </view>
+      <view :class="styles['img-list']">
+        <view :class="[
+          styles['img-container'],
+          imageList.length > 1 ? styles.multiple : undefined
+        ]">
+          <view
+            :key="`${source.id}-${item}`"
+            v-for="item in imageList"
+            :class="styles['img-wrapper']"
+          >
+            <image
+              :class="styles.image"
+              style="width: 100Px ;height: 100Px"
+              mode="aspectFill"
+              :src="item"
+              @tap="() => handlePreviewImages(item)"
+              :onLoad="handleLoadFinish"
+            />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view :class="styles.footer" class="flex-column">
+      <text>业务服务: {{ source.publisher }}</text>
+      <text>发布时间: {{ timeFormat(source.publish_time) }}</text>
     </view>
   </view>
 </template>
@@ -67,6 +130,11 @@ const imageList = computed(() => [
 
 const { source } = toRefs(props);
 
+const isForyou = ref(false);
+if (source.value.publisher.slice(0,4) === "“For") {
+  isForyou.value = true;
+}
+
 const handlePreviewImages = (url: string) => {
   // FIXME: control enter onShow
   Taro.previewImage({
@@ -80,4 +148,7 @@ const handleLoadFinish = ({ detail: { height, width }}) => {
   else needFixWidth.value = true;
 };
 
+const timeFormat= (time: string) => {
+  return dayjs(time).format("YYYY年MM月DD日");
+};
 </script>

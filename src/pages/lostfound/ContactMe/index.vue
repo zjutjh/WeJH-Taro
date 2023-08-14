@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import { isNewIPhone } from "@/utils";
 import Taro from "@tarojs/taro";
 
+const emit = defineEmits(["showHelp"]);
 const data: Array<{ content: string; extra?: string }> = [
   { content: "ForYou朝晖QQ: 2716709627" },
   { content: "ForYou屏峰QQ: 3252819828" },
@@ -34,11 +35,19 @@ const handleClick = () => {
     },
   });
 };
+
+function handleTapHelp() {
+  emit("showHelp", "lost-found");
+}
 </script>
 
 <template>
-  <view @tap="handleClick" :class="[styles.container, isNewIPhone() ? styles.ios : undefined]">
-    <view :class="styles.arrow" />
-    <text :class="styles.text">联系方式：foryou、学生事务大厅</text>
+  <view :class="[styles.container, isNewIPhone() ? styles.ios : undefined]">
+      <view @tap="handleClick" :class="styles.arrow" />
+      <text @tap="handleClick" >点击查看联系方式："For You"工程、学生事务大厅</text>
+    <view
+      class="quick-view-help-icon iconfont icon-help"
+      @tap="handleTapHelp"
+    />
   </view>
 </template>

@@ -39,14 +39,6 @@
   font-size: 1.1rem;
   color: var(--wjh-color-week);
   background-color: var(--wjh-color-cyan-light);
-  align-items: center;
-
-  .legend {
-    border-right: 2Px solid var(--wjh-color-light);
-    padding: 2Px 0;
-    padding-right: 12Px;
-    margin: 0 14Px;
-  }
 
   .scroll-view {
     font-size: 0.9em;
@@ -59,7 +51,7 @@
 
     text {
       transition: all .1s;
-      padding: 16Px 8Px;
+      padding: 4Px 10Px;
     }
 
     text:active {

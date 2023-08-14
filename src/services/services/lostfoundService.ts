@@ -8,7 +8,8 @@ export default class LostfoundService {
     campus?: string,
     kind?: string,
     page_num: number,
-    page_size: number
+    page_size: number,
+    lost_or_found?: string
   }) => {
     return request<{
       data: LostfoundRecord[],

@@ -61,7 +61,6 @@ import InformationCard from "./InformationCard/index.vue";
 import "./index.scss";
 import { computed, ref } from "vue";
 import Taro from "@tarojs/taro";
-
 // 根据路由导航
 const instance = Taro.getCurrentInstance();
 const currentTab = ref<"announcement" | "information">(
@@ -70,7 +69,7 @@ const currentTab = ref<"announcement" | "information">(
 );
 
 const informationList = computed(() => {
-  return [...serviceStore.information.informationList].reverse();
+  return [...serviceStore.information.informationList];
 });
 
 const announcementList = computed(() => {
