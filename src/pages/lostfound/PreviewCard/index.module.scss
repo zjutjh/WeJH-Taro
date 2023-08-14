@@ -44,6 +44,13 @@
   .content {
     padding: 12Px 0;
     white-space: pre-wrap;
+
+    .text {
+      text-indent: -180px; //这里很关键
+      padding-left: 180px; // 使用text-indent与padding-left结合实现上图索要的效果
+      font-weight: normal;
+      margin: 5px 0;
+    }
   }
 
   .img-list {
