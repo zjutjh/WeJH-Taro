@@ -31,12 +31,6 @@
                   @tap="() => handleTabClick('blue')"
                 > 蓝
                 </text>
-                <text
-                  class="tab"
-                  :class="currentTab === 'dark' ? 'active' : undefined"
-                  @tap="() => handleTabClick('dark')"
-                > 暗
-                </text>
               </view>
           </view>
           <template #footer>
