@@ -12,7 +12,7 @@
         <card
           :key="item.lessonID"
           class="score-card"
-          :style="{ backgroundColor: 'var(--wjh-color-cyan-light)' }"
+          :style="{ backgroundColor: 'var(--wjh-color-green-600)' }"
           v-if="!item.checkRead"
         >
           <view>

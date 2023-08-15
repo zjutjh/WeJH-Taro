@@ -49,14 +49,14 @@
     .selected {
       .item:before {
         content: '-';
-        background-color: red;
+        background-color: var(--wjh-color-red-600);
       }
     }
 
     .unselected {
       .item:before {
         content: '+';
-        background-color: var(--wjh-color-secondary);
+        background-color: var(--wjh-color-green-700);
       }
     }
 

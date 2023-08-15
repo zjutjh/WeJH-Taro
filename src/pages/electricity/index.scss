@@ -6,7 +6,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-sixth);
+  background-color: var(--wjh-color-primary);
   display: flex;
 
   image {
@@ -78,7 +78,7 @@
 }
 
 .dangerous {
-  color: var(--wjh-color-red);
+  color: var(--wjh-color-red-600);
 }
 
 .normal {

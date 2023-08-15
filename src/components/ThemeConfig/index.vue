@@ -1,5 +1,5 @@
 <template>
-  <view :class="{ [themeMode]: true }" class="background-config">
+  <view :class="[themeMode]" class="background-config theme">
     <slot></slot>
   </view>
 </template>

@@ -18,8 +18,8 @@
     flex: 0 calc(100% / 3);
     padding: 6Px 16Px;
     border-radius: 100Px;
-    background-color: var(--wjh-color-secondary-light);
-    color: var(--wjh-color-secondary);
+    background-color: var(--wjh-color-primary-light);
+    color: var(--wjh-color-primary-dark);
     text-align: center;
     transition: all .1s;
   }
@@ -38,7 +38,7 @@
   display: flex;
   font-size: 1.1rem;
   color: var(--wjh-color-week);
-  background-color: var(--wjh-color-cyan-light);
+  background-color: var(--wjh-color-primary-light);
 
   .scroll-view {
     font-size: 0.9em;
@@ -59,7 +59,7 @@
     }
 
     .active {
-      color: var(--wjh-color-secondary);
+      color: var(--wjh-color-primary-dark);
     }
   }
 }

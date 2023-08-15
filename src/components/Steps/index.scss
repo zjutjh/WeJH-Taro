@@ -19,11 +19,11 @@
 
 .wjh-steps-item-active {
   color: var(--wjh-color-white);
-  background-color: var(--wjh-color-secondary);
+  background-color: var(--wjh-color-primary-dark);
   text-align: center;
   font-size: 0.75rem;
   width: 1rem;
   height: 1rem;
   border: 2px solid white;
-  box-shadow: var(--wjh-color-secondary) 0 0 0 1Px;
+  box-shadow: var(--wjh-color-primary-dark) 0 0 0 1Px;
 }

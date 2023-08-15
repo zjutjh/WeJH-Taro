@@ -28,14 +28,14 @@
     text-align: center;
 
     .campus {
-      color: var(--wjh-color-secondary);
+      color: var(--wjh-color-primary-dark);
     }
   }
 
 }
 
 .quick-view-container:not(:last-child) {
-  border-bottom: 6Px solid var(--wjh-color-secondary-light);
+  border-bottom: 6Px solid var(--wjh-color-primary-light);
 }
 
 .information {

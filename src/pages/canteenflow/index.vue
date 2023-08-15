@@ -34,18 +34,18 @@
             </view>
             <view class="col">
               <view
-                style="color: var(--wjh-color-green)"
+                style="color: var(--wjh-color-green-600)"
                 v-if="item.dealCount < 50"
               >
                 空闲
               </view>
               <view
-                style="color: var(--wjh-color-yellow)"
+                style="color: var(--wjh-color-yellow-600)"
                 v-else-if="item.dealCount < 100"
               >
                 适中
               </view>
-              <view style="color: var(--wjh-color-orange)" v-else>忙碌</view>
+              <view style="color: var(--wjh-color-orange-600)" v-else>忙碌</view>
             </view>
           </view>
         </card>
@@ -84,7 +84,7 @@ function nameColorMap(char: string) {
     毓: "green",
     博: "green"
   };
-  return { backgroundColor: `var(--wjh-color-${colorMap[char]})` };
+  return { backgroundColor: `var(--wjh-color-${colorMap[char]}-600)` };
 }
 
 function showHelp() {

@@ -7,7 +7,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-fourth);
+  background-color: var(--wjh-color-yellow-600);
   display: flex;
 
   image {
@@ -30,7 +30,7 @@
       border-radius: 50%;
 
       .extra-icon {
-        color: var(--wjh-color-fourth);
+        color: var(--wjh-color-yellow-600);
         font-size: 1.5rem;
       }
     }

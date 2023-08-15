@@ -151,13 +151,13 @@ onMounted(() => {
 
     <template #footer>
       <view style="display: flex; flex-direction: column; gap: 8Px">
-        <text style="color: var(--wjh-color-red); font-size: .9rem;">
+        <text style="color: var(--wjh-color-red-600); font-size: .9rem;">
           请先下载易校园app，注册并绑定浙工大校园卡，之后在此界面用同一手机号接收验证码即可完成注册
         </text>
-        <text style="color: var(--wjh-color-red); font-size: .9rem;">
+        <text style="color: var(--wjh-color-red-600); font-size: .9rem;">
           tips:验证码获取存在一定的不稳定性，如果无法获取成功，请再不同时间段进行尝试
         </text>
-        <text style="color: var(--wjh-color-blue); font-size: .9rem;" @tap="handleClickTutorial">
+        <text style="color: var(--wjh-color-blue-600); font-size: .9rem;" @tap="handleClickTutorial">
           🔗 如何绑定
         </text>
         <w-button block @tap="handleLoginYXY">确认绑定</w-button>

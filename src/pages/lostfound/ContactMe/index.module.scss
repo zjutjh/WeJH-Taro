@@ -4,7 +4,7 @@
   text-align: center;
   padding: 8Px;
   font-size: .8rem;
-  color: var(--wjh-color-gray);
+  color: var(--wjh-color-text-secondary);
   background-color: var(--wjh-color-primary-light);
   display: flex;
   justify-content: center;
@@ -18,7 +18,7 @@
     width: 0;
     height: 0;
     border: 7Px solid transparent;
-    border-bottom: 12Px solid var(--wjh-color-secondary);
+    border-bottom: 12Px solid var(--wjh-color-primary-dark);
   }
 }
 

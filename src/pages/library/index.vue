@@ -42,8 +42,8 @@
             <card class="book-card" v-for="(item, index) in borrowList" :key="index" :style="{
               backgroundColor:
                 index % 2
-                  ? 'var(--wjh-color-yellow-light)'
-                  : 'var(--wjh-color-green-light)',
+                  ? 'var(--wjh-color-yellow-500)'
+                  : 'var(--wjh-color-green-500)',
             }">
               <view class="book-name"> {{ item.name }}</view>
               <view>{{
@@ -56,8 +56,8 @@
               <view class="book-index" :style="{
                 color:
                   index % 2
-                    ? 'var(--wjh-color-orange)'
-                    : 'var(--wjh-color-cyan)',
+                    ? 'var(--wjh-color-orange-600)'
+                    : 'var(--wjh-color-green-700)',
               }">
                 {{ index + 1 }}
               </view>

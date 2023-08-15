@@ -43,7 +43,7 @@ async function appTaped() {
 const backgroundColor = computed(() => {
   if (isDisabled.value)
     return { backgroundColor: "var(--wjh-color-light)" };
-  else return { backgroundColor: `var(--wjh-color-${bg.value})` };
+  else return { backgroundColor: `var(--wjh-color-${bg.value}-600)` };
 });
 
 </script>
