@@ -39,5 +39,6 @@ import { faqText } from "@/constants/copywriting";
 import "./index.scss";
 
 const data = faqText.qa;
+console.log(data);
 
 </script>
