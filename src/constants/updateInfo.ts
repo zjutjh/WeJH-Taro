@@ -17,13 +17,13 @@ type UpdateInfoType = {
 }
 
 export const updateInfo: UpdateInfoType = {
-  version: "2.4.0",
+  version: "2.5.0",
   title: "微精弘更新公告",
-  content: `微精弘小程序更新[电费查询]，注册绑定一卡通以体验！
+  content: `微精弘小程序2.5.0更新 [失物招领] ，注册绑定一卡通以体验！
   > 更新内容
-  1. 总电量查询
-  2. 每日用电记录查询
-  3. 电费缴费记录
+  1. 实验室上线切换主题色功能
+  2. 微精弘 x “For You”工程 联合上线失物招领
+  3. 校园资讯功能优化
   `,
   actions: {
     cancel: { label: "取消" },
