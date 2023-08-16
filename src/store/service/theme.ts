@@ -4,7 +4,7 @@ export interface ThemeStoreType {
 
 export const ThemeStore = {
   state: {
-    themeMode: "yellow"
+    themeMode: "green"
   },
   mutations: {
     setThemeMode(state: ThemeStoreType, value) {
