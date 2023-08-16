@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="设置" back-button />
     <scroll-view
       :scroll-y="true"
@@ -9,7 +9,6 @@
         class="flex-column"
         :style="isEmpty ? 'justify-content: space-between' : undefined"
       >
-        <!--卡片主体-->
         <card class="setting-card">
           <view
             v-if="isEmpty"
@@ -30,18 +29,36 @@
       src="@/assets/photos/setting.svg"
       style="margin: 0 auto"
     />
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar } from "@/components";
+import { Card, TitleBar, ThemeConfig } from "@/components";
 import { settingText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { serviceStore } from "@/store";
+import store from "@/store";
 import "./index.scss";
 
 const isEmpty = ref(true);
 const emptyText = settingText.empty;
 const copyright = getCopyRight();
+const themeMode = ref(serviceStore.theme.themeMode);
+const currentTab = ref(themeMode);
+
+watch(() => serviceStore.theme.themeMode, (newValue) => {
+  currentTab.value = newValue;
+  themeMode.value = newValue;
+});
+
+const setThemeMode = (currentTab: string) => {
+  store.commit("setThemeMode", currentTab);
+};
+
+const handleTabClick = (theme: string) => {
+  currentTab.value = theme;
+  setThemeMode(theme);
+};
 
 </script>

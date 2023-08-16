@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="食堂流量" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
@@ -34,24 +34,24 @@
             </view>
             <view class="col">
               <view
-                style="color: var(--wjh-color-green)"
+                style="color: var(--wjh-color-green-600)"
                 v-if="item.dealCount < 50"
               >
                 空闲
               </view>
               <view
-                style="color: var(--wjh-color-yellow)"
+                style="color: var(--wjh-color-yellow-600)"
                 v-else-if="item.dealCount < 100"
               >
                 适中
               </view>
-              <view style="color: var(--wjh-color-orange)" v-else>忙碌</view>
+              <view style="color: var(--wjh-color-orange-600)" v-else>忙碌</view>
             </view>
           </view>
         </card>
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
   <w-modal
     title="公告"
     v-model:show="showModal"
@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { CanteenService } from "@/services";
-import { Card, TitleBar, WModal } from "@/components";
+import { Card, TitleBar, WModal, ThemeConfig } from "@/components";
 import { computed, onMounted, ref } from "vue";
 import { serviceStore } from "@/store";
 import { helpText } from "@/constants/copywriting";
@@ -84,7 +84,7 @@ function nameColorMap(char: string) {
     毓: "green",
     博: "green"
   };
-  return { backgroundColor: `var(--wjh-color-${colorMap[char]})` };
+  return { backgroundColor: `var(--wjh-color-${colorMap[char]}-600)` };
 }
 
 function showHelp() {

@@ -8,11 +8,11 @@
   text-align: center;
   height: 200Px;
   background: linear-gradient(to right,
-      var(--wjh-color-yellow) 20%,
-      var(--wjh-color-orange) 20% 40%,
-      var(--wjh-color-green) 40% 60%,
-      var(--wjh-color-cyan) 60% 80%,
-      var(--wjh-color-blue) 80%);
+      var(--wjh-color-yellow-600) 20%,
+      var(--wjh-color-orange-600) 20% 40%,
+      var(--wjh-color-green-600) 40% 60%,
+      var(--wjh-color-green-700) 60% 80%,
+      var(--wjh-color-blue-600) 80%);
 
   .school-card-background {
     position: absolute;
@@ -33,7 +33,7 @@
   }
 
   .balance {
-    color: var(--wjh-color-cyan);
+    color: var(--wjh-color-green-700);
     position: relative;
     top: 72Px;
     font-size: 2rem;
@@ -65,7 +65,7 @@
 
     .button-not-active {
       background-color: #def9f3 !important;
-      color: var(--wjh-color-cyan);
+      color: var(--wjh-color-green-700);
     }
   }
 
@@ -131,9 +131,9 @@
 }
 
 .consume-item-positive {
-  background-color: var(--wjh-color-yellow-light);
+  background-color: var(--wjh-color-orange-400);
 }
 
 .consume-item-negative {
-  background-color: var(--wjh-color-green-light);
+  background-color: var(--wjh-color-primary-light);
 }

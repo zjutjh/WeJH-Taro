@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="考试安排" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
@@ -28,7 +28,7 @@
                   class="lesson-name"
                   :style="
                     timeInterval(item.examTime) === 0
-                      ? 'color: var(--wjh-color-orange)'
+                      ? 'color: var(--wjh-color-orange-600)'
                       : undefined
                   "
                   >{{ item.lessonName }}</view
@@ -46,7 +46,7 @@
                     "
                     :style="
                       timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-orange)'
+                        ? 'color: var(--wjh-color-orange-600)'
                         : undefined
                     "
                     >距离考试还有 {{ timeInterval(item.examTime) }} 天
@@ -55,7 +55,7 @@
                     class="exam-time"
                     :style="
                       timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-orange)'
+                        ? 'color: var(--wjh-color-orange-600)'
                         : undefined
                     "
                     >{{ item.examTime }}
@@ -64,7 +64,7 @@
                     class="exam-place"
                     :style="
                       timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-orange)'
+                        ? 'color: var(--wjh-color-orange-600)'
                         : undefined
                     "
                     >{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</view
@@ -113,7 +113,7 @@
         ></refresh-button>
       </view>
     </bottom-panel>
-  </view>
+  </theme-config>
   <w-modal
     title="公告"
     v-model:show="showModal"
@@ -135,6 +135,7 @@ import {
   WCollapse,
   WDescriptions,
   WDescriptionsItem,
+  ThemeConfig
 } from "@/components";
 import { ZFService } from "@/services";
 import dayjs, { ConfigType } from "dayjs";

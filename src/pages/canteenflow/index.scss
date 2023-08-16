@@ -7,7 +7,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-yellow);
+  background-color: var(--wjh-color-yellow-600);
   display: flex;
 
   image {
@@ -25,12 +25,12 @@
     .icon-wrapper {
       width: 32Px;
       height: 32Px;
-      background-color: var(--wjh-color-white);
+      background-color: var(--wjh-color-background);
       text-align: center;
       border-radius: 50%;
 
       .extra-icon {
-        color: var(--wjh-color-yellow);
+        color: var(--wjh-color-yellow-600);
         font-size: 1.5rem;
       }
     }

@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="校园卡" back-button />
     <scroll-view :scrollY="true">
       <view class="school-card">
@@ -63,12 +63,12 @@
         </view>
       </card>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Card, WButton, TitleBar, RefreshButton } from "@/components";
+import { Card, WButton, TitleBar, RefreshButton, ThemeConfig } from "@/components";
 import dayjs from "dayjs";
 import { CardConsume } from "@/types/CardConsume";
 import store, { serviceStore } from "@/store";

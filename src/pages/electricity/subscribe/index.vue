@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="寝室电费查询" back-button></title-bar>
     <view class="flex-column">
       <card title="订阅消息说明">
@@ -22,11 +22,11 @@
         <w-button size="large" shape="rounded">点击订阅</w-button>
       </view>
     </view>
-  </view>
+  </theme-config>
 </template>
 
 <script lang="ts" setup>
-import { TitleBar, Card, WButton } from "@/components";
+import { TitleBar, Card, WButton, ThemeConfig } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { debounce } from "@/utils";

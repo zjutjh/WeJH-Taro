@@ -87,7 +87,7 @@ const handleClose = () => {
           >
             <view
               :class="styles[`icon-wrapper`]"
-              :style="`backgroundColor: var(--wjh-color-${item.backgroundColor})`"
+              :style="`backgroundColor: var(--wjh-color-${item.backgroundColor}-600)`"
             >
               <view :class="[
               `iconfont icon-${item.icon}`,
@@ -110,7 +110,7 @@ const handleClose = () => {
           >
             <view
               :class="styles[`icon-wrapper`]"
-              :style="`backgroundColor: var(--wjh-color-${item.backgroundColor})`"
+              :style="`backgroundColor: var(--wjh-color-${item.backgroundColor}-600)`"
             >
               <view :class="[
               `iconfont icon-${item.icon}`,

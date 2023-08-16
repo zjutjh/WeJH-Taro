@@ -2,7 +2,7 @@
 
 .header-view {
   height: 200Px;
-  background-color: var(--wjh-color-green);
+  background-color: var(--wjh-color-primary);
   display: flex;
 
   image {
@@ -12,7 +12,7 @@
 }
 
 .tab-bar {
-  background-color: var(--wjh-color-white);
+  background-color: var(--wjh-color-background);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,13 +20,13 @@
 
   .tab {
     padding: 7Px 12Px;
-    background-color: var(--wjh-color-cyan-light);
-    color: var(--wjh-color-cyan);
+    background-color: var(--wjh-color-primary-light);
+    color: var(--wjh-color-primary-dark);
     font-size: 0.875rem;
   }
 
   .active {
-    background-color: var(--wjh-color-green);
+    background-color: var(--wjh-color-primary);
     color: var(--wjh-color-white);
   }
 

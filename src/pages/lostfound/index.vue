@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="失物寻物" back-button />
     <view class="campus-selector">
       <view class="container">
@@ -58,11 +58,11 @@
       v-model:show="isShowHelp"
       :content="`&emsp;&emsp;${helpContent}`"
     ></w-modal>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { TitleBar } from "@/components";
+import { TitleBar, ThemeConfig } from "@/components";
 import { useRequest } from "@/hooks";
 import { LostfoundService } from "@/services";
 import { LostfoundRecord } from "@/types/Lostfound";

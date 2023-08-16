@@ -16,7 +16,7 @@ type PropsType = {
   size?: "small" | "middle" | "large",
   shape?: "circle" | "rounded" | "default",
   block?: boolean,
-  color?: "green" | "yellow" | "blue" | "cyan",
+  color?: "primary" | "yellow" | "blue" | "cyan" | "green",
   disable: boolean
 }
 
@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: "middle",
   shape: "default",
   block: false,
-  color: "green",
+  color: "primary",
   disable: false
 });
 

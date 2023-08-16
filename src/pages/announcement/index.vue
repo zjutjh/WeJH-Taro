@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="公告" back-button />
     <scroll-view :scrollY="true">
       <view class="header-view">
@@ -44,17 +44,17 @@
           </card>
           <information-card
             v-for="item in informationList"
-           :source="item"
-           :key="item.id"
+            :source="item"
+            :key="item.id"
           />
         </template>
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar } from "@/components";
+import { Card, TitleBar, ThemeConfig } from "@/components";
 import dayjs from "dayjs";
 import { serviceStore } from "@/store";
 import InformationCard from "./InformationCard/index.vue";

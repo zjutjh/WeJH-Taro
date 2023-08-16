@@ -4,9 +4,9 @@
       <view class="title">失物寻物</view>
     </view>
     <view v-if="randomContent" class="content flex-column ">
-      <text v-show="randomContent?.item_name" style="padding-left: 30%"> 物品名称  {{ randomContent?.item_name }}</text>
-      <text v-show="randomContent?.lost_or_found_place" style="padding-left: 30%"> 拾得地点  {{ randomContent?.lost_or_found_place }}</text>
-      <text v-show="randomContent?.lost_or_found_time" style="padding-left: 30%"> 拾得时间  {{ randomContent?.lost_or_found_time }}</text>
+      <text v-show="randomContent?.item_name" class="text" style="padding-left: 10%"> 物品名称  {{ randomContent?.item_name }}</text>
+      <text v-show="randomContent?.lost_or_found_place" class="text" style="padding-left: 10%"> 拾得地点  {{ randomContent?.lost_or_found_place }}</text>
+      <text v-show="randomContent?.lost_or_found_time" class="text" style="padding-left: 10%"> 拾得时间  {{ randomContent?.lost_or_found_time }}</text>
     </view>
     <view v-else :class="['content', 'empty']">
       <text class="campus">{{ defaultCampus }} </text>
@@ -21,6 +21,7 @@ import { LostfoundService } from "@/services";
 import { computed, watch } from "vue";
 import Taro from "@tarojs/taro";
 import { serviceStore } from "@/store";
+import "./index.scss";
 
 const defaultCampus = computed(() => {
   return serviceStore.lostfound.lastOpenCampus;

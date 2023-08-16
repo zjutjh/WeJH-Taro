@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="寝室电费查询" back-button></title-bar>
     <scroll-view :scrollY="true">
       <view class="header-view">
@@ -63,7 +63,7 @@
 
       </view>
     </scroll-view>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
@@ -72,7 +72,8 @@ import {
   Card,
   TitleBar,
   WList,
-  WListItem
+  WListItem,
+  ThemeConfig
 } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";

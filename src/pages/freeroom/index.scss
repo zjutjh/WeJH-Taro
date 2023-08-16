@@ -14,8 +14,8 @@
     text-align: center;
     font-size: 0.75rem;
     line-height: 1.2rem;
-    border: 3px solid var(--wjh-color-cyan);
-    background-color: var(--wjh-color-cyan-light);
+    border: 3px solid var(--wjh-color-primary-dark);
+    background-color: var(--wjh-color-primary-light);
     border-radius: 8Px;
   }
 
@@ -26,7 +26,7 @@
   }
 
   .room-name {
-    color: var(--wjh-color-cyan);
+    color: var(--wjh-color-primary-dark);
   }
 
   .room-seats {

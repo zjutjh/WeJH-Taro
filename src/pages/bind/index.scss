@@ -33,7 +33,7 @@
   }
 
   .binded {
-    background-color: var(--wjh-color-green);
+    background-color: var(--wjh-color-primary);
   }
 }
 
@@ -46,7 +46,7 @@
     padding: 10Px;
 
     .iconfont {
-      color: var(--wjh-color-cyan);
+      color: var(--wjh-color-primary-dark);
       font-size: 1.2rem;
     }
   }
@@ -59,7 +59,7 @@
   right: 0;
   padding: 4Px 8Px;
   line-height: 100%;
-  background-color: var(--wjh-color-red);
+  background-color: var(--wjh-color-red-600);
   border-radius: 16Px;
 }
 
