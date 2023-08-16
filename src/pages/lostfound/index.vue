@@ -105,7 +105,7 @@ const { loading, run } = useRequest(
       campus: selectCampus.value,
       page_num: currentPage.value + 1,
       page_size: 10,
-      lost_or_found: selectMain.value
+      lost_or_found: ""
     },
     loadingDelay: 300,
     onSuccess: (res) => {
@@ -132,7 +132,7 @@ const getRecords = (data: {
   lost_or_found?: string;
 } ) => {
   isEmpty.value = false;
-  run(omit(data, [data.kind === "全部"? "kind": null , data.lost_or_found === "全部"? "lost_or_found": null]));
+  run(omit(data, [data.kind === "全部"? "kind": null , data.lost_or_found === "全部"? "lost_or_found": ""]));
 };
 
 const kindList = computed<string[]>(() => [
