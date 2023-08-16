@@ -1,5 +1,5 @@
 <template>
-  <view class="background">
+  <theme-config>
     <title-bar title="成绩查询" back-button />
     <scroll-view :scrollY="true">
       <view class="flex-column">
@@ -75,7 +75,7 @@
         </w-button>
       </view>
     </bottom-panel>
-  </view>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
@@ -90,7 +90,8 @@ import {
   WDescriptions,
   WDescriptionsItem,
   WButton,
-  TermPicker
+  TermPicker,
+  ThemeConfig
 } from "@/components";
 import { Score } from "@/types/Score";
 import { ZFService } from "@/services";

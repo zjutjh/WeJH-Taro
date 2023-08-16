@@ -28,6 +28,7 @@ import WDescriptions  from "./Descriptions/Descriptions.vue";
 import WDescriptionsItem from "./Descriptions/DescriptionsItem.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WBadge from "./Badge/index.vue";
+import ThemeConfig from "./ThemeConfig/index.vue";
 
 export {
   Alarm,
@@ -49,8 +50,8 @@ export {
   SchoolCardQuickView,
   TermPicker,
   TitleBar,
+  ThemeConfig,
   WeekPicker,
-
   WList,
   WListItem,
   WCollapse,

@@ -1,16 +1,16 @@
 <template>
-  <view class="background">
+  <theme-config>
     <home v-if="pageName === 'home'" />
     <my v-if="pageName === 'my'" />
     <nav-bar @onChange="setPageName" :pageName="pageName" />
-  </view>
   <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content"
     :actions="updateInfo.actions">
   </w-modal>
+  </theme-config>
 </template>
 
 <script setup lang="ts">
-import { NavBar, Home, My, WModal } from "@/components";
+import { NavBar, Home, My, WModal, ThemeConfig } from "@/components";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
 import store, { systemStore } from "@/store";

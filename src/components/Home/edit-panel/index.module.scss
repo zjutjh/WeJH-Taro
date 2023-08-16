@@ -49,14 +49,14 @@
     .selected {
       .item:before {
         content: '-';
-        background-color: red;
+        background-color: var(--wjh-color-red-600);
       }
     }
 
     .unselected {
       .item:before {
         content: '+';
-        background-color: var(--wjh-color-cyan);
+        background-color: var(--wjh-color-green-700);
       }
     }
 
@@ -73,7 +73,7 @@
         height: 100rpx;
         width: 100rpx;
         color: var(--wjh-color-white);
-        background: var(--wjh-color-green);
+        background: var(--wjh-color-primary);
         .icon {
           font-size: 1.8em;
         }

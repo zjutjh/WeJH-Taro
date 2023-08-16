@@ -4,8 +4,8 @@
     <text class="sub-text">今日课表 ({{ updateTimeString }})</text>
     <card v-for="(item, index) in todayLessonTable" :key="item.lessonName" :style="{
       backgroundColor: index % 2
-        ? 'var(--wjh-color-yellow-light)'
-        : 'var(--wjh-color-orange-light)'
+        ? 'var(--wjh-color-yellow-500)'
+        : 'var(--wjh-color-orange-400)'
     } as CSSProperties
     ">
       <view class="lesson-item" :key="updateRestTimeCounter + index">

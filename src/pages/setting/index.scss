@@ -10,4 +10,39 @@
     text-align: center;
   }
 
+  .theme-config {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .tab-bar {
+    background-color: var(--wjh-color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12Px 0;
+
+    .tab {
+      padding: 7Px 12Px;
+      background-color: var(--wjh-color-primary-light);
+      color: var(--wjh-color-primary);
+      font-size: 0.875rem;
+    }
+
+    .active {
+      background-color: var(--wjh-color-primary);
+      color: var(--wjh-color-white);
+    }
+
+    .tab:first-child {
+      border-top-left-radius: 100Px;
+      border-bottom-left-radius: 100Px;
+    }
+
+    .tab:last-child {
+      border-top-right-radius: 100Px;
+      border-bottom-right-radius: 100Px;
+    }
+  }
 }
+

@@ -18,18 +18,6 @@ scroll-view {
   padding: 1.2rem 1rem;
 }
 
-.background {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
-  background-image: url('~@/assets/photos/background.svg');
-  background-position: bottom 0 right 50%;
-  background-repeat: no-repeat;
-}
-
 input {
   border: 2Px solid var(--wjh-color-light);
   padding: 0.3rem 0.5rem;

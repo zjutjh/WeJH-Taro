@@ -3,26 +3,6 @@
 }
 
 :host {
-  --wjh-color-primary: var(--wjh-color-green);
-  --wjh-color-green: #53d1b6;
-  --wjh-color-blue: #81c6e7;
-  --wjh-color-cyan: #51bbbb;
-  --wjh-color-orange: #f0ad3e;
-  --wjh-color-yellow: #f0c03e;
-  --wjh-color-desert: #ffc52a;
-  --wjh-color-gold: #f7e9c3;
-  --wjh-color-red: #eb8888;
-  --wjh-color-purple: #8191cf;
-  --wjh-color-gray: #888888;
-  --wjh-color-white: #fdfdfd;
-  --wjh-color-green-light: #bdf4e8;
-  --wjh-color-orange-light: #ffedcd;
-  --wjh-color-yellow-light: #fff6c9;
-  --wjh-color-cyan-light: #def9f3;
-  --wjh-color-blue-light: #D1F2FD;
-}
-
-:host {
   --wjh-color-text: #333;
   --wjh-color-text-secondary: #666;
   --wjh-color-week: #999;
@@ -30,6 +10,7 @@
   --wjh-color-border: #eee;
   --wjh-color-box: #f5f5f5;
   --wjh-color-background: #fff;
+  --wjh-color-background-dark: #2a2a2a;
 }
 
 :host {

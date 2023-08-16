@@ -25,7 +25,7 @@ export const ElectricityServiceStore = {
       state.updateTime.balance = new Date();
     },
     setConsumption(state: ServiceStoreType["electricity"], value: string) {
-      state.todayConsumption = value
+      state.todayConsumption = value;
     }
   }
 };

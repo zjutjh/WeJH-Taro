@@ -29,7 +29,7 @@
   margin-top: 2rem;
   height: calc(100% - 4rem);
   border-radius: 0 0 0 8Px;
-  background: rgb(255, 255, 255, .7);
+  background: var(--wjh-color-background);
   @include blur;
 }
 
@@ -101,7 +101,7 @@
 
 .lessons-table {
   position: relative;
-  background-color: var(--wjh-color-white);
+  background-color: var(--wjh-color-background);
   height: 100%;
   border-radius: 8Px;
   display: flex;
@@ -141,6 +141,6 @@
 .now-week-index {
   height: 100%;
   width: calc(100% / 7);
-  background: -webkit-gradient(linear, left top, left bottom, from(#eff7ff), color-stop(0.5, #bbe1ff), to(#eff7ff));
+  background: -webkit-gradient(linear, left top, left bottom, from(#d3dce5), color-stop(0.5, #bbe1ff), to(#d8e8fa));
   position: absolute;
 }

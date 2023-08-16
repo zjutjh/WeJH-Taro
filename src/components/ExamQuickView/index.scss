@@ -9,7 +9,7 @@
 
   .exam-card {
     // background: #FEDFA9;
-    background: var(--wjh-color-orange-light);
+    background: var(--wjh-color-primary);
     position: relative;
     color: var(--wjh-color-text);
 
@@ -49,7 +49,7 @@
   }
 
   .taking {
-    color: var(--wjh-color-cyan);
+    color: var(--wjh-color-primary-dark);
   }
 
 }

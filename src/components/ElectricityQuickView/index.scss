@@ -9,7 +9,7 @@
 .sub-text-right {
   font-size: 0.75rem;
   line-height: 1.2rem;
-  color: var(--wjh-color-red);
+  color: var(--wjh-color-red-600);
   float: right;
 }
 
@@ -25,11 +25,11 @@
     gap: 16rpx;
 
     .dangerous {
-      color: var(--wjh-color-red);
+      color: var(--wjh-color-red-600);
     }
 
     .normal {
-      color: var(--wjh-color-green);
+      color: var(--wjh-color-primary);
     }
   }
 
