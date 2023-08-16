@@ -83,13 +83,13 @@ const surroundedLessons: {
     right: []
   };
 const colorSet = [
-  "green",
-  "cyan",
-  "blue",
-  "yellow",
-  "orange",
-  "red",
-  "purple"
+  "green-600",
+  "green-700",
+  "blue-600",
+  "yellow-600",
+  "orange-600",
+  "red-600",
+  "purple-600"
 ];
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
