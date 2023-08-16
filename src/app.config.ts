@@ -25,7 +25,7 @@ export default {
     "pages/lostfound/index",
     "pages/information/index",
   ],
-  darkmode: false,
+  darkmode: true,
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#fff",
