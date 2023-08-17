@@ -1,4 +1,5 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
+@import "@/style/mixin.scss";
 
 .wjh-list {
   --padding-left-small: 6Px;
@@ -8,6 +9,11 @@
 
   --align-item: flex-start;
   --border-inner: solid 1px var(--wjh-color-border);
+
+  padding: 4Px 0;
+  background-color: var(--wjh-color-background-container);
+  @include radius;
+  @include shadow;
 }
 
 .wjh-list-size-small {
@@ -30,9 +36,13 @@
   }
 }
 
+.wjh-list-inner {
+  box-shadow: none;
+  border-radius: 0;
+}
+
 .wjh-list-item {
   position: relative;
-  background-color: var(--wjh-color-background);
   line-height: 2.5rem;
 
   .wjh-list-item-content {

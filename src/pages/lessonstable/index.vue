@@ -1,13 +1,13 @@
 <template>
   <theme-config>
     <title-bar title="课程表" back-button />
-    <scroll-view :scrollY="true">
+    <view class="table-wrapper">
       <lessons-table
         :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
         :is-this-week="isThisWeek"
         @classClick="classClick"
       />
-    </scroll-view>
+    </view>
 
     <bottom-panel class="lessons-table-bottom-panel">
       <view class="col">

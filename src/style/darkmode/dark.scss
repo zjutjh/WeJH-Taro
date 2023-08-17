@@ -1,0 +1,54 @@
+@import "../variables/color.scss";
+
+.dark {
+  --wjh-color-text: #ffffffdd;
+  --wjh-color-text-secondary: #ffffffbb;
+  --wjh-color-week: #828282;
+  --wjh-color-light: #424242;
+
+  --wjh-color-background-frame: #{$dp-8};
+  --wjh-color-background-container: #{$dp-2};
+  --wjh-color-background-popup: #{$dp-7};
+  --wjh-color-background-page: #{$dp-1};
+  --wjh-color-border: #{$dp-8};
+}
+
+.dark {
+  --wjh-color-white: #{$white-600};
+
+  --wjh-color-green-500: #{$green-dark-500};
+  --wjh-color-green-600: #{$green-dark-600};
+  --wjh-color-green-700: #{$green-dark-700};
+
+  --wjh-color-blue-500: #{$blue-dark-500};
+  --wjh-color-blue-600: #{$blue-dark-600};
+  --wjh-color-blue-700: #{$blue-dark-700};
+
+  --wjh-color-yellow-500: #{$yellow-dark-500};
+  --wjh-color-yellow-600: #{$yellow-dark-600};
+  --wjh-color-yellow-700: #{$yellow-dark-700};
+
+  --wjh-color-orange-400: #{$orange-dark-400};
+  --wjh-color-orange-500: #{$orange-dark-500};
+  --wjh-color-orange-600: #{$orange-dark-600};
+
+  --wjh-color-red-400: #{$red-dark-400};
+  --wjh-color-red-500: #{$red-dark-500};
+  --wjh-color-red-600: #{$red-dark-600};
+  --wjh-color-red-700: #{$red-dark-700};
+  --wjh-color-red-800: #{$red-dark-800};
+
+  --wjh-color-purple-600: #{$purple-dark-600};
+
+  --wjh-color-pink-500: #{$pink-dark-500};
+  --wjh-color-pink-600: #{$pink-dark-600};
+  --wjh-color-pink-700: #{$pink-dark-700};
+}
+
+.dark {
+  background-image: none !important;
+
+  image {
+    filter: brightness(.8);
+  }
+}

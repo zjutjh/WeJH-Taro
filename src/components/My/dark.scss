@@ -1,0 +1,14 @@
+.dark {
+  .profile-card::before {
+    background: var(--wjh-color-primary);
+    opacity: .3;
+  }
+
+  .profile-split {
+    background-color: var(--wjh-color-primary);
+  }
+
+  .info-wrapper {
+    color: var(--wjh-color-primary);
+  }
+}

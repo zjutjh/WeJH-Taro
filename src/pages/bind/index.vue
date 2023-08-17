@@ -4,23 +4,23 @@
     <scroll-view :scrollY="true">
       <view class="flex-column">
         <card title="信息绑定">
-          <w-list class="bind-list">
-            <w-list-item :extra="user.isBindZF ? '已绑定' : '未绑定'" :class="{ binded: user.isBindZF }" arrow="down"
+          <w-list class="bind-list" :class="{ binded: user.isBindZF }">
+            <w-list-item :extra="user.isBindZF ? '已绑定' : '未绑定'" arrow="down"
               @tap="renderForm('zf')">
               正方教务系统
             </w-list-item>
           </w-list>
-          <w-list class="bind-list">
-            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" :class="{ binded: user.isBindLibrary }" arrow="down"
+          <w-list class="bind-list" :class="[{ binded: user.isBindLibrary }]" >
+            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down"
               @tap="renderForm('library')">
               图书馆账号
             </w-list-item>
           </w-list>
-          <w-list class="bind-list">
-            <w-list-item :extra="user.isBindYXY ? '已绑定' : '未绑定'" :class="[{ binded: user.isBindYXY }]" arrow="down"
+          <w-list class="bind-list" :class="[{ binded: user.isBindYXY }]" >
+            <w-list-item :extra="user.isBindYXY ? '已绑定' : '未绑定'" arrow="down"
               @tap="renderForm('yxy')">
               <text> 一卡通账号 </text>
-              <w-badge content="测试" />
+              <w-badge> 测试 </w-badge>
             </w-list-item>
           </w-list>
         </card>

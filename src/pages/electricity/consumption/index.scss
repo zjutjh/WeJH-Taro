@@ -1,4 +1,6 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
+@import "./light.scss";
+@import "./dark.scss";
 
 .background {
   background-image: none;
@@ -31,7 +33,7 @@
 
 .consumption-list-item {
   border-radius: 16rpx;
-  background-color: var(--wjh-color-yellow-500);
+  background-color: var(--wjh-color-primary-light);
 
   .text-wrapper {
     padding: 8rpx;

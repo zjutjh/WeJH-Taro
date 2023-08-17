@@ -1,0 +1,9 @@
+.dark {
+  .class-card {
+    color: var(--bg-color);
+  }
+
+  .class-card::before {
+    filter: brightness(.3);
+  }
+}

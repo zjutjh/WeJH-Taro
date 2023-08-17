@@ -1,20 +1,23 @@
+@import "./darkmode/light.scss";
+@import "./darkmode/dark.scss";
+
 @mixin shadow {
   box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
-}
-
-:host {
-  --wjh-color-text: #333;
-  --wjh-color-text-secondary: #666;
-  --wjh-color-week: #999;
-  --wjh-color-light: #ccc;
-  --wjh-color-border: #eee;
-  --wjh-color-box: #f5f5f5;
-  --wjh-color-background: #fff;
-  --wjh-color-background-dark: #2a2a2a;
 }
 
 :host {
   --wjh-font-weight-bold: 700;
   --wjh-font-weight-medium: 500;
   --wjh-font-weight-regular: 400;
+}
+
+page {
+  background-color: #f5f5f5;
+  font-family: 'Alibaba-PuHuiTi-Regular', 'Alibaba-PuHuiTi-Medium';
+}
+
+@media (prefers-color-scheme: dark) {
+  page {
+    background-color: #000;
+  }
 }

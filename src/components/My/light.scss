@@ -1,0 +1,13 @@
+.light {
+  .profile-card::before {
+    background: linear-gradient(120deg, var(--wjh-color-orange-400) 25%, var(--wjh-color-primary) 85%);
+  }
+
+  .profile-split {
+    background-color: var(--wjh-color-white);
+  }
+
+  .info-wrapper {
+    color: var(--wjh-color-white);
+  }
+}

@@ -1,9 +1,38 @@
+@import "./dark.module.scss";
+@import "./light.module.scss";
+
 .badge {
   display: inline-flex;
-  color: var(--wjh-color-white);
   line-height: 100%;
-  background-color: var(--wjh-color-red-600);
-  border-radius: 16Px;
+  position: relative;
+
+  .virtual {
+    visibility: hidden;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    border-radius: 16Px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: var(--badge-color);
+  }
+
+  .text {
+    z-index: 20;
+    position: absolute;
+  }
+}
+
+.large {
+  padding: 6Px 12Px;
+  min-height: 12Px;
+  font-size: 1rem;
 }
 
 .middle {
@@ -17,4 +46,3 @@
   min-height: 6Px;
   font-size: .6rem;
 }
-

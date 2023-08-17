@@ -3,7 +3,9 @@
     <view :class="[styles['alarm-icon'], 'iconfont', 'icon-alarm']" />
 
     <view :class="styles['badge-wrapper']" v-if="counter != 0">
-      <w-badge :content="counter.toString()" size="small" />
+      <w-badge size="small">
+        <text>{{ counter.toString() }}</text>
+      </w-badge>
     </view>
 
   </view>

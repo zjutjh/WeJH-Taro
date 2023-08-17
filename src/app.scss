@@ -1,2 +1,11 @@
-@import './style';
+/** 主题色、深色模式 */
 @import './style/theme.scss';
+
+/** 图标包 */
+@import "./style/icons.scss";
+
+/** 字体-普惠体 */
+@import "./style/puhuiti.scss";
+
+/** 全局样式 */
+@import "./style/global.scss";

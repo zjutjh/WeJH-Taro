@@ -148,9 +148,9 @@ const minuteInterval = (clock: string) => {
  */
 function examState(examTimeString: string) {
   const { date, start, end } = getExamTime(examTimeString);
-  let nowTime = new Date();
-  let startTime = new Date(date + " " + start + ":00");
-  let endTime = new Date(date + " " + end);
+  const nowTime = new Date();
+  const startTime = new Date(date + " " + start + ":00");
+  const endTime = new Date(date + " " + end);
   if (nowTime.getTime() - startTime.getTime() < 0) return "before";
   else if (nowTime.getTime() - endTime.getTime() <= 0) return "taking";
   else return "after";

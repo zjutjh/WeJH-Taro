@@ -1,0 +1,12 @@
+:global(.dark) {
+
+  .text {
+    color: var(--badge-color);
+    filter: brightness(1.5);
+  }
+
+  .badge::before {
+    filter: brightness(.6);
+  }
+
+}

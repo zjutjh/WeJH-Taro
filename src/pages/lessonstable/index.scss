@@ -1,5 +1,11 @@
 @import '@/style/theme.scss';
 
+.table-wrapper {
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+}
 
 .practice-lessons-list {
   min-height: 80vh;

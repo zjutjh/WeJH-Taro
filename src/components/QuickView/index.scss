@@ -5,8 +5,7 @@
   @include radius;
   @include shadow;
   padding: 16Px 20Px;
-  background-color: var(--wjh-color-background);
-  opacity: 95%;
+  background-color: var(--wjh-color-background-container);
 
   .quick-view-header {
     display: flex;
