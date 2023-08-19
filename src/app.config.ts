@@ -26,10 +26,11 @@ export default {
     "pages/information/index",
   ],
   darkmode: true,
+  themeLocation: "theme.json",
   window: {
-    backgroundTextStyle: "light",
-    navigationBarBackgroundColor: "#fff",
-    navigationBarTextStyle: "black",
-    navigationStyle: "custom"
+    navigationBarBackgroundColor: "@navBgColor",
+    navigationBarTextStyle: "@navTxtStyle",
+    navigationStyle: "custom",
+    backgroundColor: "@bgColor"
   }
 };
