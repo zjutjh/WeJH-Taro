@@ -3,9 +3,9 @@
     <home v-if="pageName === 'home'" />
     <my v-if="pageName === 'my'" />
     <nav-bar @onChange="setPageName" :pageName="pageName" />
-  <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content"
-    :actions="updateInfo.actions">
-  </w-modal>
+    <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content"
+      :actions="updateInfo.actions">
+    </w-modal>
   </theme-config>
 </template>
 

@@ -113,12 +113,12 @@
         ></refresh-button>
       </view>
     </bottom-panel>
+    <w-modal
+      title="公告"
+      v-model:show="showModal"
+      :content="helpContent"
+    ></w-modal>
   </theme-config>
-  <w-modal
-    title="公告"
-    v-model:show="showModal"
-    :content="helpContent"
-  ></w-modal>
 </template>
 
 <script setup lang="ts">
