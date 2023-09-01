@@ -8,16 +8,29 @@
   }
 
   .exam-card {
-    // background: #FEDFA9;
-    background: var(--wjh-color-primary);
     position: relative;
     color: var(--wjh-color-text);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      height: 100%;
+      width: 100%;
+      opacity: .3;
+      background: var(--wjh-color-primary);
+      border-radius: 8Px;
+    }
 
     .text-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       width: 100%;
+      color: var(--wjh-color-text);
     }
 
     .exam-place {
@@ -45,7 +58,9 @@
   }
 
   .wjh-card-body {
+    position: relative;
     padding: 0.5rem 0;
+    z-index: 10;
   }
 
   .taking {

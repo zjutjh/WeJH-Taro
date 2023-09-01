@@ -14,7 +14,7 @@ async function bindLibClick() {
     title: "正在绑定",
     mask: true
   });
-  let res = await UserService.bindLibrary({ password: libpass.value });
+  const res = await UserService.bindLibrary({ password: libpass.value });
   if (res.code === 1) {
     await Taro.showToast({
       icon: "success",
@@ -26,7 +26,7 @@ async function bindLibClick() {
 </script>
 
 <template>
-  <card>
+  <card class="bind-card">
     <template #header>
       <text>绑定账号</text>
       <view class="form-help-wrapper">
@@ -37,7 +37,7 @@ async function bindLibClick() {
     </template>
     <text>图书馆账户密码</text>
     <view>
-      <input type="password" placeholder="默认密码为学号" v-model="libpass" />
+      <input password placeholder="默认密码为学号" v-model="libpass" />
     </view>
     <template #footer>
       <w-button block @tap="bindLibClick"> 确认绑定 </w-button>

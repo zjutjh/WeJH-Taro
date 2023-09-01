@@ -1,0 +1,51 @@
+@import "../variables/color.scss";
+
+.light {
+  --wjh-color-text: #333;
+  --wjh-color-text-secondary: #666;
+
+  --wjh-color-week: #999;
+  --wjh-color-light: #ccc;
+  --wjh-color-border: #eee;
+
+  --wjh-color-background-frame: #fcfcfc;
+  --wjh-color-background-container: #fafafa;
+  --wjh-color-background-popup: #fefefe;
+  --wjh-color-background-page: #f5f5f5;
+}
+
+.light {
+  --wjh-color-white: #{$white-600};
+
+  --wjh-color-green-500: #{$green-500};
+  --wjh-color-green-600: #{$green-600};
+  --wjh-color-green-700: #{$green-700};
+
+  --wjh-color-blue-500: #{$blue-500};
+  --wjh-color-blue-600: #{$blue-600};
+  --wjh-color-blue-700: #{$blue-700};
+
+  --wjh-color-yellow-500: #{$yellow-500};
+  --wjh-color-yellow-600: #{$yellow-600};
+  --wjh-color-yellow-700: #{$yellow-700};
+
+  --wjh-color-pink-500: #{$pink-500};
+  --wjh-color-pink-600: #{$pink-600};
+  --wjh-color-pink-700: #{$pink-700};
+
+  --wjh-color-orange-400: #{$orange-400};
+  --wjh-color-orange-500: #{$orange-500};
+  --wjh-color-orange-600: #{$orange-600};
+
+  --wjh-color-red-400: #{$red-400};
+  --wjh-color-red-500: #{$red-500};
+  --wjh-color-red-600: #{$red-600};
+  --wjh-color-red-700: #{$red-700};
+  --wjh-color-red-800: #{$red-800};
+
+  --wjh-color-purple-600: #{$purple-600};
+
+  --wjh-color-pink-500: #{$pink-500};
+  --wjh-color-pink-600: #{$pink-600};
+  --wjh-color-pink-700: #{$pink-700};
+}

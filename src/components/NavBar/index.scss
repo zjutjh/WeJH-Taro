@@ -3,6 +3,7 @@
 .nav-bar-icon-wrapper {
   padding: 0 16Px;
   position: relative;
+  opacity: .8;
 }
 
 .iconfont {
@@ -10,7 +11,7 @@
 }
 
 .unselected {
-  color: var(--wjh-color-week);
+  color: var(--wjh-color-text-secondary);
 }
 
 .selected {

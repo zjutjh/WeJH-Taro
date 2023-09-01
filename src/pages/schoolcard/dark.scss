@@ -1,0 +1,13 @@
+.dark {
+  .school-card {
+
+    image {
+      filter: brightness(.95);
+    }
+
+    &::before {
+      filter: brightness(.6);
+    }
+  }
+
+}

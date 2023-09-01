@@ -16,7 +16,7 @@ async function bindZFClick() {
     title: "正在绑定",
     mask: true
   });
-  let res = await UserService.bindZF(
+  const res = await UserService.bindZF(
     { password: zfpass.value }
   );
   if (res.code === 1) {
@@ -30,7 +30,7 @@ async function bindZFClick() {
 </script>
 
 <template>
-  <card title="">
+  <card class="bind-card">
     <template #header>
       <text>绑定账号</text>
       <view class="form-help-wrapper">
@@ -41,8 +41,8 @@ async function bindZFClick() {
     </template>
     <text>正方教务系统</text>
     <view>
-      <input v-if="!user.isBindZF" type="password" placeholder="默认密码为zjut+身份证后六位" v-model="zfpass" />
-      <input v-else type="password" placeholder="*******" v-model="zfpass" />
+      <input v-if="!user.isBindZF" password placeholder="默认密码为zjut+身份证后六位" v-model="zfpass" />
+      <input v-else password placeholder="*******" v-model="zfpass" />
     </view>
     <template #footer>
       <w-button block @tap="bindZFClick"> 确认绑定 </w-button>
@@ -50,7 +50,3 @@ async function bindZFClick() {
   </card>
   <w-modal :content="helpContent" v-model:show="isShowHelp" />
 </template>
-
-<style scoped>
-
-</style>

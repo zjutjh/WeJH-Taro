@@ -31,6 +31,12 @@
                   @tap="() => handleTabClick('blue')"
                 > 蓝
                 </text>
+                <text
+                  class="tab"
+                  :class="currentTab === 'pink' ? 'active' : undefined"
+                  @tap="() => handleTabClick('pink')"
+                > 粉
+                </text>
               </view>
           </view>
           <template #footer>
@@ -39,6 +45,7 @@
             </view>
           </template>
         </card>
+        <dark-mode-toggle />
       </view>
     </scroll-view>
     <image
@@ -51,6 +58,7 @@
 
 <script setup lang="ts">
 import { Card, TitleBar, ThemeConfig } from "@/components";
+import DarkModeToggle from "./features/DarkModeToggle.vue";
 import { labText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import { ref, computed,watch  } from "vue";

@@ -1,4 +1,6 @@
 @import "@/style/mixin.scss";
+@import "./dark.scss";
+@import "./light.scss";
 
 .index-panel {
   height: 100%;
@@ -15,21 +17,20 @@
 
 .weekday-index-panel {
   flex-direction: row;
-  border-bottom: 1Px solid gainsboro;
-  border-left: 1Px solid gainsboro;
+  border-bottom: 1Px solid var(--wjh-color-border);
+  border-left: 1Px solid var(--wjh-color-border);
   flex: 0 0 2rem;
 }
 
 .jc-index-panel {
   position: absolute;
   flex-direction: column;
-  border-right: 1Px solid gainsboro;
-  border-top: 1Px solid gainsboro;
+  border-right: 1Px solid var(--wjh-color-border);
+  border-top: 1Px solid var(--wjh-color-border);
   width: 2rem;
   margin-top: 2rem;
-  height: calc(100% - 4rem);
+  height: calc(100% - 2rem);
   border-radius: 0 0 0 8Px;
-  background: var(--wjh-color-background);
   @include blur;
 }
 
@@ -43,6 +44,7 @@
 
   .row {
     display: flex;
+    position: relative;
   }
 
   .row:first-child {
@@ -69,7 +71,7 @@
     text-overflow: ellipsis;
   }
 
-  .conflict:before {
+  .conflict::after {
     content: "*";
     position: absolute;
     font-size: 1rem;
@@ -79,10 +81,9 @@
 }
 
 .lessons-table-wrapper {
-  padding: 1rem;
   height: 100%;
   width: 100%;
-  box-sizing: border-box;
+  position: relative;
 
   .col {
     position: relative;
@@ -101,7 +102,7 @@
 
 .lessons-table {
   position: relative;
-  background-color: var(--wjh-color-background);
+  background-color: var(--wjh-color-background-container);
   height: 100%;
   border-radius: 8Px;
   display: flex;
@@ -111,10 +112,8 @@
 
 .table {
   position: relative;
-  color: white;
   display: flex;
   height: 100%;
-
 }
 
 .class-card {
@@ -123,24 +122,33 @@
   padding: 0.2rem;
   display: flex;
   flex-direction: column;
-  color: white;
-  border-radius: 4Px;
+  position: relative;
 
+  &::before {
+    content: "";
+    position: absolute;
+    border-radius: 4Px;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-color);
+  }
 }
 
 .now-index {
   height: 2Px;
-  background-color: #00b8ff;
+  background-color: var(--wjh-color-primary-dark);
   position: absolute;
   width: calc(126% + 2rem);
   z-index: 10;
-  // width: calc(18%);
-  // z-index: 2;
 }
 
 .now-week-index {
   height: 100%;
   width: calc(100% / 7);
-  background: -webkit-gradient(linear, left top, left bottom, from(#d3dce5), color-stop(0.5, #bbe1ff), to(#d8e8fa));
+  background: var(--wjh-color-primary-light);
+  opacity: .2;
   position: absolute;
 }

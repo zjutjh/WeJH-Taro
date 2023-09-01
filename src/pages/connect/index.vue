@@ -7,7 +7,7 @@
           <template #header>
             <view>反馈和帮助</view>
           </template>
-          <w-list>
+          <w-list inner>
             <w-list-item>
               <image
                 :src="require('@/assets/photos/feedback.svg')"

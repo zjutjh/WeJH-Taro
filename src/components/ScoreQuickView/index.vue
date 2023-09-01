@@ -9,27 +9,26 @@
     </view>
     <view v-else>
       <template v-for="item in todayScoreList">
-        <card
+        <view
           :key="item.lessonID"
           class="score-card"
-          :style="{ backgroundColor: 'var(--wjh-color-green-600)' }"
+          style="--bg-color: var(--wjh-color-primary)"
           v-if="!item.checkRead"
         >
-          <view>
-            <text class="score-title">{{ item.lessonName }}</text>
+          <view class="score-title">
+            <text>{{ item.lessonName }}</text>
           </view>
           <view class="score-res">
             <text v-if="item.scorePeriod">{{item.scorePeriod}}</text>
             <text v-else>{{ item.scorePeriod }}</text>
           </view>
-        </card>
+        </view>
       </template>
     </view>
   </quick-view>
 </template>
 
 <script setup lang="ts">
-import Card from "../Card/index.vue";
 import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import { ZFService } from "@/services";
@@ -67,7 +66,7 @@ const todayScoreList = computed(() => {
 
   return showSorted.value
     ? [...unreadScores].sort((a, b) => {
-      let scoreA = a.scorePoint,
+      const scoreA = a.scorePoint,
         scoreB = b.scorePoint;
       return parseFloat(scoreB) - parseFloat(scoreA);
     })

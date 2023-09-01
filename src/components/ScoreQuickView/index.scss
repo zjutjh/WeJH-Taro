@@ -1,4 +1,5 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
+@import "./dark.scss";
 
 .score-quick-view {
   .wjh-card {
@@ -11,15 +12,34 @@
   }
 
   .score-card {
-    background: var(--wjh-color-orange-400);
+    margin: 8Px 0;
+    padding: .6rem 16Px;
     position: relative;
 
+    &::before {
+      content: "";
+      z-index: 0;
+      opacity: .24;
+      position: absolute;
+      border-radius: 8Px;
+      top: 0;
+      left: 0;
+      background: var(--bg-color);
+      height: 100%;
+      width: 100%;
+    }
+
     .score-title {
+      position: relative;
+      z-index: 1;
       font-size: 1.1rem;
       line-height: 1.5rem;
+      color: var(--wjh-color-text-secondary);
     }
 
     .score-res {
+      position: relative;
+      z-index: 1;
       text-align: end;
       color: var(--wjh-color-week);
     }

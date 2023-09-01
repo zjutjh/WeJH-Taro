@@ -1,0 +1,18 @@
+:global(.light) {
+
+  .icon-wrapper {
+    color: var(--wjh-color-white);
+  }
+
+  .selected {
+    .item::before {
+      background-color: var(--wjh-color-red-600);
+    }
+  }
+
+  .unselected {
+    .item::before {
+      background-color: var(--wjh-color-green-700);
+    }
+  }
+}

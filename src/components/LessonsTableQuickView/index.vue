@@ -2,19 +2,20 @@
   <quick-view @tap="nav2Lesson" title="课程表" icon-name="lessonstable" class="lessons-table-quick-view" help
     @handle-tap-help="handleTapHelp">
     <text class="sub-text">今日课表 ({{ updateTimeString }})</text>
-    <card v-for="(item, index) in todayLessonTable" :key="item.lessonName" :style="{
-      backgroundColor: index % 2
-        ? 'var(--wjh-color-yellow-500)'
-        : 'var(--wjh-color-orange-400)'
-    } as CSSProperties
-    ">
+    <card
+      v-for="(item, index) in todayLessonTable"
+      :key="item.lessonName"
+      :style="{
+        '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
+      } as CSSProperties"
+    >
       <view class="lesson-item" :key="updateRestTimeCounter + index">
         <view class="important-line">
           <text class="lesson-place">{{ item.lessonPlace }}</text>
           <text v-if="lessonState(item.sections) === 'before'"  class="before-lesson">
             还有 {{ getRestTimeString(item.sections) }} 上课
           </text>
-          <text v-if="lessonState(item.sections) === 'taking'" class="taking-lesson">
+          <text v-else-if="lessonState(item.sections) === 'taking'" class="taking-lesson">
             上课中
           </text>
         </view>
@@ -52,7 +53,7 @@ import { useTimeInstance } from "@/hooks";
 import { Lesson } from "@/types/Lesson";
 
 const emit = defineEmits(["showHelp"]);
-let timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
+const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
 const todayLessonTable = computed(() => {
   const year = systemStore.generalInfo.termYear;
@@ -107,7 +108,7 @@ function nav2Lesson() {
 }
 
 function sectionsTimeString(sections: string) {
-  let arr = sections.split("-");
+  const arr = sections.split("-");
   return `${getLessonTimeInstance(parseInt(arr[0])).format(
     "HH:mm"
   )}-${getLessonTimeInstance(parseInt(arr[1]), 45).format("HH:mm")}`;
@@ -139,10 +140,10 @@ function getRestTimeString(sections: string) {
 }
 
 function lessonState(sections: string): "before" | "taking" | "after" {
-  let arr = sections.split("-");
-  let detAfter =
+  const arr = sections.split("-");
+  const detAfter =
     getLessonTimeInstance(Number(arr[0])).valueOf() - dayjs().valueOf();
-  let detBefore =
+  const detBefore =
     getLessonTimeInstance(Number(arr[1]), 45).valueOf() - dayjs().valueOf();
   if (detAfter > 0) return "before";
   if (detAfter < 0 && detBefore > 0) return "taking";

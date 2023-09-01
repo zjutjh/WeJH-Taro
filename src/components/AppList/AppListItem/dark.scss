@@ -1,0 +1,9 @@
+.dark {
+  .icon-wrapper {
+    color: var(--bg-color);
+  }
+
+  .icon-wrapper::before {
+    opacity: .24;
+  }
+}

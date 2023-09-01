@@ -112,7 +112,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <card title="">
+  <card class="bind-card">
     <template #header>
       <text>绑定一卡通账号</text>
       <view class="form-help-wrapper">

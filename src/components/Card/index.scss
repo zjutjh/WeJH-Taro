@@ -20,7 +20,7 @@
 .wjh-card {
   @include radius;
   @include shadow;
-  background-color: var(--wjh-color-background);
+  background-color: var(--wjh-color-background-container);
 
   .wjh-card-header {
     position: relative;

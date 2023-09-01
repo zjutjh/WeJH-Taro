@@ -3,7 +3,7 @@
 .wjh-title-bar {
   width: 100vw;
   display: inline-flex;
-  background-color: var(--wjh-color-background);
+  background-color: var(--wjh-color-background-page);
   z-index: 3000;
 
   .wjh-title-bar-back-button {
@@ -41,6 +41,7 @@
   top: 0;
   position: fixed;
   z-index: 9999;
+  opacity: .9;
 }
 
 @keyframes animationa {

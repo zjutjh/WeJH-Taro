@@ -1,5 +1,5 @@
 <template>
-  <view :class="[themeMode]" class="background-config theme">
+  <view :class="[themeMode, darkMode]" class="background theme">
     <slot></slot>
   </view>
 </template>
@@ -8,7 +8,10 @@
 import "./index.scss";
 import { computed } from "vue";
 import { serviceStore } from "@/store";
+import { useDarkMode } from "@/hooks";
 
 const themeMode = computed(() => serviceStore.theme.themeMode);
+
+const { mode: darkMode } = useDarkMode();
 
 </script>

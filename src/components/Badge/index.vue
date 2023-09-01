@@ -1,6 +1,10 @@
 <template>
-  <view :class="[styles.badge, styles[size]]">
-    <text> {{ content }} </text>
+  <view
+   :class="[styles.badge, styles[size]]"
+   :style="`--badge-color: ${color}` as any"
+  >
+    <view :class="styles.virtual"> <slot /> </view>
+    <view :class="styles.text"> <slot /> </view>
   </view>
 </template>
 
@@ -8,12 +12,12 @@
 import styles from "./index.module.scss";
 
 type PropsType = {
-  content?: string;
-  size?: "middle" | "small"
+  size?: "large" | "middle" | "small"
+  color?: string;
 }
 
 withDefaults(defineProps<PropsType>(), {
-  size: "middle"
+  size: "middle",
+  color: "var(--wjh-color-red-600)"
 });
-
 </script>

@@ -1,9 +1,5 @@
 @import '@/style/theme.scss';
 
-.background {
-  background: none;
-}
-
 .header-view {
   height: 200Px;
   background-color: var(--wjh-color-primary);
@@ -61,11 +57,8 @@
 }
 
 .electricity-list-item {
-  box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
-  border-radius: 16rpx;
 
   .text-wrapper {
-    padding: 8rpx 0;
     display: flex;
     gap: 16rpx;
     flex: auto;
