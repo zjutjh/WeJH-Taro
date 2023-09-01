@@ -46,7 +46,7 @@ export const ScoreServiceStore = {
     changeScorePeriod(
       state: ScoreServiceStoreType,
       value: "期中" | "期末"
-      ) {
+    ) {
       state.scorePeriod = value;
     }
 

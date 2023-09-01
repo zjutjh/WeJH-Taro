@@ -10,6 +10,7 @@ export interface UserType {
   isBindZF: boolean;
   isBindLibrary: boolean;
   isBindYXY: boolean;
+  isBindOauth: boolean;
 }
 export const UserServiceStore = {
   state: () => ({
@@ -17,7 +18,8 @@ export const UserServiceStore = {
     isActive: false,
     isBindZF: false,
     isBindLibrary: false,
-    isBindYXY: false
+    isBindYXY: false,
+    isBindOauth: false
   }),
   mutations: {
     setBindZF(state: UserType, value: boolean) {
@@ -29,18 +31,22 @@ export const UserServiceStore = {
     setBindYXY(state: UserType, value: boolean) {
       state.isBindYXY = value;
     },
+    setBindOauth(state:UserType, value: boolean) {
+      state.isBindOauth = value;
+    },
     // comment: 设置用户信息
     setUserInfo(
       state: UserType,
       value: {
         studentID: string;
-        bind: { zf: boolean; lib: boolean, yxy: boolean };
+        bind: { zf: boolean; lib: boolean, yxy: boolean, oauth: boolean };
       }
     ) {
       state.info = { studentID: value.studentID };
       state.isBindZF = value.bind.zf;
       state.isBindLibrary = value.bind.lib;
       state.isBindYXY = value.bind.yxy;
+      state.isBindOauth = value.bind.oauth;
       state.isActive = true;
     },
     setUserWXProfile(
@@ -56,6 +62,7 @@ export const UserServiceStore = {
       state.isBindZF = false;
       state.isBindLibrary = false;
       state.isBindYXY = false;
+      state.isBindOauth = false;
     }
   }
 };

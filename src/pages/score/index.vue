@@ -101,8 +101,8 @@ import "./index.scss";
 
 const showSorted = ref(false);
 const selectTerm = ref({
-  year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.term,
+  year: systemStore.generalInfo.scoreYear,
+  term: systemStore.generalInfo.scoreTerm,
   period: serviceStore.score.scorePeriod
 });
 

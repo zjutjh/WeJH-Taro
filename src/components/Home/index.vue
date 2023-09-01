@@ -11,7 +11,7 @@
       <!-- 这里是可选卡片列表 -->
       <cards />
 
-      <card v-if="!(isBindZf || isBindYXY || isBindLibrary)" title="提示">
+      <card v-if="!(isBindZf || isBindYXY || isBindLibrary || isBindOauth)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
       <view @tap="showEditPanel" :class="styles[`edit-button`]">
@@ -85,6 +85,9 @@ const isBindLibrary = computed(() => {
 });
 const isBindYXY = computed(() => {
   return serviceStore.user.isBindYXY;
+});
+const isBindOauth = computed(() => {
+  return serviceStore.user.isBindOauth;
 });
 const counter = computed(() => {
   return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
