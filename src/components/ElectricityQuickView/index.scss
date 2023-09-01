@@ -6,6 +6,7 @@
   color: var(--wjh-color-week);
   float: left;
 }
+
 .sub-text-right {
   font-size: 0.75rem;
   line-height: 1.2rem;
@@ -25,10 +26,12 @@
     gap: 16rpx;
 
     .dangerous {
+      font-weight: 600;
       color: var(--wjh-color-red-600);
     }
 
     .normal {
+      font-weight: 600;
       color: var(--wjh-color-primary);
     }
   }

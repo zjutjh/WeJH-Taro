@@ -20,19 +20,17 @@
 
 .bind-list {
   margin-bottom: 20Px;
-  font-size: 0.875rem;
+  background-color: var(--wjh-color-week);
+  color: var(--wjh-color-white);
 
   .wjh-list-item {
-    @include radius;
-    background-color: var(--wjh-color-week);
-    color: var(--wjh-color-white);
 
     .wjh-list-item-content-main {
       align-items: center;
     }
   }
 
-  .binded {
+  &.binded {
     background-color: var(--wjh-color-primary);
   }
 }
@@ -63,3 +61,12 @@
   border-radius: 16Px;
 }
 
+.bind-card {
+
+  input {
+    border: 2Px solid var(--wjh-color-light);
+    padding: 0.3rem 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 0.2rem;
+  }
+}

@@ -1,13 +1,13 @@
 <template>
   <theme-config>
     <title-bar title="课程表" back-button />
-    <scroll-view :scrollY="true">
+    <view class="table-wrapper">
       <lessons-table
         :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
         :is-this-week="isThisWeek"
         @classClick="classClick"
       />
-    </scroll-view>
+    </view>
 
     <bottom-panel class="lessons-table-bottom-panel">
       <view class="col">
@@ -48,23 +48,23 @@
         </view>
       </view>
     </bottom-panel>
+    <pop-view v-model:show="showPop">
+      <view v-if="selection" class="lesson-detail">
+        <view class="lesson-title">
+          {{ selection.lessonName }}
+        </view>
+        <view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
+        <view>班级：{{ selection.className }} </view>
+        <view>教师：{{ selection.teacherName }} </view>
+        <view>
+          时间：{{ selection.week }}丨{{ detailWeekDay(selection.weekday) }} ({{
+            selection.sections
+          }})丨{{ detailTimeInterval }}
+        </view>
+        <view>学分：{{ selection.credits }} </view>
+      </view>
+    </pop-view>
   </theme-config>
-  <pop-view v-model:show="showPop">
-    <view v-if="selection" class="lesson-detail">
-      <view class="lesson-title">
-        {{ selection.lessonName }}
-      </view>
-      <view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
-      <view>班级：{{ selection.className }} </view>
-      <view>教师：{{ selection.teacherName }} </view>
-      <view>
-        时间：{{ selection.week }}丨{{ detailWeekDay(selection.weekday) }} ({{
-          selection.sections
-        }})丨{{ detailTimeInterval }}
-      </view>
-      <view>学分：{{ selection.credits }} </view>
-    </view>
-  </pop-view>
 </template>
 
 <script setup lang="ts">

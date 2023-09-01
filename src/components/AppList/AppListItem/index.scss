@@ -1,3 +1,6 @@
+@import "./light.scss";
+@import "./dark.scss";
+
 .applist-item {
   font-size: 80%;
   margin: 0.5rem 0;
@@ -8,16 +11,28 @@
   gap: 4Px;
 
   .icon-wrapper {
-    border-radius: 0.5rem;
+    position: relative;
     height: 60Px;
     width: 60Px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &::before {
+      z-index: 0;
+      border-radius: 0.5rem;
+      position: absolute;
+      content: "";
+      height: 100%;
+      width: 100%;
+      top: 0;
+      right: 0;
+      background-color: var(--bg-color);
+    }
   }
 
   .iconfont {
-    color: var(--wjh-color-white);
+    z-index: 1;
     font-size: 32Px;
   }
 

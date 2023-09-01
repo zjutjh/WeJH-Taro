@@ -1,0 +1,23 @@
+:global(.dark) {
+  .icon-wrapper {
+    color: var(--bg-color);
+
+    &::before {
+      opacity: .24;
+    }
+  }
+
+  .selected {
+    .item::before {
+      background-color: var(--wjh-color-red-600);
+      filter: brightness(.3);
+    }
+  }
+
+  .unselected {
+    .item::before {
+      background-color: var(--wjh-color-green-700);
+      filter: brightness(.3);
+    }
+  }
+}

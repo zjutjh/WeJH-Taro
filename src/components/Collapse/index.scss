@@ -22,6 +22,7 @@
     max-height: 0;
     transition: max-height 0.3s;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   .wjh-collapse-panel-content-active {

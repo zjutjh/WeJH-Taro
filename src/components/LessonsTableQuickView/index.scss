@@ -4,12 +4,27 @@
   .wjh-card {
     box-shadow: none;
     margin: 0.5rem 0;
+    position: relative;
+
+    &::before {
+      content: "";
+      z-index: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: var(--bg-color);
+      opacity: .3;
+      border-radius: 8Px;
+    }
   }
 
   .wjh-card-body {
+    position: relative;
+    z-index: 10;
     padding: 0.5rem 0;
   }
-
 
   .lesson-item {
     border-radius: 0.5rem;

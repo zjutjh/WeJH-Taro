@@ -1,7 +1,4 @@
-@import "@/style/theme.scss";
-@import "@/style/index.scss";
-
-.green {
+.theme.green {
   --wjh-color-primary-light: var(--wjh-color-green-500);
   --wjh-color-primary: var(--wjh-color-green-600);
   --wjh-color-primary-dark: var(--wjh-color-green-700);
@@ -9,7 +6,7 @@
   background-image: url('~@/assets/photos/background.svg');
 }
 
-.yellow {
+.theme.yellow {
   --wjh-color-primary-light: var(--wjh-color-yellow-500);
   --wjh-color-primary: var(--wjh-color-yellow-600);
   --wjh-color-primary-dark: var(--wjh-color-yellow-700);
@@ -17,7 +14,7 @@
   background-image: url('~@/assets/photos/background-yellow.svg');
 }
 
-.blue {
+.theme.blue {
   --wjh-color-primary-light: var(--wjh-color-blue-500);
   --wjh-color-primary: var(--wjh-color-blue-600);
   --wjh-color-primary-dark: var(--wjh-color-blue-700);
@@ -25,32 +22,15 @@
   background-image: url('~@/assets/photos/background-blue.svg');
 }
 
-.pink {
+.theme.pink {
   --wjh-color-primary-light: var(--wjh-color-pink-500);
   --wjh-color-primary: var(--wjh-color-pink-600);
   --wjh-color-primary-dark: var(--wjh-color-pink-700);
 
-  // background-image: url('~@/assets/photos/background-pink.svg');
+  background-image: url('~@/assets/photos/background-pink.svg');
 }
 
-.dark {
-  background-color: var(--wjh-color-black-800);
-  --wjh-color-primary-light: var(--wjh-color-black-500);
-  --wjh-color-primary: var(--wjh-color-black-600);
-  --wjh-color-primary-dark: var(--wjh-color-black-700);
-
-  background-image: url('~@/assets/photos/background-blank.svg');
-  --wjh-color-text: #fff;
-  --wjh-color-text-secondary: #666;
-  --wjh-color-week: #999;
-  --wjh-color-light: #ccc;
-  --wjh-color-border: #eee;
-  --wjh-color-box: #f5f5f5;
-  --wjh-color-background: #3f3f3f;
-  color: white;
-}
-
-.background-config {
+.background {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -59,39 +39,6 @@
   z-index: 0;
   background-position: bottom 0 right 50%;
   background-repeat: no-repeat;
-}
-
-.theme {
-  --wjh-color-green-500: #d3f5ed;
-  --wjh-color-green-600: #53d1b6;
-  --wjh-color-green-700: #51bbbb;
-
-  --wjh-color-blue-500: #d3effd;
-  --wjh-color-blue-600: #81c6e7;
-  --wjh-color-blue-700: #17ade8;
-
-  --wjh-color-pink-500: #ffd1dd;
-  --wjh-color-pink-600: #ffa9c1;
-  --wjh-color-pink-700: #ff8fb0;
-
-  --wjh-color-yellow-500: #fff6cb;
-  --wjh-color-yellow-600: #f0c03e;
-  --wjh-color-yellow-700: #ffc52a;
-
-  --wjh-color-orange-400: #ffedcd;
-  --wjh-color-orange-600: #f0ad3e;
-
-  --wjh-color-gold: #f7e9c3;
-
-  --wjh-color-red-600: #eb8888;
-
-  --wjh-color-purple-600: #8191cf;
-
-  --wjh-color-white: #fdfdfd;
-
-  --wjh-color-black-500: #8e8e8e;
-  --wjh-color-black-600: #4F4F4F;
-  --wjh-color-black-700: #454545;
-  --wjh-color-black-800: #3f3f3f;
-
+  background-color: var(--wjh-color-background-page);
+  color: var(--wjh-color-text);
 }

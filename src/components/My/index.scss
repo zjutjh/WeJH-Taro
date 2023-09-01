@@ -1,6 +1,7 @@
-@import '@/style/theme.scss';
-@import '@/style/mixin.scss';
-
+@import "@/style/theme.scss";
+@import "@/style/mixin.scss";
+@import "./dark.scss";
+@import "./light.scss";
 
 .flex {
   display: flex;
@@ -31,9 +32,22 @@
 }
 
 .profile-card {
-  background: linear-gradient(120deg, var(--wjh-color-orange-400) 25%, var(--wjh-color-primary) 85%);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 8Px;
+  }
 
   .wjh-card-body {
+    position: relative;
+    z-index: 10;
     height: 100Px;
     display: flex;
     flex-direction: row;
@@ -54,7 +68,6 @@
 
   .profile-split {
     display: inline-block;
-    background-color: var(--wjh-color-background);
     vertical-align: middle;
     height: 100%;
     width: 0.1rem;
@@ -64,7 +77,6 @@
   .info-wrapper {
     flex: auto;
     text-align: end;
-    color: var(--wjh-color-background);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -87,9 +99,6 @@
 
   .operate-list {
     padding: 4Px;
-    background-color: var(--wjh-color-background);
-    @include radius;
-    @include shadow;
   }
 
 }

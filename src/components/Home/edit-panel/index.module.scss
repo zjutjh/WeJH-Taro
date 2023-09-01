@@ -1,4 +1,6 @@
 @import "@/style/theme.scss";
+@import "./dark.module.scss";
+@import "./light.module.scss";
 
 .mask {
   position: fixed;
@@ -11,7 +13,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  background-color: var(--wjh-color-border);
+  background-color: var(--wjh-color-background-page);
   gap: 16rpx;
   border-top-left-radius: 32rpx;
   border-top-right-radius: 32rpx;
@@ -23,7 +25,7 @@
 
   .card {
     padding: 0 30rpx;
-    background-color: var(--wjh-color-background);
+    background-color: var(--wjh-color-background-frame);
 
     .header {
       line-height: 300%;
@@ -32,7 +34,8 @@
       border-bottom: 4rpx solid var(--wjh-color-border);
     }
 
-    .item:before {
+    .item::before {
+      z-index: 10;
       position: absolute;
       top: -16rpx;
       right: 16rpx;
@@ -46,20 +49,6 @@
       text-align: center;
     }
 
-    .selected {
-      .item:before {
-        content: '-';
-        background-color: var(--wjh-color-red-600);
-      }
-    }
-
-    .unselected {
-      .item:before {
-        content: '+';
-        background-color: var(--wjh-color-green-700);
-      }
-    }
-
     .content {
       display: grid;
       grid-template-columns: repeat(4, 25%);
@@ -69,13 +58,25 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 16rpx;
         height: 100rpx;
         width: 100rpx;
-        color: var(--wjh-color-white);
-        background: var(--wjh-color-primary);
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background-color: var(--bg-color);
+          border-radius: 16rpx;
+          z-index: 0;
+        }
+
         .icon {
           font-size: 1.8em;
+          z-index: 10;
         }
       }
 
@@ -92,9 +93,16 @@
         margin-bottom: 24rpx;
         gap: 12rpx;
 
-        :global(text) {
+        .badge-wrapper {
+          position: absolute;
+          transform: translate(-30%, -50%);
+          top: 0;
+          right: 0;
+        }
+
+        text {
           font-size: .9em;
-          color: var(--wjh-color-text-secondary)
+          color: var(--wjh-color-text-secondary);
         }
       }
     }
@@ -103,6 +111,6 @@
   .footer {
     text-align: center;
     padding: 24rpx;
-    background-color: var(--wjh-color-background);
+    background-color: var(--wjh-color-background-frame);
   }
 }

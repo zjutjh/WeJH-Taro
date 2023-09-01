@@ -41,8 +41,8 @@ async function bindOauthClick() {
     </template>
     <text>统一验证系统</text>
     <view>
-      <input v-if="!user.isBindOauth" type="password" placeholder="默认密码为zjut+身份证后六位" v-model="oauthpass" />
-      <input v-else type="password" placeholder="*******" v-model="oauthpass" />
+      <input v-if="!user.isBindOauth" password placeholder="默认密码为zjut+身份证后六位" v-model="oauthpass" />
+      <input v-else password placeholder="*******" v-model="oauthpass" />
     </view>
     <template #footer>
       <w-button block @tap="bindOauthClick"> 确认绑定 </w-button>

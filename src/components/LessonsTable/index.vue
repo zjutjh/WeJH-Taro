@@ -34,7 +34,7 @@
           >
             <view
               class="class-card"
-              :style="classCardColor(cl.color)"
+              :style="classCardColor(cl.color) as any"
               :class="{ conflict: cl.mark }"
               @tap="classCardClick(cl)"
             >
@@ -49,7 +49,7 @@
               <view class="row">
                 <text
                   class="item-content"
-                  :style="`-webkit-line-clamp: ${2}`"
+                  :style="`-webkit-line-clamp: ${2}` as any"
                   >{{ cl.lessonName }}</text
                 >
               </view>
@@ -127,10 +127,6 @@ const nowStyle = computed(() => {
   let jc = 0; // 第 ${jc + 1} 节课
   jc = dayScheduleStartTime.indexOf(thisLesson);
 
-  // TODO:
-  // const weekday = now.getDay() ? now.getDay() : 7;
-  // const left = 'calc(' + ((weekday - 1) * 126) / 7 + '% + 2rem)';
-
   return {
     top: `calc((100% - 2rem) / 12 * ${jc + duration / 45} + 2rem)`
   };
@@ -157,8 +153,8 @@ function markConflictLesson(lessons: Lesson[]) {
   return lessons;
 }
 
-function classCardColor(color: string = "primary") {
-  return { backgroundColor: `var(--wjh-color-${color})` };
+function classCardColor(color = "primary") {
+  return { "--bg-color": `var(--wjh-color-${color})` };
 }
 
 function splitNameAndRoom(str: string) {
@@ -175,7 +171,7 @@ function classCardClick(theClass: Lesson) {
 function initialLessonsColor() {
   let colorSetTemp = new Set(colorSet);
   for (
-    let currentIndex: number = 0;
+    let currentIndex = 0;
     currentIndex < lessons.value.length;
     currentIndex++
   ) {

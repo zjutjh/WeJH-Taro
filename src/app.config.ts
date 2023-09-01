@@ -25,11 +25,12 @@ export default {
     "pages/lostfound/index",
     "pages/information/index",
   ],
-  darkmode: false,
+  darkmode: true,
+  themeLocation: "theme.json",
   window: {
-    backgroundTextStyle: "light",
-    navigationBarBackgroundColor: "#fff",
-    navigationBarTextStyle: "black",
-    navigationStyle: "custom"
+    navigationBarBackgroundColor: "@navBgColor",
+    navigationBarTextStyle: "@navTxtStyle",
+    navigationStyle: "custom",
+    backgroundColor: "@bgColor"
   }
 };

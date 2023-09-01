@@ -28,7 +28,7 @@
                   class="lesson-name"
                   :style="
                     timeInterval(item.examTime) === 0
-                      ? 'color: var(--wjh-color-orange-600)'
+                      ? 'color: var(--wjh-color-primary-dark)'
                       : undefined
                   "
                   >{{ item.lessonName }}</view
@@ -46,7 +46,7 @@
                     "
                     :style="
                       timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-orange-600)'
+                        ? 'color: var(--wjh-color-primary-dark)'
                         : undefined
                     "
                     >距离考试还有 {{ timeInterval(item.examTime) }} 天
@@ -55,7 +55,7 @@
                     class="exam-time"
                     :style="
                       timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-orange-600)'
+                        ? 'color: var(--wjh-color-primary-dark)'
                         : undefined
                     "
                     >{{ item.examTime }}
@@ -64,7 +64,7 @@
                     class="exam-place"
                     :style="
                       timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-orange-600)'
+                        ? 'color: var(--wjh-color-primary-dark)'
                         : undefined
                     "
                     >{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</view
@@ -113,12 +113,12 @@
         ></refresh-button>
       </view>
     </bottom-panel>
+    <w-modal
+      title="公告"
+      v-model:show="showModal"
+      :content="helpContent"
+    ></w-modal>
   </theme-config>
-  <w-modal
-    title="公告"
-    v-model:show="showModal"
-    :content="helpContent"
-  ></w-modal>
 </template>
 
 <script setup lang="ts">

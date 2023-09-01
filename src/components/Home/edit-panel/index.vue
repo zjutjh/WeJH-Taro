@@ -4,7 +4,7 @@ import { computed, onBeforeUpdate, ref, watch } from "vue";
 import styles from "./index.module.scss";
 import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
-import { PopView, WButton } from "@/components";
+import { PopView, WButton, WBadge } from "@/components";
 import { checkBind } from "@/utils";
 
 /** 依赖于绑定状态的卡片名字列表 */
@@ -87,13 +87,16 @@ const handleClose = () => {
           >
             <view
               :class="styles[`icon-wrapper`]"
-              :style="`backgroundColor: var(--wjh-color-${item.backgroundColor}-600)`"
+              :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
             >
-              <view :class="[
-              `iconfont icon-${item.icon}`,
-              styles.icon]" />
+              <view :class="['iconfont', `icon-${item.icon}`, styles.icon]" />
             </view>
             <text>{{ item.label }}</text>
+            <view :class="styles['badge-wrapper']">
+              <w-badge>
+                <view style="transform: scale(1.5);">-</view>
+              </w-badge>
+            </view>
           </view>
         </view>
       </view>
@@ -110,13 +113,16 @@ const handleClose = () => {
           >
             <view
               :class="styles[`icon-wrapper`]"
-              :style="`backgroundColor: var(--wjh-color-${item.backgroundColor}-600)`"
+              :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
             >
-              <view :class="[
-              `iconfont icon-${item.icon}`,
-              styles.icon]" />
+              <view :class="['iconfont', `icon-${item.icon}`, styles.icon]" />
             </view>
             <text>{{ item.label }}</text>
+            <view :class="styles['badge-wrapper']">
+              <w-badge color="var(--wjh-color-primary)">
+                <view style="transform: scale(1.5);">+</view>
+              </w-badge>
+            </view>
           </view>
         </view>
       </view>
