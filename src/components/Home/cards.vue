@@ -21,7 +21,9 @@ const cards = () => h(
 );
 
 const isBindZf = computed(() => {
-  return serviceStore.user.isBindZF;
+  //之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
+  //原来的代码是 return (serviceStore.user.isBindZF);
+  return (serviceStore.user.isBindZF || serviceStore.user.isBindOauth);
 });
 const isBindLibrary = computed(() => {
   return serviceStore.user.isBindLibrary;

@@ -12,6 +12,7 @@ const api = {
     bind: {
       library: "/api/user/bind/library",
       zf: "/api/user/bind/zf",
+      oauth: "/api/user/bind/oauth",
       yxy: {
         getGraph: "/api/user/bind/yxy/get/captcha",
         sendGraphAuthCode: "/api/user/bind/yxy/send/captcha",

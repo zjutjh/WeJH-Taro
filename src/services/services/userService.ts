@@ -30,6 +30,17 @@ export default class UserService {
     );
   }
 
+  static async bindOauth(data?: { password: string}, showModal = true) {
+    return updateDateStateWithSession(
+      api.user.bind.oauth,
+      data,
+      "setBindOauth",
+      (res: FetchResult) => res.data.code === 1,
+      true,
+      showModal
+    );
+  }
+
   // comment: 返回用户信息
   static async getUserInfo(autoLogin = true): Promise<any> {
     // comment: 创号成功，打开我的，每次 testSession 执行一次

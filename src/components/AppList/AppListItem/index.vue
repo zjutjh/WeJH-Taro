@@ -23,12 +23,15 @@ const props = defineProps<{
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
 const isDisabled = ref(false);
-if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
+//之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
+//原来的代码是 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
+if (requireActive.value === "zf" && !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth)
   isDisabled.value = true;
 if (requireActive.value === "library" && !serviceStore.user.isBindLibrary)
   isDisabled.value = true;
 if (requireActive.value === "yxy" && !serviceStore.user.isBindYXY)
   isDisabled.value = true;
+
 
 async function appTaped() {
   if (isDisabled.value) {

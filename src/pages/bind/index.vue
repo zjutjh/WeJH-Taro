@@ -11,6 +11,12 @@
             </w-list-item>
           </w-list>
           <w-list class="bind-list">
+            <w-list-item :extra="user.isBindOauth ? '已绑定' : '未绑定'" :class="{ binded: user.isBindOauth }" arrow="down"
+                         @tap="renderForm('oauth')">
+              统一验证系统
+            </w-list-item>
+          </w-list>
+          <w-list class="bind-list">
             <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" :class="{ binded: user.isBindLibrary }" arrow="down"
               @tap="renderForm('library')">
               图书馆账号
@@ -27,6 +33,7 @@
         <z-f v-if="bindTab === 'zf'" />
         <library v-if="bindTab === 'library'" />
         <y-x-y v-if="bindTab === 'yxy'" />
+        <oauth v-if="bindTab === 'oauth'" />
       </view>
     </scroll-view>
   </theme-config>
@@ -37,6 +44,7 @@ import { Card, WList, WListItem, WBadge, TitleBar, ThemeConfig } from "@/compone
 import Library from "./Library/index.vue";
 import ZF from "./ZF/index.vue";
 import YXY from "./YXY/index.vue";
+import Oauth from "./Oauth/index.vue";
 import { UserService } from "@/services";
 import store, { serviceStore } from "@/store";
 import "./index.scss";
