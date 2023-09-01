@@ -8,13 +8,34 @@
         </view>
         <view class="content">{{ information.content.replace(/\\n/g, '\n') }}</view>
         <view class="img_container" v-if="information.img1">
-          <image :src="information.img1" alt="Card Image" class="image" mode="aspectFit"></image>
+          <image
+            :src="information.img1"
+            alt="Card Image"
+            class="image"
+            mode="aspectFit"
+            @tap="() => handlePreviewImages(information.img1)"
+            :onLoad="handleLoadFinish"
+          />
         </view>
         <view class="img_container" v-if="information.img2">
-          <image :src="information.img2" alt="Card Image" class="image" mode="aspectFit"></image>
+          <image
+            :src="information.img2"
+            alt="Card Image"
+            class="image"
+            mode="aspectFit"
+            @tap="() => handlePreviewImages(information.img2)"
+            :onLoad="handleLoadFinish"
+          />
         </view>
         <view class="img_container" v-if="information.img3">
-          <image :src="information.img3" alt="Card Image" class="image" mode="aspectFit"></image>
+          <image
+            :src="information.img3"
+            alt="Card Image"
+            class="image"
+            mode="aspectFit"
+            @tap="() => handlePreviewImages(information.img3)"
+            :onLoad="handleLoadFinish"
+          />
         </view>
         <view class="link" v-if="information.link">点击跳转相关规定</view>
         <template #footer>
@@ -34,12 +55,14 @@
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import { serviceStore } from "@/store";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import "./index.scss";
 
 const instance = Taro.getCurrentInstance();
+
+const needFixWidth = ref(false);
 
 const { informationId } = instance.router?.params as { informationId?: number };
 
@@ -47,9 +70,26 @@ const information = computed(() => {
   return serviceStore.information.informationList.find((information) => information.id == informationId);
 });
 
+const imageList = computed(() => [
+  information.value?.img1 || null,
+  information.value?.img2 || null,
+  information.value?.img3 || null
+].filter(item => !!item) as string[]);
+
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
 };
 
-</script>
+const handleLoadFinish = ({ detail: { height, width } }) => {
+  if (height > width) needFixWidth.value = false;
+  else needFixWidth.value = true;
+};
 
+const handlePreviewImages = (url: string) => {
+  // FIXME: control enter onShow
+  Taro.previewImage({
+    current: url,
+    urls: imageList.value
+  });
+};
+</script>
