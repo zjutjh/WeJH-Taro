@@ -1,13 +1,18 @@
 <template>
-  <view class="information quick-view-container" @tap="handleClick">
+  <view class="information quick-view-container" @tap="handleClickYiXing">
     <view class="header">
-      <view class="title">公告栏</view>
+      <view class="yixing-title">公告栏</view>
     </view>
-    <view v-if="currentPost" class="content">
+    <!-- <view v-if="currentPost" class="content">
       <text> {{ currentPost.content.slice(0, 60) }}</text>
     </view>
     <view v-else :class="['quick-view-container', 'empty']">
       <text> 暂时公告信息 </text>
+    </view> -->
+    <view class="yixing-content">
+      <text style="font-size: large;">精弘毅行火热进行中🔥</text>
+      <text>紫色限定主题上线</text>
+      <text class="url">点击查看报名详情</text>
     </view>
   </view>
 </template>
@@ -18,17 +23,24 @@ import Taro from "@tarojs/taro";
 import { serviceStore } from "@/store";
 import store from "@/store";
 import { SystemService } from "@/services";
+import "./index.scss";
 
-const handleClick = () => {
-  if (currentPost.value.type === "announcement") {
-    Taro.navigateTo({
-      url: "/pages/announcement/index?tab=announcement",
-    });
-  } else {
-    Taro.navigateTo({
-      url: "/pages/announcement/index?tab=information",
-    });
-  }
+// const handleClick = () => {
+//   if (currentPost.value.type === "announcement") {
+//     Taro.navigateTo({
+//       url: "/pages/announcement/index?tab=announcement",
+//     });
+//   } else {
+//     Taro.navigateTo({
+//       url: "/pages/announcement/index?tab=information",
+//     });
+//   }
+// };
+
+const handleClickYiXing = () => {
+  Taro.navigateTo({
+    url: "/pages/yixing/index",
+  });
 };
 
 const currentPost = ref<{ type: string; content: string }>({
