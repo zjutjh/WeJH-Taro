@@ -30,6 +30,14 @@
   background-image: url('~@/assets/photos/background-pink.svg');
 }
 
+.theme.purple {
+  --wjh-color-primary-light: var(--wjh-color-purple-500);
+  --wjh-color-primary: var(--wjh-color-purple-600);
+  --wjh-color-primary-dark: var(--wjh-color-purple-700);
+
+  background-image: url('~@/assets/photos/background-purple.svg');
+}
+
 .background {
   position: fixed;
   display: flex;

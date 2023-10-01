@@ -37,6 +37,12 @@
                   @tap="() => handleTabClick('pink')"
                 > 粉
                 </text>
+                <text
+                  class="tab"
+                  :class="currentTab === 'purple' ? 'active' : undefined"
+                  @tap="() => handleTabClick('purple')"
+                > 紫
+                </text>
               </view>
           </view>
           <template #footer>
