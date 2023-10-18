@@ -17,13 +17,14 @@ type UpdateInfoType = {
 }
 
 export const updateInfo: UpdateInfoType = {
-  version: "2.5.0",
+  version: "2.5.2",
   title: "微精弘更新公告",
-  content: `微精弘小程序2.5.0更新 [失物招领] ，注册绑定一卡通以体验！
+  content: `
+  校级学生组织【精弘网络】研发的微精弘小程序更新啦！
+  新功能「统一验证系统」与「实验室」全新主题色，等你来体验！
   > 更新内容
-  1. 实验室上线切换主题色功能
-  2. 微精弘 x “For You”工程 联合上线失物招领
-  3. 校园资讯功能优化
+  1. 「公告栏」毅行问卷入口上线
+  2. 「实验室」主题色功能新增 毅行特供紫色限定主题上线
   `,
   actions: {
     cancel: { label: "取消" },

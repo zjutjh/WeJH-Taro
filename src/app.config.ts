@@ -24,6 +24,7 @@ export default {
     "pages/electricity/subscribe/index",
     "pages/lostfound/index",
     "pages/information/index",
+    "pages/yixing/index",
   ],
   darkmode: true,
   themeLocation: "theme.json",
