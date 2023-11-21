@@ -176,10 +176,19 @@ const relativeTermInfo = computed(() => {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
   let char = charEnum[0];
   if (serviceStore.user.info?.studentID) {
-    char = charEnum[
-      parseInt(selectTerm.value?.year) -
+    //解决2023 年以后的学生 id 是 302023 开头的问题
+    if(serviceStore.user.info.studentID.slice(0,2) === "30"){
+      char = charEnum[
+        parseInt(selectTerm.value?.year) -
+      parseInt(serviceStore.user.info.studentID.slice(2, 6))
+      ];
+    }
+    else {
+      char = charEnum[
+        parseInt(selectTerm.value?.year) -
       parseInt(serviceStore.user.info.studentID.slice(0, 4))
-    ];
+      ];
+    }
   }
   return `大${char}${selectTerm.value?.term}学期`;
 });

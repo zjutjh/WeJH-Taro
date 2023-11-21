@@ -4,9 +4,12 @@
       <view class="title">失物寻物</view>
     </view>
     <view v-if="randomContent" class="content flex-column ">
-      <text v-show="randomContent?.item_name" class="text" style="padding-left: 10%"> 物品名称  {{ randomContent?.item_name }}</text>
-      <text v-show="randomContent?.lost_or_found_place" class="text" style="padding-left: 10%"> 拾得地点  {{ randomContent?.lost_or_found_place }}</text>
-      <text v-show="randomContent?.lost_or_found_time" class="text" style="padding-left: 10%"> 拾得时间  {{ randomContent?.lost_or_found_time }}</text>
+        <text v-show="!randomContent?.type && randomContent?.item_name" class="text"> 物品名称  {{ randomContent?.item_name }}</text>
+        <text v-show="!randomContent?.type && randomContent?.lost_or_found_place" class="text" style="margin-top: -10px;"> 遗失地点  {{ randomContent?.lost_or_found_place }}</text>
+        <text v-show="!randomContent?.type && randomContent?.lost_or_found_time" class="text" style="margin-top: -10px;"> 遗失时间  {{ randomContent?.lost_or_found_time }}</text>
+        <text v-show="randomContent?.type && randomContent?.item_name" class="text"> 物品名称  {{ randomContent?.item_name }}</text>
+        <text v-show="randomContent?.type && randomContent?.lost_or_found_place" class="text" style="margin-top: -10px;"> 拾得地点  {{ randomContent?.lost_or_found_place }}</text>
+        <text v-show="randomContent?.type && randomContent?.lost_or_found_time" class="text" style="margin-top: -10px;"> 拾得时间  {{ randomContent?.lost_or_found_time }}</text>
     </view>
     <view v-else :class="['content', 'empty']">
       <text class="campus">{{ defaultCampus }} </text>
