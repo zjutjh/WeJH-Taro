@@ -1,0 +1,28 @@
+@import "@/style/theme.scss";
+
+.header {
+  height: 200Px;
+  background-color: var(--wjh-color-primary);
+  display: flex;
+
+  image {
+    height: 100%;
+    margin: 0 auto;
+  }
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem 1rem;
+}
+
+.text {
+  font-weight: normal;
+  font-size: 1rem;
+  color: var(--wjh-color-text);
+  line-height: 1.2;
+  padding: 0 1rem;
+}
+

@@ -24,6 +24,8 @@ export default {
     "pages/electricity/subscribe/index",
     "pages/lostfound/index",
     "pages/information/index",
+    "pages/suit/index",
+    "pages/suit/faq/index"
   ],
   darkmode: true,
   themeLocation: "theme.json",
