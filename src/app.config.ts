@@ -25,7 +25,8 @@ export default {
     "pages/lostfound/index",
     "pages/information/index",
     "pages/suit/index",
-    "pages/suit/faq/index"
+    "pages/suit/faq/index",
+    "pages/suit/information/index"
   ],
   darkmode: true,
   themeLocation: "theme.json",
