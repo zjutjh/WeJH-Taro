@@ -34,16 +34,38 @@
   padding: 0 0.5rem;
 }
 
-.spacer{
-  margin-bottom: 10;
-}
 
 .rounded {
-  border-radius: 20px;
+  border-radius: 14px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   padding: 8px;
   margin-left: 2.8rem;
   margin-top: -2.2rem;
   margin-bottom: 0.4rem;
+  width: 16rem;
 }
+
+.rounded2 {
+  border-radius: 14px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  margin-left: 3.28rem;
+  margin-top: -3.8rem;
+  margin-bottom: 2rem;
+  width: 16.1rem;
+}
+
+.button_cancle {
+  background-color: var(--wjh-color-primary-light) !important;
+  color: var(--wjh-color-primary-dark);
+  margin-left: 5.5rem;
+  margin-right: 3rem;
+  margin-top: -4rem;
+}
+.button_safe{
+  margin-top: -4rem;
+}
+
+
+
 

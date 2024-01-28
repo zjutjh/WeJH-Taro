@@ -12,7 +12,7 @@
           </view>
           <view :class="style.text1" v-for="(item, index) in information1" :key="index">
             {{ item }}
-            <input v-model="inputData[item]" :class="style.rounded"/>
+            <input v-model="inputData[item]" :class="style.rounded" />
           </view>
           <view :class="style.text2" style="margin-top: 4%;">
             联系
@@ -20,8 +20,10 @@
           <view :class="style.text2" style="margin-bottom: 8%;">
             方式
           </view>
-          <w-button @click="cancel">取消</w-button>
-          <w-button @click="save">保存</w-button>
+          <input v-model="inputData[4]" :class="style.rounded2"/>
+    <w-button :class="style.button_cancle" @click="cancel">取消</w-button>
+    <w-button @click="save" :class="style.button_safe">保存</w-button>
+
         </Card>
       </view>
     </scroll-view>
@@ -31,11 +33,9 @@
 <script setup lang="ts">
 import style from "./index.module.scss";
 import { ref } from "vue";
-import { WButton, Card, ThemeConfig } from "@/components";
+import { WButton, Card, ThemeConfig,TitleBar} from "@/components";
 
 const information1 = [ "姓名", "性别", "学院", "寝室"];
-const information2 = ["联系", "方式"];
-
 // 数据对象，用于存储输入框的值
 const inputData = ref({
   姓名: "",
