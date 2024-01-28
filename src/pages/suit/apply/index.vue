@@ -1,44 +1,44 @@
 <template>
   <theme-config>
     <title-bar title="正装借用" back-button />
-    <view class="campus-selector">
-      <view class="container">
+    <view :class="styles['campus-selector']">
+      <view :class="styles.container">
         <view
           :key="item"
           v-for="item in campusList"
-          :class="['campus', selectCampus === item ? 'active' : undefined]"
+          :class="[styles.campus, selectCampus === item ? styles.active : undefined]"
           @tap="() => handleSelectCampus(item)"
          >
           <text>{{ item }}</text>
         </view>
       </view>
     </view>
-    <view class="suit-selector">
-      <view :key="i" v-for="i in temNumList" class="suits">
-        <view class="suit-name">上衣</view>
+    <view :class="styles['suit-selector']">
+      <view :key="i" v-for="i in temNumList" :class="styles.suits">
+        <view :class="styles['suit-name']">上衣</view>
       </view>
     </view>
-    <view class="suit-panel">
-      <view class="container">
-        <view class="title">尺码</view>
-        <view class="size-scroll">
+    <view :class="styles['suit-panel']">
+      <view :class="styles.container">
+        <view :class="styles.title">尺码</view>
+        <view :class="styles['size-scroll']">
           <view
             :key="model"
             v-for="model in temNumList"
-            :class="['size-card', rentSuitSize === model ? 'active' : undefined]"
+            :class="[styles['size-card'], rentSuitSize === model ? styles.active : undefined]"
             @tap="() => selectSuitSize(model)"
           >{{ model }}</view>
         </view>
-        <view class="title">剩余数量</view>
-        <view class="remain-suit-num">{{ remainSuitNum }}</view>
-        <view class="title">数量</view>
-        <view class="rent-suit-number">
-          <view class="number-symbal" @tap="minusRentSuitNumber">-</view>
-          <view class="number-num">{{ rentSuitNumber }}</view>
-          <view class="number-symbal" @tap="addRentSuitNumber">+</view>
+        <view :class="styles.title">剩余数量</view>
+        <view :class="styles['remain-suit-num']">{{ remainSuitNum }}</view>
+        <view :class="styles.title">数量</view>
+        <view :class="styles['rent-suit-number']">
+          <view :class="styles['number-symbal']" @tap="minusRentSuitNumber">-</view>
+          <view :class="styles['number-num']">{{ rentSuitNumber }}</view>
+          <view :class="styles['number-symbal']" @tap="addRentSuitNumber">+</view>
         </view>
       </view>
-      <view class="confirm">确认提交</view>
+      <view :class="styles.confirm">确认提交</view>
     </view>
   </theme-config>
 </template>
@@ -46,8 +46,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import store, { serviceStore } from "@/store";
-import "./index.scss";
-// import styles from "./index.module.scss";
+import styles from "./index.module.scss";
 import {
   TitleBar,
   ThemeConfig,

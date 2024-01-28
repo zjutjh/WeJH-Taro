@@ -10,6 +10,7 @@
   }
 
   .campus {
+    @include shadow;
     flex: 0 calc(100% / 3);
     padding: 6Px 16Px;
     border-radius: 100Px;
@@ -38,6 +39,7 @@
   white-space: nowrap;
 
   .suits {
+    @include shadow;
     position: relative;
     height: 178Px;
     margin: 0 6Px;
@@ -85,6 +87,7 @@
       overflow-x: auto;
 
       .size-card {
+        @include shadow;
         display: flex;
         flex: 0 0 auto;
         height: 40Px;
@@ -107,6 +110,7 @@
       transition: all 0.1s;
 
       .number-symbal {
+        @include shadow;
         display: inline-block;
         height: 35Px;
         width: 35Px;
@@ -133,6 +137,7 @@
   }
 
   .confirm {
+    @include shadow;
     height: 40Px;
     margin: 12Px;
     border-radius: 7Px;
