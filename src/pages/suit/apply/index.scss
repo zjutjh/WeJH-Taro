@@ -1,6 +1,6 @@
 @import "@/style/theme.scss";
-
 .campus-selector {
+  // background-color: var(--wjh-color-background-container);
   padding: 12Px;
 
   .container {
@@ -43,7 +43,7 @@
     margin: 0 6Px;
     padding: 0Px 62Px;
     border-radius: 9Px;
-    background-color: var(--wjh-color-week);
+    background-color: #AAAAAA;
 
     .suit-name {
       height: 36Px;
@@ -59,7 +59,7 @@
   }
 }
 
-.suit-panel {
+.suit-panel{
   background-color: var(--wjh-color-background-popup);
   height: 100%;
   width: 100%;
@@ -68,10 +68,10 @@
   border-top-right-radius: 20Px;
   border-top-left-radius: 20Px;
 
-  .container {
+  .container{
     padding: 12Px 33Px;
 
-    .title {
+    .title{
       margin: 24Px 0;
       padding-left: .6rem;
       border-left: 2Px solid;
@@ -80,11 +80,11 @@
       color: var(--wjh-color-primary);
     }
 
-    .size-scroll {
+    .size-scroll{
       display: flex;
       overflow-x: auto;
 
-      .size-card {
+      .size-card{
         display: flex;
         flex: 0 0 auto;
         height: 40Px;
@@ -97,7 +97,7 @@
         line-height: 40Px;
       }
 
-      .active {
+      .active{
         border: solid 2Px var(--wjh-color-primary);
         color: var(--wjh-color-primary);
       }
@@ -106,7 +106,7 @@
     .rent-suit-number {
       transition: all 0.1s;
 
-      .number-symbal {
+      .number-symbal{
         display: inline-block;
         height: 35Px;
         width: 35Px;
@@ -132,7 +132,7 @@
     }
   }
 
-  .confirm {
+  .confirm{
     height: 40Px;
     margin: 12Px;
     border-radius: 7Px;

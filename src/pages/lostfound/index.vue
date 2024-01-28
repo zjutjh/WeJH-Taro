@@ -140,6 +140,7 @@ const kindList = computed<string[]>(() => [
   ...(getKindsResponse.value?.data || [])
     .map(item => item.kind_name)
 ]);
+// const kindList = ["11234567876543", "223456788765432", "32345678987656789", "434567898765434567", "5", "6", "7", "8", "9", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "9", "8", "7", "6", "5", "4", "3"];
 
 const handleSelectCampus = (campus: string) => {
   if (selectCampus.value === campus) return;
