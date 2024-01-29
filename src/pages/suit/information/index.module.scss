@@ -22,7 +22,7 @@
   font-weight: normal;
   font-size: 1rem;
   color: var(--wjh-color-text);
-  line-height: 2.6;
+  line-height: 2.9;
   padding: 0 0.5rem;
 }
 
@@ -38,7 +38,7 @@
 .rounded {
   border-radius: 14px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  padding: 8px;
+  padding: 6px;
   margin-left: 2.8rem;
   margin-top: -2.2rem;
   margin-bottom: 0.4rem;
@@ -48,7 +48,7 @@
 .rounded2 {
   border-radius: 14px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  padding: 8px;
+  padding: 6px;
   margin-left: 3.28rem;
   margin-top: -3.8rem;
   margin-bottom: 2rem;
@@ -63,6 +63,11 @@
   margin-top: -4rem;
 }
 .button_safe{
+  margin-top: -4rem;
+}
+
+.button_editor{
+  margin-left: 9rem;
   margin-top: -4rem;
 }
 
