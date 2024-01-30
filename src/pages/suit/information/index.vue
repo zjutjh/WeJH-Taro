@@ -13,9 +13,9 @@
           <view :class="style.text1" v-for="(item, index) in information1" :key="index" >
             {{ item }}
             <input v-model="inputData[item]" :class="style.rounded" v-if="change"/>
-            <text v-else style="margin-left: 0.5rem;">{{ oldData[item] }}</text>
+            <text v-else style="margin-left: 0.5rem;">{{ nowData[item] }}</text>
           </view>
-          <text v-if="!change" :class="style.conntact_text">{{ oldData['联系方式'] }}</text>
+          <text v-if="!change" :class="style.conntact_text">{{ nowData['联系方式'] }}</text>
           <view :class="change ? style.conntact_text1_change : style.conntact_text1_nochange">
   联系
 </view>
@@ -53,7 +53,7 @@ const editor = () => {
   change.value = true;
 };
 
-const oldData = {
+const nowData = {
   姓名: "wew",
   性别: "w",
   学院: "sss",
@@ -64,16 +64,21 @@ const oldData = {
 // 点击保存按钮的处理函数
 const save = () => {
   change.value = false;
+  nowData.姓名 = inputData.value.姓名;
+  nowData.性别 = inputData.value.性别;
+  nowData.学院 = inputData.value.学院;
+  nowData.寝室 = inputData.value.寝室;
+  inputData.value.联系方式 = nowData.联系方式;
   console.log("保存的数据:", inputData.value);
 };
 
 
 const cancel = () => {
   change.value = false;
-  inputData.value.姓名 = oldData.姓名;
-  inputData.value.性别 = oldData.性别;
-  inputData.value.学院 = oldData.学院;
-  inputData.value.寝室 = oldData.寝室;
-  inputData.value.联系方式 = oldData.联系方式;
+  inputData.value.姓名 = nowData.姓名;
+  inputData.value.性别 = nowData.性别;
+  inputData.value.学院 = nowData.学院;
+  inputData.value.寝室 = nowData.寝室;
+  inputData.value.联系方式 = nowData.联系方式;
 };
 </script>
