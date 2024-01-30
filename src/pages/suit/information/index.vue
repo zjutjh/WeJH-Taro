@@ -13,15 +13,16 @@
           <view :class="style.text1" v-for="(item, index) in information1" :key="index" >
             {{ item }}
             <input v-model="inputData[item]" :class="style.rounded" v-if="change"/>
-            <text v-else>{{ oldData[item] }}</text>
+            <text v-else style="margin-left: 0.5rem;">{{ oldData[item] }}</text>
           </view>
-          <view :class="style.text2" style="margin-top: 4%;">
-            联系
-          </view>
-          <text v-if="!change" style="color: black;margin-left: 3rem;">{{ oldData['联系方式'] }}</text>
-          <view :class="style.text2" style="margin-bottom: 8%;">
-            方式
-          </view>
+          <text v-if="!change" :class="style.conntact_text">{{ oldData['联系方式'] }}</text>
+          <view :class="change ? style.conntact_text1_change : style.conntact_text1_nochange">
+  联系
+</view>
+<view :class="change ? style.conntact_text2_change : style.conntact_text2_nochange">
+  方式
+</view>
+
           <input v-model="inputData['联系方式']" :class="style.rounded2" v-if="change"/>
     <w-button :class="style.button_cancle" @tap="cancel" v-if=change>取消</w-button>
     <w-button @tap="save" :class="style.button_safe" v-if=change>保存</w-button>
