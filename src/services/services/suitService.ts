@@ -8,14 +8,14 @@ export default class suitService {
       msg: string,
       data: {
         id: number,
-        name?: string,
-        gender?: string,
+        name: string,
+        gender: string,
         student_id: string,
-        college?: string,
-        domitory?: string,
-        conntact?: string;
+        college: string,
+        dormitory: string,
+        contact: string;
       }
-    }[]>(
+    }>(
       api.suit.getInformation, {
         method: "GET",
         header: { "Cookie": serviceStore.sessionID },
@@ -27,14 +27,14 @@ export default class suitService {
     name: string,
     gender: string,
     college: string,
-    domitory: string,
-    conntact: string;
+    dormitory: string,
+    contact: string;
   }) => {
     return request<{
       code: number,
       msg: string,
       data: null;
-    }[]>(
+    }>(
       api.suit.changeInformation, {
         method: "POST",
         header: { "Cookie": serviceStore.sessionID },

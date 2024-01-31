@@ -8,6 +8,7 @@ import LostfoundService from "./services/lostfoundService";
 import { LoginByTaro } from "./services/authService";
 import errCodeHandler from "./utils/errHandler";
 import { api } from "./api/apiList";
+import suitService from "./services/suitService";
 
 export {
   ZFService,
@@ -17,6 +18,7 @@ export {
   CanteenService,
   YxyService,
   LostfoundService,
+  suitService,
   LoginByTaro,
   errCodeHandler,
   api
