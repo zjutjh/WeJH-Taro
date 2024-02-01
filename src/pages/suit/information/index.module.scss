@@ -79,16 +79,19 @@
   background-color: var(--wjh-color-primary-light) !important;
   color: var(--wjh-color-primary-dark);
   margin-left: 5.5rem;
-  margin-right: 3rem;
+  margin-left: 20%;
   margin-top: -4rem;
 }
 .button_safe {
   margin-top: -4rem;
+  margin-left: 25%;
 }
 
 .button_editor {
-  margin-left: 9rem;
-  margin-top: -4rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: -2rem;
 }
 
 .conntact_text {

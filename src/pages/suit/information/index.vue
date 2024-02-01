@@ -71,7 +71,7 @@ import style from "./index.module.scss";
 import { ref } from "vue";
 import { WButton, Card, ThemeConfig, TitleBar } from "@/components";
 import { useRequest } from "@/hooks";
-import { suitService } from "@/services";
+import { SuitService } from "@/services";
 import Taro from "@tarojs/taro";
 
 const information1 = ["姓名", "性别", "学院", "寝室"];
@@ -88,7 +88,7 @@ const editor = () => {
   change.value = true;
 };
 
-useRequest(suitService.getInformation, {
+useRequest(SuitService.getInformation, {
   onBefore: () => {
     Taro.showLoading({ title: "正在获取个人信息" });
   },
@@ -119,16 +119,25 @@ const nowData = ref({
   contact: "",
 });
 
-// 点击保存按钮的处理函数
 const save = () => {
+  const phoneRegex = /^1\d{10}$/;
+  if (!phoneRegex.test(inputData.value.contact)) {
+    Taro.showToast({ title: "请输入有效的手机号", icon: "none" });
+    return;
+  }
+  const genderRegex = /^(男|女)$/;
+  if (!genderRegex.test(inputData.value.gender)) {
+    Taro.showToast({ title: "请输入有效的性别（男/女）", icon: "none" });
+    return;
+  }
   const hasEmptyString = Object.values(inputData.value).some(
     (value) => typeof value === "string" && value.trim() === ""
   );
   if (hasEmptyString) {
     Taro.showToast({ title: "请填写所有信息", icon: "none" });
-    return; // 如果任何字符串字段为空，则不进行保存
+    return;
   }
-  const { run } = useRequest(suitService.changeInformation, {
+  const { run } = useRequest(SuitService.changeInformation, {
     loadingDelay: 300,
     onSuccess: (res) => {
       if (res.data.code === 1 && res.data.msg === "OK") {
