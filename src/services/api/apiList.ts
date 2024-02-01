@@ -49,6 +49,7 @@ const api = {
     kind: "/api/func/lost/kind_list"
   },
   suit: {
+    getFaq: "/api/func/supplies-borrow/qa",
     getInformation: "/api/func/supplies-borrow/info",
     changeInformation: "/api/func/supplies-borrow/info"
   },

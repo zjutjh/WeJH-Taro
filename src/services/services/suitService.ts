@@ -1,11 +1,23 @@
 import request from "../request";
 import { api } from "../api/apiList";
 import { serviceStore } from "@/store";
+import {SuitFaq} from "@/types/Suit";
+
 export default class suitService {
+  static getFaq = (data: {
+    publisher: string
+  }) => {
+    return request<SuitFaq[]>(
+      api.suit.getFaq, {
+        method: "GET",
+        header: { "Cookie": serviceStore.sessionID },
+        data
+      }
+    );
+  };
+
   static getInformation = () => {
     return request<{
-      code: number,
-      msg: string,
         id: number,
         name: string,
         gender: string,
