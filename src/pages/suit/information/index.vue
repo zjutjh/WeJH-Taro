@@ -8,6 +8,7 @@
       <view :class="style.flexColumn">
         <Card title="| 我的信息" style="color: var(--wjh-color-primary)">
           <view :class="style.text1"> 学号 </view>
+          <view :class="style.text4">{{ nowData.student_id }}</view>
           <view
             :class="style.text1"
             v-for="(item, index) in information1"
@@ -71,6 +72,7 @@ import { ref } from "vue";
 import { WButton, Card, ThemeConfig, TitleBar } from "@/components";
 import { useRequest } from "@/hooks";
 import { suitService } from "@/services";
+import Taro from "@tarojs/taro";
 
 const information1 = ["姓名", "性别", "学院", "寝室"];
 const change = ref(true);
@@ -87,20 +89,20 @@ const editor = () => {
 };
 
 useRequest(suitService.getInformation, {
+  onBefore: () => {
+    Taro.showLoading({ title: "正在获取个人信息" });
+  },
   loadingDelay: 300,
-  manual: true,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
-      const responseData = res.data.data.data;
-      student_id.value = responseData.student_id;
-      nowData.value.name = responseData.name;
-      nowData.value.college = responseData.college;
-      nowData.value.dormitory = responseData.dormitory;
-      nowData.value.gender = responseData.gender;
-      nowData.value.contact = responseData.contact;
+      const responseData = res.data.data;
+      Object.assign(nowData.value, responseData);
+      Object.assign(inputData.value, nowData.value);
       if (res.data.data.code !== 0) {
         change.value = false;
       }
+      Taro.showToast({ title: "获取成功" });
+      Taro.hideLoading();
     } else throw new Error(res.data.msg);
   },
   onError: (e: Error) => {
@@ -108,20 +110,8 @@ useRequest(suitService.getInformation, {
   },
 });
 
-const { run } = useRequest(suitService.changeInformation, {
-  loadingDelay: 300,
-  onSuccess: (res) => {
-    if (res.data.code === 1 && res.data.msg === "OK") {
-      return "编辑个人信息成功";
-    } else throw new Error(res.data.msg);
-  },
-  onError: (e: Error) => {
-    return `编辑个人信息失败\r\n${e.message || "网络错误"}`;
-  },
-});
-
-const student_id = ref("");
 const nowData = ref({
+  student_id: "",
   name: "",
   gender: "",
   college: "",
@@ -131,23 +121,33 @@ const nowData = ref({
 
 // 点击保存按钮的处理函数
 const save = () => {
-  change.value = false;
+  const hasEmptyString = Object.values(inputData.value).some(
+    (value) => typeof value === "string" && value.trim() === ""
+  );
+  if (hasEmptyString) {
+    Taro.showToast({ title: "请填写所有信息", icon: "none" });
+    return; // 如果任何字符串字段为空，则不进行保存
+  }
+  const { run } = useRequest(suitService.changeInformation, {
+    loadingDelay: 300,
+    onSuccess: (res) => {
+      if (res.data.code === 1 && res.data.msg === "OK") {
+        Taro.showToast({ title: "保存成功" });
+      } else throw new Error(res.data.msg);
+      Taro.hideLoading();
+    },
+    onError: (e: Error) => {
+      return `编辑个人信息失败\r\n${e.message || "网络错误"}`;
+    },
+  });
   run(inputData.value);
-  nowData.value.name = inputData.value.name;
-  nowData.value.gender = inputData.value.gender;
-  nowData.value.college = inputData.value.college;
-  nowData.value.dormitory = inputData.value.dormitory;
-  nowData.value.contact = inputData.value.contact;
-  console.log("保存的数据:", nowData.value);
+  change.value = false;
+  Object.assign(nowData.value, inputData.value);
 };
 
 const cancel = () => {
   change.value = false;
-  inputData.value.name = nowData.value.name;
-  inputData.value.gender = nowData.value.gender;
-  inputData.value.college = nowData.value.college;
-  inputData.value.dormitory = nowData.value.dormitory;
-  inputData.value.contact = nowData.value.contact;
+  Object.assign(inputData.value, nowData.value);
 };
 
 const fieldMapping = {

@@ -1,7 +1,7 @@
 @import "@/style/theme.scss";
 
 .header {
-  height: 200Px;
+  height: 200px;
   background-color: var(--wjh-color-primary);
   display: flex;
 
@@ -42,6 +42,17 @@
   padding: 0 0.5rem;
 }
 
+.text4 {
+  position: relative;
+  font-weight: normal;
+  font-size: 1rem;
+  color: var(--wjh-color-text);
+  line-height: 1.3;
+  padding: 0 0.5rem;
+  margin-left: 2.7rem;
+  margin-top: -1.3rem;
+  top: -0.7rem;
+}
 
 .rounded {
   border-radius: 14px;
@@ -71,23 +82,23 @@
   margin-right: 3rem;
   margin-top: -4rem;
 }
-.button_safe{
+.button_safe {
   margin-top: -4rem;
 }
 
-.button_editor{
+.button_editor {
   margin-left: 9rem;
   margin-top: -4rem;
 }
 
-.conntact_text{
+.conntact_text {
   color: black;
   margin-left: 3.3rem;
   position: relative;
-  top: 1.0rem;
+  top: 1rem;
 }
 
-.conntact_text1_change{
+.conntact_text1_change {
   margin-top: 1rem;
   font-weight: normal;
   font-size: 1rem;
@@ -96,7 +107,7 @@
   padding: 0 0.5rem;
 }
 
-.conntact_text2_change{
+.conntact_text2_change {
   margin-bottom: 2rem;
   font-weight: normal;
   font-size: 1rem;
@@ -105,7 +116,7 @@
   padding: 0 0.5rem;
 }
 
-.conntact_text1_nochange{
+.conntact_text1_nochange {
   margin-top: -0.87rem;
   font-weight: normal;
   font-size: 1rem;
@@ -114,7 +125,7 @@
   padding: 0 0.5rem;
 }
 
-.conntact_text2_nochange{
+.conntact_text2_nochange {
   margin-bottom: 2rem;
   font-weight: normal;
   font-size: 1rem;
@@ -122,5 +133,3 @@
   line-height: 1.3;
   padding: 0 0.5rem;
 }
-
-

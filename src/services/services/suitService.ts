@@ -6,7 +6,6 @@ export default class suitService {
     return request<{
       code: number,
       msg: string,
-      data: {
         id: number,
         name: string,
         gender: string,
@@ -14,7 +13,6 @@ export default class suitService {
         college: string,
         dormitory: string,
         contact: string;
-      }
     }>(
       api.suit.getInformation, {
         method: "GET",
