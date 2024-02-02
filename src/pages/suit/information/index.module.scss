@@ -1,7 +1,7 @@
 @import "@/style/theme.scss";
 
 .header {
-  height: 200px;
+  height: 200Px;
   background-color: var(--wjh-color-primary);
   display: flex;
 
@@ -9,6 +9,13 @@
     height: 100%;
     margin: 0 auto;
   }
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem 1rem;
 }
 
 .text1 {
@@ -54,24 +61,23 @@
   margin-left: 2.8rem;
   margin-top: -2.2rem;
   margin-bottom: 0.4rem;
-  width: 16rem;
+  width: 12rem;
 }
 
 .rounded2 {
   border-radius: 14px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   padding: 6px;
-  margin-left: 3.28rem;
+  margin-left: 3.34rem;
   margin-top: -4rem;
   margin-bottom: 2rem;
-  width: 16.1rem;
+  width: 12rem;
   color: black;
 }
 
 .button_cancle {
   background-color: var(--wjh-color-primary-light) !important;
   color: var(--wjh-color-primary-dark);
-  margin-left: 5.5rem;
   margin-left: 20%;
   margin-top: -4rem;
 }
