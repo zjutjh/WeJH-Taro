@@ -129,6 +129,9 @@ const selectSuitStyle = (suit: SuitType) => {
   if(suit.name === rentSuitStyle.value) return;
   rentSuitStyle.value = suit.name;
   suitSpecsList.value = suit.specs;
+  rentSuitNumber.value = 1;
+  rentSuitSpec.value = "";
+  rentSuitId.value = undefined;
 };
 
 const selectSuitSize = (spec: SpecItem) => {
