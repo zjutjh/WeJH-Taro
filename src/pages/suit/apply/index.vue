@@ -1,5 +1,6 @@
 <template>
   <theme-config>
+    <!-- {{ serviceStore.suit.campusSuitInfo.name }} -->
     <title-bar title="正装借用" back-button />
     <view :class="styles['campus-selector']">
       <view :class="styles.container">
@@ -14,23 +15,30 @@
       </view>
     </view>
     <view :class="styles['suit-selector']">
-      <view :key="i" v-for="i in temNumList" :class="styles.suits">
-        <view :class="styles['suit-name']">上衣</view>
+      <view
+        :key="suit.name"
+        v-for="suit in suitsList"
+        :class="[styles.suits, rentSuitStyle === suit.name ? styles.active : undefined]"
+        :style="{ backgroundImage: 'url(' + suit.img + ')' }"
+        @tap="() => {selectSuitStyle(suit)}"
+        >
+        <view :class="styles['suit-name']">{{ suit.name }}</view>
       </view>
     </view>
-    <view :class="styles['suit-panel']">
-      <view :class="styles.container">
+    <view v-if="suitsList.length !== 0" :class="styles['suit-panel']">
+      <view v-if="rentSuitStyle !== ''" :class="styles.container">
         <view :class="styles.title">尺码</view>
         <view :class="styles['size-scroll']">
           <view
-            :key="model"
-            v-for="model in temNumList"
-            :class="[styles['size-card'], rentSuitSize === model ? styles.active : undefined]"
-            @tap="() => selectSuitSize(model)"
-          >{{ model }}</view>
+            :key="spec.id"
+            v-for="spec in suitSpecsList"
+            :class="[styles['size-card'], rentSuitSpec === spec.spec ? styles.active : undefined]"
+            @tap="() => selectSuitSize(spec)"
+          >{{ spec.spec }}</view>
         </view>
         <view :class="styles.title">剩余数量</view>
-        <view :class="styles['remain-suit-num']">{{ remainSuitNum }}</view>
+        <view :class="styles['remain-suit-num']"> {{ suitStock }} </view>
+        <view v-if="suitStock !== undefined && suitStock <= 3" :class="styles.warning"> <icon type="warn" color="#f0ad3e"/> <view :class="styles.text">余量不足</view></view>
         <view :class="styles.title">数量</view>
         <view :class="styles['rent-suit-number']">
           <view :class="styles['number-symbal']" @tap="minusRentSuitNumber">-</view>
@@ -38,103 +46,137 @@
           <view :class="styles['number-symbal']" @tap="addRentSuitNumber">+</view>
         </view>
       </view>
-      <view :class="styles.confirm">确认提交</view>
+      <view @tap="confirmRentSuit" :class="[styles.confirm, rentSuitStyle === '' ? styles.unactive : undefined]">确认提交</view>
     </view>
+    <card v-else :class="styles['card-alarm']">该校区不存在可借用正装</card>
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import Taro from "@tarojs/taro";
+import { ref,computed, onMounted } from "vue";
+import { useRequest } from "@/hooks";
 import store, { serviceStore } from "@/store";
+import { SuitService } from "@/services";
 import styles from "./index.module.scss";
 import {
+  Card,
   TitleBar,
   ThemeConfig,
 } from "@/components";
 
-/*后端返回值*/
-// const returnValue = {
-//   "code": 1,
-//   "msg": "ok",
-//   "data": [
-//     {
-//       "name": "上衣",
-//       "img": "https://img",
-//       "specs": [
-//         {
-//           "id": 1,
-//           "stock": 3,
-//           "spec": "M"
-//         },{
-//           "id": 2,
-//           "stock": 0,
-//           "spec": "L"
-//         }
-//       ]
-//     },{
-//       "name": "裤子",
-//       "img": "https://img",
-//       "specs": [
-//         {
-//           "id": 7,
-//           "stock": 20,
-//           "spec": "180"
-//         },{
-//           "id": 11,
-//           "stock": 9,
-//           "spec": "XL"
-//         }
-//       ]
-//     }
-//   ]
-// };
-
-//unicode
-
+type SpecItem = {
+  id: number,
+  spec: string,
+  stock: number
+};
+type SuitType = {
+  name: string;
+  img: string;
+  specs: SpecItem[];
+}
 
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
 const selectCampus = ref(serviceStore.suit.lastOpenCampus || "朝晖");
-
-//需要unicode
-const temNumList = ["S", "M", "L", "XL", "XXL", "XXXL"];
-const remainSuitNum = ref(114514);
+const suitSpecsList = ref<SpecItem[]>([]);
+const suitStock = ref<number>();
 const rentSuitNumber = ref(1);
-const rentSuitSize = ref("S");
+const rentSuitSpec = ref<string>();
+const rentSuitStyle = ref<string>();
+const rentSuitId = ref<number>();
+const cam = ref(1);
 
+onMounted(() => {
+  readSuitInfo();
+});
 
+const readSuitInfo = () => {
+  switch(serviceStore.suit.lastOpenCampus) {
+  case "朝晖": cam.value = 1; break;
+  case "屏峰": cam.value = 2; break;
+  case "莫干山": cam.value = 3; break;
+  }
+  const { run: updateCampus } = useRequest(
+    SuitService.getSuitInfo, {
+      manual: true,
+      defaultParams: {
+        campus: cam.value
+      },
+      onSuccess: (res) => {
+        if(res.data.code !== 1) throw new Error(res.data.msg);
+        store.commit("setCampusSuitInfo", res.data.data);
+      },
+      onError: (e: Error) => {
+        return `获取正装信息失败\r\n${e.message || "网络错误"}`;
+      }
+    }
+  );
+  updateCampus();
+};
+
+const suitsList = computed(() => [
+  ...(serviceStore.suit.campusSuitInfo || [])
+]);
 
 const handleSelectCampus = (campus: string) => {
   if (selectCampus.value === campus) return;
   selectCampus.value = campus;
   store.commit("setLastOpenCampus", campus);
-  // resetList();
-  // getRecords({
-  //   campus: campus,
-  //   kind: selectKind.value,
-  //   page_num: currentPage.value + 1,
-  //   page_size: 10,
-  //   lost_or_found: selectMain.value
-  // });
+  readSuitInfo();
 };
 
-const selectSuitSize = (size: string) => {
-  if(size != rentSuitSize.value){
-    rentSuitSize.value = size;
-  }
+const selectSuitStyle = (suit: SuitType) => {
+  if(suit.name === rentSuitStyle.value) return;
+  rentSuitStyle.value = suit.name;
+  suitSpecsList.value = suit.specs;
+};
+
+const selectSuitSize = (spec: SpecItem) => {
+  if(spec.spec === rentSuitSpec.value) return;
+  rentSuitSpec.value = spec.spec;
+  rentSuitId.value = spec.id;
+  suitStock.value = spec.stock;
+  rentSuitNumber.value = 1;
 };
 
 const addRentSuitNumber = () => {
-  if(rentSuitNumber.value < remainSuitNum.value){
+  if(suitStock.value !== undefined && rentSuitNumber.value < suitStock.value){
     rentSuitNumber.value++;
     return;
   }
-  // alarmBeyondMaxRemainSuit();
 };
 
 const minusRentSuitNumber = () => {
   if(rentSuitNumber.value > 1){
     rentSuitNumber.value--;
   }
+};
+
+const confirmRentSuit = () => {
+  if(rentSuitId.value === undefined ||
+  suitStock.value === undefined ||
+  rentSuitNumber.value <= 0 ||
+  rentSuitNumber.value > suitStock.value){
+    Taro.showToast({ title: "请核对正装信息", icon: "none"});
+    return;
+  }
+  const { run } =  useRequest(
+    SuitService.pushRentSuitInfo, {
+      manual: true,
+      defaultParams: {
+        supplies_id: rentSuitId.value,
+        count: rentSuitNumber.value
+      },
+      onSuccess: (res) => {
+        if(res.data.code !== 1) throw new Error(res.data.msg);
+        return "正装借用成功";
+      },
+      onError: (e: Error) => {
+        return `获取正装信息失败\r\n${e.message || "网络错误"}`;
+      }
+    }
+  );
+  run();
 };
 
 </script>
