@@ -22,8 +22,9 @@ export default class SuitApplyService {
     borrow_id?:number,
   }) => {
     return request(
-      api.suit.record,{
-        method:"POST",
+      `${api.suit.record}?borrow_id=${data.borrow_id}`,
+      {
+        method:"DELETE",
         header: {"Cookie":serviceStore.sessionID},
         data
       }

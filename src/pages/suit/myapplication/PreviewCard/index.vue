@@ -207,8 +207,8 @@ const {source} = toRefs(props);
 
 const { run } = useRequest(
   SuitApplyService.deleteRecords, {
-    defaultParams: {
-      borrow_id:source.value.id
+    defaultParams:{
+      borrow_id:source.value.id,
     },
     loadingDelay: 300,
     manual:true,
@@ -219,9 +219,9 @@ const { run } = useRequest(
     onError: (e:Error) =>{
       return `加载申请信息失败\r\n${e.message || "网络错误"}`;
     }
-  }
+  },
 );
-//const handle
+
 
 const isOverTime = computed(() => {
   const agotime = dayjs().subtract(7, "day");
@@ -235,7 +235,6 @@ const handlePreviewImages = (url:string) => {
   });
 };
 
-
 const handleClick = () => {
   isShowConfirm.value =true;
 };
@@ -244,9 +243,13 @@ const onCancel = () => {
   isShowConfirm.value =false;
 };
 
+
 const onConfirm = () => {
   isShowConfirm.value =false;
-  run({ borrow_id: source.value.id });
+  run();
+  Taro.navigateTo({
+    url: "/pages/suit/myapplication/index"
+  });
 };
 
 const handleLoadFinish = ({ detail: { height, width }}) => {
