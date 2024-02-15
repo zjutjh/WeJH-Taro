@@ -67,7 +67,7 @@ function nav2apply() {
 
 function nav2myapply() {
   Taro.navigateTo({
-    url: "/pages/suit/myapply/index"
+    url: "/pages/suit/myapplication/index"
   });
 }
 
