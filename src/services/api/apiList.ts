@@ -48,6 +48,9 @@ const api = {
     record: "/api/func/lost",
     kind: "/api/func/lost/kind_list"
   },
+  suit: {
+    record: "/api/func/supplies-borrow/borrow",
+  },
   applist: "/api/applist",
   info: "/api/info",
   information: "/api/func/information",

@@ -12,6 +12,7 @@ import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { ElectricityServiceStore } from "./electricity";
 import { WebviewStore, WebviewStoreType } from "./webview";
 import { LostfoundStoreType, LostfoundStore } from "./lostfound";
+import { SuitApplyStoreType, SuitApplyStore } from "./suit";
 import { NotificationStoreType, NotificationStore } from "./notification";
 import { ThemeStore,ThemeStoreType } from "./theme";
 
@@ -54,6 +55,7 @@ export interface ServiceStoreType {
   };
   zf: ZFServiceType;
   lostfound: LostfoundStoreType;
+  suit:SuitApplyStoreType;
   homecard: HomeCardServiceType;
   notification: NotificationStoreType;
   theme: ThemeStoreType;
@@ -74,7 +76,8 @@ export const ServiceStore = {
     electricity: ElectricityServiceStore,
     lostfound: LostfoundStore,
     notification: NotificationStore,
-    theme: ThemeStore
+    theme: ThemeStore,
+    suit:SuitApplyStore,
   },
   state: () => ({
     sessionID: undefined

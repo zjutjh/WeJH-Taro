@@ -5,6 +5,7 @@ import LibraryService from "./services/libraryService";
 import CanteenService from "./services/canteenService";
 import YxyService from "./services/yxyService";
 import LostfoundService from "./services/lostfoundService";
+import SuitApplyService from "./services/suitApplyService";
 import { LoginByTaro } from "./services/authService";
 import errCodeHandler from "./utils/errHandler";
 import { api } from "./api/apiList";
@@ -17,6 +18,7 @@ export {
   CanteenService,
   YxyService,
   LostfoundService,
+  SuitApplyService,
   LoginByTaro,
   errCodeHandler,
   api
