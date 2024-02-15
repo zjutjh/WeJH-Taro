@@ -25,7 +25,6 @@ export default {
     "pages/lostfound/index",
     "pages/information/index",
     "pages/suit/index",
-    "pages/suit/faq/index",
     "pages/suit/myapplication/index"
   ],
   darkmode: true,
