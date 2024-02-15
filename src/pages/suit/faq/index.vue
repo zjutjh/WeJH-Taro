@@ -45,7 +45,6 @@ import {
   TitleBar,
   ThemeConfig
 } from "@/components";
-import {faqText} from "@/constants/suitFaq";
 import ContactMe from "../ContactMe/index.vue";
 import WModal from "../../../components/Modal/index.vue";
 import {ref} from "vue";
@@ -53,7 +52,6 @@ import {helpText} from "@/constants/copywriting";
 import {useRequest} from "@/hooks";
 import {SuitService} from "@/services";
 import {SuitFaq} from "@/types/Suit";
-import styles from "../../lostfound/PreviewCard/index.module.scss";
 import dayjs from "dayjs";
 
 const faqList = ref<SuitFaq[]>([]);

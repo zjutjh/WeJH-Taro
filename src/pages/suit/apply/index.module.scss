@@ -1,2 +1,181 @@
 @import "@/style/theme.scss";
 
+.campus-selector {
+  padding: 12Px;
+
+  .container {
+    display: flex;
+    height: 100%;
+    gap: 16Px;
+  }
+
+  .campus {
+    @include shadow;
+    flex: 0 calc(100% / 3);
+    padding: 6Px 16Px;
+    border-radius: 100Px;
+    background-color: var(--wjh-color-primary-light);
+    color: var(--wjh-color-primary-dark);
+    text-align: center;
+    transition: all .1s;
+  }
+
+  .campus:active {
+    transform: scale(1.05);
+  }
+
+  .active {
+    background-color: var(--wjh-color-primary);
+    color: var(--wjh-color-white);
+  }
+}
+
+.suit-selector {
+  display: flex;
+  flex: 0 0 auto;
+  margin-bottom: 6Px;
+  padding: 6Px;
+  overflow-x: scroll;
+  white-space: nowrap;
+
+  .suits {
+    @include shadow;
+    position: relative;
+    height: 178Px;
+    // height: 142Px;
+    margin: 0 6Px;
+    padding: 0Px 62Px;
+    border-radius: 12Px;
+    background-color: var(--wjh-color-week);
+    background-size:100% 100%;
+
+    .suit-name {
+      height: 36Px;
+      width: 124Px;
+      line-height: 65px;
+      position: absolute;
+      top: 142Px;
+      left: 0Px;
+      text-align: center;
+      border-radius: 0 0 9Px 9Px;
+      background-color: var(--wjh-color-background-container);
+    }
+  }
+
+  .active {
+    border: solid 4Px var(--wjh-color-primary);
+  }
+}
+
+.suit-panel {
+  background-color: var(--wjh-color-background-popup);
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  border-top-right-radius: 20Px;
+  border-top-left-radius: 20Px;
+
+  .container {
+    padding: 12Px 33Px;
+
+    .title {
+      margin: 24Px 0;
+      padding-left: .6rem;
+      border-left: 2Px solid;
+      font-size: 1.1rem;
+      line-height: 100%;
+      color: var(--wjh-color-primary);
+    }
+
+    .size-scroll {
+      display: flex;
+      overflow-x: auto;
+
+      .size-card {
+        @include shadow;
+        display: flex;
+        flex: 0 0 auto;
+        height: 40Px;
+        padding: 0 25Px;
+        margin-right: 16Px;
+        border: solid 2Px var(--wjh-color-week);
+        border-radius: 10Px;
+        color: var(--wjh-color-text-secondary);
+        text-align: center;
+        line-height: 40Px;
+      }
+
+      .active {
+        border: solid 2Px var(--wjh-color-primary);
+        color: var(--wjh-color-primary);
+      }
+    }
+
+    .remain-suit-num {
+      display: inline-flex;
+    }
+
+    .warning {
+      display: inline-flex;
+      // width: 208Px;
+      // height: 41Px;
+      margin: -12Px 0 0 40Px;
+      padding: 9Px 100Px 9Px 13Px;
+      border-radius: 8Px;
+      color: var(--wjh-color-orange-600);
+      background-color: var(--wjh-color-orange-400);
+
+      .text {
+        margin-left: 12Px;
+      }
+    }
+
+    .rent-suit-number {
+      transition: all 0.1s; //need test
+
+      .number-symbal {
+        @include shadow;
+        display: inline-block;
+        height: 35Px;
+        width: 35Px;
+        border: solid 1Px var(--wjh-color-week);
+        border-radius: 5Px;
+        color: var(--wjh-color-week);
+        font-size: 1.6rem;
+        font-weight: var(--wjh-font-weight-medium);
+        text-align: center;
+        line-height: 35Px;
+      }
+
+      .number-symbal:hover {
+        color: var(--wjh-color-text-secondary);
+        background-color: var(--wjh-color-light);
+        border: solid 1Px var(--wjh-color-light);
+      }
+
+      .number-num {
+        display: inline-block;
+        margin: 0 30Px;
+      }
+    }
+  }
+
+  .confirm {
+    @include shadow;
+    height: 40Px;
+    margin: 12Px;
+    border-radius: 7Px;
+    text-align: center;
+    line-height: 40Px;
+    background-color: var(--wjh-color-primary);
+    color: var(--wjh-color-white);
+  }
+
+  .unactive {
+    background-color: var(--wjh-color-week);
+  }
+}
+
+.card-alarm {
+  margin: 0 30Px;
+}

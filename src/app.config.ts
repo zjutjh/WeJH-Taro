@@ -26,7 +26,8 @@ export default {
     "pages/information/index",
     "pages/suit/index",
     "pages/suit/faq/index",
-    "pages/suit/information/index"
+    "pages/suit/information/index",
+    "pages/suit/apply/index"
   ],
   darkmode: true,
   themeLocation: "theme.json",

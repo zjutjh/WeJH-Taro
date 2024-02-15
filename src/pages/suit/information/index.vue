@@ -99,7 +99,7 @@ useRequest(SuitService.getInformation, {
       const responseData = res.data.data;
       Object.assign(nowData.value, responseData);
       Object.assign(inputData.value, nowData.value);
-      if (res.data.data.code !== 0) {
+      if (res.data.data.id !== 0) {
         change.value = false;
       }
       Taro.showToast({ title: "获取成功" });

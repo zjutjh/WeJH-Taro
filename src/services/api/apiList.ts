@@ -51,7 +51,9 @@ const api = {
   suit: {
     getFaq: "/api/func/supplies-borrow/qa",
     getInformation: "/api/func/supplies-borrow/info",
-    changeInformation: "/api/func/supplies-borrow/info"
+    changeInformation: "/api/func/supplies-borrow/info",
+    check: "/api/func/supplies-borrow/supplies",
+    submit: "/api/func/supplies-borrow/borrow"
   },
   applist: "/api/applist",
   info: "/api/info",
