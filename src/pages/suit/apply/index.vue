@@ -19,7 +19,7 @@
         :key="suit.name"
         v-for="suit in suitsList"
         :class="[styles.suits, rentSuitStyle === suit.name ? styles.active : undefined]"
-        :style="{ backgroundImage: 'url(' + suit.img + ')' }"
+        :style="{ backgroundImage: 'url(' + (suit.img !== '' ? suit.img : 'https://api.cnpatrickstar.com/img/2838e4c8-7ab0-4ef6-b2fb-2e88b3732af8.jpg') + ')' }"
         @tap="() => {selectSuitStyle(suit)}"
         >
         <view :class="styles['suit-name']">{{ suit.name }}</view>
@@ -105,6 +105,8 @@ const readSuitInfo = () => {
       onSuccess: (res) => {
         if(res.data.code !== 1) throw new Error(res.data.msg);
         store.commit("setCampusSuitInfo", res.data.data);
+        if(serviceStore.suit.campusSuitInfo)
+          selectSuitStyle(serviceStore.suit.campusSuitInfo[0]);
       },
       onError: (e: Error) => {
         return `获取正装信息失败\r\n${e.message || "网络错误"}`;
@@ -172,7 +174,7 @@ const confirmRentSuit = () => {
       },
       onSuccess: (res) => {
         if(res.data.code !== 1) throw new Error(res.data.msg);
-        return "正装借用成功";
+        Taro.showToast({title: "正装借用成功", icon:"none"});
       },
       onError: (e: Error) => {
         return `获取正装信息失败\r\n${e.message || "网络错误"}`;
