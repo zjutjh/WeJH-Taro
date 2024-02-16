@@ -22,7 +22,7 @@
     </view>
     <scroll-view lower-threshold="100" :scrollY="true" :class="styles['list-wrapper']">
       <view :class="styles['record-list']">
-        <preview-card v-for="record in recordList" :source="record" :key=record.id />
+        <preview-card v-for="record in recordList" :source="record" :key=record.id @is-delete="needRefresh"/>
         <w-skeleton v-if="loading" :style="{ borderRadius: '8Px' }" />
         <card v-else-if="!recordList.length" && isEmpty>
           <text>该分类下暂无申请记录</text>
@@ -105,4 +105,11 @@ const resetList = () => {
   recordList.value = [];
 };
 
+const needRefresh = () =>{
+  resetList();
+  getRecords({
+    campus: campusChange[selectCampus.value],
+    status: statusChange[selectStatus.value],
+  });
+};
 </script>
