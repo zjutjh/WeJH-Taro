@@ -204,6 +204,7 @@ const imageList = computed(() => [
   source.value?.img || null,
 ].filter(item => !!item) as string[]);
 const {source} = toRefs(props);
+const emit = defineEmits(["isDelete"]);
 
 const { run } = useRequest(
   SuitService.deleteRecords, {
@@ -245,9 +246,7 @@ const onCancel = () => {
 const onConfirm = () => {
   isShowConfirm.value =false;
   run();
-  Taro.navigateTo({
-    url: "/pages/suit/myapplication/index"
-  });
+  emit("isDelete","true");
 };
 
 const handleLoadFinish = ({ detail: { height, width }}) => {
