@@ -35,7 +35,7 @@
                 : style.conntact_text1_nochange
             "
           >
-            联系
+            手机
           </view>
           <view
             :class="
@@ -44,7 +44,7 @@
                 : style.conntact_text2_nochange
             "
           >
-            方式
+            号码
           </view>
 
           <input

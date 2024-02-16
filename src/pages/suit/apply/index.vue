@@ -37,7 +37,7 @@
           >{{ spec.spec }}</view>
         </view>
         <view :class="styles.title">剩余数量</view>
-        <view :class="styles['remain-suit-num']"> {{ suitStock }} </view>
+        <view :class="styles['remain-suit-num']"> &emsp; {{ suitStock }} </view>
         <view v-if="suitStock !== undefined && suitStock <= 3" :class="styles.warning"> <icon type="warn" color="#f0ad3e"/> <view :class="styles.text">余量不足</view></view>
         <view :class="styles.title">数量</view>
         <view :class="styles['rent-suit-number']">
@@ -134,6 +134,9 @@ const selectSuitStyle = (suit: SuitType) => {
   rentSuitNumber.value = 1;
   rentSuitSpec.value = "";
   rentSuitId.value = undefined;
+
+  // 每次切换正装种类时，自动选择第一个默认尺码并显示剩余数量
+  selectSuitSize(suitSpecsList.value[0]);
 };
 
 const selectSuitSize = (spec: SpecItem) => {
