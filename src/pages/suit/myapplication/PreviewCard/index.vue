@@ -8,8 +8,8 @@
         我的申请
       </view>
       <view :class="styles['icon-box']" v-show="source.status == 2">
-        <icon type="warn"/>
-        <view class="desc">被驳回</view>
+        <icon type="warn" color="#f0ad3e"/>
+        <view class="desc"><text>被驳回</text></view>
       </view>
       <text :class="styles.time">
           {{ timeFormat(source.apply_time) }}
@@ -20,8 +20,8 @@
         我的申请
       </view>
       <view :class="styles['icon-box']" v-show="isOverTime">
-        <icon type="warn"/>
-        <view class="desc">已超时</view>
+        <icon type="warn" color="#f0ad3e" size="20"/>
+        <view class="desc"><text>已超时</text></view>
       </view>
       <text :class="styles.time">
         借用时间:{{ timeFormat(source.borrow_time) }}
@@ -36,12 +36,9 @@
       </text>
     </view>
     <view :class="styles.body"  v-if="source.status === 1 || source.status === 2"  >
-      <view class="flex-container">
+      <view :class="styles['flex-container']" style="display: flex;">
         <view :class="styles['img-list']">
-          <view :class="[
-            styles['img-container'],
-            imageList.length > 1 ? styles.multiple : undefined
-          ]">
+          <view :class="[styles['img-container']]">
             <view
               :key="`${source.id}-${item}`"
               v-for="item in imageList"
@@ -49,7 +46,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 100Px ;height: 100Px"
+                style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
                 @tap="() => handlePreviewImages(item)"
@@ -74,7 +71,7 @@
           <text space="emsp" v-show="source.count" :class="styles.text">
             数量  {{ source.count }}
           </text>
-          <WButton @tap="() => handleClick()">取消申请</WButton>
+          <WButton :class="styles.button" @tap="() => handleClick()">取消申请</WButton>
           <w-modal
               v-model:show="isShowConfirm"
               title="提示"
@@ -94,12 +91,9 @@
       </view>
     </view>
     <view :class="styles.body"  v-if="source.status === 3"  >
-      <view class="flex-container">
+      <view :class="styles['flex-container']">
         <view :class="styles['img-list']">
-          <view :class="[
-            styles['img-container'],
-            imageList.length > 1 ? styles.multiple : undefined
-          ]">
+          <view :class="[styles['img-container']]">
             <view
               :key="`${source.id}-${item}`"
               v-for="item in imageList"
@@ -107,7 +101,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 100Px ;height: 100Px"
+                style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
                 @tap="() => handlePreviewImages(item)"
@@ -139,12 +133,9 @@
       </view>
     </view>
     <view :class="styles.body"  v-if="source.status === 4"  >
-      <view class="flex-container">
+      <view :class="styles['flex-container']">
         <view :class="styles['img-list']">
-          <view :class="[
-            styles['img-container'],
-            imageList.length > 1 ? styles.multiple : undefined
-          ]">
+          <view :class="[styles['img-container']]">
             <view
               :key="`${source.id}-${item}`"
               v-for="item in imageList"
@@ -152,7 +143,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 100Px ;height: 100Px"
+                style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
                 @tap="() => handlePreviewImages(item)"
@@ -201,7 +192,7 @@ const props =defineProps<{
 const isShowConfirm = ref(false);
 const needFixWidth = ref(false);
 const imageList = computed(() => [
-  source.value?.img || null,
+  source.value?.img || "https://api.cnpatrickstar.com/img/2838e4c8-7ab0-4ef6-b2fb-2e88b3732af8.jpg",
 ].filter(item => !!item) as string[]);
 const {source} = toRefs(props);
 const emit = defineEmits(["isDelete"]);
@@ -211,10 +202,11 @@ const { run } = useRequest(
     defaultParams:{
       borrow_id:source.value.id,
     },
-    loadingDelay: 300,
+    loadingDelay: 60,
     manual:true,
     onSuccess: (res) => {
       if (res.data.code === 1) {
+        emit("isDelete","true");
       }else throw new Error(res.data.msg);
     },
     onError: (e:Error) =>{
@@ -246,7 +238,6 @@ const onCancel = () => {
 const onConfirm = () => {
   isShowConfirm.value =false;
   run();
-  emit("isDelete","true");
 };
 
 const handleLoadFinish = ({ detail: { height, width }}) => {

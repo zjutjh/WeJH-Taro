@@ -58,7 +58,7 @@ const { loading, run } = useRequest(
       campus: campusChange[selectCampus.value],
       status: statusChange[selectStatus.value]
     },
-    loadingDelay: 300,
+    loadingDelay: 600,
     onSuccess: (res) => {
       if (res.data.code === 1) {
         recordList.value = recordList.value?.concat(
@@ -106,6 +106,7 @@ const resetList = () => {
 };
 
 const needRefresh = () =>{
+  console.log("1");
   resetList();
   getRecords({
     campus: campusChange[selectCampus.value],
