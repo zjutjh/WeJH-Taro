@@ -8,7 +8,7 @@ import { ref, computed } from "vue";
 
 const zfpass = ref("");
 const user = computed(() => serviceStore.user);
-const helpContent = helpText.bind.zf;
+const helpContent = helpText.suit;
 const isShowHelp = ref(false);
 
 async function bindZFClick() {

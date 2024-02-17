@@ -55,7 +55,7 @@ import {SuitFaq} from "@/types/Suit";
 import dayjs from "dayjs";
 
 const faqList = ref<SuitFaq[]>([]);
-const helpContent = ref(helpText);
+const helpContent = helpText.suit.main;
 const isShowHelp = ref(false);
 const isEmpty = ref(true);
 
