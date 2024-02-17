@@ -9,40 +9,82 @@
       <view class="flex-column">
         <card>
           <template #header>
-            <text style="color: var(--wjh-color-primary); font-size: larger">| 我的信息</text>
+            <text style="color: var(--wjh-color-primary); font-size: larger"
+              >| 我的信息</text
+            >
             <view>
-              <view @tap="() => isShowHelp = !isShowHelp">
+              <view @tap="() => (isShowHelp = !isShowHelp)">
                 <view class="iconfont icon-help"></view>
               </view>
             </view>
           </template>
           <text>学号</text>
           <view>
-            <input disabled="disabled" :class="style.input" placeholder="请输入您的学号" v-model="nowData.student_id" />
+            <input
+              disabled="disabled"
+              :class="style.input"
+              placeholder="请输入您的学号"
+              v-model="nowData.student_id"
+            />
           </view>
-          <text>姓名</text>
-          <view>
-            <input :disabled=!change :class="style.input" placeholder="请输入您的姓名" v-model="inputData.name" />
-          </view>
-          <text>性别</text>
-          <view>
-            <input :disabled=!change :class="style.input" placeholder="请输入您的性别（男/女）" v-model="inputData.gender" />
+
+          <view :class="style.line">
+            <view :class="style.name">
+              <text>姓名</text>
+              <view>
+                <input
+                  :disabled="!change"
+                  :class="style.input"
+                  placeholder="请输入您的姓名"
+                  v-model="inputData.name"
+                />
+              </view>
+            </view>
+
+            <view>
+              <text :class="style.sex">性别</text>
+              <view>
+                <input
+                  :disabled="!change"
+                  :class="style.input"
+                  placeholder="请输入您的性别 (男/女)"
+                  v-model="inputData.gender"
+                />
+              </view>
+            </view>
           </view>
           <text>学院</text>
           <view>
-            <input :disabled=!change :class="style.input" placeholder="请输入您所在的学院" v-model="inputData.college" />
+            <input
+              :disabled="!change"
+              :class="style.input"
+              placeholder="请输入您所在的学院"
+              v-model="inputData.college"
+            />
           </view>
           <text>寝室</text>
           <view>
-            <input :disabled=!change :class="style.input" placeholder="请输入您的寝室信息" v-model="inputData.dormitory" />
+            <input
+              :disabled="!change"
+              :class="style.input"
+              placeholder="请输入您的寝室信息"
+              v-model="inputData.dormitory"
+            />
           </view>
           <text>手机号码</text>
           <view>
-            <input :disabled=!change :class="style.input" placeholder="请输入您的手机号码" v-model="inputData.contact" />
+            <input
+              :disabled="!change"
+              :class="style.input"
+              placeholder="请输入您的手机号码"
+              v-model="inputData.contact"
+            />
           </view>
           <template #footer>
             <view :class="style.button" v-if="change">
-              <w-button :class="style.button_cancle" @tap="cancel">取消</w-button>
+              <w-button :class="style.button_cancle" @tap="cancel"
+                >取消</w-button
+              >
               <view>&ensp;</view>
               <w-button :class="style.button_save" @tap="save">保存</w-button>
             </view>
@@ -57,12 +99,12 @@
 
 <script setup lang="ts">
 import style from "./index.module.scss";
-import {ref} from "vue";
-import {WButton, Card, ThemeConfig, TitleBar, WModal} from "@/components";
+import { ref } from "vue";
+import { WButton, Card, ThemeConfig, TitleBar, WModal } from "@/components";
 import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
 import Taro from "@tarojs/taro";
-import {helpText} from "@/constants/copywriting";
+import { helpText } from "@/constants/copywriting";
 
 const helpContent = helpText.suit.information;
 const isShowHelp = ref(false);
