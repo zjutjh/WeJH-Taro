@@ -127,7 +127,7 @@
             数量  {{ source.count }}
           </text>
           <text space="emsp" v-show="source.count" :class="styles.text">
-            剩余时间  {{ dayjs((dayjs(source.borrow_time).add(7,'days')).diff(dayjs() ,"second")).format("D天HH小时mm分") }}
+            剩余时间  {{ timeCount(source.borrow_time)}}
           </text>
         </view>
       </view>
@@ -247,5 +247,13 @@ const handleLoadFinish = ({ detail: { height, width }}) => {
 
 const timeFormat= (time: string) => {
   return dayjs(time).format("YYYY/MM/DD HH:mm");
+};
+
+const timeCount= (borrow_time:string) => {
+  const secondDuring =(dayjs(borrow_time).add(7,'day').unix())-(dayjs().unix());
+  const setMinutes = (secondDuring%60);
+  const setHours = Math.floor(secondDuring/60%60);
+  const setDay = Math.floor(secondDuring/60/60%24);
+  return setDay+"天"+setHours+"小时"+setMinutes+"分";
 };
 </script>
