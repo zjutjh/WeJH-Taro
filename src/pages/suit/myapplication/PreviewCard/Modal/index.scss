@@ -1,0 +1,84 @@
+@import "@/style/mixin.scss";
+
+.wjh-modal-mask {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.65);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.wjh-modal {
+  position: fixed;
+  z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.wjh-modal-container {
+  @include radius;
+  position: relative;
+  background-color: var(--wjh-color-background-container);
+  z-index: 2100;
+  width: 80%;
+  max-width: 300Px;
+  top: 30vh;
+  margin: 0 auto;
+}
+
+.wjh-modal-header {
+  position: relative;
+  text-align: center;
+  border-bottom: 1px solid var(--wjh-color-border);
+  font-size: 1.125rem;
+  font-weight: var(--wjh-font-weight-medium);
+  padding: 16Px 0;
+  margin: 0 16Px;
+}
+
+.wjh-modal-body {
+  padding: 16Px;
+  font-size: 1rem;
+  color: var(--wjh-color-week);
+  min-height: auto;
+  line-height: 2rem;
+  white-space: break-spaces;
+  text-align: center;
+}
+
+.wjh-modal-footer {
+  border-top: 1px solid var(--wjh-color-border);
+}
+
+.hidden {
+  display: none;
+}
+
+.actions {
+  border-top: 1Px solid var(--wjh-color-border);
+
+  .button {
+    flex: 50%;
+    padding: 16Px 0;
+    transition: all .1s;
+    background-color: var(--wjh-color-background-container);
+
+    &:last-child {
+      border-bottom-right-radius: 8Px;
+    }
+
+    &:first-child {
+      border-right: 1Px solid var(--wjh-color-border);
+      border-bottom-left-radius: 8Px;
+    }
+
+    &:active {
+      filter: brightness(.9);
+    }
+
+  }
+
+}
