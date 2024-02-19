@@ -47,12 +47,13 @@
     padding: 50px 0;
     display: flex;
     .content {
+      max-width: 30%;
       padding: 6Px 0;
       white-space: pre-wrap;
       margin-left: auto;
       gap: 1.5rem;
       .text {
-        margin-left: 6.5em;
+        margin-left: 5%;
         margin-top: -20px;
         text-indent: -6em;
         font-weight: normal;
@@ -73,7 +74,6 @@
 
         .img-wrapper {
           position: relative;
-          flex: 1;
 
           .image {
             box-sizing: border-box;
@@ -109,4 +109,8 @@
   margin-left: auto;
   width: 200px;
   font-size: 0.9rem;
+}
+
+.wjh-modal-body{
+  min-height: auto !important;
 }

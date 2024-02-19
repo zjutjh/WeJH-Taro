@@ -72,7 +72,7 @@
             数量  {{ source.count }}
           </text>
           <WButton :class="styles.button" @tap="() => handleClick()">取消申请</WButton>
-          <w-modal
+          <modal
             v-model:show="isShowConfirm"
             title="提示"
             content="请确认是否要取消申请"
@@ -86,7 +86,7 @@
                   callback: onConfirm
                 }
               }"
-          ></w-modal>
+          ></modal>
         </view>
       </view>
     </view>
@@ -143,7 +143,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 125Px ;height: 200Px"
+                style="width: 135Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
                 @tap="() => handlePreviewImages(item)"
@@ -181,7 +181,8 @@ import { SuitApplyRecord } from "@/types/Suit";
 import { toRefs,computed,ref } from "vue";
 import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
-import { WButton, WModal } from "@/components";
+import { WButton } from "@/components";
+import  Modal from "./Modal/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import styles from "./index.module.scss";
@@ -250,7 +251,7 @@ const timeFormat= (time: string) => {
 };
 
 const timeCount= (borrow_time:string) => {
-  const secondDuring =(dayjs(borrow_time).add(7,'day').unix())-(dayjs().unix());
+  const secondDuring =(dayjs(borrow_time).add(7,"day").unix())-(dayjs().unix());
   const setMinutes = (secondDuring%60);
   const setHours = Math.floor(secondDuring/60%60);
   const setDay = Math.floor(secondDuring/60/60%24);
