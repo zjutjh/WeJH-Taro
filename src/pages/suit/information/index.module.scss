@@ -33,3 +33,17 @@
   }
 
 }
+
+.line{
+    display: flex;
+    justify-content: space-around;
+    .name{
+      flex: 1;
+      margin-right: 40px;
+    }
+
+    .sex{
+      flex: 1;
+    }
+}
+
