@@ -25,9 +25,16 @@
   }
   .icon-box {
     display: flex;
+    border-radius: 8Px;
+    color: var(--wjh-color-orange-600);
+    background-color: var(--wjh-color-orange-400);
+    font-size: 0.8rem;
+    line-height: 80%;
+    margin-left: auto;
+    align-items: center;
   }
   .time{
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 80%;
     margin-left: auto;
   }
@@ -37,59 +44,46 @@
   border-bottom: 2Px solid var(--wjh-color-border);
 
   .flex-container{
-
-  display: flex;
-  .content {
-    padding: 12Px 0;
-    white-space: pre-wrap;
-
-    .text {
-      margin-left: 6.5em;
-      margin-top: -20px;
-      text-indent: -6em;
-      font-weight: normal;
-    }
-  }
-
-  .img-list {
+    padding: 50px 0;
     display: flex;
-    overflow-x: auto;
-    gap: 6Px;
-    padding-bottom: 6Px;
-
-    .multiple {
-      .img-wrapper {
-        flex: 0 30% !important;
-        height: 0 !important;
-        padding-bottom: 30% !important;
-
-        .image {
-          position: absolute;
-          width: 100% !important;
-          height: 100% !important;
-        }
+    .content {
+      padding: 6Px 0;
+      white-space: pre-wrap;
+      margin-left: auto;
+      gap: 1.5rem;
+      .text {
+        margin-left: 6.5em;
+        margin-top: -20px;
+        text-indent: -6em;
+        font-weight: normal;
       }
     }
 
-    .img-container {
-      flex: 1; // dynamic
+    .img-list {
       display: flex;
-      gap: 16Px;
-      width: 100%;
+      overflow-x: auto;
+      gap: 6Px;
+      padding-bottom: 6Px;
+      margin-right: auto;
+      .img-container {
+        flex: 1; // dynamic
+        display: flex;
+        gap: 16Px;
+        width: 100%;
 
-      .img-wrapper {
-        position: relative;
-        flex: 1;
+        .img-wrapper {
+          position: relative;
+          flex: 1;
 
-        .image {
-          box-sizing: border-box;
-          border: 1Px solid var(--wjh-color-border);
-          width: 240Px;
+          .image {
+            box-sizing: border-box;
+            border: 1Px solid var(--wjh-color-border);
+            border-radius: 12px;
+          }
+
         }
-
       }
     }
-  }
   }
 }
 
@@ -109,4 +103,10 @@
   .header {
     color: var(--wjh-color-blue-700);
   }
+}
+
+.button{
+  margin-left: auto;
+  width: 200px;
+  font-size: 0.9rem;
 }

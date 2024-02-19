@@ -4,7 +4,7 @@
     <view :class="styles['campus-selector']">
       <view :class="styles['container']">
         <view :key="item" v-for="item in campusList" :class="[styles['campus'], selectCampus === item ? styles['active'] : undefined]"
-          @tap="() => handleSelectCampus(item)">
+              @tap="() => handleSelectCampus(item)">
           <text>{{ item }}</text>
         </view>
       </view>
@@ -15,7 +15,7 @@
           状态  |
         </text>
         <text :key="item" v-for="item in statusList"  :class="selectStatus === item ? styles['active'] : undefined"
-          @tap="() => handleSelectStatus(item)">
+              @tap="() => handleSelectStatus(item)">
           {{ item }}
         </text>
       </view>
@@ -58,7 +58,7 @@ const { loading, run } = useRequest(
       campus: campusChange[selectCampus.value],
       status: statusChange[selectStatus.value]
     },
-    loadingDelay: 300,
+    loadingDelay: 600,
     onSuccess: (res) => {
       if (res.data.code === 1) {
         recordList.value = recordList.value?.concat(
@@ -106,6 +106,7 @@ const resetList = () => {
 };
 
 const needRefresh = () =>{
+  console.log("1");
   resetList();
   getRecords({
     campus: campusChange[selectCampus.value],

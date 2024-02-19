@@ -1,9 +1,7 @@
 <template>
   <theme-config>
     <!-- {{ serviceStore.suit.campusSuitInfo.name }} -->
-    <view :class="styles['suit-title-bar']">
-      <title-bar title="正装借用" back-button />
-    </view>
+    <title-bar title="正装借用" back-button />
     <view :class="styles['campus-selector']">
       <view :class="styles.container">
         <view
@@ -11,7 +9,7 @@
           v-for="item in campusList"
           :class="[styles.campus, selectCampus === item ? styles.active : undefined]"
           @tap="() => handleSelectCampus(item)"
-        >
+         >
           <text>{{ item }}</text>
         </view>
       </view>
@@ -23,7 +21,7 @@
         :class="[styles.suits, rentSuitStyle === suit.name ? styles.active : undefined]"
         :style="{ backgroundImage: 'url(' + (suit.img !== '' ? suit.img : 'https://api.cnpatrickstar.com/img/2838e4c8-7ab0-4ef6-b2fb-2e88b3732af8.jpg') + ')' }"
         @tap="() => {selectSuitStyle(suit)}"
-      >
+        >
         <view :class="styles['suit-name']">{{ suit.name }}</view>
       </view>
     </view>
@@ -39,10 +37,8 @@
           >{{ spec.spec }}</view>
         </view>
         <view :class="styles.title">剩余数量</view>
-        <view :class="styles['remain-suit-num']">
-          {{ suitStock === -1 ? "-" : suitStock }}
-          <view v-if="suitStock !== undefined && suitStock <= 3 && suitStock !== -1" :class="styles.warning"> <icon type="warn" color="#f0ad3e"/> <view :class="styles.text">余量不足</view></view>
-        </view>
+        <view :class="styles['remain-suit-num']"> &ensp; {{ suitStock }} </view>
+        <view v-if="suitStock !== undefined && suitStock <= 3" :class="styles.warning"> <icon type="warn" color="#f0ad3e"/> <view :class="styles.text">余量不足</view></view>
         <view :class="styles.title">数量</view>
         <view :class="styles['rent-suit-number']">
           <view :class="styles['number-symbal']" @tap="minusRentSuitNumber">-</view>
@@ -50,22 +46,7 @@
           <view :class="styles['number-symbal']" @tap="addRentSuitNumber">+</view>
         </view>
       </view>
-      <view @tap="onConfirm" :class="[styles.confirm, rentSuitStyle === '' ? styles.unactive : undefined]">提交申请</view>
-      <w-modal
-        v-model:show="isShowConfirm"
-        title="提示"
-        content="请确认是否提交申请 如果提前在线上申请尽早获取"
-        :actions="{
-                cancel: {
-                  label: '取消',
-                  callback: onCancel
-                },
-                confirm: {
-                  label: '确定',
-                  callback: confirmRentSuit
-                }
-              }"
-      ></w-modal>
+      <view @tap="confirmRentSuit" :class="[styles.confirm, rentSuitStyle === '' ? styles.unactive : undefined]">确认提交</view>
     </view>
     <card v-else :class="styles['card-alarm']">该校区不存在可借用正装</card>
   </theme-config>
@@ -82,7 +63,6 @@ import {
   Card,
   TitleBar,
   ThemeConfig,
-  WModal
 } from "@/components";
 
 type SpecItem = {
@@ -99,13 +79,12 @@ type SuitType = {
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
 const selectCampus = ref(serviceStore.suit.lastOpenCampus || "朝晖");
 const suitSpecsList = ref<SpecItem[]>([]);
-const suitStock = ref<number>(-1);
+const suitStock = ref<number>();
 const rentSuitNumber = ref(1);
 const rentSuitSpec = ref<string>();
 const rentSuitStyle = ref<string>();
 const rentSuitId = ref<number>();
 const cam = ref(1);
-const isShowConfirm = ref(false);
 
 onMounted(() => {
   readSuitInfo();
@@ -113,9 +92,9 @@ onMounted(() => {
 
 const readSuitInfo = () => {
   switch(serviceStore.suit.lastOpenCampus) {
-    case "朝晖": cam.value = 1; break;
-    case "屏峰": cam.value = 2; break;
-    case "莫干山": cam.value = 3; break;
+  case "朝晖": cam.value = 1; break;
+  case "屏峰": cam.value = 2; break;
+  case "莫干山": cam.value = 3; break;
   }
   const { run: updateCampus } = useRequest(
     SuitService.getSuitInfo, {
@@ -127,7 +106,7 @@ const readSuitInfo = () => {
         if(res.data.code !== 1) throw new Error(res.data.msg);
         store.commit("setCampusSuitInfo", res.data.data);
         if(serviceStore.suit.campusSuitInfo)
-          selectSuitStyle(suitsList.value[0]);
+          selectSuitStyle(serviceStore.suit.campusSuitInfo[0]);
       },
       onError: (e: Error) => {
         return `获取正装信息失败\r\n${e.message || "网络错误"}`;
@@ -139,7 +118,7 @@ const readSuitInfo = () => {
 
 const suitsList = computed(() => [
   ...(serviceStore.suit.campusSuitInfo || [])
-].sort((a, b) => {return a.name.charCodeAt(0) - b.name.charCodeAt(0);}));
+]);
 
 const handleSelectCampus = (campus: string) => {
   if (selectCampus.value === campus) return;
@@ -155,7 +134,9 @@ const selectSuitStyle = (suit: SuitType) => {
   rentSuitNumber.value = 1;
   rentSuitSpec.value = "";
   rentSuitId.value = undefined;
-  suitStock.value = -1;
+
+  // 每次切换正装种类时，自动选择第一个默认尺码并显示剩余数量
+  selectSuitSize(suitSpecsList.value[0]);
 };
 
 const selectSuitSize = (spec: SpecItem) => {
@@ -181,9 +162,9 @@ const minusRentSuitNumber = () => {
 
 const confirmRentSuit = () => {
   if(rentSuitId.value === undefined ||
-    suitStock.value === undefined ||
-    rentSuitNumber.value <= 0 ||
-    rentSuitNumber.value > suitStock.value){
+  suitStock.value === undefined ||
+  rentSuitNumber.value <= 0 ||
+  rentSuitNumber.value > suitStock.value){
     Taro.showToast({ title: "请核对正装信息", icon: "none"});
     return;
   }
@@ -196,23 +177,14 @@ const confirmRentSuit = () => {
       },
       onSuccess: (res) => {
         if(res.data.code !== 1) throw new Error(res.data.msg);
-        Taro.showToast({title: "正装借用申请成功", icon:"none"});
+        Taro.showToast({title: "正装借用成功", icon:"none"});
       },
       onError: (e: Error) => {
-        return `${e.message || "网络错误"}`;
+        return `获取正装信息失败\r\n${e.message || "网络错误"}`;
       }
     }
   );
   run();
-  isShowConfirm.value = false;
-};
-
-const onCancel = () => {
-  isShowConfirm.value = false;
-};
-
-const onConfirm = () => {
-  isShowConfirm.value = true;
 };
 
 </script>
