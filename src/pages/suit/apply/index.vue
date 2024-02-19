@@ -54,7 +54,7 @@
       <w-modal
         v-model:show="isShowConfirm"
         title="提示"
-        content="请确认是否提交申请 如果提前在线上申请尽早获取"
+        content="请您再次确认是否提交申请！另外，申请完成后，如果您所申请的正装的尺码目前标注“余量不足”，请您尽早前往学生事务大厅领取。“余量不足”的正装可能会被线下借用的同学优先借完，从而导致在“微精弘线上借用”已经申请过的同学无正装可借，微精弘对此概不负责！"
         :actions="{
                 cancel: {
                   label: '取消',
@@ -156,6 +156,9 @@ const selectSuitStyle = (suit: SuitType) => {
   rentSuitSpec.value = "";
   rentSuitId.value = undefined;
   suitStock.value = -1;
+
+  //每次切换正装种类时，自动选择第一个认尺码并显示剩余数量
+  selectSuitSize(suitSpecsList.value[0]);
 };
 
 const selectSuitSize = (spec: SpecItem) => {

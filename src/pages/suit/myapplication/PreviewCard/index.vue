@@ -252,9 +252,14 @@ const timeFormat= (time: string) => {
 
 const timeCount= (borrow_time:string) => {
   const secondDuring =(dayjs(borrow_time).add(7,"day").unix())-(dayjs().unix());
-  const setMinutes = (secondDuring%60);
-  const setHours = Math.floor(secondDuring/60%60);
-  const setDay = Math.floor(secondDuring/60/60%24);
-  return setDay+"天"+setHours+"小时"+setMinutes+"分";
+  const setHours = Math.floor(secondDuring/60/60%24);
+  const setDay = Math.floor(secondDuring/60/60/24);
+
+  if(setDay > 1 || (setDay === 1 && setHours >= 0) ) {
+    return setDay + "天";
+  }
+  else if(setDay <= 1) {
+    return setHours + "小时";
+  }
 };
 </script>

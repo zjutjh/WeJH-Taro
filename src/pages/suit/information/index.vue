@@ -23,7 +23,6 @@
             <input
               disabled="disabled"
               :class="style.input"
-              placeholder="请输入您的学号"
               v-model="nowData.student_id"
             />
           </view>
@@ -35,7 +34,6 @@
                 <input
                   :disabled="!change"
                   :class="style.input"
-                  placeholder="请输入您的姓名"
                   v-model="inputData.name"
                 />
               </view>
@@ -47,7 +45,7 @@
                 <input
                   :disabled="!change"
                   :class="style.input"
-                  placeholder="请输入您的性别 (男/女)"
+                  placeholder="请输入 男 / 女"
                   v-model="inputData.gender"
                 />
               </view>
@@ -58,7 +56,7 @@
             <input
               :disabled="!change"
               :class="style.input"
-              placeholder="请输入您所在的学院"
+              placeholder="如：计算机学院"
               v-model="inputData.college"
             />
           </view>
@@ -67,7 +65,7 @@
             <input
               :disabled="!change"
               :class="style.input"
-              placeholder="请输入您的寝室信息"
+              placeholder="如：家和东苑1幢101室"
               v-model="inputData.dormitory"
             />
           </view>
@@ -76,7 +74,6 @@
             <input
               :disabled="!change"
               :class="style.input"
-              placeholder="请输入您的手机号码"
               v-model="inputData.contact"
             />
           </view>
