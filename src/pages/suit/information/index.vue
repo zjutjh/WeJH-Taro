@@ -39,13 +39,13 @@
               </view>
             </view>
 
-            <view>
-              <text :class="style.sex">性别</text>
+            <view :class="style.sex">
+              <text>性别</text>
               <view>
                 <input
                   :disabled="!change"
                   :class="style.input"
-                  placeholder="请输入 男 / 女"
+                  placeholder="男 / 女"
                   v-model="inputData.gender"
                 />
               </view>
@@ -96,7 +96,7 @@
 
 <script setup lang="ts">
 import style from "./index.module.scss";
-import { ref } from "vue";
+import {ref, watch} from "vue";
 import { WButton, Card, ThemeConfig, TitleBar, WModal } from "@/components";
 import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
@@ -197,4 +197,12 @@ const fieldMapping = {
   学院: "college",
   寝室: "dormitory",
 };
+
+watch(
+  () => nowData.value.student_id,
+  (newValue) => {
+    if(newValue !== "") change.value = false;
+    else if(newValue === "") change.value = true;
+  }
+);
 </script>
