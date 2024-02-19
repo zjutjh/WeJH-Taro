@@ -45,7 +45,7 @@ import { omit } from "lodash-es";
 import store, { serviceStore } from "@/store";
 
 const recordList = ref<SuitApplyRecord[]>([]);
-const campusList = ref<string[]>(["朝晖", "屏峰", "莫干山"]);
+const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
 const statusList = ref<string[]>(["待处理", "借用中", "已完成"]);
 const selectCampus = ref(serviceStore.suit.lastOpenCampus ||"朝晖");
 const selectStatus = ref(serviceStore.suit.lastOpenStatus ||"待处理");
