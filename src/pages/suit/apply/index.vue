@@ -37,7 +37,7 @@
           >{{ spec.spec }}</view>
         </view>
         <view :class="styles.title">剩余数量</view>
-        <view :class="styles['remain-suit-num']"> &emsp; {{ suitStock }} </view>
+        <view :class="styles['remain-suit-num']"> &ensp; {{ suitStock }} </view>
         <view v-if="suitStock !== undefined && suitStock <= 3" :class="styles.warning"> <icon type="warn" color="#f0ad3e"/> <view :class="styles.text">余量不足</view></view>
         <view :class="styles.title">数量</view>
         <view :class="styles['rent-suit-number']">

@@ -1,5 +1,9 @@
 @import "@/style/theme.scss";
 
+.suit-title-bar {
+  height: 60Px;
+}
+
 .campus-selector {
   padding: 12Px;
 
@@ -112,14 +116,15 @@
     }
 
     .remain-suit-num {
-      display: inline-flex;
+      position: relative;
     }
 
     .warning {
+      position: absolute;
+      top: -12Px;
+      left: 100Px;
       display: inline-flex;
-      // width: 208Px;
-      // height: 41Px;
-      margin: -12Px 0 0 40Px;
+      // margin: -12Px 0 0 40Px;
       padding: 9Px 100Px 9Px 13Px;
       border-radius: 8Px;
       color: var(--wjh-color-orange-600);
