@@ -12,8 +12,8 @@
         <view class="desc"><text>被驳回</text></view>
       </view>
       <text :class="styles.time">
-          {{ timeFormat(source.apply_time) }}
-        </text>
+        {{ timeFormat(source.apply_time) }}
+      </text>
     </view>
     <view :class="styles.header" v-if="source.status === 3">
       <view :class="styles.title">
@@ -73,10 +73,10 @@
           </text>
           <WButton :class="styles.button" @tap="() => handleClick()">取消申请</WButton>
           <modal
-              v-model:show="isShowConfirm"
-              title="提示"
-              content="请确认是否要取消申请"
-              :actions="{
+            v-model:show="isShowConfirm"
+            title="提示"
+            content="请确认是否要取消申请"
+            :actions="{
                 cancel: {
                   label: '取消',
                   callback: onCancel
@@ -86,7 +86,7 @@
                   callback: onConfirm
                 }
               }"
-            ></modal>
+          ></modal>
         </view>
       </view>
     </view>
