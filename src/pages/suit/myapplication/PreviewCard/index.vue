@@ -8,7 +8,7 @@
         我的申请
       </view>
       <view :class="styles['icon-box']" v-show="source.status == 2">
-        <icon type="warn" color="#f0ad3e"/>
+        <icon type="warn" color="#f0ad3e" size="15"/>
         <view class="desc"><text>被驳回</text></view>
       </view>
       <text :class="styles.time">
@@ -21,7 +21,7 @@
       </view>
       <view :class="styles['icon-box']" v-show="!isOverTime">
         <icon type="warn" color="#f0ad3e" size="15"/>
-        <view class="desc"><text>已超时</text></view>
+        <view class="desc"><text>超时</text></view>
       </view>
       <text :class="styles.time">
         借用时间:{{ timeFormat(source.borrow_time) }}
