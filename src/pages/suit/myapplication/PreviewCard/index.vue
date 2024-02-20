@@ -19,8 +19,8 @@
       <view :class="styles.title">
         我的申请
       </view>
-      <view :class="styles['icon-box']" v-show="isOverTime">
-        <icon type="warn" color="#f0ad3e" size="20"/>
+      <view :class="styles['icon-box']" v-show="!isOverTime">
+        <icon type="warn" color="#f0ad3e" size="15"/>
         <view class="desc"><text>已超时</text></view>
       </view>
       <text :class="styles.time">
@@ -196,7 +196,7 @@ const props =defineProps<{
 const isShowConfirm = ref(false);
 const needFixWidth = ref(false);
 const imageList = computed(() => [
-  source.value?.img || "https://api.cnpatrickstar.com/img/2838e4c8-7ab0-4ef6-b2fb-2e88b3732af8.jpg",
+  source.value?.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg",
 ].filter(item => !!item) as string[]);
 const {source} = toRefs(props);
 const emit = defineEmits(["isDelete"]);

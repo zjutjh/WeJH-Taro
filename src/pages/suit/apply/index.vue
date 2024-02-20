@@ -21,7 +21,7 @@
         :key="suit.name"
         v-for="suit in suitsList"
         :class="[styles.suits, rentSuitStyle === suit.name ? styles.active : undefined]"
-        :style="{ backgroundImage: 'url(' + (suit.img !== '' ? suit.img : 'https://api.cnpatrickstar.com/img/2838e4c8-7ab0-4ef6-b2fb-2e88b3732af8.jpg') + ')' }"
+        :style="{ backgroundImage: 'url(' + (suit.img !== '' ? suit.img : 'https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg') + ')' }"
         @tap="() => {selectSuitStyle(suit)}"
       >
         <view :class="styles['suit-name']">{{ suit.name }}</view>
