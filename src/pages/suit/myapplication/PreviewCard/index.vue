@@ -126,8 +126,11 @@
           <text space="emsp" v-show="source.count" :class="styles.text">
             数量  {{ source.count }}
           </text>
-          <text space="emsp" v-show="source.count" :class="styles.text">
+          <text v-if="!isOverTime" space="emsp" v-show="source.borrow_time" :class="styles.text">
             剩余时间  {{ timeCount(source.borrow_time)}}
+          </text>
+          <text v-if="isOverTime" space="emsp" v-show="source.borrow_time" :class="styles.text">
+            超时时间  {{ timeCount(source.borrow_time)}}
           </text>
         </view>
       </view>
@@ -251,15 +254,17 @@ const timeFormat= (time: string) => {
 };
 
 const timeCount= (borrow_time:string) => {
-  const secondDuring =(dayjs(borrow_time).add(7,"day").unix())-(dayjs().unix());
+  let secondDuring =(dayjs(borrow_time).add(7,'day').unix())-(dayjs().unix());
+  if(isOverTime.value == true){
+    secondDuring = (dayjs().unix())-(dayjs(borrow_time).add(7,'day').unix());
+  }
   const setHours = Math.floor(secondDuring/60/60%24);
   const setDay = Math.floor(secondDuring/60/60/24);
-
-  if(setDay > 1 || (setDay === 1 && setHours >= 0) ) {
-    return setDay + "天";
+  if (Math.abs(setDay)>0){
+    return setDay+"天\t";
   }
-  else if(setDay <= 1) {
-    return setHours + "小时";
+  else{
+    return setHours+"小时\t";
   }
 };
 </script>
