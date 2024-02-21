@@ -4,6 +4,12 @@
     <scroll-view :scrollY="true">
       <view class="header-view">
         <image src="@/assets/photos/suit.svg"></image>
+        <view class="extra" @tap="showHelp">
+          <view class="icon-wrapper">
+            <view class="extra-icon iconfont icon-announcement"></view>
+          </view>
+          <view class="label">公告</view>
+        </view>
       </view>
 
       <view class="flex-column">
@@ -40,6 +46,17 @@
         </w-list>
       </view>
     </scroll-view>
+    <w-modal
+      title="公告"
+      v-model:show="showModal"
+      :content="`&emsp;&emsp;${showContent}`"
+    ></w-modal>
+
+    <contact-me @show-help="setHelp"/>
+    <w-modal
+      v-model:show="isShowHelp"
+      :content="`&emsp;&emsp;${helpContent}`"
+    ></w-modal>
   </theme-config>
 </template>
 
@@ -49,9 +66,15 @@ import {
   TitleBar,
   WList,
   WListItem,
-  ThemeConfig
+  ThemeConfig, WModal
 } from "@/components";
 import Taro from "@tarojs/taro";
+import {ref} from "vue";
+import {helpText} from "@/constants/copywriting";
+import ContactMe from "./ContactMe/index.vue";
+
+const showModal = ref(false);
+const showContent = helpText.suit.main;
 
 function nav2faq() {
   Taro.navigateTo({
@@ -76,4 +99,15 @@ function nav2information() {
     url: "/pages/suit/information/index"
   });
 }
+
+function showHelp() {
+  showModal.value = true;
+}
+
+const isShowHelp = ref(false);
+const helpContent = helpText.suit.help;
+
+const setHelp = () => {
+  isShowHelp.value = true;
+};
 </script>

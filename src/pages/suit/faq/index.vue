@@ -25,16 +25,7 @@
           <text>当前暂无借用须知，敬请期待</text>
         </card>
       </view>
-
-
-
     </scroll-view>
-
-    <contact-me @show-help="setHelp"/>
-    <w-modal
-      v-model:show="isShowHelp"
-      :content="`&emsp;&emsp;${helpContent}`"
-    ></w-modal>
   </theme-config>
 </template>
 
@@ -45,23 +36,14 @@ import {
   TitleBar,
   ThemeConfig
 } from "@/components";
-import ContactMe from "../ContactMe/index.vue";
-import WModal from "../../../components/Modal/index.vue";
 import {ref} from "vue";
-import {helpText} from "@/constants/copywriting";
 import {useRequest} from "@/hooks";
 import {SuitService} from "@/services";
 import {SuitFaq} from "@/types/Suit";
 import dayjs from "dayjs";
 
 const faqList = ref<SuitFaq[]>([]);
-const helpContent = helpText.suit.main;
-const isShowHelp = ref(false);
 const isEmpty = ref(true);
-
-const setHelp = () => {
-  isShowHelp.value = true;
-};
 
 const {run} = useRequest(SuitService.getFaq, {
   defaultParams: {
