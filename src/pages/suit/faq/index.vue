@@ -53,7 +53,7 @@ const {run} = useRequest(SuitService.getFaq, {
   onSuccess: (res) => {
     if(res.data.code === 1) {
       faqList.value = res.data.data;
-      isEmpty.value = false;
+      if(faqList.value.length > 0) isEmpty.value = false;
       console.log(faqList.value);
     }  else throw new Error(res.data.msg);
   },
