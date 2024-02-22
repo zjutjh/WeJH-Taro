@@ -32,7 +32,7 @@
         我的申请
       </view>
       <text :class="styles.time">
-        借用时间:{{ timeFormat(source.borrow_time) }}
+        归还时间:{{ timeFormat(source.return_time) }}
       </text>
     </view>
     <view :class="styles.body"  v-if="source.status === 1 || source.status === 2"  >
@@ -146,7 +146,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 135Px ;height: 200Px"
+                style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
                 @tap="() => handlePreviewImages(item)"
@@ -172,7 +172,7 @@
             数量  {{ source.count }}
           </text>
           <text space="emsp" v-show="source.return_time" :class="styles.text">
-            归还时间  {{ timeFormat(source.return_time) }}
+            借用时长  {{ timeDuring(source.borrow_time ,source.return_time) }}
           </text>
         </view>
       </view>
@@ -267,4 +267,16 @@ const timeCount= (borrow_time:string) => {
     return setHours+"小时\t";
   }
 };
+
+const timeDuring = (borrow_time:string , return_time:string) => {
+  let secondDuring = (dayjs(return_time).unix() - dayjs(borrow_time).unix());
+  const setHours = Math.floor(secondDuring/60/60%24);
+  const setDay = Math.floor(secondDuring/60/60/24);
+  if (Math.abs(setDay)>0){
+    return setDay+"天\t";
+  }
+  else{
+    return setHours+"小时\t";
+  }
+}
 </script>
