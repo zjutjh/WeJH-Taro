@@ -38,12 +38,11 @@
     display: flex;
     justify-content: space-around;
     .name{
-      flex: 1;
-      margin-right: 40px;
+      flex: 3;
+      padding-right: 10Px;
     }
-
     .sex{
-      flex: 1;
+      flex: 2;
     }
 }
 

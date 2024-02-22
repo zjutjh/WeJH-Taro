@@ -112,6 +112,7 @@
     }
 
     .remain-suit-num {
+      // display: inline-flex;
       position: relative;
     }
 
@@ -121,7 +122,7 @@
       left: 100Px;
       display: inline-flex;
       // margin: -12Px 0 0 40Px;
-      padding: 9Px 100Px 9Px 13Px;
+      padding: 9Px 13Px 9Px 13Px;
       border-radius: 8Px;
       color: var(--wjh-color-orange-600);
       background-color: var(--wjh-color-orange-400);
