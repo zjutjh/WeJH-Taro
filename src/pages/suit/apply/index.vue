@@ -21,7 +21,7 @@
         :key="suit.name"
         v-for="suit in suitsList"
         :class="[styles.suits, rentSuitStyle === suit.name ? styles.active : undefined]"
-        :style="{ backgroundImage: 'url(' + (suit.img !== '' ? suit.img : 'https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg') + ')' }"
+        :style="{ backgroundImage: 'url(' + (suit.img !== '' ? suit.img : 'https://api.cnpatrickstar.com/img/2838e4c8-7ab0-4ef6-b2fb-2e88b3732af8.jpg') + ')' }"
         @tap="() => {selectSuitStyle(suit)}"
       >
         <view :class="styles['suit-name']">{{ suit.name }}</view>
@@ -54,7 +54,7 @@
       <w-modal
         v-model:show="isShowConfirm"
         title="提示"
-        content="请您再次确认是否提交申请！另外，申请完成后，如果您所申请的正装的尺码目前标注“余量不足”，请您尽早前往学生事务大厅领取。“余量不足”的正装可能会被线下借用的同学优先借完，从而导致在“微精弘线上借用”已经申请过的同学无正装可借，微精弘对此概不负责！"
+        :content="`&emsp;&emsp;${warnContent}`"
         :actions="{
                 cancel: {
                   label: '取消',
@@ -77,6 +77,7 @@ import { ref,computed, onMounted } from "vue";
 import { useRequest } from "@/hooks";
 import store, { serviceStore } from "@/store";
 import { SuitService } from "@/services";
+import {helpText} from "@/constants/copywriting";
 import styles from "./index.module.scss";
 import {
   Card,
@@ -106,6 +107,7 @@ const rentSuitStyle = ref<string>();
 const rentSuitId = ref<number>();
 const cam = ref(1);
 const isShowConfirm = ref(false);
+const warnContent = ref(helpText.suit.warn);
 
 onMounted(() => {
   readSuitInfo();
