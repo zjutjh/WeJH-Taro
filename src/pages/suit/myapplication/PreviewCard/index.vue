@@ -19,7 +19,7 @@
       <view :class="styles.title">
         我的申请
       </view>
-      <view :class="styles['icon-box']" v-show="!isOverTime">
+      <view :class="styles['icon-box']" v-show="isOverTime">
         <icon type="warn" color="#f0ad3e" size="15"/>
         <view class="desc"><text>超时</text></view>
       </view>
