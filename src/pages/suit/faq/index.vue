@@ -7,20 +7,20 @@
       </view>
 
       <view class="flex-column">
-          <Card
+          <card
             v-for="faq in faqList"
             :key="faq.id"
-            :title="faq.title"
             style="font-weight: bold;
                  font-size: 22px;"
           >
+            <view :class="style.title">{{ faq.title }}</view>
             <view :class="style.text">
               <text>{{faq.content}}</text>
             </view>
             <view :class="style.footer">
               <text>{{ faq.publisher }} · {{ timeFormat(faq.publish_time) }}</text>
             </view>
-          </Card>
+          </card>
         <card v-if="isEmpty">
           <text>当前暂无借用须知，敬请期待</text>
         </card>

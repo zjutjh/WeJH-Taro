@@ -50,7 +50,8 @@
           <view :class="styles['number-symbal']" @tap="addRentSuitNumber">+</view>
         </view>
       </view>
-      <view @tap="onConfirm" :class="[styles.confirm, rentSuitStyle === '' ? styles.unactive : undefined]">提交申请</view>
+      <view v-if="suitStock === 0"  :class="[styles.confirm, rentSuitStyle === '' ? styles.unactive : undefined]">库存不足，无法申请</view>
+      <view v-else @tap="onConfirm" :class="[styles.confirm, rentSuitStyle === '' ? styles.unactive : undefined]">提交申请</view>
       <w-modal
         v-model:show="isShowConfirm"
         title="提示"

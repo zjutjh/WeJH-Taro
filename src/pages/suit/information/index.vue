@@ -130,11 +130,9 @@ useRequest(SuitService.getInformation, {
       const responseData = res.data.data;
       Object.assign(nowData.value, responseData);
       Object.assign(inputData.value, nowData.value);
-      if (res.data.data.id !== 0) {
-        change.value = false;
-      }
       Taro.showToast({ title: "获取成功" });
       Taro.hideLoading();
+      change.value = responseData.id === 0;
     } else throw new Error(res.data.msg);
   },
   onError: (e: Error) => {
@@ -198,11 +196,11 @@ const fieldMapping = {
   寝室: "dormitory",
 };
 
-watch(
-  () => nowData.value.student_id,
-  (newValue) => {
-    if(newValue !== "") change.value = false;
-    else if(newValue === "") change.value = true;
-  }
-);
+// watch(
+//   () => nowData.value.student_id,
+//   (newValue) => {
+//     if(newValue !== "") change.value = false;
+//     else if(newValue === "") change.value = true;
+//   }
+// );
 </script>
