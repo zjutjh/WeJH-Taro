@@ -14,9 +14,6 @@ dependencies:
   '@tarojs/helper':
     specifier: 3.6.8
     version: registry.npmmirror.com/@tarojs/helper@3.6.8
-  '@tarojs/plugin-framework-react':
-    specifier: ^3.6.23
-    version: registry.npmmirror.com/@tarojs/plugin-framework-react@3.6.23(@tarojs/runtime@3.6.8)(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8)
   '@tarojs/plugin-framework-vue3':
     specifier: 3.6.8
     version: registry.npmmirror.com/@tarojs/plugin-framework-vue3@3.6.8(vue@3.2.47)
