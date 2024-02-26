@@ -48,10 +48,18 @@ const api = {
     record: "/api/func/lost",
     kind: "/api/func/lost/kind_list"
   },
+  announcement: "/api/announcement",
+  information: "/api/func/information",
   applist: "/api/applist",
   info: "/api/info",
-  information: "/api/func/information",
-  announcement: "/api/announcement"
+  suit: {
+    getFaq: "/api/func/supplies-borrow/qa",
+    getInformation: "/api/func/supplies-borrow/info",
+    changeInformation: "/api/func/supplies-borrow/info",
+    check: "/api/func/supplies-borrow/supplies",
+    submit: "/api/func/supplies-borrow/borrow",
+    record: "/api/func/supplies-borrow/borrow"
+  },
 };
 
 const defDevHost = "http://0.0.0.0:8080";

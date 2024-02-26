@@ -1,0 +1,66 @@
+@import "@/style/theme.scss";
+
+.campus-selector {
+  background-color: var(--wjh-color-background-container);
+  padding: 12Px;
+
+  .container {
+    display: flex;
+    height: 100%;
+    gap: 16Px;
+  }
+
+  .campus {
+    flex: 0 calc(100% / 3);
+    padding: 6Px 16Px;
+    border-radius: 100Px;
+    background-color: var(--wjh-color-primary-light);
+    color: var(--wjh-color-primary-dark);
+    text-align: center;
+    transition: all .1s;
+  }
+
+  .campus:active {
+    transform: scale(1.05);
+  }
+
+  .active {
+    background-color: var(--wjh-color-primary);
+    color: var(--wjh-color-white);
+  }
+}
+
+.kind-selector {
+  display: flex;
+  font-size: 1.1rem;
+  color: var(--wjh-color-week);
+  background-color: var(--wjh-color-primary-light);
+
+  .scroll-view {
+    margin-top: -9px;
+    font-size: 0.9em;
+    display: flex;
+    overflow-x: auto;
+    align-items: center;
+    padding-right: 16Px;
+    flex: 1;
+    white-space: nowrap;
+
+    text {
+      transition: all .1s;
+      padding: 2Px 6Px;
+    }
+
+    text:active {
+      background-color: rgba(0, 0, 0, .06);
+    }
+
+    .active {
+      color: var(--wjh-color-primary-dark);
+    }
+  }
+}
+
+.record-list {
+  padding: 16Px;
+}

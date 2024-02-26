@@ -5,7 +5,7 @@ $applit-padding-top: .8rem;
 .applist {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(4, 25%);
+  grid-template-columns: repeat(3, 33.3333%);
   width: 90%;
   margin: 0 auto;
   padding-bottom: calc($nav-bar-height + $nav-bar-padding-top + $applit-padding-top);

@@ -1,0 +1,41 @@
+@import "@/style/theme.scss";
+
+.header {
+  height: 200Px;
+  background-color: var(--wjh-color-primary);
+  display: flex;
+
+  image {
+    height: 100%;
+    margin: 0 auto;
+  }
+}
+
+.title {
+  font-size: 1.35rem;
+  word-break: break-word;
+  font-weight: var(--wjh-font-weight-medium);
+  justify-content: center;
+  text-align: center;
+  padding: 12Px 0;
+  border-bottom: 1Px solid var(--wjh-color-border);
+}
+
+.text {
+    font-weight: normal;
+    font-size: 1rem;
+    color: var(--wjh-color-text);
+    line-height: 1.2;
+    padding: 0 1rem 1rem;
+
+    border-bottom: 1Px solid var(--wjh-color-border);
+}
+
+
+.footer {
+  padding: 12Px 0;
+  color: var(--wjh-color-week);
+  text-align: center;
+  font-size: .8rem;
+  font-weight: normal;
+}

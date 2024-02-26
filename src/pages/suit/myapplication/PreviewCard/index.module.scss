@@ -1,0 +1,115 @@
+@import "@/style/theme.scss";
+
+.container {
+  width: 100%;
+  padding: 0 18Px;
+  box-sizing: border-box;
+  background: var(--wjh-color-background-container);
+  border-radius: 8Px;
+  margin-bottom: 12Px;
+}
+
+.header {
+  display: flex;
+  padding-top: 14Px;
+  padding-bottom: 10Px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2Px solid var(--wjh-color-border);
+
+  .title {
+    padding-left: .6rem;
+    border-left: 2Px solid;
+    font-size: 1.1rem;
+    line-height: 100%;
+  }
+  .icon-box {
+    display: flex;
+    border-radius: 8Px;
+    color: var(--wjh-color-orange-600);
+    background-color: var(--wjh-color-orange-400);
+    font-size: 0.8rem;
+    line-height: 80%;
+    margin-left: auto;
+    align-items: center;
+  }
+  .time{
+    font-size: 0.8rem;
+    line-height: 80%;
+    margin-left: auto;
+  }
+}
+
+.body {
+  border-bottom: 2Px solid var(--wjh-color-border);
+
+  .flex-container{
+    padding: 50px 0;
+    display: flex;
+    .content {
+      max-width: 30%;
+      padding: 6Px 0;
+      white-space: pre-wrap;
+      margin-left: auto;
+      gap: 1.5rem;
+      .text {
+        margin-top: -20px;
+        text-indent: -4em;
+        font-weight: normal;
+      }
+    }
+
+    .img-list {
+      display: flex;
+      overflow-x: auto;
+      gap: 6Px;
+      padding-bottom: 6Px;
+      margin-right: auto;
+      .img-container {
+        flex: 1; // dynamic
+        display: flex;
+        gap: 16Px;
+        width: 100%;
+
+        .img-wrapper {
+          position: relative;
+
+          .image {
+            box-sizing: border-box;
+            border: 1Px solid var(--wjh-color-border);
+            border-radius: 12px;
+          }
+
+        }
+      }
+    }
+  }
+}
+
+.loan {
+  .header{
+    color: var(--wjh-color-green-700);
+  }
+}
+
+.pend {
+  .header {
+    color: var(--wjh-color-orange-600);
+  }
+}
+
+.complete {
+  .header {
+    color: var(--wjh-color-blue-700);
+  }
+}
+
+.button{
+  margin-left: auto;
+  width: 200px;
+  font-size: 0.9rem;
+}
+
+.wjh-modal-body{
+  min-height: auto !important;
+}

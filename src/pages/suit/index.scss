@@ -1,0 +1,53 @@
+@import '@/style/theme.scss';
+
+.header-view {
+  height: 200Px;
+  background-color: var(--wjh-color-primary);
+  display: flex;
+
+  image {
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .extra {
+    position: absolute;
+    color: var(--wjh-color-white);
+    right: 16Px;
+    top: 145Px;
+    text-align: center;
+
+    .icon-wrapper {
+      width: 32Px;
+      height: 32Px;
+      background-color: var(--wjh-color-white);
+      text-align: center;
+      border-radius: 50%;
+
+      .extra-icon {
+        color: var(--wjh-color-primary);
+        font-size: 1.5rem;
+      }
+    }
+
+    .label {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem 1rem;
+}
+
+.suit-list-item {
+
+  .text-wrapper {
+    display: flex;
+    gap: 16rpx;
+    flex: auto;
+  }
+}

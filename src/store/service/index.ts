@@ -14,6 +14,7 @@ import { WebviewStore, WebviewStoreType } from "./webview";
 import { LostfoundStoreType, LostfoundStore } from "./lostfound";
 import { NotificationStoreType, NotificationStore } from "./notification";
 import { ThemeStore,ThemeStoreType } from "./theme";
+import { SuitStoreType,SuitStore } from "./suit";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];
@@ -57,6 +58,7 @@ export interface ServiceStoreType {
   homecard: HomeCardServiceType;
   notification: NotificationStoreType;
   theme: ThemeStoreType;
+  suit: SuitStoreType;
 }
 
 export const ServiceStore = {
@@ -74,7 +76,8 @@ export const ServiceStore = {
     electricity: ElectricityServiceStore,
     lostfound: LostfoundStore,
     notification: NotificationStore,
-    theme: ThemeStore
+    theme: ThemeStore,
+    suit: SuitStore
   },
   state: () => ({
     sessionID: undefined
