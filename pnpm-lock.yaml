@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@babel/runtime':
     specifier: ^7.7.7
@@ -10,6 +14,9 @@ dependencies:
   '@tarojs/helper':
     specifier: 3.6.8
     version: registry.npmmirror.com/@tarojs/helper@3.6.8
+  '@tarojs/plugin-framework-react':
+    specifier: ^3.6.27
+    version: registry.npmmirror.com/@tarojs/plugin-framework-react@3.6.27(@tarojs/runtime@3.6.8)(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8)
   '@tarojs/plugin-framework-vue3':
     specifier: 3.6.8
     version: registry.npmmirror.com/@tarojs/plugin-framework-vue3@3.6.8(vue@3.2.47)
@@ -5437,10 +5444,10 @@ packages:
       - '@types/webpack-dev-server'
       - react
 
-  registry.npmmirror.com/@tarojs/helper@3.6.23:
-    resolution: {integrity: sha512-0Fce1QlsON93eMMqOQSQjY1OO1N6mWvVvwOvbrDbysRvJEOis1+XZ1zsGcagInsyksKVYQaPX021+MRU7IjKgw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tarojs/helper/-/helper-3.6.23.tgz}
+  registry.npmmirror.com/@tarojs/helper@3.6.27:
+    resolution: {integrity: sha512-xRKJvk9LS0pc9aS7VzccwvBz0gs2YdC8CgZK7koEiE36sultwx1meuf4dRspCMApwdPhnzaDTF/BOrS89FbFsg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tarojs/helper/-/helper-3.6.27.tgz}
     name: '@tarojs/helper'
-    version: 3.6.23
+    version: 3.6.27
     dependencies:
       '@babel/core': registry.npmmirror.com/@babel/core@7.21.0
       '@babel/parser': registry.npmmirror.com/@babel/parser@7.21.2
@@ -5659,16 +5666,16 @@ packages:
       - vue
     dev: true
 
-  registry.npmmirror.com/@tarojs/plugin-framework-react@3.6.23(@tarojs/runtime@3.6.8)(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8):
-    resolution: {integrity: sha512-jM9Y/T/nwHLlqUoV8LEpC/cop4horJYVnde34G3XYSO80ltFl0c6RNLO3fooG4j+5mrqbifqMJ7rH/FCi5fwoQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tarojs/plugin-framework-react/-/plugin-framework-react-3.6.23.tgz}
-    id: registry.npmmirror.com/@tarojs/plugin-framework-react/3.6.23
+  registry.npmmirror.com/@tarojs/plugin-framework-react@3.6.27(@tarojs/runtime@3.6.8)(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8):
+    resolution: {integrity: sha512-/9hhjq8MPP+tcQtwOdMjyy2PdTEKtCunhjobZuwOWFNu4T0BCSIDu3H9KyECkVEErGdbOamkbkNjoAmhuQoLHg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tarojs/plugin-framework-react/-/plugin-framework-react-3.6.27.tgz}
+    id: registry.npmmirror.com/@tarojs/plugin-framework-react/3.6.27
     name: '@tarojs/plugin-framework-react'
-    version: 3.6.23
+    version: 3.6.27
     peerDependencies:
       '@pmmmwh/react-refresh-webpack-plugin': '*'
       '@prefresh/webpack': '*'
-      '@tarojs/runtime': ~3.6.23
-      '@tarojs/shared': ~3.6.23
+      '@tarojs/runtime': ~3.6.27
+      '@tarojs/shared': ~3.6.27
       preact: '*'
       react: '>=17'
       react-refresh: '*'
@@ -5684,9 +5691,9 @@ packages:
       react-refresh:
         optional: true
     dependencies:
-      '@tarojs/helper': registry.npmmirror.com/@tarojs/helper@3.6.23
+      '@tarojs/helper': registry.npmmirror.com/@tarojs/helper@3.6.27
       '@tarojs/runtime': registry.npmmirror.com/@tarojs/runtime@3.6.8
-      '@tarojs/service': registry.npmmirror.com/@tarojs/service@3.6.23(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8)
+      '@tarojs/service': registry.npmmirror.com/@tarojs/service@3.6.27(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8)
       '@tarojs/shared': registry.npmmirror.com/@tarojs/shared@3.6.8
       acorn: registry.npmmirror.com/acorn@8.8.2
       acorn-walk: registry.npmmirror.com/acorn-walk@8.2.0
@@ -5891,16 +5898,16 @@ packages:
       '@tarojs/shared': registry.npmmirror.com/@tarojs/shared@3.6.8
       lodash-es: registry.npmmirror.com/lodash-es@4.17.21
 
-  registry.npmmirror.com/@tarojs/service@3.6.23(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8):
-    resolution: {integrity: sha512-lRxgioi1ALKpFySs8pZLAnqT1Jk1wygHGVQ4JDpaMrP4XMVaKLARX/1VmeVxgDJQ82IlP3++LsJEKOdwqL3usQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tarojs/service/-/service-3.6.23.tgz}
-    id: registry.npmmirror.com/@tarojs/service/3.6.23
+  registry.npmmirror.com/@tarojs/service@3.6.27(@tarojs/shared@3.6.8)(@tarojs/taro@3.6.8):
+    resolution: {integrity: sha512-IwCoM3d13aOY3dEAMz6YSZe5L24V7BzPZSwWs0P4t8zSauHAXGVE86QGdHPRSxy3JPW1UrUdh9Ut+toQu9LvVA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tarojs/service/-/service-3.6.27.tgz}
+    id: registry.npmmirror.com/@tarojs/service/3.6.27
     name: '@tarojs/service'
-    version: 3.6.23
+    version: 3.6.27
     peerDependencies:
-      '@tarojs/shared': ~3.6.23
-      '@tarojs/taro': ~3.6.23
+      '@tarojs/shared': ~3.6.27
+      '@tarojs/taro': ~3.6.27
     dependencies:
-      '@tarojs/helper': registry.npmmirror.com/@tarojs/helper@3.6.23
+      '@tarojs/helper': registry.npmmirror.com/@tarojs/helper@3.6.27
       '@tarojs/shared': registry.npmmirror.com/@tarojs/shared@3.6.8
       '@tarojs/taro': registry.npmmirror.com/@tarojs/taro@3.6.8(vue@3.2.47)
       joi: registry.npmmirror.com/joi@17.8.4
@@ -12565,10 +12572,10 @@ packages:
     version: 3.9.0
     dev: true
 
-  registry.npmmirror.com/miniprogram-compiler@0.2.2:
-    resolution: {integrity: sha512-fiJXv/15jCcRAU8YKcO7S7fkPKLa5ZBgpLN+d6B3r3KMktM5tAkDEQ+zm6aTfNoHurYOHcRyPyGf26gqQXlFXg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/miniprogram-compiler/-/miniprogram-compiler-0.2.2.tgz}
+  registry.npmmirror.com/miniprogram-compiler@0.2.3:
+    resolution: {integrity: sha512-/MfFiXTBUwYxnrTbj1hgwk1+qGkMCTL1zi8IReOq/0SPVkUxpx19E89w+ohYCELFXkMfVbD+6ejrHh3Y1u5sVg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/miniprogram-compiler/-/miniprogram-compiler-0.2.3.tgz}
     name: miniprogram-compiler
-    version: 0.2.2
+    version: 0.2.3
     dependencies:
       glob: registry.npmmirror.com/glob@7.2.3
       unescape-js: registry.npmmirror.com/unescape-js@1.1.4
@@ -12588,7 +12595,7 @@ packages:
       csso: registry.npmmirror.com/csso@3.5.1
       j-component: registry.npmmirror.com/j-component@1.4.9
       less: registry.npmmirror.com/less@3.13.1
-      miniprogram-compiler: registry.npmmirror.com/miniprogram-compiler@0.2.2
+      miniprogram-compiler: registry.npmmirror.com/miniprogram-compiler@0.2.3
       postcss: registry.npmmirror.com/postcss@7.0.39
     dev: true
 

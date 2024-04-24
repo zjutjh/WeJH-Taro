@@ -27,7 +27,7 @@
         <view :class="styles['suit-name']">{{ suit.name }}</view>
       </view>
     </view>
-    <view v-if="suitsList.length !== 0" :class="styles['suit-panel']">
+    <view v-if="suitsList.length !== 0 && selectCampus !== '朝晖'" :class="styles['suit-panel']">
       <view v-if="rentSuitStyle !== ''" :class="styles.container">
         <view :class="styles.title">尺码</view>
         <view :class="styles['size-scroll']">
@@ -41,7 +41,7 @@
         <view :class="styles.title">剩余数量</view>
         <view :class="styles['remain-suit-num']">
           {{ suitStock === -1 ? "-" : suitStock }}
-          <view v-if="suitStock !== undefined && suitStock <= 3 && suitStock !== -1" :class="styles.warning"> <icon type="warn" color="#f0ad3e"/> <view :class="styles.text">余量不足</view></view>
+          <view v-if="suitStock !== undefined && suitStock <= 1 && suitStock !== -1" :class="styles.warning"> <icon type="warn" color="#f0ad3e"/> <view :class="styles.text">余量不足</view></view>
         </view>
         <view :class="styles.title">数量</view>
         <view :class="styles['rent-suit-number']">
@@ -68,6 +68,7 @@
               }"
       ></w-modal>
     </view>
+    <card v-else-if="selectCampus === '朝晖'" :class="styles['card-alarmZhaoHui']">朝晖校区线上办理暂不可用，请至线下(学生事务大厅：综合楼一楼河畔旁,联系电话:88320868)办理借用</card>
     <card v-else :class="styles['card-alarm']">该校区不存在可借用正装</card>
   </theme-config>
 </template>
