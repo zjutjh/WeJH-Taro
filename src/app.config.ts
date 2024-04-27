@@ -12,6 +12,8 @@ export default {
     "pages/exam/index",
     "pages/score/index",
     "pages/setting/index",
+    "pages/setting/logout/index",
+    "pages/setting/changePassword/index",
     "pages/connect/index",
     "pages/connect/faq/index",
     "pages/lab/index",
