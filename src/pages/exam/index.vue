@@ -14,11 +14,11 @@
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="!exam || exam.length === 0" style="text-align: center">
+        <card v-if="examList.length === 0" style="text-align: center">
           <view>无记录</view>
         </card>
         <card
-          v-for="item in exam"
+          v-for="item in examList"
           :key="item.id"
           size="small"
           class="exam-card"
@@ -103,14 +103,14 @@
       <view class="col">
         <term-picker
           class="picker"
-          :year="selectTerm.year"
-          :term="selectTerm.term"
+          :year="queryOptions.year"
+          :term="queryOptions.term"
           :selectflag="0"
           @changed="termChanged"
         />
       </view>
       <view class="col">
-        <refresh-button :is-refreshing="isRefreshing" @refresh="refresh" />
+        <refresh-button :is-refreshing="examStore.loading" @refresh="refresh" />
       </view>
     </bottom-panel>
     <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
@@ -118,8 +118,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
+import { computed, ref } from "vue";
 import {
   BottomPanel,
   Card,
@@ -133,36 +132,40 @@ import {
   WDescriptionsItem,
   WModal
 } from "@/components";
-import { ZFService } from "@/services";
 import dayjs, { ConfigType } from "dayjs";
 import { helpText } from "@/constants/copywriting";
 import { Image as TaroImage } from "@tarojs/components";
 import ExamCoverImage from "@/assets/photos/exam.svg";
 import "./index.scss";
+import useExamStore from "@/store/service/exam/collections";
+import useExamQueryOptionsStore from "@/store/service/exam/queryOptions";
 
-const selectTerm = ref({
-  year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.term
-});
-const isRefreshing = ref(false);
-const exam = computed(() => {
-  return ZFService.getExamInfo(selectTerm.value)?.data;
-});
+const examStore = useExamStore();
+const queryOptions = useExamQueryOptionsStore();
+
 const showModal = ref(false);
 const helpContent = helpText.exam;
 
+const examList = computed(() => {
+  const { year, term } = queryOptions;
+  const collection = examStore.collections.find(
+    (item) => item.year === year && item.term === term
+  );
+
+  return collection?.exams ?? [];
+});
+
 async function termChanged(e) {
-  isRefreshing.value = true;
-  selectTerm.value = e;
-  await ZFService.updateExamInfo(e);
-  isRefreshing.value = false;
+  queryOptions.setOption(e);
+  examStore.fetchExam(e);
 }
 
 async function refresh() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  await ZFService.updateExamInfo(selectTerm.value);
-  isRefreshing.value = false;
+  if (examStore.loading) return;
+  examStore.fetchExam({
+    year: queryOptions.year,
+    term: queryOptions.term
+  });
 }
 
 function getDetailedTime(timeString: string) {
@@ -179,11 +182,5 @@ function timeInterval(timeString: string) {
 function showHelp() {
   showModal.value = true;
 }
-
-onMounted(async () => {
-  if (serviceStore.user.isBindZF) {
-    await refresh();
-  }
-});
 
 </script>

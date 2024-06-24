@@ -6,7 +6,7 @@ import { request } from "@/utils";
 import { Room } from "@/types/Room";
 
 export default class ZFService {
-  static getExamInfo(params: { year: string; term: string }) {
+  static getExamInfo(params: { year: string; term: "上" | "下" | "短" }) {
     return request<Exam[]>(
       api.zf.examInfo, {
         method: "POST",
