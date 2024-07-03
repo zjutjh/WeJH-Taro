@@ -50,7 +50,7 @@ if (props.selectflag >= 1)
 
 let years: string[] = [];
 
-for (let i = 0; i < 4; i++) years.push(`${year - i}/${year - i + 1}`);
+for (let i = -1; i < 4; i++) years.push(`${year - i}/${year - i + 1}`);
 selector.unshift(years);
 
 /** Picker 依赖, 索引数组 */
