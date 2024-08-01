@@ -12,6 +12,14 @@ const helpContent = helpText.bind.oauth;
 const isShowHelp = ref(false);
 
 async function bindOauthClick() {
+  const regex = /^[a-zA-Z0-9!@#$%^&*()_+-=,.<>?;:'"{}\[\]\\|`~]*$/;
+  if (!regex.test(oauthpass.value)) {
+    Taro.showToast({
+      title: "输入存在中文字符或其他非法字符,请重新输入！",
+      icon: "none"
+    });
+    return;
+  }
   Taro.showLoading({
     title: "正在绑定",
     mask: true

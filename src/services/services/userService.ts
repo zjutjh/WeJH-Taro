@@ -1,12 +1,41 @@
 import Taro from "@tarojs/taro";
-import store from "@/store";
+import store, {serviceStore} from "@/store";
 import { fetch, FetchResult } from "@/utils";
 import { api } from "../api/apiList";
 import { updateDateStateWithSession } from "../utils/updateDateState";
 import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
+import request from "../request";
 
 export default class UserService {
+  static logout = (data?: { iid: string, stuid: string }) => {
+    return request<{
+      code: number,
+      msg: string,
+      data: null;
+    }>(
+      api.user.logout, {
+        method: "POST",
+        header: { "Cookie": serviceStore.sessionID },
+        data
+      }
+    );
+  };
+
+  static changePassword = (data?: { iid: string, stuid: string, password: string }) => {
+    return request<{
+      code: number,
+      msg: string,
+      data: null;
+    }>(
+      api.user.changePassword, {
+        method: "POST",
+        header: { "Cookie": serviceStore.sessionID },
+        data
+      }
+    );
+  };
+
   // fix: param autoLogin is overriden by showModal
   static async bindLibrary(data?: { password: string }, showModal = true) {
     return updateDateStateWithSession(
