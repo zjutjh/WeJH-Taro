@@ -22,6 +22,9 @@
       <card title="未激活">
         <w-button block class="active" @tap="nav2activation"> 激活 </w-button>
       </card>
+      <Card v-show="registerTips" title="新生提醒">
+        <text style="font-size:14.5px">{{ registerTips }}</text>
+      </Card>
     </view>
   </scroll-view>
   <edit-panel v-model:show="isShowEditPanel" />
@@ -48,6 +51,8 @@ const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
 const isShowEditPanel = ref(false);
 
+const registerTips = ref<string>("")
+
 const showEditPanel = () => {
   isShowEditPanel.value = true;
 };
@@ -66,6 +71,9 @@ if (questionnairePath != systemStore.questionnaire.path) {
 }
 onMounted(() => {
   SystemService.getAnnouncement();
+  SystemService.getGeneralInfo().then(res=>{
+    registerTips.value = res.data.registerTips
+  })
 });
 
 const isActive = computed(() => {
