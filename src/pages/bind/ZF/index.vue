@@ -8,10 +8,18 @@ import { ref, computed } from "vue";
 
 const zfpass = ref("");
 const user = computed(() => serviceStore.user);
-const helpContent = helpText.suit;
+const helpContent = helpText.bind.zf;
 const isShowHelp = ref(false);
 
 async function bindZFClick() {
+  const regex = /^[a-zA-Z0-9!@#$%^&*()_+-=,.<>?;:'"{}\[\]\\|`~]*$/;
+  if (!regex.test(zfpass.value)) {
+    Taro.showToast({
+      title: "输入存在中文字符或其他非法字符,请重新输入！",
+      icon: "none"
+    });
+    return;
+  }
   Taro.showLoading({
     title: "正在绑定",
     mask: true

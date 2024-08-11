@@ -17,13 +17,13 @@ type UpdateInfoType = {
 }
 
 export const updateInfo: UpdateInfoType = {
-  version: "2.5.6",
+  version: "2.6.1",
   title: "微精弘更新公告",
-  content: `微精弘小程序2.5.6更新 [失物招领] ，注册绑定一卡通以体验！
+  content: `微精弘小程序2.6.1更新 [正装借用] ！
   > 更新内容
-  1. 实验室上线切换主题色功能
-  2. 微精弘 x “For You”工程 联合上线失物招领
-  3. 校园资讯功能优化
+  1. 微精弘 x “学生事务大厅” 联合上线正装借用功能
+  2. 设置页面新增修改密码与注销功能
+  3. 优化绑定页面的交互体验
   4. 修复了一些已知的bug
   `,
   actions: {

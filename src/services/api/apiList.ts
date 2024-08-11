@@ -18,7 +18,9 @@ const api = {
         sendGraphAuthCode: "/api/user/bind/yxy/send/captcha",
         login: "/api/user/bind/yxy/login",
       }
-    }
+    },
+    logout: "/api/user/del",
+    changePassword: "/api/user/repass",
   },
   card: {
     balance: "/api/func/card/balance",

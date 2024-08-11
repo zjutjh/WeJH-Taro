@@ -10,6 +10,14 @@ const helpContent = helpText.bind.library;
 const isShowHelp = ref(false);
 
 async function bindLibClick() {
+  const regex = /^[a-zA-Z0-9!@#$%^&*()_+-=,.<>?;:'"{}\[\]\\|`~]*$/;
+  if (!regex.test(libpass.value)) {
+    Taro.showToast({
+      title: "输入存在中文字符或其他非法字符,请重新输入！",
+      icon: "none"
+    });
+    return;
+  }
   Taro.showLoading({
     title: "正在绑定",
     mask: true
