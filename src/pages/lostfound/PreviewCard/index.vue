@@ -9,14 +9,14 @@
       </view>
       <view :class="styles.joint" v-if="isForyou">
         <image
-          src="https://img.cnpatrickstar.com/5eb88a00-1d66-49af-8c75-ff651a077503.png"
+          src="../../../assets/icons/foryou/foryouicon.webp"
           alt="logo_fy"
           :class="styles.logo"
           mode="aspectFit"
         />
         <text>x</text>
         <image
-          src="https://img.cnpatrickstar.com/2633992f-415a-4b6b-b54e-f24adaca7d42.png"
+          src="../../../assets/icons/foryou/jhwlicon.webp"
           alt="logo_jh"
           :class="styles.logo"
           mode="aspectFit"
