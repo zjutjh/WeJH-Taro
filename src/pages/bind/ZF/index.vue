@@ -32,6 +32,11 @@ async function bindZFClick() {
       icon: "success",
       title: "绑定成功"
     });
+  } else {
+    await Taro.showToast({
+      icon: "none",
+      title: res.msg
+    });
   }
 }
 
