@@ -40,9 +40,9 @@
         <view class="link" v-if="information.link">点击跳转相关规定</view>
         <template #footer>
           <view class="logo_container">
-            <image src="https://img.cnpatrickstar.com/5eb88a00-1d66-49af-8c75-ff651a077503.png" alt="logo_fy" class="logo_fy" mode="aspectFit"></image>
+            <image src="../../assets/icons/foryou/foryouicon.webp" alt="logo_fy" class="logo_fy" mode="aspectFit"></image>
             <view class="x">X</view>
-            <image src="https://img.cnpatrickstar.com/2633992f-415a-4b6b-b54e-f24adaca7d42.png" alt="logo_jh" class="logo_jh" mode="aspectFit"></image>
+            <image src="../../assets/icons/foryou/jhwlicon.webp" alt="logo_jh" class="logo_jh" mode="aspectFit"></image>
           </view>
           <view class="publisher">信息来源: {{ information.publisher }}</view>
           <view class="publish-time">发布时间: {{ timeFormat(information.publish_time) }}</view>
