@@ -51,7 +51,7 @@ const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
 const isShowEditPanel = ref(false);
 
-const registerTips = ref<string>("")
+const registerTips = ref<string>("");
 
 const showEditPanel = () => {
   isShowEditPanel.value = true;
@@ -72,8 +72,8 @@ if (questionnairePath != systemStore.questionnaire.path) {
 onMounted(() => {
   SystemService.getAnnouncement();
   SystemService.getGeneralInfo().then(res=>{
-    registerTips.value = res.data.registerTips
-  })
+    registerTips.value = res.data.registerTips;
+  });
 });
 
 const isActive = computed(() => {

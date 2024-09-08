@@ -28,10 +28,7 @@
             </view>
           </view>
         </card>
-        <card
-          v-if="isDevelopment"
-          title="测试信息"
-        >
+        <card v-if="isDevelopment">
           <view>{{ copyright }}</view>
         </card>
       </view>
