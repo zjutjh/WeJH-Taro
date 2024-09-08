@@ -37,6 +37,7 @@
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "3.6.8",
     "@tarojs/helper": "3.6.8",
+    "@tarojs/plugin-framework-react": "^4.0.4",
     "@tarojs/plugin-framework-vue3": "3.6.8",
     "@tarojs/plugin-platform-alipay": "3.6.8",
     "@tarojs/plugin-platform-h5": "3.6.8",
