@@ -37,9 +37,9 @@ const timeFormat = (time: string) => {
     <view :class="styles.link" @tap="handleClickLink" v-if="props.source.link">点击跳转相关规定</view>
     <template #footer>
       <view :class="styles.logo_container">
-        <image src="../../../assets/icons/foryou/foryouicon.webp" alt="logo_fy" :class="styles.logo_fy" mode="aspectFit"></image>
+        <image src="https://api.cnpatrickstar.com/img/92a63e97-cd3e-411b-b4aa-8e6fad5fbd00.jpg" alt="logo_fy" :class="styles.logo_fy" mode="aspectFit"></image>
         <view :class="styles.x">X</view>
-        <image src="../../../assets/icons/foryou/jhwlicon.webp" alt="logo_jh" :class="styles.logo_jh" mode="aspectFit"></image>
+        <image src="https://api.cnpatrickstar.com/img/15c05a4c-7c2d-4561-9536-80614b7b65b8.jpg" alt="logo_jh" :class="styles.logo_jh" mode="aspectFit"></image>
       </view>
       <view :class="styles.publisher">信息来源: {{ props.source.publisher }}</view>
       <view :class="styles['publish-time']">发布时间: {{ timeFormat(props.source.publish_time) }}</view>
