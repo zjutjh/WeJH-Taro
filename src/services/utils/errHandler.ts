@@ -22,10 +22,16 @@ export default async function errCodeHandler(code: number, showModal = true) {
         });
       }
       break;
-    case ServerCode.SystemError:
+    case ServerCode.SystemError_1:
       await Taro.showToast({
         icon: "none",
-        title: "服务器暂不可用"
+        title: "请求超时,请重试"
+      });
+      break;
+    case ServerCode.SystemError_2:
+      await Taro.showToast({
+        icon: "none",
+        title: "请求超时,请重试"
       });
       break;
     case ServerCode.UserAlreadyExisted:

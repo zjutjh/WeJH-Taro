@@ -16,16 +16,16 @@
             </w-list-item>
           </w-list>
           <w-list class="bind-list" :class="[{ binded: user.isBindLibrary }]" >
-            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down"
-              @tap="renderForm('library')">
-              图书馆账号
+<!--            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down"-->
+<!--              @tap="renderForm('library')">-->
+            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down" >
+              图书馆账号(暂不可用)
             </w-list-item>
           </w-list>
           <w-list class="bind-list" :class="[{ binded: user.isBindYXY }]" >
             <w-list-item :extra="user.isBindYXY ? '已绑定' : '未绑定'" arrow="down"
               @tap="renderForm('yxy')">
               <text> 一卡通账号 </text>
-              <w-badge> 测试 </w-badge>
             </w-list-item>
           </w-list>
         </card>
