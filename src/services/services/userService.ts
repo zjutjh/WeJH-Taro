@@ -109,6 +109,7 @@ export default class UserService {
       }
       return true;
     }
+    Taro.hideLoading();
     await errCodeHandler(res.data.code, true);
 
     return false;
