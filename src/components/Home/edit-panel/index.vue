@@ -27,7 +27,13 @@ const validList = computed(() => {
 });
 
 const selectedList = computed(() => {
+  if(serviceStore.homecard.selected.length === 0 && serviceStore.homecard.initialization) {
+    store.commit("addHomeCardItem", "lessons-table-quick-view");
+    serviceStore.homecard.initialization = false
+  }
+
   const list = serviceStore.homecard.selected;
+  console.log(list)
   return list.filter(item => homeCards[item]).map(item => homeCards[item]);
 });
 

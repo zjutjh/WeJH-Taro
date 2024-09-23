@@ -14,8 +14,9 @@
       <card v-if="!(isBindZf || isBindYXY || isBindLibrary || isBindOauth)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
+
       <view @tap="showEditPanel" :class="styles[`edit-button`]">
-        <view class="iconfont icon-edit" />
+        <view class="iconfont icon-add" style="font-size: 2rem; font-weight: bolder" />
       </view>
     </view>
     <view v-else class="flex-column">
@@ -46,6 +47,7 @@ import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
 import { onMounted } from "vue";
+import {WBadge} from "@/components";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 

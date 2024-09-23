@@ -1,4 +1,16 @@
 @import "@/style/theme.scss";
+.sub-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  .sub-text {
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    color: var(--wjh-color-text-secondary);
+  }
+}
+
 
 .nav-bar-icon-wrapper {
   padding: 0 16Px;

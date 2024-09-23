@@ -5,7 +5,7 @@ import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { onMounted, ref } from "vue";
 import { useRequest } from "@/hooks";
-import store from "@/store";
+import store, {serviceStore} from "@/store";
 
 const phoneNumber = ref("");
 const graphCode = ref("");
@@ -61,6 +61,9 @@ const { run: loginYxyAPI } = useRequest(YxyService.loginYxy, {
       Taro.showToast({ icon: "none", title: res.data.msg });
     } else {
       Taro.showToast({ icon: "success", title: "绑定成功" });
+      if(!serviceStore.homecard.selected.includes("school-card-quick-view")) {
+        store.commit("addHomeCardItem", "school-card-quick-view");
+      }
       store.commit("setBindYXY", true);
     }
   },

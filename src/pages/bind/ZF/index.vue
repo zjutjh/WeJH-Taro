@@ -2,7 +2,7 @@
 import { Card, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { UserService } from "@/services";
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { ref, computed } from "vue";
 
@@ -32,6 +32,9 @@ async function bindZFClick() {
       icon: "success",
       title: "绑定成功"
     });
+    if(serviceStore.homecard.selected.length === 0 ) {
+      store.commit("addHomeCardItem", "lessons-table-quick-view");
+    }
   } else {
     await Taro.showToast({
       icon: "none",
@@ -54,7 +57,7 @@ async function bindZFClick() {
     </template>
     <text>正方教务系统</text>
     <view>
-      <input v-if="!user.isBindZF" password placeholder="默认密码为zjut+身份证后六位" v-model="zfpass" />
+      <input v-if="!user.isBindZF" password placeholder="请输入密码" v-model="zfpass" />
       <input v-else password placeholder="*******" v-model="zfpass" />
     </view>
     <template #footer>

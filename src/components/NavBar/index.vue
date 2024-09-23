@@ -25,6 +25,9 @@
     </view>
   </bottom-panel>
   <pop-view v-model:show="showPop">
+    <view class="sub-text-container">
+      <text class="sub-text">部分功能卡片可通过点击首页下方的加号添加</text>
+    </view>
     <app-list v-if="showPop" />
   </pop-view>
 </template>

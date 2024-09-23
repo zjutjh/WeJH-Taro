@@ -2,10 +2,12 @@ import { HomeCardName } from "@/constants/homeCards";
 
 export interface HomeCardServiceType {
   selected: Array<HomeCardName>
+  initialization: Boolean
 }
 export const HomeCardServiceStore = {
   state: () => ({
-    selected: ["lessons-table-quick-view"]
+    selected: ["lessons-table-quick-view","score-quick-view"],
+    initialization: true
   }),
 
   mutations: {
