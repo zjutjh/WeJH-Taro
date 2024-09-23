@@ -2,7 +2,7 @@
 import { Card, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { UserService } from "@/services";
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { ref, computed } from "vue";
 
@@ -32,6 +32,10 @@ async function bindOauthClick() {
       icon: "success",
       title: "绑定成功"
     });
+    if(serviceStore.homecard.selected.length === 0 && serviceStore.homecard.initialization) {
+      store.commit("addHomeCardItem", "lessons-table-quick-view");
+      serviceStore.homecard.initialization = false
+    }
   }
 }
 
@@ -49,7 +53,7 @@ async function bindOauthClick() {
     </template>
     <text>统一验证系统</text>
     <view>
-      <input v-if="!user.isBindOauth" password placeholder="默认密码为zjut+身份证后六位" v-model="oauthpass" />
+      <input v-if="!user.isBindOauth" password placeholder="请输入密码" v-model="oauthpass" />
       <input v-else password placeholder="*******" v-model="oauthpass" />
     </view>
     <template #footer>
