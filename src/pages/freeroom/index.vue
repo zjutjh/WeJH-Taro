@@ -71,7 +71,6 @@ const room = computed(() => {
       tmp[freeroomMap[item.buildName[0]]] = [];
     tmp[freeroomMap[item.buildName[0]]].push(item);
   });
-
   Object.keys(tmp).forEach((key) => {
     buildingList.push({
       buildName: key,
