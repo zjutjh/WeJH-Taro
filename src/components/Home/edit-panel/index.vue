@@ -33,7 +33,6 @@ const selectedList = computed(() => {
   }
 
   const list = serviceStore.homecard.selected;
-  console.log(list)
   return list.filter(item => homeCards[item]).map(item => homeCards[item]);
 });
 
