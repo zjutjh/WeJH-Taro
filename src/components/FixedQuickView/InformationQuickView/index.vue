@@ -33,9 +33,11 @@ const handleClick = () => {
 
 const currentPost = ref<{ type: string; content: string }>({
   type: "announcement",
-  content: serviceStore.announcement.announcements[
+  content: serviceStore.announcement ?
+    serviceStore.announcement.announcements[
     serviceStore.announcement.announcements.length - 1 || 0
-  ].content.replace(/\\n/g, "\n"),
+    ].content.replace(/\\n/g, "\n")
+    : ''
 });
 
 const updateCurrentPost = () => {
