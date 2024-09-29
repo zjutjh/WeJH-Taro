@@ -61,7 +61,7 @@ const options = computed(() => {
   const data = [
     [
       { title: "绑定", url: "/pages/bind/index", badge: notificationState.my.bind },
-      { title: "实验室", url: "/pages/lab/index" }
+      { title: "主题", url: "/pages/lab/index" }
     ],
     [
       { title: "反馈", url: "/pages/connect/index" },

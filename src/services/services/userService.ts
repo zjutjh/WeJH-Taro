@@ -1,13 +1,44 @@
 import Taro from "@tarojs/taro";
 import store, {serviceStore} from "@/store";
 import { fetch, FetchResult } from "@/utils";
-import { api } from "../api/apiList";
+import { api } from "@/services";
 import { updateDateStateWithSession } from "../utils/updateDateState";
 import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
 import request from "../request";
 
 export default class UserService {
+  static getUserTheme = () => {
+    return request<{
+      code: number,
+      msg: string,
+      theme_list: {
+          id?: number;
+          name?: string;
+          theme_config?: string;
+          type: string;
+      }[]
+    }>(
+      api.user.theme.get, {
+        method: "GET",
+        header: { "Cookie": serviceStore.sessionID },
+      }
+    );
+  }
+
+  static setTheme = (data: { id : number }) => {
+    return request<{
+      code: number,
+      msg: string,
+      data: null,
+    }>(
+      api.user.theme.set, {
+        method: "POST",
+        header: { "Cookie": serviceStore.sessionID },
+        data
+      }
+    );
+  }
   static logout = (data?: { iid: string, stuid: string }) => {
     return request<{
       code: number,

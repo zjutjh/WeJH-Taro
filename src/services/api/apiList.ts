@@ -19,6 +19,10 @@ const api = {
         login: "/api/user/bind/yxy/login",
       }
     },
+    theme: {
+      get: "/api/func/theme/get",
+      set: "/api/func/theme/choose",
+    },
     logout: "/api/user/del",
     changePassword: "/api/user/repass",
   },
