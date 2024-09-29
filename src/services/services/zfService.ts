@@ -134,10 +134,11 @@ export default class ZFService {
     return updateDateStateWithSession(api.zf.freeroom, data, "setRoomInfo");
   }
 
-  static getTodayLessonTable() {
+  static getDayLessonTable( day: string ) {
     const lessonsTable = this.getLessonTable();
-    const lessons = lessonsTable?.filter((item: Lesson) => {
-      const currentDay = new Date().getDay() || 7;
+    const lessons =  lessonsTable?.filter((item: Lesson) => {
+      const currentDay = day === 'today' ? (new Date().getDay() || 7) : (new Date().getDay() + 1 || 7);
+      console.log(currentDay)
       if (currentDay !== parseInt(item.weekday)) return false;
       const currentWeek = systemStore.generalInfo.week;
 

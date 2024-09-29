@@ -1,9 +1,11 @@
 <template>
   <quick-view @tap="nav2Lesson" title="课程表" icon-name="lessonstable" class="lessons-table-quick-view" help
-    @handle-tap-help="handleTapHelp">
-    <text class="sub-text">今日课表 ({{ updateTimeString }})</text>
+              @handle-tap-help="handleTapHelp">
+    <text class="sub-text" v-if="!showTomorrow">今日课表 ({{ updateTimeString }})</text>
+    <text class="sub-text" v-else>明日课表 ({{ updateTimeString }})</text>
+
     <card
-      v-for="(item, index) in todayLessonTable"
+      v-for="(item, index) in lessonTable"
       :key="item.lessonName"
       :style="{
         '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
@@ -12,7 +14,7 @@
       <view class="lesson-item" :key="updateRestTimeCounter + index">
         <view class="important-line">
           <text class="lesson-place">{{ item.lessonPlace }}</text>
-          <text v-if="lessonState(item.sections) === 'before'"  class="before-lesson">
+          <text v-if="lessonState(item.sections) === 'before'" class="before-lesson">
             还有 {{ getRestTimeString(item.sections) }} 上课
           </text>
           <text v-else-if="lessonState(item.sections) === 'taking'" class="taking-lesson">
@@ -31,10 +33,14 @@
         <text class="lesson-name">{{ item.lessonName }}</text>
       </view>
     </card>
-    <view class="default-content" v-if="todayLessonTable?.length === 0">
+
+    <view class="default-content" v-if="lessonTable?.length === 0 && !showTomorrow" >
       今天居然没有课😄
     </view>
-    <view class="default-content" v-if="!todayLessonTable">
+    <view class="default-content" v-if="lessonTable?.length === 0 && showTomorrow" >
+      明天居然没有课😄
+    </view>
+    <view class="default-content" v-if="!lessonTable">
       点击获取你的课表 ～</view>
   </quick-view>
 </template>
@@ -52,15 +58,20 @@ import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import { Lesson } from "@/types/Lesson";
 
+const tenPM = dayjs().set('hour', 22).set('minute', 0).set('second', 0);
 const emit = defineEmits(["showHelp"]);
 const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
-const todayLessonTable = computed(() => {
+const showTomorrow = computed(() => {
+  return dayjs().isAfter(tenPM);
+});
+
+const lessonTable = computed(() => {
   const year = systemStore.generalInfo.termYear;
   const term = systemStore.generalInfo.term;
   let tmp: Lesson[] | undefined;
   try {
-    tmp = ZFService.getTodayLessonTable();
+    tmp =  showTomorrow.value ? ZFService.getDayLessonTable('tomorrow') : ZFService.getDayLessonTable('today');
     serviceStore.zf.lessonsTableInfo[year][term].data.lessonsTable;
   } catch (error) {
     tmp = undefined;
@@ -72,13 +83,11 @@ const updateRestTimeCounter = ref(0);
 // TODO: 计时器控制渲染
 
 onMounted(() => {
-  ZFService.getTodayLessonTable();
+  lessonTable.value; // 触发计算属性
   timer.value = setInterval(() => {
     updateRestTimeCounter.value++;
   }, 5000);
 });
-
-// FIXME: 等有课了来观察
 
 onUnmounted(() => {
   if (timer.value) clearInterval(timer.value);
@@ -95,7 +104,7 @@ const updateTime = computed(() => {
     updateTime =
       serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear][
         systemStore.generalInfo.term
-      ]?.updateTime;
+        ]?.updateTime;
     if (updateTime) return updateTime;
     else return undefined;
   } catch (e) {
@@ -109,9 +118,7 @@ function nav2Lesson() {
 
 function sectionsTimeString(sections: string) {
   const arr = sections.split("-");
-  return `${getLessonTimeInstance(parseInt(arr[0])).format(
-    "HH:mm"
-  )}-${getLessonTimeInstance(parseInt(arr[1]), 45).format("HH:mm")}`;
+  return `${getLessonTimeInstance(parseInt(arr[0])).format("HH:mm")}-${getLessonTimeInstance(parseInt(arr[1]), 45).format("HH:mm")}`;
 }
 
 function getLessonTimeInstance(jc: number, offset = 0) {
@@ -121,14 +128,7 @@ function getLessonTimeInstance(jc: number, offset = 0) {
   );
 }
 
-/**
- * 从节次字符串提取这节课的开始时间
- *
- * @param sections 节次字符串: "10-12"
- * @return 距离这节课开始的剩余时间
- */
 function getRestTimeString(sections: string) {
-  // FIXME: 使用 timeUitls
   const begin = parseInt(sections.split("-")[0]);
   const time = dayScheduleStartTime[begin - 1];
   const minutesCount = time.hour * 60 + time.min;
