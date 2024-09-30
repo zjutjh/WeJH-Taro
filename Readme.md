@@ -1,6 +1,6 @@
 # WeJH-Taro
 
-使用跨平台框架 Taro 构建的基于 Vue + TS 的小程序
+使用跨平台框架 Taro 构建的基于 Vue3 + TS 的小程序
 
 ## 介绍
 
@@ -11,11 +11,30 @@
 
 ## 技术栈
 
-Vue3, Typescript, Taro, Vuex
+- Vue3
+- Typescript
+- Taro
+- Vuex
+
+## 快速开始
+1. 下载微信开发者程序
+2. fork仓库并且clone到本地
+3. 在根目录配置`.env`文件
+4. 安装依赖 `pnpm i`
+5. 运行`pnpm run dev:weapp`
+6. 将在根目录生成的dist文件夹导入微信开发者程序中
+7. 愉快的进行开发
+
+## 打包部署
+运行`pnpm run build`,将根目录dist产物压缩发给后端小伙伴
+
 
 ## 更多资料
+- Taro官方文档: [https://docs.taro.zone/docs/](https://docs.taro.zone/docs/)
 
 - 小程序后端: [https://github.com/zjutjh/wejh-go](https://github.com/zjutjh/wejh-server-docs)
+
+- 小程序后台: [https://github.com/zjutjh/JingHong-Admin-Vue](https://github.com/zjutjh/JingHong-Admin-Vue)
 
 - 微精弘1.0: [https://github.com/zjutjh/wejh-weapp](https://github.com/zjutjh/wejh-weapp)
 
