@@ -1,21 +1,45 @@
 # WeJH-Taro
 
-使用跨平台框架 Taro 构建的基于 Vue + TS 的小程序
+使用跨平台框架 Taro 构建的基于 Vue3 + TS 的小程序
 
 ## 介绍
 
-- 微精弘是是碎片化、一站式、一体化校园移动门户，适用于浙江工业大学学生，集课表、成绩、考试、空教室、一卡通、借阅等功能于一身。
-- 微精弘有更好用的课表查询，本周视图、学期视图、对应日期及时钟轴，清晰明了。
-- 微精弘有更方便的考试安排，帮你折算出考试周对应的日期，以及考试时间倒计时，一目了然。
-- 微精弘还是校园生活助手与管家，一卡通余额及消费一览无余，让同学们更合理安排生活费。微精弘更是/更有... （期待您的发现）
+ 微精弘是是碎片化、一站式、一体化校园移动门户，适用于浙江工业大学学生，集课表、成绩、考试、空教室、一卡通、借阅等功能于一体，为工大学生的日常生活提供了便利
 
 ## 技术栈
 
-Vue3, Typescript, Taro, Vuex
+- Vue3
+- Typescript
+- Taro
+- Vuex
+
+## 快速开始
+1. 下载微信开发者工具
+2. fork仓库并且clone到本地
+3. 在根目录配置`.env`文件
+4. 安装依赖 `pnpm i`
+5. 运行`pnpm run dev:weapp`
+6. 在开发者工具中新建项目，项目路径选到 dev:weapp 命令构建出来的 dist 目录
+7. 愉快的进行开发
+
+## 打包部署
+- 运行`pnpm run build`,在微信开发者工具里面提交生成的dist
+
+- 登录微信公众平台,开发者后台设置体验版
+
+- 测试通过后提交审核
+
+- 审核完毕确认发布
+
 
 ## 更多资料
+- 微精弘开发文档: [https://zjutjh.github.io/wejh-docs/](https://zjutjh.github.io/wejh-docs/)
+
+- Taro官方文档: [https://docs.taro.zone/docs/](https://docs.taro.zone/docs/)
 
 - 小程序后端: [https://github.com/zjutjh/wejh-go](https://github.com/zjutjh/wejh-server-docs)
+
+- 小程序后台: [https://github.com/zjutjh/JingHong-Admin-Vue](https://github.com/zjutjh/JingHong-Admin-Vue)
 
 - 微精弘1.0: [https://github.com/zjutjh/wejh-weapp](https://github.com/zjutjh/wejh-weapp)
 
