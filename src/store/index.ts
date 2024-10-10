@@ -1,20 +1,8 @@
-import Taro from "@tarojs/taro";
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import { ServiceStoreType, ServiceStore } from "./service";
 import { SystemStoreType, SystemStore } from "./system";
-
-const persistedStateStorage = {
-  setItem(key: string, value: string) {
-    return Taro.setStorageSync(key, value);
-  },
-  getItem(key: string) {
-    return Taro.getStorageSync(key);
-  },
-  removeItem(key) {
-    return Taro.removeStorageSync(key);
-  }
-};
+import { persistedStateStorage } from "../utils/storage";
 
 interface StoreType {
   service: ServiceStoreType;
