@@ -92,14 +92,12 @@ const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
 const emit = defineEmits(["showHelp"]);
 const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
-const showTomorrow = computed(() => {
-  return dayjs().isAfter(tenPM);
-});
+const showTomorrow = dayjs().isAfter(tenPM);
 
 const lessonTable = computed(() => {
   let tmp: Lesson[] | undefined;
   try {
-    tmp = showTomorrow.value ? ZFService.getDayLessonTable("tomorrow") : ZFService.getDayLessonTable("today");
+    tmp = showTomorrow ? ZFService.getDayLessonTable("tomorrow") : ZFService.getDayLessonTable("today");
   } catch {
     tmp = undefined;
   }
