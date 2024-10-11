@@ -7,13 +7,13 @@
       {{ props.title }}
     </view>
     <view v-if="$slots.header" class="wjh-card-header">
-      <slot name="header"></slot>
+      <slot name="header" />
     </view>
     <view class="wjh-card-body">
-      <slot></slot>
+      <slot />
     </view>
     <view v-if="$slots.footer" class="wjh-card-footer">
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </view>
   </view>
 </template>
@@ -27,7 +27,9 @@ const props = withDefaults(defineProps<{
   size?: "small" | "middle",
   style?: CSSProperties,
 }>(), {
-  size: "middle"
+  size: "middle",
+  title: undefined,
+  style: undefined
 });
 
 </script>

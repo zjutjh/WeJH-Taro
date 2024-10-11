@@ -1,18 +1,24 @@
 <template>
   <quick-view title="电费查询" icon-name="electricity" @tap="nav2electricity">
     <view class="text-view">
-      <text class="sub-text-left">当前电费({{ updateTimeString }})</text>
-      <text v-if="isUrgent" class="sub-text-right">温馨提示: 电量较低</text>
+      <text class="sub-text-left">
+        当前电费({{ updateTimeString }})
+      </text>
+      <text v-if="isUrgent" class="sub-text-right">
+        温馨提示: 电量较低
+      </text>
     </view>
     <card class="electricity-card">
-      <view class="text-wrapper" v-if="!loading">
-        <text> 寝室剩余电费 </text>
+      <view v-if="!loading" class="text-wrapper">
+        <text>寝室剩余电费</text>
         <text :class="isUrgent ? 'dangerous' : 'normal'">
           {{ balanceData?.data.soc || 0 }}
         </text>
-        <text> 度 </text>
+        <text>度</text>
       </view>
-      <text v-else>正在查询...</text>
+      <text v-else>
+        正在查询...
+      </text>
     </card>
   </quick-view>
 </template>
@@ -36,7 +42,7 @@ const { data: balanceData, loading, error } = useRequest(
   YxyService.queryBalance, {
     onSuccess: (res) => {
       if (res.data.data?.soc) {
-        store.commit("setBalance",res.data.data.soc);
+        store.commit("setBalance", res.data.data.soc);
       } else throw new Error();
     }
   }

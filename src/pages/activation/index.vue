@@ -3,91 +3,117 @@
     <title-bar
       title="通行证激活"
       :back-button="step === 1 ? true : false"
-    ></title-bar>
-    <scroll-view :scrollY="true">
+    />
+    <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card title="账号注册" class="activation-card" v-if="step === 1">
+        <card
+          v-if="step === 1"
+          title="账号注册"
+          class="activation-card"
+        >
           <view class="activation-form">
             <view>
               <text>学号</text>
-              <input type="text" placeholder="输入学号" v-model="studentid" />
-              <view class="prompt" v-show="studentid?.length === 0"
-                >请输入学号</view
+              <input
+                v-model="studentid"
+                type="text"
+                placeholder="输入学号"
               >
+              <view
+                v-show="studentid?.length === 0"
+                class="prompt"
+              >
+                请输入学号
+              </view>
             </view>
             <view>
               <text>设置密码</text>
               <input
+                v-model="password"
                 type="password"
                 placeholder="请输入密码"
-                v-model="password"
-              />
-              <view class="prompt" v-show="password?.length === 0"
-                >请输入密码</view
               >
-              <view class="prompt" v-show="password?.length && invalidPassword"
-                >密码长度应在6～20位之间</view
+              <view
+                v-show="password?.length === 0"
+                class="prompt"
               >
+                请输入密码
+              </view>
+              <view
+                v-show="password?.length && invalidPassword"
+                class="prompt"
+              >
+                密码长度应在6～20位之间
+              </view>
             </view>
             <view>
               <text>确认密码</text>
               <input
+                v-model="comfirmPassword"
                 type="password"
                 placeholder="请再次输入密码"
-                v-model="comfirmPassword"
-              />
+              >
               <view
-                class="prompt"
                 v-show="
                   comfirmPassword !== undefined && comfirmPassword != password
                 "
-                >两次密码不匹配</view
+                class="prompt"
               >
+                两次密码不匹配
+              </view>
             </view>
             <view>
               <text>身份证号</text>
               <input
+                v-model="idcard"
                 type="text"
                 placeholder="仅做验证学生身份用"
-                v-model="idcard"
-              />
-              <view class="prompt" v-show="idcard?.length === 0"
-                >请输入本人身份证号</view
               >
+              <view v-show="idcard?.length === 0" class="prompt">
+                请输入本人身份证号
+              </view>
             </view>
             <view>
               <text>邮箱</text>
               <input
+                v-model="email"
                 type="email"
                 placeholder="请输入邮箱地址"
-                v-model="email"
-              />
-              <view class="prompt" v-show="email?.length === 0"
-                >请输入邮箱地址</view
               >
+              <view v-show="email?.length === 0" class="prompt">
+                请输入邮箱地址
+              </view>
             </view>
           </view>
           <template #footer>
             <w-button block class="active" @tap="activeClick">
               绑定通行证
             </w-button>
-            <w-steps :total="2" :current="step"></w-steps>
+            <w-steps :total="2" :current="step" />
           </template>
         </card>
-        <card title="完成" v-if="step === 2" class="success-card">
+        <card
+          v-if="step === 2"
+          title="完成"
+          class="success-card"
+        >
           <view class="success">
             <view class="success-content">
-              <view class="iconfont icon-success"></view>
+              <view class="iconfont icon-success" />
               <view>恭喜你已成功完成注册！</view>
             </view>
           </view>
           <template #footer>
-            <w-button block @tap="nav2bind"> 去绑定校园账号 </w-button>
-            <w-steps :total="2" :current="step"></w-steps>
+            <w-button block @tap="nav2bind">
+              去绑定校园账号
+            </w-button>
+            <w-steps :total="2" :current="step" />
           </template>
         </card>
         <card v-if="step === 1">
-          <text class="activation-help" :userSelect="true"> {{ helpContent }}</text>
+          <text class="activation-help" :user-select="true">
+            {{ helpContent }}
+          </text>
         </card>
       </view>
     </scroll-view>
@@ -95,7 +121,7 @@
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar, WButton, WSteps,ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar, WButton, WSteps } from "@/components";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
 import "./index.scss";
@@ -144,9 +170,6 @@ async function nav2bind() {
     success: (res: any) => {
       const { avatarUrl, nickName } = res.userInfo;
       store.commit("setUserWXProfile", { avatarUrl, nickName });
-    },
-    complete: (res) => {
-      console.log(res);
     }
   });
   Taro.hideLoading();

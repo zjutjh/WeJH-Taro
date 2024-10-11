@@ -3,16 +3,16 @@
     <view class="wjh-modal-container">
       <view class="wjh-modal-header">
         {{ props.title }}
-        <slot name="header"></slot>
+        <slot name="header" />
       </view>
       <view class="wjh-modal-body">
         {{ props.content }}
-        <slot></slot>
+        <slot />
       </view>
       <view v-if="slots.footer" class="wjh-modal-footer">
-        <slot name="footer"></slot>
+        <slot name="footer" />
       </view>
-      <view class="actions" v-if="actions">
+      <view v-if="actions" class="actions">
         <view style="display: flex; text-align: center;">
           <view class="button" @tap="handleCancel">
             <text>{{ actions?.cancel.label }}</text>
@@ -23,12 +23,16 @@
         </view>
       </view>
     </view>
-    <view v-if="props.mask" class="wjh-modal-mask" :onTap="closeModal"></view>
+    <view
+      v-if="props.mask"
+      class="wjh-modal-mask"
+      :on-tap="closeModal"
+    />
   </view>
 </template>
 
 <script setup lang="ts">
-import { withDefaults, useSlots } from "vue";
+import { useSlots, withDefaults } from "vue";
 import "./index.scss";
 
 type PropsType = {
@@ -46,11 +50,12 @@ type PropsType = {
       callback?: () => void;
     }
   }
-}
+};
 
 const props = withDefaults(defineProps<PropsType>(), {
   title: "帮助",
-  mask: true
+  mask: true,
+  actions: undefined
 });
 
 const emit = defineEmits(["update:show"]);

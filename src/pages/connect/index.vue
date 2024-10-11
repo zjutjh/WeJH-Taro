@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
-import { WList, WListItem, Card, TitleBar, ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import "./index.scss";
 
 const groupInfo = [

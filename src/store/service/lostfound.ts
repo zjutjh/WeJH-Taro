@@ -12,8 +12,8 @@ export const LostfoundStore = {
     setLastOpenCampus(state: LostfoundStoreType, value: string) {
       state.lastOpenCampus = value;
     },
-    setLastOpenMain(state:LostfoundStoreType, value: string) {
+    setLastOpenMain(state: LostfoundStoreType, value: string) {
       state.lastOpenMain = value;
     }
-  },
+  }
 };

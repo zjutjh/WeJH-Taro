@@ -11,7 +11,7 @@ store.commit("clearTemp");
 
 if (!url) {
   Taro.showModal({
-    title: "未找到页面",
+    title: "未找到页面"
   });
   throw new Error("invalid access");
 }

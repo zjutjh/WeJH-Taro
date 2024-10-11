@@ -1,8 +1,7 @@
 import request from "../request";
 import { api } from "../api/apiList";
 import { serviceStore } from "@/store";
-import {SuitFaq} from "@/types/Suit";
-import { SuitApplyRecord } from "@/types/Suit";
+import { SuitFaq, SuitApplyRecord } from "@/types/Suit";
 
 export default class suitService {
   static getFaq = (data: {
@@ -29,12 +28,12 @@ export default class suitService {
     }>(
       api.suit.getInformation, {
         method: "GET",
-        header: { "Cookie": serviceStore.sessionID },
+        header: { "Cookie": serviceStore.sessionID }
       }
     );
   };
 
-  static changeInformation = (data:{
+  static changeInformation = (data: {
     name: string,
     gender: string,
     college: string,
@@ -91,9 +90,9 @@ export default class suitService {
     );
   };
 
-  static getRecords = (data:{
-    campus?:number,
-    status?:number,
+  static getRecords = (data: {
+    campus?: number,
+    status?: number,
   }) => {
     return request<{
       data: SuitApplyRecord[],
@@ -105,14 +104,14 @@ export default class suitService {
       }
     );
   };
-  static deleteRecords = (data:{
-    borrow_id?:number,
+  static deleteRecords = (data: {
+    borrow_id?: number,
   }) => {
     return request(
       `${api.suit.record}?borrow_id=${data.borrow_id}`,
       {
-        method:"DELETE",
-        header: {"Cookie":serviceStore.sessionID},
+        method: "DELETE",
+        header: { "Cookie": serviceStore.sessionID },
         data
       }
     );

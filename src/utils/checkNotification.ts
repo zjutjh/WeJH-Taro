@@ -20,7 +20,7 @@ const hasNotification = (node: Node): boolean => {
 export const checkNotification = (path: string, noticeState: Notification) => {
   const paths = path.split("/");
   const root = paths.reduce((pre, cur) => {
-    if(pre) {
+    if (pre) {
       return pre[cur];
     } else {
       return null;

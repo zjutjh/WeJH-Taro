@@ -1,7 +1,8 @@
 <template>
   <view class="wjh-steps">
     <view
-      v-for="(item, index) in arr"
+      v-for="(num, index) in arr"
+      :key="num"
       :class="[
         `wjh-steps-item`,
         index === props.current - 1
@@ -20,11 +21,11 @@ import "./index.scss";
 type PropsType = {
   total: number;
   current: number
-}
+};
 const props = defineProps<PropsType>();
 
 const arr = new Array<number>(props.total)
   .fill(0)
-  .map((item, index) => index + 1);
+  .map((_, index) => index + 1);
 
 </script>

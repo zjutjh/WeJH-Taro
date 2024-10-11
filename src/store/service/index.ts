@@ -1,20 +1,20 @@
 import { CardServiceStore, CardServiceType } from "./card";
-import { UserType, UserServiceStore } from "./user";
+import { UserServiceStore, UserType } from "./user";
 import { LibraryServiceStore } from "./library";
 import { ZFServiceStore, ZFServiceType } from "./zf";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 import { AnnouncementStore, AnnouncementType } from "./announcement";
-import { InformationStore , InformationStoreType } from "./information";
+import { InformationStore, InformationStoreType } from "./information";
 import { AppListItem } from "@/types/AppList";
 import { CanteenServiceStore } from "./canteen";
 import { ScoreServiceStore } from "./score";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { ElectricityServiceStore } from "./electricity";
 import { WebviewStore, WebviewStoreType } from "./webview";
-import { LostfoundStoreType, LostfoundStore } from "./lostfound";
-import { NotificationStoreType, NotificationStore } from "./notification";
-import { ThemeStore,ThemeStoreType } from "./theme";
-import { SuitStoreType,SuitStore } from "./suit";
+import { LostfoundStore, LostfoundStoreType } from "./lostfound";
+import { NotificationStore, NotificationStoreType } from "./notification";
+import { ThemeStore, ThemeStoreType } from "./theme";
+import { SuitStore, SuitStoreType } from "./suit";
 
 export interface ServiceStoreType {
   appList?: AppListItem[];

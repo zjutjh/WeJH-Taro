@@ -1,14 +1,16 @@
 <template>
   <theme-config>
     <title-bar title="正装借用" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/suit.svg"></image>
+        <image src="@/assets/photos/suit.svg" />
         <view class="extra" @tap="showHelp">
           <view class="icon-wrapper">
-            <view class="extra-icon iconfont icon-announcement"></view>
+            <view class="extra-icon iconfont icon-announcement" />
           </view>
-          <view class="label">公告</view>
+          <view class="label">
+            公告
+          </view>
         </view>
       </view>
 
@@ -46,31 +48,24 @@
         </w-list>
       </view>
     </scroll-view>
-    <w-modal
-      title="公告"
-      v-model:show="showModal"
-      :content="`&emsp;&emsp;${showContent}`"
-    ></w-modal>
+    <w-modal v-model:show="showModal" title="公告" :content="`&emsp;&emsp;${showContent}`" />
 
-    <contact-me @show-help="setHelp"/>
-    <w-modal
-      v-model:show="isShowHelp"
-      :content="`&emsp;&emsp;${helpContent}`"
-    ></w-modal>
+    <contact-me @show-help="setHelp" />
+    <w-modal v-model:show="isShowHelp" :content="`&emsp;&emsp;${helpContent}`" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
 import "./index.scss";
 import {
+  ThemeConfig,
   TitleBar,
   WList,
-  WListItem,
-  ThemeConfig, WModal
+  WListItem, WModal
 } from "@/components";
 import Taro from "@tarojs/taro";
-import {ref} from "vue";
-import {helpText} from "@/constants/copywriting";
+import { ref } from "vue";
+import { helpText } from "@/constants/copywriting";
 import ContactMe from "./ContactMe/index.vue";
 
 const showModal = ref(false);

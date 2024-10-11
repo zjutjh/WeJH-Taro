@@ -1,9 +1,12 @@
 <template>
   <theme-config>
     <title-bar title="成绩查询" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card v-if="!scoreList || scoreList.length === 0" style="text-align: center">
+        <card
+          v-if="!scoreList || scoreList.length === 0"
+          style="text-align: center"
+        >
           <view>无当前阶段成绩信息</view>
         </card>
 
@@ -14,8 +17,12 @@
                 <view class="score-icon iconfont icon-score" />
               </view>
               <view class="col">
-                <view class="term-info">{{ termInfo }}</view>
-                <view class="relative-term-info">{{ relativeTermInfo }}</view>
+                <view class="term-info">
+                  {{ termInfo }}
+                </view>
+                <view class="relative-term-info">
+                  {{ relativeTermInfo }}
+                </view>
               </view>
             </view>
 
@@ -23,14 +30,21 @@
               <view class="gpa-text">
                 {{ selectTerm.period === "期中" ? "期中" : "GPA" }}
               </view>
-              <view v-if="scoreList && scoreList.length !== 0 && selectTerm.period === '期末'" class="credit-text">
+              <view
+                v-if="scoreList && scoreList.length !== 0 && selectTerm.period === '期末'"
+                class="credit-text"
+              >
                 {{ averageScorePoint }}
               </view>
             </view>
           </template>
 
           <w-collapse class="score-list-collapse">
-            <w-collapse-panel v-for="item in scoreList" :key="item.lessonID" arrow>
+            <w-collapse-panel
+              v-for="item in scoreList"
+              :key="item.lessonID"
+              arrow
+            >
               <template #header>
                 <view class="score-list-collapse-item-title">
                   {{ item.lessonName }}
@@ -55,23 +69,29 @@
           </w-collapse>
         </card>
         <card v-if="scoreList?.length !== 0">
-          <view class="score-help">{{ helpContent }}</view>
+          <view class="score-help">
+            {{ helpContent }}
+          </view>
         </card>
       </view>
     </scroll-view>
     <bottom-panel class="score-bottom-panel">
       <view class="col">
-        <refresh-button @refresh="refresh" :is-refreshing="isRefreshing">
-        </refresh-button>
+        <refresh-button :is-refreshing="isRefreshing" @refresh="refresh" />
       </view>
       <view class="col">
-        <term-picker class="picker" :term="selectTerm.term" :year="selectTerm.year" :period="selectTerm.period"
-          :selectflag=1 @changed="termChanged">
-        </term-picker>
+        <term-picker
+          class="picker"
+          :term="selectTerm.term"
+          :year="selectTerm.year"
+          :period="selectTerm.period"
+          :selectflag="1"
+          @changed="termChanged"
+        />
       </view>
       <view class="col">
         <w-button shape="circle" size="large" class="sort-button">
-          <view class="iconfont icon-paixu" @tap="handleSort"></view>
+          <view class="iconfont icon-paixu" @tap="handleSort" />
         </w-button>
       </view>
     </bottom-panel>
@@ -81,17 +101,17 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import {
-  Card,
   BottomPanel,
+  Card,
   RefreshButton,
-  TitleBar,
-  WCollapsePanel,
-  WCollapse,
-  WDescriptions,
-  WDescriptionsItem,
-  WButton,
   TermPicker,
-  ThemeConfig
+  ThemeConfig,
+  TitleBar,
+  WButton,
+  WCollapse,
+  WCollapsePanel,
+  WDescriptions,
+  WDescriptionsItem
 } from "@/components";
 import { Score } from "@/types/Score";
 import { ZFService } from "@/services";
@@ -176,14 +196,13 @@ const relativeTermInfo = computed(() => {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
   let char = charEnum[0];
   if (serviceStore.user.info?.studentID) {
-    //解决2023 年以后的学生 id 是 302023 开头的问题
-    if(serviceStore.user.info.studentID.slice(0,2) === "30"){
+    // 解决2023 年以后的学生 id 是 302023 开头的问题
+    if (serviceStore.user.info.studentID.slice(0, 2) === "30") {
       char = charEnum[
         parseInt(selectTerm.value?.year) -
       parseInt(serviceStore.user.info.studentID.slice(2, 6))
       ];
-    }
-    else {
+    } else {
       char = charEnum[
         parseInt(selectTerm.value?.year) -
       parseInt(serviceStore.user.info.studentID.slice(0, 4))

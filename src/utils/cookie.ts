@@ -2,7 +2,7 @@ interface ICookie {
   Key: string;
   Value: string;
   Expires: Date;
-  MaxAge: Number;
+  MaxAge: number;
 }
 
 /**
@@ -11,15 +11,14 @@ interface ICookie {
  * @param cookies cookie 数组
  * @returns
  */
-function ejectCookies(cookies: String[]) {
-  let sevCookies: ICookie[] = [];
+function ejectCookies(cookies: string[]) {
+  const sevCookies: ICookie[] = [];
   cookies.forEach((cookie) => {
-    let keyValves = cookie.split(";");
-    let ckie: ICookie = { Key: "", Value: "", Expires: new Date(), MaxAge: 0 };
+    const keyValves = cookie.split(";");
+    const ckie: ICookie = { Key: "", Value: "", Expires: new Date(), MaxAge: 0 };
     if (keyValves.length > 0) {
       keyValves.forEach((item) => {
-        let key: string, value: string;
-        [key, value] = item.split("=");
+        const [key, value] = item.split("=");
         if (key === "Expires") {
           ckie.Expires = new Date(value);
         } else if (key === "Max-Age") {

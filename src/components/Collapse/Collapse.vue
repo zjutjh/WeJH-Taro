@@ -1,7 +1,7 @@
 <template>
   <view class="wjh-collapse">
     <w-list size="small" inner>
-      <slot></slot>
+      <slot />
     </w-list>
   </view>
 </template>

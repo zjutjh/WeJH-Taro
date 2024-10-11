@@ -1,35 +1,56 @@
 <template>
-  <title-bar title="我的" :back-button="false"></title-bar>
-  <scroll-view :scrollY="true">
+  <title-bar title="我的" :back-button="false" />
+  <scroll-view :scroll-y="true">
     <view class="flex-column">
-      <card class="profile-card" v-if="userInfo?.isActive">
+      <card v-if="userInfo?.isActive" class="profile-card">
         <view class="avatar-wrapper">
-          <image v-if="userInfo?.wxProfile" class="avatar" :src="userInfo?.wxProfile.avatarUrl"></image>
+          <image
+            v-if="userInfo?.wxProfile"
+            class="avatar"
+            :src="userInfo?.wxProfile.avatarUrl"
+          />
         </view>
-        <view v-if="userInfo?.wxProfile" class="profile-split"></view>
+        <view v-if="userInfo?.wxProfile" class="profile-split" />
         <view class="info-wrapper">
           <view>
-            <view v-if="userInfo?.wxProfile" class="name">{{
-              userInfo?.wxProfile.nickName
-            }}</view>
-            <view v-else class="name" @tap="getUserWXInfo">点击获取头像昵称</view>
-            <view class="sub-text">微精弘</view>
+            <view v-if="userInfo?.wxProfile" class="name">
+              {{ userInfo?.wxProfile.nickName }}
+            </view>
+            <view v-else class="name" @tap="getUserWXInfo">
+              点击获取头像昵称
+            </view>
+            <view class="sub-text">
+              微精弘
+            </view>
           </view>
-          <view class="sub-text" style="bottom: 0" v-if="userInfo">{{
-            userInfo.info?.studentID
-          }}</view>
+          <view v-if="userInfo" class="sub-text" style="bottom: 0">
+            {{ userInfo.info?.studentID }}
+          </view>
         </view>
       </card>
 
       <card v-else title="未激活，激活享受更多精彩">
-        <w-button block class="active" v-if="!userInfo?.isActive" @tap="nav2activation">
+        <w-button
+          v-if="!userInfo?.isActive"
+          block
+          class="active"
+          @tap="nav2activation"
+        >
           激活
         </w-button>
       </card>
 
-      <view class="operate" v-if="userInfo?.isActive">
-        <w-list :key="index" v-for="(column, index) in options" class="operate-list">
-          <w-list-item v-for="item in column" :key="item.title" @tap="nav2url(item.url)">
+      <view v-if="userInfo?.isActive" class="operate">
+        <w-list
+          v-for="(column, index) in options"
+          :key="index"
+          class="operate-list"
+        >
+          <w-list-item
+            v-for="item in column"
+            :key="item.title"
+            @tap="nav2url(item.url)"
+          >
             <view class="wrapper">
               <text>{{ item.title }}</text>
               <w-badge v-if="item.badge" :content="item.badge!" />
@@ -42,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 import Card from "../Card/index.vue";
 import TitleBar from "../TitleBar/index.vue";
 import WList from "../List/List.vue";
@@ -51,8 +72,7 @@ import WButton from "../Button/index.vue";
 import WBadge from "../Badge/index.vue";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
-import { onMounted, ref, computed } from "vue";
-import store from "@/store";
+import { computed, onMounted, ref } from "vue";
 import "./index.scss";
 import { UserType } from "src/store/service/user";
 
@@ -95,9 +115,6 @@ function getUserWXInfo() {
     success: (res: any) => {
       const { avatarUrl, nickName } = res.userInfo;
       store.commit("setUserWXProfile", { avatarUrl, nickName });
-    },
-    complete: (res) => {
-      console.log(res);
     }
   });
 }

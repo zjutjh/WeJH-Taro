@@ -1,9 +1,11 @@
 <template>
   <view class="applist-item" @tap="appTaped">
     <view class="icon-wrapper" :style="backgroundColor">
-      <view :class="['iconfont', `icon-${icon}`]"> </view>
+      <view :class="['iconfont', `icon-${icon}`]" />
     </view>
-    <text class="label"> {{ label }} </text>
+    <text class="label">
+      {{ label }}
+    </text>
   </view>
 </template>
 
@@ -23,15 +25,14 @@ const props = defineProps<{
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
 const isDisabled = ref(false);
-//之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
-//原来的代码是 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
+// 之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
+// 原来的代码是 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
 if (requireActive.value === "zf" && !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth)
   isDisabled.value = true;
 if (requireActive.value === "library" && !serviceStore.user.isBindLibrary)
   isDisabled.value = true;
 if (requireActive.value === "yxy" && !serviceStore.user.isBindYXY)
   isDisabled.value = true;
-
 
 async function appTaped() {
   if (isDisabled.value) {
@@ -40,7 +41,7 @@ async function appTaped() {
       icon: "none",
       title: "请绑定相关账号"
     });
-  } else if (url) await Taro.navigateTo({ url: url.value });
+  } else if (url.value) await Taro.navigateTo({ url: url.value });
 }
 
 const backgroundColor = computed(() => {
