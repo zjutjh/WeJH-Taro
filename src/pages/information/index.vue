@@ -27,7 +27,7 @@
             alt="Card Image"
             class="image"
             mode="aspectFit"
-            :on-load="handleLoadFinish"
+            @load="handleLoadFinish"
             @tap="() => handlePreviewImages(information.img2)"
           />
         </view>
@@ -37,7 +37,7 @@
             alt="Card Image"
             class="image"
             mode="aspectFit"
-            :on-load="handleLoadFinish"
+            @load="handleLoadFinish"
             @tap="() => handlePreviewImages(information.img3)"
           />
         </view>

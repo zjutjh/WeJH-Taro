@@ -26,7 +26,7 @@
     <view
       v-if="props.mask"
       class="wjh-modal-mask"
-      :on-tap="closeModal"
+      @tap="closeModal"
     />
   </view>
 </template>

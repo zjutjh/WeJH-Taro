@@ -63,7 +63,7 @@
                 style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
-                :on-load="handleLoadFinish"
+                @load="handleLoadFinish"
                 @tap="() => handlePreviewImages(item)"
               />
             </view>
@@ -120,7 +120,7 @@
                 style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
-                :on-load="handleLoadFinish"
+                @load="handleLoadFinish"
                 @tap="() => handlePreviewImages(item)"
               />
             </view>
@@ -175,7 +175,7 @@
                 style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
                 :src="item"
-                :on-load="handleLoadFinish"
+                @load="handleLoadFinish"
                 @tap="() => handlePreviewImages(item)"
               />
             </view>

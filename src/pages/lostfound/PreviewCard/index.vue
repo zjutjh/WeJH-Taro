@@ -80,7 +80,7 @@
               style="width: 100Px ;height: 100Px"
               mode="aspectFill"
               :src="item"
-              :on-load="handleLoadFinish"
+              @load="handleLoadFinish"
               @tap="() => handlePreviewImages(item)"
             />
           </view>
@@ -142,7 +142,7 @@
               style="width: 100Px ;height: 100Px"
               mode="aspectFill"
               :src="item"
-              :on-load="handleLoadFinish"
+              @load="handleLoadFinish"
               @tap="() => handlePreviewImages(item)"
             />
           </view>
