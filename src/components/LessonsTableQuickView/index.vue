@@ -58,20 +58,18 @@ import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import { Lesson } from "@/types/Lesson";
 
-const tenPM = dayjs().set('hour', 22).set('minute', 0).set('second', 0);
+const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
 const emit = defineEmits(["showHelp"]);
 const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
-const showTomorrow = computed(() => {
-  return dayjs().isAfter(tenPM);
-});
+const showTomorrow = dayjs().isAfter(tenPM);
 
 const lessonTable = computed(() => {
   const year = systemStore.generalInfo.termYear;
   const term = systemStore.generalInfo.term;
   let tmp: Lesson[] | undefined;
   try {
-    tmp =  showTomorrow.value ? ZFService.getDayLessonTable('tomorrow') : ZFService.getDayLessonTable('today');
+    tmp =  showTomorrow ? ZFService.getDayLessonTable("tomorrow") : ZFService.getDayLessonTable("today");
     serviceStore.zf.lessonsTableInfo[year][term].data.lessonsTable;
   } catch (error) {
     tmp = undefined;
@@ -83,7 +81,6 @@ const updateRestTimeCounter = ref(0);
 // TODO: 计时器控制渲染
 
 onMounted(() => {
-  lessonTable.value; // 触发计算属性
   timer.value = setInterval(() => {
     updateRestTimeCounter.value++;
   }, 5000);
