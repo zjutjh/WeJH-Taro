@@ -1,4 +1,4 @@
-export default {
+export default defineAppConfig({
   pages: [
     "pages/index/index",
     "pages/activation/index",
@@ -40,4 +40,4 @@ export default {
     navigationStyle: "custom",
     backgroundColor: "@bgColor"
   }
-};
+});
