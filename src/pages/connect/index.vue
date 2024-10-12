@@ -10,7 +10,7 @@
           <w-list inner>
             <w-list-item>
               <image
-                :src="require('@/assets/photos/feedback.svg')"
+                src="@/assets/photos/feedback.svg"
                 style="margin: 8px 0; width: 100%"
               />
             </w-list-item>
