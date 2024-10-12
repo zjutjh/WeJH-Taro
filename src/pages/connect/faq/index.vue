@@ -1,7 +1,7 @@
 <template>
   <view class="faq-view">
     <theme-config>
-      <title-bar title="常见问题" back-button/>
+      <title-bar title="常见问题" back-button />
       <scroll-view :scroll-y="true">
         <view class="flex-column">
           <card
@@ -19,7 +19,7 @@
                     v-for="str in item.content.split('\n')"
                     :key="str"
                     class="answer-text"
-                    :userSelect="true"
+                    :user-select="true"
                   >
                     {{ str }}
                   </text>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { TitleBar, Card, WCollapsePanel, WCollapse, ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar, WCollapse, WCollapsePanel } from "@/components";
 import { faqText } from "@/constants/copywriting";
 import "./index.scss";
 

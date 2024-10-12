@@ -7,6 +7,6 @@ export interface Exam {
   id: string;
   lessonName: string;
   lessonPlace: string;
-  seatNum: String;
+  seatNum: string;
   teacherName: string;
 }

@@ -10,10 +10,9 @@ const globalConfig: Partial<Taro.request.Option> = {
   timeout: 12 * 1000
 };
 
-// eslint-disable-next-line no-undef
-const request =<TData extends TaroGeneral.IAnyObject | any> (
+const request = <TData extends TaroGeneral.IAnyObject | any> (
   url: string,
-  config: Omit<Taro.request.Option, "url">,
+  config: Omit<Taro.request.Option, "url">
 ) => {
   return Taro.request<IResponse<TData>>({
     ...globalConfig,

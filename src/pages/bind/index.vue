@@ -1,35 +1,46 @@
 <template>
   <theme-config>
     <title-bar title="绑定" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="flex-column">
         <card title="信息绑定">
           <w-list class="bind-list" :class="{ binded: user.isBindZF }">
-            <w-list-item :extra="user.isBindZF ? '已绑定' : '未绑定'" arrow="down"
-              @tap="renderForm('zf')">
+            <w-list-item
+              :extra="user.isBindZF ? '已绑定' : '未绑定'"
+              arrow="down"
+              @tap="renderForm('zf')"
+            >
               正方教务系统
             </w-list-item>
           </w-list>
           <w-list class="bind-list" :class="{ binded: user.isBindOauth }">
-            <w-list-item :extra="user.isBindOauth ? '已绑定' : '未绑定'" :class="{ binded: user.isBindOauth }" arrow="down" @tap="renderForm('oauth')">
+            <w-list-item
+              :extra="user.isBindOauth ? '已绑定' : '未绑定'"
+              :class="{ binded: user.isBindOauth }"
+              arrow="down"
+              @tap="renderForm('oauth')"
+            >
               统一验证系统
             </w-list-item>
           </w-list>
-          <w-list class="bind-list" :class="[{ binded: user.isBindLibrary }]" >
-<!--            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down"-->
-<!--              @tap="renderForm('library')">-->
-            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down" >
+          <w-list class="bind-list" :class="[{ binded: user.isBindLibrary }]">
+            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down">
               图书馆账号(暂不可用)
             </w-list-item>
           </w-list>
-          <w-list class="bind-list" :class="[{ binded: user.isBindYXY }]" >
-            <w-list-item :extra="user.isBindYXY ? '已绑定' : '未绑定'" arrow="down"
-              @tap="renderForm('yxy')">
+          <w-list class="bind-list" :class="[{ binded: user.isBindYXY }]">
+            <w-list-item
+              :extra="user.isBindYXY ? '已绑定' : '未绑定'"
+              arrow="down"
+              @tap="renderForm('yxy')"
+            >
               <text> 一卡通账号 </text>
             </w-list-item>
           </w-list>
         </card>
-        <card v-if="bindTab === undefined" title="温馨提示">输入密码时请注意特殊字符的中英文编码</card>
+        <card v-if="bindTab === undefined" title="温馨提示">
+          输入密码时请注意特殊字符的中英文编码
+        </card>
         <z-f v-if="bindTab === 'zf'" />
         <library v-if="bindTab === 'library'" />
         <y-x-y v-if="bindTab === 'yxy'" />
@@ -40,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { Card, WList, WListItem, WBadge, TitleBar, ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import Library from "./Library/index.vue";
 import ZF from "./ZF/index.vue";
 import YXY from "./YXY/index.vue";

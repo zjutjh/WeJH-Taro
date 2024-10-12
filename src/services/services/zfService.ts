@@ -9,7 +9,7 @@ export default class ZFService {
     if (!data) {
       data = {
         year: systemStore.generalInfo.termYear,
-        term: systemStore.generalInfo.term,
+        term: systemStore.generalInfo.term
 
       };
     }
@@ -21,7 +21,7 @@ export default class ZFService {
         return {
           ...res.data.data,
           year: data?.year,
-          term: data?.term,
+          term: data?.term
         };
 
       }
@@ -41,7 +41,7 @@ export default class ZFService {
       "setExamInfo",
       (res) => {
         return {
-          examInfo: res.data.data, //和store/service/zf.ts 相对应
+          examInfo: res.data.data, // 和store/service/zf.ts 相对应
           year: data?.year,
           term: data?.term
         };
@@ -69,7 +69,7 @@ export default class ZFService {
     if (!serviceStore?.zf.examInfo[data.year][data.term]?.data)
       return { data: [], updateTime: null };
     return serviceStore?.zf.examInfo[data.year][data.term];
-  } //直接得到考试安排信息
+  } // 直接得到考试安排信息
 
   static async updateScoreInfo(
     data?: { year: string; term: string, period: "期中" | "期末" }
@@ -81,7 +81,7 @@ export default class ZFService {
         period: serviceStore.score.scorePeriod
       };
     }
-    if(data.period === "期末") {
+    if (data.period === "期末") {
       return updateDateStateWithSession(
         api.zf.scoreInfo,
         data,
@@ -93,7 +93,7 @@ export default class ZFService {
           period: "期末"
         })
       );
-    } else if(data.period === "期中") {
+    } else if (data.period === "期中") {
       return updateDateStateWithSession(
         api.zf.midtermscoreInfo,
         data,
@@ -111,9 +111,9 @@ export default class ZFService {
   static getScoreInfo(
     data: { year: string; term: string, period: "期中" | "期末" }
   ): {
-    data: Score[];
-    updateTime: Date | null;
-  } {
+      data: Score[];
+      updateTime: Date | null;
+    } {
     if (!serviceStore?.zf.scoreInfo[data.year])
       return { data: [], updateTime: null };
     if (!serviceStore?.zf.scoreInfo[data.year][data.term])
@@ -134,11 +134,10 @@ export default class ZFService {
     return updateDateStateWithSession(api.zf.freeroom, data, "setRoomInfo");
   }
 
-  static getDayLessonTable( day: string ) {
+  static getDayLessonTable(day: string) {
     const lessonsTable = this.getLessonTable();
-    const lessons =  lessonsTable?.filter((item: Lesson) => {
-      const currentDay = day === 'today' ? (new Date().getDay() || 7) : (new Date().getDay() + 1 || 7);
-      console.log(currentDay)
+    const lessons = lessonsTable?.filter((item: Lesson) => {
+      const currentDay = day === "today" ? (new Date().getDay() || 7) : (new Date().getDay() + 1 || 7);
       if (currentDay !== parseInt(item.weekday)) return false;
       const currentWeek = systemStore.generalInfo.week;
 

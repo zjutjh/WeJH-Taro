@@ -1,5 +1,9 @@
 <template>
-  <view class="questionnaire" v-if="showQuestionnaire" icon-name="questionnaire">
+  <view
+    v-if="showQuestionnaire"
+    class="questionnaire"
+    icon-name="questionnaire"
+  >
     <view class="questionnaire-header">
       <view class="questionnaire-title" @tap="openQuestionnaire">
         <view class="iconfont icon-questionnaire" />
@@ -7,15 +11,25 @@
       </view>
       <view class="questionnaire-action">
         <template v-if="!isFold">
-          <text @tap="toggleFold(true)">折叠</text>
+          <text @tap="toggleFold(true)">
+            折叠
+          </text>
         </template>
         <template v-else>
-          <text @tap="toggleFold(false)">展开</text>
-          <view class="questionnaire-close-icon iconfont icon-close" @tap="closeQuesionnaire"></view>
+          <text @tap="toggleFold(false)">
+            展开
+          </text>
+          <view
+            class="questionnaire-close-icon iconfont icon-close"
+            @tap="closeQuesionnaire"
+          />
         </template>
       </view>
     </view>
-    <view class="questionnaire-body" :style="!isFold ? undefined : { maxHeight: 0, margin: 0, border: 0 }">
+    <view
+      class="questionnaire-body"
+      :style="!isFold ? undefined : { maxHeight: 0, margin: 0, border: 0 }"
+    >
       <view class="default-content" @tap="openQuestionnaire">
         <view>点击卡片参与问卷调查 </view>
         <view>为微精弘的更新迭代提出一份建议吧～</view>

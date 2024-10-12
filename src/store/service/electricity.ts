@@ -7,17 +7,17 @@ export const ElectricityServiceStore = {
     balance: undefined,
     todayConsumption: undefined,
     updateTime: {
-      balance: undefined,
-    },
+      balance: undefined
+    }
   }),
   mutations: {
     setElectricityStore(
       state: ServiceStoreType["electricity"],
       value: Partial<ServiceStoreType["electricity"]>
     ) {
-      value.roomName !== undefined && (state.roomName = value.roomName);
-      value.roomCode !== undefined && (state.roomCode = value.roomCode);
-      value.balance !== undefined && (state.balance = value.balance);
+      if (value.roomName !== undefined) state.roomName = value.roomName;
+      if (value.roomCode !== undefined) state.roomCode = value.roomCode;
+      if (value.balance !== undefined) state.balance = value.balance;
       state.updateTime.balance = new Date();
     },
     setBalance(state: ServiceStoreType["electricity"], value: number) {

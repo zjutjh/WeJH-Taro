@@ -5,7 +5,7 @@
       <lessons-table
         :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
         :is-this-week="isThisWeek"
-        @classClick="classClick"
+        @class-click="classClick"
       />
     </view>
 
@@ -13,38 +13,38 @@
       <view class="col">
         <refresh-button
           v-if="showWeekPicker && isThisWeek"
-          @refresh="refresh"
           :is-refreshing="isRefreshing"
-        ></refresh-button>
+          @refresh="refresh"
+        />
         <w-button
           v-else-if="showWeekPicker"
           class="back-button"
-          @tap="backToOriginWeek"
           size="large"
           shape="circle"
+          @tap="backToOriginWeek"
         >
-          <view class="iconfont icon-back"> </view>
+          <view class="iconfont icon-back" />
         </w-button>
       </view>
-      <view class="col" v-if="showWeekPicker">
-        <week-picker v-model:week="selectWeek"></week-picker>
+      <view v-if="showWeekPicker" class="col">
+        <week-picker v-model:week="selectWeek" />
       </view>
-      <view class="col" v-else>
+      <view v-else class="col">
         <term-picker
           class="picker"
-          @changed="termChanged"
           :year="selectTerm.year"
           :term="selectTerm.term"
-          :selectflag=0
-        ></term-picker>
+          :selectflag="0"
+          @changed="termChanged"
+        />
       </view>
       <view class="col">
-        <view @tap="pickerModeSwitch" class="switch-button">
+        <view class="switch-button" @tap="pickerModeSwitch">
           <image
             v-if="!showWeekPicker"
             src="@/assets/icons/term-week-swicher/term.svg"
-          ></image>
-          <image v-else src="@/assets/icons/term-week-swicher/week.svg"></image>
+          />
+          <image v-else src="@/assets/icons/term-week-swicher/week.svg" />
         </view>
       </view>
     </bottom-panel>
@@ -71,15 +71,15 @@
 import { computed, onMounted, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
 import {
-  ThemeConfig,
   BottomPanel,
-  TermPicker,
-  TitleBar,
   LessonsTable,
   PopView,
   RefreshButton,
-  WeekPicker,
-  WButton
+  TermPicker,
+  ThemeConfig,
+  TitleBar,
+  WButton,
+  WeekPicker
 } from "@/components";
 import { Lesson } from "@/types/Lesson";
 import { ZFService } from "@/services";
@@ -90,7 +90,7 @@ import { useTimeInstance } from "@/hooks";
 const showPop = ref(false);
 const selection = ref<Lesson>();
 
-//本学期
+// 本学期
 const originTerm = {
   year: systemStore.generalInfo.termYear,
   term: systemStore.generalInfo.term

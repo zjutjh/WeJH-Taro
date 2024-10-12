@@ -14,7 +14,7 @@ type UpdateInfoType = {
       callback?: () => void;
     }
   }
-}
+};
 
 export const updateInfo: UpdateInfoType = {
   version: "2.6.1",
@@ -42,5 +42,5 @@ export const updateInfo: UpdateInfoType = {
 export const questionnaireInfo = {
   isAccess: false,
   appId: "wxd947200f82267e58",
-  path: "pages/wjxqList/wjxqList?activityId=O5QdXK",
+  path: "pages/wjxqList/wjxqList?activityId=O5QdXK"
 };

@@ -1,7 +1,6 @@
 import { computed, onMounted, onUnmounted } from "vue";
 import { DarkModeTheme } from "@/types/DarkMode";
-import store from "@/store";
-import { serviceStore } from "@/store";
+import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
 const useDarkMode = () => {

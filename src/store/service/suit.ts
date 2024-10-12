@@ -2,9 +2,9 @@ type suitItem = {
   name: string;
   img: string;
   specs: {
-      id: number;
-      spec: string;
-      stock: number;
+    id: number;
+    spec: string;
+    stock: number;
   }[];
 }[];
 

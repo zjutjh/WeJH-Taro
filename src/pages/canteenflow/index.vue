@@ -1,28 +1,32 @@
 <template>
   <theme-config>
     <title-bar title="食堂流量" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/canteenflow.svg"> </image>
+        <image src="@/assets/photos/canteenflow.svg" />
         <view class="extra" @tap="showHelp">
           <view class="icon-wrapper">
-            <view class="extra-icon iconfont icon-announcement"></view>
+            <view class="extra-icon iconfont icon-announcement" />
           </view>
-          <view class="label">公告</view>
+          <view class="label">
+            公告
+          </view>
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="!flow"> 无食堂流量信息 </card>
+        <card v-if="!flow">
+          无食堂流量信息
+        </card>
         <card
-          class="canteen-flow-item-card"
           v-for="item in flow"
           :key="item.restaurantName"
+          class="canteen-flow-item-card"
         >
           <view class="canteen-flow-list">
             <view class="col">
               <view
-                class="name-wrapper"
                 v-if="item.restaurantName"
+                class="name-wrapper"
                 :style="nameColorMap(item.restaurantName[0])"
               >
                 {{ item.restaurantName[0] }}
@@ -34,34 +38,36 @@
             </view>
             <view class="col">
               <view
-                style="color: var(--wjh-color-green-600)"
                 v-if="item.dealCount < 50"
+                style="color: var(--wjh-color-green-600)"
               >
                 空闲
               </view>
-              <view
-                style="color: var(--wjh-color-yellow-600)"
-                v-else-if="item.dealCount < 100"
-              >
+              <view v-else-if="item.dealCount < 100" style="color: var(--wjh-color-yellow-600)">
                 适中
               </view>
-              <view style="color: var(--wjh-color-orange-600)" v-else>忙碌</view>
+              <view
+                v-else
+                style="color: var(--wjh-color-orange-600)"
+              >
+                忙碌
+              </view>
             </view>
           </view>
         </card>
       </view>
     </scroll-view>
     <w-modal
-      title="公告"
       v-model:show="showModal"
+      title="公告"
       :content="helpContent"
-    ></w-modal>
+    />
   </theme-config>
 </template>
 
 <script setup lang="ts">
 import { CanteenService } from "@/services";
-import { Card, TitleBar, WModal, ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar, WModal } from "@/components";
 import { computed, onMounted, ref } from "vue";
 import { serviceStore } from "@/store";
 import { helpText } from "@/constants/copywriting";
@@ -92,7 +98,7 @@ function showHelp() {
 }
 
 onMounted(() => {
-  CanteenService.getCanteenFlow;
+  CanteenService.getCanteenFlow();
 });
 
 </script>

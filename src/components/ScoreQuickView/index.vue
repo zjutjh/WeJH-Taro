@@ -1,26 +1,39 @@
 <template>
-  <quick-view @tap="nav2Score" title="成绩查询" icon-name="score" class="score-quick-view" help
-    @handle-tap-help="handleTapHelp">
-    <text class="sub-text">最新成绩 ({{ scoreUpdateTimeString }})</text>
-    <view class="default-content"
-      v-if="!todayScoreList ||
-      todayScoreList.length === 0"
-    > 今日没有出新成绩哦～
+  <quick-view
+    title="成绩查询"
+    icon-name="score"
+    class="score-quick-view"
+    help
+    @tap="nav2Score"
+    @handle-tap-help="handleTapHelp"
+  >
+    <text class="sub-text">
+      最新成绩 ({{ scoreUpdateTimeString }})
+    </text>
+    <view
+      v-if="!todayScoreList || todayScoreList.length === 0"
+      class="default-content"
+    >
+      今日没有出新成绩哦～
     </view>
     <view v-else>
       <template v-for="item in todayScoreList">
         <view
+          v-if="!item.checkRead"
           :key="item.lessonID"
           class="score-card"
           style="--bg-color: var(--wjh-color-primary)"
-          v-if="!item.checkRead"
         >
           <view class="score-title">
             <text>{{ item.lessonName }}</text>
           </view>
           <view class="score-res">
-            <text v-if="item.scorePeriod">{{item.scorePeriod}}</text>
-            <text v-else>{{ item.scorePeriod }}</text>
+            <text v-if="item.scorePeriod">
+              {{ item.scorePeriod }}
+            </text>
+            <text v-else>
+              {{ item.scorePeriod }}
+            </text>
           </view>
         </view>
       </template>
@@ -39,13 +52,13 @@ import "./index.scss";
 import "../../style/theme.scss";
 import { Score } from "@/types/Score";
 
-//将帮助提示信息传到Home，点击帮助按钮显示该信息
+// 将帮助提示信息传到Home，点击帮助按钮显示该信息
 const emit = defineEmits(["showHelp"]);
 function handleTapHelp() {
   emit("showHelp", "score-card");
 }
 
-//展示成绩列表
+// 展示成绩列表
 const showSorted = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
@@ -53,8 +66,8 @@ const selectTerm = ref({
 });
 
 onMounted(async () => {
-  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期中"});
-  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期末"});
+  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期中" });
+  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期末" });
 });
 
 /**
@@ -77,9 +90,9 @@ const todayScoreList = computed(() => {
  * 获取指定学期的未读成绩
  * @param props 学期信息
  */
-function getUnreadScores(props: {year: string; term: string}) {
-  const { data: midTermScores } = ZFService.getScoreInfo({...props, period: "期中"});
-  const { data: finalTermScores } = ZFService.getScoreInfo({...props, period: "期末"});
+function getUnreadScores(props: { year: string; term: string }) {
+  const { data: midTermScores } = ZFService.getScoreInfo({ ...props, period: "期中" });
+  const { data: finalTermScores } = ZFService.getScoreInfo({ ...props, period: "期末" });
   const unreadScores: Score[] = [];
   [...midTermScores, ...finalTermScores].forEach(storeItem => {
     const existingScore = serviceStore.score.readScoreMarks.find(
@@ -89,12 +102,12 @@ function getUnreadScores(props: {year: string; term: string}) {
     if (!existingScore) unreadScores.push(storeItem);
   });
   // 若有新成绩，则更新时间
-  unreadScores.length !== 0 && store.commit("findNewScore");
+  if (unreadScores.length !== 0) store.commit("findNewScore");
 
   return unreadScores;
 }
 
-//最新成绩的更新时间（几天前）
+// 最新成绩的更新时间（几天前）
 const scoreUpdateTimeString = computed(() => {
   if (!updateTime.value) return "更新失败";
   return dayjs(updateTime.value).fromNow();
@@ -103,7 +116,7 @@ const scoreUpdateTimeString = computed(() => {
 const updateTime = computed(() => {
   try {
     return serviceStore.score.findNewScoresTime;
-  } catch (e) {
+  } catch {
     return undefined;
   }
 });

@@ -1,6 +1,14 @@
 <template>
-  <w-button shape="circle" size="large" class="refresh-button" @tap="refresh">
-    <view class="iconfont icon-refresh" :class="{ 'refresh-running': isRefreshing }" />
+  <w-button
+    shape="circle"
+    size="large"
+    class="refresh-button"
+    @tap="refresh"
+  >
+    <view
+      class="iconfont icon-refresh"
+      :class="{ 'refresh-running': isRefreshing }"
+    />
   </w-button>
 </template>
 

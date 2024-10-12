@@ -1,13 +1,15 @@
 <template>
   <w-list
-   class="dark-mode-toggle"
-   style="border-radius: 8Px;"
-   @tap="handleToggle"
+    class="dark-mode-toggle"
+    style="border-radius: 8Px;"
+    @tap="handleToggle"
   >
     <w-list-item arrow="right">
       <view class="text-wrapper">
         <text> 深色模式 </text>
-        <text class="state"> {{ optionText }} </text>
+        <text class="state">
+          {{ optionText }}
+        </text>
       </view>
     </w-list-item>
   </w-list>

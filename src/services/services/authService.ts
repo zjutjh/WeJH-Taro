@@ -1,8 +1,7 @@
 import Taro from "@tarojs/taro";
-import { fetch, } from "@/utils";
+import { fetch } from "@/utils";
 import { api } from "../api/apiList";
-import { serviceStore } from "@/store";
-import store from "@/store";
+import store, { serviceStore } from "@/store";
 import { testSession } from "../utils/session";
 import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";

@@ -10,7 +10,7 @@ const helpContent = helpText.bind.library;
 const isShowHelp = ref(false);
 
 async function bindLibClick() {
-  const regex = /^[a-zA-Z0-9!@#$%^&*()_+-=,.<>?;:'"{}\[\]\\|`~]*$/;
+  const regex = /^[a-zA-Z0-9!@#$%^&*()_+-=,.<>?;:'"{}[\]\\|`~]*$/;
   if (!regex.test(libpass.value)) {
     Taro.showToast({
       title: "输入存在中文字符或其他非法字符,请重新输入！",
@@ -39,17 +39,19 @@ async function bindLibClick() {
       <text>绑定账号</text>
       <view class="form-help-wrapper">
         <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
-          <view class="iconfont icon-help"></view>
+          <view class="iconfont icon-help" />
         </view>
       </view>
     </template>
     <text>图书馆账户密码</text>
     <view>
-      <input password placeholder="默认密码为学号" v-model="libpass" />
+      <input v-model="libpass" password placeholder="默认密码为学号">
     </view>
     <template #footer>
-      <w-button block @tap="bindLibClick"> 确认绑定 </w-button>
+      <w-button block @tap="bindLibClick">
+        确认绑定
+      </w-button>
     </template>
   </card>
-  <w-modal :content="helpContent" v-model:show="isShowHelp" />
+  <w-modal v-model:show="isShowHelp" :content="helpContent" />
 </template>

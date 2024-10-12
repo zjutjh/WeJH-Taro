@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button></title-bar>
+    <title-bar title="寝室电费查询" back-button />
     <view class="flex-column">
       <card title="订阅消息说明">
         <text>
@@ -19,14 +19,16 @@
       </card>
 
       <view :class="styles.action" @tap="handleClickSubscribe">
-        <w-button size="large" shape="rounded">点击订阅</w-button>
+        <w-button size="large" shape="rounded">
+          点击订阅
+        </w-button>
       </view>
     </view>
   </theme-config>
 </template>
 
 <script lang="ts" setup>
-import { TitleBar, Card, WButton, ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar, WButton } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { debounce } from "@/utils";
@@ -50,7 +52,7 @@ const subscribe = async () => {
           if (res.data.code === 1) {
             Taro.showToast({
               title: "订阅成功",
-              icon: "none",
+              icon: "none"
             });
           } else {
             throw new Error(res.data.msg);
@@ -58,7 +60,7 @@ const subscribe = async () => {
         } catch (e) {
           Taro.showToast({
             title: e?.message || "订阅失败",
-            icon: "none",
+            icon: "none"
           });
         }
       }

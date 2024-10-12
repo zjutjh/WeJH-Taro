@@ -2,8 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import store from "./store/index";
-import { LoginByTaro } from "./services";
-import { SystemService } from "./services";
+import { LoginByTaro, SystemService } from "./services";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";

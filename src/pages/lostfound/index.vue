@@ -4,11 +4,11 @@
     <view class="campus-selector">
       <view class="container">
         <view
-          :key="item"
           v-for="item in campusList"
+          :key="item"
           :class="['campus', selectCampus === item ? 'active' : undefined]"
           @tap="() => handleSelectCampus(item)"
-         >
+        >
           <text>{{ item }}</text>
         </view>
       </view>
@@ -37,44 +37,43 @@
     </view>
     <scroll-view
       lower-threshold="100"
-      :scrollY="true"
+      :scroll-y="true"
       class="list-wrapper"
-      :onScrolltolower="handleScrollToBottom"
+      @scrolltolower="handleScrollToBottom"
     >
       <view class="record-list">
         <preview-card
           v-for="item in recordList"
-          :source="item"
           :key="item.id"
+          :source="item"
         />
-        <w-skeleton v-if="loading" :style="{borderRadius: '8Px'}"/>
+        <w-skeleton v-if="loading" :style="{borderRadius: '8Px'}" />
         <card v-else-if="!recordList.length && isEmpty">
           <text>该分类下暂无失物寻物记录</text>
         </card>
       </view>
     </scroll-view>
-    <contact-me @show-help="setHelp"/>
+    <contact-me @show-help="setHelp" />
     <w-modal
       v-model:show="isShowHelp"
       :content="`&emsp;&emsp;${helpContent}`"
-    ></w-modal>
+    />
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { TitleBar, ThemeConfig } from "@/components";
+import { ThemeConfig, TitleBar, Card, WSkeleton } from "@/components";
 import { useRequest } from "@/hooks";
 import { LostfoundService } from "@/services";
 import { LostfoundRecord } from "@/types/Lostfound";
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 import PreviewCard from "./PreviewCard/index.vue";
 import ContactMe from "./ContactMe/index.vue";
-import { WSkeleton, Card } from "@/components";
 import { omit } from "lodash-es";
 import "./index.scss";
 import store, { serviceStore } from "@/store";
 import WModal from "../../components/Modal/index.vue";
-import {helpText} from "@/constants/copywriting";
+import { helpText } from "@/constants/copywriting";
 
 const currentPage = ref(0);
 const maxPage = ref(0);
@@ -130,9 +129,9 @@ const getRecords = (data: {
   page_num: number;
   page_size: number;
   lost_or_found?: string;
-} ) => {
+}) => {
   isEmpty.value = false;
-  run(omit(data, [data.kind === "全部"? "kind": null , data.lost_or_found === "全部"? "lost_or_found": ""]));
+  run(omit(data, [data.kind === "全部" ? "kind" : null, data.lost_or_found === "全部" ? "lost_or_found" : ""]));
 };
 
 const kindList = computed<string[]>(() => [

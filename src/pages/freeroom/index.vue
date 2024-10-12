@@ -1,34 +1,34 @@
 <template>
   <theme-config>
     <title-bar title="空教室" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card v-if="!room" title="无记录" style="text-align: center"></card>
+        <card v-if="!building" title="无记录" style="text-align: center" />
         <card
-          v-for="(item, index) in room"
-          class="building-card"
+          v-for="(item, index) in building"
           :key="index"
+          class="building-card"
           :title="item.buildName"
         >
           <view class="building-card-body">
             <view
+              v-for="room in item.roomList"
+              :key="room.roomName"
               class="room-card"
-              v-for="(i, index) in item.roomList"
-              :key="index"
             >
-              <view class="room-name">{{ i.roomName }}</view>
-              <view class="room-seats">{{ i.roomSeats }}</view>
+              <view class="room-name">
+                {{ room.roomName }}
+              </view>
+              <view class="room-seats">
+                {{ room.roomSeats }}
+              </view>
             </view>
           </view>
         </card>
       </view>
     </scroll-view>
     <bottom-panel>
-      <room-picker
-        class="picker"
-        @changed="roomChanged"
-        :week="selectWeek"
-      ></room-picker>
+      <room-picker class="picker" :week="selectWeek" @changed="roomChanged" />
     </bottom-panel>
   </theme-config>
 </template>
@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
-import { BottomPanel, Card, TitleBar, RoomPicker, ThemeConfig } from "@/components";
+import { BottomPanel, Card, RoomPicker, ThemeConfig, TitleBar } from "@/components";
 import { ZFService } from "@/services";
 import { freeroomMap } from "@/constants/freeroomMap";
 import { Room } from "@/types/Room";
@@ -49,22 +49,16 @@ type freeRoomQueryType = {
   week: string;
   weekday: string;
   year: string;
-}
+};
 
 function roomChanged(e: freeRoomQueryType) {
-  console.log(e);
   ZFService.getFreeRoomInfo(e);
 }
 
-const room = computed(() => {
+const building = computed(() => {
   // comment: 数组，每个元素存放一幢教学楼的空教室
-  const buildingList: {
-      buildName: string;
-      roomList: Room[];
-    }[] = [];
-  const tmp: {
-      [key: string]: Room[];
-    } = {};
+  const buildingList: Array<{ buildName: string; roomList: Room[]; }> = [];
+  const tmp: Record<string, Room[]> = {};
 
   serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
     if (!tmp[freeroomMap[item.buildName[0]]])

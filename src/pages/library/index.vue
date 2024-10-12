@@ -1,9 +1,9 @@
 <template>
   <theme-config>
     <title-bar title="借阅信息" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/library.svg"></image>
+        <image src="@/assets/photos/library.svg" />
         <view class="summary">
           <view>
             借阅：
@@ -21,44 +21,61 @@
       </view>
       <card class="borrow-card">
         <template #header>
-          <view class="col"></view>
+          <view class="col" />
           <view class="col">
             <view class="swicher">
-              <w-button :class="{ 'button-not-active': !isSelectToday }" @tap="todayClick">
+              <w-button
+                :class="{ 'button-not-active': !isSelectToday }"
+                @tap="todayClick"
+              >
                 当前
               </w-button>
-              <w-button :class="{ 'button-not-active': !isSelectHistory }" @tap="historyClick">
+              <w-button
+                :class="{ 'button-not-active': !isSelectHistory }"
+                @tap="historyClick"
+              >
                 历史
               </w-button>
             </view>
           </view>
           <view class="col">
-            <refresh-button @tap="updateData" :is-refreshing="isRefreshing"></refresh-button>
+            <refresh-button :is-refreshing="isRefreshing" @tap="updateData" />
           </view>
         </template>
         <view>
           <view class="flex-column">
-            <card v-if="!borrowList" class="no-item">无借阅记录</card>
-            <card class="book-card" v-for="(item, index) in borrowList" :key="index" :style="{
-              backgroundColor:
-                index % 2
-                  ? 'var(--wjh-color-yellow-500)'
-                  : 'var(--wjh-color-green-500)',
-            }">
-              <view class="book-name"> {{ item.name }}</view>
-              <view>{{
-                `借阅日期：${item.time.split(" ")[0]} | ${item.time.split(" ")[1]
-                }`
-              }}</view>
+            <card v-if="!borrowList" class="no-item">
+              无借阅记录
+            </card>
+            <card
+              v-for="(item, index) in borrowList"
+              :key="index"
+              class="book-card"
+              :style="{
+                backgroundColor:
+                  index % 2
+                    ? 'var(--wjh-color-yellow-500)'
+                    : 'var(--wjh-color-green-500)',
+              }"
+            >
+              <view class="book-name">
+                {{ item.name }}
+              </view>
+              <view>
+                {{ `借阅日期：${item.time.split(" ")[0]} | ${item.time.split(" ")[1] }` }}
+              </view>
               <view v-if="item.returnTime">
                 {{ `归还日期：${item.returnTime.split(" ")[0]}` }}
               </view>
-              <view class="book-index" :style="{
-                color:
-                  index % 2
-                    ? 'var(--wjh-color-orange-600)'
-                    : 'var(--wjh-color-green-700)',
-              }">
+              <view
+                class="book-index"
+                :style="{
+                  color:
+                    index % 2
+                      ? 'var(--wjh-color-orange-600)'
+                      : 'var(--wjh-color-green-700)',
+                }"
+              >
                 {{ index + 1 }}
               </view>
             </card>
@@ -71,8 +88,8 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { computed, ref, onMounted } from "vue";
-import { Card, TitleBar, RefreshButton, WButton, ThemeConfig } from "@/components";
+import { computed, onMounted, ref } from "vue";
+import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";

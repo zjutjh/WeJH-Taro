@@ -7,7 +7,7 @@ export interface InformationStoreType {
 
 export const InformationStore = {
   state: () => ({
-    informationList: [],
+    informationList: []
   }),
   mutations: {
     setInformationList(

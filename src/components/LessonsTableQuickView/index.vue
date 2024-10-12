@@ -1,8 +1,18 @@
 <template>
-  <quick-view @tap="nav2Lesson" title="课程表" icon-name="lessonstable" class="lessons-table-quick-view" help
-              @handle-tap-help="handleTapHelp">
-    <text class="sub-text" v-if="!showTomorrow">今日课表 ({{ updateTimeString }})</text>
-    <text class="sub-text" v-else>明日课表 ({{ updateTimeString }})</text>
+  <quick-view
+    title="课程表"
+    icon-name="lessonstable"
+    class="lessons-table-quick-view"
+    help
+    @tap="nav2Lesson"
+    @handle-tap-help="handleTapHelp"
+  >
+    <text v-if="!showTomorrow" class="sub-text">
+      今日课表 ({{ updateTimeString }})
+    </text>
+    <text v-else class="sub-text">
+      明日课表 ({{ updateTimeString }})
+    </text>
 
     <card
       v-for="(item, index) in lessonTable"
@@ -11,18 +21,29 @@
         '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
       } as CSSProperties"
     >
-      <view class="lesson-item" :key="updateRestTimeCounter + index">
+      <view
+        :key="updateRestTimeCounter + index"
+        class="lesson-item"
+      >
         <view class="important-line">
-          <text class="lesson-place">{{ item.lessonPlace }}</text>
-          <text v-if="lessonState(item.sections) === 'before'" class="before-lesson">
+          <text class="lesson-place">
+            {{ item.lessonPlace }}
+          </text>
+          <text
+            v-if="lessonState(item.sections) === 'before'"
+            class="before-lesson"
+          >
             还有 {{ getRestTimeString(item.sections) }} 上课
           </text>
-          <text v-else-if="lessonState(item.sections) === 'taking'" class="taking-lesson">
+          <text
+            v-else-if="lessonState(item.sections) === 'taking'"
+            class="taking-lesson"
+          >
             上课中
           </text>
         </view>
         <view class="teacher">
-          <text class="iconfont icon-teacher"></text>
+          <text class="iconfont icon-teacher" />
           <text class="teacher-name">
             {{ ` ${item.teacherName}` }}
           </text>
@@ -30,18 +51,27 @@
             ({{ sectionsTimeString(item.sections) }})
           </text>
         </view>
-        <text class="lesson-name">{{ item.lessonName }}</text>
+        <text class="lesson-name">
+          {{ item.lessonName }}
+        </text>
       </view>
     </card>
 
-    <view class="default-content" v-if="lessonTable?.length === 0 && !showTomorrow" >
+    <view
+      v-if="lessonTable?.length === 0 && !showTomorrow"
+      class="default-content"
+    >
       今天居然没有课😄
     </view>
-    <view class="default-content" v-if="lessonTable?.length === 0 && showTomorrow" >
+    <view
+      v-if="lessonTable?.length === 0 && showTomorrow"
+      class="default-content"
+    >
       明天居然没有课😄
     </view>
-    <view class="default-content" v-if="!lessonTable">
-      点击获取你的课表 ～</view>
+    <view v-if="!lessonTable" class="default-content">
+      点击获取你的课表 ～
+    </view>
   </quick-view>
 </template>
 
@@ -51,39 +81,32 @@ import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import { ZFService } from "@/services";
 import dayjs from "dayjs";
-import { CSSProperties, computed, onMounted, ref, onUnmounted, Ref } from "vue";
+import { CSSProperties, Ref, computed, onMounted, onUnmounted, ref } from "vue";
 import { serviceStore, systemStore } from "@/store";
 import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import { Lesson } from "@/types/Lesson";
 
-const tenPM = dayjs().set('hour', 22).set('minute', 0).set('second', 0);
+const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
 const emit = defineEmits(["showHelp"]);
 const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
-const showTomorrow = computed(() => {
-  return dayjs().isAfter(tenPM);
-});
+const showTomorrow = dayjs().isAfter(tenPM);
 
 const lessonTable = computed(() => {
-  const year = systemStore.generalInfo.termYear;
-  const term = systemStore.generalInfo.term;
   let tmp: Lesson[] | undefined;
   try {
-    tmp =  showTomorrow.value ? ZFService.getDayLessonTable('tomorrow') : ZFService.getDayLessonTable('today');
-    serviceStore.zf.lessonsTableInfo[year][term].data.lessonsTable;
-  } catch (error) {
+    tmp = showTomorrow ? ZFService.getDayLessonTable("tomorrow") : ZFService.getDayLessonTable("today");
+  } catch {
     tmp = undefined;
   }
   return tmp;
 });
 
 const updateRestTimeCounter = ref(0);
-// TODO: 计时器控制渲染
 
 onMounted(() => {
-  lessonTable.value; // 触发计算属性
   timer.value = setInterval(() => {
     updateRestTimeCounter.value++;
   }, 5000);
@@ -104,10 +127,10 @@ const updateTime = computed(() => {
     updateTime =
       serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear][
         systemStore.generalInfo.term
-        ]?.updateTime;
+      ]?.updateTime;
     if (updateTime) return updateTime;
     else return undefined;
-  } catch (e) {
+  } catch {
     return undefined;
   }
 });
