@@ -1,57 +1,14 @@
 {
-  "miniprogramRoot": "dist/",
+  "miniprogramRoot": "./dist",
   "projectname": "WeJH-Taro",
   "description": "",
-  "appid": "wxd4b11753654a636f",
   "setting": {
     "urlCheck": false,
-    "es6": false,
+    "es6": true,
     "enhance": false,
-    "postcss": false,
-    "preloadBackgroundData": false,
-    "minified": true,
-    "newFeature": false,
-    "coverView": true,
-    "nodeModules": false,
-    "autoAudits": false,
-    "showShadowRootInWxmlPanel": true,
-    "scopeDataCheck": false,
-    "uglifyFileName": false,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "lazyloadPlaceholderEnable": false,
-    "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "useApiHostProcess": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "enableEngineNative": false,
-    "useIsolateContext": true,
-    "userConfirmedBundleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "disableUseStrict": false,
-    "showES6CompileOption": false,
-    "useCompilerPlugins": false,
-    "condition": false
+    "postcss": false,
+    "minified": true
   },
-  "compileType": "miniprogram",
-  "condition": {},
-  "libVersion": "2.25.3",
-  "srcMiniprogramRoot": "dist/",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
-  },
-  "simulatorPluginLibVersion": {}
+  "compileType": "miniprogram"
 }
