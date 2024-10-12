@@ -1,9 +1,19 @@
 <template>
-  <title-bar title="微精弘" :back-button="false">
-    <alarm v-if="isActive" @tap="nav2announcement" :counter="counter"></alarm>
+  <title-bar
+    title="微精弘"
+    :back-button="false"
+  >
+    <alarm
+      v-if="isActive"
+      :counter="counter"
+      @tap="nav2announcement"
+    />
   </title-bar>
-  <scroll-view :scrollY="true">
-    <view class="flex-column" v-if="isActive">
+  <scroll-view :scroll-y="true">
+    <view
+      v-if="isActive"
+      class="flex-column"
+    >
       <questionnaire v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire" />
 
       <fixed-quick-view />
@@ -11,28 +21,51 @@
       <!-- 这里是可选卡片列表 -->
       <cards />
 
-      <card v-if="!(isBindZf || isBindYXY || isBindLibrary || isBindOauth)" title="提示">
+      <card
+        v-if="!(isBindZf || isBindYXY || isBindLibrary || isBindOauth)"
+        title="提示"
+      >
         还没有绑定任何服务，请到我的页面绑定
       </card>
 
-      <view @tap="showEditPanel" :class="styles[`edit-button`]">
-        <view class="iconfont icon-add" style="font-size: 2rem; font-weight: bolder" />
+      <view
+        :class="styles[`edit-button`]"
+        @tap="showEditPanel"
+      >
+        <view
+          class="iconfont icon-add"
+          style="font-size: 2rem; font-weight: bolder"
+        />
       </view>
     </view>
-    <view v-else class="flex-column">
+    <view
+      v-else
+      class="flex-column"
+    >
       <card title="未激活">
-        <w-button block class="active" @tap="nav2activation"> 激活 </w-button>
+        <w-button
+          block
+          class="active"
+          @tap="nav2activation"
+        >
+          激活
+        </w-button>
       </card>
-      <Card v-show="registerTips" title="新生提醒">
-        <text style="font-size:14.5px">{{ registerTips }}</text>
-      </Card>
+      <card
+        v-show="registerTips"
+        title="新生提醒"
+      >
+        <text style="font-size:14.5px">
+          {{ registerTips }}
+        </text>
+      </card>
     </view>
   </scroll-view>
   <edit-panel v-model:show="isShowEditPanel" />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import store, { serviceStore, systemStore } from "@/store";
 import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
@@ -46,8 +79,6 @@ import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
-import { onMounted } from "vue";
-import {WBadge} from "@/components";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
@@ -68,12 +99,12 @@ const isQuestionnaireAccess = () => {
 if (questionnairePath != systemStore.questionnaire.path) {
   store.commit("setQuestionnaire", {
     path: questionnairePath,
-    state: "open",
+    state: "open"
   });
 }
 onMounted(() => {
   SystemService.getAnnouncement();
-  SystemService.getGeneralInfo().then(res=>{
+  SystemService.getGeneralInfo().then(res => {
     registerTips.value = res.data.registerTips;
   });
 });
@@ -105,14 +136,14 @@ const counter = computed(() => {
 
 function nav2activation() {
   Taro.navigateTo({
-    url: "/pages/activation/index",
+    url: "/pages/activation/index"
   });
 }
 
 function nav2announcement() {
   store.commit("clearAnnouncementsUpdateCounter");
   Taro.navigateTo({
-    url: "/pages/announcement/index",
+    url: "/pages/announcement/index"
   });
 }
 </script>

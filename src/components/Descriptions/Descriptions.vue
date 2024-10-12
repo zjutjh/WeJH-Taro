@@ -4,7 +4,7 @@
       {{ props.title }}
     </view>
     <view class="wjh-descriptions-view">
-      <slot></slot>
+      <slot />
     </view>
   </view>
 </template>
@@ -16,9 +16,10 @@ import "./index.scss";
 type PropsType = {
   size?: "small" | "middle";
   title?: string
-}
+};
 const props = withDefaults(defineProps<PropsType>(), {
-  size: "middle"
+  size: "middle",
+  title: undefined
 });
 
 </script>

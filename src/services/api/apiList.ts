@@ -16,19 +16,19 @@ const api = {
       yxy: {
         getGraph: "/api/user/bind/yxy/get/captcha",
         sendGraphAuthCode: "/api/user/bind/yxy/send/captcha",
-        login: "/api/user/bind/yxy/login",
+        login: "/api/user/bind/yxy/login"
       }
     },
     theme: {
       get: "/api/func/theme/get",
-      set: "/api/func/theme/choose",
+      set: "/api/func/theme/choose"
     },
     logout: "/api/user/del",
-    changePassword: "/api/user/repass",
+    changePassword: "/api/user/repass"
   },
   card: {
     balance: "/api/func/card/balance",
-    record: "/api/func/card/record",
+    record: "/api/func/card/record"
   },
   library: {
     current: "/api/func/library/current",
@@ -65,7 +65,7 @@ const api = {
     check: "/api/func/supplies-borrow/supplies",
     submit: "/api/func/supplies-borrow/borrow",
     record: "/api/func/supplies-borrow/borrow"
-  },
+  }
 };
 
 const defDevHost = "http://0.0.0.0:8080";

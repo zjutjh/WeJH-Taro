@@ -11,9 +11,9 @@ export default class YxyService {
    */
   static getGraph = async () => {
     return request<string>(
-      api.user.bind.yxy.getGraph ,{
+      api.user.bind.yxy.getGraph, {
         method: "POST",
-        header: { "Cookie": serviceStore.sessionID },
+        header: { "Cookie": serviceStore.sessionID }
       }
     );
   };
@@ -61,14 +61,14 @@ export default class YxyService {
       display_room_name: string;
       md_name: string;
       room_code: string;
-      soc: number; //kwh
+      soc: number; // kwh
       soc_amount: number; // rmb
     }>(
       api.electricity.balance, {
         method: "GET",
         header: {
           "Cookie": serviceStore.sessionID
-        },
+        }
       });
   };
 
@@ -81,10 +81,9 @@ export default class YxyService {
     }>>(
       api.electricity.consumption, {
         method: "GET",
-        header: { "Cookie": serviceStore.sessionID },
+        header: { "Cookie": serviceStore.sessionID }
       });
   };
-
 
   /** 申请订阅电费警告 */
   static queryElectricitySubscription = async () => {
@@ -93,12 +92,12 @@ export default class YxyService {
         method: "POST",
         header: {
           "Cookie": serviceStore.sessionID
-        },
+        }
       });
   };
 
   /** 查询缴费记录 */
-  static queryRecord = async (data: {"page": string}) => {
+  static queryRecord = async (data: { "page": string }) => {
     return request<Array<{
       buy_type: string;
       datetime: string;
@@ -124,7 +123,7 @@ export default class YxyService {
         method: "GET",
         header: { "Cookie": serviceStore.sessionID },
         fail: (error) => {
-          console.log(error);
+          console.error(error);
           Taro.showToast({
             title: `查询校园卡余额失败\r\n${error.errMsg}`,
             icon: "none"
@@ -157,7 +156,7 @@ export default class YxyService {
         header: { "Cookie": serviceStore.sessionID },
         data,
         fail: (error) => {
-          console.log(error);
+          console.error(error);
           Taro.showToast({
             title: `查询消费记录失败\r\n${error.errMsg}`,
             icon: "none"

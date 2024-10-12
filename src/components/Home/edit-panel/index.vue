@@ -4,7 +4,7 @@ import { computed, onBeforeUpdate, ref, watch } from "vue";
 import styles from "./index.module.scss";
 import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
-import { PopView, WButton, WBadge } from "@/components";
+import { PopView, WBadge, WButton } from "@/components";
 import { checkBind } from "@/utils";
 
 /** 依赖于绑定状态的卡片名字列表 */
@@ -27,9 +27,9 @@ const validList = computed(() => {
 });
 
 const selectedList = computed(() => {
-  if(serviceStore.homecard.selected.length === 0 && serviceStore.homecard.initialization) {
+  if (serviceStore.homecard.selected.length === 0 && serviceStore.homecard.initialization) {
     store.commit("addHomeCardItem", "lessons-table-quick-view");
-    serviceStore.homecard.initialization = false
+    serviceStore.homecard.initialization = false;
   }
 
   const list = serviceStore.homecard.selected;
@@ -79,15 +79,15 @@ const handleClose = () => {
 <template>
   <pop-view v-model:show="show" style="z-index: 4000;">
     <view :class="styles.container">
-
       <view :class="styles.card">
         <view :class="styles.header">
           <text>已添加功能</text>
         </view>
         <view :class="[styles.content, styles.selected]">
           <view
-            :class="styles.item"
             v-for="item in selectedList"
+            :key="item.name"
+            :class="styles.item"
             @tap="handleRemoveItem(item.name)"
           >
             <view
@@ -99,7 +99,9 @@ const handleClose = () => {
             <text>{{ item.label }}</text>
             <view :class="styles['badge-wrapper']">
               <w-badge>
-                <view style="transform: scale(1.5);">-</view>
+                <view style="transform: scale(1.5);">
+                  -
+                </view>
               </w-badge>
             </view>
           </view>
@@ -112,8 +114,9 @@ const handleClose = () => {
         </view>
         <view :class="[styles.content, styles.unselected]">
           <view
-            :class="styles.item"
             v-for="item in unselectedList"
+            :key="item.name"
+            :class="styles.item"
             @tap="handleAddItem(item.name)"
           >
             <view
@@ -125,7 +128,9 @@ const handleClose = () => {
             <text>{{ item.label }}</text>
             <view :class="styles['badge-wrapper']">
               <w-badge color="var(--wjh-color-primary)">
-                <view style="transform: scale(1.5);">+</view>
+                <view style="transform: scale(1.5);">
+                  +
+                </view>
               </w-badge>
             </view>
           </view>
@@ -133,7 +138,9 @@ const handleClose = () => {
       </view>
 
       <view :class="styles.footer">
-        <w-button shape="rounded" @tap="handleClose">完成</w-button>
+        <w-button shape="rounded" @tap="handleClose">
+          完成
+        </w-button>
       </view>
     </view>
   </pop-view>

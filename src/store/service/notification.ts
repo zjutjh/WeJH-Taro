@@ -28,7 +28,7 @@ export const NotificationStore = {
     ) {
       state.state = {
         ...state.state,
-        ...value,
+        ...value
       };
     }
   }

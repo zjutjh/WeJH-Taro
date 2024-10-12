@@ -1,12 +1,12 @@
-export function debounce(func: () => any, delay = 1000) {
+export function debounce<T extends(...args: any[]) => any>(func: T, delay = 1000) {
   let timer: number | null = null;
-  return function(...args: any) {
-    if (!timer) {
-      func.apply(this, args);
-    }
-    timer && clearTimeout(timer);
+
+  return function(...args: Parameters<T>) {
+    if (timer) clearTimeout(timer);
+
     timer = setTimeout(() => {
       timer = null;
+      func.apply(this, args);
     }, delay);
   };
 }

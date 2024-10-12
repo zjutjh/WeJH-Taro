@@ -8,13 +8,9 @@
       </view>
     </view>
     <view class="lessons-table">
-      <view class="col"></view>
+      <view class="col" />
       <view class="col">
-        <view
-          v-show="isThisWeek"
-          class="now-week-index"
-          :style="nowWeekStyle"
-        />
+        <view v-show="isThisWeek" class="now-week-index" :style="nowWeekStyle" />
         <view class="weekday-index-panel index-panel">
           <view v-for="i in weekdayEnum" :key="i">
             <view class="num-index">
@@ -23,13 +19,13 @@
           </view>
         </view>
         <view
-          class="table table-box"
           v-if="lessonsTable && lessonsTable.length !== 0"
+          class="table table-box"
         >
           <view
-            class="class"
             v-for="cl in lessonsTable"
             :key="cl.id + cl.week + cl.weekday"
+            class="class"
             :style="getPosition(cl)"
           >
             <view
@@ -39,19 +35,20 @@
               @tap="classCardClick(cl)"
             >
               <view class="row">
-                <view class="title">{{
-                  splitNameAndRoom(cl.lessonPlace)[0]
-                }}</view>
-                <view class="title">{{
-                  splitNameAndRoom(cl.lessonPlace)[1]
-                }}</view>
+                <view class="title">
+                  {{ splitNameAndRoom(cl.lessonPlace)[0] }}
+                </view>
+                <view class="title">
+                  {{ splitNameAndRoom(cl.lessonPlace)[1] }}
+                </view>
               </view>
               <view class="row">
                 <text
                   class="item-content"
                   :style="`-webkit-line-clamp: ${2}` as any"
-                  >{{ cl.lessonName }}</text
                 >
+                  {{ cl.lessonName }}
+                </text>
               </view>
             </view>
           </view>
@@ -71,17 +68,12 @@ import "./index.scss";
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);
 const emit = defineEmits(["classClick"]);
-const surroundedLessons: {
-    top: Lesson[];
-    bottom: Lesson[];
-    left: Lesson[];
-    right: Lesson[];
-  } = {
-    top: [],
-    bottom: [],
-    left: [],
-    right: []
-  };
+const surroundedLessons = {
+  top: [] as Lesson[],
+  bottom: [] as Lesson[],
+  left: [] as Lesson[],
+  right: [] as Lesson[]
+};
 const colorSet = [
   "green-600",
   "green-700",

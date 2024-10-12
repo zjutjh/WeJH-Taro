@@ -2,20 +2,31 @@
   <quick-view
     title="考试安排"
     icon-name="exam"
-    @tap="nav2Exam"
     help
-    @handle-tap-help="handleTapHelp"
     class="exam-quick-view"
+    @tap="nav2Exam"
+    @handle-tap-help="handleTapHelp"
   >
-    <text class="sub-text">近期考试 ({{ updateTimeString }})</text>
-    <card v-if="!filteredExamItems || filteredExamItems.length === 0"
-      style="text-align: center">
+    <text class="sub-text">
+      近期考试 ({{ updateTimeString }})
+    </text>
+    <card
+      v-if="!filteredExamItems || filteredExamItems.length === 0"
+      style="text-align: center"
+    >
       未查询到近日考试信息
     </card>
-    <card v-else v-for="item in filteredExamItems" :key=item.id class="exam-card">
+    <card
+      v-for="item in filteredExamItems"
+      v-else
+      :key="item.id"
+      class="exam-card"
+    >
       <view style="display: flex; flex-direction: column; gap: 10Px; align-items: flex-start;">
         <view class="text-wrapper">
-          <view :class="['exam-name', examState(item.examTime)]"> {{ item.lessonName }} </view>
+          <view :class="['exam-name', examState(item.examTime)]">
+            {{ item.lessonName }}
+          </view>
           <view class="exam-time">
             <text> {{ dayjs(getExamTime(item.examTime).date).format("MM/DD") }} </text>
             <text> {{ getExamTime(item.examTime).start }} </text>
@@ -26,7 +37,10 @@
             {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
           </text>
           <view class="exam-state">
-            <text class="taking" v-if="examState(item.examTime) === 'taking'">
+            <text
+              v-if="examState(item.examTime) === 'taking'"
+              class="taking"
+            >
               正在考试
             </text>
             <text v-else-if="examState(item.examTime) === 'after'">
@@ -71,8 +85,8 @@ const selectTerm = ref({
   term: systemStore.generalInfo.score || systemStore.generalInfo.term
 });
 
-const updateTimeString = computed( () => {
-  if(updateTime.value !== undefined) return dayjs(updateTime.value).fromNow();
+const updateTimeString = computed(() => {
+  if (updateTime.value !== undefined) return dayjs(updateTime.value).fromNow();
   else return "更新失败!";
 });
 
@@ -95,12 +109,12 @@ const filteredExamItems = computed(() => {
       return (resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after");
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   return list.sort((a, b) => {
     const { date: dateA, start: timeA } = getExamTime(a.examTime);
     const { date: dateB, start: timeB } = getExamTime(b.examTime);
-    return dayjs(`${dateA}-${timeA}`) < dayjs(`${dateB}-${timeB}`) ? 1: -1;
+    return dayjs(`${dateA}-${timeA}`) < dayjs(`${dateB}-${timeB}`) ? 1 : -1;
   });
 });
 
@@ -108,10 +122,9 @@ const updateTime = computed(() => {
   let updata: Date | null = null;
   try {
     updata = ZFService.getExamInfo(selectTerm.value)?.updateTime;
-    if(updata === null) return undefined;
+    if (updata === null) return undefined;
     else return updata;
-  }
-  catch (e) {
+  } catch {
     return undefined;
   }
 });
@@ -127,11 +140,11 @@ function handleTapHelp() {
 function getExamTime(examTimeString: string) {
   const examTime = examTimeString.split("(");
   const detailedTime: string[] = examTime[1].split("-");
-  detailedTime[1] = detailedTime[1].slice( 0 , detailedTime[1].length - 1);
+  detailedTime[1] = detailedTime[1].slice(0, detailedTime[1].length - 1);
   return {
     date: examTime[0], // e.g. 2023-02-17
     start: detailedTime[0], // e.g. 13:30
-    end: detailedTime[1], // e.g. 15:30
+    end: detailedTime[1] // e.g. 15:30
   };
 }
 

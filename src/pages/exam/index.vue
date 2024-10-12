@@ -1,14 +1,16 @@
 <template>
   <theme-config>
     <title-bar title="考试安排" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/exam.svg"></image>
+        <image src="@/assets/photos/exam.svg" />
         <view class="extra" @tap="showHelp">
           <view class="icon-wrapper">
-            <view class="extra-icon iconfont icon-announcement"></view>
+            <view class="extra-icon iconfont icon-announcement" />
           </view>
-          <view class="label">公告</view>
+          <view class="label">
+            公告
+          </view>
         </view>
       </view>
       <view class="flex-column">
@@ -31,8 +33,9 @@
                       ? 'color: var(--wjh-color-primary-dark)'
                       : undefined
                   "
-                  >{{ item.lessonName }}</view
                 >
+                  {{ item.lessonName }}
+                </view>
                 <view
                   style="
                     font-size: 14px;
@@ -40,16 +43,14 @@
                   "
                 >
                   <view
-                    v-if="
-                      timeInterval(item.examTime) >= 0 &&
-                      timeInterval(item.examTime) <= 14
-                    "
+                    v-if="timeInterval(item.examTime) >= 0 && timeInterval(item.examTime) <= 14"
                     :style="
                       timeInterval(item.examTime) === 0
                         ? 'color: var(--wjh-color-primary-dark)'
                         : undefined
                     "
-                    >距离考试还有 {{ timeInterval(item.examTime) }} 天
+                  >
+                    距离考试还有 {{ timeInterval(item.examTime) }} 天
                   </view>
                   <view
                     class="exam-time"
@@ -58,7 +59,8 @@
                         ? 'color: var(--wjh-color-primary-dark)'
                         : undefined
                     "
-                    >{{ item.examTime }}
+                  >
+                    {{ item.examTime }}
                   </view>
                   <view
                     class="exam-place"
@@ -67,8 +69,9 @@
                         ? 'color: var(--wjh-color-primary-dark)'
                         : undefined
                     "
-                    >{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</view
                   >
+                    {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
+                  </view>
                 </view>
               </template>
               <w-descriptions class="exam-detail-list" size="small">
@@ -96,28 +99,21 @@
       </view>
     </scroll-view>
     <bottom-panel class="exam-bottom-panel">
-      <view class="col"> </view>
+      <view class="col" />
       <view class="col">
         <term-picker
           class="picker"
           :year="selectTerm.year"
           :term="selectTerm.term"
-          :selectflag=0
+          :selectflag="0"
           @changed="termChanged"
-        ></term-picker>
+        />
       </view>
       <view class="col">
-        <refresh-button
-          @refresh="refresh"
-          :is-refreshing="isRefreshing"
-        ></refresh-button>
+        <refresh-button :is-refreshing="isRefreshing" @refresh="refresh" />
       </view>
     </bottom-panel>
-    <w-modal
-      title="公告"
-      v-model:show="showModal"
-      :content="helpContent"
-    ></w-modal>
+    <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
   </theme-config>
 </template>
 
@@ -129,13 +125,13 @@ import {
   Card,
   RefreshButton,
   TermPicker,
+  ThemeConfig,
   TitleBar,
-  WModal,
-  WCollapsePanel,
   WCollapse,
+  WCollapsePanel,
   WDescriptions,
   WDescriptionsItem,
-  ThemeConfig
+  WModal
 } from "@/components";
 import { ZFService } from "@/services";
 import dayjs, { ConfigType } from "dayjs";
@@ -173,7 +169,6 @@ function getDetailedTime(timeString: string) {
   return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
 }
 
-// TODO:
 function timeInterval(timeString: string) {
   const tmp: ConfigType = timeString.split("(")[0];
   return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");

@@ -2,15 +2,18 @@
   <theme-config>
     <home v-if="pageName === 'home'" />
     <my v-if="pageName === 'my'" />
-    <nav-bar @onChange="setPageName" :pageName="pageName" />
-    <w-modal v-model:show="showUpdateInfo" :title="updateInfo.title" :content="updateInfo.content"
-      :actions="updateInfo.actions">
-    </w-modal>
+    <nav-bar :page-name="pageName" @on-change="setPageName" />
+    <w-modal
+      v-model:show="showUpdateInfo"
+      :title="updateInfo.title"
+      :content="updateInfo.content"
+      :actions="updateInfo.actions"
+    />
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { NavBar, Home, My, WModal, ThemeConfig } from "@/components";
+import { Home, My, NavBar, ThemeConfig, WModal } from "@/components";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
 import store, { systemStore } from "@/store";
@@ -23,11 +26,11 @@ const showUpdateInfo = ref(false);
 
 const updateManager = Taro.getUpdateManager();
 
-updateManager.onUpdateReady(function () {
+updateManager.onUpdateReady(function() {
   Taro.showModal({
     title: "微精弘更新提示",
     content: "新版本已经准备好，是否重启应用？",
-    success: function (res) {
+    success: function(res) {
       if (res.confirm) {
         updateManager.applyUpdate();
       }

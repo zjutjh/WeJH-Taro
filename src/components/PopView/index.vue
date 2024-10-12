@@ -1,15 +1,14 @@
 <template>
-  <view class="wjh-pop-view" :class="{
-    hidden: !show
-  }">
-    <view v-if="showMask" class="mask" @tap="close"></view>
-    <view class="wjh-pop-view-body"
-    :class="positionClass"
-    :style="isNewIPhone()
-      && positionClass === 'bottom'
-      ? 'padding-bottom: 2rem' : '' "
+  <view class="wjh-pop-view" :class="{ hidden: !show }">
+    <view v-if="showMask" class="mask" @tap="close" />
+    <view
+      class="wjh-pop-view-body"
+      :class="positionClass"
+      :style="isNewIPhone()
+        && positionClass === 'bottom'
+        ? 'padding-bottom: 2rem' : '' "
     >
-      <slot></slot>
+      <slot />
     </view>
   </view>
 </template>
@@ -29,11 +28,10 @@ const props = defineProps<PropsType>();
 const {
   show,
   position,
-  mask,
+  mask
 } = toRefs(props);
 
 const emit = defineEmits(["update:show"]);
-
 
 const positionClass = computed((): "bottom" | "top" | "left" | "right" => {
   return position?.value || "bottom";

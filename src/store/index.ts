@@ -1,8 +1,8 @@
 import Taro from "@tarojs/taro";
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import { ServiceStoreType, ServiceStore } from "./service";
-import { SystemStoreType, SystemStore } from "./system";
+import { ServiceStore, ServiceStoreType } from "./service";
+import { SystemStore, SystemStoreType } from "./system";
 
 const persistedStateStorage = {
   setItem(key: string, value: string) {

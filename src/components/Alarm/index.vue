@@ -2,12 +2,14 @@
   <view :class="styles.alarm">
     <view :class="[styles['alarm-icon'], 'iconfont', 'icon-alarm']" />
 
-    <view :class="styles['badge-wrapper']" v-if="counter != 0">
+    <view
+      v-if="counter != 0"
+      :class="styles['badge-wrapper']"
+    >
       <w-badge size="small">
         <text>{{ counter.toString() }}</text>
       </w-badge>
     </view>
-
   </view>
 </template>
 

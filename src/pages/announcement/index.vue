@@ -1,22 +1,24 @@
 <template>
   <theme-config>
     <title-bar title="公告" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/announcement.svg"></image>
+        <image src="@/assets/photos/announcement.svg" />
       </view>
       <view class="tab-bar">
         <text
           class="tab"
           :class="currentTab === 'announcement' ? 'active': undefined"
           @tap="() => handleTabClick('announcement')"
-        > 精弘公告
+        >
+          精弘公告
         </text>
         <text
           class="tab"
           :class="currentTab === 'information' ? 'active': undefined"
           @tap="() => handleTabClick('information')"
-        > 校园资讯
+        >
+          校园资讯
         </text>
       </view>
       <view class="flex-column">
@@ -25,9 +27,9 @@
             <view>无通知</view>
           </card>
           <card
-            class="announcement-card"
             v-for="(item, index) in announcementList"
             :key="index"
+            class="announcement-card"
             :title="item.title"
           >
             <view> {{ item.content.replace(/\\n/g, '\n') }}</view>
@@ -44,8 +46,8 @@
           </card>
           <information-card
             v-for="item in informationList"
-            :source="item"
             :key="item.id"
+            :source="item"
           />
         </template>
       </view>
@@ -54,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar, ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar } from "@/components";
 import dayjs from "dayjs";
 import { serviceStore } from "@/store";
 import InformationCard from "./InformationCard/index.vue";
@@ -64,7 +66,7 @@ import Taro from "@tarojs/taro";
 // 根据路由导航
 const instance = Taro.getCurrentInstance();
 const currentTab = ref<"announcement" | "information">(
-  // @ts-ignore
+  // @ts-expect-error 路由 query 的参数类型在外部保证了
   instance.router?.params.tab || "announcement"
 );
 
@@ -76,7 +78,7 @@ const announcementList = computed(() => {
   return [...serviceStore.announcement.announcements].reverse();
 });
 
-const timeFormat= (time: string) => {
+const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
 };
 

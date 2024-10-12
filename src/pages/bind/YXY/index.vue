@@ -5,7 +5,7 @@ import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { onMounted, ref } from "vue";
 import { useRequest } from "@/hooks";
-import store, {serviceStore} from "@/store";
+import store, { serviceStore } from "@/store";
 
 const phoneNumber = ref("");
 const graphCode = ref("");
@@ -22,7 +22,7 @@ const {
   loading: imageLoading,
   error: imageError
 } = useRequest(YxyService.getGraph, {
-  manual: true,
+  manual: true
 });
 
 const {
@@ -61,7 +61,7 @@ const { run: loginYxyAPI } = useRequest(YxyService.loginYxy, {
       Taro.showToast({ icon: "none", title: res.data.msg });
     } else {
       Taro.showToast({ icon: "success", title: "绑定成功" });
-      if(!serviceStore.homecard.selected.includes("school-card-quick-view")) {
+      if (!serviceStore.homecard.selected.includes("school-card-quick-view")) {
         store.commit("addHomeCardItem", "school-card-quick-view");
       }
       store.commit("setBindYXY", true);
@@ -93,8 +93,7 @@ const handleLoginYXY = () => {
       phoneNum: phoneNumber.value,
       code: phoneCode.value
     });
-  }
-  else {
+  } else {
     Taro.showToast({ icon: "none", title: "请输入手机号和手机验证码" });
   }
 };
@@ -120,36 +119,50 @@ onMounted(() => {
       <text>绑定一卡通账号</text>
       <view class="form-help-wrapper">
         <view class="form-help" @tap="() => isShowHelp = !isShowHelp">
-          <view class="iconfont icon-help"></view>
+          <view class="iconfont icon-help" />
         </view>
       </view>
     </template>
     <view>
       <text>手机号</text>
-      <input placeholder="请输入手机号" v-model="phoneNumber" />
+      <input v-model="phoneNumber" placeholder="请输入手机号">
     </view>
     <view>
       <text>图片验证码</text>
-      <input placeholder="请输入图片验证码" v-model="graphCode" />
+      <input v-model="graphCode" placeholder="请输入图片验证码">
     </view>
     <view style="display: flex; justify-content: space-between">
-      <view v-if="imageLoading" style="width: 160rpx; height: 60rpx; border: 2rpx solid gray">
+      <view
+        v-if="imageLoading"
+        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
+      >
         加载中...
       </view>
-      <view v-else-if="imageError || imageResponse?.data === ''"
-        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray" @tap="getGraphAPI">
+      <view
+        v-else-if="imageError || imageResponse?.data === ''"
+        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
+        @tap="getGraphAPI"
+      >
         点击重试
       </view>
-      <image v-else-if="imageResponse?.data" :src="imageResponse.data.replace(/[\r\n]/g, '')"
-        style="width: 160rpx; height: 60rpx" @tap="getGraphAPI" />
-      <WButton @tap="handleSendGraphCode" :disable="timeCounter > 0">
-        <text v-if="timeCounter === 0"> 获取手机验证码 </text>
-        <text v-else> 重新发送({{ timeCounter }})</text>
-      </WButton>
+      <image
+        v-else-if="imageResponse?.data"
+        :src="imageResponse.data.replace(/[\r\n]/g, '')"
+        style="width: 160rpx; height: 60rpx"
+        @tap="getGraphAPI"
+      />
+      <w-button :disable="timeCounter > 0" @tap="handleSendGraphCode">
+        <text v-if="timeCounter === 0">
+          获取手机验证码
+        </text>
+        <text v-else>
+          重新发送({{ timeCounter }})
+        </text>
+      </w-button>
     </view>
     <view>
       <text>手机验证码</text>
-      <input placeholder="请输入手机验证码" v-model="phoneCode" />
+      <input v-model="phoneCode" placeholder="请输入手机验证码">
     </view>
 
     <template #footer>
@@ -160,12 +173,17 @@ onMounted(() => {
         <text style="color: var(--wjh-color-red-600); font-size: .9rem;">
           tips:验证码获取存在一定的不稳定性，如果无法获取成功，请再不同时间段进行尝试
         </text>
-        <text style="color: var(--wjh-color-blue-600); font-size: .9rem;" @tap="handleClickTutorial">
+        <text
+          style="color: var(--wjh-color-blue-600); font-size: .9rem;"
+          @tap="handleClickTutorial"
+        >
           🔗 如何绑定
         </text>
-        <w-button block @tap="handleLoginYXY">确认绑定</w-button>
+        <w-button block @tap="handleLoginYXY">
+          确认绑定
+        </w-button>
       </view>
     </template>
   </card>
-  <w-modal :content="helpContent" v-model:show="isShowHelp" />
+  <w-modal v-model:show="isShowHelp" :content="helpContent" />
 </template>

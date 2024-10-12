@@ -1,4 +1,4 @@
-import { DarkModeTheme, DarkModeOption } from "@/types/DarkMode";
+import { DarkModeOption, DarkModeTheme } from "@/types/DarkMode";
 interface ThemeList {
   id?: number;
   name?: string;

@@ -2,11 +2,13 @@
   <theme-config>
     <title-bar title="缴费记录" back-button />
     <card class="record-card">
-      <scroll-view :scrollY="true">
+      <scroll-view :scroll-y="true">
         <view class="container">
-          <card v-if="!loading && !recordList.length">无缴费记录</card>
+          <card v-if="!loading && !recordList.length">
+            无缴费记录
+          </card>
           <template v-else>
-            <list v-for="item in recordList">
+            <list v-for="(item, index) in recordList" :key="index">
               <list-item class="record-list-item">
                 <view class="text-wrapper">
                   <text> {{ item.datetime }} </text>
@@ -15,7 +17,9 @@
               </list-item>
             </list>
           </template>
-          <text v-if="loading" class="load">正在加载中...</text>
+          <text v-if="loading" class="load">
+            正在加载中...
+          </text>
           <template v-else>
             <text v-if="currentPage !== -1" class="load" @tap="loadMore">
               加载更多...
@@ -32,7 +36,7 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { Card, TitleBar, ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import { ref } from "vue";
@@ -47,7 +51,7 @@ type recordType = {
   money: string;
   room_dm: string;
   using_type: string;
-}
+};
 
 const currentPage = ref(0);
 const recordList = ref<Array<recordType>>([]);

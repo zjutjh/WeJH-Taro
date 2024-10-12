@@ -1,4 +1,4 @@
-import { fetch, FetchResult } from "@/utils";
+import { FetchResult, fetch } from "@/utils";
 import store from "@/store";
 import { postWithSession } from "./session";
 import { ServerCode } from "../api/codes";

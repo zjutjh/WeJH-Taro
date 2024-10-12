@@ -15,7 +15,7 @@
           24 - props.labelSpan
         }`"
       >
-      <slot></slot>
+        <slot />
       </view>
     </view>
   </view>
@@ -28,7 +28,7 @@ import "./index.scss";
 type PropsType = {
   label: string,
   labelSpan?: number
-}
+};
 
 const props = withDefaults(defineProps<PropsType>(), {
   labelSpan: 6

@@ -1,30 +1,30 @@
 <template>
   <theme-config>
     <title-bar title="我的信息" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view :class="style.header">
-        <image src="@/assets/photos/suitapply-suitInformation.svg"></image>
+        <image src="@/assets/photos/suitapply-suitInformation.svg" />
       </view>
 
       <view class="flex-column">
         <card>
           <template #header>
-            <text style="color: var(--wjh-color-primary); font-size: larger"
-              >| 我的信息</text
-            >
+            <text style="color: var(--wjh-color-primary); font-size: larger">
+              | 我的信息
+            </text>
             <view>
               <view @tap="() => (isShowHelp = !isShowHelp)">
-                <view class="iconfont icon-help"></view>
+                <view class="iconfont icon-help" />
               </view>
             </view>
           </template>
           <text>学号</text>
           <view>
             <input
-              disabled="disabled"
-              :class="style.input"
               v-model="nowData.student_id"
-            />
+              disabled
+              :class="style.input"
+            >
           </view>
 
           <view :class="style.line">
@@ -32,10 +32,10 @@
               <text>姓名</text>
               <view>
                 <input
+                  v-model="inputData.name"
                   :disabled="!change"
                   :class="style.input"
-                  v-model="inputData.name"
-                />
+                >
               </view>
             </view>
 
@@ -43,52 +43,56 @@
               <text>性别</text>
               <view>
                 <input
+                  v-model="inputData.gender"
                   :disabled="!change"
                   :class="style.input"
                   placeholder="男 / 女"
-                  v-model="inputData.gender"
-                />
+                >
               </view>
             </view>
           </view>
           <text>学院</text>
           <view>
             <input
+              v-model="inputData.college"
               :disabled="!change"
               :class="style.input"
               placeholder="如：计算机学院"
-              v-model="inputData.college"
-            />
+            >
           </view>
           <text>寝室</text>
           <view>
             <input
+              v-model="inputData.dormitory"
               :disabled="!change"
               :class="style.input"
               placeholder="如：家和东苑1幢101室"
-              v-model="inputData.dormitory"
-            />
+            >
           </view>
           <text>手机号码</text>
           <view>
             <input
+              v-model="inputData.contact"
               :disabled="!change"
               :class="style.input"
-              v-model="inputData.contact"
-            />
+            >
           </view>
           <template #footer>
-            <view :class="style.button" v-if="change">
-              <w-button :class="style.button_cancle" @tap="cancel"
-                >取消</w-button
-              >
+            <view v-if="change" :class="style.button">
+              <w-button :class="style.button_cancle" @tap="cancel">
+                取消
+              </w-button>
               <view>&ensp;</view>
-              <w-button :class="style.button_save" @tap="save">保存</w-button>
+              <w-button :class="style.button_save" @tap="save">
+                保存
+              </w-button>
             </view>
-            <w-button block @tap="editor" v-else-if="!change">编辑</w-button>
+            <w-button v-else-if="!change" block @tap="editor">
+              编辑
+            </w-button>
           </template>
         </card>
-        <w-modal :content="helpContent" v-model:show="isShowHelp" />
+        <w-modal v-model:show="isShowHelp" :content="helpContent" />
       </view>
     </scroll-view>
   </theme-config>
@@ -96,8 +100,8 @@
 
 <script setup lang="ts">
 import style from "./index.module.scss";
-import {ref, watch} from "vue";
-import { WButton, Card, ThemeConfig, TitleBar, WModal } from "@/components";
+import { ref } from "vue";
+import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
 import Taro from "@tarojs/taro";
@@ -113,7 +117,7 @@ const inputData = ref({
   gender: "",
   college: "",
   dormitory: "",
-  contact: "",
+  contact: ""
 });
 
 const editor = () => {
@@ -137,7 +141,7 @@ useRequest(SuitService.getInformation, {
   },
   onError: (e: Error) => {
     return `获取个人信息失败\r\n${e.message || "网络错误"}`;
-  },
+  }
 });
 
 const nowData = ref({
@@ -146,7 +150,7 @@ const nowData = ref({
   gender: "",
   college: "",
   dormitory: "",
-  contact: "",
+  contact: ""
 });
 
 const save = () => {
@@ -177,7 +181,7 @@ const save = () => {
     },
     onError: (e: Error) => {
       return `编辑个人信息失败\r\n${e.message || "网络错误"}`;
-    },
+    }
   });
   run(inputData.value);
   change.value = false;
@@ -188,19 +192,4 @@ const cancel = () => {
   change.value = false;
   Object.assign(inputData.value, nowData.value);
 };
-
-const fieldMapping = {
-  姓名: "name",
-  性别: "gender",
-  学院: "college",
-  寝室: "dormitory",
-};
-
-// watch(
-//   () => nowData.value.student_id,
-//   (newValue) => {
-//     if(newValue !== "") change.value = false;
-//     else if(newValue === "") change.value = true;
-//   }
-// );
 </script>

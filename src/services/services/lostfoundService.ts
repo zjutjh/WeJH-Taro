@@ -30,7 +30,7 @@ export default class LostfoundService {
     }[]>(
       api.lostfound.kind, {
         method: "GET",
-        header: { "Cookie": serviceStore.sessionID },
+        header: { "Cookie": serviceStore.sessionID }
       }
     );
   };

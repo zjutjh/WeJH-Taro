@@ -1,9 +1,18 @@
 <template>
-  <view class="applist" v-if="applist">
-    <app-list-item v-for="(item, index) in applist" :key="index" :label="item.title" :url="item.route"
-      :icon="item.route.split('/')[2]" :bg="item.backgroundColor" :require="item.require" />
+  <view v-if="applist" class="applist">
+    <app-list-item
+      v-for="(item, index) in applist"
+      :key="index"
+      :label="item.title"
+      :url="item.route"
+      :icon="item.route.split('/')[2]"
+      :bg="item.backgroundColor"
+      :require="item.require"
+    />
   </view>
-  <card v-else> 无可用服务 </card>
+  <card v-else>
+    无可用服务
+  </card>
 </template>
 
 <script setup lang="ts">

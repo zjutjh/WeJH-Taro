@@ -74,7 +74,7 @@ const config = {
   }
 };
 
-module.exports = function (merge) {
+module.exports = function(merge) {
   const myEnvParsed = Object.keys(myEnv.parsed).reduce((acc, cur) => {
     acc[cur] = JSON.stringify(myEnv.parsed[cur]);
     return acc;
