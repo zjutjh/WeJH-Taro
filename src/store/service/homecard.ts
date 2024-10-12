@@ -16,7 +16,7 @@ export const HomeCardServiceStore = {
     },
     removeHomeCardItem(state: HomeCardServiceType, value: HomeCardName) {
       const toDelete = state.selected.findIndex(item => item === value);
-      if (toDelete) state.selected.splice(toDelete, 1);
+      if (toDelete !== -1) state.selected.splice(toDelete, 1);
     }
   }
 };
