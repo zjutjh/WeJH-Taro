@@ -28,6 +28,9 @@ export default defineConfig<"vite">(async (merge) => {
     },
     mini: {
       postcss: {
+        htmltransform: {
+          enable: false
+        },
         pxtransform: {
           enable: true,
           config: {}
