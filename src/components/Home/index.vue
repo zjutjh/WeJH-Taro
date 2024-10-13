@@ -7,6 +7,23 @@
       <questionnaire v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire" />
 
       <fixed-quick-view />
+      <view :class="[styles.trailWalkCard]">
+        <text :class="['iconfont','icon-run',styles.trailWalkIcon]" style="font-size: 225Px"></text>
+        <view :class="styles.trailWalkTitle">
+          <text :class="['iconfont','icon-mountain',styles.mountaimIcon]"></text>
+          <view :class="styles.titleModify">&nbsp&nbsp</view>
+          <text>毅行报名</text>
+        </view>
+        <view :class="[styles.trailWalkCont]">
+          <view style="text-align:center;">
+            <text>第十五届精弘毅行报名通道开启！{{'\n'}}</text>
+            <text>转发推送可得精弘第十五届毅行主题！</text>
+          </view>
+          <view :class="styles.trailWalkButton">
+            <WButton size="middle" @tap="jumpToTrailWalk">点我跳转</WButton>
+          </view>
+        </view>
+      </view>
 
       <!-- 这里是可选卡片列表 -->
       <cards />
@@ -46,6 +63,7 @@ import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
 import { onMounted } from "vue";
+import {window} from "@tarojs/runtime";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
@@ -73,6 +91,7 @@ onMounted(() => {
   SystemService.getAnnouncement();
   SystemService.getGeneralInfo().then(res=>{
     registerTips.value = res.data.registerTips
+    console.log(res.data)
   })
 });
 
@@ -112,5 +131,11 @@ function nav2announcement() {
   Taro.navigateTo({
     url: "/pages/announcement/index",
   });
+}
+
+const jumpToTrailWalk = () => {
+  Taro.navigateTo({
+    url: "/pages/trailWalk/index"
+  })
 }
 </script>

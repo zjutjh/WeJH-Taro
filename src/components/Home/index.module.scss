@@ -11,3 +11,42 @@
   color: var(--wjh-color-white);
   border-radius: 16rpx;
 }
+
+.trailWalkCard {
+  position: relative;
+  box-shadow:  1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
+  padding: 20Px;
+  background-color: white;
+
+  .trailWalkTitle {
+    font-size: 20Px;
+    font-weight: bold;
+    padding: 0 0 8Px 0;
+    border-bottom: 2Px solid var(--wjh-color-border);
+    margin-left: 6Px;
+  }
+  .trailWalkCont {
+    margin-top: 8Px;
+    font-size: 17Px;
+  }
+
+  .trailWalkButton {
+    margin-top: 12Px;
+  }
+
+  .trailWalkIcon {
+    position: absolute;
+    top: -12%;
+    right: -5%;
+    opacity: 0.1;
+  }
+  .mountaimIcon {
+    margin-right: 10Px;
+  }
+
+  .titleModify {
+    display: inline;
+    border-left: 3Px solid black;
+  }
+}
+

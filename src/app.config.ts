@@ -28,7 +28,8 @@ export default {
     "pages/suit/faq/index",
     "pages/suit/information/index",
     "pages/suit/apply/index",
-    "pages/suit/myapplication/index"
+    "pages/suit/myapplication/index",
+    "pages/trailWalk/index",
   ],
   darkmode: true,
   themeLocation: "theme.json",
