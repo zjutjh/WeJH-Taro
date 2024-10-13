@@ -76,9 +76,9 @@
           {{ registerTips }}
         </text>
       </card>
-      <Card v-show="registerTips" title="新生提醒">
+      <card v-show="registerTips" title="新生提醒">
         <text style="font-size:14.5px">{{ registerTips }}</text>
-      </Card>
+      </card>
     </view>
   </scroll-view>
   <edit-panel v-model:show="isShowEditPanel" />
