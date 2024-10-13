@@ -3,6 +3,7 @@
 .container {
   text-align: center;
   padding: 8Px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8Px);
   font-size: 1.0rem;
   color: var(--wjh-color-text-secondary);
   background-color: var(--wjh-color-primary-light);
@@ -11,7 +12,6 @@
   gap: 8Px;
   align-items: center;
   z-index: 1000;
-  padding-bottom: env(safe-area-inset-bottom);
   @include shadow;
 
   .arrow {
