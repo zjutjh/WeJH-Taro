@@ -6,4 +6,7 @@ node_modules/
 .DS_Store
 .idea
 .swc
+
 .env
+.env.development
+.env.production

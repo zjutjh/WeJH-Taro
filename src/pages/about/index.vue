@@ -6,7 +6,7 @@
         <card>
           <image
             mode="aspectFit"
-            :src="require('@/assets/jh-logo.png')"
+            src="@/assets/jh-logo.png"
             style="height: 20vh; width: 70%; display: block; margin: auto"
           />
         </card>
@@ -39,8 +39,7 @@ import { aboutText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import "./index.scss";
 
-let isDevelopment = false;
-if (process.env.NODE_ENV === "development") isDevelopment = true;
+const isDevelopment = Boolean(import.meta.env.DEV);
 
 const description = aboutText.description;
 
