@@ -21,7 +21,7 @@
         <text :class="['iconfont','icon-run',styles.trailWalkIcon]" style="font-size: 225Px"></text>
         <view :class="styles.trailWalkTitle">
           <text :class="['iconfont','icon-mountain',styles.mountaimIcon]"></text>
-          <view :class="styles.titleModify">&nbsp&nbsp</view>
+          <view :class="styles.titleModify">&nbsp;&nbsp;</view>
           <text>毅行报名</text>
         </view>
         <view :class="[styles.trailWalkCont]">
@@ -30,7 +30,7 @@
             <text>转发推送可得精弘第十五届毅行主题！</text>
           </view>
           <view :class="styles.trailWalkButton">
-            <WButton size="middle" @tap="jumpToTrailWalk">点我跳转</WButton>
+            <w-button size="middle" @tap="jumpToTrailWalk">点我跳转</w-button>
           </view>
         </view>
       </view>
@@ -169,6 +169,6 @@ function nav2announcement() {
 const jumpToTrailWalk = () => {
   Taro.navigateTo({
     url: "/pages/trailWalk/index"
-  })
-}
+  });
+};
 </script>
