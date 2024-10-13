@@ -1,10 +1,15 @@
 <template>
-  <button :style="{ backgroundColor: `var(--wjh-color-${props.color})` }" :class="[`wjh-button`,
-    disable && 'wjh-button-disable',
-    sizeClass,
-    blockClass,
-    shapeClass]">
-    <slot></slot>
+  <button
+    :style="{ backgroundColor: `var(--wjh-color-${props.color})` }"
+    :class="[
+      `wjh-button`,
+      disable && 'wjh-button-disable',
+      sizeClass,
+      blockClass,
+      shapeClass
+    ]"
+  >
+    <slot />
   </button>
 </template>
 
@@ -17,8 +22,8 @@ type PropsType = {
   shape?: "circle" | "rounded" | "default",
   block?: boolean,
   color?: "primary" | "yellow" | "blue" | "cyan" | "green",
-  disable: boolean
-}
+  disable?: boolean
+};
 
 const props = withDefaults(defineProps<PropsType>(), {
   size: "middle",

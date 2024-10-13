@@ -1,12 +1,72 @@
 import Taro from "@tarojs/taro";
-import store from "@/store";
-import { fetch, FetchResult } from "@/utils";
-import { api } from "../api/apiList";
+import store, { serviceStore } from "@/store";
+import { FetchResult, fetch } from "@/utils";
+import { api } from "@/services";
 import { updateDateStateWithSession } from "../utils/updateDateState";
 import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
+import request from "../request";
 
 export default class UserService {
+  static getUserTheme = () => {
+    return request<{
+      code: number,
+      msg: string,
+      theme_list: {
+        id?: number;
+        name?: string;
+        theme_config?: string;
+        type: string;
+      }[]
+    }>(
+      api.user.theme.get, {
+        method: "GET",
+        header: { "Cookie": serviceStore.sessionID }
+      }
+    );
+  };
+
+  static setTheme = (data: { id: number }) => {
+    return request<{
+      code: number,
+      msg: string,
+      data: null,
+    }>(
+      api.user.theme.set, {
+        method: "POST",
+        header: { "Cookie": serviceStore.sessionID },
+        data
+      }
+    );
+  };
+  static logout = (data?: { iid: string, stuid: string }) => {
+    return request<{
+      code: number,
+      msg: string,
+      data: null;
+    }>(
+      api.user.logout, {
+        method: "POST",
+        header: { "Cookie": serviceStore.sessionID },
+        data
+      }
+    );
+  };
+
+  static changePassword = (data?: { iid: string, stuid: string, password: string }) => {
+    return request<{
+      code: number,
+      msg: string,
+      data: null;
+    }>(
+      api.user.changePassword, {
+        method: "POST",
+        header: { "Cookie": serviceStore.sessionID },
+        data
+      }
+    );
+  };
+
   // fix: param autoLogin is overriden by showModal
   static async bindLibrary(data?: { password: string }, showModal = true) {
     return updateDateStateWithSession(
@@ -30,7 +90,7 @@ export default class UserService {
     );
   }
 
-  static async bindOauth(data?: { password: string}, showModal = true) {
+  static async bindOauth(data?: { password: string }, showModal = true) {
     return updateDateStateWithSession(
       api.user.bind.oauth,
       data,
@@ -66,13 +126,13 @@ export default class UserService {
   }) {
     // comment: 获取表单信息之后再获得微信认证
     if (!userForm.code) {
-      let res = await Taro.login({ timeout: 3000 });
+      const res = await Taro.login({ timeout: 3000 });
       if (res.code) userForm.code = res.code;
       else return false;
     }
 
     // /api/user/create/student/wechat
-    let res = await fetch.post(api.user.create.wechat, userForm);
+    const res = await fetch.post(api.user.create.wechat, userForm);
     if (res.statusCode === 200 && res.data.code === ServerCode.OK) {
       if (res.cookies && res.cookies.length > 0) {
         store.commit("setSession", res.cookies[0]);
@@ -80,6 +140,7 @@ export default class UserService {
       }
       return true;
     }
+    Taro.hideLoading();
     await errCodeHandler(res.data.code, true);
 
     return false;
@@ -93,7 +154,7 @@ export default class UserService {
     studentID: string;
     idCardNumber: string;
   }) {
-    let res = await fetch.post(api.user.create.h5, userForm);
+    const res = await fetch.post(api.user.create.h5, userForm);
     if (res.statusCode === 200) {
       if (res.cookies && res.cookies.length > 0) {
         store.commit("setSession", res.cookies[0]);

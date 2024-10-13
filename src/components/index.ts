@@ -24,7 +24,7 @@ import WModal from "./Modal/index.vue";
 import WCollapse from "./Collapse/Collapse.vue";
 import WCollapsePanel from "./Collapse/CollapsePanel.vue";
 import WSteps from "./Steps/index.vue";
-import WDescriptions  from "./Descriptions/Descriptions.vue";
+import WDescriptions from "./Descriptions/Descriptions.vue";
 import WDescriptionsItem from "./Descriptions/DescriptionsItem.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WBadge from "./Badge/index.vue";
@@ -61,5 +61,5 @@ export {
   WModal,
   WSteps,
   WSkeleton,
-  WBadge,
+  WBadge
 };

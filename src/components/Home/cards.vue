@@ -21,8 +21,8 @@ const cards = () => h(
 );
 
 const isBindZf = computed(() => {
-  //之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
-  //原来的代码是 return (serviceStore.user.isBindZF);
+  // 之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
+  // 原来的代码是 return (serviceStore.user.isBindZF);
   return (serviceStore.user.isBindZF || serviceStore.user.isBindOauth);
 });
 const isBindLibrary = computed(() => {
@@ -33,32 +33,32 @@ const isBindYxy = computed(() => {
 });
 
 const cardsMap = computed(() => ({
-  "lessons-table-quick-view": isBindZf.value? h(
+  "lessons-table-quick-view": isBindZf.value ? h(
     LessonsTableQuickView, {
       "onShowHelp": () => showHelp("lessons-table")
     }
-  ): null,
-  "exam-quick-view": isBindZf.value? h(
+  ) : null,
+  "exam-quick-view": isBindZf.value ? h(
     ExamQuickView, {
       "onShowHelp": () => showHelp("exam-card")
     }
-  ): null,
-  "school-card-quick-view": isBindYxy.value? h(
+  ) : null,
+  "school-card-quick-view": isBindYxy.value ? h(
     SchoolCardQuickView, {
       "onShowHelp": () => showHelp("school-card")
     }
-  ): null,
-  "score-quick-view": isBindZf.value? h(
+  ) : null,
+  "score-quick-view": isBindZf.value ? h(
     ScoreQuickView, {
       "onShowHelp": () => showHelp("score-card")
     }
-  ): null,
+  ) : null,
   "library-quick-view": isBindLibrary.value ? h(
     LibraryQuickView
-  ): null,
+  ) : null,
   "electricity-quick-view": isBindYxy.value ? h(
     ElectricityQuickView
-  ): null,
+  ) : null
 }));
 
 function showHelp(prop: string) {
@@ -76,5 +76,5 @@ function showHelp(prop: string) {
   <w-modal
     v-model:show="isShowHelp"
     :content="`&emsp;&emsp;${helpContent}`"
-  ></w-modal>
+  />
 </template>

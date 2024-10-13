@@ -1,21 +1,17 @@
 <template>
-  <view class="wjh-pop-view" :class="{
-    hidden: !show
-  }">
-    <view v-if="showMask" class="mask" @tap="close"></view>
-    <view class="wjh-pop-view-body"
-    :class="positionClass"
-    :style="isNewIPhone()
-      && positionClass === 'bottom'
-      ? 'padding-bottom: 2rem' : '' "
+  <view class="wjh-pop-view" :class="{ hidden: !show }">
+    <view v-if="showMask" class="mask" @tap="close" />
+    <view
+      class="wjh-pop-view-body"
+      :class="positionClass"
+      :style="positionClass === 'bottom' && 'padding-bottom: env(safe-area-inset-bottom)'"
     >
-      <slot></slot>
+      <slot />
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { isNewIPhone } from "@/utils";
 import "./index.scss";
 import { computed, toRefs } from "vue";
 
@@ -29,11 +25,10 @@ const props = defineProps<PropsType>();
 const {
   show,
   position,
-  mask,
+  mask
 } = toRefs(props);
 
 const emit = defineEmits(["update:show"]);
-
 
 const positionClass = computed((): "bottom" | "top" | "left" | "right" => {
   return position?.value || "bottom";

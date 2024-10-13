@@ -1,30 +1,51 @@
 <template>
   <bottom-panel>
-    <view @tap="nav('home')" :class="pageName === 'home' && !showPop ? 'selected' : 'unselected'"
-      class="nav-bar-icon-wrapper">
-      <view class="iconfont icon-home"></view>
-      <view class="description">首页</view>
-      <view class="badge-wrapper" v-if="notificationActive.home">
+    <view
+      :class="pageName === 'home' && !showPop ? 'selected' : 'unselected'"
+      class="nav-bar-icon-wrapper"
+      @tap="nav('home')"
+    >
+      <view class="iconfont icon-home" />
+      <view class="description">
+        首页
+      </view>
+      <view v-if="notificationActive.home" class="badge-wrapper">
         <w-badge size="small" />
       </view>
     </view>
-    <view :class="showPop ? 'selected' : 'unselected'" class="nav-bar-icon-wrapper" @tap="plusClick">
-      <view class="iconfont icon-applist"></view>
-      <view class="description">功能</view>
-      <view class="badge-wrapper" v-if="notificationActive.applist">
+    <view
+      :class="showPop ? 'selected' : 'unselected'"
+      class="nav-bar-icon-wrapper"
+      @tap="plusClick"
+    >
+      <view class="iconfont icon-applist" />
+      <view class="description">
+        功能
+      </view>
+      <view v-if="notificationActive.applist" class="badge-wrapper">
         <w-badge size="small" />
       </view>
     </view>
-    <view @tap="nav('my')" :class="pageName === 'my' && !showPop ? 'selected' : 'unselected'"
-      class="nav-bar-icon-wrapper">
-      <view class="iconfont icon-user"></view>
-      <view class="description">我的</view>
-      <view class="badge-wrapper" v-if="notificationActive.my">
+    <view
+      :class="pageName === 'my' && !showPop ? 'selected' : 'unselected'"
+      class="nav-bar-icon-wrapper"
+      @tap="nav('my')"
+    >
+      <view class="iconfont icon-user" />
+      <view class="description">
+        我的
+      </view>
+      <view v-if="notificationActive.my" class="badge-wrapper">
         <w-badge size="small" />
       </view>
     </view>
   </bottom-panel>
   <pop-view v-model:show="showPop">
+    <view class="sub-text-container">
+      <text class="sub-text">
+        部分功能卡片可通过点击首页下方的加号添加
+      </text>
+    </view>
     <app-list v-if="showPop" />
   </pop-view>
 </template>
@@ -37,7 +58,7 @@ import { WBadge } from "..";
 import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import "./index.scss";
-import { ref, toRefs, computed } from "vue";
+import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
 
 const emit = defineEmits(["plusClick", "onChange"]);

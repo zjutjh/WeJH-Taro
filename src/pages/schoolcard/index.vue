@@ -1,10 +1,12 @@
 <template>
   <theme-config>
     <title-bar title="校园卡" back-button />
-    <scroll-view :scrollY="true">
+    <scroll-view :scroll-y="true">
       <view class="school-card">
-        <image mode="aspectFit" src="@/assets/photos/card.svg"></image>
-        <text class="balance"> ¥ {{ balance }}</text>
+        <image mode="aspectFit" src="@/assets/photos/card.svg" />
+        <text class="balance">
+          ¥ {{ balance }}
+        </text>
       </view>
       <card class="consume-card">
         <template #header>
@@ -22,9 +24,9 @@
           </view>
           <view class="col">
             <refresh-button
-              @tap="updateData"
               :is-refreshing="loading"
-            ></refresh-button>
+              @tap="updateData"
+            />
           </view>
         </template>
         <view class="flex-column">
@@ -34,9 +36,9 @@
           <template v-else>
             <view> 该日消费: {{ totalConsume.toFixed(2) }} </view>
             <card
-              class="consume-item-card"
               v-for="(item, index) in consumeList"
               :key="index"
+              class="consume-item-card"
               size="small"
               :class="{
                 'consume-item-positive': parseFloat(item.money) >= 0,
@@ -51,11 +53,11 @@
                 </view>
                 <view class="col">
                   <view>地点： {{ item.address }}</view>
-                  <view >
+                  <view>
                     时间： {{ item.time.split(' ')[0] }}
                     &nbsp;
                     {{ item.time.split(' ')[1] }}
-                  </view >
+                  </view>
                 </view>
               </view>
             </card>
@@ -68,7 +70,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Card, WButton, TitleBar, RefreshButton, ThemeConfig } from "@/components";
+import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
 import dayjs from "dayjs";
 import { CardConsume } from "@/types/CardConsume";
 import store, { serviceStore } from "@/store";
@@ -100,8 +102,7 @@ useRequest(YxyService.querySchoolCardBalance, {
             Taro.navigateTo({ url: "/pages/bind/index" });
         }
       });
-    }
-    else throw new Error(res.data.msg);
+    } else throw new Error(res.data.msg);
   },
   onError: (error) => {
     if (!(error instanceof Error)) return `查询校园卡余额\r\n${error.errMsg}`;
@@ -126,8 +127,9 @@ const { run: queryRecord, loading } = useRequest(
 
 const totalConsume = ref(0);
 const consumeList = computed(() => {
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   totalConsume.value = 0;
-  let tmp = records.value;
+  const tmp = records.value;
   return (
     tmp.filter((item) => {
       if (parseFloat(item.money) < 0)

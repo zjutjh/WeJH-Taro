@@ -1,8 +1,6 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 
 import Taro from "@tarojs/taro";
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 interface RequestConfigType<TData extends TaroGeneral.IAnyObject, TParams> {
   /** 是否手动发起请求 */
@@ -70,7 +68,7 @@ const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
       data.value = response.data;
     }).catch((e: Error | { errMsg: string }) => {
       const errMsg = config?.onError?.(e);
-      errMsg && Taro.showToast({ title: errMsg, icon: "none"});
+      if (errMsg) Taro.showToast({ title: errMsg, icon: "none" });
       error.value = e;
     }).finally(() => {
       config?.onFinally?.();

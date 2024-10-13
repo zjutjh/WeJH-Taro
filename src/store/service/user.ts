@@ -31,7 +31,7 @@ export const UserServiceStore = {
     setBindYXY(state: UserType, value: boolean) {
       state.isBindYXY = value;
     },
-    setBindOauth(state:UserType, value: boolean) {
+    setBindOauth(state: UserType, value: boolean) {
       state.isBindOauth = value;
     },
     // comment: 设置用户信息

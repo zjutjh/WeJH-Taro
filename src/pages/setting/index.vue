@@ -9,6 +9,20 @@
         class="flex-column"
         :style="isEmpty ? 'justify-content: space-between' : undefined"
       >
+        <w-list @tap="nav2ChangePassword">
+          <w-list-item arrow="right">
+            <view>
+              <text>修改密码</text>
+            </view>
+          </w-list-item>
+        </w-list>
+        <w-list @tap="nav2Logout">
+          <w-list-item arrow="right">
+            <view>
+              <text>注销</text>
+            </view>
+          </w-list-item>
+        </w-list>
         <card class="setting-card">
           <view
             v-if="isEmpty"
@@ -33,12 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar, ThemeConfig } from "@/components";
+import Taro from "@tarojs/taro";
+import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import { settingText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import { ref, watch } from "vue";
 import { serviceStore } from "@/store";
-import store from "@/store";
 import "./index.scss";
 
 const isEmpty = ref(true);
@@ -52,13 +66,11 @@ watch(() => serviceStore.theme.themeMode, (newValue) => {
   themeMode.value = newValue;
 });
 
-const setThemeMode = (currentTab: string) => {
-  store.commit("setThemeMode", currentTab);
+const nav2ChangePassword = () => {
+  Taro.navigateTo({ url: "/pages/setting/changePassword/index" });
 };
 
-const handleTabClick = (theme: string) => {
-  currentTab.value = theme;
-  setThemeMode(theme);
+const nav2Logout = () => {
+  Taro.navigateTo({ url: "/pages/setting/logout/index" });
 };
-
 </script>

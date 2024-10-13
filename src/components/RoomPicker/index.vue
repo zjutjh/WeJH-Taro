@@ -14,14 +14,14 @@
 
 <script setup lang="ts">
 import WButton from "../Button/index.vue";
-import { reactive, ref, onMounted } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { systemStore } from "@/store";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 
-const props = defineProps<{week: number}>();
+const props = defineProps<{ week: number }>();
 const emit = defineEmits(["changed"]);
 
-const campus =  ["朝晖", "屏峰", "莫干山"];
+const campus = ["朝晖", "屏峰", "莫干山"];
 
 const selectorData = [
   campus,
@@ -33,11 +33,11 @@ const selectorData = [
 for (let i = 1; i <= 20; i++) selectorData[1].push("第" + i + "周");
 for (let i = 1; i <= 12; i++) selectorData[3].push("第" + i + "节");
 
-const getCurrentSection =  () => {
+const getCurrentSection = () => {
   const date = new Date();
   const tmp = date.getHours() * 60 + date.getMinutes();
   let currentSection = 12;
-  dayScheduleStartTime.find((item, index)=> {
+  dayScheduleStartTime.find((item, index) => {
     if (tmp < item.hour * 60 + item.min) {
       currentSection = index + 1;
       return true;
@@ -72,8 +72,6 @@ const onChange = (e) => {
     campus: campus[e.detail.value[0]],
     week: Math.pow(2, e.detail.value[1]).toString(),
     weekday: (selectorValue.values[2] + 1).toString(),
-
-    // TODO: 时间段
     sections: Math.pow(2, e.detail.value[3]).toString()
   });
 };

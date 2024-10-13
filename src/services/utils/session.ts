@@ -1,6 +1,5 @@
-import { ejectCookies } from "@/utils";
+import { ejectCookies, FetchResult, fetch } from "@/utils";
 import store, { serviceStore } from "@/store";
-import { fetch, FetchResult } from "@/utils";
 import UserService from "../services/userService";
 import { LoginByTaro } from "../services/authService";
 import { ServerCode } from "../api/codes";

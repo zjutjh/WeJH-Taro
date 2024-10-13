@@ -1,9 +1,9 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button></title-bar>
-    <scroll-view :scrollY="true">
+    <title-bar title="寝室电费查询" back-button />
+    <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/electricity.svg"></image>
+        <image src="@/assets/photos/electricity.svg" />
       </view>
       <view class="flex-column">
         <card class="info-card">
@@ -13,7 +13,9 @@
             </view>
             <view class="text-wrapper">
               <text>{{ roomInfo.roomName }}</text>
-              <text class="week">房间号 {{ roomInfo.roomCode }}</text>
+              <text class="week">
+                房间号 {{ roomInfo.roomCode }}
+              </text>
             </view>
           </view>
         </card>
@@ -29,7 +31,11 @@
             </view>
           </w-list-item>
         </w-list>
-        <text v-if="isUrgent" class="dangerous" style="font-size: .8rem">
+        <text
+          v-if="isUrgent"
+          class="dangerous"
+          style="font-size: .8rem"
+        >
           温馨提示: 电量已不足20度，请及时充电
         </text>
 
@@ -37,7 +43,9 @@
           <w-list-item arrow="right" class="electricity-list-item">
             <view class="text-wrapper" style="justify-content: space-between;">
               <text> 每日用电记录 </text>
-              <text v-if="consumptionLoading" class="today">正在加载...</text>
+              <text v-if="consumptionLoading" class="today">
+                正在加载...
+              </text>
               <text v-else-if="todayConsumption" class="today">
                 今日已用: {{ todayConsumption }} kwh
               </text>
@@ -60,7 +68,6 @@
             </view>
           </w-list-item>
         </w-list>
-
       </view>
     </scroll-view>
   </theme-config>
@@ -70,10 +77,10 @@
 import "./index.scss";
 import {
   Card,
+  ThemeConfig,
   TitleBar,
   WList,
-  WListItem,
-  ThemeConfig
+  WListItem
 } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
@@ -114,7 +121,7 @@ useRequest(YxyService.queryBalance, {
 });
 
 const {
-  loading: consumptionLoading,
+  loading: consumptionLoading
 } = useRequest(YxyService.queryConsumption, {
   onSuccess: (response) => {
     if (response.data.code === 1) {

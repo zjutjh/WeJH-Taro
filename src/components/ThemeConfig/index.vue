@@ -1,6 +1,9 @@
 <template>
-  <view :class="[themeMode, darkMode]" class="background theme">
-    <slot></slot>
+  <view
+    :class="[themeMode, darkMode]"
+    class="background theme"
+  >
+    <slot />
   </view>
 </template>
 

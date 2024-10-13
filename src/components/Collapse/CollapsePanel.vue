@@ -4,21 +4,21 @@
       `wjh-collapse-panel-header`,
       isActive ? `wjh-collapse-panel-header-active` : undefined
     ]"
-    :onTap="handleClick"
     :arrow="props.arrow ? 'down' : undefined"
+    @tap="handleClick"
   >
     {{ props.title }}
-    <slot name="header"></slot>
+    <slot name="header" />
   </w-list-item>
   <view
     :class="[
-        `wjh-collapse-panel-content`,
+      `wjh-collapse-panel-content`,
       isActive ? `wjh-collapse-panel-content-active` : undefined
     ]"
     :style="{ maxHeight: isActive ? props.maxHeight : `0` }"
   >
     <w-list-item>
-      <slot></slot>
+      <slot />
     </w-list-item>
   </view>
 </template>
@@ -33,9 +33,10 @@ type PropsType = {
   defaltActive?: boolean
   maxHeight?: string;
   arrow?: boolean
-}
+};
 
 const props = withDefaults(defineProps<PropsType>(), {
+  title: undefined,
   defaltActive: false,
   maxHeight: "500px",
   arrow: false

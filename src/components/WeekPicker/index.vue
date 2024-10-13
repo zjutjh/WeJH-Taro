@@ -1,31 +1,35 @@
 <template>
   <w-button
     class="arrow-button"
-    @tap="backwardWeek"
     shape="circle"
     size="large"
     :class="{ disable: week <= 1 }"
+    @tap="backwardWeek"
   >
     <view class="iconfont icon-arrow-left" />
   </w-button>
   <picker
     mode="selector"
     :range="selector"
-    @change="onChange"
     :value="selectorValue"
     class="picker-wrapper"
+    @change="onChange"
   >
     <w-button class="week-selector">
-      <text v-if="week > 18 || week < 1">放假中</text>
-      <view v-else class="picker">第 {{ props.week }} 周</view>
+      <text v-if="week > 18 || week < 1">
+        放假中
+      </text>
+      <view v-else class="picker">
+        第 {{ props.week }} 周
+      </view>
     </w-button>
   </picker>
   <w-button
     shape="circle"
     class="arrow-button"
-    @tap="forwardWeek"
     size="large"
     :class="{ disable: week >= 19 }"
+    @tap="forwardWeek"
   >
     <view class="iconfont icon-arrow-right" />
   </w-button>
@@ -40,7 +44,7 @@ const emit = defineEmits(["update:week"]);
 const props = defineProps<{ week: number }>();
 
 const selectorValue = ref(props.week - 1 < 0 ? 0 : props.week - 1);
-let selector: string[] = [];
+const selector: string[] = [];
 
 for (let i = 1; i <= 20; i++) selector.push(`第 ${i} 周`);
 

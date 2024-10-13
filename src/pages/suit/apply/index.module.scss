@@ -181,3 +181,24 @@
 .card-alarm {
   margin: 0 30Px;
 }
+
+.card-alarmZhaoHui {
+  margin: 0 20Px;
+}
+
+.title {
+  word-break: break-word;
+  font-weight: var(--wjh-font-weight-medium);
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.footer {
+  margin-top: 12Px;
+  border-top: 1Px solid var(--wjh-color-border);
+  padding: 12Px 0;
+  color: var(--wjh-color-week);
+  text-align: center;
+  font-size: .8rem;
+  font-weight: normal;
+}

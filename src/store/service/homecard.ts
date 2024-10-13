@@ -2,10 +2,12 @@ import { HomeCardName } from "@/constants/homeCards";
 
 export interface HomeCardServiceType {
   selected: Array<HomeCardName>
+  initialization: boolean
 }
 export const HomeCardServiceStore = {
   state: () => ({
-    selected: ["lessons-table-quick-view"]
+    selected: ["lessons-table-quick-view", "score-quick-view"],
+    initialization: true
   }),
 
   mutations: {
@@ -14,7 +16,7 @@ export const HomeCardServiceStore = {
     },
     removeHomeCardItem(state: HomeCardServiceType, value: HomeCardName) {
       const toDelete = state.selected.findIndex(item => item === value);
-      toDelete !== -1 && state.selected.splice(toDelete, 1);
+      if (toDelete !== -1) state.selected.splice(toDelete, 1);
     }
   }
 };

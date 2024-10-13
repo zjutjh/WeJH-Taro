@@ -2,14 +2,17 @@
   <picker
     mode="multiSelector"
     :range="selector"
-    @change="onChange"
     :value="selectorValue"
     class="picker-wrapper"
+    @change="onChange"
   >
     <w-button class="term-selector">
-      <view class="picker" :v-if="props.selectflag === 1">
+      <view
+        class="picker"
+        :v-if="props.selectflag === 1"
+      >
         {{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}
-        ({{ selectorChecked[1]}}) {{ selectorChecked[2] }}
+        ({{ selectorChecked[1] }}) {{ selectorChecked[2] }}
       </view>
     </w-button>
   </picker>
@@ -24,13 +27,13 @@ interface PropsType {
   year: string;
   term: "上" | "下" | "短";
   period?: "期中" | "期末";
-  selectflag: number; //flag为0表示学年、学期 ； 为1表示学年、学期、期中期末
+  selectflag: number; // flag为0表示学年、学期 ； 为1表示学年、学期、期中期末
 }
 const props = defineProps<PropsType>();
 
 const emit = defineEmits(["changed"]);
 
-let year = systemStore?.generalInfo?.termYear
+const termYear = systemStore?.generalInfo?.termYear
   ? parseInt(systemStore?.generalInfo?.termYear)
   : new Date().getFullYear();
 
@@ -48,9 +51,9 @@ if (props.selectflag >= 0)
 if (props.selectflag >= 1)
   selectorChecked.value[2] = props.period!;
 
-let years: string[] = [];
+const years: string[] = [];
 
-for (let i = 0; i < 4; i++) years.push(`${year - i}/${year - i + 1}`);
+for (let i = -1; i < 4; i++) years.push(`${termYear - i}/${termYear - i + 1}`);
 selector.unshift(years);
 
 /** Picker 依赖, 索引数组 */

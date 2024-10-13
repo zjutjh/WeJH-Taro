@@ -1,10 +1,7 @@
 <template>
   <theme-config>
     <title-bar title="关于" back-button />
-    <scroll-view
-      :scroll-y="true"
-      style="flex: 1"
-    >
+    <scroll-view :scroll-y="true" style="flex: 1">
       <view class="flex-column">
         <card>
           <image
@@ -28,10 +25,7 @@
             </view>
           </view>
         </card>
-        <card
-          v-if="isDevelopment"
-          title="测试信息"
-        >
+        <card v-if="isDevelopment">
           <view>{{ copyright }}</view>
         </card>
       </view>
@@ -40,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { Card, TitleBar,ThemeConfig } from "@/components";
+import { Card, ThemeConfig, TitleBar } from "@/components";
 import { aboutText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import "./index.scss";

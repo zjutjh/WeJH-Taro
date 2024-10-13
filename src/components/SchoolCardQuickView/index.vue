@@ -45,7 +45,7 @@ const emit = defineEmits(["showHelp"]);
 
 const balanceUpdateTimeString = computed(() => {
   const time = serviceStore.card.updateTime;
-  return time && !error.value ? dayjs(time.balance).fromNow(): "更新失败";
+  return time && !error.value ? dayjs(time.balance).fromNow() : "更新失败";
 });
 
 const balance = computed(() => {

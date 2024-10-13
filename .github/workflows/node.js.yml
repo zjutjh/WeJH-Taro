@@ -13,13 +13,13 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 7
+          version: 9
           run_install: false
 
       - name: Get pnpm store directory
@@ -42,6 +42,9 @@ jobs:
       - name: Generate .env file
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: Lint project
+        run: pnpm lint
 
       - name: Build Taro weapp
         run: pnpm build:weapp

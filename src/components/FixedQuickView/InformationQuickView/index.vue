@@ -1,41 +1,44 @@
 <template>
   <view class="information quick-view-container" @tap="handleClick">
     <view class="header">
-      <view class="title">公告栏</view>
+      <view class="title">
+        公告栏
+      </view>
     </view>
     <view v-if="currentPost" class="content">
       <text> {{ currentPost.content.slice(0, 60) }}</text>
     </view>
     <view v-else :class="['quick-view-container', 'empty']">
-      <text> 暂时公告信息 </text>
+      <text>暂时公告信息</text>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref,onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import Taro from "@tarojs/taro";
-import { serviceStore } from "@/store";
-import store from "@/store";
+import store, { serviceStore } from "@/store";
 import { SystemService } from "@/services";
 
 const handleClick = () => {
   if (currentPost.value.type === "announcement") {
     Taro.navigateTo({
-      url: "/pages/announcement/index?tab=announcement",
+      url: "/pages/announcement/index?tab=announcement"
     });
   } else {
     Taro.navigateTo({
-      url: "/pages/announcement/index?tab=information",
+      url: "/pages/announcement/index?tab=information"
     });
   }
 };
 
 const currentPost = ref<{ type: string; content: string }>({
   type: "announcement",
-  content: serviceStore.announcement.announcements[
-    serviceStore.announcement.announcements.length - 1 || 0
-  ].content.replace(/\\n/g, "\n"),
+  content: serviceStore.announcement ?
+    serviceStore.announcement.announcements[
+      serviceStore.announcement.announcements.length - 1 || 0
+    ].content.replace(/\\n/g, "\n")
+    : ""
 });
 
 const updateCurrentPost = () => {
@@ -52,7 +55,7 @@ const updateCurrentPost = () => {
       content: information[0].content.replace(
         /\\n/g,
         "\n"
-      ),
+      )
     };
   } else {
     currentPost.value = {
@@ -60,7 +63,7 @@ const updateCurrentPost = () => {
       content: announcement[announcement.length - 1].content.replace(
         /\\n/g,
         "\n"
-      ),
+      )
     };
   }
 };
@@ -74,7 +77,7 @@ onMounted(async () => {
     const informationList = (await SystemService.getInformation()).data.data || [];
     store.commit("setInformationList", informationList);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 });
 
