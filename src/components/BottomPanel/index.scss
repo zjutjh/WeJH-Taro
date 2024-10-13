@@ -14,8 +14,5 @@
   border-top-left-radius: 1rem;
   z-index: 3000;
   background: var(--wjh-color-background-frame);
-}
-
-.bottom-bar-ios {
-  padding-bottom: 2rem;
+  padding-bottom: env(safe-area-inset-bottom);
 }

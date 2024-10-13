@@ -11,6 +11,7 @@
   gap: 8Px;
   align-items: center;
   z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
   @include shadow;
 
   .arrow {
@@ -27,8 +28,3 @@
     line-height: 150%;
   }
 }
-
-.ios {
-  padding-bottom: 2rem;
-}
-

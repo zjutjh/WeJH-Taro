@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import styles from "./index.module.scss";
-import { isNewIPhone } from "@/utils";
 import Taro from "@tarojs/taro";
 
 const emit = defineEmits(["showHelp"]);
@@ -39,7 +38,7 @@ function handleTapHelp() {
 </script>
 
 <template>
-  <view :class="[styles.container, isNewIPhone() ? styles.ios : undefined]">
+  <view :class="styles.container">
     <view :class="styles.arrow" @tap="handleClick" />
     <text @tap="handleClick">
       点击查看学生事务大厅的联系方式
