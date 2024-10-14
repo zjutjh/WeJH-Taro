@@ -1,4 +1,6 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import store from "./store/index";
 import { LoginByTaro, SystemService } from "./services";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -13,12 +15,18 @@ dayjs.extend(customParseFormat);
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
 const App = createApp({
   mounted() {
     SystemService.getGeneralInfo();
     SystemService.getAppList();
     LoginByTaro();
   }
-}).use(store);
+});
+
+App.use(store);
+App.use(pinia);
 
 export default App;
