@@ -17,7 +17,7 @@ function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
     };
   return new Promise((resolve, reject) => {
     Taro.request({
-      url: url,
+      url: process.env.HOST + url,
       header: header,
       mode: "cors",
       success: (res) => {
@@ -47,7 +47,7 @@ function postJson(
       };
 
     Taro.request({
-      url: url,
+      url: process.env.HOST + url,
       data: data ? data : undefined,
       header: header,
       method: "POST",
