@@ -1,7 +1,7 @@
 <template>
   <view class="applist-item" @tap="appTaped">
     <view class="icon-wrapper" :style="backgroundColor">
-      <view :class="['iconfont', `icon-${icon}`]" />
+      <view :class="['iconfont', iconClass]" />
     </view>
     <text class="label">
       {{ label }}
@@ -23,6 +23,20 @@ const props = defineProps<{
   require: string,
 }>();
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
+// 主题过渡方案
+const icon = props.icon;
+const themeMode = computed(() => serviceStore.theme.themeMode);
+const iconClass = computed(() => {
+  if (themeMode.value === "walk") {
+    if (icon !== "lessonstable" && icon !== "exam" && icon !== "score") {
+      return "icon-15th-" + icon;
+    } else {
+      return "icon-" + icon;
+    }
+  } else {
+    return "icon-" + icon;
+  }
+});
 
 const isDisabled = ref(false);
 // 之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
