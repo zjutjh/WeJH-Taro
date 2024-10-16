@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import RequestError, { MPErrorCode, ServiceErrorCode } from "./errorHandler";
+import RequestError, { MPErrorCode, ServiceErrorCode } from "./requestError";
 import { serviceStore } from "@/store";
 
 interface IResponse<T> {

@@ -7,6 +7,8 @@ import timeUtils from "./time";
 import type { ICookie } from "./cookie";
 import type { FetchResult } from "./fetch";
 import { debounce } from "./debounce";
+import request from "./request/requestImpl";
+import RequestError, { ServiceErrorCode, MPErrorCode } from "./request/requestError";
 
 export {
   ICookie,
@@ -20,5 +22,9 @@ export {
   checkBind,
   checkNotification,
   timeUtils,
-  debounce
+  debounce,
+  request,
+  ServiceErrorCode,
+  MPErrorCode,
+  RequestError
 };
