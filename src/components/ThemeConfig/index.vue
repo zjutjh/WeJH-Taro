@@ -21,6 +21,8 @@ const walkStyle = computed(() => {
     return "--wjh-color-background-page: #FAE7D4;background-position: bottom 0 right 120%;  background-size: cover;";
   } else if (darkMode.value === "dark") {
     return "--wjh-color-background-page: #121212";
+  } else if (darkMode.value === "light") {
+    return "--wjh-color-background-page: #fefefe";
   } else {
     return "";
   }
