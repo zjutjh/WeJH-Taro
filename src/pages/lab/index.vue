@@ -57,15 +57,15 @@ import Taro from "@tarojs/taro";
 
 let activeTheme = "";
 const idMap = {};
+// 主题过渡方案
 const nameMap = {
   green: "绿",
   yellow: "黄",
+  walk: "毅行",
   blue: "蓝",
-  purple: "紫",
   pink: "粉"
 };
 const isEmpty = ref(false);
-
 const emptyText = computed(() => {
   return labText.empty;
 });
@@ -74,7 +74,6 @@ const hadThemeList = computed(() => {
 });
 const themeMode = ref(serviceStore.theme.themeMode);
 const currentTab = ref(themeMode);
-
 useRequest(UserService.getUserTheme, {
   manual: false,
   onSuccess: (res) => {
