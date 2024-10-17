@@ -40,7 +40,7 @@ async function request<Data, Params = Record<string, any>>(
   } = options || {};
 
   try {
-    const taroWrapped = await Taro.request<IResponse<Data>>({
+    const taroWrapped = await Taro.request<IResponse<Data> | undefined>({
       ...globalConfig,
       url: urlPrefix + url,
       method,
@@ -51,17 +51,22 @@ async function request<Data, Params = Record<string, any>>(
     });
 
     const realResponse = taroWrapped.data;
-    if (realResponse.code === ServiceErrorCode.OK) {
-      return realResponse.data;
+    if (realResponse) {
+      if (realResponse.code === ServiceErrorCode.OK) {
+        return realResponse.data;
+      }
+
+      return Promise.reject(
+        new RequestError({ message: realResponse.msg, code: realResponse.code })
+      );
     }
-    return Promise.reject(
-      new RequestError({ message: realResponse.msg, code: realResponse.code })
-    );
+    // 如果没有服务端的数据，交给 catch 处理
+    throw new Error(JSON.stringify(taroWrapped));
   } catch (e: any) {
     let message: string;
-    if (e.errMsg) {
+    if (e?.errMsg) {
       // 微信小程序 request 若抛出错误，一定有 errMsg
-      message = "小程序请求错误";
+      message = "小程序客户端请求失败";
       console.error("[微精弘底层]请求发送失败", e);
     } else {
       message = "小程序未知网络错误";
