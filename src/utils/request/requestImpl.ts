@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 import RequestError, { MPErrorCode, ServiceErrorCode } from "./requestError";
-import { serviceStore } from "@/store";
+import CookieUtils from "./cookie";
 
 interface IResponse<T> {
   code: number;
@@ -18,6 +18,8 @@ type RequestOptionsType<P> = {
   params?: P;
   /** 将请求参数转换成 snack case，将响应数据转换成 camel case */
   useCamelCase?: boolean;
+  /** 请求是否携带 Cookie，默认为 true，若没有 Cookie 还请求则会触发登录获取 Cookie */
+  auth: boolean;
 };
 
 /**
@@ -36,8 +38,20 @@ async function request<Data, Params = Record<string, any>>(
   const {
     urlPrefix = process.env.HOST,
     method = "GET",
-    params
+    params,
+    auth = true
   } = options || {};
+
+  let cookie = "";
+  if (auth) {
+    try {
+      cookie = await CookieUtils.get();
+    } catch (e) {
+      if (e instanceof RequestError) {
+        Taro.showToast({ title: e.message, icon: "error" });
+      }
+    }
+  }
 
   try {
     const taroWrapped = await Taro.request<IResponse<Data> | undefined>({
@@ -45,7 +59,7 @@ async function request<Data, Params = Record<string, any>>(
       url: urlPrefix + url,
       method,
       header: {
-        "Cookie": serviceStore.sessionID
+        "Cookie": cookie
       },
       data: params
     });

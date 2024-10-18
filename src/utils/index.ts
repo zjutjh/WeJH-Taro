@@ -9,6 +9,7 @@ import type { FetchResult } from "./fetch";
 import { debounce } from "./debounce";
 import request from "./request/requestImpl";
 import RequestError, { ServiceErrorCode, MPErrorCode } from "./request/requestError";
+import CookieUtils from "./request/cookie";
 
 export {
   ICookie,
@@ -26,5 +27,6 @@ export {
   request,
   ServiceErrorCode,
   MPErrorCode,
-  RequestError
+  RequestError,
+  CookieUtils
 };
