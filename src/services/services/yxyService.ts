@@ -1,8 +1,9 @@
-import { api } from "../api/apiList";
-import { serviceStore } from "@/store";
+import { api } from "@/services";
+import { useMainStore } from "@/store";
 import request from "../request";
 import Taro from "@tarojs/taro";
 
+const serviceStore = useMainStore().useServiceStore();
 export default class YxyService {
 
   /**

@@ -1,6 +1,9 @@
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import { persistedStateStorage } from "../../utils/storage";
+
 export interface SystemStoreType {
   loading: boolean;
-
   generalInfo: {
     is_begin: boolean;
     schoolBusUrl: string;
@@ -20,34 +23,39 @@ export interface SystemStoreType {
   };
 }
 
-export const SystemStore = {
-  state: () => ({
-    loading: false,
-    generalInfo: {},
-    version: "",
-    questionnaire: {}
-  }),
-  mutations: {
-    startLoading(state: SystemStoreType) {
-      state.loading = true;
-    },
-    stopLoading(state: SystemStoreType) {
-      state.loading = false;
-    },
-    setGeneralInfo(
-      state: SystemStoreType,
-      value: SystemStoreType["generalInfo"]
-    ) {
-      state.generalInfo = value;
-    },
-    setVersion(state: SystemStoreType, value: string) {
-      state.version = value;
-    },
-    setQuestionnaire(
-      state: SystemStoreType,
-      value: SystemStoreType["questionnaire"]
-    ) {
-      state.questionnaire = value;
-    }
-  }
-};
+export const useSystemStore = defineStore("system", () => {
+  const loading = ref(false);
+  const generalInfo = ref<SystemStoreType["generalInfo"]>();
+  const version = ref("");
+  const questionnaire = ref<SystemStoreType["questionnaire"]>();
+
+  const startLoading = () => {
+    loading.value = true;
+  };
+  const stopLoading = () => {
+    loading.value = false;
+  };
+  const setGeneralInfo = (value: SystemStoreType["generalInfo"]) => {
+    generalInfo.value = value;
+  };
+  const setVersion = (value: string) => {
+    version.value = value;
+  };
+  const setQuestionnaire = (value: SystemStoreType["questionnaire"]) => {
+    questionnaire.value = value;
+  };
+  return {
+    loading,
+    generalInfo,
+    version,
+    questionnaire,
+    startLoading,
+    stopLoading,
+    setGeneralInfo,
+    setVersion,
+    setQuestionnaire
+  };
+}, {
+  persist: {
+    storage: persistedStateStorage
+  } });
