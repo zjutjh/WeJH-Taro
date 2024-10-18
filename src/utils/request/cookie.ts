@@ -25,13 +25,16 @@ export default class CookieUtils {
    * 登录以获取服务端 Cookie
    *
    * @throws {RequestError}
+   * @returns 新 Cookie
    */
-  public static async makeFresh(): Promise<void> {
+  public static async makeFresh(): Promise<string> {
     try {
       const { code, errMsg } = await Taro.login({ timeout: 3000 });
       if (!code) {
         console.error(new Error(errMsg));
-        return Promise.reject(new RequestError({ message: errMsg, code: MPErrorCode.MP_LOGIN_ERROR_MISSING_WX_CODE }));
+        return Promise.reject(
+          new RequestError({ message: errMsg, code: MPErrorCode.MP_LOGIN_ERROR_MISSING_WX_CODE })
+        );
       }
 
       const loginResult = await Taro.request<{ data: { user: any }, code: number }>({
@@ -44,7 +47,7 @@ export default class CookieUtils {
         if (loginResult.cookies && loginResult.cookies.length > 0) {
           const cookie = loginResult.cookies[0];
           persistedStateStorage.setItem(this.keyInStorage, cookie);
-          return;
+          return cookie;
         }
       }
       return Promise.reject(
