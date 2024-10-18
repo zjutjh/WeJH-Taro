@@ -15,7 +15,7 @@ export default class CookieUtils {
   public static async get(): Promise<string> {
     if (!this.cookie) {
       const cookieInStore = persistedStateStorage.getItem(this.keyInStorage);
-      this.cookie = cookieInStore || await this.makeFresh();
+      this.cookie = cookieInStore || await this.refresh();
     }
 
     return this.cookie;
@@ -27,7 +27,7 @@ export default class CookieUtils {
    * @throws {RequestError}
    * @returns 新 Cookie
    */
-  public static async makeFresh(): Promise<string> {
+  public static async refresh(): Promise<string> {
     try {
       const { code, errMsg } = await Taro.login({ timeout: 3000 });
       if (!code) {
@@ -37,22 +37,23 @@ export default class CookieUtils {
         );
       }
 
-      const loginResult = await Taro.request<{ data: { user: any }, code: number }>({
+      const taroWrapped = await Taro.request<{ data: { user: any }, code: number }>({
         url: process.env.HOST + api.user.login.wechat,
         data: { code },
         method: "POST"
       });
-
-      if (loginResult.data.code === ServiceErrorCode.OK) {
-        if (loginResult.cookies && loginResult.cookies.length > 0) {
-          const cookie = loginResult.cookies[0];
+      const { data: realResponse, cookies } = taroWrapped;
+      if (realResponse && realResponse.code === ServiceErrorCode.OK) {
+        if (cookies && cookies.length > 0) {
+          const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
           persistedStateStorage.setItem(this.keyInStorage, cookie);
           return cookie;
         }
+        return Promise.reject(
+          new RequestError({ message: "小程序登录失败", code: MPErrorCode.MP_LOGIN_ERROR_MISSING_COOKIE })
+        );
       }
-      return Promise.reject(
-        new RequestError({ message: "小程序登录失败", code: MPErrorCode.MP_LOGIN_ERROR_MISSING_COOKIE })
-      );
+      throw new Error(JSON.stringify(taroWrapped));
     } catch (e) {
       console.error(e);
       throw new RequestError({ message: "小程序登录失败", code: MPErrorCode.MP_LOGIN_ERROR_UNKNOWN });
