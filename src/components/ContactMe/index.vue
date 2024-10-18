@@ -23,7 +23,7 @@ const handleClick = () => {
 };
 
 function handleTapHelp() {
-  emit("showHelp", "lost-found");
+  emit("showHelp");
 }
 </script>
 
