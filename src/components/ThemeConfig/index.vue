@@ -22,7 +22,7 @@ const walkStyle = computed(() => {
   } else if (darkMode.value === "dark") {
     return "--wjh-color-background-page: #121212";
   } else if (darkMode.value === "light") {
-    return "--wjh-color-background-page: #fefefe";
+    return "--wjh-color-background-page: #fefefel; --wjh-color-background-container: #FAFAFAFF";
   } else {
     return "";
   }
