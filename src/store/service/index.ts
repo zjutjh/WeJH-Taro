@@ -6,7 +6,6 @@ import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 import { AnnouncementStore, AnnouncementType } from "./announcement";
 import { InformationStore, InformationStoreType } from "./information";
 import { AppListItem } from "@/types/AppList";
-import { CanteenServiceStore } from "./canteen";
 import { ScoreServiceStore } from "./score";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { ElectricityServiceStore } from "./electricity";
@@ -24,12 +23,6 @@ export interface ServiceStoreType {
   webview: WebviewStoreType;
   announcement: AnnouncementType;
   information: InformationStoreType;
-  canteen: {
-    flow: any;
-    updateTime: {
-      flow: string;
-    };
-  };
   electricity: {
     roomName: string;
     roomCode: string;
@@ -70,7 +63,6 @@ export const ServiceStore = {
     zf: ZFServiceStore,
     announcement: AnnouncementStore,
     information: InformationStore,
-    canteen: CanteenServiceStore,
     score: ScoreServiceStore,
     homecard: HomeCardServiceStore,
     electricity: ElectricityServiceStore,

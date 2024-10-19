@@ -41,9 +41,6 @@ const api = {
     midtermscoreInfo: "/api/func/zf/midtermscore",
     freeroom: "/api/func/zf/room"
   },
-  canteen: {
-    flow: "/api/func/canteen/flow"
-  },
   electricity: {
     balance: "/api/func/electricity/balance",
     record: "/api/func/electricity/record",
