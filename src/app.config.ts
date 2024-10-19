@@ -18,7 +18,6 @@ export default {
     "pages/connect/faq/index",
     "pages/lab/index",
     "pages/freeroom/index",
-    "pages/canteenflow/index",
     "pages/announcement/index",
     "pages/electricity/index",
     "pages/electricity/record/index",
