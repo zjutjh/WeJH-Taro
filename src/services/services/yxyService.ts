@@ -1,7 +1,7 @@
 import { api } from "@/services";
 import request from "../request";
 import Taro from "@tarojs/taro";
-import { useServiceStore } from "../../store/service";
+import { useServiceStore } from "@/store";
 
 const serviceStore = useServiceStore();
 export default class YxyService {
