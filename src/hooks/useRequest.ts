@@ -36,6 +36,7 @@ interface RequestConfigType<TData extends TaroGeneral.IAnyObject, TParams> {
 }
 
 /**
+ * @deprecated
  * 封装请求成 hook
  *
  * 为请求函数扩展

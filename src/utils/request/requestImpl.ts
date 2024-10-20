@@ -16,7 +16,7 @@ type RequestOptionsType<P> = {
   urlPrefix?: string;
   method: keyof Taro.request.Method;
   params?: P;
-  /** 将请求参数转换成 snack case，将响应数据转换成 camel case */
+  /** TODO: 将请求参数转换成 snack case，将响应数据转换成 camel case */
   useCamelCase?: boolean;
   /** 请求是否携带 Cookie，默认为 true，若没有 Cookie 还请求则会触发登录获取 Cookie */
   auth: boolean;

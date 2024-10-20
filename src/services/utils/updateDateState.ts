@@ -5,6 +5,7 @@ import { ServerCode } from "../api/codes";
 import errCodeHandler from "./errHandler";
 
 /**
+ * @deprecated
  * 无 session 请求更新全局状态，系统请求专用
  * @param api
  * @param data
@@ -34,6 +35,7 @@ async function updateDateState(
 }
 
 /**
+ * @deprecated
  * 带 session 发送请求，并更新状态
  * @param api
  * @param data

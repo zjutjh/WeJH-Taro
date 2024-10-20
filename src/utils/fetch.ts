@@ -6,6 +6,9 @@ interface FetchResult extends Taro.request.SuccessCallbackResult<any> {
   cookies?: string[];
 }
 
+/**
+ * @deprecated
+ */
 function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
   const header = cookies
     ? {
@@ -31,6 +34,9 @@ function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
   });
 }
 
+/**
+ * @deprecated
+ */
 function postJson(
   url: string,
   data: any,
