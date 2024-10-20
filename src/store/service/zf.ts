@@ -42,11 +42,11 @@ export interface ZFServiceType {
 }
 
 export const useZFServiceStore = defineStore("zf", () => {
-  const lessonsTableInfo = ref<ZFServiceType["lessonsTableInfo"]>();
-  const practiceLessons = ref<PracticeLesson[]>();
-  const examInfo = ref<ZFServiceType["examInfo"]>();
-  const scoreInfo = ref<ZFServiceType["scoreInfo"]>();
-  const roomInfo = ref<ZFServiceType["roomInfo"]>();
+  const lessonsTableInfo = ref();
+  const practiceLessons = ref();
+  const examInfo = ref();
+  const scoreInfo = ref();
+  const roomInfo = ref();
 
   const setLessonTable = (
     value: {
@@ -72,18 +72,17 @@ export const useZFServiceStore = defineStore("zf", () => {
     };
   };
 
-  const setExamInfo = (value: { term: string; year: string; examInfo: Exam[] }){
+  const setExamInfo = (value: { term: string; year: string; examInfo: Exam[] }) => {
     if (examInfo.value && !examInfo.value[value.year]) examInfo.value[value.year] = {};
-    if(examInfo.value) {
+    if (examInfo.value) {
       examInfo.value[value.year][value.term] = {
         data: value.examInfo,
         updateTime: new Date()
       };
     }
-  }
+  };
 
-  const setScoreInfo = (value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] })=>
-  {
+  const setScoreInfo = (value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] }) => {
     if (scoreInfo.value) {
       if (!value.scoreInfo) return;
       if (!scoreInfo.value[value.year])
@@ -98,14 +97,14 @@ export const useZFServiceStore = defineStore("zf", () => {
         updateTime: new Date()
       };
     }
-  }
+  };
 
   const setRoomInfo = (value: Room[]) => {
     roomInfo.value = {
       data: value,
       updateTime: new Date()
     };
-  }
+  };
 
   return {
     lessonsTableInfo,
@@ -117,5 +116,5 @@ export const useZFServiceStore = defineStore("zf", () => {
     setExamInfo,
     setScoreInfo,
     setRoomInfo
-  }
+  };
 });

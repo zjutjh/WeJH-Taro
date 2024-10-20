@@ -25,7 +25,7 @@ export interface SystemStoreType {
 
 export const useSystemStore = defineStore("system", () => {
   const loading = ref(false);
-  const generalInfo = ref<SystemStoreType["generalInfo"]>();
+  const generalInfo = ref();
   const version = ref("");
   const questionnaire = ref<SystemStoreType["questionnaire"]>();
 

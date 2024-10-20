@@ -1,19 +1,16 @@
-import { CardServiceStore, CardServiceType } from "./card";
-import { UserServiceStore, UserType } from "./user";
-import { LibraryServiceStore } from "./library";
-import { ZFServiceStore, ZFServiceType } from "./zf";
+import { CardServiceType } from "./card";
+import { UserType } from "./user";
+import { useZFServiceStore, ZFServiceType } from "./zf";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
-import { AnnouncementStore, AnnouncementType } from "./announcement";
-import { InformationStore, InformationStoreType } from "./information";
+import { AnnouncementType } from "./announcement";
+import { InformationStoreType } from "./information";
 import { AppListItem } from "@/types/AppList";
-import { ScoreServiceStore } from "./score";
-import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
-import { ElectricityServiceStore } from "./electricity";
-import { WebviewStore, WebviewStoreType } from "./webview";
-import { LostfoundStore, LostfoundStoreType } from "./lostfound";
-import { NotificationStore, NotificationStoreType } from "./notification";
-import { ThemeStore, ThemeStoreType } from "./theme";
-import { SuitStore, SuitStoreType } from "./suit";
+import { HomeCardServiceType } from "./homecard";
+import { WebviewStoreType } from "./webview";
+import { LostfoundStoreType } from "./lostfound";
+import { NotificationStoreType } from "./notification";
+import { ThemeStoreType } from "./theme";
+import { SuitStoreType } from "./suit";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -59,6 +56,8 @@ export interface ServiceStoreType {
 export const useServiceStore = defineStore("service", () => {
   const sessionID = ref<string | undefined>(undefined);
   const appList = ref<AppListItem[]>();
+  const zf = useZFServiceStore();
+  const score = useServiceStore();
   const setSession = (value: string) => {
     sessionID.value = value;
   };
@@ -74,6 +73,8 @@ export const useServiceStore = defineStore("service", () => {
   return {
     sessionID,
     appList,
+    zf,
+    score,
     setSession,
     cleanSession,
     setAppList,
