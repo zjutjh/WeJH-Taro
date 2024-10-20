@@ -1,12 +1,15 @@
 import { updateDateStateWithSession } from "../utils/updateDateState";
 import { api } from "../api/apiList";
-import { serviceStore, systemStore } from "@/store";
+import { useServiceStore, useSystemStore } from "@/store";
 import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Exam } from "@/types/Exam";
 import { Score } from "@/types/Score";
+
+const serviceStore = useServiceStore();
+const systemStore = useSystemStore();
 export default class ZFService {
   static async updateLessonTable(data?: { year: string; term: string }) {
-    if (!data) {
+    if (!data && systemStore.generalInfo) {
       data = {
         year: systemStore.generalInfo.termYear,
         term: systemStore.generalInfo.term

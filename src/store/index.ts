@@ -1,27 +1,12 @@
-import { createStore } from "vuex";
-import createPersistedState from "vuex-persistedstate";
-import { ServiceStoreType, ServiceStore } from "./service";
-import { SystemStoreType, SystemStore } from "./system";
-import { persistedStateStorage } from "../utils/storage";
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import { useSystemStore } from "./system";
+import { useServiceStore } from "./service";
 
-interface StoreType {
-  service: ServiceStoreType;
-  system: SystemStoreType;
-}
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
-const store = createStore<StoreType>({
-  modules: {
-    service: ServiceStore,
-    system: SystemStore
-  },
-  plugins: [
-    createPersistedState({
-      storage: persistedStateStorage
-    })
-  ]
-});
-const serviceStore = store.state.service;
-const systemStore = store.state.system;
-
-export default store;
-export { serviceStore, systemStore };
+export {
+  useSystemStore,
+  useServiceStore
+};
