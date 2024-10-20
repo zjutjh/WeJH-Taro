@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import store, { serviceStore } from "@/store";
+import { useServiceStore } from "@/store";
 import { FetchResult, fetch } from "@/utils";
 import { api } from "@/services";
 import { updateDateStateWithSession } from "../utils/updateDateState";
@@ -7,6 +7,7 @@ import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
 import request from "../request";
 
+const serviceStore = useServiceStore();
 export default class UserService {
   static getUserTheme = () => {
     return request<{
@@ -135,7 +136,7 @@ export default class UserService {
     const res = await fetch.post(api.user.create.wechat, userForm);
     if (res.statusCode === 200 && res.data.code === ServerCode.OK) {
       if (res.cookies && res.cookies.length > 0) {
-        store.commit("setSession", res.cookies[0]);
+        serviceStore.setSession(res.cookies[0]);
         UserService.getUserInfo();
       }
       return true;
@@ -157,7 +158,7 @@ export default class UserService {
     const res = await fetch.post(api.user.create.h5, userForm);
     if (res.statusCode === 200) {
       if (res.cookies && res.cookies.length > 0) {
-        store.commit("setSession", res.cookies[0]);
+        serviceStore.setSession(res.cookies[0]);
         UserService.getUserInfo();
       }
       return true;
