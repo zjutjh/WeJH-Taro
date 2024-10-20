@@ -2,6 +2,8 @@ import { Exam } from "@/types/Exam";
 import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Room } from "@/types/Room";
 import { Score } from "@/types/Score";
+import { ref } from "vue";
+import { defineStore } from "pinia";
 
 export interface ZFServiceType {
   lessonsTableInfo: {
@@ -39,70 +41,81 @@ export interface ZFServiceType {
   };
 }
 
-export const ZFServiceStore = {
-  state: () => ({
-    lessonsTableInfo: {},
-    practiceLessons: [],
-    examInfo: {},
-    scoreInfo: {},
-    roomInfo: {}
-  }),
-  mutations: {
-    setLessonTable(
-      state: ZFServiceType,
-      value: {
-        term: string;
-        year: string;
-        lessonsTable: Lesson[];
-        practiceLessons: PracticeLesson[];
-      }
-    ) {
-      if (!value.lessonsTable) {
-        console.error("更新课表失败");
-        return;
-      }
-      if (!state.lessonsTableInfo[value.year])
-        state.lessonsTableInfo[value.year] = {};
-      state.lessonsTableInfo[value.year][value.term] = {
-        data: {
-          lessonsTable: value.lessonsTable,
-          practiceLessons: value.practiceLessons
-        },
-        updateTime: new Date()
-      };
-    },
-    setExamInfo(
-      state: ZFServiceType,
-      value: { term: string; year: string; examInfo: Exam[] }
-    ) {
-      if (!state.examInfo[value.year]) state.examInfo[value.year] = {};
-      state.examInfo[value.year][value.term] = {
+export const useZFServiceStore = defineStore("zf", () => {
+  const lessonsTableInfo = ref<ZFServiceType["lessonsTableInfo"]>();
+  const practiceLessons = ref<PracticeLesson[]>();
+  const examInfo = ref<ZFServiceType["examInfo"]>();
+  const scoreInfo = ref<ZFServiceType["scoreInfo"]>();
+  const roomInfo = ref<ZFServiceType["roomInfo"]>();
+
+  const setLessonTable = (
+    value: {
+      term: string;
+      year: string;
+      lessonsTable: Lesson[];
+      practiceLessons: PracticeLesson[];
+    }
+  ) => {
+    if (!value.lessonsTable) {
+      console.error("更新课表失败");
+      return;
+    }
+    if (!lessonsTableInfo.value) lessonsTableInfo.value = {};
+    if (!lessonsTableInfo.value[value.year])
+      lessonsTableInfo.value[value.year] = {};
+    lessonsTableInfo.value[value.year][value.term] = {
+      data: {
+        lessonsTable: value.lessonsTable,
+        practiceLessons: value.practiceLessons
+      },
+      updateTime: new Date()
+    };
+  };
+
+  const setExamInfo = (value: { term: string; year: string; examInfo: Exam[] }){
+    if (examInfo.value && !examInfo.value[value.year]) examInfo.value[value.year] = {};
+    if(examInfo.value) {
+      examInfo.value[value.year][value.term] = {
         data: value.examInfo,
         updateTime: new Date()
       };
-    },
-    setScoreInfo(
-      state: ZFServiceType,
-      value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] }
-    ) {
+    }
+  }
+
+  const setScoreInfo = (value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] })=>
+  {
+    if (scoreInfo.value) {
       if (!value.scoreInfo) return;
-      if (!state.scoreInfo[value.year])
-        state.scoreInfo[value.year] = {};
-      if (!state.scoreInfo[value.year][value.term])
-        state.scoreInfo[value.year][value.term] = {};
-      state.scoreInfo[value.year][value.term][value.period] = {
+      if (!scoreInfo.value[value.year])
+        scoreInfo.value[value.year] = {};
+      if (!scoreInfo.value[value.year][value.term])
+        scoreInfo.value[value.year][value.term] = {};
+      scoreInfo.value[value.year][value.term][value.period] = {
         data: value.scoreInfo.map(item => ({
           ...item,
           scorePeriod: value.period
         })),
         updateTime: new Date()
       };
-    },
-    setRoomInfo(state: ZFServiceType, value: []) {
-      state.roomInfo = {
-        data: value,
-        updateTime: new Date()
-      };
     }
   }
-};
+
+  const setRoomInfo = (value: Room[]) => {
+    roomInfo.value = {
+      data: value,
+      updateTime: new Date()
+    };
+  }
+
+  return {
+    lessonsTableInfo,
+    practiceLessons,
+    examInfo,
+    scoreInfo,
+    roomInfo,
+    setLessonTable,
+    setExamInfo,
+    setScoreInfo,
+    setRoomInfo
+  }
+});
