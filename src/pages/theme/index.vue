@@ -1,5 +1,5 @@
 <template>
-  <theme-config class="lab-view background">
+  <theme-config>
     <title-bar title="主题" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
