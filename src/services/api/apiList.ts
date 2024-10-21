@@ -74,8 +74,8 @@ function appendHost(api: any) {
     if (Object.prototype.hasOwnProperty.call(api, key))
       if (api[key] instanceof Object) appendHost(api[key]);
       else
-        api[key] = process.env.HOST
-          ? process.env.HOST + api[key]
+        api[key] = import.meta.env.VITE_HOST
+          ? import.meta.env.VITE_HOST + api[key]
           : defDevHost + api[key];
 }
 

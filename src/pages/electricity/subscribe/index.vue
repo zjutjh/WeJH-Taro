@@ -41,10 +41,11 @@ import styles from "./index.module.scss";
   * 2. 给服务器发请求
   */
 const subscribe = async () => {
-  const tmpId = process.env.ELECTRICITY_SUBSCRIBE_TEMPLID;
+  const tmpId = import.meta.env.VITE_ELECTRICITY_SUBSCRIBE_TEMPLATE_ID;
 
   Taro.requestSubscribeMessage({
-    tmplIds: [tmpId],
+    tmplIds: [tmpId], // 微信小程序的模板 id
+    entityIds: [], // 支付宝小程序的模板 id，这里为了类型正确，声明一个空数组，实际消费不到
     success: async res => {
       if (res[tmpId] === "accept") {
         try {
