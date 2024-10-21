@@ -65,16 +65,4 @@ const api = {
   }
 };
 
-const defDevHost = "http://0.0.0.0:8080";
-function appendHost(api: any) {
-  for (const key in api)
-    if (Object.prototype.hasOwnProperty.call(api, key))
-      if (api[key] instanceof Object) appendHost(api[key]);
-      else
-        api[key] = process.env.HOST
-          ? process.env.HOST + api[key]
-          : defDevHost + api[key];
-}
-
-appendHost(api);
 export { api };

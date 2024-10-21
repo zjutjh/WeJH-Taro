@@ -2,7 +2,11 @@ import { ServerCode } from "../api/codes";
 import Taro from "@tarojs/taro";
 import store, { serviceStore } from "@/store";
 
-// comment: 微信相关登录异常处理
+/**
+ * @deprecated
+ * 微信相关登录异常处理
+ * TODO: 迁移处理逻辑至具体的业务模块
+ */
 export default async function errCodeHandler(code: number, showModal = true) {
   console.error("Error code", code);
   if (showModal)
