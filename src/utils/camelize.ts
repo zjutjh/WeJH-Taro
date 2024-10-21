@@ -1,20 +1,20 @@
-import { toCamelCase } from "@/types/Camelize";
+import { ToCamelCase } from "@/types/Camelize";
 
-function stringToCamelCase(str:string): string{
-  return str.replace(/_([a-z])/g,(_match,letter) => {
+function stringToCamelCase(str:string): string {
+  return str.replace(/_([a-z])/g, (_match, letter) => {
     return letter.toUpperCase();
   });
 }
 
-export function toCamelCase<T>(obj: T): toCamelCase<T> {
+export function toCamelCase<T>(obj: T): ToCamelCase<T> {
   if (Array.isArray(obj)) {
-    return obj.map(item => toCamelCase(item)) as toCamelCase<T>;
+    return obj.map(item => toCamelCase(item)) as ToCamelCase<T>;
   } else if (obj !== null && typeof obj === "object") {
     return Object.keys(obj).reduce((acc, key) => {
       const camelKey = stringToCamelCase(key);
       acc[camelKey] = toCamelCase(obj[key]);
       return acc;
-    }, {}) as toCamelCase<T>;
+    }, {}) as ToCamelCase<T>;
   }
-  return obj as toCamelCase<T>;
+  return obj as ToCamelCase<T>;
 }

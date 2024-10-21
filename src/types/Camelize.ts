@@ -1,12 +1,12 @@
-export type stringToCamelCase<S extends string> =
+export type StringToCamelCase<S extends string> =
   S extends `${infer T}_${infer U}` ?
-    U extends "" ? `${T}_` : `${T}${stringToCamelCase<Capitalize<U>>}`
+    U extends "" ? `${T}_` : `${T}${StringToCamelCase<Capitalize<U>>}`
     : S;
 
-export type toCamelCase<T> = {
-  [Key in keyof T as stringToCamelCase<Key & string>]: T[Key] extends Array<infer G>
-    ? Array<toCamelCase<G>>
+export type ToCamelCase<T> = {
+  [Key in keyof T as StringToCamelCase<Key & string>]: T[Key] extends Array<infer G>
+    ? Array<ToCamelCase<G>>
     : T[Key] extends object
-      ? toCamelCase<T[Key]>
+      ? ToCamelCase<T[Key]>
       : T[Key]
 };
