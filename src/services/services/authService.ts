@@ -7,6 +7,7 @@ import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
 
 /**
+  * @deprecated
   * 与微信建立链接，获取 session
   * 场景: 发送带 session 的请求 postWithSession，打开小程序页面
   */
