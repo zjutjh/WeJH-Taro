@@ -1,6 +1,6 @@
 
 import Taro from "@tarojs/taro";
-import { onMounted, ref, shallowRef } from "vue";
+import { onMounted, Ref, ref, shallowRef } from "vue";
 
 interface RequestConfigType<TData extends TaroGeneral.IAnyObject, TParams> {
   /** 是否手动发起请求 */
@@ -131,8 +131,8 @@ export function useRequestNext<State, Params extends Record<string, any>>(
     onError
   } = options ?? {};
 
-  const loading = ref(false);
-  const data = ref(initialData);
+  const loading = ref(false) as Ref<boolean>;
+  const data = ref(initialData) as Ref<State>;
   const error = shallowRef<unknown | undefined>(undefined);
 
   async function run(params?: Params) {
