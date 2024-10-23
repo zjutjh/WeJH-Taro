@@ -2,7 +2,6 @@ import ZFService from "./services/zfService";
 import SystemService from "./services/systemService";
 import UserService from "./services/userService";
 import LibraryService from "./services/libraryService";
-import CanteenService from "./services/canteenService";
 import YxyService from "./services/yxyService";
 import LostfoundService from "./services/lostfoundService";
 import SuitService from "./services/suitService";
@@ -15,7 +14,6 @@ export {
   SystemService,
   UserService,
   LibraryService,
-  CanteenService,
   YxyService,
   LostfoundService,
   SuitService,

@@ -1,28 +1,35 @@
 import { Announcement } from "src/types/Announcement";
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
 export interface AnnouncementType {
   announcements: Announcement[];
   updateCounter: number;
 }
 
-export const AnnouncementStore = {
-  state: () => ({
-    announcements: [],
-    updateCounter: 0
-  }),
-  mutations: {
-    setAnnouncements(state: AnnouncementType, value: Announcement[]) {
-      if (state.announcements.length != value.length)
-        state.updateCounter = Math.abs(
-          value.length - state.announcements.length
-        );
-      state.announcements = value;
-    },
-    clearAnnouncements(state: AnnouncementType) {
-      state.announcements = [];
-    },
-    clearAnnouncementsUpdateCounter(state: AnnouncementType) {
-      state.updateCounter = 0;
-    }
-  }
-};
+export const useAnnouncementStore = defineStore("announcement", () => {
+  const announcements = ref<Announcement[]>();
+  const updateCounter = ref(0);
+
+  const setAnnouncements = (value: Announcement[]) => {
+    if (announcements.value?.length != value.length)
+      updateCounter.value = Math.abs(
+        value.length - announcements.value!.length
+      );
+    announcements.value = value;
+  };
+  const clearAnnouncements = () => {
+    announcements.value = [];
+  };
+  const clearAnnouncementsUpdateCounter = () => {
+    updateCounter.value = 0;
+  };
+  return {
+    announcements,
+    updateCounter,
+    setAnnouncements,
+    clearAnnouncements,
+    clearAnnouncementsUpdateCounter
+  };
+});
+

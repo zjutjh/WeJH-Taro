@@ -5,6 +5,7 @@ import { LoginByTaro } from "../services/authService";
 import { ServerCode } from "../api/codes";
 
 /**
+ * @deprecated
  * 调用 fetch 带上 session 发送请求
  *
  * 一般通过 `updateDateStateWithSession` 调用
@@ -42,6 +43,7 @@ async function postWithSession(
 }
 
 /**
+ * @deprecated
  * 检查有无 session
  * @returns 状态
  */
@@ -50,6 +52,7 @@ function checkSession(): boolean {
 }
 
 /**
+ * @deprecated
  * 检查 session 对应的微信用户有没有激活记录
  * @returns 状态
  */
