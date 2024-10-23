@@ -19,16 +19,15 @@ type RequestOptionsType<P> = {
   /** TODO: 将请求参数转换成 snack case，将响应数据转换成 camel case */
   useCamelCase?: boolean;
   /** 请求是否携带 Cookie，默认为 true，若没有 Cookie 还请求则会触发登录获取 Cookie */
-  auth: boolean;
+  auth?: boolean;
 };
 
 /**
  * 发送接收 application/json 请求
  *
  * @param url 请求地址，不包含协议和域名，会和 `options.urlPrefix` 组成完整的地址
- * @param params GET 请求的 Query 参数，其他请求的 Body 数据
  * @param options
- * @throws `RequestError` Instance
+ * @throws {RequestError}
  * @returns 转换成对象的响应 JSON 数据
  */
 async function request<Data, Params = Record<string, any>>(
@@ -42,16 +41,7 @@ async function request<Data, Params = Record<string, any>>(
     auth = true
   } = options || {};
 
-  let cookie = "";
-  if (auth) {
-    try {
-      cookie = await CookieUtils.get();
-    } catch (e) {
-      if (e instanceof RequestError) {
-        Taro.showToast({ title: e.message, icon: "error" });
-      }
-    }
-  }
+  const cookie = auth ? await CookieUtils.get() : "";
 
   try {
     const taroWrapped = await Taro.request<IResponse<Data> | undefined>({
@@ -69,25 +59,16 @@ async function request<Data, Params = Record<string, any>>(
       if (realResponse.code === ServiceErrorCode.OK) {
         return realResponse.data;
       }
-
       return Promise.reject(
-        new RequestError({ message: realResponse.msg, code: realResponse.code })
+        new RequestError(realResponse.msg, realResponse.code)
       );
     }
-    // 如果没有服务端的数据，交给 catch 处理
-    throw new Error(JSON.stringify(taroWrapped));
+    throw new RequestError("小程序请求失败", MPErrorCode.MP_INVALID_RESPONSE_BODY);
   } catch (e: any) {
-    let message: string;
-    if (e?.errMsg) {
-      // 微信小程序 request 若抛出错误，一定有 errMsg
-      message = "小程序客户端请求失败";
-      console.error("[微精弘底层]请求发送失败", e);
-    } else {
-      message = "小程序未知网络错误";
-      console.error("[微精弘底层]未知网络异常", e);
-    }
-
-    throw new RequestError({ message, code: MPErrorCode.MP_NETWORK_ERROR });
+    console.error(e);
+    throw e instanceof RequestError
+      ? e
+      : new RequestError("小程序请求失败", MPErrorCode.MP_NETWORK_ERROR);
   }
 }
 

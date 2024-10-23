@@ -1,7 +1,13 @@
 export const MPErrorCode = {
+  /** 客户端网络环境异常 */
   MP_NETWORK_ERROR: Symbol("MP_NETWORK_ERROR"),
+  /** 服务端响应体异常 */
+  MP_INVALID_RESPONSE_BODY: Symbol("MP_INVALID_RESPONSE_BODY"),
+  /** 微信登录流程中缺失 code */
   MP_LOGIN_ERROR_MISSING_WX_CODE: Symbol("MP_LOGIN_ERROR_MISSING_WX_CODE"),
+  /** 服务端登录流程中缺失 Cookie */
   MP_LOGIN_ERROR_MISSING_COOKIE: Symbol("MP_LOGIN_ERROR_MISSING_COOKIE"),
+  /** 未知登录异常 */
   MP_LOGIN_ERROR_UNKNOWN: Symbol("MP_LOGIN_ERROR_UNKNOWN")
 };
 
@@ -26,12 +32,9 @@ export default class RequestError extends Error {
   public message: string;
   public code: ServiceErrorCode | number | symbol;
 
-  constructor(props: {
-    message: string;
-    code: ServiceErrorCode | number | symbol;
-  }) {
+  constructor(message: string, code: ServiceErrorCode | number | symbol) {
     super();
-    this.message = props.message;
-    this.code = props.code;
+    this.message = message;
+    this.code = code;
   }
 }

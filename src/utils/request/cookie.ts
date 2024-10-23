@@ -11,6 +11,8 @@ export default class CookieUtils {
    * 从内存、持久化储存中获取 Cookie
    *
    * 若两处都没有 Cookie，则触发登录流程获取新的 Cookie
+   *
+   * @throws {RequestError}
    */
   public static async get(): Promise<string> {
     if (!this.cookie) {
@@ -33,7 +35,7 @@ export default class CookieUtils {
       if (!code) {
         console.error(new Error(errMsg));
         return Promise.reject(
-          new RequestError({ message: errMsg, code: MPErrorCode.MP_LOGIN_ERROR_MISSING_WX_CODE })
+          new RequestError(errMsg, MPErrorCode.MP_LOGIN_ERROR_MISSING_WX_CODE)
         );
       }
 
@@ -50,13 +52,15 @@ export default class CookieUtils {
           return cookie;
         }
         return Promise.reject(
-          new RequestError({ message: "小程序登录失败", code: MPErrorCode.MP_LOGIN_ERROR_MISSING_COOKIE })
+          new RequestError("小程序登录失败", MPErrorCode.MP_LOGIN_ERROR_MISSING_COOKIE)
         );
       }
-      throw new Error(JSON.stringify(taroWrapped));
+      throw new RequestError("小程序登录失败", MPErrorCode.MP_INVALID_RESPONSE_BODY);
     } catch (e) {
       console.error(e);
-      throw new RequestError({ message: "小程序登录失败", code: MPErrorCode.MP_LOGIN_ERROR_UNKNOWN });
+      throw e instanceof RequestError
+        ? e
+        : new RequestError("小程序登录失败", MPErrorCode.MP_LOGIN_ERROR_UNKNOWN);
     }
   }
 
