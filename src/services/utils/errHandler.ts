@@ -66,7 +66,7 @@ export default async function errCodeHandler(code: number, showModal = true) {
         });
         break;
       default:
-        if (process.env.NODE_ENV === "development")
+        if (import.meta.env.DEV)
           await Taro.showToast({
             icon: "none",
             title: `${code}`

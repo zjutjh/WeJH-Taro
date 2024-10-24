@@ -3,7 +3,7 @@
   --wjh-color-primary: var(--wjh-color-green-600);
   --wjh-color-primary-dark: var(--wjh-color-green-700);
 
-  background-image: url('~@/assets/photos/background.svg');
+  background-image: url('@/assets/photos/background.svg');
 }
 
 .theme.yellow {
@@ -11,7 +11,7 @@
   --wjh-color-primary: var(--wjh-color-yellow-600);
   --wjh-color-primary-dark: var(--wjh-color-yellow-700);
 
-  background-image: url('~@/assets/photos/background-yellow.svg');
+  background-image: url('@/assets/photos/background-yellow.svg');
 }
 
 .theme.blue {
@@ -19,7 +19,7 @@
   --wjh-color-primary: var(--wjh-color-blue-600);
   --wjh-color-primary-dark: var(--wjh-color-blue-700);
 
-  background-image: url('~@/assets/photos/background-blue.svg');
+  background-image: url('@/assets/photos/background-blue.svg');
 }
 
 .theme.pink {
@@ -27,7 +27,7 @@
   --wjh-color-primary: var(--wjh-color-pink-600);
   --wjh-color-primary-dark: var(--wjh-color-pink-700);
 
-  background-image: url('~@/assets/photos/background-pink.svg');
+  background-image: url('@/assets/photos/background-pink.svg');
 }
 
 .theme.purple {
@@ -35,15 +35,17 @@
   --wjh-color-primary: var(--wjh-color-purple-600);
   --wjh-color-primary-dark: var(--wjh-color-purple-700);
 
-  background-image: url('~@/assets/photos/background-purple.svg');
+  background-image: url('@/assets/photos/background-purple.svg');
 }
+
 // 主题过渡方案
 .theme.walk {
   --wjh-color-primary-light: var(--wjh-color-red-500);
   --wjh-color-primary: var(--wjh-color-red-600);
   --wjh-color-primary-dark: var(--wjh-color-red-700);
-  background-image: url('~@/assets/photos/background-walk.png');
+  background-image: url('@/assets/photos/background-walk.png');
 }
+
 .background {
   position: fixed;
   display: flex;
