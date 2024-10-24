@@ -1,5 +1,5 @@
 import { cookiesToString, ejectCookies } from "./cookie";
-import { getCopyRight, isNewIPhone, scrollViewHeight } from "./effects";
+import { getCopyRight } from "./effects";
 import { fetch } from "./fetch";
 import { checkBind } from "./checkBind";
 import { checkNotification } from "./checkNotification";
@@ -13,8 +13,6 @@ export {
   FetchResult,
   ejectCookies,
   cookiesToString,
-  isNewIPhone,
-  scrollViewHeight,
   getCopyRight,
   fetch,
   checkBind,

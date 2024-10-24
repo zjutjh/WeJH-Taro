@@ -16,7 +16,7 @@ export default defineAppConfig({
     "pages/setting/changePassword/index",
     "pages/connect/index",
     "pages/connect/faq/index",
-    "pages/lab/index",
+    "pages/theme/index",
     "pages/freeroom/index",
     "pages/canteenflow/index",
     "pages/announcement/index",

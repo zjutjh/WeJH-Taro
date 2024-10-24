@@ -37,7 +37,13 @@
 
   background-image: url('@/assets/photos/background-purple.svg');
 }
-
+// 主题过渡方案
+.theme.walk {
+  --wjh-color-primary-light: var(--wjh-color-red-500);
+  --wjh-color-primary: var(--wjh-color-red-600);
+  --wjh-color-primary-dark: var(--wjh-color-red-700);
+  background-image: url('~@/assets/photos/background-walk.png');
+}
 .background {
   position: fixed;
   display: flex;

@@ -5,7 +5,7 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('home')"
     >
-      <view class="iconfont icon-home" />
+      <view class="iconfont " :class="homeClass" />
       <view class="description">
         首页
       </view>
@@ -18,7 +18,7 @@
       class="nav-bar-icon-wrapper"
       @tap="plusClick"
     >
-      <view class="iconfont icon-applist" />
+      <view class="iconfont " :class="applyClass" />
       <view class="description">
         功能
       </view>
@@ -31,7 +31,7 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('my')"
     >
-      <view class="iconfont icon-user" />
+      <view class="iconfont " :class="personClass" />
       <view class="description">
         我的
       </view>
@@ -76,6 +76,11 @@ const notificationActive = computed(() => {
     my: checkNotification("my", store)
   };
 });
+// 主题过渡方案
+const themeMode = computed(() => serviceStore.theme.themeMode);
+const homeClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-home1" : "icon-home");
+const applyClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-apply1" : "icon-applist");
+const personClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-person1" : "icon-user");
 
 const { pageName } = toRefs(props);
 
