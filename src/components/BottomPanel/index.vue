@@ -1,14 +1,10 @@
 <template>
-  <view
-    class="bottom-panel"
-    :class="{ 'bottom-bar-ios': isNewIPhone() }"
-  >
+  <view class="bottom-panel">
     <slot />
   </view>
 </template>
 
 <script setup lang="ts">
-import { isNewIPhone } from "@/utils";
 import "./index.scss";
 
 </script>
