@@ -53,7 +53,9 @@
           >
             <view class="wrapper">
               <text>{{ item.title }}</text>
-              <w-badge v-if="item.badge" :content="item.badge!" />
+              <w-badge v-if="item.badge">
+                <text>{{ item.badge }}</text>
+              </w-badge>
             </view>
           </w-list-item>
         </w-list>
