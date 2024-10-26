@@ -1,7 +1,6 @@
 import { cookiesToString, ejectCookies } from "./cookie";
 import { getCopyRight } from "./effects";
 import { fetch } from "./fetch";
-import { checkBind } from "./checkBind";
 import timeUtils from "./time";
 import type { ICookie } from "./cookie";
 import type { FetchResult } from "./fetch";
@@ -18,7 +17,6 @@ export {
   cookiesToString,
   getCopyRight,
   fetch,
-  checkBind,
   timeUtils,
   debounce,
   request,
