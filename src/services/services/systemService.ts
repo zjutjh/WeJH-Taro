@@ -1,45 +1,51 @@
 import { api } from "../api/apiList";
-import { updateDateState } from "../utils/updateDateState";
 import { AppListItem } from "@/types/AppList";
 import { Announcement } from "@/types/Announcement";
 import { Information } from "@/types/Information";
-import { serviceStore } from "@/store";
-import request from "../request";
+import { request } from "@/utils";
+import { Theme } from "@/store/service/theme";
 
-// comment: 这里的所有请求无需 session
 export default class SystemService {
-  // comment: 系统通知
-  static async getAnnouncement(
-    page = 1,
-    size = 10
-  ): Promise<Announcement[]> {
-    return updateDateState(
-      api.announcement,
-      { page, size },
-      "setAnnouncements",
-      null
-    );
-  }
-
-  // comment: 校园资讯
-  static getInformation = () => {
-    return request<Information[]>(
-      api.information, {
-        method: "GET",
-        header: { "Cookie": serviceStore.sessionID }
+  /** 精弘通知 */
+  static getAnnouncement() {
+    return request<Announcement[]>(
+      api.announcement, {
+        method: "POST",
+        auth: false
       }
     );
-  };
-
-  // comment: 首页应用列表
-  static async getAppList(): Promise<AppListItem[]> {
-    // comment: 缓存 applist
-    // return updateDateState(api.applist, null, 'setApplist', 'clearApplist');
-    return updateDateState(api.applist, null, "setApplist", null);
   }
 
-  // comment: 学期学年信息
-  static async getGeneralInfo(): Promise<any> {
-    return updateDateState(api.info, null, "setGeneralInfo", null);
+  /** 校园资讯 */
+  static getInformation() {
+    return request<Information[]>(api.information);
+  };
+
+  static getAppList(): Promise<AppListItem[]> {
+    return request(api.applist, { method: "POST", auth: false });
+  }
+
+  /** 学期学年信息 */
+  static getGeneralInfo(): Promise<{
+    defaultTheme: Theme;
+    fileUrl: string;
+    is_begin: boolean;
+    jpgUrl: string;
+    /** 新生提醒 */
+    registerTips: string;
+    schoolBusUrl: string;
+    scoreTerm: "上" | "下" | "短";
+    scoreYear: string;
+    term: "上" | "下" | "短";
+    /** 学期开始时间 */
+    termStartDate: string;
+    /** 学年 */
+    termYear: string;
+    /** 当前时间, 没什么用 */
+    time: string;
+    /** 距离开学周的周数 */
+    week: number;
+  }> {
+    return request(api.info, { method: "POST", auth: false });
   }
 }
