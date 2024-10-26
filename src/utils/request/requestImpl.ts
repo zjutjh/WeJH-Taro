@@ -35,7 +35,7 @@ async function request<Data, Params = Record<string, any>>(
   options?: RequestOptionsType<Params>
 ): Promise<Data> {
   const {
-    urlPrefix = process.env.HOST,
+    urlPrefix = import.meta.env.VITE_HOST,
     method = "GET",
     params,
     auth = true

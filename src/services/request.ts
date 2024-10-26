@@ -19,7 +19,7 @@ const request = <TData extends TaroGeneral.IAnyObject | any> (
 ) => {
   return Taro.request<IResponse<TData>>({
     ...globalConfig,
-    url: process.env.HOST + url,
+    url: import.meta.env.VITE_HOST + url,
     ...config
   });
 
