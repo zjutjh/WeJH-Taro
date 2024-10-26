@@ -2,21 +2,21 @@
   <title-bar title="我的" :back-button="false" />
   <scroll-view :scroll-y="true">
     <view class="flex-column">
-      <card v-if="userInfo?.isActive" class="profile-card">
+      <card v-if="isActive" class="profile-card">
         <view class="avatar-wrapper">
           <image
-            v-if="userInfo?.wxProfile"
+            v-if="wxProfile"
             class="avatar"
-            :src="userInfo?.wxProfile.avatarUrl"
+            :src="wxProfile.avatarUrl"
           />
         </view>
-        <view v-if="userInfo?.wxProfile" class="profile-split" />
+        <view v-if="wxProfile" class="profile-split" />
         <view class="info-wrapper">
           <view>
-            <view v-if="userInfo?.wxProfile" class="name">
-              {{ userInfo?.wxProfile.nickName }}
+            <view v-if="wxProfile" class="name">
+              {{ wxProfile.nickName }}
             </view>
-            <view v-else class="name" @tap="getUserWXInfo">
+            <view v-else class="name" @tap="getWXProfile">
               点击获取头像昵称
             </view>
             <view class="sub-text">
@@ -24,14 +24,14 @@
             </view>
           </view>
           <view v-if="userInfo" class="sub-text" style="bottom: 0">
-            {{ userInfo.info?.studentID }}
+            {{ userInfo.studentID }}
           </view>
         </view>
       </card>
 
       <card v-else title="未激活，激活享受更多精彩">
         <w-button
-          v-if="!userInfo?.isActive"
+          v-if="!isActive"
           block
           class="active"
           @tap="nav2activation"
@@ -40,7 +40,7 @@
         </w-button>
       </card>
 
-      <view v-if="userInfo?.isActive" class="operate">
+      <view v-if="isActive" class="operate">
         <w-list
           v-for="(column, index) in options"
           :key="index"
@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import store, { serviceStore } from "@/store";
+import { useUserStore } from "@/store";
 import Card from "../Card/index.vue";
 import TitleBar from "../TitleBar/index.vue";
 import WList from "../List/List.vue";
@@ -73,16 +73,21 @@ import WListItem from "../List/ListItem.vue";
 import WButton from "../Button/index.vue";
 import WBadge from "../Badge/index.vue";
 import Taro from "@tarojs/taro";
-import { UserService } from "@/services";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import "./index.scss";
-import { UserType } from "src/store/service/user";
+import { storeToRefs } from "pinia";
+import useNewFeatureStore from "@/store/service/newFeature";
+
+const userStore = useUserStore();
+const newFeatureStore = useNewFeatureStore();
+const { getWXProfile, getUserData } = userStore;
+const { isActive, wxProfile, info: userInfo } = storeToRefs(userStore);
 
 const options = computed(() => {
-  const notificationState = serviceStore.notification.state;
   const data = [
     [
-      { title: "绑定", url: "/pages/bind/index", badge: notificationState.my.bind },
+      // TODO: 修复类型问题
+      { title: "绑定", url: "/pages/bind/index", badge: newFeatureStore.tree?.my?.bind },
       { title: "主题", url: "/pages/theme/index" }
     ],
     [
@@ -95,8 +100,6 @@ const options = computed(() => {
   ];
   return data;
 });
-
-const userInfo = ref<UserType | null>(null);
 
 function nav2activation() {
   Taro.navigateTo({
@@ -111,25 +114,8 @@ function nav2url(url: string | undefined) {
     });
 }
 
-function getUserWXInfo() {
-  Taro.getUserProfile({
-    desc: "用于获取头像和昵称",
-    success: (res: any) => {
-      const { avatarUrl, nickName } = res.userInfo;
-      store.commit("setUserWXProfile", { avatarUrl, nickName });
-    }
-  });
-}
-
-function getUserInfo() {
-  userInfo.value = serviceStore.user;
-}
-
 onMounted(() => {
-  if (serviceStore.user.isActive && !serviceStore.user.info)
-    UserService.getUserInfo();
+  if (isActive && !userInfo) getUserData();
 });
-
-getUserInfo();
 
 </script>
