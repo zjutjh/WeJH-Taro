@@ -2,38 +2,31 @@
 
 import { computed, onBeforeUpdate, ref, watch } from "vue";
 import styles from "./index.module.scss";
-import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
 import { PopView, WBadge, WButton } from "@/components";
-import { checkBind } from "@/utils";
+import useHomeCardStore from "@/store/service/homecard";
+import useBinding from "@/hooks/useBinding";
+
+const homeCardStore = useHomeCardStore();
+const { canAccess } = useBinding();
 
 /** 依赖于绑定状态的卡片名字列表 */
+// TODO: 移动到 useHomeCardStore 中
 const validList = computed(() => {
   // 先根据绑定状态筛选出名字列表
-  const valid = (Object.entries(homeCards) as Array<[HomeCardName, any]>)
-    .filter(item => checkBind[`${item[1].require}`].value)
-    .map(item => item[0]);
+  const validNames = Object.values(homeCards)
+    .filter(item => canAccess(item.require))
+    .map(item => item.name);
 
   // 删除缓存中已选，但是未绑定的卡片
-  const selectedInStore = [...serviceStore.homecard.selected];
-  selectedInStore.forEach(item => {
-    const toDelete = valid.find(validItem => item === validItem);
+  homeCardStore.namesOfSelected.forEach(item => {
+    const toDelete = validNames.find(name => item === name);
     if (toDelete === undefined) {
-      store.commit("removeHomeCardItem", item);
+      homeCardStore.remove(item);
     }
   });
 
-  return valid;
-});
-
-const selectedList = computed(() => {
-  if (serviceStore.homecard.selected.length === 0 && serviceStore.homecard.initialization) {
-    store.commit("addHomeCardItem", "lessons-table-quick-view");
-    serviceStore.homecard.initialization = false;
-  }
-
-  const list = serviceStore.homecard.selected;
-  return list.filter(item => homeCards[item]).map(item => homeCards[item]);
+  return validNames;
 });
 
 const props = defineProps<{
@@ -55,7 +48,7 @@ watch(show, () => {
 /** 未选择的卡片名字列表，使用差集运算得到 */
 const unselectedList = computed(() => {
   const list = [...validList.value];
-  serviceStore.homecard.selected.forEach((name => {
+  homeCardStore.namesOfSelected.forEach((name => {
     const toDelete = list.findIndex(item => item === name);
     list.splice(toDelete, 1);
   }));
@@ -63,11 +56,11 @@ const unselectedList = computed(() => {
 });
 
 const handleAddItem = (value: HomeCardName) => {
-  store.commit("addHomeCardItem", value);
+  homeCardStore.add(value);
 };
 
 const handleRemoveItem = (value: HomeCardName) => {
-  store.commit("removeHomeCardItem", value);
+  homeCardStore.remove(value);
 };
 
 const handleClose = () => {
@@ -85,7 +78,7 @@ const handleClose = () => {
         </view>
         <view :class="[styles.content, styles.selected]">
           <view
-            v-for="item in selectedList"
+            v-for="item in homeCardStore.selected"
             :key="item.name"
             :class="styles.item"
             @tap="handleRemoveItem(item.name)"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Fragment, computed, h, ref } from "vue";
+import { Fragment, VNode, computed, h, ref } from "vue";
 import { helpText } from "@/constants/copywriting";
-import { serviceStore } from "@/store";
 import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
 import ExamQuickView from "../ExamQuickView/index.vue";
 import SchoolCardQuickView from "../SchoolCardQuickView/index.vue";
@@ -9,64 +8,46 @@ import ScoreQuickView from "../ScoreQuickView/index.vue";
 import LibraryQuickView from "../LibraryQuickView/index.vue";
 import WModal from "../Modal/index.vue";
 import ElectricityQuickView from "../ElectricityQuickView/index.vue";
+import useHomeCardStore from "@/store/service/homecard";
+import useBinding from "@/hooks/useBinding";
+import { HomeCardName, homeCards } from "@/constants/homeCards";
 
 const helpContent = ref<string | undefined>(undefined);
 const isShowHelp = ref(false);
+const homeCardStore = useHomeCardStore();
+const { canAccess } = useBinding();
 
 const cards = () => h(
   Fragment,
-  serviceStore.homecard.selected
-    .map(item => cardsMap.value[item])
+  homeCardStore.namesOfSelected
+    .map(item => cardNameComponentMap.value[item])
     .filter(item => item !== null)
 );
 
-const isBindZf = computed(() => {
-  // 之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
-  // 原来的代码是 return (serviceStore.user.isBindZF);
-  return (serviceStore.user.isBindZF || serviceStore.user.isBindOauth);
-});
-const isBindLibrary = computed(() => {
-  return serviceStore.user.isBindLibrary;
-});
-const isBindYxy = computed(() => {
-  return serviceStore.user.isBindYXY;
+const cardNameComponentMap = computed(() => {
+  const map: Record<HomeCardName, any> = {
+    "lessons-table-quick-view": LessonsTableQuickView,
+    "exam-quick-view": ExamQuickView,
+    "school-card-quick-view": SchoolCardQuickView,
+    "score-quick-view": ScoreQuickView,
+    "library-quick-view": LibraryQuickView,
+    "electricity-quick-view": ElectricityQuickView
+  };
+
+  return Object.keys(map).reduce((prev, curr: HomeCardName) => {
+    prev[curr] = canAccess(homeCards[curr].require)
+      ? h(map[curr], { "onShowHelp": () => showHelp(curr) })
+      : null;
+    return prev;
+  }, {} as Record<HomeCardName, VNode | null>);
 });
 
-const cardsMap = computed(() => ({
-  "lessons-table-quick-view": isBindZf.value ? h(
-    LessonsTableQuickView, {
-      "onShowHelp": () => showHelp("lessons-table")
-    }
-  ) : null,
-  "exam-quick-view": isBindZf.value ? h(
-    ExamQuickView, {
-      "onShowHelp": () => showHelp("exam-card")
-    }
-  ) : null,
-  "school-card-quick-view": isBindYxy.value ? h(
-    SchoolCardQuickView, {
-      "onShowHelp": () => showHelp("school-card")
-    }
-  ) : null,
-  "score-quick-view": isBindZf.value ? h(
-    ScoreQuickView, {
-      "onShowHelp": () => showHelp("score-card")
-    }
-  ) : null,
-  "library-quick-view": isBindLibrary.value ? h(
-    LibraryQuickView
-  ) : null,
-  "electricity-quick-view": isBindYxy.value ? h(
-    ElectricityQuickView
-  ) : null
-}));
-
-function showHelp(prop: string) {
+function showHelp(prop: HomeCardName) {
   isShowHelp.value = true;
-  if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
-  else if (prop === "score-card") helpContent.value = helpText.scoreCard;
-  else if (prop === "school-card") helpContent.value = helpText.schoolCard;
-  else if (prop === "exam-card") helpContent.value = helpText.examCard;
+  if (prop === "lessons-table-quick-view") helpContent.value = helpText.lessonsTable;
+  else if (prop === "score-quick-view") helpContent.value = helpText.scoreCard;
+  else if (prop === "school-card-quick-view") helpContent.value = helpText.schoolCard;
+  else if (prop === "exam-quick-view") helpContent.value = helpText.examCard;
 }
 
 </script>
