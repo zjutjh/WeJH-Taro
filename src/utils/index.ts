@@ -10,6 +10,7 @@ import { debounce } from "./debounce";
 import request from "./request/requestImpl";
 import RequestError, { ServiceErrorCode, MPErrorCode } from "./request/requestError";
 import CookieUtils from "./request/cookie";
+import { persistedStorage } from "./storage";
 
 export {
   ICookie,
@@ -26,5 +27,6 @@ export {
   ServiceErrorCode,
   MPErrorCode,
   RequestError,
-  CookieUtils
+  CookieUtils,
+  persistedStorage
 };

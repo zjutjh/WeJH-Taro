@@ -117,53 +117,45 @@ export default class UserService {
     );
   }
 
-  static async createUserApp(userForm: {
+  /** 小程序端激活账号 */
+  static async createStudentInMP(params: {
     username: string;
     password: string;
     studentID: string;
     idCardNumber: string;
     email?: string;
-    code?: string;
   }) {
-    // comment: 获取表单信息之后再获得微信认证
-    if (!userForm.code) {
-      const res = await Taro.login({ timeout: 3000 });
-      if (res.code) userForm.code = res.code;
-      else return false;
-    }
-
-    // /api/user/create/student/wechat
-    const res = await fetch.post(api.user.create.wechat, userForm);
-    if (res.statusCode === 200 && res.data.code === ServerCode.OK) {
-      if (res.cookies && res.cookies.length > 0) {
-        serviceStore.setSession(res.cookies[0]);
-        UserService.getUserInfo();
+    try {
+      const { code, errMsg } = await Taro.login({ timeout: 3000 });
+      if (!code) {
+        console.error(new Error(errMsg));
+        return Promise.reject(
+          new RequestError(errMsg, MPErrorCode.MP_LOGIN_ERROR_MISSING_WX_CODE)
+        );
       }
-      return true;
-    }
-    Taro.hideLoading();
-    await errCodeHandler(res.data.code, true);
-
-    return false;
-  }
-
-  // DISPOSED
-  // /api/user/create/student
-  static async createUserH5(userForm: {
-    username: string;
-    password: string;
-    studentID: string;
-    idCardNumber: string;
-  }) {
-    const res = await fetch.post(api.user.create.h5, userForm);
-    if (res.statusCode === 200) {
-      if (res.cookies && res.cookies.length > 0) {
-        serviceStore.setSession(res.cookies[0]);
-        UserService.getUserInfo();
+      const taroWrapped = await Taro.request({
+        url: import.meta.env.VITE_HOST + api.user.create.wechat,
+        data: { ...params, code },
+        method: "POST"
+      });
+      const { data: realResponse, cookies } = taroWrapped;
+      if (realResponse && realResponse.code === ServiceErrorCode.OK) {
+        if (cookies && cookies.length > 0) {
+          const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
+          CookieUtils.set(cookie);
+        }
+        return Promise.reject(
+          new RequestError("用户激活失败", MPErrorCode.MP_ACTIVATE_ERROR_MISSING_COOKIE)
+        );
       }
-      return true;
+      throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
+    } catch (e) {
+      console.error(e);
+      if (e instanceof RequestError) {
+        // TODO: if (e.code === )
+        throw e;
+      }
+      throw new RequestError("小程序网络异常", MPErrorCode.MP_LOGIN_ERROR_UNKNOWN);
     }
-
-    return false;
   }
 }

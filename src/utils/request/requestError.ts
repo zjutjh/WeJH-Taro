@@ -5,8 +5,10 @@ export const MPErrorCode = {
   MP_INVALID_RESPONSE_BODY: Symbol("MP_INVALID_RESPONSE_BODY"),
   /** 微信登录流程中缺失 code */
   MP_LOGIN_ERROR_MISSING_WX_CODE: Symbol("MP_LOGIN_ERROR_MISSING_WX_CODE"),
-  /** 服务端登录流程中缺失 Cookie */
+  /** 服务端激活流程中缺失 Cookie */
   MP_LOGIN_ERROR_MISSING_COOKIE: Symbol("MP_LOGIN_ERROR_MISSING_COOKIE"),
+  /** 服务端登录流程中缺失 Cookie */
+  MP_ACTIVATE_ERROR_MISSING_COOKIE: Symbol("MP_ACTIVATE_ERROR_MISSING_COOKIE"),
   /** 未知登录异常 */
   MP_LOGIN_ERROR_UNKNOWN: Symbol("MP_LOGIN_ERROR_UNKNOWN")
 };
