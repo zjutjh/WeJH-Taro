@@ -47,12 +47,6 @@ importers:
       vue:
         specifier: ^3.0.0
         version: 3.5.11(typescript@5.6.3)
-      vuex:
-        specifier: ^4.0.0
-        version: 4.1.0(vue@3.5.11(typescript@5.6.3))
-      vuex-persistedstate:
-        specifier: ^4.1.0
-        version: 4.1.0(vuex@4.1.0(vue@3.5.11(typescript@5.6.3)))
     devDependencies:
       '@babel/core':
         specifier: ^7.24.4
@@ -69,6 +63,9 @@ importers:
       '@tarojs/vite-runner':
         specifier: 4.0.6
         version: 4.0.6(@tarojs/runtime@4.0.6)(jiti@2.3.3)(postcss@8.4.47)(rollup@3.29.5)(terser@5.34.1)(typescript@5.6.3)(vite@4.5.5(@types/node@22.7.5)(less@4.2.0)(lightningcss@1.27.0)(sass@1.79.5)(stylus@0.55.0)(terser@5.34.1))
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
       '@vitejs/plugin-vue':
         specifier: ^5.0.4
         version: 5.1.4(vite@4.5.5(@types/node@22.7.5)(less@4.2.0)(lightningcss@1.27.0)(sass@1.79.5)(stylus@0.55.0)(terser@5.34.1))(vue@3.5.11(typescript@5.6.3))
@@ -1908,6 +1905,9 @@ packages:
   '@types/keyv@3.1.4':
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
 
+  '@types/lodash-es@4.17.12':
+    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+
   '@types/lodash.debounce@4.0.9':
     resolution: {integrity: sha512-Ma5JcgTREwpLRwMM+XwBR7DaWe96nC38uCBDFKZWbNKD+osjVzdpnUSwBcqCptrp16sSOLBAUb50Car5I0TCsQ==}
 
@@ -2845,10 +2845,6 @@ packages:
 
   deepmerge@1.5.2:
     resolution: {integrity: sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ==}
-    engines: {node: '>=0.10.0'}
-
-  deepmerge@4.3.1:
-    resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
 
   default-gateway@6.0.3:
@@ -5183,10 +5179,6 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  shvl@2.0.3:
-    resolution: {integrity: sha512-V7C6S9Hlol6SzOJPnQ7qzOVEWUQImt3BNmmzh40wObhla3XOYMe4gGiYzLrJd5TFa+cI2f9LKIRJTTKZSTbWgw==}
-    deprecated: older versions vulnerable to prototype pollution
-
   side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
     engines: {node: '>= 0.4'}
@@ -5761,17 +5753,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  vuex-persistedstate@4.1.0:
-    resolution: {integrity: sha512-3SkEj4NqwM69ikJdFVw6gObeB0NHyspRYMYkR/EbhR0hbvAKyR5gksVhtAfY1UYuWUOCCA0QNGwv9pOwdj+XUQ==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    peerDependencies:
-      vuex: ^3.0 || ^4.0.0-rc
-
-  vuex@4.1.0:
-    resolution: {integrity: sha512-hmV6UerDrPcgbSy9ORAtNXDr9M4wlNP4pEFKye4ujJF8oqgFFuxDCdOLS3eNoRTtq5O3hoBDh9Doj1bQMYHRbQ==}
-    peerDependencies:
-      vue: ^3.2.0
 
   watchpack@2.4.2:
     resolution: {integrity: sha512-TnbFSbcOCcDgjZ4piURLCbJ3nJhznVh9kw6F6iokjiFPl8ONxe9A6nMDVXDiNbrSfLILs6vB07F7wLBrwPYzJw==}
@@ -7877,6 +7858,10 @@ snapshots:
     dependencies:
       '@types/node': 22.7.5
 
+  '@types/lodash-es@4.17.12':
+    dependencies:
+      '@types/lodash': 4.17.10
+
   '@types/lodash.debounce@4.0.9':
     dependencies:
       '@types/lodash': 4.17.10
@@ -9045,8 +9030,6 @@ snapshots:
 
   deepmerge@1.5.2:
     optional: true
-
-  deepmerge@4.3.1: {}
 
   default-gateway@6.0.3:
     dependencies:
@@ -11715,8 +11698,6 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
-  shvl@2.0.3: {}
-
   side-channel@1.0.6:
     dependencies:
       call-bind: 1.0.7
@@ -12393,17 +12374,6 @@ snapshots:
       '@vue/shared': 3.5.11
     optionalDependencies:
       typescript: 5.6.3
-
-  vuex-persistedstate@4.1.0(vuex@4.1.0(vue@3.5.11(typescript@5.6.3))):
-    dependencies:
-      deepmerge: 4.3.1
-      shvl: 2.0.3
-      vuex: 4.1.0(vue@3.5.11(typescript@5.6.3))
-
-  vuex@4.1.0(vue@3.5.11(typescript@5.6.3)):
-    dependencies:
-      '@vue/devtools-api': 6.6.4
-      vue: 3.5.11(typescript@5.6.3)
 
   watchpack@2.4.2:
     dependencies:
