@@ -1,10 +1,9 @@
-import request from "../request";
 import { api } from "../api/apiList";
-import { serviceStore } from "@/store";
 import type { LostfoundRecord } from "@/types/Lostfound";
+import { request } from "@/utils";
 
 export default class LostfoundService {
-  static getRecords = (data: {
+  static getRecords = (params: {
     campus?: string,
     kind?: string,
     page_num: number,
@@ -14,24 +13,13 @@ export default class LostfoundService {
     return request<{
       data: LostfoundRecord[],
       total_page_num: number
-    }>(
-      api.lostfound.record, {
-        method: "GET",
-        header: { "Cookie": serviceStore.sessionID },
-        data
-      }
-    );
+    }>(api.lostfound.record, { params });
   };
 
   static getKindList = () => {
     return request<{
       id: number,
       kind_name: string;
-    }[]>(
-      api.lostfound.kind, {
-        method: "GET",
-        header: { "Cookie": serviceStore.sessionID }
-      }
-    );
+    }[]>(api.lostfound.kind);
   };
 }
