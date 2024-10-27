@@ -3,7 +3,7 @@
     <title-bar title="课程表" back-button />
     <view class="table-wrapper">
       <lessons-table
-        :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
+        :lessons="!showWeekPicker ? lessonsOfSelectedTerm : lessonsTableWeek"
         :is-this-week="isThisWeek"
         @class-click="classClick"
       />
@@ -13,7 +13,7 @@
       <view class="col">
         <refresh-button
           v-if="showWeekPicker && isThisWeek"
-          :is-refreshing="isRefreshing"
+          :is-refreshing="lessonTableStore.loading"
           @refresh="refresh"
         />
         <w-button
@@ -69,7 +69,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
 import {
   BottomPanel,
   LessonsTable,
@@ -82,31 +81,39 @@ import {
   WeekPicker
 } from "@/components";
 import { Lesson } from "@/types/Lesson";
-import { ZFService } from "@/services";
 import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
+import { storeToRefs } from "pinia";
+import useGeneralInfoStore from "@/store/system/generalInfo";
+import useLessonTableStore from "@/store/service/lessonTable";
+import useBinding from "@/hooks/useBinding";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
+const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+const lessonTableStore = useLessonTableStore();
+const { canAccess } = useBinding();
 
 // 本学期
 const originTerm = {
-  year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.term
+  year: generalInfo.value.termYear,
+  term: generalInfo.value.term
 };
 const selectTerm = ref(originTerm);
 
 // 本周
-const originWeek = Math.max(systemStore.generalInfo.week, 0);
+const originWeek = Math.max(generalInfo.value.week, 0);
 const selectWeek = ref(originWeek);
 
-const lessonsTableData = computed(() => {
-  return ZFService.getLessonTable(selectTerm.value) || [];
+const lessonsOfSelectedTerm = computed(() => {
+  return lessonTableStore.collections.find(term => {
+    return term.year === selectTerm.value.year && term.term === selectTerm.value.term;
+  })?.lessons || [];
 });
 
 const lessonsTableWeek = computed(() => {
-  return lessonsTableData.value.filter((item) => {
+  return lessonsOfSelectedTerm.value.filter((item) => {
     for (const time of item.week.split(",")) {
       if (time.includes("-")) {
         const start = parseInt(time.split("-")[0]);
@@ -128,13 +135,10 @@ const isThisWeek = computed(() => {
           JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
   );
 });
-const isRefreshing = ref(false);
 
-async function refresh() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  await ZFService.updateLessonTable(selectTerm.value);
-  isRefreshing.value = false;
+function refresh() {
+  if (lessonTableStore.loading) return;
+  lessonTableStore.fetchLessonTable(selectTerm.value);
 }
 
 const detailTimeInterval = computed(() => {
@@ -153,17 +157,9 @@ const detailTimeInterval = computed(() => {
 });
 
 async function termChanged(e) {
-  isRefreshing.value = true;
   selectTerm.value = e;
-  await ZFService.updateLessonTable(e);
-  isRefreshing.value = false;
+  lessonTableStore.fetchLessonTable(e);
 }
-
-onMounted(async () => {
-  if (serviceStore.user.isBindZF) {
-    await refresh();
-  }
-});
 
 const showWeekPicker = ref(true);
 function pickerModeSwitch() {
