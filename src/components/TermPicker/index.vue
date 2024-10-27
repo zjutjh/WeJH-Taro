@@ -18,21 +18,22 @@
 <script setup lang="ts">
 import WButton from "../Button/index.vue";
 import { computed, reactive, ref } from "vue";
-import { systemStore } from "@/store";
+import useGeneralInfoStore from "@/store/system/generalInfo";
+import { storeToRefs } from "pinia";
 
 interface PropsType {
   year: string;
   term: "上" | "下" | "短";
   period?: "期中" | "期末";
+  // TODO: 这是干啥的？
   selectflag: number; // flag为0表示学年、学期 ； 为1表示学年、学期、期中期末
 }
 const props = defineProps<PropsType>();
+const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
 
 const emit = defineEmits(["changed"]);
 
-const termYear = systemStore?.generalInfo?.termYear
-  ? parseInt(systemStore?.generalInfo?.termYear)
-  : new Date().getFullYear();
+const termYear = +generalInfo.value.termYear;
 
 const selectorArr = [
   [["上", "下", "短"]],
