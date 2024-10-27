@@ -7,10 +7,7 @@
     @change="onChange"
   >
     <w-button class="term-selector">
-      <view
-        class="picker"
-        :v-if="props.selectflag === 1"
-      >
+      <view class="picker">
         {{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}
         ({{ selectorChecked[1] }}) {{ selectorChecked[2] }}
       </view>
