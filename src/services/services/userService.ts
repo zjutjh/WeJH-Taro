@@ -1,16 +1,12 @@
 import Taro from "@tarojs/taro";
 import { request, RequestError, MPErrorCode, ServiceErrorCode, CookieUtils } from "@/utils";
 import { api } from "@/services";
+import { Theme } from "@/store/service/theme";
 
 export default class UserService {
   static getUserTheme = () => {
     return request<{
-      theme_list: {
-        id?: number;
-        name?: string;
-        theme_config?: string;
-        type: string;
-      }[];
+      theme_list: Theme[];
       current_theme_id: number;
     }>(api.user.theme.get);
   };
