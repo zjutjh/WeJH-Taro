@@ -1,5 +1,4 @@
-import { useUserStore } from "@/store";
-import { BindStateType } from "@/store/service/user";
+import useUserStore, { BindStateType } from "@/store/service/user";
 import { computed } from "vue";
 
 export const PermissionAtom: Record<keyof BindStateType, number> = {

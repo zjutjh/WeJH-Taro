@@ -55,12 +55,12 @@ import AppList from "../AppList/index.vue";
 import PopView from "../PopView/index.vue";
 import BottomPanel from "../BottomPanel/index.vue";
 import { WBadge } from "..";
-import { useUserStore } from "@/store";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import useNewFeatureStore from "@/store/service/newFeature";
 import useThemeStore from "@/store/service/theme";
+import useUserStore from "@/store/service/user";
 
 const themeStore = useThemeStore();
 const userStore = useUserStore();

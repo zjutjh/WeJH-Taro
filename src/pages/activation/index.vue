@@ -128,7 +128,7 @@ import "./index.scss";
 import { helpText } from "@/constants/copywriting";
 import { computed, ref } from "vue";
 import { RequestError } from "@/utils";
-import { useUserStore } from "@/store";
+import useUserStore from "@/store/service/user";
 
 const studentid = ref<string | undefined>(undefined);
 const password = ref<string | undefined>(undefined);

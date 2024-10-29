@@ -65,7 +65,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "@/store";
 import Card from "../Card/index.vue";
 import TitleBar from "../TitleBar/index.vue";
 import WList from "../List/List.vue";
@@ -77,6 +76,7 @@ import { computed, onMounted } from "vue";
 import "./index.scss";
 import { storeToRefs } from "pinia";
 import useNewFeatureStore from "@/store/service/newFeature";
+import useUserStore from "@/store/service/user";
 
 const userStore = useUserStore();
 const newFeatureStore = useNewFeatureStore();

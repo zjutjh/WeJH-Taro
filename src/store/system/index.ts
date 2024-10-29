@@ -6,6 +6,7 @@ export interface SystemStoreType {
   loading: boolean;
 }
 
+// TODO: extract global loading
 export const useSystemStore = defineStore("system", () => {
   const loading = ref(false);
 

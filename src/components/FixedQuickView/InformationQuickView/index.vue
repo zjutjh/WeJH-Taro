@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import Taro from "@tarojs/taro";
-import { useNotificationStore } from "@/store";
 import { storeToRefs } from "pinia";
+import useNotificationStore from "@/store/service/notification";
 
 const { announcement, information } = storeToRefs(useNotificationStore());
 

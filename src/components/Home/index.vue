@@ -66,7 +66,9 @@ import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
-import { useNotificationStore, useQuestionnaireStore, useUserStore } from "@/store";
+import useUserStore from "@/store/service/user";
+import useQuestionnaireStore from "@/store/service/questionnaire";
+import useNotificationStore from "@/store/service/notification";
 
 const userStore = useUserStore();
 const questionnaireStore = useQuestionnaireStore();
