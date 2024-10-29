@@ -107,7 +107,7 @@ type UseRequestOptions<Data, Params> = {
   minLoadingTime?: number;
   /** 在执行 Promise 前，将 `data` 重置为 `initialData`，默认为 false */
   resetOnRun?: boolean;
-  onSuccess?: (data: Data) => void;
+  onSuccess?: (data: Data, params: Params | undefined) => void;
   onError?: (error: unknown) => void;
 };
 
@@ -148,13 +148,14 @@ export function useRequestNext<State, Params extends Record<string, any>>(
     const [promiseResult] = await delayedPromise;
     if (promiseResult.status === "fulfilled") {
       data.value = promiseResult.value;
-      onSuccess?.(promiseResult.value);
+      onSuccess?.(promiseResult.value, params ?? defaultParams);
     } else {
       error.value = promiseResult.reason;
       onError?.(promiseResult.reason);
     }
 
     loading.value = false;
+    return data.value;
   };
 
   if (!manual) run();
