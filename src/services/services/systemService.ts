@@ -21,6 +21,7 @@ export default class SystemService {
     return request<Information[]>(api.information);
   };
 
+  // TODO: 从配置平台中获取，包括 app list item 的 require 属性
   static getAppList(): Promise<AppListItem[]> {
     return request(api.applist, { method: "POST", auth: false });
   }
