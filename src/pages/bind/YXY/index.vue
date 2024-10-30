@@ -4,8 +4,13 @@ import { helpText } from "@/constants/copywriting";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { onMounted, ref } from "vue";
-import { useRequest } from "@/hooks";
-import store, { serviceStore } from "@/store";
+import { useRequestNext } from "@/hooks";
+import { RequestError } from "@/utils";
+import useUserStore from "@/store/service/user";
+import useHomeCardStore from "@/store/service/homecard";
+
+const { updateBindState } = useUserStore();
+const homeCardStore = useHomeCardStore();
 
 const phoneNumber = ref("");
 const graphCode = ref("");
@@ -13,6 +18,7 @@ const phoneCode = ref("");
 
 const helpContent = helpText.bind.yxy;
 const isShowHelp = ref(false);
+// TODO: 抽离倒计时逻辑到 Hook
 const timeCounter = ref(0);
 
 //  获取图形验证码
@@ -21,19 +27,22 @@ const {
   data: imageResponse,
   loading: imageLoading,
   error: imageError
-} = useRequest(YxyService.getGraph, {
+} = useRequestNext(YxyService.getGraph, {
+  initialData: "",
   manual: true
 });
 
-const {
-  run: sendGraphAuthCodeAPI
-} = useRequest(YxyService.sendGraphAuthCode, {
-  manual: true,
-  onSuccess: (res) => {
-    if (res.data.code !== 1) {
-      Taro.showToast({ title: res.data.msg, icon: "none" });
-      getGraphAPI();
-    } else {
+/**
+ * 验证图形验证码，同时获取手机验证码
+ */
+const handleSendGraphCode = async () => {
+  if (timeCounter.value > 0) return;
+  if (graphCode.value.length && phoneNumber.value.length) {
+    try {
+      await YxyService.sendGraphAuthCode({
+        captcha: graphCode.value,
+        phoneNum: phoneNumber.value
+      });
       Taro.showToast({ title: "已发送验证码", icon: "success" });
       getGraphAPI();
       graphCode.value = "";
@@ -43,65 +52,41 @@ const {
         if (timeCounter.value === 0)
           clearInterval(timer);
       }, 1000);
-    }
-  }
-});
-
-const { run: loginYxyAPI } = useRequest(YxyService.loginYxy, {
-  manual: true,
-  onBefore: () => {
-    Taro.showLoading({
-      title: "正在绑定",
-      mask: true
-    });
-  },
-  onSuccess: (res) => {
-    Taro.hideLoading();
-    if (res.data.code !== 1) {
-      Taro.showToast({ icon: "none", title: res.data.msg });
-    } else {
-      Taro.showToast({ icon: "success", title: "绑定成功" });
-      if (!serviceStore.homecard.selected.includes("school-card-quick-view")) {
-        store.commit("addHomeCardItem", "school-card-quick-view");
+    } catch (e) {
+      if (e instanceof RequestError) {
+        Taro.showToast({ title: e.message, icon: "none" });
+        getGraphAPI(); // 验证失败，刷新验证码图片
       }
-      store.commit("setBindYXY", true);
     }
-  },
-  onError: () => {
-    Taro.hideLoading();
-  }
-});
-
-/**
- * 验证图形验证码，同时获取手机验证码
- */
-const handleSendGraphCode = () => {
-  if (timeCounter.value > 0) return;
-  if (graphCode.value.length && phoneNumber.value.length)
-    sendGraphAuthCodeAPI({
-      captcha: graphCode.value,
-      phoneNum: phoneNumber.value
-    });
-  else {
+  } else {
     Taro.showToast({ icon: "none", title: "请输入手机号和图形验证码" });
   }
 };
 
-const handleLoginYXY = () => {
-  if (phoneCode.value.length && phoneNumber.value.length) {
-    loginYxyAPI({
-      phoneNum: phoneNumber.value,
-      code: phoneCode.value
-    });
-  } else {
+const handleBind = async () => {
+  if (!phoneCode.value.length || phoneNumber.value.length) {
     Taro.showToast({ icon: "none", title: "请输入手机号和手机验证码" });
+    return;
+  }
+  Taro.showLoading({ title: "正在绑定", mask: true });
+  try {
+    await YxyService.loginYxy({ phoneNum: phoneNumber.value, code: phoneCode.value });
+    Taro.showToast({ icon: "success", title: "绑定成功" });
+    // TODO: 查电费卡片不用加？
+    homeCardStore.add("school-card-quick-view");
+    updateBindState("yxy", true);
+  } catch (e) {
+    if (e instanceof RequestError) {
+      Taro.showToast({ icon: "none", title: e.message });
+    }
   }
 };
 
 const handleClickTutorial = () => {
-  store.commit("setTempUrl", {
-    url: "https://mp.weixin.qq.com/s/uFdF37XSznzPMOe_IfjrEQ"
-  });
+  // TODO: encode url
+  // store.commit("setTempUrl", {
+  // url: "https://mp.weixin.qq.com/s/uFdF37XSznzPMOe_IfjrEQ"
+  // });
   Taro.navigateTo({
     url: "/pages/webview/index"
   });
@@ -139,15 +124,15 @@ onMounted(() => {
         加载中...
       </view>
       <view
-        v-else-if="imageError || imageResponse?.data === ''"
+        v-else-if="imageError || imageResponse === ''"
         style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
         @tap="getGraphAPI"
       >
         点击重试
       </view>
       <image
-        v-else-if="imageResponse?.data"
-        :src="imageResponse.data.replace(/[\r\n]/g, '')"
+        v-else-if="imageResponse"
+        :src="imageResponse.replace(/[\r\n]/g, '')"
         style="width: 160rpx; height: 60rpx"
         @tap="getGraphAPI"
       />
@@ -179,7 +164,7 @@ onMounted(() => {
         >
           🔗 如何绑定
         </text>
-        <w-button block @tap="handleLoginYXY">
+        <w-button block @tap="handleBind">
           确认绑定
         </w-button>
       </view>

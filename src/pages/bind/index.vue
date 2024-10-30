@@ -4,33 +4,33 @@
     <scroll-view :scroll-y="true">
       <view class="flex-column">
         <card title="信息绑定">
-          <w-list class="bind-list" :class="{ binded: user.isBindZF }">
+          <w-list class="bind-list" :class="{ binded: bindState.zf }">
             <w-list-item
-              :extra="user.isBindZF ? '已绑定' : '未绑定'"
+              :extra="bindState.zf ? '已绑定' : '未绑定'"
               arrow="down"
               @tap="renderForm('zf')"
             >
               正方教务系统
             </w-list-item>
           </w-list>
-          <w-list class="bind-list" :class="{ binded: user.isBindOauth }">
+          <w-list class="bind-list" :class="{ binded: bindState.oauth }">
             <w-list-item
-              :extra="user.isBindOauth ? '已绑定' : '未绑定'"
-              :class="{ binded: user.isBindOauth }"
+              :extra="bindState.oauth ? '已绑定' : '未绑定'"
+              :class="{ binded: bindState.oauth }"
               arrow="down"
               @tap="renderForm('oauth')"
             >
               统一验证系统
             </w-list-item>
           </w-list>
-          <w-list class="bind-list" :class="[{ binded: user.isBindLibrary }]">
-            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down">
+          <w-list class="bind-list" :class="[{ binded: bindState.lib }]">
+            <w-list-item :extra="bindState.lib ? '已绑定' : '未绑定'" arrow="down">
               图书馆账号(暂不可用)
             </w-list-item>
           </w-list>
-          <w-list class="bind-list" :class="[{ binded: user.isBindYXY }]">
+          <w-list class="bind-list" :class="[{ binded:bindState.yxy }]">
             <w-list-item
-              :extra="user.isBindYXY ? '已绑定' : '未绑定'"
+              :extra="bindState.yxy ? '已绑定' : '未绑定'"
               arrow="down"
               @tap="renderForm('yxy')"
             >
@@ -56,27 +56,24 @@ import Library from "./Library/index.vue";
 import ZF from "./ZF/index.vue";
 import YXY from "./YXY/index.vue";
 import Oauth from "./Oauth/index.vue";
-import { UserService } from "@/services";
-import store, { serviceStore } from "@/store";
 import "./index.scss";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { getCurrentInstance } from "@tarojs/taro";
+import useUserStore from "@/store/service/user";
+import useNewFeatureStore from "@/store/service/newFeature";
+import { storeToRefs } from "pinia";
+
+// TODO: 图书馆账号不可用，标题动态化
 
 const bindTab = ref<string | undefined>(undefined);
-
-const user = computed(() => serviceStore.user);
+const { bindState } = storeToRefs(useUserStore());
+const newFeatureStore = useNewFeatureStore();
 
 onMounted(() => {
-  getUserBindInfo();
   expandDefault();
-  store.commit("updateNotification", { my: { bind: null } });
+  if (newFeatureStore.tree.my !== null && typeof newFeatureStore.tree.my !== "string")
+    newFeatureStore.tree.my.bind = null;
 });
-
-async function getUserBindInfo() {
-  store.commit("startLoading");
-  await UserService.getUserInfo();
-  store.commit("stopLoading");
-}
 
 /**
  * 根据路由展开默认的绑定面板
