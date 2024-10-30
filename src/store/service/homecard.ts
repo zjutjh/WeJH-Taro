@@ -7,12 +7,13 @@ import { computed, ref } from "vue";
 const defaultHomeCard: HomeCardName[] = ["lessons-table-quick-view", "score-quick-view"];
 
 const useHomeCardStore = defineStore("homeCard", () => {
-  // TODO: 没有赋值上去
+  // TODO: 使用 useFirstStartup Hook 来解决绑定态和删除未绑定的默认卡片执行时机的问题
   const namesOfSelected = ref(defaultHomeCard);
   const initialization = ref(true);
 
   function add(value: HomeCardName) {
-    namesOfSelected.value.push(value);
+    if (!namesOfSelected.value.includes(value))
+      namesOfSelected.value.push(value);
   }
 
   function remove(value: HomeCardName) {
