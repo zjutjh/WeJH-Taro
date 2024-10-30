@@ -33,14 +33,9 @@ const useNewFeatureStore = defineStore("newFeature", () => {
     my: childrenHasUnreadItem(tree.value.my)
   }));
 
-  function muteFeature(fn: (node: FeatureNode) => void) {
-    fn(tree.value);
-  }
-
   return {
     tree,
-    newFeatureInTab,
-    muteFeature
+    newFeatureInTab
   };
 }, {
   persist: {
