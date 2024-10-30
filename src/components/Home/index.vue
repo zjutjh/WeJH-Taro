@@ -43,9 +43,9 @@
           激活
         </w-button>
       </card>
-      <card v-show="registerTips" title="新生提醒">
+      <card v-show="generalInfoStore.info.registerTips" title="新生提醒">
         <text style="font-size:14.5px">
-          {{ registerTips }}
+          {{ generalInfoStore.info.registerTips }}
         </text>
       </card>
     </view>
@@ -54,14 +54,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { computed, ref } from "vue";
 import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
 import Card from "../Card/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
 import Taro from "@tarojs/taro";
-import { SystemService } from "@/services";
 import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
@@ -69,14 +68,13 @@ import styles from "./index.module.scss";
 import useUserStore from "@/store/service/user";
 import useQuestionnaireStore from "@/store/service/questionnaire";
 import useNotificationStore from "@/store/service/notification";
+import useGeneralInfoStore from "@/store/system/generalInfo";
 
 const userStore = useUserStore();
 const questionnaireStore = useQuestionnaireStore();
 const notificationStore = useNotificationStore();
+const generalInfoStore = useGeneralInfoStore();
 const isShowEditPanel = ref(false);
-const registerTips = ref<string>("");
-
-userStore.getUserData();
 
 const bindZeroServices = computed(() => {
   const bindStateArray = Object.values(userStore.bindState);
@@ -87,12 +85,6 @@ const bindZeroServices = computed(() => {
 const showEditPanel = () => {
   isShowEditPanel.value = true;
 };
-
-onMounted(() => {
-  SystemService.getGeneralInfo().then(res => {
-    registerTips.value = res.registerTips;
-  });
-});
 
 function nav2activation() {
   Taro.navigateTo({
