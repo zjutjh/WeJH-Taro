@@ -35,7 +35,8 @@ const useAppListStore = defineStore("appList", () => {
   }));
 
   return {
-    list
+    list,
+    rawList
   };
 }, {
   persist: {
