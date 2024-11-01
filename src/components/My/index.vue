@@ -72,7 +72,7 @@ import WListItem from "../List/ListItem.vue";
 import WButton from "../Button/index.vue";
 import WBadge from "../Badge/index.vue";
 import Taro from "@tarojs/taro";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import "./index.scss";
 import { storeToRefs } from "pinia";
 import useNewFeatureStore from "@/store/service/newFeature";
@@ -80,7 +80,7 @@ import useUserStore from "@/store/service/user";
 
 const userStore = useUserStore();
 const newFeatureStore = useNewFeatureStore();
-const { getWXProfile, getUserData } = userStore;
+const { getWXProfile } = userStore;
 const { isActive, wxProfile, info: userInfo } = storeToRefs(userStore);
 
 const options = computed(() => {
@@ -113,9 +113,5 @@ function nav2url(url: string | undefined) {
       url: url
     });
 }
-
-onMounted(() => {
-  if (isActive && !userInfo) getUserData();
-});
 
 </script>

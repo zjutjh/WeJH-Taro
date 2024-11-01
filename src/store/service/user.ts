@@ -1,3 +1,4 @@
+import { useRequestNext } from "@/hooks";
 import { UserService } from "@/services";
 import { RequestError, persistedStorage } from "@/utils";
 import Taro from "@tarojs/taro";
@@ -37,18 +38,21 @@ const useUserStore = defineStore("user", () => {
   const wxProfile = ref<WXProfileType>();
   const isActive = ref(false);
 
-  async function getUserData() {
-    try {
-      const data = await UserService.getUserInfo();
-      info.value = omit(data.user, "bind");
-      bindState.value = data.user.bind;
-      isActive.value = true;
-    } catch (e) {
-      if (e instanceof RequestError) {
-        Taro.showToast({ title: `获取用户信息失败 ${e.message}`, icon: "none" });
+  const { loading, run: getUserData } = useRequestNext(
+    UserService.getUserInfo, {
+      initialData: undefined,
+      onSuccess: (res) => {
+        info.value = omit(res!.user, "bind");
+        bindState.value = res!.user.bind;
+        isActive.value = true;
+      },
+      onError: (e) => {
+        if (e instanceof RequestError) {
+          Taro.showToast({ title: `获取用户信息失败 ${e.message}`, icon: "none" });
+        }
       }
     }
-  }
+  );
 
   async function getWXProfile() {
     const { userInfo } = await Taro.getUserProfile({
@@ -77,6 +81,7 @@ const useUserStore = defineStore("user", () => {
     isActive,
     wxProfile,
     bindState,
+    loading,
     getUserData,
     getWXProfile,
     updateBindState,
@@ -84,7 +89,8 @@ const useUserStore = defineStore("user", () => {
   };
 }, {
   persist: {
-    storage: persistedStorage
+    storage: persistedStorage,
+    pick: ["info", "isActive", "wxProfile", "bindState"]
   }
 });
 
