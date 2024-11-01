@@ -4,7 +4,7 @@
     <my v-if="pageName === 'my'" />
     <nav-bar :page-name="pageName" @on-change="setPageName" />
     <w-modal
-      v-model:show="showUpdateInfo"
+      v-model:show="appVersionStorage.isUpdatedStart"
       :title="updateInfo.title"
       :content="updateInfo.content"
       :actions="updateInfo.actions"
@@ -16,15 +16,14 @@
 import { Home, My, NavBar, ThemeConfig, WModal } from "@/components";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
-import store, { systemStore } from "@/store";
 import { updateInfo } from "@/constants/index";
 import "./index.scss";
+import useAppVersionStore from "@/store/system/appVersion";
 
+// TODO: 用 custcom-bar 拆分逻辑
 const pageName = ref("home");
-
-const showUpdateInfo = ref(false);
-
 const updateManager = Taro.getUpdateManager();
+const appVersionStorage = useAppVersionStore();
 
 updateManager.onUpdateReady(function() {
   Taro.showModal({
@@ -41,11 +40,5 @@ updateManager.onUpdateReady(function() {
 const setPageName = (key: string) => {
   pageName.value = key;
 };
-
-const newVersion = updateInfo.version;
-if (newVersion && systemStore.version !== newVersion) {
-  store.commit("setVersion", newVersion);
-  showUpdateInfo.value = true;
-}
 
 </script>

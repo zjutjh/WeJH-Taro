@@ -1,4 +1,4 @@
-export default {
+export default defineAppConfig({
   pages: [
     "pages/index/index",
     "pages/activation/index",
@@ -16,7 +16,7 @@ export default {
     "pages/setting/changePassword/index",
     "pages/connect/index",
     "pages/connect/faq/index",
-    "pages/lab/index",
+    "pages/theme/index",
     "pages/freeroom/index",
     "pages/announcement/index",
     "pages/electricity/index",
@@ -39,4 +39,4 @@ export default {
     navigationStyle: "custom",
     backgroundColor: "@bgColor"
   }
-};
+});

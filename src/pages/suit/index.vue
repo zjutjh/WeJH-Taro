@@ -50,7 +50,7 @@
     </scroll-view>
     <w-modal v-model:show="showModal" title="公告" :content="`&emsp;&emsp;${showContent}`" />
 
-    <contact-me @show-help="setHelp" />
+    <contact-me :data="contactMsg.data" :message="contactMsg.message" @show-help="setHelp" />
     <w-modal v-model:show="isShowHelp" :content="`&emsp;&emsp;${helpContent}`" />
   </theme-config>
 </template>
@@ -58,6 +58,7 @@
 <script setup lang="ts">
 import "./index.scss";
 import {
+  ContactMe,
   ThemeConfig,
   TitleBar,
   WList,
@@ -66,10 +67,27 @@ import {
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
 import { helpText } from "@/constants/copywriting";
-import ContactMe from "./ContactMe/index.vue";
 
 const showModal = ref(false);
 const showContent = helpText.suit.main;
+
+const contactMsg = {
+  data: [
+    {
+      content: "学生事务大厅-朝晖: 综合楼一楼河畔旁",
+      extra: "学生事务大厅-朝晖\r\n电话: 88320868"
+    },
+    {
+      content: "学生事务大厅-屏峰: 西4和东15楼下",
+      extra: "学生事务大厅-屏峰\r\n东15电话: 85290858\r\n西4电话:85290880"
+    },
+    {
+      content: "学生事务大厅-莫干山: 德8德9连廊",
+      extra: "学生事务大厅-莫干山\r\n电话: (0571) 8881 3551"
+    }
+  ],
+  message: "点击查看学生事务大厅的联系方式"
+};
 
 function nav2faq() {
   Taro.navigateTo({

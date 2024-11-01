@@ -1,15 +1,18 @@
-export interface Score {
-  checkRead: boolean;
+export type ScoreBase = {
   className: string;
   credits: string;
-  examType: string;
   lessonID: string;
   lessonName: string;
-  lessonType: string;
   score: string;
-  scorePeriod: string;
+  teacherName: string;
+};
+
+export type FinalTermScore = ScoreBase & {
+  examType: string;
+  lessonType: string;
   scorePoint: string;
   submitName: string;
   submitTime: string;
-  teacherName: string;
-}
+};
+
+export type MidTermScore = ScoreBase;

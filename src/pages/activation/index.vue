@@ -125,15 +125,18 @@ import { Card, ThemeConfig, TitleBar, WButton, WSteps } from "@/components";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
 import "./index.scss";
-import store from "@/store";
 import { helpText } from "@/constants/copywriting";
 import { computed, ref } from "vue";
+import { RequestError } from "@/utils";
+import useUserStore from "@/store/service/user";
 
 const studentid = ref<string | undefined>(undefined);
 const password = ref<string | undefined>(undefined);
 const comfirmPassword = ref<string | undefined>(undefined);
 const idcard = ref<string | undefined>(undefined);
 const email = ref<string | undefined>(undefined);
+
+const { getWXProfile, getUserData } = useUserStore();
 
 const step = ref(1);
 const invalidPassword = ref(false);
@@ -146,36 +149,32 @@ async function activeClick() {
   if (!checkForm()) return;
   Taro.showLoading({ title: "正在绑定通行证", mask: true });
 
-  const res = await UserService.createUserApp({
-    username: studentid.value!.toUpperCase(),
-    studentID: studentid.value!.toUpperCase(),
-    password: password.value!,
-    idCardNumber: idcard.value!.toUpperCase(),
-    email: email.value!
-  });
-
-  if (res) {
-    Taro.hideLoading();
+  try {
+    await UserService.createStudentInMP({
+      username: studentid.value!.toUpperCase(),
+      studentID: studentid.value!.toUpperCase(),
+      password: password.value!,
+      idCardNumber: idcard.value!.toUpperCase(),
+      email: email.value!
+    });
+    getUserData();
     step.value++;
+    Taro.hideLoading();
+  } catch (e) {
+    Taro.hideLoading();
+    if (e instanceof RequestError) {
+      Taro.showToast({ title: e.message, icon: "error" });
+    }
   }
   resetForm();
 }
 
 async function nav2bind() {
-  Taro.showLoading({
-    title: "加载中"
-  });
-  await Taro.getUserProfile({
-    desc: "用于获取头像和昵称",
-    success: (res: any) => {
-      const { avatarUrl, nickName } = res.userInfo;
-      store.commit("setUserWXProfile", { avatarUrl, nickName });
-    }
-  });
+  Taro.showLoading({ title: "加载中" });
+  await getWXProfile();
   Taro.hideLoading();
-  await Taro.redirectTo({
-    url: "/pages/bind/index"
-  });
+
+  await Taro.redirectTo({ url: "/pages/bind/index" });
   await Taro.showToast({
     icon: "none",
     title: "自动导航至绑定页面"

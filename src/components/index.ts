@@ -2,6 +2,7 @@ import Alarm from "./Alarm/index.vue";
 import AppList from "./AppList/index.vue";
 import BottomPanel from "./BottomPanel/index.vue";
 import Card from "./Card/index.vue";
+import ContactMe from "./ContactMe/index.vue";
 import Home from "./Home/index.vue";
 import LessonsTable from "./LessonsTable/index.vue";
 import LessonsTableQuickView from "./LessonsTableQuickView/index.vue";
@@ -35,6 +36,7 @@ export {
   AppList,
   BottomPanel,
   Card,
+  ContactMe,
   Home,
   LessonsTable,
   LessonsTableQuickView,

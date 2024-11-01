@@ -1,19 +1,34 @@
+import { persistedStorage } from "@/utils";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
 export interface LostfoundStoreType {
   lastOpenCampus?: string;
   lastOpenMain?: string;
 }
 
-export const LostfoundStore = {
-  state: () => ({
-    lastOpenCampus: "屏峰",
-    lastOpenMain: "全部"
-  }),
-  mutations: {
-    setLastOpenCampus(state: LostfoundStoreType, value: string) {
-      state.lastOpenCampus = value;
-    },
-    setLastOpenMain(state: LostfoundStoreType, value: string) {
-      state.lastOpenMain = value;
-    }
+const useLostFoundStore = defineStore("lostfound", () => {
+  const lastOpenCampus = ref("屏峰");
+  const lastOpenMain = ref("全部");
+
+  function setLastOpenCampus(value: string) {
+    lastOpenCampus.value = value;
   }
-};
+
+  function setLastOpenMain(value: string) {
+    lastOpenMain.value = value;
+  }
+
+  return {
+    lastOpenCampus,
+    lastOpenMain,
+    setLastOpenCampus,
+    setLastOpenMain
+  };
+}, {
+  persist: {
+    storage: persistedStorage
+  }
+});
+
+export default useLostFoundStore;

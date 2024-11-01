@@ -3,7 +3,7 @@
 .bottom-panel {
   height: 49Px;
   padding-top: 8Px;
-  padding-bottom: 8Px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8Px);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -14,8 +14,4 @@
   border-top-left-radius: 1rem;
   z-index: 3000;
   background: var(--wjh-color-background-frame);
-}
-
-.bottom-bar-ios {
-  padding-bottom: 2rem;
 }

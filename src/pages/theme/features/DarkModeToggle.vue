@@ -17,8 +17,7 @@
 
 <script setup lang="ts">
 import { WList, WListItem } from "@/components";
-import { useDarkMode } from "@/hooks";
-import { DarkModeTheme } from "@/types/DarkMode";
+import useAppearanceStore from "@/store/service/appearance";
 import Taro from "@tarojs/taro";
 import { computed } from "vue";
 
@@ -28,22 +27,20 @@ const optionValueMap = {
   "light": "浅色"
 };
 
-const { mode, isAdapted, setMode, setIsAdapted } = useDarkMode();
+const appearanceStore = useAppearanceStore();
 
 const optionText = computed(() => {
-  if (isAdapted.value) return optionValueMap["adapted"];
-  else return optionValueMap[mode.value];
+  if (appearanceStore.isAdapted) return optionValueMap["adapted"];
+  else return optionValueMap[appearanceStore.appearance];
 });
 
 const handleToggle = () => {
   Taro.showActionSheet({
     itemList: Object.values(optionValueMap),
     success: (e) => {
-      if (e.tapIndex === 0) setIsAdapted(true);
-      else {
-        setIsAdapted(false);
-        setMode(Object.keys(optionValueMap)[e.tapIndex] as DarkModeTheme);
-      }
+      appearanceStore.setAppearance(
+        Object.keys(optionValueMap)[e.tapIndex] as any
+      );
     }
   });
 };

@@ -21,7 +21,7 @@
             正在加载中...
           </text>
           <template v-else>
-            <text v-if="currentPage !== -1" class="load" @tap="loadMore">
+            <text v-if="!isLastPage" class="load" @tap="handleLoadNext">
               加载更多...
             </text>
             <text v-else class="load">
@@ -37,64 +37,51 @@
 <script setup lang="ts">
 import "./index.scss";
 import { Card, ThemeConfig, TitleBar } from "@/components";
-import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import { ref } from "vue";
 import List from "../../../components/List/List.vue";
 import ListItem from "../../../components/List/ListItem.vue";
 import dayjs from "dayjs";
+import { useOffsetPagination } from "@vueuse/core";
+import { useRequestNext } from "@/hooks";
+import { RequestError } from "@/utils";
+import Taro from "@tarojs/taro";
 
-type recordType = {
-  buy_type: string;
-  datetime: string;
-  is_send: string;
-  money: string;
-  room_dm: string;
-  using_type: string;
-};
+const recordList = ref<Awaited<ReturnType<typeof YxyService.queryRecord>>>([]);
+const isLastPage = ref(false);
 
-const currentPage = ref(0);
-const recordList = ref<Array<recordType>>([]);
-
-const {
-  run: getRecord,
-  loading
-} = useRequest(YxyService.queryRecord, {
-  defaultParams: {
-    page: currentPage.value.toString()
-  },
-  onSuccess: (response) => {
-    if (response.data.code === 1) {
-      const list = response.data.data;
-      // 检查请求结果是否重复
-      if (recordList.value.length !== 0
-        && dayjs(list[list.length - 1].datetime).format("YYYY.MM.DD HH:mm")
-        === recordList.value[recordList.value.length - 1].datetime
-      ) {
-        currentPage.value = -1;
+const { run: fetchRecord, loading } = useRequestNext(
+  YxyService.queryRecord, {
+    initialData: [],
+    defaultParams: {
+      page: "1"
+    },
+    onSuccess: (list) => {
+      /**
+       * FIXME: 请求虽然需要分页参数，但是响应结果不管哪页都一样。这里用响应数据的最后一
+       * 项，和已经加载出来的最后一项比较，如果日期相同，那就代表所有分页加载完了
+       */
+      const lastDate = dayjs(list[list.length - 1].datetime).format("YYYY.MM.DD HH:mm");
+      if (lastDate === recordList.value[recordList.value.length - 1]?.datetime) {
+        isLastPage.value = true;
         return;
       }
-      currentPage.value++;
-      recordList.value = recordList.value.concat(
-        list.map(item => ({
-          ...item,
-          datetime: dayjs(item.datetime).format("YYYY.MM.DD HH:mm")
-        }))
-      );
-    } else {
-      throw new Error(response.data.msg);
+      const transformed = list.map(item => ({
+        ...item,
+        datetime: dayjs(item.datetime).format("YYYY.MM.DD HH:mm")
+      }));
+      recordList.value.push(...transformed);
+    },
+    onError: (e) => {
+      if (e instanceof RequestError)
+        Taro.showToast({ title: `查询充值记录失败: ${e.message}`, icon: "none" });
     }
-  },
-  onError: (error) => {
-    if (error instanceof Error)
-      return error.message;
-    else
-      return `获取缴费记录失败\r\n${error.errMsg}`;
   }
-});
+);
 
-const loadMore = () => {
-  getRecord({ page: currentPage.value.toString() });
-};
+// size 为多少？
+const { next: handleLoadNext } = useOffsetPagination({
+  onPageChange: ({ currentPage }) => fetchRecord({ page: `${currentPage}` })
+});
 
 </script>

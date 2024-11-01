@@ -1,12 +1,9 @@
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import { useSystemStore } from "./system";
-import { useServiceStore } from "./service";
-
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
-
-export {
-  useSystemStore,
-  useServiceStore
+// TODO: 整个文件删除
+const store = {
+  commit: () => {}
 };
+
+export const serviceStore = {};
+export const systemStore = {};
+
+export default store;

@@ -4,17 +4,16 @@
     :back-button="false"
   >
     <alarm
-      v-if="isActive"
-      :counter="counter"
+      v-if="userStore.isActive"
+      :counter="notificationStore.unreadCount"
       @tap="nav2announcement"
     />
   </title-bar>
   <scroll-view :scroll-y="true">
-    <view
-      v-if="isActive"
-      class="flex-column"
-    >
-      <questionnaire v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire" />
+    <view v-if="userStore.isActive" class="flex-column">
+      <questionnaire
+        v-if="questionnaireStore.isAccess && questionnaireStore.status !== 'close'"
+      />
 
       <fixed-quick-view />
 
@@ -22,7 +21,7 @@
       <cards />
 
       <card
-        v-if="!(isBindZf || isBindYXY || isBindLibrary || isBindOauth)"
+        v-if="bindZeroServices"
         title="提示"
       >
         还没有绑定任何服务，请到我的页面绑定
@@ -34,29 +33,19 @@
       >
         <view
           class="iconfont icon-add"
-          style="font-size: 2rem; font-weight: bolder"
+          style="font-size: 1.3rem; font-weight: bolder"
         />
       </view>
     </view>
-    <view
-      v-else
-      class="flex-column"
-    >
+    <view v-else class="flex-column">
       <card title="未激活">
-        <w-button
-          block
-          class="active"
-          @tap="nav2activation"
-        >
+        <w-button block class="active" @tap="nav2activation">
           激活
         </w-button>
       </card>
-      <card
-        v-show="registerTips"
-        title="新生提醒"
-      >
+      <card v-show="generalInfoStore.info.registerTips" title="新生提醒">
         <text style="font-size:14.5px">
-          {{ registerTips }}
+          {{ generalInfoStore.info.registerTips }}
         </text>
       </card>
     </view>
@@ -65,74 +54,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
-import store, { serviceStore, systemStore } from "@/store";
+import { computed, ref } from "vue";
 import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
 import Card from "../Card/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
 import Taro from "@tarojs/taro";
-import { SystemService } from "@/services";
-import { questionnaireInfo } from "@/constants/updateInfo";
 import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
+import useUserStore from "@/store/service/user";
+import useQuestionnaireStore from "@/store/service/questionnaire";
+import useNotificationStore from "@/store/service/notification";
+import useGeneralInfoStore from "@/store/system/generalInfo";
 
-const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
-
+const userStore = useUserStore();
+const questionnaireStore = useQuestionnaireStore();
+const notificationStore = useNotificationStore();
+const generalInfoStore = useGeneralInfoStore();
 const isShowEditPanel = ref(false);
 
-const registerTips = ref<string>("");
+const bindZeroServices = computed(() => {
+  const bindStateArray = Object.values(userStore.bindState);
+
+  return bindStateArray.every(Boolean);
+});
 
 const showEditPanel = () => {
   isShowEditPanel.value = true;
 };
-
-// 检查问卷可访问状态
-const isQuestionnaireAccess = () => {
-  return questionnaireInfo.isAccess;
-};
-
-// 问卷路径有更新，更新状态，并打开问卷入口
-if (questionnairePath != systemStore.questionnaire.path) {
-  store.commit("setQuestionnaire", {
-    path: questionnairePath,
-    state: "open"
-  });
-}
-onMounted(() => {
-  SystemService.getAnnouncement();
-  SystemService.getGeneralInfo().then(res => {
-    registerTips.value = res.data.registerTips;
-  });
-});
-
-const isActive = computed(() => {
-  return serviceStore.user.isActive;
-});
-
-const isNeverShowQuestionnaire = computed(() => {
-  if (systemStore.questionnaire.state === "close") {
-    return false;
-  } else return true;
-});
-const isBindZf = computed(() => {
-  return serviceStore.user.isBindZF;
-});
-const isBindLibrary = computed(() => {
-  return serviceStore.user.isBindLibrary;
-});
-const isBindYXY = computed(() => {
-  return serviceStore.user.isBindYXY;
-});
-const isBindOauth = computed(() => {
-  return serviceStore.user.isBindOauth;
-});
-const counter = computed(() => {
-  return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
-});
 
 function nav2activation() {
   Taro.navigateTo({
@@ -141,7 +93,7 @@ function nav2activation() {
 }
 
 function nav2announcement() {
-  store.commit("clearAnnouncementsUpdateCounter");
+  notificationStore.unreadCount = 0;
   Taro.navigateTo({
     url: "/pages/announcement/index"
   });

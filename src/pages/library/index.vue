@@ -7,7 +7,7 @@
         <view class="summary">
           <view>
             借阅：
-            <text>{{ currentCount }}</text>
+            <text>{{ libraryStore.borrowing.length }}</text>
             本
           </view>
           <view>
@@ -88,46 +88,35 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
 import { LibraryService } from "@/services";
-import { serviceStore } from "@/store";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
+import useLibraryStore from "@/store/service/library";
+import { useRequestNext } from "@/hooks";
 
+const libraryStore = useLibraryStore();
 const isSelectToday = ref(true);
 const isSelectHistory = ref(false);
 const isRefreshing = ref(false);
 
-onMounted(() => {
-  LibraryService.getLibraryCurrent();
-  LibraryService.getLibraryHistory();
-});
+const { data: history } = useRequestNext(
+  LibraryService.getLibraryHistory, {
+    initialData: []
+  }
+);
 
 const borrowList = computed((): BorrowBooksInfo[] => {
-  if (isSelectToday.value) return current.value;
+  if (isSelectToday.value) return libraryStore.borrowing;
   else if (isSelectHistory.value) return history.value;
   return [];
 });
 
-const history = computed(() => {
-  return serviceStore.library.history;
-});
-
-const current = computed(() => {
-  return serviceStore.library.current;
-});
-
-const currentCount = computed(() => {
-  return current.value ? current.value.length : 0;
-});
-
 /** 超期本数 */
 const currentExtendedCount = computed(() => {
-  return current.value
-    ? current.value.filter((item) => {
-      return parseInt(item.overdueTime) > 0;
-    }).length
-    : 0;
+  return libraryStore.borrowing.filter((item) => {
+    return parseInt(item.overdueTime) > 0;
+  }).length;
 });
 
 async function updateData() {

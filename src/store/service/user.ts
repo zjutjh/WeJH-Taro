@@ -1,81 +1,97 @@
+import { useRequestNext } from "@/hooks";
+import { UserService } from "@/services";
+import { RequestError, persistedStorage } from "@/utils";
+import Taro from "@tarojs/taro";
+import { omit } from "lodash-es";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export interface UserType {
-  info?: {
-    studentID: string;
-  };
-  wxProfile: {
-    avatarUrl: string;
-    nickName: string;
-  };
-  isActive: boolean;
-  isBindZF: boolean;
-  isBindLibrary: boolean;
-  isBindYXY: boolean;
-  isBindOauth: boolean;
-}
+export type WXProfileType = {
+  avatarUrl: string;
+  nickName: string;
+};
 
-export const useUserStore = defineStore("user", () => {
-  const info = ref<UserType["info"]>(undefined);
+export type UserInfoType = {
+  createTime: string;
+  id: number;
+  phoneNum: string;
+  studentID: string;
+  username: string;
+  userType: number;
+};
+
+export type BindStateType = {
+  lib: boolean;
+  yxy: boolean;
+  zf: boolean;
+  oauth: boolean;
+};
+
+const useUserStore = defineStore("user", () => {
+  const info = ref<UserInfoType>();
+  const bindState = ref<BindStateType>({
+    zf: false,
+    lib: false,
+    yxy: false,
+    oauth: false
+  });
+  const wxProfile = ref<WXProfileType>();
   const isActive = ref(false);
-  const isBindZF = ref(false);
-  const isBindLibrary = ref(false);
-  const isBindYXY = ref(false);
-  const isBindOauth = ref(false);
-  const wxProfile = ref<UserType["wxProfile"]>();
 
-  const setBindZF = (value: boolean) => {
-    isBindZF.value = value;
-  };
+  const { loading, run: getUserData } = useRequestNext(
+    UserService.getUserInfo, {
+      initialData: undefined,
+      onSuccess: (res) => {
+        info.value = omit(res!.user, "bind");
+        bindState.value = res!.user.bind;
+        isActive.value = true;
+      },
+      onError: (e) => {
+        if (e instanceof RequestError) {
+          Taro.showToast({ title: `获取用户信息失败 ${e.message}`, icon: "none" });
+        }
+      }
+    }
+  );
 
-  const setBindLibrary = (value: boolean) => {
-    isBindLibrary.value = value;
-  };
-  const setBindYXY = (value: boolean) => {
-    isBindYXY.value = value;
-  };
-  const setBindOauth = (value: boolean) => {
-    isBindOauth.value = value;
-  };
-  const setUserInfo = (value: {
-    studentID: string;
-    bind: { zf: boolean; lib: boolean, yxy: boolean, oauth: boolean };
-  }) => {
-    info.value = { studentID: value.studentID };
-    isBindZF.value = value.bind.zf;
-    isBindLibrary.value = value.bind.lib;
-    isBindYXY.value = value.bind.yxy;
-    isBindOauth.value = value.bind.oauth;
-    isActive.value = true;
-  };
+  async function getWXProfile() {
+    const { userInfo } = await Taro.getUserProfile({
+      desc: "用于获取头像和昵称"
+    });
+    wxProfile.value = userInfo;
+  }
 
-  const setUserWXProfile = (value: { avatarUrl: string; nickName: string }) => {
-    wxProfile.value = value;
-  };
-  const clearUserInfo = () => {
+  function updateBindState(payload: keyof BindStateType, value: boolean) {
+    bindState.value[payload] = value;
+  }
+
+  const clearUserData = () => {
     info.value = undefined;
     isActive.value = false;
-    setBindZF(false);
-    setBindLibrary(false);
-    setBindYXY(false);
-    setBindOauth(false);
+    bindState.value = {
+      zf: false,
+      lib: false,
+      yxy: false,
+      oauth: false
+    };
   };
 
   return {
     info,
     isActive,
-    isBindZF,
-    isBindLibrary,
-    isBindYXY,
-    isBindOauth,
     wxProfile,
-    setUserInfo,
-    setUserWXProfile,
-    clearUserInfo,
-    setBindZF,
-    setBindLibrary,
-    setBindYXY,
-    setBindOauth
+    bindState,
+    loading,
+    getUserData,
+    getWXProfile,
+    updateBindState,
+    clearUserData
   };
+}, {
+  persist: {
+    storage: persistedStorage,
+    pick: ["info", "isActive", "wxProfile", "bindState"]
+  }
 });
+
+export default useUserStore;

@@ -20,7 +20,7 @@ function get(url: string, cookies?: ICookie[]): Promise<FetchResult> {
     };
   return new Promise((resolve, reject) => {
     Taro.request({
-      url: process.env.HOST + url,
+      url: import.meta.env.VITE_HOST + url,
       header: header,
       mode: "cors",
       success: (res) => {
@@ -53,7 +53,7 @@ function postJson(
       };
 
     Taro.request({
-      url: process.env.HOST + url,
+      url: import.meta.env.VITE_HOST + url,
       data: data ? data : undefined,
       header: header,
       method: "POST",

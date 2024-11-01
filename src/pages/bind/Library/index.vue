@@ -2,14 +2,20 @@
 import { Card, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { UserService } from "@/services";
+import useHomeCardStore from "@/store/service/homecard";
+import useUserStore from "@/store/service/user";
+import { RequestError } from "@/utils";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
+
+const { updateBindState } = useUserStore();
+const homeCardStore = useHomeCardStore();
 
 const libpass = ref("");
 const helpContent = helpText.bind.library;
 const isShowHelp = ref(false);
 
-async function bindLibClick() {
+async function handleBind() {
   const regex = /^[a-zA-Z0-9!@#$%^&*()_+-=,.<>?;:'"{}[\]\\|`~]*$/;
   if (!regex.test(libpass.value)) {
     Taro.showToast({
@@ -18,16 +24,16 @@ async function bindLibClick() {
     });
     return;
   }
-  Taro.showLoading({
-    title: "正在绑定",
-    mask: true
-  });
-  const res = await UserService.bindLibrary({ password: libpass.value });
-  if (res.code === 1) {
-    await Taro.showToast({
-      icon: "success",
-      title: "绑定成功"
-    });
+  Taro.showLoading({ title: "正在绑定", mask: true });
+  try {
+    await UserService.bindLibrary({ password: libpass.value });
+    Taro.showToast({ icon: "success", title: "绑定成功" });
+    homeCardStore.add("library-quick-view");
+    updateBindState("lib", true);
+  } catch (e) {
+    if (e instanceof RequestError) {
+      await Taro.showToast({ icon: "none", title: e.message });
+    }
   }
 }
 
@@ -48,7 +54,7 @@ async function bindLibClick() {
       <input v-model="libpass" password placeholder="默认密码为学号">
     </view>
     <template #footer>
-      <w-button block @tap="bindLibClick">
+      <w-button block @tap="handleBind">
         确认绑定
       </w-button>
     </template>

@@ -5,11 +5,11 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('home')"
     >
-      <view class="iconfont icon-home" />
+      <view class="iconfont " :class="homeClass" />
       <view class="description">
         首页
       </view>
-      <view v-if="notificationActive.home" class="badge-wrapper">
+      <view v-if="newFeatureStore.newFeatureInTab.home" class="badge-wrapper">
         <w-badge size="small" />
       </view>
     </view>
@@ -18,11 +18,11 @@
       class="nav-bar-icon-wrapper"
       @tap="plusClick"
     >
-      <view class="iconfont icon-applist" />
+      <view class="iconfont " :class="applyClass" />
       <view class="description">
         功能
       </view>
-      <view v-if="notificationActive.applist" class="badge-wrapper">
+      <view v-if="newFeatureStore.newFeatureInTab.appList" class="badge-wrapper">
         <w-badge size="small" />
       </view>
     </view>
@@ -31,11 +31,11 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('my')"
     >
-      <view class="iconfont icon-user" />
+      <view class="iconfont " :class="personClass" />
       <view class="description">
         我的
       </view>
-      <view v-if="notificationActive.my" class="badge-wrapper">
+      <view v-if="newFeatureStore.newFeatureInTab.my" class="badge-wrapper">
         <w-badge size="small" />
       </view>
     </view>
@@ -55,11 +55,16 @@ import AppList from "../AppList/index.vue";
 import PopView from "../PopView/index.vue";
 import BottomPanel from "../BottomPanel/index.vue";
 import { WBadge } from "..";
-import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed, ref, toRefs } from "vue";
-import { checkNotification } from "@/utils";
+import useNewFeatureStore from "@/store/service/newFeature";
+import useThemeStore from "@/store/service/theme";
+import useUserStore from "@/store/service/user";
+
+const themeStore = useThemeStore();
+const userStore = useUserStore();
+const newFeatureStore = useNewFeatureStore();
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);
@@ -68,14 +73,10 @@ const props = defineProps<{
   pageName: string
 }>();
 
-const notificationActive = computed(() => {
-  const store = serviceStore.notification.state;
-  return {
-    home: checkNotification("home", store),
-    applist: checkNotification("applist", store),
-    my: checkNotification("my", store)
-  };
-});
+// FIXME: 主题过渡方案
+const homeClass = computed(() => themeStore.current?.name === "walk" ? "icon-a-15th-home1" : "icon-home");
+const applyClass = computed(() => themeStore.current?.name === "walk" ? "icon-a-15th-apply1" : "icon-applist");
+const personClass = computed(() => themeStore.current?.name === "walk" ? "icon-a-15th-person1" : "icon-user");
 
 const { pageName } = toRefs(props);
 
@@ -90,7 +91,7 @@ const nav = (val: string) => {
 };
 
 const plusClick = () => {
-  if (!serviceStore.user.isActive) {
+  if (!userStore.isActive) {
     Taro.showToast({
       icon: "none",
       title: "激活账号以使用功能"

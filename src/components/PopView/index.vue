@@ -4,9 +4,7 @@
     <view
       class="wjh-pop-view-body"
       :class="positionClass"
-      :style="isNewIPhone()
-        && positionClass === 'bottom'
-        ? 'padding-bottom: 2rem' : '' "
+      :style="positionClass === 'bottom' && 'padding-bottom: env(safe-area-inset-bottom)'"
     >
       <slot />
     </view>
@@ -14,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { isNewIPhone } from "@/utils";
 import "./index.scss";
 import { computed, toRefs } from "vue";
 

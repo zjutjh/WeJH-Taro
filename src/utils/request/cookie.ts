@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { persistedStateStorage } from "../storage";
+import { persistedStorage } from "../storage";
 import RequestError, { MPErrorCode, ServiceErrorCode } from "./requestError";
 import { api } from "@/services";
 
@@ -16,11 +16,15 @@ export default class CookieUtils {
    */
   public static async get(): Promise<string> {
     if (!this.cookie) {
-      const cookieInStore = persistedStateStorage.getItem(this.keyInStorage);
+      const cookieInStore = persistedStorage.getItem(this.keyInStorage);
       this.cookie = cookieInStore || await this.refresh();
     }
 
     return this.cookie;
+  }
+
+  public static set(value: string) {
+    return persistedStorage.setItem(this.keyInStorage, value);
   }
 
   /**
@@ -40,7 +44,7 @@ export default class CookieUtils {
       }
 
       const taroWrapped = await Taro.request<{ data: { user: any }, code: number }>({
-        url: process.env.HOST + api.user.login.wechat,
+        url: import.meta.env.VITE_HOST + api.user.login.wechat,
         data: { code },
         method: "POST"
       });
@@ -48,23 +52,23 @@ export default class CookieUtils {
       if (realResponse && realResponse.code === ServiceErrorCode.OK) {
         if (cookies && cookies.length > 0) {
           const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
-          persistedStateStorage.setItem(this.keyInStorage, cookie);
+          persistedStorage.setItem(this.keyInStorage, cookie);
           return cookie;
         }
         return Promise.reject(
           new RequestError("小程序登录失败", MPErrorCode.MP_LOGIN_ERROR_MISSING_COOKIE)
         );
       }
-      throw new RequestError("小程序登录失败", MPErrorCode.MP_INVALID_RESPONSE_BODY);
+      throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
     } catch (e) {
       console.error(e);
       throw e instanceof RequestError
         ? e
-        : new RequestError("小程序登录失败", MPErrorCode.MP_LOGIN_ERROR_UNKNOWN);
+        : new RequestError("小程序网络异常", MPErrorCode.MP_LOGIN_ERROR_UNKNOWN);
     }
   }
 
   public static clear() {
-    persistedStateStorage.removeItem(this.keyInStorage);
+    persistedStorage.removeItem(this.keyInStorage);
   }
 }

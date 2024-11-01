@@ -14,7 +14,8 @@ const globalConfig: Partial<Taro.request.Option> = {
 
 type RequestOptionsType<P> = {
   urlPrefix?: string;
-  method: keyof Taro.request.Method;
+  method?: keyof Taro.request.Method;
+  /** GET 请求的 Query 参数，其他请求的 Body 数据 */
   params?: P;
   /** TODO: 将请求参数转换成 snack case，将响应数据转换成 camel case */
   useCamelCase?: boolean;
@@ -35,7 +36,7 @@ async function request<Data, Params = Record<string, any>>(
   options?: RequestOptionsType<Params>
 ): Promise<Data> {
   const {
-    urlPrefix = process.env.HOST,
+    urlPrefix = import.meta.env.VITE_HOST,
     method = "GET",
     params,
     auth = true
@@ -63,12 +64,12 @@ async function request<Data, Params = Record<string, any>>(
         new RequestError(realResponse.msg, realResponse.code)
       );
     }
-    throw new RequestError("小程序请求失败", MPErrorCode.MP_INVALID_RESPONSE_BODY);
+    throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
   } catch (e: any) {
     console.error(e);
     throw e instanceof RequestError
       ? e
-      : new RequestError("小程序请求失败", MPErrorCode.MP_NETWORK_ERROR);
+      : new RequestError("小程序网络异常", MPErrorCode.MP_NETWORK_ERROR);
   }
 }
 

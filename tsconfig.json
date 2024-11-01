@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "module": "commonjs",
+    "module": "ESNext",
+    "removeComments": false,
     "preserveConstEnums": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -20,29 +21,8 @@
       "node_modules/@types",
     ],
     "paths": {
-      "@/components": [
-        "./src/components/index.ts"
-      ],
-      "@/utils": [
-        "./src/utils/index.ts"
-      ],
-      "@/hooks": [
-        "./src/hooks/index.ts"
-      ],
-      "@/assets/*": [
-        "./src/assets/*"
-      ],
-      "@/types/*": [
-        "./src/types/*"
-      ],
-      "@/constants/*": [
-        "./src/constants/*"
-      ],
-      "@/store": [
-        "./src/store/index.ts"
-      ],
-      "@/services": [
-        "./src/services/index.ts"
+      "@/*": [
+        "./src/*"
       ],
       "@/package": [
         "./package.json"
@@ -53,8 +33,9 @@
     }
   },
   "include": [
-    "types",
+    "./types",
     "./src",
+    "./config",
   ],
   "compileOnSave": false
 }

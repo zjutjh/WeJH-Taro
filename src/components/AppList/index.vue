@@ -1,13 +1,13 @@
 <template>
-  <view v-if="applist" class="applist">
+  <view v-if="appListStore.list.length" class="applist">
     <app-list-item
-      v-for="(item, index) in applist"
+      v-for="(item, index) in appListStore.list"
       :key="index"
       :label="item.title"
       :url="item.route"
-      :icon="item.route.split('/')[2]"
       :bg="item.backgroundColor"
-      :require="item.require"
+      :disabled="item.disabled"
+      :icon="item.route.split('/')[2]"
     />
   </view>
   <card v-else>
@@ -16,14 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import AppListItem from "./AppListItem/index.vue";
 import Card from "../Card/index.vue";
-import { serviceStore } from "@/store";
 import "./index.scss";
+import useAppListStore from "@/store/service/appList";
 
-const applist = computed(() => {
-  return serviceStore.appList;
-});
+const appListStore = useAppListStore();
 
 </script>

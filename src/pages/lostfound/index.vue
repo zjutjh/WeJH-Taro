@@ -53,7 +53,7 @@
         </card>
       </view>
     </scroll-view>
-    <contact-me @show-help="setHelp" />
+    <contact-me :data="contactMsg.data" :message="contactMsg.message" @show-help="setHelp" />
     <w-modal
       v-model:show="isShowHelp"
       :content="`&emsp;&emsp;${helpContent}`"
@@ -62,43 +62,72 @@
 </template>
 
 <script setup lang="ts">
-import { ThemeConfig, TitleBar, Card, WSkeleton } from "@/components";
-import { useRequest } from "@/hooks";
+import { ThemeConfig, TitleBar, Card, ContactMe, WSkeleton } from "@/components";
 import { LostfoundService } from "@/services";
 import { LostfoundRecord } from "@/types/Lostfound";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import PreviewCard from "./PreviewCard/index.vue";
-import ContactMe from "./ContactMe/index.vue";
 import { omit } from "lodash-es";
 import "./index.scss";
-import store, { serviceStore } from "@/store";
 import WModal from "../../components/Modal/index.vue";
 import { helpText } from "@/constants/copywriting";
+import useLostFoundStore from "@/store/service/lostfound";
+import { useRequestNext } from "@/hooks";
+import { RequestError } from "@/utils";
+import Taro from "@tarojs/taro";
+
+const lostFoundStore = useLostFoundStore();
 
 const currentPage = ref(0);
 const maxPage = ref(0);
 const recordList = ref<LostfoundRecord[]>([]);
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
 const selectKind = ref("全部");
-const selectCampus = ref(serviceStore.lostfound.lastOpenCampus || "屏峰");
+const selectCampus = ref(lostFoundStore.lastOpenCampus || "屏峰");
 const mainList = ref<string[]>(["全部", "失物", "寻物"]);
-const selectMain = ref(serviceStore .lostfound.lastOpenMain || "全部");
+const selectMain = ref(lostFoundStore.lastOpenMain || "全部");
 const isEmpty = ref(false);
 const helpContent = ref(helpText.lostfound);
 const isShowHelp = ref(false);
 
-const { data: getKindsResponse } = useRequest(
-  LostfoundService.getKindList, {
-    onSuccess: (res) => {
-      if (res.data.code !== 1) throw new Error(res.data.msg);
+const contactMsg = {
+  data: [
+    { content: "“For You”工程 朝晖校区 QQ: 2716709627" },
+    { content: "“For You”工程 屏峰校区 QQ: 3252819828" },
+    { content: "“For You”工程 莫干山校区 QQ: 2030219390" },
+    {
+      content: "学生事务大厅-朝晖: 综合楼一楼河畔旁",
+      extra: "学生事务大厅-朝晖\r\n电话: 88320868"
     },
-    onError: (e: Error) => {
-      return `获取分类失败\r\n${e.message || "网络错误"}`;
+    {
+      content: "学生事务大厅-屏峰: 西4和东15楼下",
+      extra: "学生事务大厅-屏峰\r\n东15电话: 85290858\r\n西4电话:85290880"
+    },
+    {
+      content: "学生事务大厅-莫干山: 德8德9连廊",
+      extra: "学生事务大厅-莫干山\r\n电话: (0571) 8881 3551"
+    }
+  ],
+  message: "点击查看相关业务服务组织的联系方式"
+};
+
+const { data: kindList } = useRequestNext(
+  () => LostfoundService
+    .getKindList()
+    .then(list => ["全部", ...list.map(_ => _.kind_name)]),
+  {
+    initialData: [],
+    onError: (e: any) => {
+      if (e instanceof RequestError)
+        Taro.showToast({
+          title: `获取分类失败\r\n${e.message}`,
+          icon: "none"
+        });
     }
   }
 );
 
-const { loading, run } = useRequest(
+const { loading, run } = useRequestNext(
   LostfoundService.getRecords, {
     defaultParams: {
       campus: selectCampus.value,
@@ -106,19 +135,20 @@ const { loading, run } = useRequest(
       page_size: 10,
       lost_or_found: ""
     },
-    loadingDelay: 300,
+    minLoadingTime: 300,
+    initialData: { data: [], total_page_num: 0 },
     onSuccess: (res) => {
-      if (res.data.code === 1) {
-        recordList.value = recordList.value?.concat(
-          res.data.data.data
-        );
-        if (recordList.value.length === 0) isEmpty.value = true;
-        maxPage.value = res.data.data.total_page_num;
-        currentPage.value++;
-      } else throw new Error(res.data.msg);
+      // TODO: 优化逻辑
+      recordList.value = recordList.value?.concat(
+        res.data
+      );
+      if (recordList.value.length === 0) isEmpty.value = true;
+      maxPage.value = res.total_page_num;
+      currentPage.value++;
     },
-    onError: (e: Error) => {
-      return `加载失物寻物信息失败\r\n${e.message || "网络错误"}`;
+    onError: (e) => {
+      if (e instanceof RequestError)
+        Taro.showToast({ title: `加载失物寻物信息失败\r\n${e.message}`, icon: "none" });
     }
   }
 );
@@ -131,19 +161,14 @@ const getRecords = (data: {
   lost_or_found?: string;
 }) => {
   isEmpty.value = false;
+  // TODO: 修复类型问题
   run(omit(data, [data.kind === "全部" ? "kind" : null, data.lost_or_found === "全部" ? "lost_or_found" : ""]));
 };
-
-const kindList = computed<string[]>(() => [
-  "全部",
-  ...(getKindsResponse.value?.data || [])
-    .map(item => item.kind_name)
-]);
 
 const handleSelectCampus = (campus: string) => {
   if (selectCampus.value === campus) return;
   selectCampus.value = campus;
-  store.commit("setLastOpenCampus", campus);
+  lostFoundStore.setLastOpenCampus(campus);
   resetList();
   getRecords({
     campus: campus,
@@ -154,10 +179,11 @@ const handleSelectCampus = (campus: string) => {
   });
 };
 
+// TODO: 抽离逻辑到 hook
 const handleSelectMain = (main: string) => {
   if (selectMain.value === main) return;
   selectMain.value = main;
-  store.commit("setLastOpenMain", main);
+  lostFoundStore.setLastOpenMain(main);
   resetList();
   getRecords({
     campus: selectCampus.value,
