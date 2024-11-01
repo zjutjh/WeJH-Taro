@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import {
   BottomPanel,
   LessonsTable,
@@ -87,13 +87,11 @@ import { useTimeInstance } from "@/hooks";
 import { storeToRefs } from "pinia";
 import useGeneralInfoStore from "@/store/system/generalInfo";
 import useLessonTableStore from "@/store/service/lessonTable";
-import useBinding from "@/hooks/useBinding";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
 const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
 const lessonTableStore = useLessonTableStore();
-const { canAccess } = useBinding();
 
 // 本学期
 const originTerm = {
