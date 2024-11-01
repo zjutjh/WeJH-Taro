@@ -5,26 +5,13 @@ import { FinalTermScore, MidTermScore } from "@/types/Score";
 import { request } from "@/utils";
 
 export default class ZFService {
-  /**
-   * 从缓存中获取考试安排信息
-   * @param data 指定学期
-   * @returns
-   */
-  static getExamInfo(data?: { year: string; term: string }): {
-    data: Exam[];
-    updateTime: Date | null;
-  } {
-    if (!data) {
-      data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
-      };
-    }
-    if (!serviceStore?.zf.examInfo[data.year])
-      return { data: [], updateTime: null };
-    if (!serviceStore?.zf.examInfo[data.year][data.term]?.data)
-      return { data: [], updateTime: null };
-    return serviceStore?.zf.examInfo[data.year][data.term];
+  static getExamInfo(params: { year: string; term: string }) {
+    return request<Exam[]>(
+      api.zf.examInfo, {
+        method: "POST",
+        params
+      }
+    );
   }
 
   static getMidTermScore(params: { year: string, term: string }) {
@@ -45,7 +32,7 @@ export default class ZFService {
     );
   }
 
-  static async getFreeRoomInfo(data: {
+  static async getFreeRoomInfo(params: {
     year: string;
     term: string;
     campus: string;
@@ -53,7 +40,12 @@ export default class ZFService {
     sections: string;
     week: string;
   }) {
-    return updateDateStateWithSession(api.zf.freeroom, data, "setRoomInfo");
+    return request(
+      api.zf.freeroom, {
+        method: "POST",
+        params
+      }
+    );
   }
 
   static getLessonTable(params: { year: string; term: string; }) {
