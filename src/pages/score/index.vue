@@ -116,7 +116,7 @@ import {
 import { helpText } from "@/constants/copywriting";
 import "./index.scss";
 import useScoreStore from "@/store/service/score";
-import useScoreQueryOptionStore from "@/store/service/electricity/score/query";
+import useScoreQueryOptionStore from "@/store/service/score/query";
 import { FinalTermScore, MidTermScore } from "@/types/Score";
 import useUserStore from "@/store/service/user";
 import { storeToRefs } from "pinia";
