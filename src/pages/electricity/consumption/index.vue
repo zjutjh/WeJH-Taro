@@ -4,12 +4,12 @@
     <card class="consumption-card">
       <scroll-view :scroll-y="true">
         <view class="container">
-          <card v-if="!loading && !consumptionList?.data.length" class="no-item">
+          <card v-if="!loading && !records.length" class="no-item">
             无用电记录
           </card>
           <template v-else>
             <list
-              v-for="consumption in consumptionList?.data"
+              v-for="consumption in records"
               :key="consumption.room_dm"
             >
               <list-item class="consumption-list-item">
@@ -32,25 +32,16 @@
 <script setup lang="ts">
 import "./index.scss";
 import { Card, ThemeConfig, TitleBar } from "@/components";
-import { useRequest } from "@/hooks";
-import { YxyService } from "@/services";
 import List from "../../../components/List/List.vue";
 import ListItem from "../../../components/List/ListItem.vue";
+import { YxyService } from "@/services";
+import { useRequestNext } from "@/hooks";
 
-const {
-  data: consumptionList,
-  loading
-} = useRequest(YxyService.queryConsumption, {
-  onSuccess: (response) => {
-    if (response.data.code !== 1) {
-      throw new Error(response.data.msg);
-    }
-  },
-  onError: (error) => {
-    if (error instanceof Error) {
-      return error.message;
-    } else return `查询用电记录失败\r\n${error.errMsg}`;
+// TODO: support read cached promise from entrance
+const { loading, data: records } = useRequestNext(
+  YxyService.queryConsumption, {
+    initialData: []
   }
-});
+);
 
 </script>
