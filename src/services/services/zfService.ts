@@ -3,6 +3,7 @@ import { Lesson } from "@/types/Lesson";
 import { Exam } from "@/types/Exam";
 import { FinalTermScore, MidTermScore } from "@/types/Score";
 import { request } from "@/utils";
+import { Room } from "@/types/Room";
 
 export default class ZFService {
   static getExamInfo(params: { year: string; term: string }) {
@@ -40,7 +41,7 @@ export default class ZFService {
     sections: string;
     week: string;
   }) {
-    return request(
+    return request<Room[]>(
       api.zf.freeroom, {
         method: "POST",
         params

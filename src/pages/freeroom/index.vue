@@ -3,9 +3,10 @@
     <title-bar title="空教室" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card v-if="!building" title="无记录" style="text-align: center" />
+        <card v-if="!building || freeRoomStore.error" title="无记录" style="text-align: center" />
         <card
           v-for="(item, index) in building"
+          v-else
           :key="index"
           class="building-card"
           :title="item.buildName"
@@ -28,39 +29,38 @@
       </view>
     </scroll-view>
     <bottom-panel>
-      <room-picker class="picker" :week="selectWeek" @changed="roomChanged" />
+      <room-picker class="picker" :week="generalInfo.week" @changed="handleSelectRoom" />
     </bottom-panel>
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
+import { computed } from "vue";
 import { BottomPanel, Card, RoomPicker, ThemeConfig, TitleBar } from "@/components";
-import { ZFService } from "@/services";
 import { freeroomMap } from "@/constants/freeroomMap";
+import useGeneralInfoStore from "@/store/system/generalInfo";
 import { Room } from "@/types/Room";
 import "./index.scss";
+import useFreeRoomStore from "@/store/service/freeRoom";
 
-type freeRoomQueryType = {
-  campus: string;
-  sections: string; // 可扩展区间选择
-  term: string;
-  week: string;
-  weekday: string;
-  year: string;
-};
+const { info: generalInfo } = useGeneralInfoStore();
+const freeRoomStore = useFreeRoomStore();
 
-function roomChanged(e: freeRoomQueryType) {
-  ZFService.getFreeRoomInfo(e);
+function handleSelectRoom(params: {
+  campus: string, week: number, weekday: number, sections: number
+}) {
+  freeRoomStore.fetchFreeRoom({
+    year: generalInfo.termYear,
+    term: generalInfo.term,
+    ...params
+  });
 }
 
 const building = computed(() => {
-  // comment: 数组，每个元素存放一幢教学楼的空教室
   const buildingList: Array<{ buildName: string; roomList: Room[]; }> = [];
   const tmp: Record<string, Room[]> = {};
 
-  serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
+  freeRoomStore.list.forEach(item => {
     if (!tmp[freeroomMap[item.buildName[0]]])
       tmp[freeroomMap[item.buildName[0]]] = [];
     tmp[freeroomMap[item.buildName[0]]].push(item);
@@ -73,9 +73,8 @@ const building = computed(() => {
       })
     });
   });
+
   return buildingList;
 });
-
-const selectWeek = ref(systemStore.generalInfo.week);
 
 </script>

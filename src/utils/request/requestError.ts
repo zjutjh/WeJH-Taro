@@ -3,6 +3,8 @@ export const MPErrorCode = {
   MP_NETWORK_ERROR: Symbol("MP_NETWORK_ERROR"),
   /** 服务端响应体异常 */
   MP_INVALID_RESPONSE_BODY: Symbol("MP_INVALID_RESPONSE_BODY"),
+  /** 响应数据中 data 字段非法 */
+  MP_INVALID_DATA_VALUE: Symbol("MP_INVALID_DATA_VALUE"),
   /** 微信登录流程中缺失 code */
   MP_LOGIN_ERROR_MISSING_WX_CODE: Symbol("MP_LOGIN_ERROR_MISSING_WX_CODE"),
   /** 服务端激活流程中缺失 Cookie */
