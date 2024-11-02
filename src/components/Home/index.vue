@@ -93,7 +93,7 @@ function nav2activation() {
 }
 
 function nav2announcement() {
-  notificationStore.unreadCount = 0;
+  notificationStore.markRead();
   Taro.navigateTo({
     url: "/pages/announcement/index"
   });

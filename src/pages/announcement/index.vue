@@ -23,11 +23,11 @@
       </view>
       <view class="flex-column">
         <template v-if="currentTab === 'announcement'">
-          <card v-if="!announcementList" style="text-align: center">
+          <card v-if="!announcement.length" style="text-align: center">
             <view>无通知</view>
           </card>
           <card
-            v-for="(item, index) in announcementList"
+            v-for="(item, index) in announcement"
             :key="index"
             class="announcement-card"
             :title="item.title"
@@ -41,11 +41,11 @@
           </card>
         </template>
         <template v-else>
-          <card v-if="!informationList.length" style="text-align: center">
+          <card v-if="!information.length" style="text-align: center">
             <view>暂无校园资讯</view>
           </card>
           <information-card
-            v-for="item in informationList"
+            v-for="item in information"
             :key="item.id"
             :source="item"
           />
@@ -58,25 +58,20 @@
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import dayjs from "dayjs";
-import { serviceStore } from "@/store";
 import InformationCard from "./InformationCard/index.vue";
 import "./index.scss";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import Taro from "@tarojs/taro";
+import useNotificationStore from "@/store/service/notification";
+import { storeToRefs } from "pinia";
+
+const { announcement, information } = storeToRefs(useNotificationStore());
 // 根据路由导航
 const instance = Taro.getCurrentInstance();
 const currentTab = ref<"announcement" | "information">(
   // @ts-expect-error 路由 query 的参数类型在外部保证了
   instance.router?.params.tab || "announcement"
 );
-
-const informationList = computed(() => {
-  return [...serviceStore.information.informationList];
-});
-
-const announcementList = computed(() => {
-  return [...serviceStore.announcement.announcements].reverse();
-});
 
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
