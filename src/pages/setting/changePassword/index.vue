@@ -6,20 +6,33 @@
         <card title="修改密码" class="input-card">
           <text>身份证号码</text>
           <view>
-            <input v-model="iid" password placeholder="请输入您的身份证号码">
+            <input v-model="iid" placeholder="请输入您的身份证号码">
           </view>
           <text>学号</text>
           <view>
-            <input v-model="stuid" password placeholder="请输入您的学号">
+            <input v-model="stuid" placeholder="请输入您的学号">
           </view>
           <text>新密码</text>
           <view>
-            <input v-model="password" password placeholder="请输入您的新密码">
+            <input
+              v-model="password"
+              type="password"
+              placeholder="请输入您的新密码"
+              @blur="formCheck"
+            >
           </view>
           <text>确认新密码</text>
           <view>
-            <input v-model="passwordAgain" password placeholder="请重复输入您的新密码">
+            <input
+              v-model="passwordAgain"
+              type="password"
+              placeholder="请重复输入您的新密码"
+              @blur="formCheck"
+            >
           </view>
+          <text v-if="showWarning" class="red-text">
+            两次密码输入不一致
+          </text>
           <template #footer>
             <w-button block @tap="isShowConfirm = true">
               确认修改
@@ -60,7 +73,12 @@ const stuid = ref("");
 const password = ref("");
 const passwordAgain = ref("");
 const isShowConfirm = ref(false);
+const showWarning = ref(false);
 
+const formCheck = () => {
+  if (password.value === "" || passwordAgain.value === "") return;
+  showWarning.value = !(password.value === passwordAgain.value);
+};
 const changePasswordClick = () => {
   isShowConfirm.value = false;
   if (password.value !== passwordAgain.value) {

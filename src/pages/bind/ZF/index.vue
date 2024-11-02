@@ -63,13 +63,13 @@ async function bindZFClick() {
       <input
         v-if="!user.isBindZF"
         v-model="zfpass"
-        password
+        type="password"
         placeholder="请输入密码"
       >
       <input
         v-else
         v-model="zfpass"
-        password
+        type="password"
         placeholder="*******"
       >
     </view>

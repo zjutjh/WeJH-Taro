@@ -56,13 +56,13 @@ async function bindOauthClick() {
       <input
         v-if="!user.isBindOauth"
         v-model="oauthpass"
-        password
+        type="password"
         placeholder="请输入密码"
       >
       <input
         v-else
         v-model="oauthpass"
-        password
+        type="password"
         placeholder="*******"
       >
     </view>
