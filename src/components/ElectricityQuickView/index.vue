@@ -12,7 +12,7 @@
       <view v-if="!loading" class="text-wrapper">
         <text>寝室剩余电费</text>
         <text :class="isUrgent ? 'dangerous' : 'normal'">
-          {{ balanceData?.data.soc || 0 }}
+          {{ balance }}
         </text>
         <text>度</text>
       </view>
@@ -28,36 +28,23 @@ import { QuickView } from "@/components";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed } from "vue";
-import { YxyService } from "@/services";
-import store, { serviceStore } from "@/store";
 import Card from "../Card/index.vue";
 import dayjs from "dayjs";
-import { useRequest } from "@/hooks";
+import useElectricityBalanceStore from "@/store/service/balance";
+import { storeToRefs } from "pinia";
+
+const { loading, balance, error, updateTime } = storeToRefs(useElectricityBalanceStore());
 
 function nav2electricity() {
   Taro.navigateTo({ url: "/pages/electricity/index" });
 }
 
-const { data: balanceData, loading, error } = useRequest(
-  YxyService.queryBalance, {
-    onSuccess: (res) => {
-      if (res.data.data?.soc) {
-        store.commit("setBalance", res.data.data.soc);
-      } else throw new Error();
-    }
-  }
-);
-
 const isUrgent = computed(() => {
-  if (balanceData.value)
-    return balanceData.value.data.soc < 20;
-  else
-    return false;
+  return balance.value < 20;
 });
 
 const updateTimeString = computed(() => {
-  const time = serviceStore.electricity.updateTime.balance;
-  return time && !error.value ? dayjs(time).fromNow() : "更新失败";
+  return updateTime.value && !error.value ? dayjs(updateTime.value).fromNow() : "更新失败";
 });
 
 </script>

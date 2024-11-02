@@ -16,6 +16,7 @@ type UpdateInfoType = {
   }
 };
 
+// TODO: 从配置平台获取更新公告
 export const updateInfo: UpdateInfoType = {
   version: "2.6.1",
   title: "微精弘更新公告",

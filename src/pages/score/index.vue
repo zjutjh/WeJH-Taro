@@ -28,10 +28,10 @@
 
             <view class="col" style="align-items: flex-end">
               <view class="gpa-text">
-                {{ selectTerm.period === "期中" ? "期中" : "GPA" }}
+                {{ queryOption.period === "期中" ? "期中" : "GPA" }}
               </view>
               <view
-                v-if="scoreList && scoreList.length !== 0 && selectTerm.period === '期末'"
+                v-if="scoreList && scoreList.length !== 0 && queryOption.period === '期末'"
                 class="credit-text"
               >
                 {{ averageScorePoint }}
@@ -41,7 +41,7 @@
 
           <w-collapse class="score-list-collapse">
             <w-collapse-panel
-              v-for="item in scoreList"
+              v-for="item in (scoreList as Array<FinalTermScore & MidTermScore>)"
               :key="item.lessonID"
               arrow
             >
@@ -77,14 +77,14 @@
     </scroll-view>
     <bottom-panel class="score-bottom-panel">
       <view class="col">
-        <refresh-button :is-refreshing="isRefreshing" @refresh="refresh" />
+        <refresh-button :is-refreshing="scoreStore.loading" @refresh="refresh" />
       </view>
       <view class="col">
         <term-picker
           class="picker"
-          :term="selectTerm.term"
-          :year="selectTerm.year"
-          :period="selectTerm.period"
+          :term="queryOption.term"
+          :year="queryOption.year"
+          :period="queryOption.period"
           :selectflag="1"
           @changed="termChanged"
         />
@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import {
   BottomPanel,
   Card,
@@ -113,60 +113,52 @@ import {
   WDescriptions,
   WDescriptionsItem
 } from "@/components";
-import { Score } from "@/types/Score";
-import { ZFService } from "@/services";
 import { helpText } from "@/constants/copywriting";
-import store, { serviceStore, systemStore } from "@/store";
 import "./index.scss";
+import useScoreStore from "@/store/service/score";
+import useScoreQueryOptionStore from "@/store/service/score/query";
+import { FinalTermScore, MidTermScore } from "@/types/Score";
+import useUserStore from "@/store/service/user";
+import { storeToRefs } from "pinia";
 
+const scoreStore = useScoreStore();
+const { info: userInfo } = storeToRefs(useUserStore());
+const queryOption = useScoreQueryOptionStore();
 const showSorted = ref(false);
-const selectTerm = ref({
-  year: systemStore.generalInfo.scoreYear,
-  term: systemStore.generalInfo.scoreTerm,
-  period: serviceStore.score.scorePeriod
+
+const scoreList = computed(() => {
+  const { year, term, period } = queryOption;
+  const collection = scoreStore.collections.find(
+    _ => _.year === year && _.term === term
+  );
+  const list = (period === "期末" ? collection?.finalTerm : collection?.midTerm) ?? [];
+
+  return showSorted.value
+    ? [...list].sort((a, b) => parseFloat(b.score) - parseFloat(a.score))
+    : list;
 });
-
-const scoreList = computed(() =>
-  showSorted.value
-    ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
-      const scoreA = a.scorePoint,
-        scoreB = b.scorePoint;
-      return parseFloat(scoreB) - parseFloat(scoreA);
-    })
-    : ZFService.getScoreInfo(selectTerm.value).data
-);
-
-const isRefreshing = ref(false);
 
 const helpContent = computed(() => {
   return helpText.score;
 });
 
 async function termChanged(e) {
-  store.commit("changeScorePeriod", e.period);
-  isRefreshing.value = true;
-  selectTerm.value = e;
-  await ZFService.updateScoreInfo(e);
-  isRefreshing.value = false;
+  queryOption.setOption(e);
+  scoreStore.fetchScore(e);
 }
 
 async function refresh() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  await ZFService.updateScoreInfo(selectTerm.value);
-  isRefreshing.value = false;
+  if (scoreStore.loading) return;
+  scoreStore.fetchScore(queryOption);
 }
 
 function handleSort() {
   showSorted.value = !showSorted.value;
 }
 
-onMounted(async () => {
-  if (serviceStore.user.isBindZF) await refresh();
-});
-
 const averageScorePoint = computed(() => {
-  const validCourse = scoreList.value.filter((item) => {
+  const list = scoreList.value as FinalTermScore[];
+  const validCourse = list.filter((item) => {
     if (item.score === "缓考" || item.score === "免修") return false;
     if (item.examType === "重修" || item.examType === "补考")
       return false;
@@ -174,7 +166,7 @@ const averageScorePoint = computed(() => {
   });
   let totalCredits = 0;
   let totalScorePoint = 0;
-  validCourse.forEach((item: Score) => {
+  validCourse.forEach(item => {
     const scorePoint = parseFloat(item.scorePoint);
     const credits = parseFloat(item.credits);
     totalScorePoint += scorePoint * credits;
@@ -187,29 +179,24 @@ const averageScorePoint = computed(() => {
 
 const termInfo = computed(() => {
   return `
-    ${selectTerm.value?.year}/${parseInt(selectTerm.value?.year) + 1}
-    （${selectTerm.value?.term}）
+    ${queryOption.year}/${parseInt(queryOption.year) + 1}
+    （${queryOption.term}）
   `;
 });
 
 const relativeTermInfo = computed(() => {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
   let char = charEnum[0];
-  if (serviceStore.user.info?.studentID) {
-    // 解决2023 年以后的学生 id 是 302023 开头的问题
-    if (serviceStore.user.info.studentID.slice(0, 2) === "30") {
-      char = charEnum[
-        parseInt(selectTerm.value?.year) -
-      parseInt(serviceStore.user.info.studentID.slice(2, 6))
-      ];
+  if (userInfo.value?.studentID) {
+    const id = userInfo.value.studentID;
+    if (id.slice(0, 2) === "30") {
+      // 适配 2023 年以后的学生 id 是 302023 开头
+      char = charEnum[parseInt(queryOption.year) - parseInt(id.slice(2, 6))];
     } else {
-      char = charEnum[
-        parseInt(selectTerm.value?.year) -
-      parseInt(serviceStore.user.info.studentID.slice(0, 4))
-      ];
+      char = charEnum[parseInt(queryOption.year) - parseInt(id.slice(0, 4))];
     }
   }
-  return `大${char}${selectTerm.value?.term}学期`;
+  return `大${char}${queryOption.term}学期`;
 });
 
 </script>

@@ -1,9 +1,8 @@
 import useTimeInstance from "./useTimeString";
-import useRequest from "./useRequest";
-import useDarkMode from "./useDarkMode";
+import useRequest, { useRequestNext } from "./useRequest";
 
 export {
   useTimeInstance,
   useRequest,
-  useDarkMode
+  useRequestNext
 };

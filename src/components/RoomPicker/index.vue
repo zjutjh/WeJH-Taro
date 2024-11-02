@@ -15,23 +15,26 @@
 <script setup lang="ts">
 import WButton from "../Button/index.vue";
 import { onMounted, reactive, ref } from "vue";
-import { systemStore } from "@/store";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 
 const props = defineProps<{ week: number }>();
-const emit = defineEmits(["changed"]);
+const emit = defineEmits<{
+  changed: [args: {
+    campus: string,
+    week: number,
+    weekday: number,
+    sections: number
+  }]
+}>();
 
 const campus = ["朝晖", "屏峰", "莫干山"];
 
 const selectorData = [
   campus,
-  [],
+  Array(20).fill(0).map((_, i) => `第${i + 1}周`),
   ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-  []
+  Array(12).fill(0).map((_, i) => `第${i + 1}节`)
 ];
-
-for (let i = 1; i <= 20; i++) selectorData[1].push("第" + i + "周");
-for (let i = 1; i <= 12; i++) selectorData[3].push("第" + i + "节");
 
 const getCurrentSection = () => {
   const date = new Date();
@@ -53,37 +56,33 @@ const selectorChecked = ref([
   selectorData[2][new Date().getDay() - 1],
   `第${getCurrentSection()}节`
 ]);
-const selectorValue = reactive([
+const selectorValue = ref([
   0,
   props.week < 20 && props.week > 0 ? props.week - 1 : 0,
   new Date().getDay() - 1,
   getCurrentSection() - 1
-]);
+] as const);
 
 const onChange = (e) => {
   selectorChecked.value = selector.map(
     (item, index) => item[e.detail.value[index]]
   );
-  selectorValue.values = e.detail.value;
+  selectorValue.value = e.detail.value;
 
   emit("changed", {
-    year: systemStore.generalInfo.termYear,
-    term: systemStore.generalInfo.term,
     campus: campus[e.detail.value[0]],
-    week: Math.pow(2, e.detail.value[1]).toString(),
-    weekday: (selectorValue.values[2] + 1).toString(),
-    sections: Math.pow(2, e.detail.value[3]).toString()
+    week: e.detail.value[1],
+    weekday: e.detail.value[2] + 1,
+    sections: e.detail.value[3]
   });
 };
 
 onMounted(() => {
   emit("changed", {
-    year: systemStore.generalInfo.termYear,
-    term: systemStore.generalInfo.term,
-    campus: campus[selectorValue[0]],
-    week: Math.pow(2, selectorValue[1]).toString(),
-    weekday: (selectorValue[2] + 1).toString(),
-    sections: Math.pow(2, getCurrentSection()).toString()
+    campus: campus[selectorValue.value[0]],
+    week: selectorValue.value[1],
+    weekday: selectorValue.value[2] + 1,
+    sections: selectorValue.value[3]
   });
 });
 

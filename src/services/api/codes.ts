@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export const ServerCode = {
   OK: 1,
 

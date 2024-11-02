@@ -41,9 +41,6 @@ const api = {
     midtermscoreInfo: "/api/func/zf/midtermscore",
     freeroom: "/api/func/zf/room"
   },
-  canteen: {
-    flow: "/api/func/canteen/flow"
-  },
   electricity: {
     balance: "/api/func/electricity/balance",
     record: "/api/func/electricity/record",
@@ -68,16 +65,4 @@ const api = {
   }
 };
 
-const defDevHost = "http://0.0.0.0:8080";
-function appendHost(api: any) {
-  for (const key in api)
-    if (Object.prototype.hasOwnProperty.call(api, key))
-      if (api[key] instanceof Object) appendHost(api[key]);
-      else
-        api[key] = import.meta.env.VITE_HOST
-          ? import.meta.env.VITE_HOST + api[key]
-          : defDevHost + api[key];
-}
-
-appendHost(api);
 export { api };

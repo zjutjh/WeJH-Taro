@@ -12,9 +12,9 @@
               <view class="iconfont icon-electricity" />
             </view>
             <view class="text-wrapper">
-              <text>{{ roomInfo.roomName }}</text>
+              <text>{{ room.name }}</text>
               <text class="week">
-                房间号 {{ roomInfo.roomCode }}
+                房间号 {{ room.code }}
               </text>
             </view>
           </view>
@@ -25,7 +25,7 @@
             <view class="text-wrapper">
               <text> 剩余总电量 </text>
               <text :class="[isUrgent ? 'dangerous' : 'normal', 'rest-number']">
-                {{ balance }}
+                {{ balance.toFixed(2) }}
               </text>
               <text> 度 </text>
             </view>
@@ -82,64 +82,21 @@ import {
   WList,
   WListItem
 } from "@/components";
-import { useRequest } from "@/hooks";
-import { YxyService } from "@/services";
 import { computed } from "vue";
-import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
+import useElectricityBalanceStore from "@/store/service/balance";
+import { storeToRefs } from "pinia";
+import { useRequestNext } from "@/hooks";
+import { YxyService } from "@/services";
 
-const roomInfo = computed(() => ({
-  roomName: serviceStore.electricity.roomName,
-  roomCode: serviceStore.electricity.roomCode
-}));
-
-const balance = computed(() => serviceStore.electricity.balance);
-
-const todayConsumption = computed(() => (serviceStore.electricity.todayConsumption));
-
-useRequest(YxyService.queryBalance, {
-  onBefore: () => {
-    Taro.showLoading({ title: "正在加载" });
-  },
-  onSuccess: (response) => {
-    if (response.data.code === 1) {
-      store.commit("setElectricityStore", {
-        roomName: response.data.data.display_room_name,
-        roomCode: response.data.data.room_code,
-        balance: response.data.data.soc
-      });
-    } else {
-      throw new Error(response.data.msg || response.errMsg);
-    }
-    Taro.hideLoading();
-  },
-  onError: (error) => {
-    if (error instanceof Error)
-      return error.message;
-    else return `查询电费余额失败\r\n${error.errMsg}`;
+const { room, balance } = storeToRefs(useElectricityBalanceStore());
+const { loading: consumptionLoading, data: consumption } = useRequestNext(
+  YxyService.queryConsumption, {
+    initialData: []
   }
-});
-
-const {
-  loading: consumptionLoading
-} = useRequest(YxyService.queryConsumption, {
-  onSuccess: (response) => {
-    if (response.data.code === 1) {
-      store.commit("setConsumption", response.data.data[0].used);
-    } else {
-      throw new Error(response.data.msg);
-    }
-  },
-  onError: (error) => {
-    if (error instanceof Error)
-      return error.message;
-  }
-});
-
-const isUrgent = computed(() => {
-  if (balance.value) return balance.value < 20;
-  else return false;
-});
+);
+const todayConsumption = computed(() => consumption.value[0]?.used);
+const isUrgent = computed(() => balance.value < 20);
 
 function nav2Record() {
   Taro.navigateTo({

@@ -5,8 +5,8 @@
         公告栏
       </view>
     </view>
-    <view v-if="currentPost" class="content">
-      <text> {{ currentPost.content.slice(0, 60) }}</text>
+    <view v-if="latestPost" class="content">
+      <text> {{ latestPost.content.slice(0, 60) }}</text>
     </view>
     <view v-else :class="['quick-view-container', 'empty']">
       <text>暂时公告信息</text>
@@ -15,13 +15,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed } from "vue";
 import Taro from "@tarojs/taro";
-import store, { serviceStore } from "@/store";
-import { SystemService } from "@/services";
+import { storeToRefs } from "pinia";
+import useNotificationStore from "@/store/service/notification";
+
+const { announcement, information } = storeToRefs(useNotificationStore());
 
 const handleClick = () => {
-  if (currentPost.value.type === "announcement") {
+  if (latestPost.value?.type === "announcement") {
     Taro.navigateTo({
       url: "/pages/announcement/index?tab=announcement"
     });
@@ -32,52 +34,21 @@ const handleClick = () => {
   }
 };
 
-const currentPost = ref<{ type: string; content: string }>({
-  type: "announcement",
-  content: serviceStore.announcement ?
-    serviceStore.announcement.announcements[
-      serviceStore.announcement.announcements.length - 1 || 0
-    ].content.replace(/\\n/g, "\n")
-    : ""
-});
+/** 在公告和咨询中取出最新的一条推文 */
+const latestPost = computed(() => {
+  const latestInformation = information.value[0];
+  const latestAnnouncement = announcement.value[announcement.value.length - 1];
 
-const updateCurrentPost = () => {
-  const information = serviceStore.information.informationList;
-  const announcement = serviceStore.announcement.announcements;
-  if (information.length === 0) {
-    return;
-  }
-  const infoTime = new Date(information[0].publish_time).getTime();
-  const announcementTime = new Date(announcement[announcement.length - 1].publishTime).getTime();
-  if (infoTime > announcementTime) {
-    currentPost.value = {
-      type: "information",
-      content: information[0].content.replace(
-        /\\n/g,
-        "\n"
-      )
-    };
+  if (!latestInformation || !latestAnnouncement) {
+    const content = (latestInformation || latestAnnouncement)?.content?.replace(/\\n/g, "\n");
+    if (latestInformation) return { type: "information", content };
+    else if (latestAnnouncement) return { type: "announcement", content };
+    else return undefined;
   } else {
-    currentPost.value = {
-      type: "announcement",
-      content: announcement[announcement.length - 1].content.replace(
-        /\\n/g,
-        "\n"
-      )
-    };
-  }
-};
-
-onMounted(() => {
-  updateCurrentPost();
-});
-
-onMounted(async () => {
-  try {
-    const informationList = (await SystemService.getInformation()).data.data || [];
-    store.commit("setInformationList", informationList);
-  } catch (e) {
-    console.error(e);
+    if (new Date(latestInformation.publish_time) > new Date(latestAnnouncement.publishTime)) {
+      return { type: "information", content: latestInformation.content };
+    }
+    return { type: "announcement", content: latestAnnouncement.content.replace(/\\n/g, "\n") };
   }
 });
 

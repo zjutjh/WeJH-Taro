@@ -15,7 +15,7 @@
     </text>
 
     <card
-      v-for="(item, index) in lessonTable"
+      v-for="(item, index) in lessonsOfDay"
       :key="item.lessonName"
       :style="{
         '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
@@ -58,18 +58,18 @@
     </card>
 
     <view
-      v-if="lessonTable?.length === 0 && !showTomorrow"
+      v-if="lessonsOfDay.length === 0 && !showTomorrow"
       class="default-content"
     >
       今天居然没有课😄
     </view>
     <view
-      v-if="lessonTable?.length === 0 && showTomorrow"
+      v-if="lessonsOfDay.length === 0 && showTomorrow"
       class="default-content"
     >
       明天居然没有课😄
     </view>
-    <view v-if="!lessonTable" class="default-content">
+    <view v-if="!lessonsOfDay" class="default-content">
       点击获取你的课表 ～
     </view>
   </quick-view>
@@ -79,60 +79,72 @@
 import Card from "../Card/index.vue";
 import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
-import { ZFService } from "@/services";
 import dayjs from "dayjs";
-import { CSSProperties, Ref, computed, onMounted, onUnmounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
+import { CSSProperties, computed, onMounted, onUnmounted, ref } from "vue";
 import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
-import { Lesson } from "@/types/Lesson";
+import useLessonTableStore from "@/store/service/lessonTable";
+import useGeneralInfoStore from "@/store/system/generalInfo";
+import { storeToRefs } from "pinia";
 
-const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
+const classStartTimer = ref<ReturnType<typeof setTimeout>>();
+const tomorrowTableTimer = ref<ReturnType<typeof setTimeout>>();
+
 const emit = defineEmits(["showHelp"]);
-const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
+const lessonTableStore = useLessonTableStore();
+const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+const showTomorrow = ref(false); // 每晚 10 点过后展示第二天课表
 
-const showTomorrow = dayjs().isAfter(tenPM);
+/** 当前学期的课程集合信息 */
+const termCollection = computed(() => {
+  return lessonTableStore.collections
+    .find(c => c.term === generalInfo.value.term
+      && generalInfo.value.termYear === c.year);
+});
 
-const lessonTable = computed(() => {
-  let tmp: Lesson[] | undefined;
-  try {
-    tmp = showTomorrow ? ZFService.getDayLessonTable("tomorrow") : ZFService.getDayLessonTable("today");
-  } catch {
-    tmp = undefined;
-  }
-  return tmp;
+const lessonsOfDay = computed(() => {
+  const list = termCollection.value?.lessons || [];
+  return list.filter((item) => {
+    const currentDay = !showTomorrow.value ? (new Date().getDay() || 7) : (new Date().getDay() + 1 || 7);
+    if (currentDay !== parseInt(item.weekday)) return false;
+    const currentWeek = generalInfo.value.week;
+
+    for (const time of item.week.split(",")) {
+      if (time.includes("-")) {
+        const start = parseInt(time.split("-")[0]);
+        const end = parseInt(time.split("-")[1]);
+        if (currentWeek <= end && currentWeek >= start)
+          if (!time.includes("单") && !time.includes("双")) return true;
+          else if (time.includes("单") && currentWeek % 2 === 1) return true;
+          else if (time.includes("双") && currentWeek % 2 === 0) return true;
+      } else if (currentWeek === parseInt(time)) return true;
+    }
+    return false;
+  });
 });
 
 const updateRestTimeCounter = ref(0);
 
 onMounted(() => {
-  timer.value = setInterval(() => {
+  classStartTimer.value = setInterval(() => {
     updateRestTimeCounter.value++;
-  }, 5000);
+  }, 5 * 1000);
+
+  tomorrowTableTimer.value = setInterval(() => {
+    const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
+    showTomorrow.value = dayjs().isAfter(tenPM);
+  }, 30 * 1000);
 });
 
 onUnmounted(() => {
-  if (timer.value) clearInterval(timer.value);
+  if (classStartTimer.value) clearInterval(classStartTimer.value);
+  if (tomorrowTableTimer.value) clearInterval(tomorrowTableTimer.value);
 });
 
 const updateTimeString = computed(() => {
-  if (!updateTime.value) return "更新失败";
-  return dayjs(updateTime.value).fromNow();
-});
-
-const updateTime = computed(() => {
-  let updateTime: Date | undefined = undefined;
-  try {
-    updateTime =
-      serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear][
-        systemStore.generalInfo.term
-      ]?.updateTime;
-    if (updateTime) return updateTime;
-    else return undefined;
-  } catch {
-    return undefined;
-  }
+  if (!termCollection.value?.updateTime) return "更新失败";
+  return dayjs(termCollection.value.updateTime).fromNow();
 });
 
 function nav2Lesson() {
