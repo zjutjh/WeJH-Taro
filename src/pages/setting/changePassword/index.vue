@@ -34,7 +34,7 @@
             {{ warnText }}
           </text>
           <template #footer>
-            <w-button block @tap="formCheck(true)">
+            <w-button block @tap="handleConfirm">
               确认修改
             </w-button>
           </template>
@@ -76,7 +76,7 @@ const isShowConfirm = ref(false);
 const showWarning = ref(false);
 const warnText = ref("");
 
-const formCheck = (clickButton?: boolean) => {
+const formCheck = () => {
   if (password.value === "" || passwordAgain.value === "") return;
   if (password.value.length < 6 || password.value.length > 20) {
     warnText.value = "密码长度必须在6~20位之间";
@@ -89,9 +89,11 @@ const formCheck = (clickButton?: boolean) => {
     return;
   }
   showWarning.value = false;
-  if (clickButton && !showWarning.value) {
-    isShowConfirm.value = true;
-  }
+};
+
+const handleConfirm = () => {
+  formCheck();
+  isShowConfirm.value = true;
 };
 const changePasswordClick = () => {
   isShowConfirm.value = false;
