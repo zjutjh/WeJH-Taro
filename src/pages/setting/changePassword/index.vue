@@ -6,22 +6,35 @@
         <card title="修改密码" class="input-card">
           <text>身份证号码</text>
           <view>
-            <input v-model="iid" password placeholder="请输入您的身份证号码">
+            <input v-model="iid" placeholder="请输入您的身份证号码">
           </view>
           <text>学号</text>
           <view>
-            <input v-model="stuid" password placeholder="请输入您的学号">
+            <input v-model="stuid" placeholder="请输入您的学号">
           </view>
           <text>新密码</text>
           <view>
-            <input v-model="password" password placeholder="请输入您的新密码">
+            <input
+              v-model="password"
+              type="password"
+              placeholder="请输入您的新密码"
+              @blur="formCheck"
+            >
           </view>
           <text>确认新密码</text>
           <view>
-            <input v-model="passwordAgain" password placeholder="请重复输入您的新密码">
+            <input
+              v-model="passwordAgain"
+              type="password"
+              placeholder="请重复输入您的新密码"
+              @blur="formCheck"
+            >
           </view>
+          <text v-if="showWarning" class="red-text">
+            {{ warnText }}
+          </text>
           <template #footer>
-            <w-button block @tap="isShowConfirm = true">
+            <w-button block @tap="handleConfirm">
               确认修改
             </w-button>
           </template>
@@ -60,22 +73,30 @@ const stuid = ref("");
 const password = ref("");
 const passwordAgain = ref("");
 const isShowConfirm = ref(false);
+const showWarning = ref(false);
+const warnText = ref("");
 
-const changePasswordClick = () => {
-  isShowConfirm.value = false;
-  if (password.value !== passwordAgain.value) {
-    Taro.showToast({
-      icon: "none",
-      title: "两次密码不一致!"
-    });
-    return;
-  } else if (password.value.length < 6 || password.value.length > 20) {
-    Taro.showToast({
-      icon: "none",
-      title: "密码长度必须在6~20位之间!"
-    });
+const formCheck = () => {
+  if (password.value === "" || passwordAgain.value === "") return;
+  if (password.value.length < 6 || password.value.length > 20) {
+    warnText.value = "密码长度必须在6~20位之间";
+    showWarning.value = true;
     return;
   }
+  if (password.value !== passwordAgain.value) {
+    warnText.value = "两次密码输入不一致";
+    showWarning.value = true;
+    return;
+  }
+  showWarning.value = false;
+};
+
+const handleConfirm = () => {
+  formCheck();
+  isShowConfirm.value = true;
+};
+const changePasswordClick = () => {
+  isShowConfirm.value = false;
   Taro.showLoading({
     title: "正在修改中",
     mask: true
@@ -90,26 +111,17 @@ const changePasswordClick = () => {
 const { run } = useRequest(
   UserService.changePassword, {
     loadingDelay: 600,
+    manual: true,
     onSuccess: (res) => {
       if (res.data.code === 1 && res.data.msg === "OK") {
         Taro.showToast({
           icon: "success",
           title: "修改密码成功"
         });
-      } else if (res.data.code === 200510) {
+      } else {
         Taro.showToast({
           icon: "none",
-          title: "该学号或身份证不存在或者不匹配，请重新输入!"
-        });
-      } else if (res.data.code === 200511) {
-        Taro.showToast({
-          icon: "none",
-          title: "密码长度必须在6~20位之间!"
-        });
-      } else if (res.data.code === 200513) {
-        Taro.showToast({
-          icon: "none",
-          title: "学号格式不正确，请重新输入!"
+          title: res.data.msg
         });
       }
     },
