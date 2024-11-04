@@ -3,18 +3,16 @@ import Taro from "@tarojs/taro";
 import { Information } from "@/types/Information";
 import styles from "./index.module.scss";
 import { Card } from "@/components";
-import store from "@/store";
 import dayjs from "dayjs";
+import useWebview from "@/hooks/useWebview";
 
+const { open } = useWebview();
 const props = defineProps<{
   source: Information;
 }>();
 
 const handleClickLink = () => {
-  store.commit("setTempUrl", { url: props.source.link });
-  Taro.navigateTo({
-    url: "/pages/webview/index"
-  });
+  open(props.source.link);
 };
 
 const handleClick = () => {

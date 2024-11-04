@@ -8,9 +8,11 @@ import { useRequestNext } from "@/hooks";
 import { RequestError } from "@/utils";
 import useUserStore from "@/store/service/user";
 import useHomeCardStore from "@/store/service/homecard";
+import useWebview from "@/hooks/useWebview";
 
 const { updateBindState } = useUserStore();
 const homeCardStore = useHomeCardStore();
+const { open } = useWebview();
 
 const phoneNumber = ref("");
 const graphCode = ref("");
@@ -83,13 +85,8 @@ const handleBind = async () => {
 };
 
 const handleClickTutorial = () => {
-  // TODO: encode url
-  // store.commit("setTempUrl", {
-  // url: "https://mp.weixin.qq.com/s/uFdF37XSznzPMOe_IfjrEQ"
-  // });
-  Taro.navigateTo({
-    url: "/pages/webview/index"
-  });
+  // TODO: 链接放到配置平台
+  open("https://mp.weixin.qq.com/s/uFdF37XSznzPMOe_IfjrEQ");
 };
 
 onMounted(() => {

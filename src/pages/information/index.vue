@@ -12,7 +12,7 @@
           {{ information.content.replace(/\\n/g, '\n') }}
         </view>
         <view v-if="information.img1" class="img_container">
-          <image
+          <taro-image
             :src="information.img1"
             alt="Card Image"
             class="image"
@@ -22,7 +22,7 @@
           />
         </view>
         <view v-if="information.img2" class="img_container">
-          <image
+          <taro-image
             :src="information.img2"
             alt="Card Image"
             class="image"
@@ -32,7 +32,7 @@
           />
         </view>
         <view v-if="information.img3" class="img_container">
-          <image
+          <taro-image
             :src="information.img3"
             alt="Card Image"
             class="image"
@@ -46,7 +46,7 @@
         </view>
         <template #footer>
           <view class="logo_container">
-            <image
+            <taro-image
               src="https://api.cnpatrickstar.com/img/92a63e97-cd3e-411b-b4aa-8e6fad5fbd00.jpg"
               alt="logo_fy"
               class="logo_fy"
@@ -55,7 +55,7 @@
             <view class="x">
               X
             </view>
-            <image
+            <taro-image
               src="https://api.cnpatrickstar.com/img/15c05a4c-7c2d-4561-9536-80614b7b65b8.jpg"
               alt="logo_jh"
               class="logo_jh"
@@ -76,20 +76,21 @@
 
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
-import { serviceStore } from "@/store";
 import { computed, ref } from "vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { Image as TaroImage } from "@tarojs/components";
 import "./index.scss";
+import useNotificationStore from "@/store/service/notification";
 
+const notificationStore = useNotificationStore();
 const instance = Taro.getCurrentInstance();
-
 const needFixWidth = ref(false);
 
-const { informationId } = instance.router?.params as { informationId?: number };
+const id = instance.router?.params.informationId;
 
 const information = computed(() => {
-  return serviceStore.information.informationList.find((information) => information.id == informationId)!;
+  return notificationStore.information.find((item) => String(item.id) === id)!;
 });
 
 const imageList = computed(() => [
