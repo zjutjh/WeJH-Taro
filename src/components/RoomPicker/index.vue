@@ -53,7 +53,7 @@ const selectorChecked = ref([
   selectorData[2][new Date().getDay() - 1],
   `第${getCurrentSection()}节`
 ]);
-const selectorValue = reactive([
+const selectorValue = ref([
   0,
   props.week < 20 && props.week > 0 ? props.week - 1 : 0,
   new Date().getDay() - 1,
@@ -64,14 +64,14 @@ const onChange = (e) => {
   selectorChecked.value = selector.map(
     (item, index) => item[e.detail.value[index]]
   );
-  selectorValue.values = e.detail.value;
+  selectorValue.value = e.detail.value;
 
   emit("changed", {
     year: systemStore.generalInfo.termYear,
     term: systemStore.generalInfo.term,
     campus: campus[e.detail.value[0]],
     week: Math.pow(2, e.detail.value[1]).toString(),
-    weekday: (selectorValue.values[2] + 1).toString(),
+    weekday: (selectorValue.value[2] + 1).toString(),
     sections: Math.pow(2, e.detail.value[3]).toString()
   });
 };
@@ -80,9 +80,9 @@ onMounted(() => {
   emit("changed", {
     year: systemStore.generalInfo.termYear,
     term: systemStore.generalInfo.term,
-    campus: campus[selectorValue[0]],
-    week: Math.pow(2, selectorValue[1]).toString(),
-    weekday: (selectorValue[2] + 1).toString(),
+    campus: campus[selectorValue.value[0]],
+    week: Math.pow(2, selectorValue.value[1]).toString(),
+    weekday: (selectorValue.value[2] + 1).toString(),
     sections: Math.pow(2, getCurrentSection()).toString()
   });
 });
