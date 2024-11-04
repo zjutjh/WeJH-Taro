@@ -1,11 +1,12 @@
 <template>
-  <web-view :src="schoolBusUrl" />
+  <web-view :src="generalInfo.schoolBusUrl" />
 </template>
 
 <script setup lang="ts">
-import { systemStore } from "@/store";
 import "./index.scss";
+import useGeneralInfoStore from "@/store/system/generalInfo";
+import { storeToRefs } from "pinia";
 
-const schoolBusUrl = systemStore.generalInfo.schoolBusUrl;
+const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
 
 </script>

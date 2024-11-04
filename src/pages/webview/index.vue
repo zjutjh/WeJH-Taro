@@ -1,19 +1,15 @@
 <template>
-  <web-view :src="url" />
+  <web-view :src="target" />
 </template>
 
 <script setup lang="ts">
-import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
-const url = serviceStore.webview.tempUrl;
-store.commit("clearTemp");
+const router = Taro.getCurrentInstance().router;
+const target = decodeURIComponent(router?.params["target"] ?? "");
 
-if (!url) {
-  Taro.showModal({
-    title: "未找到页面"
-  });
-  throw new Error("invalid access");
+if (!target) {
+  Taro.showModal({ title: "未找到页面" });
 }
 
 </script>
