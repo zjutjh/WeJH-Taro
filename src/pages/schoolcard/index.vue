@@ -5,7 +5,7 @@
       <view class="school-card">
         <image mode="aspectFit" src="@/assets/photos/card.svg" />
         <text class="balance">
-          ¥ {{ balance }}
+          ¥ {{ cardBalanceStore.balance }}
         </text>
       </view>
       <card class="consume-card">
@@ -69,74 +69,56 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
 import dayjs from "dayjs";
-import { CardConsume } from "@/types/CardConsume";
-import store, { serviceStore } from "@/store";
-
 import "./index.scss";
-import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import { Picker } from "@tarojs/components";
 import Taro from "@tarojs/taro";
+import useCardBalanceStore from "@/store/service/cardBalance";
+import { RequestError } from "@/utils";
+import { useRequestNext } from "@/hooks";
 
+const cardBalanceStore = useCardBalanceStore();
 const selectedDate = ref(dayjs().format("YYYY-MM-DD")); // YYYY-MM-DD
 
-const balance = computed(() => serviceStore.card.balance || 0);
-const records = ref<CardConsume[]>([]);
-
-useRequest(YxyService.querySchoolCardBalance, {
-  onSuccess: (res) => {
-    if (res.data.code === 1) {
-      if (Number.isFinite(parseFloat(res.data.data)))
-        store.commit("setCardBalance", res.data.data);
-      else throw new Error("无效余额值");
-    } else if (res.data.code === 200514) {
-      Taro.showModal({
-        title: "查询余额失败",
-        content: res.data.msg,
-        confirmText: "重新登录",
-        success: (res) => {
-          if (res.confirm)
-            Taro.navigateTo({ url: "/pages/bind/index" });
-        }
-      });
-    } else throw new Error(res.data.msg);
-  },
-  onError: (error) => {
-    if (!(error instanceof Error)) return `查询校园卡余额\r\n${error.errMsg}`;
-    else return `查询校园卡余额\r\n${error.message}`;
+watchEffect(() => {
+  const error = cardBalanceStore.error;
+  if (error instanceof RequestError && error.code === 200514) {
+    Taro.showModal({
+      title: "查询余额失败",
+      content: error.message,
+      confirmText: "重新登录",
+      success: (res) => {
+        if (res.confirm)
+          Taro.navigateTo({ url: "/pages/bind/index" });
+      }
+    });
   }
 });
 
-const { run: queryRecord, loading } = useRequest(
+const { data: records, run: queryRecord, loading } = useRequestNext(
   YxyService.querySchoolCardRecord, {
     defaultParams: { queryTime: dayjs().format("YYYYMMDD") },
-    onSuccess: (response) => {
-      if (response.data.code === 1) {
-        records.value = response.data.data || [];
-        store.commit("setCardToday", records.value);
-      } else throw new Error(response.data.msg);
-    },
+    initialData: [],
     onError: (e) => {
-      if (e instanceof Error) return e.message;
+      if (e instanceof RequestError)
+        Taro.showToast({ title: `查询消费记录失败：${e.message}`, icon: "none" });
     }
   }
 );
 
-const totalConsume = ref(0);
 const consumeList = computed(() => {
-  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-  totalConsume.value = 0;
-  const tmp = records.value;
-  return (
-    tmp.filter((item) => {
-      if (parseFloat(item.money) < 0)
-        totalConsume.value += Math.abs(parseFloat(item.money));
-      return parseFloat(item.money) !== 0;
-    }) || []
-  );
+  return records.value.filter((item) => parseFloat(item.money) !== 0);
+});
+
+const totalConsume = computed(() => {
+  return records.value.reduce((prev, curr) => {
+    const value = +curr.money;
+    if (value < 0) return prev + Math.abs(value);
+    return prev;
+  }, 0);
 });
 
 async function updateData() {
