@@ -10,7 +10,7 @@
       当前余额 ({{ balanceUpdateTimeString }})
     </text>
     <view class="quickcard-balance">
-      <text> ¥ {{ balance || 0 }} </text>
+      <text> ¥ {{ cardBalanceStore.balance }} </text>
     </view>
   </quick-view>
 </template>
@@ -20,36 +20,15 @@ import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed } from "vue";
-import store, { serviceStore } from "@/store";
 import "./index.scss";
-import { useRequest } from "@/hooks";
-import { YxyService } from "@/services";
+import useCardBalanceStore from "@/store/service/cardBalance";
 
-const { error } = useRequest(YxyService.querySchoolCardBalance, {
-  onSuccess: (res) => {
-    if (res.data.code === 1) {
-      if (Number.isFinite(parseFloat(res.data.data)))
-        store.commit("setCardBalance", res.data.data);
-      else throw new Error("无效余额值");
-    } else {
-      throw new Error(res.data.msg);
-    }
-  },
-  onError: (error) => {
-    if (!(error instanceof Error)) return `查询校园卡余额\r\n${error.errMsg}`;
-    else return `查询校园卡余额\r\n${error.message}`;
-  }
-});
+const cardBalanceStore = useCardBalanceStore();
 
 const emit = defineEmits(["showHelp"]);
 
 const balanceUpdateTimeString = computed(() => {
-  const time = serviceStore.card.updateTime;
-  return time && !error.value ? dayjs(time.balance).fromNow() : "更新失败";
-});
-
-const balance = computed(() => {
-  return serviceStore.card.balance;
+  return !cardBalanceStore.error ? dayjs(cardBalanceStore.updateTime).fromNow() : "更新失败";
 });
 
 function nav2Card() {
