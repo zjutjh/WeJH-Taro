@@ -51,20 +51,12 @@ import Taro from "@tarojs/taro";
 import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import { settingText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
-import { ref, watch } from "vue";
-import { serviceStore } from "@/store";
+import { ref } from "vue";
 import "./index.scss";
 
 const isEmpty = ref(true);
 const emptyText = settingText.empty;
 const copyright = getCopyRight();
-const themeMode = ref(serviceStore.theme.themeMode);
-const currentTab = ref(themeMode);
-
-watch(() => serviceStore.theme.themeMode, (newValue) => {
-  currentTab.value = newValue;
-  themeMode.value = newValue;
-});
 
 const nav2ChangePassword = () => {
   Taro.navigateTo({ url: "/pages/setting/changePassword/index" });
