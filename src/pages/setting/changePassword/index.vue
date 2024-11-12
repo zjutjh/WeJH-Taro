@@ -6,20 +6,33 @@
         <card title="修改密码" class="input-card">
           <text>身份证号码</text>
           <view>
-            <input v-model="iid" password placeholder="请输入您的身份证号码">
+            <input v-model="iid" placeholder="请输入您的身份证号码">
           </view>
           <text>学号</text>
           <view>
-            <input v-model="stuid" password placeholder="请输入您的学号">
+            <input v-model="stuid" placeholder="请输入您的学号">
           </view>
           <text>新密码</text>
           <view>
-            <input v-model="password" password placeholder="请输入您的新密码">
+            <input
+              v-model="password"
+              type="password"
+              placeholder="请输入您的新密码"
+              @blur="handleValidateForm"
+            >
           </view>
           <text>确认新密码</text>
           <view>
-            <input v-model="passwordAgain" password placeholder="请重复输入您的新密码">
+            <input
+              v-model="passwordAgain"
+              type="password"
+              placeholder="请重复输入您的新密码"
+              @blur="handleValidateForm"
+            >
           </view>
+          <text v-if="warningText" class="warning-text">
+            {{ warningText }}
+          </text>
           <template #footer>
             <w-button block @tap="isShowConfirm = true">
               确认修改
@@ -38,7 +51,7 @@
           },
           confirm: {
             label: '确定',
-            callback: changePasswordClick
+            callback: handleSubmit
           }
         }"
       />
@@ -52,72 +65,53 @@ import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import "./index.scss";
 import Taro from "@tarojs/taro";
 import { UserService } from "@/services";
-import { useRequest } from "@/hooks";
 import { helpText } from "@/constants/copywriting";
+import { RequestError } from "@/utils";
 
 const iid = ref("");
 const stuid = ref("");
 const password = ref("");
 const passwordAgain = ref("");
 const isShowConfirm = ref(false);
+const warningText = ref("");
 
-const changePasswordClick = () => {
-  isShowConfirm.value = false;
-  if (password.value !== passwordAgain.value) {
-    Taro.showToast({
-      icon: "none",
-      title: "两次密码不一致!"
-    });
-    return;
-  } else if (password.value.length < 6 || password.value.length > 20) {
-    Taro.showToast({
-      icon: "none",
-      title: "密码长度必须在6~20位之间!"
-    });
-    return;
+function handleValidateForm() {
+  const hasUnfilled = [iid, stuid, password, passwordAgain].some(field => !field.value);
+  // 未完成表单情况下，不在 blur 事件中展示 warningText
+  if (hasUnfilled) return "请完成表单";
+
+  let reason = "";
+  if (password.value.length < 6 || password.value.length > 20) {
+    reason = "密码长度必须在 6~20 位之间!";
+  } else if (password.value !== passwordAgain.value) {
+    reason = "两次密码不一致!";
   }
-  Taro.showLoading({
-    title: "正在修改中",
-    mask: true
-  });
-  run({
-    iid: iid.value,
-    stuid: stuid.value,
-    password: password.value
-  });
+  warningText.value = reason;
+  return reason;
 };
 
-const { run } = useRequest(
-  UserService.changePassword, {
-    loadingDelay: 600,
-    onSuccess: (res) => {
-      if (res.data.code === 1 && res.data.msg === "OK") {
-        Taro.showToast({
-          icon: "success",
-          title: "修改密码成功"
-        });
-      } else if (res.data.code === 200510) {
-        Taro.showToast({
-          icon: "none",
-          title: "该学号或身份证不存在或者不匹配，请重新输入!"
-        });
-      } else if (res.data.code === 200511) {
-        Taro.showToast({
-          icon: "none",
-          title: "密码长度必须在6~20位之间!"
-        });
-      } else if (res.data.code === 200513) {
-        Taro.showToast({
-          icon: "none",
-          title: "学号格式不正确，请重新输入!"
-        });
-      }
-    },
-    onError: (e: Error) => {
-      return `失败\r\n${e.message || "网络错误"}`;
-    }
+async function handleSubmit() {
+  const failedReason = handleValidateForm();
+  if (failedReason) {
+    warningText.value = failedReason;
+    return;
   }
-);
+
+  isShowConfirm.value = false;
+  Taro.showLoading({ title: "正在修改中", mask: true });
+
+  try {
+    await UserService.changePassword({
+      iid: iid.value,
+      stuid: stuid.value,
+      password: password.value
+    });
+    Taro.showToast({ icon: "success", title: "修改密码成功" });
+  } catch (e) {
+    if (e instanceof RequestError)
+      Taro.showToast({ icon: "none", title: `修改密码失败: ${e.message}` });
+  }
+}
 
 const onCancel = () => {
   isShowConfirm.value = false;
