@@ -6,11 +6,11 @@
         <card title="注销" class="input-card">
           <text>身份证号码</text>
           <view>
-            <input v-model="iid" password placeholder="请输入您的身份证号码">
+            <input v-model="iid" type="password" placeholder="请输入您的身份证号码">
           </view>
           <text>学号</text>
           <view>
-            <input v-model="stuid" password placeholder="请输入您的学号">
+            <input v-model="stuid" type="password" placeholder="请输入您的学号">
           </view>
           <template #footer>
             <w-button block @tap="isShowConfirm = true">
@@ -35,7 +35,7 @@
           },
           confirm: {
             label: '确定',
-            callback: logoutClick
+            callback: handleLogout
           }
         }"
       />
@@ -48,61 +48,31 @@ import { ref } from "vue";
 import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import "./index.scss";
 import Taro from "@tarojs/taro";
-import { UserService } from "@/services";
-import { useRequest } from "@/hooks";
 import { helpText } from "@/constants/copywriting";
-import store from "@/store";
+import { CookieUtils, RequestError } from "@/utils";
+import useUserStore from "@/store/service/user";
+import { UserService } from "@/services";
 
+const userStore = useUserStore();
 const iid = ref("");
 const stuid = ref("");
 const isShowConfirm = ref(false);
 
-const logoutClick = () => {
+async function handleLogout() {
   isShowConfirm.value = false;
-  Taro.showLoading({
-    title: "正在注销中",
-    mask: true
-  });
-  run({
-    iid: iid.value,
-    stuid: stuid.value
-  });
-};
+  Taro.showLoading({ title: "正在注销中", mask: true });
 
-const { run } = useRequest(
-  UserService.logout, {
-    loadingDelay: 600,
-    onSuccess: (res) => {
-      if (res.data.code === 1 && res.data.msg === "OK") {
-        Taro.showToast({
-          icon: "success",
-          title: "注销成功"
-        });
-        store.commit("clearSession");
-        store.commit("clearUserInfo");
-        setTimeout(nav2Home, 2000);
-      } else if (res.data.code === 200511) {
-        Taro.showToast({
-          icon: "none",
-          title: "密码长度必须在6~20位之间!"
-        });
-      } else if (res.data.code === 200510) {
-        Taro.showToast({
-          icon: "none",
-          title: "该学号或身份证不存在或者不匹配，请重新输入!"
-        });
-      } else if (res.data.code === 200513) {
-        Taro.showToast({
-          icon: "none",
-          title: "学号格式不正确，请重新输入!"
-        });
-      }
-    },
-    onError: (e: Error) => {
-      return `失败\r\n${e.message || "网络错误"}`;
-    }
+  try {
+    await UserService.logout({ iid: iid.value, stuid: stuid.value });
+    Taro.showToast({ icon: "success", title: "注销成功" });
+    CookieUtils.clear();
+    userStore.clearUserData();
+    setTimeout(nav2Home, 2000);
+  } catch (e) {
+    if (e instanceof RequestError)
+      Taro.showToast({ icon: "none", title: e.message });
   }
-);
+}
 
 const onCancel = () => {
   isShowConfirm.value = false;
