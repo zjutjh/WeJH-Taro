@@ -9,8 +9,8 @@
           </template>
           <w-list inner>
             <w-list-item>
-              <image
-                src="@/assets/photos/feedback.svg"
+              <taro-image
+                :src="FeedbackCoverImage"
                 style="margin: 8px 0; width: 100%"
               />
             </w-list-item>
@@ -30,6 +30,8 @@
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
 import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
+import { Image as TaroImage } from "@tarojs/components";
+import FeedbackCoverImage from "@/assets/photos/feedback.svg";
 import "./index.scss";
 
 const groupInfo = [

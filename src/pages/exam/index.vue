@@ -3,7 +3,7 @@
     <title-bar title="考试安排" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/exam.svg" />
+        <taro-image :src="ExamCoverImage" />
         <view class="extra" @tap="showHelp">
           <view class="icon-wrapper">
             <view class="extra-icon iconfont icon-announcement" />
@@ -136,6 +136,8 @@ import {
 import { ZFService } from "@/services";
 import dayjs, { ConfigType } from "dayjs";
 import { helpText } from "@/constants/copywriting";
+import { Image as TaroImage } from "@tarojs/components";
+import ExamCoverImage from "@/assets/photos/exam.svg";
 import "./index.scss";
 
 const selectTerm = ref({

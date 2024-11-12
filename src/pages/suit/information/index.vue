@@ -3,7 +3,7 @@
     <title-bar title="我的信息" back-button />
     <scroll-view :scroll-y="true">
       <view :class="style.header">
-        <image src="@/assets/photos/suitapply-suitInformation.svg" />
+        <taro-image :src="SuitInformationCoverImage" />
       </view>
 
       <view class="flex-column">
@@ -106,6 +106,8 @@ import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
 import Taro from "@tarojs/taro";
 import { helpText } from "@/constants/copywriting";
+import { Image as TaroImage } from "@tarojs/components";
+import SuitInformationCoverImage from "@/assets/photos/suitapply-suitInformation.svg";
 
 const helpContent = helpText.suit.information;
 const isShowHelp = ref(false);

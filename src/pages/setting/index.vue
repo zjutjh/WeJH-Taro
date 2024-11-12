@@ -38,20 +38,18 @@
         </card>
       </view>
     </scroll-view>
-    <image
-      v-if="isEmpty"
-      src="@/assets/photos/setting.svg"
-      style="margin: 0 auto"
-    />
+    <taro-image v-if="isEmpty" :src="SettingCoverImage" style="margin: 0 auto" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
+import { ref } from "vue";
 import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import { settingText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
-import { ref } from "vue";
+import SettingCoverImage from "@/assets/photos/setting.svg";
+import { Image as TaroImage } from "@tarojs/components";
 import "./index.scss";
 
 const isEmpty = ref(true);

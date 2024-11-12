@@ -3,7 +3,7 @@
     <title-bar title="寝室电费查询" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/electricity.svg" />
+        <taro-image :src="ElectricityCoverImage" />
       </view>
       <view class="flex-column">
         <card class="info-card">
@@ -88,6 +88,8 @@ import useElectricityBalanceStore from "@/store/service/balance";
 import { storeToRefs } from "pinia";
 import { useRequestNext } from "@/hooks";
 import { YxyService } from "@/services";
+import ElectricityCoverImage from "@/assets/photos/electricity.svg";
+import { Image as TaroImage } from "@tarojs/components";
 
 const { room, balance } = storeToRefs(useElectricityBalanceStore());
 const { loading: consumptionLoading, data: consumption } = useRequestNext(
