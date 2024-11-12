@@ -29,10 +29,11 @@
     max-height: 500px;
     margin-top: 0.5rem;
     border-top: 2Px solid var(--wjh-color-border);
-    transition: all 0.3s;
+    transition: max-height 0.3s;
   }
 
   .questionnaire-title {
+    flex: 1;
     font-size: 1.3rem;
     display: flex;
     align-items: center;

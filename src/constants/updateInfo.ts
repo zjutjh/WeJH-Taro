@@ -41,6 +41,7 @@ export const updateInfo: UpdateInfoType = {
 };
 
 export const questionnaireInfo = {
+  // TODO: 配置化
   isAccess: false,
   appId: "wxd947200f82267e58",
   path: "pages/wjxqList/wjxqList?activityId=O5QdXK"

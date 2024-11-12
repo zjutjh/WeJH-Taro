@@ -5,12 +5,12 @@
     icon-name="questionnaire"
   >
     <view class="questionnaire-header">
-      <view class="questionnaire-title" @tap="openQuestionnaire">
+      <view class="questionnaire-title" @tap="handleOpen">
         <view class="iconfont icon-questionnaire" />
         <text>调查问卷</text>
       </view>
       <view class="questionnaire-action">
-        <template v-if="!isFold">
+        <template v-if="status !== 'fold'">
           <text @tap="toggleFold(true)">
             折叠
           </text>
@@ -21,16 +21,16 @@
           </text>
           <view
             class="questionnaire-close-icon iconfont icon-close"
-            @tap="closeQuesionnaire"
+            @tap="handleClose"
           />
         </template>
       </view>
     </view>
     <view
       class="questionnaire-body"
-      :style="!isFold ? undefined : { maxHeight: 0, margin: 0, border: 0 }"
+      :style="status != 'fold' ? undefined : { maxHeight: 0, margin: 0, border: 0 }"
     >
-      <view class="default-content" @tap="openQuestionnaire">
+      <view class="default-content" @tap="handleOpen">
         <view>点击卡片参与问卷调查 </view>
         <view>为微精弘的更新迭代提出一份建议吧～</view>
       </view>
@@ -42,45 +42,35 @@
 import "./index.scss";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
-import store, { systemStore } from "@/store";
 import { questionnaireInfo } from "@/constants/updateInfo";
+import useQuestionnaireStore from "@/store/service/questionnaire";
+import { storeToRefs } from "pinia";
 
+const { status } = storeToRefs(useQuestionnaireStore());
 const showQuestionnaire = ref(true);
-const isFold = ref(false);
-isFold.value = systemStore.questionnaire.state === "fold" ? true : false;
 
-const closeQuesionnaire = () => {
+function handleClose() {
   Taro.showModal({
     content: "您确定要关闭此选项卡吗？",
     cancelText: "仅一次",
     confirmText: "永久关闭",
     success(res) {
-      if (res.confirm)
-        store.commit("setQuestionnaire", {
-          path: systemStore.questionnaire.path,
-          state: "close"
-        });
-      else if (res.cancel) {
-        showQuestionnaire.value = false;
-      }
+      if (res.confirm) status.value = "close";
+      else if (res.cancel) showQuestionnaire.value = false;
     }
   });
 };
 
-const toggleFold = (state: boolean) => {
-  isFold.value = state;
-  store.commit("setQuestionnaire", {
-    path: systemStore.questionnaire.path,
-    state: state ? "fold" : "open"
-  });
+const toggleFold = (value: boolean) => {
+  status.value = value ? "fold" : "open";
 };
 
-const openQuestionnaire = () => {
-  toggleFold(true);
-  Taro.navigateToMiniProgram({
+const handleOpen = async () => {
+  await Taro.navigateToMiniProgram({
     appId: questionnaireInfo.appId,
     path: questionnaireInfo.path
   });
+  toggleFold(true);
 };
 
 </script>
