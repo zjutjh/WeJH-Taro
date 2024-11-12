@@ -5,6 +5,7 @@ import styles from "./index.module.scss";
 import { Card } from "@/components";
 import dayjs from "dayjs";
 import useWebview from "@/hooks/useWebview";
+import { Image as TaroImage } from "@tarojs/components";
 
 const { open } = useWebview();
 const props = defineProps<{
@@ -45,7 +46,7 @@ const timeFormat = (time: string) => {
     </view>
     <template #footer>
       <view :class="styles.logo_container">
-        <image
+        <taro-image
           src="https://api.cnpatrickstar.com/img/92a63e97-cd3e-411b-b4aa-8e6fad5fbd00.jpg"
           alt="logo_fy"
           :class="styles.logo_fy"
@@ -54,7 +55,7 @@ const timeFormat = (time: string) => {
         <view :class="styles.x">
           X
         </view>
-        <image
+        <taro-image
           src="https://api.cnpatrickstar.com/img/15c05a4c-7c2d-4561-9536-80614b7b65b8.jpg"
           alt="logo_jh"
           :class="styles.logo_jh"

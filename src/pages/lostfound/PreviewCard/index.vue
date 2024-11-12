@@ -10,14 +10,14 @@
         {{ source.type ? "失物招领": "寻物启事" }}
       </view>
       <view v-if="isForyou" :class="styles.joint">
-        <image
+        <taro-image
           src="https://api.cnpatrickstar.com/img/92a63e97-cd3e-411b-b4aa-8e6fad5fbd00.jpg"
           alt="logo_fy"
           :class="styles.logo"
           mode="aspectFit"
         />
         <text>x</text>
-        <image
+        <taro-image
           src="https://api.cnpatrickstar.com/img/15c05a4c-7c2d-4561-9536-80614b7b65b8.jpg"
           alt="logo_jh"
           :class="styles.logo"
@@ -75,7 +75,7 @@
             :key="`${source.id}-${item}`"
             :class="styles['img-wrapper']"
           >
-            <image
+            <taro-image
               :class="styles.image"
               style="width: 100Px ;height: 100Px"
               mode="aspectFill"
@@ -137,7 +137,7 @@
             :key="`${source.id}-${item}`"
             :class="styles['img-wrapper']"
           >
-            <image
+            <taro-image
               :class="styles.image"
               style="width: 100Px ;height: 100Px"
               mode="aspectFill"
@@ -162,6 +162,7 @@ import { computed, ref, toRefs } from "vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import styles from "./index.module.scss";
+import { Image as TaroImage } from "@tarojs/components";
 
 const props = defineProps<{
   source: LostfoundRecord;

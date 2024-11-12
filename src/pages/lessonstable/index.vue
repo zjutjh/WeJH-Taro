@@ -40,11 +40,8 @@
       </view>
       <view class="col">
         <view class="switch-button" @tap="pickerModeSwitch">
-          <image
-            v-if="!showWeekPicker"
-            src="@/assets/icons/term-week-swicher/term.svg"
-          />
-          <image v-else src="@/assets/icons/term-week-swicher/week.svg" />
+          <taro-image v-if="!showWeekPicker" :src="TermSwitcherIcon" />
+          <taro-image v-else :src="WeekSwitcherIcon" />
         </view>
       </view>
     </bottom-panel>
@@ -87,6 +84,9 @@ import { useTimeInstance } from "@/hooks";
 import { storeToRefs } from "pinia";
 import useGeneralInfoStore from "@/store/system/generalInfo";
 import useLessonTableStore from "@/store/service/lessonTable";
+import TermSwitcherIcon from "@/assets/icons/term-week-swicher/term.svg";
+import WeekSwitcherIcon from "@/assets/icons/term-week-swicher/week.svg";
+import { Image as TaroImage } from "@tarojs/components";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();

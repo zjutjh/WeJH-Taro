@@ -3,7 +3,7 @@
     <title-bar title="正装借用" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/suit.svg" />
+        <taro-image :src="SuitCoverImage" />
         <view class="extra" @tap="showHelp">
           <view class="icon-wrapper">
             <view class="extra-icon iconfont icon-announcement" />
@@ -67,6 +67,8 @@ import {
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
 import { helpText } from "@/constants/copywriting";
+import SuitCoverImage from "@/assets/photos/suit.svg";
+import { Image as TaroImage } from "@tarojs/components";
 
 const showModal = ref(false);
 const showContent = helpText.suit.main;

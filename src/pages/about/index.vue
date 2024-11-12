@@ -4,9 +4,9 @@
     <scroll-view :scroll-y="true" style="flex: 1">
       <view class="flex-column">
         <card>
-          <image
+          <taro-image
             mode="aspectFit"
-            src="@/assets/jh-logo.png"
+            :src="JHLogo"
             style="height: 20vh; width: 70%; display: block; margin: auto"
           />
         </card>
@@ -34,8 +34,10 @@
 </template>
 
 <script setup lang="ts">
+import { Image as TaroImage } from "@tarojs/components";
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import { aboutText } from "@/constants/copywriting";
+import JHLogo from "@/assets/jh-logo.png";
 import { getCopyRight } from "@/utils";
 import "./index.scss";
 

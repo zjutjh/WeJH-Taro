@@ -3,7 +3,7 @@
     <title-bar title="校园卡" back-button />
     <scroll-view :scroll-y="true">
       <view class="school-card">
-        <image mode="aspectFit" src="@/assets/photos/card.svg" />
+        <taro-image mode="aspectFit" :src="SchoolCardCoverImage" />
         <text class="balance">
           ¥ {{ cardBalanceStore.balance }}
         </text>
@@ -74,11 +74,12 @@ import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/component
 import dayjs from "dayjs";
 import "./index.scss";
 import { YxyService } from "@/services";
-import { Picker } from "@tarojs/components";
+import { Picker, Image as TaroImage } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import useCardBalanceStore from "@/store/service/cardBalance";
 import { RequestError } from "@/utils";
 import { useRequestNext } from "@/hooks";
+import SchoolCardCoverImage from "@/assets/photos/card.svg";
 
 const cardBalanceStore = useCardBalanceStore();
 const selectedDate = ref(dayjs().format("YYYY-MM-DD")); // YYYY-MM-DD

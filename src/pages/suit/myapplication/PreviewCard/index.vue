@@ -58,7 +58,7 @@
               :key="`${source.id}-${item}`"
               :class="styles['img-wrapper']"
             >
-              <image
+              <taro-image
                 :class="styles.image"
                 style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
@@ -115,7 +115,7 @@
               :key="`${source.id}-${item}`"
               :class="styles['img-wrapper']"
             >
-              <image
+              <taro-image
                 :class="styles.image"
                 style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
@@ -170,7 +170,7 @@
               :key="`${source.id}-${item}`"
               :class="styles['img-wrapper']"
             >
-              <image
+              <taro-image
                 :class="styles.image"
                 style="width: 125Px ;height: 200Px"
                 mode="aspectFill"
@@ -208,6 +208,7 @@
 <script setup lang="ts">
 import { SuitApplyRecord } from "@/types/Suit";
 import { computed, ref, toRefs } from "vue";
+import { Image as TaroImage } from "@tarojs/components";
 import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
 import { WButton } from "@/components";

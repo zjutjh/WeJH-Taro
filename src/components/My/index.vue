@@ -4,7 +4,7 @@
     <view class="flex-column">
       <card v-if="isActive" class="profile-card">
         <view class="avatar-wrapper">
-          <image
+          <taro-image
             v-if="wxProfile"
             class="avatar"
             :src="wxProfile.avatarUrl"
@@ -77,6 +77,7 @@ import "./index.scss";
 import { storeToRefs } from "pinia";
 import useNewFeatureStore from "@/store/service/newFeature";
 import useUserStore from "@/store/service/user";
+import { Image as TaroImage } from "@tarojs/components";
 
 const userStore = useUserStore();
 const newFeatureStore = useNewFeatureStore();

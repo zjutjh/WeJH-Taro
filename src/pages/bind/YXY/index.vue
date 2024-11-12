@@ -9,6 +9,7 @@ import { RequestError } from "@/utils";
 import useUserStore from "@/store/service/user";
 import useHomeCardStore from "@/store/service/homecard";
 import useWebview from "@/hooks/useWebview";
+import { Image as TaroImage } from "@tarojs/components";
 
 const { updateBindState } = useUserStore();
 const homeCardStore = useHomeCardStore();
@@ -127,7 +128,7 @@ onMounted(() => {
       >
         点击重试
       </view>
-      <image
+      <taro-image
         v-else-if="imageResponse"
         :src="imageResponse.replace(/[\r\n]/g, '')"
         style="width: 160rpx; height: 60rpx"

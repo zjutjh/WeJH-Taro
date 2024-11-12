@@ -3,7 +3,7 @@
     <title-bar title="借阅信息" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/library.svg" />
+        <taro-image :src="LibraryCoverImage" />
         <view class="summary">
           <view>
             借阅：
@@ -94,6 +94,8 @@ import { LibraryService } from "@/services";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 import useLibraryStore from "@/store/service/library";
 import { useRequestNext } from "@/hooks";
+import { Image as TaroImage } from "@tarojs/components";
+import LibraryCoverImage from "@/assets/photos/library.svg";
 
 const libraryStore = useLibraryStore();
 const isSelectToday = ref(true);

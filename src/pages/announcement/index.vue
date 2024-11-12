@@ -3,7 +3,7 @@
     <title-bar title="公告" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
-        <image src="@/assets/photos/announcement.svg" />
+        <taro-image :src="AnnouncementCoverImage" />
       </view>
       <view class="tab-bar">
         <text
@@ -64,6 +64,8 @@ import { ref } from "vue";
 import Taro from "@tarojs/taro";
 import useNotificationStore from "@/store/service/notification";
 import { storeToRefs } from "pinia";
+import { Image as TaroImage } from "@tarojs/components";
+import AnnouncementCoverImage from "@/assets/photos/announcement.svg";
 
 const { announcement, information } = storeToRefs(useNotificationStore());
 // 根据路由导航

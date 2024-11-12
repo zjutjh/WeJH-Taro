@@ -3,7 +3,7 @@
     <title-bar title="借用须知" back-button />
     <scroll-view :scroll-y="true">
       <view :class="style.header">
-        <image src="@/assets/photos/faq.svg" />
+        <taro-image :src="SuitFAQCoverImage" />
       </view>
 
       <view class="flex-column">
@@ -42,6 +42,8 @@ import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
 import { SuitFaq } from "@/types/Suit";
 import dayjs from "dayjs";
+import { Image as TaroImage } from "@tarojs/components";
+import SuitFAQCoverImage from "@/assets/photos/faq.svg";
 
 const faqList = ref<SuitFaq[]>([]);
 const isEmpty = ref(true);
