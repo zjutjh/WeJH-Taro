@@ -18,8 +18,8 @@
         </template>
       </card>
 
-      <view :class="styles.action" @tap="handleClickSubscribe">
-        <w-button size="large" shape="rounded">
+      <view :class="styles.action" @tap="handleTapSubscribe">
+        <w-button :disable="loading" size="large" shape="rounded">
           点击订阅
         </w-button>
       </view>
@@ -31,44 +31,47 @@
 import { Card, ThemeConfig, TitleBar, WButton } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
-import { debounce } from "@/utils";
 import styles from "./index.module.scss";
+import { RequestError } from "@/utils";
+import { useRequestNext } from "@/hooks";
 
 /**
-  * 订阅
-  * 包含两步
+  * 订阅包含两步
   * 1. 向微信请求订阅
   * 2. 给服务器发请求
   */
-const subscribe = async () => {
-  const tmpId = import.meta.env.VITE_ELECTRICITY_SUBSCRIBE_TEMPLATE_ID;
+async function subscribeImpl() {
+  const tmplId = import.meta.env.VITE_ELECTRICITY_SUBSCRIBE_TEMPLATE_ID;
 
-  Taro.requestSubscribeMessage({
-    tmplIds: [tmpId], // 微信小程序的模板 id
-    entityIds: [], // 支付宝小程序的模板 id，这里为了类型正确，声明一个空数组，实际消费不到
-    success: async res => {
-      if (res[tmpId] === "accept") {
-        try {
-          const res = await YxyService.queryElectricitySubscription();
-          if (res.data.code === 1) {
-            Taro.showToast({
-              title: "订阅成功",
-              icon: "none"
-            });
-          } else {
-            throw new Error(res.data.msg);
-          }
-        } catch (e) {
-          Taro.showToast({
-            title: e?.message || "订阅失败",
-            icon: "none"
-          });
-        }
-      }
+  try {
+    // @ts-expect-error 少了个 entityIds，这是支付宝小程序的模板 id，实际消费不到
+    const wxResponse = await Taro.requestSubscribeMessage({ tmplIds: [tmplId] });
+    if (wxResponse[tmplId] === "accept") {
+      await YxyService.queryElectricitySubscription();
+      Taro.showToast({ title: "订阅成功", icon: "none" });
     }
-  });
+  } catch (e) {
+    console.error(e);
+    if (e instanceof RequestError) throw e;
+    if (e.errMsg) throw new Error(e.errMsg);
+  }
 };
 
-const handleClickSubscribe = debounce(subscribe, 1000);
+const { loading, run: subscribe } = useRequestNext(subscribeImpl, {
+  manual: true,
+  initialData: undefined,
+  onError: (e) => {
+    if (e instanceof RequestError) {
+      Taro.showToast({ title: `订阅异常: ${e.message}`, icon: "none" });
+    } else if (e instanceof Error) {
+      Taro.showToast({ title: `客户端异常: ${e.message}`, icon: "none" });
+    }
+  }
+});
+
+function handleTapSubscribe() {
+  if (loading.value) return;
+  subscribe();
+}
 
 </script>
