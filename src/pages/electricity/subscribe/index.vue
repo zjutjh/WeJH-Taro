@@ -31,7 +31,7 @@
 import { Card, ThemeConfig, TitleBar, WButton } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
-import { debounce } from "@/utils";
+import { debounce } from "lodash-es";
 import styles from "./index.module.scss";
 
 /**
