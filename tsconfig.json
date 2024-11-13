@@ -17,6 +17,7 @@
     "rootDir": ".",
     "resolveJsonModule": true,
     "jsx": "preserve",
+    "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types",
     ],

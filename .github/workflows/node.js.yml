@@ -43,8 +43,8 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
-      - name: Lint project
-        run: pnpm lint
+      - name: Lint and check type
+        run: pnpm lint && pnpm typecheck
 
       - name: Build Taro weapp
         run: pnpm build:weapp
