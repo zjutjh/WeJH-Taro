@@ -18,19 +18,15 @@
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
 import { computed, toRefs } from "vue";
-import { systemStore } from "@/store";
 import "./index.scss";
 
 const props = defineProps<{
   title: string;
   backButton?: boolean;
+  loading?: boolean;
 }>();
 
-const { title, backButton } = toRefs(props);
-
-const loading = computed(() => {
-  return systemStore.loading;
-});
+const { title, backButton, loading } = toRefs(props);
 
 const titleStyle = computed(() => {
   const MenuRect = Taro.getMenuButtonBoundingClientRect();
