@@ -11,13 +11,13 @@
       近期考试 ({{ updateTimeString }})
     </text>
     <card
-      v-if="!filteredExamItems || filteredExamItems.length === 0"
+      v-if="!filteredExams || filteredExams.length === 0"
       style="text-align: center"
     >
       未查询到近日考试信息
     </card>
     <card
-      v-for="item in filteredExamItems"
+      v-for="item in filteredExams"
       v-else
       :key="item.id"
       class="exam-card"
@@ -71,62 +71,39 @@ import Card from "../Card/index.vue";
 import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import "./index.scss";
-import { computed, onMounted, ref } from "vue";
-import { systemStore } from "@/store";
-import { ZFService } from "@/services";
+import { computed } from "vue";
 import dayjs from "dayjs";
 import { timeUtils } from "@/utils";
-import { Exam } from "@/types/Exam";
+import useExamStore from "@/store/service/exam/collections";
 
 const emit = defineEmits(["showHelp"]);
-
-const selectTerm = ref({
-  year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.score || systemStore.generalInfo.term
-});
-
-const updateTimeString = computed(() => {
-  if (updateTime.value !== undefined) return dayjs(updateTime.value).fromNow();
-  else return "更新失败!";
-});
+const examStore = useExamStore();
 
 /**
- * 筛选近期考试
- *
- * 未来3日
+ * 筛选出未来 3 日的考试
  */
-const filteredExamItems = computed(() => {
-  let list: Exam[] = [];
-  const exam = ZFService.getExamInfo(selectTerm.value)?.data;
-  try {
-    list = exam.filter(item => {
-      if (item.examTime === "未放开不可查") return 0;
-      const { date, start } = getExamTime(item.examTime);
-      // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
-      const resDay = timeUtils.getDayInterval(
-        new Date(date + " " + start + ":00")
-      );
-      return (resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after");
-    });
-  } catch (e) {
-    console.error(e);
-  }
-  return list.sort((a, b) => {
+const filteredExams = computed(() => {
+  const examsInTerm = examStore.queryByTermSync()?.exams || [];
+  const filtered = examsInTerm.filter(item => {
+    if (item.examTime === "未放开不可查") return 0;
+    const { date, start } = getExamTime(item.examTime);
+    // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
+    const resDay = timeUtils.getDayInterval(
+      new Date(date + " " + start + ":00")
+    );
+    return (resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after");
+  });
+  return filtered.sort((a, b) => {
     const { date: dateA, start: timeA } = getExamTime(a.examTime);
     const { date: dateB, start: timeB } = getExamTime(b.examTime);
     return dayjs(`${dateA}-${timeA}`) < dayjs(`${dateB}-${timeB}`) ? 1 : -1;
   });
 });
 
-const updateTime = computed(() => {
-  let updata: Date | null = null;
-  try {
-    updata = ZFService.getExamInfo(selectTerm.value)?.updateTime;
-    if (updata === null) return undefined;
-    else return updata;
-  } catch {
-    return undefined;
-  }
+const updateTimeString = computed(() => {
+  const updateTime = examStore.queryByTermSync()?.updateTime;
+  if (examStore.error || !updateTime) return "更新失败";
+  return dayjs(updateTime).fromNow();
 });
 
 function nav2Exam() {
@@ -168,9 +145,5 @@ function examState(examTimeString: string) {
   else if (nowTime.getTime() - endTime.getTime() <= 0) return "taking";
   else return "after";
 }
-
-onMounted(() => {
-  ZFService.updateExamInfo(selectTerm.value);
-});
 
 </script>
