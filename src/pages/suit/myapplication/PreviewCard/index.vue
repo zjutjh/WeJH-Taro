@@ -99,7 +99,7 @@
               },
               confirm: {
                 label: '确定',
-                callback: onConfirm
+                callback: handleConfirm
               }
             }"
           />
@@ -209,13 +209,13 @@
 import { SuitApplyRecord } from "@/types/Suit";
 import { computed, ref, toRefs } from "vue";
 import { Image as TaroImage } from "@tarojs/components";
-import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
 import { WButton } from "@/components";
 import Modal from "./Modal/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import styles from "./index.module.scss";
+import { RequestError } from "@/utils";
 
 const props = defineProps<{
   source: SuitApplyRecord;
@@ -226,25 +226,10 @@ const imageList = computed(() => [
   source.value?.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
 ].filter(item => !!item) as string[]);
 const { source } = toRefs(props);
-const emit = defineEmits(["isDelete"]);
 
-const { run } = useRequest(
-  SuitService.deleteRecords, {
-    defaultParams: {
-      borrow_id: source.value.id
-    },
-    loadingDelay: 60,
-    manual: true,
-    onSuccess: (res) => {
-      if (res.data.code === 1) {
-        emit("isDelete", "true");
-      } else throw new Error(res.data.msg);
-    },
-    onError: (e: Error) => {
-      return `加载申请信息失败\r\n${e.message || "网络错误"}`;
-    }
-  }
-);
+const emit = defineEmits<{
+  cancel: []
+}>();
 
 const isOverTime = computed(() => {
   const agotime = dayjs().subtract(7, "day");
@@ -266,9 +251,15 @@ const onCancel = () => {
   isShowConfirm.value = false;
 };
 
-const onConfirm = () => {
+async function handleConfirm() {
   isShowConfirm.value = false;
-  run();
+  try {
+    await SuitService.deleteRecords({ borrow_id: source.value.id });
+    emit("cancel");
+  } catch (e) {
+    if (e instanceof RequestError)
+      Taro.showToast({ title: `取消申请失败: ${e.message}`, icon: "none" });
+  }
 };
 
 const handleLoadFinish = ({ detail: { height, width } }) => {

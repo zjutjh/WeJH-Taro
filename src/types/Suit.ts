@@ -14,6 +14,21 @@ export interface SuitFaq {
   publisher: string
 }
 
+export type Spec = {
+  id: number,
+  /** 尺码 */
+  spec: string,
+  /** 库存 */
+  stock: number
+};
+
+export type Suit = {
+  img: string;
+  name: string;
+  /** 尺码 */
+  specs: Spec[];
+};
+
 export interface SuitApplyRecord {
   id: number
   /* 状态 未审核 1 被驳回 2 借用中 3 已归还 4 */

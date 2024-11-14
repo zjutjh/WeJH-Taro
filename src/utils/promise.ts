@@ -1,3 +1,4 @@
+import Taro from "@tarojs/taro";
 import RequestError, { MPErrorCode } from "./request/requestError";
 
 /**
@@ -21,3 +22,15 @@ export function withRespDataNeverNull<T, Args extends any[]>(
     return resp as T;
   };
 }
+
+export function withTaroLoading<T, Args extends any[]>(
+  fetcher: (...args: Args) => Promise<T>,
+  options?: Taro.showLoading.Option
+) {
+  return async (...args: Args) => {
+    Taro.showLoading(options);
+    const resp = await fetcher(...args);
+    Taro.hideLoading();
+    return resp as T;
+  };
+};

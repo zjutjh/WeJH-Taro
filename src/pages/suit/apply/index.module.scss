@@ -35,6 +35,7 @@
   flex: 0 0 auto;
   margin-bottom: 6Px;
   padding: 6Px;
+  padding-bottom: 16Px;
   overflow-x: scroll;
   white-space: nowrap;
 
@@ -42,41 +43,49 @@
     @include shadow;
     position: relative;
     height: 178Px;
-    // height: 142Px;
     margin: 0 6Px;
     padding: 0Px 62Px;
     border-radius: 12Px;
     background-color: var(--wjh-color-week);
-    background-size:100% 100%;
+    background-size: 100% 100%;
+    border: solid 4Px var(--wjh-color-background-page);
+    width: 124Px;
 
     .suit-name {
-      height: 36Px;
-      width: 124Px;
-      line-height: 65px;
+      width: 100%;
+      line-height: 200%;
       position: absolute;
-      top: 142Px;
-      left: 0Px;
+      bottom: -4Px;
+      left: -4Px;
       text-align: center;
-      border-radius: 0 0 9Px 9Px;
+      border-radius: 0 0 12Px 12Px;
       background-color: var(--wjh-color-background-container);
+      border: solid 4Px var(--wjh-color-background-container);
+      border-top: none;
     }
   }
 
   .active {
-    border: solid 4Px var(--wjh-color-primary);
+    border-color: var(--wjh-color-primary) !important;
+
+    .suit-name {
+      border-color: var(--wjh-color-primary) !important;
+    }
   }
 }
 
 .suit-panel {
   background-color: var(--wjh-color-background-popup);
   height: 100%;
+  padding: 12Px 24Px;
+  box-sizing: border-box;
   width: 100%;
   margin: 0;
   border-top-right-radius: 20Px;
   border-top-left-radius: 20Px;
 
   .container {
-    padding: 12Px 33Px;
+    margin-bottom: 20Px;
 
     .title {
       margin: 24Px 0;
@@ -90,24 +99,25 @@
     .size-scroll {
       display: flex;
       overflow-x: auto;
+      padding-bottom: 12Px;
 
       .size-card {
         @include shadow;
-        display: flex;
-        flex: 0 0 auto;
-        height: 40Px;
-        padding: 0 25Px;
+        padding: 10Px 25Px;
         margin-right: 16Px;
         border: solid 2Px var(--wjh-color-week);
         border-radius: 10Px;
         color: var(--wjh-color-text-secondary);
         text-align: center;
-        line-height: 40Px;
-      }
 
-      .active {
-        border: solid 2Px var(--wjh-color-primary);
-        color: var(--wjh-color-primary);
+        &.active {
+          border: solid 2Px var(--wjh-color-primary);
+          color: var(--wjh-color-primary);
+        }
+
+        text {
+          white-space: nowrap;
+        }
       }
     }
 
@@ -135,7 +145,7 @@
     .rent-suit-number {
       transition: all 0.1s; //need test
 
-      .number-symbal {
+      .number-symbol {
         @include shadow;
         display: inline-block;
         height: 35Px;
@@ -147,12 +157,12 @@
         font-weight: var(--wjh-font-weight-medium);
         text-align: center;
         line-height: 35Px;
-      }
 
-      .number-symbal:hover {
-        color: var(--wjh-color-text-secondary);
-        background-color: var(--wjh-color-light);
-        border: solid 1Px var(--wjh-color-light);
+        &:active {
+          color: var(--wjh-color-text-secondary);
+          background-color: var(--wjh-color-light);
+          border: solid 1Px var(--wjh-color-light);
+        }
       }
 
       .number-num {

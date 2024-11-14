@@ -22,7 +22,7 @@
             <text>{{ faq.publisher }} · {{ timeFormat(faq.publish_time) }}</text>
           </view>
         </card>
-        <card v-if="isEmpty">
+        <card v-if="!faqList.length">
           <text>当前暂无借用须知，敬请期待</text>
         </card>
       </view>
@@ -37,34 +37,26 @@ import {
   ThemeConfig,
   TitleBar
 } from "@/components";
-import { ref } from "vue";
-import { useRequest } from "@/hooks";
+import { useRequestNext } from "@/hooks";
 import { SuitService } from "@/services";
-import { SuitFaq } from "@/types/Suit";
 import dayjs from "dayjs";
 import { Image as TaroImage } from "@tarojs/components";
 import SuitFAQCoverImage from "@/assets/photos/faq.svg";
+import { RequestError } from "@/utils";
+import Taro from "@tarojs/taro";
 
-const faqList = ref<SuitFaq[]>([]);
-const isEmpty = ref(true);
-
-useRequest(SuitService.getFaq, {
-  defaultParams: {
-    publisher: "学生事务大厅"
-  },
-  loadingDelay: 300,
-  onSuccess: (res) => {
-    if (res.data.code === 1) {
-      faqList.value = res.data.data;
-      if (faqList.value.length > 0) isEmpty.value = false;
-    } else {
-      throw new Error(res.data.msg);
+const { data: faqList } = useRequestNext(
+  SuitService.getFaq, {
+    defaultParams: {
+      publisher: "学生事务大厅"
+    },
+    initialData: [],
+    onError: (e) => {
+      if (e instanceof RequestError)
+        Taro.showToast({ title: `获取信息失败：${e.message}`, icon: "none" });
     }
-  },
-  onError: (e: Error) => {
-    return `获取个人信息失败\r\n${e.message || "网络错误"}`;
   }
-});
+);
 
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
