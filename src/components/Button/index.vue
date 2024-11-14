@@ -1,5 +1,5 @@
 <template>
-  <button
+  <taro-button
     :style="{ backgroundColor: `var(--wjh-color-${props.color})` }"
     :class="[
       `wjh-button`,
@@ -8,14 +8,16 @@
       blockClass,
       shapeClass
     ]"
+    @tap="handleTap"
   >
     <slot />
-  </button>
+  </taro-button>
 </template>
 
 <script setup lang="ts">
 import "./index.scss";
 import { computed } from "vue";
+import { Button as TaroButton } from "@tarojs/components";
 
 type PropsType = {
   size?: "small" | "middle" | "large",
@@ -24,6 +26,10 @@ type PropsType = {
   color?: "primary" | "yellow" | "blue" | "cyan" | "green",
   disable?: boolean
 };
+
+const emit = defineEmits<{
+  tap: []
+}>();
 
 const props = withDefaults(defineProps<PropsType>(), {
   size: "middle",
@@ -44,5 +50,9 @@ const blockClass = computed(() =>
 const shapeClass = computed(() =>
   `wjh-button-shape-${props.shape}`
 );
+
+function handleTap() {
+  if (!props.disable) emit("tap");
+}
 
 </script>
