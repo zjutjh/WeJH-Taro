@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="我的信息" back-button />
+    <title-bar title="我的信息" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view :class="style.header">
         <taro-image :src="SuitInformationCoverImage" />
@@ -21,8 +21,8 @@
           <text>学号</text>
           <view>
             <input
-              v-model="nowData.student_id"
-              disabled
+              v-model="initialData.student_id"
+              :disabled="true"
               :class="style.input"
             >
           </view>
@@ -33,7 +33,7 @@
               <view>
                 <input
                   v-model="inputData.name"
-                  :disabled="!change"
+                  :disabled="!isEditing"
                   :class="style.input"
                 >
               </view>
@@ -44,7 +44,7 @@
               <view>
                 <input
                   v-model="inputData.gender"
-                  :disabled="!change"
+                  :disabled="!isEditing"
                   :class="style.input"
                   placeholder="男 / 女"
                 >
@@ -55,7 +55,7 @@
           <view>
             <input
               v-model="inputData.college"
-              :disabled="!change"
+              :disabled="!isEditing"
               :class="style.input"
               placeholder="如：计算机学院"
             >
@@ -64,7 +64,7 @@
           <view>
             <input
               v-model="inputData.dormitory"
-              :disabled="!change"
+              :disabled="!isEditing"
               :class="style.input"
               placeholder="如：家和东苑1幢101室"
             >
@@ -73,21 +73,26 @@
           <view>
             <input
               v-model="inputData.contact"
-              :disabled="!change"
+              :disabled="!isEditing"
               :class="style.input"
             >
           </view>
           <template #footer>
-            <view v-if="change" :class="style.button">
-              <w-button :class="style.button_cancle" @tap="cancel">
+            <view v-if="isEditing" :class="style.button">
+              <w-button :class="style.button_cancle" @tap="handleCancel">
                 取消
               </w-button>
               <view>&ensp;</view>
-              <w-button :class="style.button_save" @tap="save">
+              <w-button :class="style.button_save" @tap="handleSubmit">
                 保存
               </w-button>
             </view>
-            <w-button v-else-if="!change" block @tap="editor">
+            <w-button
+              v-else-if="!isEditing"
+              :block="true"
+              :disable="loading || !!error"
+              @tap="handleStartEdit"
+            >
               编辑
             </w-button>
           </template>
@@ -102,17 +107,18 @@
 import style from "./index.module.scss";
 import { ref } from "vue";
 import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
-import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
 import Taro from "@tarojs/taro";
 import { helpText } from "@/constants/copywriting";
 import { Image as TaroImage } from "@tarojs/components";
 import SuitInformationCoverImage from "@/assets/photos/suitapply-suitInformation.svg";
+import { useRequestNext } from "@/hooks";
+import { RequestError } from "@/utils";
+import { withTaroLoading } from "@/utils/promise";
 
 const helpContent = helpText.suit.information;
 const isShowHelp = ref(false);
-
-const change = ref(true);
+const isEditing = ref(false);
 const inputData = ref({
   student_id: "",
   name: "",
@@ -122,40 +128,26 @@ const inputData = ref({
   contact: ""
 });
 
-const editor = () => {
-  change.value = true;
+const handleStartEdit = () => {
+  isEditing.value = true;
 };
 
-useRequest(SuitService.getInformation, {
-  onBefore: () => {
-    Taro.showLoading({ title: "正在获取个人信息" });
-  },
-  loadingDelay: 300,
-  onSuccess: (res) => {
-    if (res.data.code === 1 && res.data.msg === "OK") {
-      const responseData = res.data.data;
-      Object.assign(nowData.value, responseData);
-      Object.assign(inputData.value, nowData.value);
-      Taro.showToast({ title: "获取成功" });
-      Taro.hideLoading();
-      change.value = responseData.id === 0;
-    } else throw new Error(res.data.msg);
-  },
-  onError: (e: Error) => {
-    return `获取个人信息失败\r\n${e.message || "网络错误"}`;
+const { error, data: initialData, loading } = useRequestNext(
+  withTaroLoading(SuitService.getInformation, { title: "正在获取个人信息", mask: true }),
+  {
+    initialData: { id: 0, name: "", gender: "", student_id: "", college: "", dormitory: "", contact: "" },
+    onSuccess: (data) => {
+      inputData.value = { ...data };
+      isEditing.value = data.id === 0;
+    },
+    onError: (e: Error) => {
+      if (e instanceof RequestError)
+        Taro.showToast({ title: `获取信息失败: ${e.message}`, icon: "none" });
+    }
   }
-});
+);
 
-const nowData = ref({
-  student_id: "",
-  name: "",
-  gender: "",
-  college: "",
-  dormitory: "",
-  contact: ""
-});
-
-const save = () => {
+async function handleSubmit() {
   const phoneRegex = /^1\d{10}$/;
   if (!phoneRegex.test(inputData.value.contact)) {
     Taro.showToast({ title: "请输入有效的手机号", icon: "none" });
@@ -173,25 +165,21 @@ const save = () => {
     Taro.showToast({ title: "请填写所有信息", icon: "none" });
     return;
   }
-  const { run } = useRequest(SuitService.changeInformation, {
-    loadingDelay: 300,
-    onSuccess: (res) => {
-      if (res.data.code === 1 && res.data.msg === "OK") {
-        Taro.showToast({ title: "保存成功" });
-      } else throw new Error(res.data.msg);
-      Taro.hideLoading();
-    },
-    onError: (e: Error) => {
-      return `编辑个人信息失败\r\n${e.message || "网络错误"}`;
-    }
-  });
-  run(inputData.value);
-  change.value = false;
-  Object.assign(nowData.value, inputData.value);
+
+  try {
+    Taro.showLoading({ title: "正在保存", mask: true });
+    await SuitService.changeInformation(inputData.value);
+    Taro.showToast({ title: "保存成功" });
+  } catch (e) {
+    Taro.showToast({ title: `编辑失败: ${e.message}`, icon: "none" });
+  }
+
+  isEditing.value = false;
+  Object.assign(initialData.value, inputData.value);
 };
 
-const cancel = () => {
-  change.value = false;
-  Object.assign(inputData.value, nowData.value);
+const handleCancel = () => {
+  isEditing.value = false;
+  Object.assign(inputData.value, initialData.value);
 };
 </script>
