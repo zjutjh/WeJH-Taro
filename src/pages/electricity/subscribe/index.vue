@@ -18,7 +18,7 @@
         </template>
       </card>
 
-      <view :class="styles.action" @tap="handleClickSubscribe">
+      <view :class="styles.action" @tap="subscribe">
         <w-button size="large" shape="rounded">
           点击订阅
         </w-button>
@@ -31,7 +31,6 @@
 import { Card, ThemeConfig, TitleBar, WButton } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
-import { debounce } from "@/utils";
 import styles from "./index.module.scss";
 
 /**
@@ -68,7 +67,5 @@ const subscribe = async () => {
     }
   });
 };
-
-const handleClickSubscribe = debounce(subscribe, 1000);
 
 </script>
