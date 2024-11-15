@@ -75,7 +75,7 @@ import Taro from "@tarojs/taro";
 import { computed } from "vue";
 import "./index.scss";
 import { storeToRefs } from "pinia";
-import useNewFeatureStore from "@/store/service/newFeature";
+import useNewFeatureStore, { FeatureNode } from "@/store/service/newFeature";
 import useUserStore from "@/store/service/user";
 import { Image as TaroImage } from "@tarojs/components";
 
@@ -85,10 +85,11 @@ const { getWXProfile } = userStore;
 const { isActive, wxProfile, info: userInfo } = storeToRefs(userStore);
 
 const options = computed(() => {
-  const data = [
+  const newFeaturesInMinePage = newFeatureStore.tree?.my as FeatureNode;
+
+  return [
     [
-      // TODO: 修复类型问题
-      { title: "绑定", url: "/pages/bind/index", badge: newFeatureStore.tree?.my?.bind },
+      { title: "绑定", url: "/pages/bind/index", badge: newFeaturesInMinePage.bind as string },
       { title: "主题", url: "/pages/theme/index" }
     ],
     [
@@ -99,20 +100,14 @@ const options = computed(() => {
       { title: "设置", url: "/pages/setting/index" }
     ]
   ];
-  return data;
 });
 
 function nav2activation() {
-  Taro.navigateTo({
-    url: "/pages/activation/index"
-  });
+  Taro.navigateTo({ url: "/pages/activation/index" });
 }
 
 function nav2url(url: string | undefined) {
-  if (url)
-    Taro.navigateTo({
-      url: url
-    });
+  if (url) Taro.navigateTo({ url });
 }
 
 </script>

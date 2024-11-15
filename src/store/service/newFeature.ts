@@ -2,7 +2,7 @@ import { persistedStorage } from "@/utils";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
-type FeatureNode = {
+export type FeatureNode = {
   [key: string]: string | null | FeatureNode;
 };
 

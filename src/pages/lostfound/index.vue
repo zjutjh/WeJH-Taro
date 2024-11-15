@@ -67,7 +67,6 @@ import { LostfoundService } from "@/services";
 import { LostfoundRecord } from "@/types/Lostfound";
 import { ref } from "vue";
 import PreviewCard from "./PreviewCard/index.vue";
-import { omit } from "lodash-es";
 import "./index.scss";
 import WModal from "../../components/Modal/index.vue";
 import { helpText } from "@/constants/copywriting";
@@ -127,7 +126,7 @@ const { data: kindList } = useRequestNext(
   }
 );
 
-const { loading, run } = useRequestNext(
+const { loading, run: fetchRecords } = useRequestNext(
   LostfoundService.getRecords, {
     defaultParams: {
       campus: selectCampus.value,
@@ -161,8 +160,10 @@ const getRecords = (data: {
   lost_or_found?: string;
 }) => {
   isEmpty.value = false;
-  // TODO: 修复类型问题
-  run(omit(data, [data.kind === "全部" ? "kind" : null, data.lost_or_found === "全部" ? "lost_or_found" : ""]));
+  if (data.kind === "全部")
+    fetchRecords({ campus: data.campus, page_num: data.page_num, page_size: data.page_size });
+  else
+    fetchRecords(data);
 };
 
 const handleSelectCampus = (campus: string) => {
