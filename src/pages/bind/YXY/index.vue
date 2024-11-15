@@ -3,13 +3,14 @@ import { Card, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useRequestNext } from "@/hooks";
 import { RequestError } from "@/utils";
 import useUserStore from "@/store/service/user";
 import useHomeCardStore from "@/store/service/homecard";
 import useWebview from "@/hooks/useWebview";
 import { Image as TaroImage } from "@tarojs/components";
+import useCountdown from "@/hooks/useCountdown";
 
 const { updateBindState } = useUserStore();
 const homeCardStore = useHomeCardStore();
@@ -21,25 +22,21 @@ const phoneCode = ref("");
 
 const helpContent = helpText.bind.yxy;
 const isShowHelp = ref(false);
-// TODO: 抽离倒计时逻辑到 Hook
-const timeCounter = ref(0);
+const { countdown: captchaCD, start: refreshCaptchaCD } = useCountdown(10);
 
-//  获取图形验证码
 const {
-  run: getGraphAPI,
-  data: imageResponse,
-  loading: imageLoading,
-  error: imageError
+  run: fetchCaptcha,
+  data: captchaBase64,
+  loading: captchaLoading,
+  error: captchaError
 } = useRequestNext(YxyService.getGraph, {
-  initialData: "",
-  manual: true
+  initialData: ""
 });
 
 /**
  * 验证图形验证码，同时获取手机验证码
  */
-const handleSendGraphCode = async () => {
-  if (timeCounter.value > 0) return;
+const handleValidateCaptcha = async () => {
   if (graphCode.value.length && phoneNumber.value.length) {
     try {
       await YxyService.sendGraphAuthCode({
@@ -47,18 +44,13 @@ const handleSendGraphCode = async () => {
         phoneNum: phoneNumber.value
       });
       Taro.showToast({ title: "已发送验证码", icon: "success" });
-      getGraphAPI();
+      fetchCaptcha();
       graphCode.value = "";
-      timeCounter.value = 60;
-      const timer = setInterval(() => {
-        timeCounter.value--;
-        if (timeCounter.value === 0)
-          clearInterval(timer);
-      }, 1000);
+      refreshCaptchaCD();
     } catch (e) {
       if (e instanceof RequestError) {
         Taro.showToast({ title: e.message, icon: "none" });
-        getGraphAPI(); // 验证失败，刷新验证码图片
+        fetchCaptcha(); // 验证失败，刷新验证码图片
       }
     }
   } else {
@@ -67,7 +59,7 @@ const handleSendGraphCode = async () => {
 };
 
 const handleBind = async () => {
-  if (!phoneCode.value.length || phoneNumber.value.length) {
+  if (!phoneCode.value.length || !phoneNumber.value.length) {
     Taro.showToast({ icon: "none", title: "请输入手机号和手机验证码" });
     return;
   }
@@ -75,7 +67,6 @@ const handleBind = async () => {
   try {
     await YxyService.loginYxy({ phoneNum: phoneNumber.value, code: phoneCode.value });
     Taro.showToast({ icon: "success", title: "绑定成功" });
-    // TODO: 查电费卡片不用加？
     homeCardStore.add("school-card-quick-view");
     updateBindState("yxy", true);
   } catch (e) {
@@ -86,13 +77,8 @@ const handleBind = async () => {
 };
 
 const handleClickTutorial = () => {
-  // TODO: 链接放到配置平台
   open("https://mp.weixin.qq.com/s/uFdF37XSznzPMOe_IfjrEQ");
 };
-
-onMounted(() => {
-  getGraphAPI();
-});
 
 </script>
 
@@ -116,30 +102,30 @@ onMounted(() => {
     </view>
     <view style="display: flex; justify-content: space-between">
       <view
-        v-if="imageLoading"
+        v-if="captchaLoading"
         style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
       >
         加载中...
       </view>
       <view
-        v-else-if="imageError || imageResponse === ''"
+        v-else-if="captchaError || captchaBase64 === ''"
         style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
-        @tap="getGraphAPI"
+        @tap="fetchCaptcha"
       >
         点击重试
       </view>
       <taro-image
-        v-else-if="imageResponse"
-        :src="imageResponse.replace(/[\r\n]/g, '')"
+        v-else-if="captchaBase64"
+        :src="captchaBase64.replace(/[\r\n]/g, '')"
         style="width: 160rpx; height: 60rpx"
-        @tap="getGraphAPI"
+        @tap="fetchCaptcha"
       />
-      <w-button :disable="timeCounter > 0" @tap="handleSendGraphCode">
-        <text v-if="timeCounter === 0">
+      <w-button :disable="captchaCD > 0" @tap="handleValidateCaptcha">
+        <text v-if="captchaCD === 0">
           获取手机验证码
         </text>
         <text v-else>
-          重新发送({{ timeCounter }})
+          重新发送({{ captchaCD }})
         </text>
       </w-button>
     </view>
