@@ -96,7 +96,7 @@ const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
 
 export default useRequest;
 
-type UseRequestOptions<Data, Params> = {
+export type UseRequestOptions<Data, Params> = {
   /** Promise 还未 fulfilled 时，给 `data` 的初始值 */
   initialData: Data;
   /** 自动触发请求，以及调用 `run` 函数不传参数时，默认给请求函数传入的参数 */
