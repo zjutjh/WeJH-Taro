@@ -1,11 +1,11 @@
 import { useRequestNext } from "@/hooks";
 import { ZFService } from "@/services";
-import useGeneralInfoStore from "@/store/system/generalInfo";
+import useGeneralInfo from "@/store/system/generalInfo";
 import { Exam } from "@/types/Exam";
 import { persistedStorage, RequestError } from "@/utils";
 import { withRespDataNeverNull } from "@/utils/promise";
 import Taro from "@tarojs/taro";
-import { defineStore, storeToRefs } from "pinia";
+import { defineStore } from "pinia";
 import { ref } from "vue";
 
 type TermExamCollection = {
@@ -16,7 +16,7 @@ type TermExamCollection = {
 };
 
 const useExamStore = defineStore("exam/collections", () => {
-  const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+  const generalInfo = useGeneralInfo();
   const collections = ref<TermExamCollection[]>([]);
 
   const { error, loading, run: fetchExam } = useRequestNext(

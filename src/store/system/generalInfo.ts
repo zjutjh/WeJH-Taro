@@ -1,10 +1,11 @@
-import { useRequestNext } from "@/hooks";
+import useMemorizedRequest from "@/hooks/useMemorizedRequest";
 import { SystemService } from "@/services";
-import { persistedStorage } from "@/utils";
-import { defineStore } from "pinia";
+import { RequestError } from "@/utils";
+import Taro from "@tarojs/taro";
 
-const useGeneralInfoStore = defineStore("generalInfo", () => {
-  const { data } = useRequestNext(
+function useGeneralInfo() {
+  const { data } = useMemorizedRequest(
+    "system/generalInfo",
     SystemService.getGeneralInfo, {
       initialData: {
         // @ts-expect-error 代码中未使用
@@ -21,17 +22,15 @@ const useGeneralInfoStore = defineStore("generalInfo", () => {
         termYear: "2024",
         time: "",
         week: 1
+      },
+      onError: (e) => {
+        if (e instanceof RequestError)
+          Taro.showToast({ title: `获取系统信息失败: ${e.message}`, icon: "error" });
       }
     }
   );
 
-  return {
-    info: data
-  };
-}, {
-  persist: {
-    storage: persistedStorage
-  }
-});
+  return data;
+}
 
-export default useGeneralInfoStore;
+export default useGeneralInfo;

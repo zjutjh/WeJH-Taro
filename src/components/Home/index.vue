@@ -43,9 +43,9 @@
           激活
         </w-button>
       </card>
-      <card v-show="generalInfoStore.info.registerTips" title="新生提醒">
+      <card v-show="generalInfo.registerTips" title="新生提醒">
         <text style="font-size:14.5px">
-          {{ generalInfoStore.info.registerTips }}
+          {{ generalInfo.registerTips }}
         </text>
       </card>
     </view>
@@ -68,12 +68,12 @@ import styles from "./index.module.scss";
 import useUserStore from "@/store/service/user";
 import useQuestionnaireStore from "@/store/service/questionnaire";
 import useNotificationStore from "@/store/service/notification";
-import useGeneralInfoStore from "@/store/system/generalInfo";
+import useGeneralInfo from "@/store/system/generalInfo";
 
 const userStore = useUserStore();
 const questionnaireStore = useQuestionnaireStore();
 const notificationStore = useNotificationStore();
-const generalInfoStore = useGeneralInfoStore();
+const generalInfo = useGeneralInfo();
 const isShowEditPanel = ref(false);
 
 const bindZeroServices = computed(() => {

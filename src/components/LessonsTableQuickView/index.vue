@@ -85,15 +85,14 @@ import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import useLessonTableStore from "@/store/service/lessonTable";
-import useGeneralInfoStore from "@/store/system/generalInfo";
-import { storeToRefs } from "pinia";
+import useGeneralInfo from "@/store/system/generalInfo";
 
 const classStartTimer = ref<ReturnType<typeof setTimeout>>();
 const tomorrowTableTimer = ref<ReturnType<typeof setTimeout>>();
 
 const emit = defineEmits(["showHelp"]);
 const lessonTableStore = useLessonTableStore();
-const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+const generalInfo = useGeneralInfo();
 const showTomorrow = ref(false); // 每晚 10 点过后展示第二天课表
 
 /** 当前学期的课程集合信息 */

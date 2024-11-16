@@ -18,8 +18,7 @@
 <script setup lang="ts">
 import WButton from "../Button/index.vue";
 import { computed, reactive, ref } from "vue";
-import useGeneralInfoStore from "@/store/system/generalInfo";
-import { storeToRefs } from "pinia";
+import useGeneralInfo from "@/store/system/generalInfo";
 
 interface PropsType {
   year: string;
@@ -28,17 +27,16 @@ interface PropsType {
   // TODO: 这是干啥的？
   selectflag: number; // flag为0表示学年、学期 ； 为1表示学年、学期、期中期末
 }
-const props = defineProps<PropsType>();
-const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
-
-const emit = defineEmits(["changed"]);
-
-const termYear = +generalInfo.value.termYear;
 
 const selectorArr = [
   [["上", "下", "短"]],
   [["上", "下", "短"], ["期中", "期末"]]
 ];
+const props = defineProps<PropsType>();
+const generalInfo = useGeneralInfo();
+const termYear = +generalInfo.value.termYear;
+
+const emit = defineEmits(["changed"]);
 const selector = reactive(selectorArr[props.selectflag]);
 
 /** e.g. 2022 上 期中 */

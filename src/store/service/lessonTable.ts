@@ -1,6 +1,6 @@
 import { persistedStorage, RequestError } from "@/utils";
 import { defineStore } from "pinia";
-import useGeneralInfoStore from "../system/generalInfo";
+import useGeneralInfo from "../system/generalInfo";
 import { ref } from "vue";
 import { ZFService } from "@/services";
 import { useRequestNext } from "@/hooks";
@@ -27,14 +27,14 @@ async function termCollectionFetcher(params: { year: string, term: string }) {
 }
 
 const useLessonTableStore = defineStore("lessonTable", () => {
-  const generalInfoStore = useGeneralInfoStore();
+  const generalInfo = useGeneralInfo();
   const collections = ref<TermLessonCollection[]>([]);
 
   const { loading, run: fetchLessonTable } = useRequestNext(
     termCollectionFetcher, {
       defaultParams: {
-        year: generalInfoStore.info?.termYear,
-        term: generalInfoStore.info?.term
+        year: generalInfo.value.termYear,
+        term: generalInfo.value.term
       },
       initialData: { lessons: [], term: "", year: "", updateTime: undefined },
       onSuccess: (newCollection) => {

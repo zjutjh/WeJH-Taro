@@ -4,9 +4,8 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import useGeneralInfoStore from "@/store/system/generalInfo";
-import { storeToRefs } from "pinia";
+import useGeneralInfo from "@/store/system/generalInfo";
 
-const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+const generalInfo = useGeneralInfo();
 
 </script>

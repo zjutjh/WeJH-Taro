@@ -1,9 +1,9 @@
-import useGeneralInfoStore from "@/store/system/generalInfo";
-import { defineStore, storeToRefs } from "pinia";
+import useGeneralInfo from "@/store/system/generalInfo";
+import { defineStore } from "pinia";
 import { ref } from "vue";
 
 const useExamQueryOptionsStore = defineStore("exam/queryOptions", () => {
-  const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+  const generalInfo = useGeneralInfo();
 
   const term = ref<"上" | "下" | "短">(generalInfo.value.scoreTerm);
   const year = ref(generalInfo.value.scoreYear);

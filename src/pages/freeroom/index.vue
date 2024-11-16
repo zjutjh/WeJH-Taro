@@ -38,20 +38,20 @@
 import { computed } from "vue";
 import { BottomPanel, Card, RoomPicker, ThemeConfig, TitleBar } from "@/components";
 import { freeroomMap } from "@/constants/freeroomMap";
-import useGeneralInfoStore from "@/store/system/generalInfo";
+import useGeneralInfo from "@/store/system/generalInfo";
 import { Room } from "@/types/Room";
 import "./index.scss";
 import useFreeRoomStore from "@/store/service/freeRoom";
 
-const { info: generalInfo } = useGeneralInfoStore();
+const generalInfo = useGeneralInfo();
 const freeRoomStore = useFreeRoomStore();
 
 function handleSelectRoom(params: {
   campus: string, week: number, weekday: number, sections: number
 }) {
   freeRoomStore.fetchFreeRoom({
-    year: generalInfo.termYear,
-    term: generalInfo.term,
+    year: generalInfo.value.termYear,
+    term: generalInfo.value.term,
     ...params
   });
 }

@@ -81,8 +81,7 @@ import { Lesson } from "@/types/Lesson";
 import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
-import { storeToRefs } from "pinia";
-import useGeneralInfoStore from "@/store/system/generalInfo";
+import useGeneralInfo from "@/store/system/generalInfo";
 import useLessonTableStore from "@/store/service/lessonTable";
 import TermSwitcherIcon from "@/assets/icons/term-week-swicher/term.svg";
 import WeekSwitcherIcon from "@/assets/icons/term-week-swicher/week.svg";
@@ -90,7 +89,7 @@ import { Image as TaroImage } from "@tarojs/components";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
-const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+const generalInfo = useGeneralInfo();
 const lessonTableStore = useLessonTableStore();
 
 // 本学期
