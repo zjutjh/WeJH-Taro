@@ -11,14 +11,14 @@
       最新成绩 ({{ scoreUpdateTimeString }})
     </text>
     <view
-      v-if="(unread.midTerm.length + unread.finalTerm.length) === 0"
+      v-if="unreadScoreStore.list.length === 0"
       class="default-content"
     >
       今日没有出新成绩哦～
     </view>
     <view v-else>
       <view
-        v-for="item in unread.midTerm"
+        v-for="item in unreadScoreStore.list"
         :key="item.lessonID"
         class="score-card"
         style="--bg-color: var(--wjh-color-primary)"
@@ -27,20 +27,7 @@
           <text>{{ item.lessonName }}</text>
         </view>
         <view class="score-res">
-          <text>期中</text>
-        </view>
-      </view>
-      <view
-        v-for="item in unread.finalTerm"
-        :key="item.lessonID"
-        class="score-card"
-        style="--bg-color: var(--wjh-color-primary)"
-      >
-        <view class="score-title">
-          <text>{{ item.lessonName }}</text>
-        </view>
-        <view class="score-res">
-          <text>期末</text>
+          <text>{{ item.period }}</text>
         </view>
       </view>
     </view>
@@ -53,27 +40,24 @@ import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed } from "vue";
 import "./index.scss";
-import useScoreStore from "@/store/service/score";
-import { storeToRefs } from "pinia";
+import useUnreadScore from "@/store/service/score/unread";
 
 // 将帮助提示信息传到Home，点击帮助按钮显示该信息
 const emit = defineEmits(["showHelp"]);
 function handleTapHelp() {
   emit("showHelp", "score-card");
 }
-
-const scoreStore = useScoreStore();
-const { unread } = storeToRefs(scoreStore);
+const unreadScoreStore = useUnreadScore();
 
 // 最新成绩的更新时间（几天前）
 const scoreUpdateTimeString = computed(() => {
-  if (!scoreStore.lastScoreUpdateTime) return "更新失败";
-  return dayjs(scoreStore.lastScoreUpdateTime).fromNow();
+  if (!unreadScoreStore.lastScoreUpdateTime) return "更新失败";
+  return dayjs(unreadScoreStore.lastScoreUpdateTime).fromNow();
 });
 
 // @tap="nav2Score" 点击卡片，跳转到成绩查询详细页面
 function nav2Score() {
-  scoreStore.markBatchRead(scoreStore.unread);
+  unreadScoreStore.readAll();
   Taro.navigateTo({ url: "/pages/score/index" });
 }
 

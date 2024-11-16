@@ -34,3 +34,24 @@ export function withTaroLoading<T, Args extends any[]>(
     return resp as T;
   };
 };
+
+export function withRetry<T, Args extends any[]>(
+  fetcher: (...args: Args) => Promise<T>,
+  options?: {
+    times?: number
+  }
+) {
+  let { times = 3 } = options ?? {};
+
+  const run = async (...args: Args) => {
+    try {
+      return await fetcher(...args);
+    } catch (e) {
+      if (times === 0) throw e;
+      times--;
+      return await run(...args);
+    }
+  };
+
+  return run;
+};

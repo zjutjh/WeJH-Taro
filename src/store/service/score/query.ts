@@ -1,35 +1,41 @@
-import useGeneralInfoStore from "@/store/system/generalInfo";
-import { persistedStorage } from "@/utils";
-import { defineStore, storeToRefs } from "pinia";
-import { ref } from "vue";
+import { RequestError } from "@/utils";
+import { ZFService } from "@/services";
+import { omit } from "lodash-es";
+import Taro from "@tarojs/taro";
+import { withRespDataNeverNull, withRetry } from "@/utils/promise";
+import useMemorizedRequest from "@/hooks/useMemorizedRequest";
 
-const useScoreQueryOptionStore = defineStore("score/query", () => {
-  const { info: generalInfo } = storeToRefs(useGeneralInfoStore());
+function scoreFetcher(params: { year: string, term: "上" | "下" | "短", period: "期中" | "期末" }) {
+  if (params.period === "期中")
+    return ZFService.getMidTermScore(omit(params, "period"));
+  return ZFService.getFinalTermScore(omit(params, "period"));
+}
 
-  const term = ref<"上" | "下" | "短">(generalInfo.value.scoreTerm);
-  const year = ref(generalInfo.value.scoreYear);
-  const period = ref<"期中" | "期末">("期末");
-
-  function setOption(value: {
-    term: "上" | "下" | "短";
+function useScoreQuery(options: {
+  defaultQueryParams: {
     year: string;
-    period: "期中" | "期末";
-  }) {
-    term.value = value.term;
-    year.value = value.year;
-    period.value = value.period;
+    term: string;
+    period: "期中" | "期末"
   }
+}) {
+  const { loading, data, mutate: fetchScore } = useMemorizedRequest(
+    (params) => `score/collection/${params?.year}/${params?.term}/${params?.period}`,
+    withRetry(withRespDataNeverNull(scoreFetcher)), {
+      defaultParams: options.defaultQueryParams,
+      initialData: [],
+      onError: (e) => {
+        if (e instanceof RequestError) {
+          Taro.showToast({ title: `更新成绩失败: ${e.message}`, icon: "none" });
+        }
+      }
+    }
+  );
 
   return {
-    term,
-    year,
-    period,
-    setOption
+    loading,
+    fetchScore,
+    list: data
   };
-}, {
-  persist: {
-    storage: persistedStorage
-  }
-});
+}
 
-export default useScoreQueryOptionStore;
+export default useScoreQuery;

@@ -26,7 +26,7 @@ export default class ZFService {
 
   static getFinalTermScore(params: { year: string, term: string }) {
     return request<FinalTermScore[]>(
-      api.zf.examInfo, {
+      api.zf.scoreInfo, {
         method: "POST",
         params
       }

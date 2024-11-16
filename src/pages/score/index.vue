@@ -4,7 +4,7 @@
     <scroll-view :scroll-y="true">
       <view class="flex-column">
         <card
-          v-if="!scoreList || scoreList.length === 0"
+          v-if="scoreList.length === 0"
           style="text-align: center"
         >
           <view>无当前阶段成绩信息</view>
@@ -77,7 +77,7 @@
     </scroll-view>
     <bottom-panel class="score-bottom-panel">
       <view class="col">
-        <refresh-button :is-refreshing="scoreStore.loading" @refresh="refresh" />
+        <refresh-button :is-refreshing="loading" @refresh="refresh" />
       </view>
       <view class="col">
         <term-picker
@@ -115,27 +115,27 @@ import {
 } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import "./index.scss";
-import useScoreStore from "@/store/service/score";
-import useScoreQueryOptionStore from "@/store/service/score/query";
+import useScoreQuery from "@/store/service/score/query";
+import useScoreQueryOptionStore from "@/store/service/score/queryOptions";
 import { FinalTermScore, MidTermScore } from "@/types/Score";
 import useUserStore from "@/store/service/user";
 import { storeToRefs } from "pinia";
 
-const scoreStore = useScoreStore();
-const { info: userInfo } = storeToRefs(useUserStore());
 const queryOption = useScoreQueryOptionStore();
+const { list, fetchScore, loading } = useScoreQuery({
+  defaultQueryParams: {
+    year: queryOption.year,
+    term: queryOption.term,
+    period: queryOption.period
+  }
+});
+const { info: userInfo } = storeToRefs(useUserStore());
 const showSorted = ref(false);
 
 const scoreList = computed(() => {
-  const { year, term, period } = queryOption;
-  const collection = scoreStore.collections.find(
-    _ => _.year === year && _.term === term
-  );
-  const list = (period === "期末" ? collection?.finalTerm : collection?.midTerm) ?? [];
-
   return showSorted.value
-    ? [...list].sort((a, b) => parseFloat(b.score) - parseFloat(a.score))
-    : list;
+    ? [...list.value].sort((a, b) => parseFloat(b.score) - parseFloat(a.score))
+    : list.value;
 });
 
 const helpContent = computed(() => {
@@ -144,12 +144,16 @@ const helpContent = computed(() => {
 
 async function termChanged(e) {
   queryOption.setOption(e);
-  scoreStore.fetchScore(e);
+  fetchScore(e);
 }
 
 async function refresh() {
-  if (scoreStore.loading) return;
-  scoreStore.fetchScore(queryOption);
+  if (loading.value) return;
+  fetchScore({
+    year: queryOption.year,
+    term: queryOption.term,
+    period: queryOption.period
+  });
 }
 
 function handleSort() {
