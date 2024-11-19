@@ -5,28 +5,11 @@ import Taro from "@tarojs/taro";
 
 export default class YxyService {
 
-  /**
-   * 获取图形验证码 base64 图像
-   * @returns
-   */
-  static getGraph = async () => {
-    return request<string>(
-      api.user.bind.yxy.getGraph, {
-        method: "POST",
-        header: { "Cookie": serviceStore.sessionID }
-      }
-    );
-  };
-
-  /**
-   * 校验图形验证码
-   * @returns
-   */
-  static sendGraphAuthCode = async (
-    data: { captcha: string, phoneNum: string }
+  static getPhoneCode = async (
+    data: { phoneNum: string }
   ) => {
     return request<string>(
-      api.user.bind.yxy.sendGraphAuthCode, {
+      api.user.bind.yxy.getPhoneCode, {
         method: "POST",
         header: {
           "Cookie": serviceStore.sessionID
@@ -34,7 +17,6 @@ export default class YxyService {
         data
       });
   };
-
   /**
    * 登录
    * @param data
