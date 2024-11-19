@@ -7,7 +7,7 @@ import { ref } from "vue";
 import { useRequest } from "@/hooks";
 import store, { serviceStore } from "@/store";
 
-const phoneNumber = ref<string>("");
+const phoneNumber = ref("");
 const phoneCode = ref("");
 
 const helpContent = helpText.bind.yxy;
