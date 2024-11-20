@@ -1,5 +1,10 @@
 @import '@/style/theme.scss';
 
+.selector{
+  text-align: center;
+  transform: scale(1.15);
+}
+
 .header-view {
   height: 200Px;
   background-color: var(--wjh-color-primary);
