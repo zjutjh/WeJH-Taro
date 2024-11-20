@@ -12,7 +12,7 @@
               <list-item class="record-list-item">
                 <view class="text-wrapper">
                   <text> {{ item.datetime }} </text>
-                  <text> 充值金额：{{ item.money }}元 </text>
+                  <text> 充值金额：{{ item.money }} </text>
                 </view>
               </list-item>
             </list>
@@ -43,6 +43,7 @@ import { ref } from "vue";
 import List from "../../../components/List/List.vue";
 import ListItem from "../../../components/List/ListItem.vue";
 import dayjs from "dayjs";
+import { serviceStore } from "@/store";
 
 type recordType = {
   buy_type: string;
@@ -61,7 +62,8 @@ const {
   loading
 } = useRequest(YxyService.queryRecord, {
   defaultParams: {
-    page: currentPage.value.toString()
+    page: currentPage.value.toString(),
+    campus: serviceStore.electricity.electricityCampus
   },
   onSuccess: (response) => {
     if (response.data.code === 1) {
@@ -94,7 +96,7 @@ const {
 });
 
 const loadMore = () => {
-  getRecord({ page: currentPage.value.toString() });
+  getRecord({ page: currentPage.value.toString(), campus: serviceStore.electricity.electricityCampus });
 };
 
 </script>
