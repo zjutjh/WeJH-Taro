@@ -139,7 +139,9 @@ export default class ZFService {
     const lessons = lessonsTable?.filter((item: Lesson) => {
       const currentDay = day === "today" ? (new Date().getDay() || 7) : (new Date().getDay() + 1 || 7);
       if (currentDay !== parseInt(item.weekday)) return false;
-      const currentWeek = systemStore.generalInfo.week;
+
+      const sundayNight = currentDay === 1 && day === "tomorrow";
+      const currentWeek = sundayNight ? systemStore.generalInfo.week + 1 : systemStore.generalInfo.week;
 
       for (const time of item.week.split(",")) {
         if (time.includes("-")) {
