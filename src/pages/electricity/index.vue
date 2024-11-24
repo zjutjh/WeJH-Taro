@@ -47,7 +47,7 @@
                 正在加载...
               </text>
               <text v-else-if="todayConsumption" class="today">
-                今日已用: {{ todayConsumption }} kwh
+                昨日使用: {{ todayConsumption }}
               </text>
             </view>
           </w-list-item>
@@ -70,6 +70,19 @@
         </w-list>
       </view>
     </scroll-view>
+    <bottom-panel>
+      <picker
+        mode="selector"
+        :range="options"
+        :value="selectedIndex"
+        class="picker-wrapper"
+        @change="onPickerChange"
+      >
+        <w-button class="selector">
+          {{ selectedOption }}
+        </w-button>
+      </picker>
+    </bottom-panel>
   </theme-config>
 </template>
 
@@ -80,13 +93,32 @@ import {
   ThemeConfig,
   TitleBar,
   WList,
-  WListItem
+  WListItem,
+  BottomPanel,
+  WButton
 } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
+
+const options = ref(["朝晖/屏峰", "莫干山"]);
+const selectedIndex = ref(serviceStore.electricity.selectedIndex);
+const valueMap = {
+  "朝晖/屏峰": "zhpf",
+  "莫干山": "mgs"
+};
+
+const selectedOption = computed(() => options.value[selectedIndex.value]);
+const onPickerChange = (event: { detail: { value: number } }) => {
+  selectedIndex.value = event.detail.value;
+  serviceStore.electricity.selectedIndex = selectedIndex.value;
+  const selectedValue = valueMap[selectedOption.value];
+  serviceStore.electricity.electricityCampus = selectedValue;
+  getQueryBalance({ campus: selectedValue });
+  getQueryConsumption({ campus: selectedValue });
+};
 
 const roomInfo = computed(() => ({
   roomName: serviceStore.electricity.roomName,
@@ -97,7 +129,8 @@ const balance = computed(() => serviceStore.electricity.balance);
 
 const todayConsumption = computed(() => (serviceStore.electricity.todayConsumption));
 
-useRequest(YxyService.queryBalance, {
+const { run: getQueryBalance } = useRequest(YxyService.queryBalance, {
+  manual: true,
   onBefore: () => {
     Taro.showLoading({ title: "正在加载" });
   },
@@ -121,6 +154,7 @@ useRequest(YxyService.queryBalance, {
 });
 
 const {
+  run: getQueryConsumption,
   loading: consumptionLoading
 } = useRequest(YxyService.queryConsumption, {
   onSuccess: (response) => {
