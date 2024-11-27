@@ -3,7 +3,7 @@ import { persistedStorage } from "@/utils";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-const useScoreQueryOptionStore = defineStore("score/query", () => {
+const useScoreQueryOptionStore = defineStore("score/queryOptions", () => {
   const generalInfo = useGeneralInfo();
 
   const term = ref<"上" | "下" | "短">(generalInfo.value.scoreTerm);

@@ -59,7 +59,6 @@ const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
     data.value = undefined;
     error.value = undefined;
     config?.onBefore?.();
-    // TODO: add delay
     const timer = setTimeout(() => {
       loading.value = true;
     }, config?.loadingDelay || 0);
@@ -107,6 +106,7 @@ export type UseRequestOptions<Data, Params> = {
   minLoadingTime?: number;
   /** 在执行 Promise 前，将 `data` 重置为 `initialData`，默认为 false */
   resetOnRun?: boolean;
+  throwError?: boolean;
   onSuccess?: (data: Data, params: Params | undefined) => void;
   onError?: (error: unknown) => void;
 };
@@ -127,6 +127,7 @@ export function useRequestNext<State, Params extends Record<string, any>>(
     manual = false,
     minLoadingTime = 0,
     resetOnRun = false,
+    throwError = false,
     onSuccess,
     onError
   } = options ?? {};
@@ -152,6 +153,10 @@ export function useRequestNext<State, Params extends Record<string, any>>(
     } else {
       error.value = promiseResult.reason;
       onError?.(promiseResult.reason);
+      if (throwError) {
+        loading.value = false;
+        throw promiseResult.reason;
+      }
     }
 
     loading.value = false;

@@ -18,8 +18,9 @@ function useScoreQuery(options: {
     period: "期中" | "期末"
   }
 }) {
-  const { loading, data, mutate: fetchScore } = useMemorizedRequest(
-    (params) => `score/collection/${params?.year}/${params?.term}/${params?.period}`,
+
+  const { loading, data, mutateKey: fetchScore } = useMemorizedRequest(
+    (params) => `score/query/${params?.year}/${params?.term}/${params?.period}`,
     withRetry(withRespDataNeverNull(scoreFetcher)), {
       defaultParams: options.defaultQueryParams,
       initialData: [],
