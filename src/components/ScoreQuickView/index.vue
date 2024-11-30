@@ -40,7 +40,7 @@ import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed } from "vue";
 import "./index.scss";
-import useUnreadScore from "@/store/service/score/unread";
+import useUnreadScore from "@/hooks/score/unread";
 
 // 将帮助提示信息传到Home，点击帮助按钮显示该信息
 const emit = defineEmits(["showHelp"]);
