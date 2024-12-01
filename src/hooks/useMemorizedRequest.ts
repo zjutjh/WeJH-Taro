@@ -1,17 +1,15 @@
-import { useRequestNext, UseRequestOptions } from "./useRequest";
+import { useRequestNext } from "./useRequest";
 import { persistedStorage } from "@/utils";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { onMounted, Ref, ref } from "vue";
 
 const keyPrefix = "__request";
 
 /**
- * 处理 key，提取其中的第一部分，并加上前缀作为 Domain，其
- * 余部分作为 Path。
+ * 处理 key，提取其中的第一部分，并加上前缀作为 Domain，其余部分作为 Path。
  *
  * @param key 用户传入的 Key
- * @returns 解析后的结果，Domain 是持久化存储的 Key，Path 是
- * 存储数据对象中的 Key。
+ * @returns 解析后的结果，Domain 是持久化存储的 Key，Path 是存储数据对象中的 Key。
  */
 function parseKey(key: string) {
   if (key.startsWith("/") || key.endsWith("/"))
@@ -31,8 +29,7 @@ type StorageItem<Data> = {
 /**
  * 根据特定结构的 Key，对持久化数据进行操作
  *
- * 利用 wx 特性，没有序列化数据对象成字符串，而是直接
- * 存入对象，减少序列化性能消耗
+ * 利用 wx 特性，没有序列化数据对象成字符串，而是直接存入对象，减少序列化性能消耗
  */
 const requestStorage = {
   setItem<Data>(key: string, value: Data): number {
@@ -68,11 +65,26 @@ const usePromisePool = defineStore("__request/cachedPromise", () => {
   }
 
   function get<Data>(key: string) {
-    return map.get(key) as Promise<Data>;
+    return map.get(key) as Promise<Data> | undefined;
   }
 
   return { add, get };
 });
+
+type useMemorizedRequestOptions<Data, Params> = {
+  /** Promise 还未 fulfilled 时，给 `data` 的初始值 */
+  initialData: Data;
+  /** 自动触发请求，以及调用 `run` 函数不传参数时，默认给请求函数传入的参数 */
+  defaultParams?: Params;
+  /** 是否在组件初始化的时候触发 revalidate */
+  revalidateOnMount?: boolean;
+  /** 缓存的保鲜时间，默认 1 分钟，当前时间和写入时间之间的间隔大于保鲜时间，判断缓存过期 */
+  staleTime?: number;
+  onSuccess?: (data: Data, params: Params | undefined) => void;
+  onError?: (error: unknown) => void;
+};
+
+export type Key = `${string}/${string}`;
 
 /**
  * 接入持久化缓存能力的 useRequest
@@ -87,29 +99,34 @@ const usePromisePool = defineStore("__request/cachedPromise", () => {
  * @returns updateTime - 上次缓存成功更新的时间
  */
 export default function useMemorizedRequest<Data, Params extends Record<string, any>>(
-  getKey: string | ((params?: Params) => string),
+  getKey: Key | ((params?: Params) => Key),
   fetcher: (params?: Params) => Promise<Data>,
-  options: UseRequestOptions<Data, Params> & {
-    staleTime?: number
-  }
+  options: useMemorizedRequestOptions<Data, Params>
 ) {
-  const { staleTime = 5 * 60 * 1000 } = options ?? {};
+  const {
+    staleTime = 1 * 1000,
+    revalidateOnMount = true
+  } = options ?? {};
 
   const _initialKey = typeof getKey === "function" ? getKey(options.defaultParams) : getKey;
   const _initialStore = requestStorage.getItem<Data>(_initialKey);
-  const data = ref<Data>(_initialStore?.value ?? options.initialData);
+  const data = ref(_initialStore?.value ?? options.initialData) as Ref<Data>;
   const updateTime = ref(_initialStore?.updateTime ?? 0);
   let previousParams = options.defaultParams;
 
   const promisePool = usePromisePool();
-  const { run, ...restUseRequestReturned } = useRequestNext(
+  const { run, error, loading } = useRequestNext(
     fetcher, {
-      ...options,
-      manual: true
+      manual: true,
+      resetOnRun: false,
+      initialData: options.initialData,
+      defaultParams: options.defaultParams,
+      onError: options.onError,
+      onSuccess: options.onSuccess
     }
   );
 
-  function mutateKey(params: Params) {
+  function mutateKey(params?: Params) {
     previousParams = params;
     const newKey = typeof getKey === "function" ? getKey(params) : getKey;
 
@@ -122,40 +139,45 @@ export default function useMemorizedRequest<Data, Params extends Record<string, 
       }
     }
 
-    return revalidate(params);
+    return _revalidate(params);
   }
 
   function refresh() {
     // TODO: 是否考虑复用 Promise 导致的竞态问题？
-    return revalidate(previousParams);
+    return _revalidate(previousParams);
   }
 
-  async function revalidate(params: Params | undefined) {
+  async function _revalidate(params: Params | undefined) {
     const key = typeof getKey === "function" ? getKey(params) : getKey;
 
-    // 复用请求
+    // 复用请求 Promise
     const existedPromise = promisePool.get<Data>(key);
-    if (existedPromise) {
-      console.warn("Reuse promise:", key);
-      return existedPromise;
-    }
+    if (existedPromise) console.warn("Reuse promise:", key);
 
-    const promise = run(params);
-    promisePool.add(key, promise);
+    const promise = existedPromise ?? run(params);
+    if (!existedPromise) promisePool.add(key, promise);
     const res = await promise;
-    data.value = res;
-    updateTime.value = requestStorage.setItem(key, res);
+    data.value = res!;
+
+    // 复用 Promise 时，不需要再写入到缓存
+    if (!existedPromise) {
+      updateTime.value = requestStorage.setItem(key, res);
+    }
 
     return res;
   }
 
-  if (!options.manual) revalidate(options.defaultParams);
+  onMounted(() => {
+    if (revalidateOnMount)
+      mutateKey(options.defaultParams);
+  });
 
   return {
-    ...restUseRequestReturned,
+    loading,
+    error,
+    data,
     refresh,
     mutateKey,
-    updateTime,
-    data
+    updateTime
   };
 }
