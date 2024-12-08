@@ -78,10 +78,12 @@ useRequest(UserService.getUserTheme, {
   manual: false,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
+      console.log(res.data)
       store.commit("setHadTheme", res.data.data.theme_list);
       res.data.data.theme_list.forEach((item: any) => {
         idMap[item.name] = item.id;
       });
+      console.log("idMap:",idMap)
     } else {
       Taro.showToast({
         icon: "none",
@@ -97,6 +99,7 @@ useRequest(UserService.getUserTheme, {
 const { run } = useRequest(UserService.setTheme, {
   manual: true,
   onSuccess: (res) => {
+    console.log(res);
     if (res.data.code === 1 && res.data.msg === "OK") {
       store.commit("setThemeMode", currentTab);
       currentTab.value = activeTheme;

@@ -12,12 +12,48 @@ export default class UserService {
     return request<{
       code: number,
       msg: string,
-      theme_list: {
-        id?: number;
-        name?: string;
-        theme_config?: string;
-        type: string;
-      }[]
+      data: {
+        current_theme_id: number;
+        theme_list: {
+          name: string;
+          theme_config: {
+            bar_icon: {
+              home_icon: string;
+              function_icon: string;
+              my_icon: string;
+              selected_home_icon: string;
+              selected_function_icon: string;
+              selected_my_icon: string;
+            },
+            applist_icon: {
+              class_icon: string;
+              grade_icon: string;
+              exam_icon: string;
+              free_classroom_icon: string;
+              schoolcard_icon: string;
+              lend_icon: string;
+              electricity_icon: string;
+              schoolbus_icon: string;
+              cloth_icon: string;
+            },
+            background_img: string;
+            background_color: string;
+            background_position: string;
+            base_color: {
+              base_500: string;
+              base_600: string;
+              base_700: string;
+            },
+            dark_base_color: {
+              dark_base_500: string;
+              dark_base_600: string;
+              dark_base_700: string;
+            }
+          },
+          has_dark_mode: boolean;
+          id: number;
+        }[]
+      };
     }>(
       api.user.theme.get, {
         method: "GET",
