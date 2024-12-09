@@ -1,0 +1,15 @@
+{
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.format.enable": true,
+  "editor.formatOnSaveMode": "file",
+  "eslint.probe": [
+    "typescript",
+    "vue",
+  ],
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+}
