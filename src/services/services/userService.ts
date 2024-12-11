@@ -51,7 +51,7 @@ export default class UserService {
             }
           },
           has_dark_mode: boolean;
-          id: number;
+          theme_id: number;
         }[]
       };
     }>(
@@ -63,7 +63,7 @@ export default class UserService {
   };
 
   static setTheme = (data: { id: number }) => {
-    return request<{
+    return request<{    
       code: number,
       msg: string,
       data: null,

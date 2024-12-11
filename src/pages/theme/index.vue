@@ -10,13 +10,44 @@
           >
             {{ emptyText }}
           </view>
-          <view class="theme-config">
+          <view class="theme-config" v-if="serviceStore.theme.darkMode.isAdapted === false">
             <view class="theme-config-title">
-              主题色彩
+                主题色彩
             </view>
             <view class="tab-bar">
               <text
-                v-for="item in hadThemeList"
+                v-for="item in 
+                serviceStore.theme.darkMode.mode === 'light' ? hadThemeList_light : hadThemeList_dark"
+                :key="item.name"
+                class="tab"
+                :class="currentTab === item.name ? 'active' : undefined"
+                @tap="() => handleTabClick(item.name)"
+              >
+                {{ nameMap[item.name] }}
+              </text>
+            </view>
+          </view>
+          <view class="theme-config" v-if="serviceStore.theme.darkMode.isAdapted === true">
+            <view class="theme-config-title">
+                浅色主题
+            </view>
+            <view class="tab-bar">
+              <text
+                v-for="item in hadThemeList_light"
+                :key="item.name"
+                class="tab"
+                :class="currentTab === item.name ? 'active' : undefined"
+                @tap="() => handleTabClick(item.name)"
+              >
+                {{ nameMap[item.name] }}
+              </text>
+            </view>
+            <view class="theme-config-title">
+                深色主题
+            </view>
+            <view class="tab-bar">
+              <text
+                v-for="item in hadThemeList_dark"
                 :key="item.name"
                 class="tab"
                 :class="currentTab === item.name ? 'active' : undefined"
@@ -65,13 +96,19 @@ const nameMap = {
   blue: "蓝",
   pink: "粉"
 };
+const configMap = {}
 const isEmpty = ref(false);
 const emptyText = computed(() => {
   return labText.empty;
 });
-const hadThemeList = computed(() => {
-  return serviceStore.theme.hadTheme;
+//主题列表
+const hadThemeList_light = computed(() => {
+    return serviceStore.theme.hadTheme
 });
+const hadThemeList_dark = computed(() => {
+    return serviceStore.theme.hadTheme.filter((item: any) => item.has_dark_mode)
+});
+
 const themeMode = ref(serviceStore.theme.themeMode);
 const currentTab = ref(themeMode);
 useRequest(UserService.getUserTheme, {
@@ -81,7 +118,8 @@ useRequest(UserService.getUserTheme, {
       console.log(res.data)
       store.commit("setHadTheme", res.data.data.theme_list);
       res.data.data.theme_list.forEach((item: any) => {
-        idMap[item.name] = item.id;
+        idMap[item.name] = item.theme_id;
+        configMap[item.name] = item.theme_config;
       });
       console.log("idMap:",idMap)
     } else {
@@ -102,6 +140,7 @@ const { run } = useRequest(UserService.setTheme, {
     console.log(res);
     if (res.data.code === 1 && res.data.msg === "OK") {
       store.commit("setThemeMode", currentTab);
+      store.commit("setConfig", configMap[currentTab.value]);//传当前点击的主题对应的config
       currentTab.value = activeTheme;
       Taro.showToast({ title: "设置成功" });
     } else {

@@ -29,14 +29,14 @@
 
   background-image: url('@/assets/photos/background-pink.svg');
 }
+//并没有进行使用的purple 删除删除
+// .theme.purple {
+//   --wjh-color-primary-light: var(--wjh-color-purple-500);
+//   --wjh-color-primary: var(--wjh-color-purple-600);
+//   --wjh-color-primary-dark: var(--wjh-color-purple-700);
 
-.theme.purple {
-  --wjh-color-primary-light: var(--wjh-color-purple-500);
-  --wjh-color-primary: var(--wjh-color-purple-600);
-  --wjh-color-primary-dark: var(--wjh-color-purple-700);
-
-  background-image: url('@/assets/photos/background-purple.svg');
-}
+//   background-image: url('@/assets/photos/background-purple.svg');
+// }
 
 // 主题过渡方案
 .theme.walk {
