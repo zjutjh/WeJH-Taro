@@ -15,14 +15,11 @@
 }
 
 .electricity-card {
-  display: flex;
-  height: 10%;
-  text-align: center;
-  justify-content: space-around;
   box-shadow: none;
 
   .text-wrapper {
     display: flex;
+    justify-content: center;
     gap: 16rpx;
 
     .dangerous {
