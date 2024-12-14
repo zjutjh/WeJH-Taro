@@ -13,9 +13,6 @@
             </view>
             <view class="text-wrapper">
               <text>{{ roomInfo.roomName }}</text>
-              <text class="week">
-                房间号 {{ roomInfo.roomCode }}
-              </text>
             </view>
           </view>
         </card>
@@ -104,7 +101,7 @@ import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
 const options = ref(["朝晖/屏峰", "莫干山"]);
-const selectedIndex = ref(serviceStore.electricity.selectedIndex);
+const selectedIndex = ref(serviceStore.electricity.selectIndex);
 const valueMap = {
   "朝晖/屏峰": "zhpf",
   "莫干山": "mgs"
@@ -160,6 +157,10 @@ const {
   onSuccess: (response) => {
     if (response.data.code === 1) {
       store.commit("setConsumption", response.data.data[0].used);
+    } else if (response.data.code === 200525) {
+      selectedIndex.value = 0;
+      serviceStore.electricity.selectedIndex = 0;
+      serviceStore.electricity.electricityCampus = "zhpf";
     } else {
       throw new Error(response.data.msg);
     }
