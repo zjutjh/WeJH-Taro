@@ -154,6 +154,9 @@ const {
   run: getQueryConsumption,
   loading: consumptionLoading
 } = useRequest(YxyService.queryConsumption, {
+  defaultParams: {
+    campus: serviceStore.electricity.electricityCampus
+  },
   onSuccess: (response) => {
     if (response.data.code === 1) {
       store.commit("setConsumption", response.data.data[0].used);
