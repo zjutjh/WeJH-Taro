@@ -107,6 +107,8 @@ const valueMap = {
   "莫干山": "mgs"
 };
 
+// eslint-disable-next-line no-warning-comments
+// TODO: 优化双向同步操作
 // 双向同步 selectedIndex 和 serviceStore.electricity.selectedIndex
 watch(
   selectedIndex,

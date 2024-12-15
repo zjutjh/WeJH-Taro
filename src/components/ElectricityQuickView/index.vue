@@ -48,7 +48,7 @@ const { data: balanceData, loading, error, run } = useRequest(
         serviceStore.electricity.lastCampus = campus.value;
         store.commit("setBalance", res.data.data.soc);
       } else {
-        throw new Error("No SOC data found");
+        throw new Error(res.data.msg);
       }
     }
   }
