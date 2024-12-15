@@ -52,7 +52,7 @@ export const homeCards: {
   },
   "electricity-quick-view": {
     name: "electricity-quick-view",
-    label: "电费查询",
+    label: "电量查询",
     icon: "electricity",
     backgroundColor: "yellow",
     require: "isBindYXY"
