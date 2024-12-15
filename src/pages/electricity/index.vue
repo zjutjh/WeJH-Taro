@@ -96,7 +96,7 @@ import {
 } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
@@ -107,10 +107,24 @@ const valueMap = {
   "莫干山": "mgs"
 };
 
+// 双向同步 selectedIndex 和 serviceStore.electricity.selectedIndex
+watch(
+  selectedIndex,
+  (newValue) => {
+    serviceStore.electricity.selectIndex = newValue;
+  }
+);
+watch(
+  () => serviceStore.electricity.selectIndex,
+  (newValue) => {
+    selectedIndex.value = newValue;
+  }
+);
+
 const selectedOption = computed(() => options.value[selectedIndex.value]);
 const onPickerChange = (event: { detail: { value: number } }) => {
   selectedIndex.value = event.detail.value;
-  serviceStore.electricity.selectedIndex = selectedIndex.value;
+
   const selectedValue = valueMap[selectedOption.value];
   serviceStore.electricity.electricityCampus = selectedValue;
   getQueryBalance({ campus: selectedValue });
