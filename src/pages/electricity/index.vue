@@ -96,39 +96,32 @@ import {
 } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
 const options = ref(["朝晖/屏峰", "莫干山"]);
-const selectedIndex = ref(serviceStore.electricity.selectIndex);
+const selectedIndex = computed({
+  get: () => serviceStore.electricity.selectIndex,
+  set: (value) => {
+    serviceStore.electricity.selectIndex = value;
+  }
+});
+
+const selectedOption = computed(() => options.value[selectedIndex.value]);
+
 const valueMap = {
   "朝晖/屏峰": "zhpf",
   "莫干山": "mgs"
 };
 
-// eslint-disable-next-line no-warning-comments
-// TODO: 优化双向同步操作
-// 双向同步 selectedIndex 和 serviceStore.electricity.selectedIndex
-watch(
-  selectedIndex,
-  (newValue) => {
-    serviceStore.electricity.selectIndex = newValue;
-  }
-);
-watch(
-  () => serviceStore.electricity.selectIndex,
-  (newValue) => {
-    selectedIndex.value = newValue;
-  }
-);
-
-const selectedOption = computed(() => options.value[selectedIndex.value]);
 const onPickerChange = (event: { detail: { value: number } }) => {
   selectedIndex.value = event.detail.value;
 
   const selectedValue = valueMap[selectedOption.value];
   serviceStore.electricity.electricityCampus = selectedValue;
+
+  // 调用查询接口
   getQueryBalance({ campus: selectedValue });
   getQueryConsumption({ campus: selectedValue });
 };
