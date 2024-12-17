@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button />
+    <title-bar title="寝室电量查询" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <image src="@/assets/photos/electricity.svg" />
@@ -96,7 +96,7 @@ import {
 } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
@@ -107,10 +107,26 @@ const valueMap = {
   "莫干山": "mgs"
 };
 
+// eslint-disable-next-line no-warning-comments
+// TODO: 优化双向同步操作
+// 双向同步 selectedIndex 和 serviceStore.electricity.selectedIndex
+watch(
+  selectedIndex,
+  (newValue) => {
+    serviceStore.electricity.selectIndex = newValue;
+  }
+);
+watch(
+  () => serviceStore.electricity.selectIndex,
+  (newValue) => {
+    selectedIndex.value = newValue;
+  }
+);
+
 const selectedOption = computed(() => options.value[selectedIndex.value]);
 const onPickerChange = (event: { detail: { value: number } }) => {
   selectedIndex.value = event.detail.value;
-  serviceStore.electricity.selectedIndex = selectedIndex.value;
+
   const selectedValue = valueMap[selectedOption.value];
   serviceStore.electricity.electricityCampus = selectedValue;
   getQueryBalance({ campus: selectedValue });

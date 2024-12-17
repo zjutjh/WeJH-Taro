@@ -7,6 +7,7 @@ export const ElectricityServiceStore = {
     balance: undefined,
     electricityCampus: "zhpf",
     selectIndex: 0,
+    lastCampus: "zhpf",
     todayConsumption: undefined,
     updateTime: {
       balance: undefined

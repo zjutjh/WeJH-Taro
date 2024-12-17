@@ -1,8 +1,8 @@
 <template>
-  <quick-view title="电费查询" icon-name="electricity" @tap="nav2electricity">
+  <quick-view title="电量查询" icon-name="electricity" @tap="nav2electricity">
     <view class="text-view">
       <text class="sub-text-left">
-        当前电费({{ updateTimeString }})
+        当前电量({{ updateTimeString }})
       </text>
       <text v-if="isUrgent" class="sub-text-right">
         温馨提示: 电量较低
@@ -10,7 +10,7 @@
     </view>
     <card class="electricity-card">
       <view v-if="!loading" class="text-wrapper">
-        <text>寝室剩余电费</text>
+        <text>寝室剩余电量</text>
         <text :class="isUrgent ? 'dangerous' : 'normal'">
           {{ balanceData?.data.soc || 0 }}
         </text>
@@ -27,7 +27,7 @@
 import { QuickView } from "@/components";
 import Taro from "@tarojs/taro";
 import "./index.scss";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { YxyService } from "@/services";
 import store, { serviceStore } from "@/store";
 import Card from "../Card/index.vue";
@@ -37,15 +37,29 @@ import { useRequest } from "@/hooks";
 function nav2electricity() {
   Taro.navigateTo({ url: "/pages/electricity/index" });
 }
+const campus = computed(() => serviceStore.electricity.electricityCampus);
 
-const { data: balanceData, loading, error } = useRequest(
-  YxyService.queryBalance, {
+const { data: balanceData, loading, error, run } = useRequest(
+  YxyService.queryBalance,
+  {
+    manual: true,
     onSuccess: (res) => {
       if (res.data.data?.soc) {
+        serviceStore.electricity.lastCampus = campus.value;
         store.commit("setBalance", res.data.data.soc);
-      } else throw new Error();
+      } else {
+        throw new Error(res.data.msg);
+      }
     }
   }
+);
+
+watch(
+  campus,
+  (newCampus) => {
+    run({ campus: newCampus });
+  },
+  { immediate: true }
 );
 
 const isUrgent = computed(() => {
