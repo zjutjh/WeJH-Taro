@@ -12,15 +12,15 @@
     <card
       v-for="(item, index) in current.slice(0, 3)"
       v-else
-      :key="item.libraryID"
+      :key="item.bookID"
       class="book-card"
       :style="bookCardBackgroundColor(index)"
     >
       <view class="book-name">
-        {{ item.name }}
+        {{ item.bookName }}
       </view>
       <view class="borrrow-date">
-        借阅日期：{{ item.time }}
+        借阅日期：{{ item.borrowTime }}
       </view>
     </card>
     <view v-if="current?.length > 3" class="more-detail">
@@ -56,5 +56,5 @@ const bookCardBackgroundColor = (index: number): CSSProperties => {
 function nav() {
   Taro.navigateTo({ url: "/pages/library/index" });
 }
-
+console.log(current)
 </script>

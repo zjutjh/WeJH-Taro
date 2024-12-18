@@ -43,7 +43,7 @@ const isDisabled = ref(false);
 // 原来的代码是 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
 if (requireActive.value === "zf" && !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth)
   isDisabled.value = true;
-if (requireActive.value === "library" && !serviceStore.user.isBindLibrary)
+if (requireActive.value === "library" && !serviceStore.user.isBindOauth)
   isDisabled.value = true;
 if (requireActive.value === "yxy" && !serviceStore.user.isBindYXY)
   isDisabled.value = true;

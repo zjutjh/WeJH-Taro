@@ -25,8 +25,8 @@ const isBindZf = computed(() => {
   // 原来的代码是 return (serviceStore.user.isBindZF);
   return (serviceStore.user.isBindZF || serviceStore.user.isBindOauth);
 });
-const isBindLibrary = computed(() => {
-  return serviceStore.user.isBindLibrary;
+const isBindOauth = computed(() => {
+  return serviceStore.user.isBindOauth;
 });
 const isBindYxy = computed(() => {
   return serviceStore.user.isBindYXY;
@@ -53,7 +53,7 @@ const cardsMap = computed(() => ({
       "onShowHelp": () => showHelp("score-card")
     }
   ) : null,
-  "library-quick-view": isBindLibrary.value ? h(
+  "library-quick-view": isBindOauth.value ? h(
     LibraryQuickView
   ) : null,
   "electricity-quick-view": isBindYxy.value ? h(

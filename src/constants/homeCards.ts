@@ -12,7 +12,7 @@ export const homeCards: {
     label: string;
     icon: string;
     backgroundColor: string;
-    require: "isBindZF" | "isBindLibrary" | "isBindYXY";
+    require: "isBindZF" | "isBindOauth" | "isBindYXY";
   }
 } = {
   "exam-quick-view": {
@@ -34,7 +34,7 @@ export const homeCards: {
     label: "借阅信息",
     icon: "library",
     backgroundColor: "yellow",
-    require: "isBindLibrary"
+    require: "isBindOauth"
   },
   "school-card-quick-view": {
     name: "school-card-quick-view",

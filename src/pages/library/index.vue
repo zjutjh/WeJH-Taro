@@ -59,10 +59,10 @@
               }"
             >
               <view class="book-name">
-                {{ item.name }}
+                {{ item.bookName }}
               </view>
               <view>
-                {{ `借阅日期：${item.time.split(" ")[0]} | ${item.time.split(" ")[1] }` }}
+                {{ `借阅日期：${item.borrowTime.split(" ")[0]} | ${item.borrowTime.split(" ")[1] }` }}
               </view>
               <view v-if="item.returnTime">
                 {{ `归还日期：${item.returnTime.split(" ")[0]}` }}

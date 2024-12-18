@@ -1,8 +1,8 @@
 export interface BorrowBooksInfo {
-  libraryID: string;
+  bookID: string;
   libraryPlace: string;
-  name: string;
-  time: string;
+  bookName: string;
+  borrowTime: string;
   returnTime: string;
   renewalsTime: string;
   overdueTime: string;
