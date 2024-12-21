@@ -11,10 +11,12 @@
     </view>
     <card
       v-for="(item, index) in current.slice(0, 3)"
-      v-else
       :key="item.bookID"
       class="book-card"
-      :style="bookCardBackgroundColor(index)"
+      :style="{
+        backgroundColor:index % 2? 
+        'var(--wjh-color-yellow-500)': 'var(--wjh-color-orange-500)',
+      }"
     >
       <view class="book-name">
         {{ item.bookName }}
@@ -48,13 +50,7 @@ const current = computed(() => {
   return serviceStore.library.current;
 });
 
-const bookCardBackgroundColor = (index: number): CSSProperties => {
-  return {
-    backgroundColor: ` var(--wjh-color-${index % 2 ? "yellow" : "orange"}-light)` };
-};
-
 function nav() {
   Taro.navigateTo({ url: "/pages/library/index" });
 }
-console.log(current)
 </script>
