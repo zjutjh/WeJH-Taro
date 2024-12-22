@@ -28,7 +28,7 @@
               图书馆账号(暂不可用)
             </w-list-item>
           </w-list>
-          <w-list class="bind-list" :class="[{ binded:bindState.yxy }]">
+          <w-list class="bind-list" :class="[{ binded: bindState.yxy }]">
             <w-list-item
               :extra="bindState.yxy ? '已绑定' : '未绑定'"
               arrow="down"
@@ -59,14 +59,13 @@ import Oauth from "./Oauth/index.vue";
 import "./index.scss";
 import { onMounted, ref } from "vue";
 import { getCurrentInstance } from "@tarojs/taro";
-import useUserStore from "@/store/service/user";
 import useNewFeatureStore from "@/store/service/newFeature";
-import { storeToRefs } from "pinia";
+import useBinding from "@/hooks/useBinding";
 
 // TODO: 图书馆账号不可用，标题动态化
 
 const bindTab = ref<string | undefined>(undefined);
-const { bindState } = storeToRefs(useUserStore());
+const { bindState } = useBinding();
 const newFeatureStore = useNewFeatureStore();
 
 onMounted(() => {

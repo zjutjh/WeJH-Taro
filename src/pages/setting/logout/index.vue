@@ -50,10 +50,10 @@ import "./index.scss";
 import Taro from "@tarojs/taro";
 import { helpText } from "@/constants/copywriting";
 import { CookieUtils, RequestError } from "@/utils";
-import useUserStore from "@/store/service/user";
+import useUser from "@/hooks/user/info";
 import { UserService } from "@/services";
 
-const userStore = useUserStore();
+const { logout } = useUser();
 const iid = ref("");
 const stuid = ref("");
 const isShowConfirm = ref(false);
@@ -66,7 +66,8 @@ async function handleLogout() {
     await UserService.logout({ iid: iid.value, stuid: stuid.value });
     Taro.showToast({ icon: "success", title: "注销成功" });
     CookieUtils.clear();
-    userStore.clearUserData();
+    // TODO: 测试注销
+    logout();
     setTimeout(nav2Home, 2000);
   } catch (e) {
     if (e instanceof RequestError)

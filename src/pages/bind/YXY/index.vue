@@ -6,13 +6,13 @@ import Taro from "@tarojs/taro";
 import { ref } from "vue";
 import { useRequestNext } from "@/hooks";
 import { RequestError } from "@/utils";
-import useUserStore from "@/store/service/user";
 import useHomeCardStore from "@/store/service/homecard";
 import useWebview from "@/hooks/useWebview";
 import { Image as TaroImage } from "@tarojs/components";
 import useCountdown from "@/hooks/useCountdown";
+import useBinding from "@/hooks/useBinding";
 
-const { updateBindState } = useUserStore();
+const { updateBindState } = useBinding();
 const homeCardStore = useHomeCardStore();
 const { open } = useWebview();
 
@@ -68,7 +68,7 @@ const handleBind = async () => {
     await YxyService.loginYxy({ phoneNum: phoneNumber.value, code: phoneCode.value });
     Taro.showToast({ icon: "success", title: "绑定成功" });
     homeCardStore.add("school-card-quick-view");
-    updateBindState("yxy", true);
+    updateBindState();
   } catch (e) {
     if (e instanceof RequestError) {
       Taro.showToast({ icon: "none", title: e.message });

@@ -4,13 +4,13 @@
     :back-button="false"
   >
     <alarm
-      v-if="userStore.isActive"
+      v-if="isActive"
       :counter="notificationStore.unreadCount"
       @tap="nav2announcement"
     />
   </title-bar>
   <scroll-view :scroll-y="true">
-    <view v-if="userStore.isActive" class="flex-column">
+    <view v-if="isActive" class="flex-column">
       <questionnaire
         v-if="questionnaireStore.isAccess && questionnaireStore.status !== 'close'"
       />
@@ -65,19 +65,21 @@ import cards from "./cards.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
-import useUserStore from "@/store/service/user";
+import useUser from "@/hooks/user/info";
 import useQuestionnaireStore from "@/store/service/questionnaire";
 import useNotificationStore from "@/store/service/notification";
 import useGeneralInfo from "@/store/system/generalInfo";
+import useBinding from "@/hooks/useBinding";
 
-const userStore = useUserStore();
+const { isActive } = useUser();
+const { bindState } = useBinding();
 const questionnaireStore = useQuestionnaireStore();
 const notificationStore = useNotificationStore();
 const generalInfo = useGeneralInfo();
 const isShowEditPanel = ref(false);
 
 const bindZeroServices = computed(() => {
-  const bindStateArray = Object.values(userStore.bindState);
+  const bindStateArray = Object.values(bindState);
 
   return bindStateArray.every(Boolean);
 });

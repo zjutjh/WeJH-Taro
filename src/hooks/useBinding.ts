@@ -1,4 +1,4 @@
-import useUserStore, { BindStateType } from "@/hooks/user/info";
+import useUser, { BindStateType } from "@/hooks/user/info";
 import { computed } from "vue";
 
 export const PermissionAtom: Record<keyof BindStateType, number> = {
@@ -28,13 +28,21 @@ function createPermissionGroup(
 }
 
 export default function useBinding() {
-  // TODO: 转移 userStore 的用户绑定状态到这里
-  const userStore = useUserStore();
+  const { info, fetchUserInfo } = useUser();
 
-  const myPermission = computed(() => {
+  const bindState = computed(() => {
+    return info.value?.bind ?? {
+      lib: false,
+      yxy: false,
+      zf: false,
+      oauth: false
+    };
+  });
+
+  const _myPermission = computed(() => {
     let result = 0;
-    for (const key in userStore.bindState) {
-      if (userStore.bindState[key]) {
+    for (const key in bindState.value) {
+      if (bindState.value[key]) {
         result = result | PermissionAtom[key];
       }
     }
@@ -43,11 +51,16 @@ export default function useBinding() {
 
   function canAccess(require: PermissionGroup) {
     const binaryRequire = createPermissionGroup(require);
-    return binaryRequire.some(p => (p & myPermission.value) === p);
+    return binaryRequire.some(p => (p & _myPermission.value) === p);
+  }
+
+  function updateBindState() {
+    fetchUserInfo();
   }
 
   return {
-    myPermission,
+    bindState,
+    updateBindState,
     canAccess
   };
 }

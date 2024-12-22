@@ -3,12 +3,12 @@ import { Card, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { UserService } from "@/services";
 import useHomeCardStore from "@/store/service/homecard";
-import useUserStore from "@/store/service/user";
 import { RequestError } from "@/utils";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
+import useBinding from "@/hooks/useBinding";
 
-const userStore = useUserStore();
+const { updateBindState, bindState } = useBinding();
 const homeCardStore = useHomeCardStore();
 const helpContent = helpText.bind.zf;
 const zfpass = ref("");
@@ -28,7 +28,7 @@ async function handleBind() {
     await UserService.bindZF({ password: zfpass.value });
     Taro.showToast({ icon: "success", title: "绑定成功" });
     homeCardStore.add("lessons-table-quick-view");
-    userStore.updateBindState("zf", true);
+    updateBindState();
   } catch (e) {
     if (e instanceof RequestError) {
       await Taro.showToast({ icon: "none", title: e.message });
@@ -56,7 +56,7 @@ async function handleBind() {
       <input
         v-model="zfpass"
         password
-        :placeholder="!userStore.bindState.zf ? '请输入密码' : '*******'"
+        :placeholder="!bindState.zf ? '请输入密码' : '*******'"
       >
     </view>
     <template #footer>

@@ -5,18 +5,18 @@
       <card v-if="isActive" class="profile-card">
         <view class="avatar-wrapper">
           <taro-image
-            v-if="wxProfile"
+            v-if="profile"
             class="avatar"
-            :src="wxProfile.avatarUrl"
+            :src="profile.avatarUrl"
           />
         </view>
-        <view v-if="wxProfile" class="profile-split" />
+        <view v-if="profile" class="profile-split" />
         <view class="info-wrapper">
           <view>
-            <view v-if="wxProfile" class="name">
-              {{ wxProfile.nickName }}
+            <view v-if="profile" class="name">
+              {{ profile.nickName }}
             </view>
-            <view v-else class="name" @tap="getWXProfile">
+            <view v-else class="name" @tap="getProfile">
               点击获取头像昵称
             </view>
             <view class="sub-text">
@@ -74,15 +74,14 @@ import WBadge from "../Badge/index.vue";
 import Taro from "@tarojs/taro";
 import { computed } from "vue";
 import "./index.scss";
-import { storeToRefs } from "pinia";
 import useNewFeatureStore, { FeatureNode } from "@/store/service/newFeature";
-import useUserStore from "@/store/service/user";
+import useUser from "@/hooks/user/info";
 import { Image as TaroImage } from "@tarojs/components";
+import useUserWxProfile from "@/hooks/user/wxProfile";
 
-const userStore = useUserStore();
+const { isActive, info: userInfo } = useUser();
 const newFeatureStore = useNewFeatureStore();
-const { getWXProfile } = userStore;
-const { isActive, wxProfile, info: userInfo } = storeToRefs(userStore);
+const { profile, getProfile } = useUserWxProfile();
 
 const options = computed(() => {
   const newFeaturesInMinePage = newFeatureStore.tree?.my as FeatureNode;

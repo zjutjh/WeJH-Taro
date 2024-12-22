@@ -60,10 +60,10 @@ import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import useNewFeatureStore from "@/store/service/newFeature";
 import useThemeStore from "@/store/service/theme";
-import useUserStore from "@/store/service/user";
+import useUser from "@/hooks/user/info";
 
 const themeStore = useThemeStore();
-const userStore = useUserStore();
+const { isActive } = useUser();
 const newFeatureStore = useNewFeatureStore();
 
 const emit = defineEmits(["plusClick", "onChange"]);
@@ -91,7 +91,7 @@ const nav = (val: string) => {
 };
 
 const plusClick = () => {
-  if (!userStore.isActive) {
+  if (!isActive) {
     Taro.showToast({
       icon: "none",
       title: "激活账号以使用功能"

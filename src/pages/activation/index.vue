@@ -128,7 +128,8 @@ import "./index.scss";
 import { helpText } from "@/constants/copywriting";
 import { computed, ref } from "vue";
 import { RequestError } from "@/utils";
-import useUserStore from "@/store/service/user";
+import useUser from "@/hooks/user/info";
+import useUserWxProfile from "@/hooks/user/wxProfile";
 
 const studentid = ref<string | undefined>(undefined);
 const password = ref<string | undefined>(undefined);
@@ -136,7 +137,8 @@ const comfirmPassword = ref<string | undefined>(undefined);
 const idcard = ref<string | undefined>(undefined);
 const email = ref<string | undefined>(undefined);
 
-const { getWXProfile, getUserData } = useUserStore();
+const { fetchUserInfo } = useUser();
+const { getProfile } = useUserWxProfile();
 
 const step = ref(1);
 const invalidPassword = ref(false);
@@ -157,7 +159,7 @@ async function activeClick() {
       idCardNumber: idcard.value!.toUpperCase(),
       email: email.value!
     });
-    getUserData();
+    fetchUserInfo();
     step.value++;
     Taro.hideLoading();
   } catch (e) {
@@ -171,7 +173,7 @@ async function activeClick() {
 
 async function nav2bind() {
   Taro.showLoading({ title: "加载中" });
-  await getWXProfile();
+  await getProfile();
   Taro.hideLoading();
 
   await Taro.redirectTo({ url: "/pages/bind/index" });

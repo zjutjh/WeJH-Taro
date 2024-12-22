@@ -118,8 +118,7 @@ import "./index.scss";
 import useScoreQuery from "@/hooks/score/query";
 import useScoreQueryOptionStore from "@/hooks/score/queryOptions";
 import { FinalTermScore, MidTermScore } from "@/types/Score";
-import useUserStore from "@/store/service/user";
-import { storeToRefs } from "pinia";
+import useUser from "@/hooks/user/info";
 
 const queryOption = useScoreQueryOptionStore();
 const { list, fetchScore, loading } = useScoreQuery({
@@ -129,7 +128,7 @@ const { list, fetchScore, loading } = useScoreQuery({
     period: queryOption.period
   }
 });
-const { info: userInfo } = storeToRefs(useUserStore());
+const { info: userInfo } = useUser();
 const showSorted = ref(false);
 
 const scoreList = computed(() => {

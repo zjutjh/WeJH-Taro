@@ -3,14 +3,14 @@ import { Card, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { UserService } from "@/services";
 import useHomeCardStore from "@/store/service/homecard";
-import useUserStore from "@/store/service/user";
 import { RequestError } from "@/utils";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
+import useBinding from "@/hooks/useBinding";
 
 const oauthpass = ref("");
 const homeCardStore = useHomeCardStore();
-const userStore = useUserStore();
+const { updateBindState, bindState } = useBinding();
 const helpContent = helpText.bind.oauth;
 const isShowHelp = ref(false);
 
@@ -28,7 +28,7 @@ async function handleBind() {
     await UserService.bindOauth({ password: oauthpass.value });
     Taro.showToast({ icon: "success", title: "绑定成功" });
     homeCardStore.add("lessons-table-quick-view");
-    userStore.updateBindState("oauth", true);
+    updateBindState();
   } catch (e) {
     if (e instanceof RequestError) {
       Taro.showToast({ title: e.message, icon: "none" });
@@ -53,7 +53,7 @@ async function handleBind() {
       <input
         v-model="oauthpass"
         password
-        :placeholder="!userStore.bindState.oauth ? '请输入密码' : '*******'"
+        :placeholder="!bindState.oauth ? '请输入密码' : '*******'"
       >
     </view>
     <template #footer>
