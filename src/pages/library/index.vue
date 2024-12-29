@@ -59,13 +59,16 @@
               }"
             >
               <view class="book-name">
-                {{ item.bookName }}
+                {{ item.title }}
               </view>
               <view>
-                {{ `借阅日期：${item.borrowTime.split(" ")[0] || "未知"} | ${item.borrowTime.split(" ")[1] || "未知"}` }}
+                {{ `借阅日期：${item.loanDate}` }}
               </view>
-              <view v-if="item.returnTime">
-                {{ `归还日期：${item.returnTime.split(" ")[0] || "未知"}` }}
+              <view v-if="item.returnDate">
+                {{ `归还日期：${item.returnDate}` }}
+              </view>
+              <view v-else-if="item.normReturnDate">
+                {{ `截止归还：${item.normReturnDate}` }}
               </view>
               <view
                 class="book-index"
@@ -93,6 +96,7 @@ import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/component
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
+import dayjs from "dayjs";
 
 const isSelectToday = ref(true);
 const isSelectHistory = ref(false);
@@ -122,10 +126,11 @@ const currentCount = computed(() => {
 });
 
 /** 超期本数 */
+
 const currentExtendedCount = computed(() => {
   return current.value
     ? current.value.filter((item) => {
-      return parseInt(item.overdueTime) > 0;
+      return !dayjs(item.normReturnDate).isAfter(dayjs());
     }).length
     : 0;
 });

@@ -11,7 +11,7 @@
     </view>
     <card
       v-for="(item, index) in current.slice(0, 3)"
-      :key="item.bookID"
+      :key="item.loanId"
       class="book-card"
       :style="{
         backgroundColor:index % 2? 
@@ -19,10 +19,10 @@
       }"
     >
       <view class="book-name">
-        {{ item.bookName }}
+        {{ item.title }}
       </view>
-      <view class="borrrow-date">
-        借阅日期：{{ item.borrowTime }}
+      <view class="borrow-time">
+        借阅日期：{{ item.loanDate }}
       </view>
     </card>
     <view v-if="current?.length > 3" class="more-detail">
@@ -36,7 +36,7 @@ import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import Card from "../Card/index.vue";
-import { CSSProperties, computed } from "vue";
+import { computed } from "vue";
 import { serviceStore } from "@/store";
 import "./index.scss";
 
