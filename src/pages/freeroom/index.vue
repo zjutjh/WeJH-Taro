@@ -61,9 +61,10 @@ const building = computed(() => {
   const tmp: Record<string, Room[]> = {};
 
   serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
-    if (!tmp[freeroomMap[item.buildName[0]]])
-      tmp[freeroomMap[item.buildName[0]]] = [];
-    tmp[freeroomMap[item.buildName[0]]].push(item);
+    // TODO:  上报无教学楼匹配
+    const fullBuildName = freeroomMap[item.buildName[0]] || "未知教室";
+    if (!tmp[fullBuildName]) tmp[fullBuildName] = [];
+    tmp[fullBuildName].push(item);
   });
   Object.keys(tmp).forEach((key) => {
     buildingList.push({
