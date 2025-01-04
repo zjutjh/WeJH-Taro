@@ -101,12 +101,7 @@ import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
 const options = ref(["朝晖/屏峰", "莫干山"]);
-const selectedIndex = computed({
-  get: () => serviceStore.electricity.selectIndex,
-  set: (value) => {
-    serviceStore.electricity.selectIndex = value;
-  }
-});
+const selectedIndex = computed(() => serviceStore.electricity.selectIndex);
 
 const selectedOption = computed(() => options.value[selectedIndex.value]);
 
@@ -116,11 +111,10 @@ const valueMap = {
 };
 
 const onPickerChange = (event: { detail: { value: number } }) => {
-  selectedIndex.value = event.detail.value;
 
-  const selectedValue = valueMap[selectedOption.value];
+  const selectedValue = valueMap[options.value[event.detail.value]];
   serviceStore.electricity.electricityCampus = selectedValue;
-
+  serviceStore.electricity.selectIndex = event.detail.value;
   // 调用查询接口
   getQueryBalance({ campus: selectedValue });
   getQueryConsumption({ campus: selectedValue });
@@ -170,8 +164,7 @@ const {
     if (response.data.code === 1) {
       store.commit("setConsumption", response.data.data[0].used);
     } else if (response.data.code === 200525) {
-      selectedIndex.value = 0;
-      serviceStore.electricity.selectedIndex = 0;
+      serviceStore.electricity.selectIndex = 0;
       serviceStore.electricity.electricityCampus = "zhpf";
     } else {
       throw new Error(response.data.msg);
