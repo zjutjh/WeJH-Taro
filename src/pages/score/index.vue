@@ -427,6 +427,26 @@ watch(scoreList, (newScoreList) => {
   });
 }, { immediate: true });
 
+watch(unSelectedLessonsList, (newUnSelectedLessonsList) => {
+  allChosen_1.value = true;
+  allChosen_2.value = true;
+  allChosen_3.value = true;
+  newUnSelectedLessonsList.forEach((item) => {
+    const isFind_1 = requiredScoreList.value.find(
+      storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
+    );
+    const isFind_2 = sportsScoreList.value.find(
+      storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
+    );
+    const isFind_3 = optionalScoreList.value.find(
+      storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
+    );
+    if (isFind_1)allChosen_1.value = false;
+    if (isFind_2)allChosen_2.value = false;
+    if (isFind_3)allChosen_3.value = false;
+  });
+}, { immediate: true });
+
 function handleCheckboxChange(item) {
   item.selected = !item.selected;
   if (item.selected) {
