@@ -235,8 +235,11 @@
           </w-collapse>
         </card>
         <card v-if="scoreList?.length !== 0">
-          <view class="score-help">
-            {{ helpContent }}
+          <view v-if="selectTerm.period=='期末'" class="score-help">
+            {{ helpText.score }}
+          </view>
+          <view v-if="selectTerm.period=='期中'" class="score-help">
+            {{ helpText.mediascore }}
           </view>
         </card>
       </view>
@@ -443,10 +446,6 @@ function handleCheckboxChange(item) {
 }
 
 const isRefreshing = ref(false);
-
-const helpContent = computed(() => {
-  return helpText.score;
-});
 
 const averageScorePoint = computed(() => {
   const validCourse = selectedLessonsList.value.filter((item) => {

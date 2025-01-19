@@ -103,6 +103,7 @@ checkbox .wx-checkbox-input {
   }
 
   .score-list-collapse-item-title {
+    overflow: hidden;
     text-overflow: ellipsis;
     flex: auto;
   }
