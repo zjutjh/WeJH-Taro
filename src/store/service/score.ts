@@ -65,7 +65,7 @@ export const ScoreServiceStore = {
       );
       if (toDelete !== -1) {
         state.unCalScore.splice(toDelete, 1);
-      }      
+      }
     },
 
     findNewScore(state: ScoreServiceStoreType) {

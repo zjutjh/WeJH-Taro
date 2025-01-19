@@ -8,17 +8,17 @@
   >
     <w-button class="term-selector">
       <view
+        v-if="props.year!='全'"
         class="picker"
         :v-if="props.selectflag === 1"
-        v-if="props.year!='全'"
       >
         {{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}
         ({{ selectorChecked[1] }}) {{ selectorChecked[2] }}
       </view>
       <view
+        v-if="props.year=='全'"
         class="picker"
         :v-if="props.selectflag === 1"
-        v-if="props.year=='全'"
       >
         全
         ({{ selectorChecked[1] }}) {{ selectorChecked[2] }}
@@ -78,16 +78,15 @@ const selectorValue = computed(() => {
   }
 });
 
-
 function onChange(e) {
   // Update the selected values based on picker indexes
   selectorChecked.value = selector.map(
     (column, index) => column[e.detail.value[index]]
   );
-  if(selectorChecked.value[0]!='全'){
+  if (selectorChecked.value[0] != "全") {
     selectorChecked.value[0] = selectorChecked.value[0].split("/")[0];
-  }else{
-    selectorChecked.value[0]='全';
+  } else {
+    selectorChecked.value[0] = "全";
   }
 
   if (props.selectflag === 1) {

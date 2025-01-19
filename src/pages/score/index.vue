@@ -13,7 +13,7 @@
               <view class="score-icon-wrapper">
                 <view class="score-icon iconfont icon-score" />
               </view>
-              <view v-if="selectTerm.year!='全'" class="col" >
+              <view v-if="selectTerm.year!='全'" class="col">
                 <view class="term-info">
                   {{ termInfo }}
                 </view>
@@ -21,7 +21,7 @@
                   {{ relativeTermInfo }}
                 </view>
               </view>
-              <view v-if="selectTerm.year=='全'" class="col" >
+              <view v-if="selectTerm.year=='全'" class="col">
                 <view class="term-info">
                   总计绩点
                 </view>
