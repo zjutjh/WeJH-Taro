@@ -13,9 +13,12 @@ import "./index.scss";
 import { computed } from "vue";
 import { serviceStore } from "@/store";
 import { useDarkMode } from "@/hooks";
-import { ThemeStore } from "@/store/service/theme";
 
-const themeMode = computed(() => serviceStore.theme.themeMode);
+const { mode: darkMode } = useDarkMode();//light或者dark
+
+const themeMode = computed(() => 
+darkMode.value==='light'?
+serviceStore.theme.themeMode.light : serviceStore.theme.themeMode.dark);
 console.log("themeMode:", themeMode.value);
 // 主题过渡方案 sb特判 马上给你改了
 const Style = computed(() => {
@@ -23,9 +26,10 @@ const Style = computed(() => {
   // if(themeMode.value !== "green" || "yellow" || "blue" || "pink"){
   //   return ThemeStore.state.config
   // }
-  if (themeMode.value === "walk" && darkMode.value !== "dark") {
-    return "--wjh-color-background-page: #FAE7D4;background-position: bottom 0 right 120%;  background-size: cover;";
-  } else if (darkMode.value === "dark") {
+  // if (themeMode.value === "walk" && darkMode.value !== "dark") {
+  //   return "--wjh-color-background-page: #FAE7D4;background-position: bottom 0 right 120%;  background-size: cover;";
+  // } else 
+  if (darkMode.value === "dark") {
     return "--wjh-color-background-page: #121212";
   } else if (darkMode.value === "light") {
     return "--wjh-color-background-page: #fefefe; --wjh-color-background-container: #FAFAFAFF";
@@ -33,7 +37,5 @@ const Style = computed(() => {
     return "";
   }
 });
-
-const { mode: darkMode } = useDarkMode();//light或者dark
 
 </script>

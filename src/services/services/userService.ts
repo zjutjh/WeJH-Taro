@@ -6,54 +6,14 @@ import { updateDateStateWithSession } from "../utils/updateDateState";
 import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
 import request from "../request";
+import { ThemeList } from "@/store/service/theme";
 
 export default class UserService {
   static getUserTheme = () => {
     return request<{
-      code: number,
-      msg: string,
-      data: {
         current_theme_id: number;
-        theme_list: {
-          name: string;
-          theme_config: {
-            bar_icon: {
-              home_icon: string;
-              function_icon: string;
-              my_icon: string;
-              selected_home_icon: string;
-              selected_function_icon: string;
-              selected_my_icon: string;
-            },
-            applist_icon: {
-              class_icon: string;
-              grade_icon: string;
-              exam_icon: string;
-              free_classroom_icon: string;
-              schoolcard_icon: string;
-              lend_icon: string;
-              electricity_icon: string;
-              schoolbus_icon: string;
-              cloth_icon: string;
-            },
-            background_img: string;
-            background_color: string;
-            background_position: string;
-            base_color: {
-              base_500: string;
-              base_600: string;
-              base_700: string;
-            },
-            dark_base_color: {
-              dark_base_500: string;
-              dark_base_600: string;
-              dark_base_700: string;
-            }
-          },
-          has_dark_mode: boolean;
-          theme_id: number;
-        }[]
-      };
+        current_theme_dark_id: number;
+        theme_list: ThemeList
     }>(
       api.user.theme.get, {
         method: "GET",
@@ -62,11 +22,9 @@ export default class UserService {
     );
   };
 
-  static setTheme = (data: { id: number }) => {
+  static setTheme = (data: { id: number , dark_id: number }) => {
     return request<{    
-      code: number,
-      msg: string,
-      data: null,
+      null
     }>(
       api.user.theme.set, {
         method: "POST",
@@ -77,9 +35,7 @@ export default class UserService {
   };
   static logout = (data?: { iid: string, stuid: string }) => {
     return request<{
-      code: number,
-      msg: string,
-      data: null;
+      null
     }>(
       api.user.logout, {
         method: "POST",
@@ -91,9 +47,7 @@ export default class UserService {
 
   static changePassword = (data?: { iid: string, stuid: string, password: string }) => {
     return request<{
-      code: number,
-      msg: string,
-      data: null;
+      null
     }>(
       api.user.changePassword, {
         method: "POST",

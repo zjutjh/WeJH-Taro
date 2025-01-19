@@ -33,35 +33,42 @@ interface ThemeConfig {
     dark_base_700: string;
   }
 }
-interface ThemeList {
+export interface Theme {
   name: string;
   theme_config: ThemeConfig,
-  has_dark_mode: boolean;
+  is_dark_mode: boolean;
   theme_id: number;
-}[]
+}
+
+export type ThemeList = Theme[]
+
+type ThemeMode = {light: string; dark: string}
 
 export interface ThemeStoreType {
-  hadTheme: ThemeList
-  themeMode: string;
+  hadTheme: ThemeList;
+  themeMode: ThemeMode
   config: ThemeConfig
   darkMode: DarkModeOption
 }
 
 export const ThemeStore = {
-  state: {//在缓存区 小程序一打开立刻使用的主题配置
-    hadTheme: [],//已有主题列表
-    themeMode: "green",//选的是哪一个主题
+  state: {
+    hadTheme: [],
+    themeMode: {
+      light: "green",
+      dark: "green"
+    },
     config: [],
     darkMode: {
       mode: "light",
       isAdapted: false
     }
   },
-  mutations: {//初步启动小程序后从后端获得的配置 并且会对原本初步生成的配置(state)进行更新
+  mutations: {
     setHadTheme(state: ThemeStoreType, value: ThemeList) {
       state.hadTheme = value;
     },
-    setThemeMode(state: ThemeStoreType, value: string) {
+    setThemeMode(state: ThemeStoreType, value: ThemeMode) {
       state.themeMode = value;
     },
     setConfig(state: ThemeStoreType, value: ThemeConfig) {
