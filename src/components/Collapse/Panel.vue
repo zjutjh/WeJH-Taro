@@ -1,10 +1,6 @@
 <template>
   <w-list-item
-    :selected="props.selected"
-    :class="[
-      `wjh-collapse-panel-header`,
-      isActive ? `wjh-collapse-panel-header-active` : undefined
-    ]"
+    class="wjh-collapse-panel-header"
     :arrow="props.arrow ? 'down' : undefined"
     @tap="handleClick"
   >
@@ -12,10 +8,7 @@
     <slot name="header" />
   </w-list-item>
   <view
-    :class="[
-      `wjh-collapse-panel-content`,
-      isActive ? `wjh-collapse-panel-content-active` : undefined
-    ]"
+    class="wjh-collapse-panel-content"
     :style="{ maxHeight: isActive ? props.maxHeight : `0` }"
   >
     <w-list-item>
@@ -29,20 +22,18 @@ import { ref, withDefaults } from "vue";
 import WListItem from "../List/ListItem.vue";
 import "./index.scss";
 
-type PropsType = {
-  title?: string;
-  defaltActive?: boolean
-  maxHeight?: string;
-  arrow?: boolean;
-  selected?: boolean;
-};
+  type PropsType = {
+    title?: string;
+    defaltActive?: boolean
+    maxHeight?: string;
+    arrow?: boolean
+  };
 
 const props = withDefaults(defineProps<PropsType>(), {
   title: undefined,
   defaltActive: false,
   maxHeight: "500px",
-  arrow: false,
-  selected: false
+  arrow: false
 });
 
 const isActive = ref(props.defaltActive);
