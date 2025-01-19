@@ -7,7 +7,8 @@ export const ScoreServiceStore = {
   state: {
     readScoreMarks: [], // 所有已读成绩的标记
     findNewScoresTime: undefined,
-    scorePeriod: "期末" // 记录当前成绩页面选中的期中/期末
+    scorePeriod: "期末", // 记录当前成绩页面选中的期中/期末
+    unCalScore: []
   },
 
   mutations: {
