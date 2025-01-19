@@ -15,7 +15,7 @@
               <list-item class="consumption-list-item">
                 <view class="text-wrapper">
                   <text> {{ consumption.datetime }} </text>
-                  <text> {{ consumption.used }}度 </text>
+                  <text> {{ consumption.used }} </text>
                 </view>
               </list-item>
             </list>
@@ -36,11 +36,15 @@ import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import List from "../../../components/List/List.vue";
 import ListItem from "../../../components/List/ListItem.vue";
+import { serviceStore } from "@/store";
 
 const {
   data: consumptionList,
   loading
 } = useRequest(YxyService.queryConsumption, {
+  defaultParams: {
+    campus: serviceStore.electricity.electricityCampus
+  },
   onSuccess: (response) => {
     if (response.data.code !== 1) {
       throw new Error(response.data.msg);

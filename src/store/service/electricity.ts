@@ -5,6 +5,9 @@ export const ElectricityServiceStore = {
     roomName: "未知",
     roomCode: "未知",
     balance: undefined,
+    electricityCampus: "zhpf",
+    selectIndex: 0,
+    lastCampus: "zhpf",
     todayConsumption: undefined,
     updateTime: {
       balance: undefined

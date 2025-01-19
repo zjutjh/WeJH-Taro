@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button />
+    <title-bar title="寝室电量查询" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <image src="@/assets/photos/electricity.svg" />
@@ -13,9 +13,6 @@
             </view>
             <view class="text-wrapper">
               <text>{{ roomInfo.roomName }}</text>
-              <text class="week">
-                房间号 {{ roomInfo.roomCode }}
-              </text>
             </view>
           </view>
         </card>
@@ -47,7 +44,7 @@
                 正在加载...
               </text>
               <text v-else-if="todayConsumption" class="today">
-                今日已用: {{ todayConsumption }} kwh
+                昨日使用: {{ todayConsumption }}
               </text>
             </view>
           </w-list-item>
@@ -70,6 +67,19 @@
         </w-list>
       </view>
     </scroll-view>
+    <bottom-panel>
+      <picker
+        mode="selector"
+        :range="options"
+        :value="selectedIndex"
+        class="picker-wrapper"
+        @change="onPickerChange"
+      >
+        <w-button class="selector">
+          {{ selectedOption }}
+        </w-button>
+      </picker>
+    </bottom-panel>
   </theme-config>
 </template>
 
@@ -80,13 +90,35 @@ import {
   ThemeConfig,
   TitleBar,
   WList,
-  WListItem
+  WListItem,
+  BottomPanel,
+  WButton
 } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
+
+const options = ref(["朝晖/屏峰", "莫干山"]);
+const selectedIndex = computed(() => serviceStore.electricity.selectIndex);
+
+const selectedOption = computed(() => options.value[selectedIndex.value]);
+
+const valueMap = {
+  "朝晖/屏峰": "zhpf",
+  "莫干山": "mgs"
+};
+
+const onPickerChange = (event: { detail: { value: number } }) => {
+
+  const selectedValue = valueMap[options.value[event.detail.value]];
+  serviceStore.electricity.electricityCampus = selectedValue;
+  serviceStore.electricity.selectIndex = event.detail.value;
+  // 调用查询接口
+  getQueryBalance({ campus: selectedValue });
+  getQueryConsumption({ campus: selectedValue });
+};
 
 const roomInfo = computed(() => ({
   roomName: serviceStore.electricity.roomName,
@@ -97,7 +129,8 @@ const balance = computed(() => serviceStore.electricity.balance);
 
 const todayConsumption = computed(() => (serviceStore.electricity.todayConsumption));
 
-useRequest(YxyService.queryBalance, {
+const { run: getQueryBalance } = useRequest(YxyService.queryBalance, {
+  manual: true,
   onBefore: () => {
     Taro.showLoading({ title: "正在加载" });
   },
@@ -121,11 +154,18 @@ useRequest(YxyService.queryBalance, {
 });
 
 const {
+  run: getQueryConsumption,
   loading: consumptionLoading
 } = useRequest(YxyService.queryConsumption, {
+  defaultParams: {
+    campus: serviceStore.electricity.electricityCampus
+  },
   onSuccess: (response) => {
     if (response.data.code === 1) {
       store.commit("setConsumption", response.data.data[0].used);
+    } else if (response.data.code === 200525) {
+      serviceStore.electricity.selectIndex = 0;
+      serviceStore.electricity.electricityCampus = "zhpf";
     } else {
       throw new Error(response.data.msg);
     }
