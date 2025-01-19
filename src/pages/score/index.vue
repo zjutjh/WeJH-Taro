@@ -26,7 +26,7 @@
                   总计绩点
                 </view>
                 <view class="relative-term-info">
-                  入学以来所有绩点总和
+                  入学后所有课程均绩
                 </view>
               </view>
             </view>
