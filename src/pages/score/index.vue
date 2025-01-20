@@ -21,12 +21,20 @@
                   {{ relativeTermInfo }}
                 </view>
               </view>
-              <view v-if="selectTerm.year=='全'" class="col">
+              <view v-if="selectTerm.year=='全' && selectTerm.period == '期末'" class="col">
                 <view class="term-info">
                   总计绩点
                 </view>
                 <view class="relative-term-info">
                   入学后所有课程均绩
+                </view>
+              </view>
+              <view v-if="selectTerm.year=='全' && selectTerm.period == '期中'" class="col">
+                <view class="term-info">
+                  总计成绩
+                </view>
+                <view class="relative-term-info">
+                  入学后所有期中成绩
                 </view>
               </view>
             </view>
@@ -149,6 +157,44 @@
                   {{ item.score }}
                 </view>
                 <view v-if="!item.selected" class="score-list-collapse-item-title-unselected" @tap="handleCheckboxChange(item)">
+                  {{ item.lessonName }}
+                </view>
+                <view v-if="!item.selected" class="score-list-collapse-item-extra-unselected" @tap="handleCheckboxChange(item)">
+                  {{ item.score }}
+                </view>
+              </template>
+            </w-panel>
+          </w-collapse>
+
+          <w-button v-if="isEdit" class="lesson-group-btn" @tap="limitedLessonChange()">
+            限选课
+          </w-button>
+          <w-collapse v-if="isEdit" class="score-list-collapse">
+            <w-panel v-for="item in limitedScoreList" :key="item.lessonID">
+              <template #header>
+                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
+                  <checkbox
+                    class="checkbox"
+                    :checked="item.selected"
+                  />
+                </checkbox-group>
+                <view
+                  v-if="item.selected"
+                  class="score-list-collapse-item-title-selected"
+                  color=""
+                  @tap="handleCheckboxChange(item)"
+                >
+                  {{ item.lessonName }}
+                </view>
+                <view v-if="item.selected" class="score-list-collapse-item-extra-selected" @tap="handleCheckboxChange(item)">
+                  {{ item.score }}
+                </view>
+                <view
+                  v-if="!item.selected"
+                  class="score-list-collapse-item-title-unselected"
+                  color=""
+                  @tap="handleCheckboxChange(item)"
+                >
                   {{ item.lessonName }}
                 </view>
                 <view v-if="!item.selected" class="score-list-collapse-item-extra-unselected" @tap="handleCheckboxChange(item)">
@@ -312,12 +358,17 @@ const sportsScoreList = computed(() => {
 });
 
 const optionalScoreList = computed(() => {
-  return scoreList.value.filter(item => item.lessonType === "任选课" || item.lessonType === "选修课" || item.lessonType === "限选课");
+  return scoreList.value.filter(item => item.lessonType === "任选课" || item.lessonType === "选修课");
+});
+
+const limitedScoreList = computed(() => {
+  return scoreList.value.filter(item => item.lessonType === "限选课");
 });
 
 const allChosen_1 = ref(false);
 const allChosen_2 = ref(false);
 const allChosen_3 = ref(false);
+const allChosen_4 = ref(false);
 
 const requireLessonChange = () => {
   if (!allChosen_1.value) {
@@ -400,6 +451,33 @@ const optionalLessonChange = () => {
   allChosen_3.value = !allChosen_3.value;
 };
 
+const limitedLessonChange = () => {
+  if (!allChosen_4.value) {
+    limitedScoreList.value.forEach(item => {
+      if (!item.selected) {
+        selectedLessonsList.value.push(item);
+        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
+          selected => selected.lessonID !== item.lessonID
+        );
+      };
+      item.selected = true;
+      store.commit("delUnCalc", item);
+    });
+  } else {
+    limitedScoreList.value.forEach(item => {
+      if (item.selected) {
+        selectedLessonsList.value = selectedLessonsList.value.filter(
+          selected => selected.lessonID !== item.lessonID
+        );
+        unSelectedLessonsList.value.push(item);
+        store.commit("setUnCalc", item);
+      }
+      item.selected = false;
+    });
+  }
+  allChosen_4.value = !allChosen_4.value;
+};
+
 const selectedLessonsList = ref<Score[]>([]);
 const unSelectedLessonsList = ref<Score[]>([]);
 const unselectedLessons = serviceStore.score.unCalScore;
@@ -431,6 +509,7 @@ watch(unSelectedLessonsList, (newUnSelectedLessonsList) => {
   allChosen_1.value = true;
   allChosen_2.value = true;
   allChosen_3.value = true;
+  allChosen_4.value = true;
   newUnSelectedLessonsList.forEach((item) => {
     const isFind_1 = requiredScoreList.value.find(
       storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
@@ -441,9 +520,13 @@ watch(unSelectedLessonsList, (newUnSelectedLessonsList) => {
     const isFind_3 = optionalScoreList.value.find(
       storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
     );
+    const isFind_4 = limitedScoreList.value.find(
+      storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
+    );
     if (isFind_1)allChosen_1.value = false;
     if (isFind_2)allChosen_2.value = false;
     if (isFind_3)allChosen_3.value = false;
+    if (isFind_4)allChosen_4.value = false;
   });
 }, { immediate: true });
 
@@ -518,11 +601,18 @@ const handleSwitch = () => {
   isEdit.value = !isEdit.value;
 };
 
+const checkEdit = () => {
+  if (isEdit.value) isEdit.value = !isEdit.value;
+};
+
 async function termChanged(e) {
+  checkEdit();
   store.commit("changeScorePeriod", e.period);
   isRefreshing.value = true;
   selectTerm.value = e;
   await ZFService.updateScoreInfo(e);
   isRefreshing.value = false;
 }
+
+
 </script>

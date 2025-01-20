@@ -34,7 +34,7 @@ import { systemStore } from "@/store";
 
 interface PropsType {
   year: string;
-  term: "上" | "下" | "短" | "全";
+  term: "全" | "上" | "下" | "短" ;
   period?: "期中" | "期末";
   selectflag: number; // flag为0表示学年、学期 ； 为1表示学年、学期、期中期末
 }
@@ -48,7 +48,7 @@ const termYear = systemStore?.generalInfo?.termYear
 
 const selectorArr = [
   [["上", "下", "短", "全"]],
-  [["上", "下", "短", "全"], ["期中", "期末"]]
+  [["全", "上", "下", "短" ], ["期中", "期末"]]
 ];
 const selector = reactive(selectorArr[props.selectflag]);
 
