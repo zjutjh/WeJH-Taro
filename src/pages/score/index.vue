@@ -76,7 +76,7 @@
           <w-collapse v-if="!isEdit" class="score-list-collapse">
             <w-collapse-panel
               v-for="item in selectedLessonsList"
-              :key="item.lessonID"
+              :key="`${item.lessonID}-${item.submitTime}`"
               arrow
               :selected="false"
             >
@@ -109,7 +109,7 @@
 
             <w-collapse-panel
               v-for="item in unSelectedLessonsList"
-              :key="item.lessonID"
+              :key="`${item.lessonID}-${item.submitTime}`"
               arrow
               :selected="true"
             >
@@ -141,7 +141,7 @@
             </w-collapse-panel>
           </w-collapse>
 
-          <w-button v-if="isEdit" class="lesson-group-btn" @tap="requireLessonChange()">
+          <w-button v-if="isEdit && requiredScoreList.length != 0" class="lesson-group-btn" @tap="requireLessonChange()">
             必修课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
@@ -166,7 +166,7 @@
             </w-panel>
           </w-collapse>
 
-          <w-button v-if="isEdit" class="lesson-group-btn" @tap="limitedLessonChange()">
+          <w-button v-if="isEdit && limitedScoreList.length != 0" class="lesson-group-btn" @tap="limitedLessonChange()">
             限选课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
@@ -204,7 +204,7 @@
             </w-panel>
           </w-collapse>
 
-          <w-button v-if="isEdit" class="lesson-group-btn" @tap="electiveLessonChange()">
+          <w-button v-if="isEdit && electiveScoreList.length != 0" class="lesson-group-btn" @tap="electiveLessonChange()">
             任选课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
@@ -242,7 +242,7 @@
             </w-panel>
           </w-collapse>
 
-          <w-button v-if="isEdit" class="lesson-group-btn" @tap="optionalLessonChange()">
+          <w-button v-if="isEdit && optionalScoreList.length != 0" class="lesson-group-btn" @tap="optionalLessonChange()">
             选修课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
@@ -280,7 +280,7 @@
             </w-panel>
           </w-collapse>
 
-          <w-button v-if="isEdit" class="lesson-group-btn" @tap="sportsLessonChange()">
+          <w-button v-if="isEdit && sportsScoreList.length != 0" class="lesson-group-btn" @tap="sportsLessonChange()">
             体育课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
