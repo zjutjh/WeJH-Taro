@@ -45,6 +45,10 @@ export interface ServiceStoreType {
       scorePoint: string;
       val: boolean;
     }>
+    unCalScore: Array<{
+      name: string;
+      scorePoint: string;
+    }>
     findNewScoresTime: Date;
     scorePeriod: "期中" | "期末";
   }

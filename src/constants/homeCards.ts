@@ -45,7 +45,7 @@ export const homeCards: {
   },
   "score-quick-view": {
     name: "score-quick-view",
-    label: "成绩查询",
+    label: "成绩绩点",
     icon: "score",
     backgroundColor: "green",
     require: "isBindZF"

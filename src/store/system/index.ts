@@ -9,7 +9,7 @@ export interface SystemStoreType {
     termYear: string;
     time: string;
     week: number;
-    scoreTerm: string;
+    scoreTerm: "上" | "下" | "全";
     scoreYear: string;
     score?: "上" | "下" | "短"; // 考虑一些服务与实际学期不同步
   };
