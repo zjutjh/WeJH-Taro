@@ -177,12 +177,14 @@ const averageScorePoint = computed(() => {
   validCourse.forEach((item: Score) => {
     const scorePoint = parseFloat(item.scorePoint);
     const credits = parseFloat(item.credits);
-    totalScorePoint += scorePoint * credits;
+    // 以 "1/1000 分" 为单位计算绩点，避免浮点数加法导致的精度问题
+    totalScorePoint += (scorePoint * credits * 1000);
     totalCredits += credits;
   });
-  const ans = Math.floor((totalScorePoint / totalCredits) * 1000) / 1000;
-  if (ans !== ans) return "";
-  else return ans;
+  if (totalCredits !== 0) {
+    return (totalScorePoint / totalCredits / 1000).toFixed(3);
+  }
+  return "-";
 });
 
 const termInfo = computed(() => {
