@@ -396,7 +396,7 @@ const sportsScoreList = computed(() => {
 });
 
 const optionalScoreList = computed(() => {
-  return scoreList.value.filter(item => item.lessonType === "任选课");
+  return scoreList.value.filter(item => item.lessonType === "选修课");
 });
 
 const limitedScoreList = computed(() => {
@@ -404,7 +404,7 @@ const limitedScoreList = computed(() => {
 });
 
 const electiveScoreList = computed(() => {
-  return scoreList.value.filter(item => item.lessonType === "选修课");
+  return scoreList.value.filter(item => item.lessonType === "任选课");
 });
 
 const allChosen_1 = ref(false);
