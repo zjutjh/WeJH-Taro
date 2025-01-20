@@ -76,7 +76,7 @@
           <w-collapse v-if="!isEdit" class="score-list-collapse">
             <w-collapse-panel
               v-for="item in selectedLessonsList"
-              :key="item.lessonID"
+              :key="item.className"
               arrow
               :selected="false"
             >
@@ -109,7 +109,7 @@
 
             <w-collapse-panel
               v-for="item in unSelectedLessonsList"
-              :key="item.lessonID"
+              :key="item.className"
               arrow
               :selected="true"
             >
