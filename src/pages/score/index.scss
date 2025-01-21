@@ -167,33 +167,6 @@ checkbox .wx-checkbox-input {
   .col {
     text-align: center;
     flex: auto;
-  }
-  .col-picker{
-    text-align: center;
-    flex: auto;
-    margin: 0 auto;
-  }
-
-  .col:first-child {
-    flex: 0 0 10%;
-    text-align: end;
-  }
-
-  .col:last-child {
-    flex: 0 0 20%;
-    text-align: start;
-  }
-
-  .sort-button {
-    padding: 5Px;
-  }
-
-}
-
-.score-bottom-panel {
-  .col {
-    text-align: center;
-    flex: auto;
     justify-content: center;
     align-items: center;
   }
@@ -211,7 +184,7 @@ checkbox .wx-checkbox-input {
     justify-content: center; /* 垂直居中对齐 */
     gap: 8px; /* 可选，控制图标和文本之间的间距 */
   }
-  
+
   .col:first-child {
     flex: 0 0 20%;
     text-align: end;
