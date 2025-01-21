@@ -369,6 +369,12 @@
     <bottom-panel class="score-bottom-panel">
       <view />
       <view class="col">
+        <refresh-button
+          :is-refreshing="isRefreshing"
+          @refresh="refresh"
+        />
+      </view>
+      <view class="col-picker">
         <score-term-picker
           class="picker"
           :term="selectTerm.term"
@@ -377,6 +383,11 @@
           :selectflag="1"
           @changed="termChanged"
         />
+      </view>
+      <view class="col">
+        <w-button shape="circle" size="large" class="sort-button">
+          <view class="iconfont icon-paixu" @tap="handleSort"/>
+        </w-button>
       </view>
       <view />
     </bottom-panel>
@@ -389,6 +400,7 @@ import {
   Card,
   BottomPanel,
   TitleBar,
+  RefreshButton,
   WPanel,
   WCollapsePanel,
   WCollapse,
@@ -405,25 +417,50 @@ import store, { systemStore, serviceStore } from "@/store";
 import "./index.scss";
 
 const isEdit = ref(false);
+const showSorted = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.scoreYear,
   term: systemStore.generalInfo.term,
   period: serviceStore.score.scorePeriod
 });
 
-const scoreList = computed(() => {
-  const data = ZFService.getScoreInfo(selectTerm.value).data;
-  data.forEach(item => {
-    // existingScore存储不纳入计算的成绩
-    const existingScore = serviceStore.score.readScoreMarks.find(
-      storeItem => (item.lessonID === storeItem.name &&
-      item.scorePoint === storeItem.scorePoint)
-    );
-    if (!existingScore) item.selected = true;
-    else item.selected = false;
-  });
-  return data;
-});
+async function refresh() {
+  if (isRefreshing.value) return;
+  isRefreshing.value = true;
+  await ZFService.updateScoreInfo(selectTerm.value);
+  isRefreshing.value = false;
+}
+
+// const scoreList = computed(() => {
+//   const data = ZFService.getScoreInfo(selectTerm.value).data;
+//   data.forEach(item => {
+//     const existingScore = serviceStore.score.readScoreMarks.find(
+//       storeItem => (item.lessonID === storeItem.name &&
+//       item.scorePoint === storeItem.scorePoint)
+//     );
+//     if (!existingScore) item.selected = true;
+//     else item.selected = false;
+//   });
+//   return data;
+// });
+
+const scoreList = computed(() =>
+  showSorted.value
+    ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
+      const scoreA = a.scorePoint,
+        scoreB = b.scorePoint;
+      if (scoreA === scoreB) {
+        const creditA = a.credits, creditB = b.credits;
+        return parseFloat(creditB) - parseFloat(creditA);
+      }
+      return parseFloat(scoreB) - parseFloat(scoreA);
+    })
+    : ZFService.getScoreInfo(selectTerm.value).data
+);
+
+function handleSort() {
+  showSorted.value = !showSorted.value;
+}
 
 const requiredScoreList = computed(() => {
   return scoreList.value.filter(item => item.lessonType === "必修课" || item.lessonType === "必选课");
@@ -692,13 +729,13 @@ function handleCheckboxChange(item) {
   if (item.selected) {
     selectedLessonsList.value.push(item);
     unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-      selected => selected.lessonID !== item.lessonID
+      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
     );
     store.commit("delUnCalc", item);
   } else {
     // 将这个课程从selectedLessons中删除
     selectedLessonsList.value = selectedLessonsList.value.filter(
-      selected => selected.lessonID !== item.lessonID
+      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
     );
     unSelectedLessonsList.value.push(item);
     store.commit("setUnCalc", item);
@@ -715,11 +752,9 @@ const averageScorePoint = computed(() => {
   });
   let totalCredits = 0;
   let totalScorePoint = 0;
-  // TODO:foreach排查
   validCourse.forEach((item: Score) => {
     const scorePoint = parseFloat(item.scorePoint);
     const credits = parseFloat(item.credits);
-    // 以 "1/1000 分" 为单位计算绩点，避免浮点数加法导致的精度问题
     totalScorePoint += (scorePoint * credits * 1000);
     totalCredits += credits;
   });

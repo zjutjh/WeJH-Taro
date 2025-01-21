@@ -112,6 +112,7 @@ checkbox .wx-checkbox-input {
   }
 
   .score-list-collapse-item-title-unselected {
+    overflow: hidden;
     text-overflow: ellipsis;
     flex: auto;
   }
@@ -122,6 +123,7 @@ checkbox .wx-checkbox-input {
 
   .score-list-collapse-item-title-selected {
     color:var(--wjh-color-primary);
+    overflow: hidden;
     text-overflow: ellipsis;
     flex: auto;
   }
@@ -166,9 +168,14 @@ checkbox .wx-checkbox-input {
     text-align: center;
     flex: auto;
   }
+  .col-picker{
+    text-align: center;
+    flex: auto;
+    margin: 0 auto;
+  }
 
   .col:first-child {
-    flex: 0 0 20%;
+    flex: 0 0 10%;
     text-align: end;
   }
 
@@ -189,6 +196,12 @@ checkbox .wx-checkbox-input {
     flex: auto;
     justify-content: center;
     align-items: center;
+  }
+
+  .col-picker{
+    text-align: center;
+    flex: auto;
+    margin: 0 auto;
   }
 
   .button-container {
