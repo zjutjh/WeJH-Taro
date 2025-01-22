@@ -72,7 +72,6 @@
               </view>
             </view>
           </template>
-
           <w-collapse v-if="!isEdit" class="score-list-collapse">
             <w-collapse-panel
               v-for="item in selectedLessonsList"
@@ -80,6 +79,7 @@
               arrow
               :selected="false"
             >
+              <!-- key的选择是 submitTime 和 lessonID 组成，前者大概率保证唯一性，后者是拿 ID 字段让代码更可读。 -->
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -145,7 +145,7 @@
             必修课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in requiredScoreList" :key="item.lessonID">
+            <w-panel v-for="item in requiredScoreList" :key="`${item.lessonID}-${item.submitTime}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox class="checkbox" :checked="item.selected" />
@@ -170,7 +170,7 @@
             限选课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in limitedScoreList" :key="item.lessonID">
+            <w-panel v-for="item in limitedScoreList" :key="`${item.lessonID}-${item.submitTime}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -208,7 +208,7 @@
             任选课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in electiveScoreList" :key="item.lessonID">
+            <w-panel v-for="item in electiveScoreList" :key="`${item.lessonID}-${item.submitTime}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -246,7 +246,7 @@
             选修课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in optionalScoreList" :key="item.lessonID">
+            <w-panel v-for="item in optionalScoreList" :key="`${item.lessonID}-${item.submitTime}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -284,7 +284,45 @@
             体育课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in sportsScoreList" :key="item.lessonID">
+            <w-panel v-for="item in sportsScoreList" :key="`${item.lessonID}-${item.submitTime}`">
+              <template #header>
+                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
+                  <checkbox
+                    class="checkbox"
+                    :checked="item.selected"
+                  />
+                </checkbox-group>
+                <view
+                  v-if="item.selected"
+                  class="score-list-collapse-item-title-selected"
+                  color=""
+                  @tap="handleCheckboxChange(item)"
+                >
+                  {{ item.lessonName }}
+                </view>
+                <view v-if="item.selected" class="score-list-collapse-item-extra-selected" @tap="handleCheckboxChange(item)">
+                  {{ item.score }}
+                </view>
+                <view
+                  v-if="!item.selected"
+                  class="score-list-collapse-item-title-unselected"
+                  color=""
+                  @tap="handleCheckboxChange(item)"
+                >
+                  {{ item.lessonName }}
+                </view>
+                <view v-if="!item.selected" class="score-list-collapse-item-extra-unselected" @tap="handleCheckboxChange(item)">
+                  {{ item.score }}
+                </view>
+              </template>
+            </w-panel>
+          </w-collapse>
+
+          <w-button v-if="isEdit && othersScoreList.length != 0" class="lesson-group-btn" @tap="othersLessonChange()">
+            其他课程
+          </w-button>
+          <w-collapse v-if="isEdit" class="score-list-collapse">
+            <w-panel v-for="item in othersScoreList" :key="`${item.lessonID}-${item.submitTime}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -331,6 +369,12 @@
     <bottom-panel class="score-bottom-panel">
       <view />
       <view class="col">
+        <refresh-button
+          :is-refreshing="isRefreshing"
+          @refresh="refresh"
+        />
+      </view>
+      <view class="col-picker">
         <score-term-picker
           class="picker"
           :term="selectTerm.term"
@@ -339,6 +383,11 @@
           :selectflag="1"
           @changed="termChanged"
         />
+      </view>
+      <view class="col">
+        <w-button shape="circle" size="large" class="sort-button">
+          <view class="iconfont icon-paixu" @tap="handleSort"/>
+        </w-button>
       </view>
       <view />
     </bottom-panel>
@@ -351,6 +400,7 @@ import {
   Card,
   BottomPanel,
   TitleBar,
+  RefreshButton,
   WPanel,
   WCollapsePanel,
   WCollapse,
@@ -367,25 +417,50 @@ import store, { systemStore, serviceStore } from "@/store";
 import "./index.scss";
 
 const isEdit = ref(false);
+const showSorted = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.scoreYear,
   term: systemStore.generalInfo.term,
   period: serviceStore.score.scorePeriod
 });
 
-const scoreList = computed(() => {
-  const data = ZFService.getScoreInfo(selectTerm.value).data;
-  data.forEach(item => {
-    // existingScore存储不纳入计算的成绩
-    const existingScore = serviceStore.score.readScoreMarks.find(
-      storeItem => (item.lessonID === storeItem.name &&
-      item.scorePoint === storeItem.scorePoint)
-    );
-    if (!existingScore) item.selected = true;
-    else item.selected = false;
-  });
-  return data;
-});
+async function refresh() {
+  if (isRefreshing.value) return;
+  isRefreshing.value = true;
+  await ZFService.updateScoreInfo(selectTerm.value);
+  isRefreshing.value = false;
+}
+
+// const scoreList = computed(() => {
+//   const data = ZFService.getScoreInfo(selectTerm.value).data;
+//   data.forEach(item => {
+//     const existingScore = serviceStore.score.readScoreMarks.find(
+//       storeItem => (item.lessonID === storeItem.name &&
+//       item.scorePoint === storeItem.scorePoint)
+//     );
+//     if (!existingScore) item.selected = true;
+//     else item.selected = false;
+//   });
+//   return data;
+// });
+
+const scoreList = computed(() =>
+  showSorted.value
+    ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
+      const scoreA = a.scorePoint,
+        scoreB = b.scorePoint;
+      if (scoreA === scoreB) {
+        const creditA = a.credits, creditB = b.credits;
+        return parseFloat(creditB) - parseFloat(creditA);
+      }
+      return parseFloat(scoreB) - parseFloat(scoreA);
+    })
+    : ZFService.getScoreInfo(selectTerm.value).data
+);
+
+function handleSort() {
+  showSorted.value = !showSorted.value;
+}
 
 const requiredScoreList = computed(() => {
   return scoreList.value.filter(item => item.lessonType === "必修课" || item.lessonType === "必选课");
@@ -407,11 +482,23 @@ const electiveScoreList = computed(() => {
   return scoreList.value.filter(item => item.lessonType === "任选课");
 });
 
+const othersScoreList = computed(() => {
+  return scoreList.value.filter(item =>
+    item.lessonType !== "必修课" &&
+    item.lessonType !== "体育课" &&
+    item.lessonType !== "选修课" &&
+    item.lessonType !== "限选课" &&
+    item.lessonType !== "任选课" &&
+    item.lessonType !== "必选课"
+  );
+});
+
 const allChosen_1 = ref(false);
 const allChosen_2 = ref(false);
 const allChosen_3 = ref(false);
 const allChosen_4 = ref(false);
 const allChosen_5 = ref(false);
+const allChosen_6 = ref(false);
 
 const requireLessonChange = () => {
   if (!allChosen_1.value) {
@@ -548,6 +635,33 @@ const electiveLessonChange = () => {
   allChosen_5.value = !allChosen_5.value;
 };
 
+const othersLessonChange = () => {
+  if (!allChosen_5.value) {
+    othersScoreList.value.forEach(item => {
+      if (!item.selected) {
+        selectedLessonsList.value.push(item);
+        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
+          selected => selected.lessonID !== item.lessonID
+        );
+      };
+      item.selected = true;
+      store.commit("delUnCalc", item);
+    });
+  } else {
+    othersScoreList.value.forEach(item => {
+      if (item.selected) {
+        selectedLessonsList.value = selectedLessonsList.value.filter(
+          selected => selected.lessonID !== item.lessonID
+        );
+        unSelectedLessonsList.value.push(item);
+        store.commit("setUnCalc", item);
+      }
+      item.selected = false;
+    });
+  }
+  allChosen_6.value = !allChosen_6.value;
+};
+
 const selectedLessonsList = ref<Score[]>([]);
 const unSelectedLessonsList = ref<Score[]>([]);
 const unselectedLessons = serviceStore.score.unCalScore;
@@ -581,6 +695,7 @@ watch(unSelectedLessonsList, (newUnSelectedLessonsList) => {
   allChosen_3.value = true;
   allChosen_4.value = true;
   allChosen_5.value = true;
+  allChosen_6.value = true;
   newUnSelectedLessonsList.forEach((item) => {
     const isFind_1 = requiredScoreList.value.find(
       storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
@@ -597,11 +712,15 @@ watch(unSelectedLessonsList, (newUnSelectedLessonsList) => {
     const isFind_5 = electiveScoreList.value.find(
       storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
     );
+    const isFind_6 = othersScoreList.value.find(
+      storeItem => item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
+    );
     if (isFind_1)allChosen_1.value = false;
     if (isFind_2)allChosen_2.value = false;
     if (isFind_3)allChosen_3.value = false;
     if (isFind_4)allChosen_4.value = false;
     if (isFind_5)allChosen_5.value = false;
+    if (isFind_6)allChosen_6.value = false;
   });
 }, { immediate: true });
 
@@ -610,13 +729,13 @@ function handleCheckboxChange(item) {
   if (item.selected) {
     selectedLessonsList.value.push(item);
     unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-      selected => selected.lessonID !== item.lessonID
+      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
     );
     store.commit("delUnCalc", item);
   } else {
     // 将这个课程从selectedLessons中删除
     selectedLessonsList.value = selectedLessonsList.value.filter(
-      selected => selected.lessonID !== item.lessonID
+      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
     );
     unSelectedLessonsList.value.push(item);
     store.commit("setUnCalc", item);
@@ -633,7 +752,6 @@ const averageScorePoint = computed(() => {
   });
   let totalCredits = 0;
   let totalScorePoint = 0;
-  // TODO:foreach排查
   validCourse.forEach((item: Score) => {
     const scorePoint = parseFloat(item.scorePoint);
     const credits = parseFloat(item.credits);
@@ -690,6 +808,5 @@ async function termChanged(e) {
   await ZFService.updateScoreInfo(e);
   isRefreshing.value = false;
 }
-
 
 </script>
