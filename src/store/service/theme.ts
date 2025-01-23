@@ -27,11 +27,6 @@ interface ThemeConfig {
     base_600: string;
     base_700: string;
   },
-  dark_base_color: {
-    dark_base_500: string;
-    dark_base_600: string;
-    dark_base_700: string;
-  }
 }
 export interface Theme {
   name: string;

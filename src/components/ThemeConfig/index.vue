@@ -1,8 +1,15 @@
 <template>
   <view
-    :class="[themeMode, darkMode]"
-    class="background theme"
-    :style="Style"
+    :class="[darkMode]"
+    class="background"
+    :style="{ 
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundPosition: backgroundPosition,
+      '--wjh-color-background-page': backgroundColor,
+      '--wjh-color-primary-light': base_color.base_500,
+      '--wjh-color-primary': base_color.base_600,
+      '--wjh-color-primary-dark': base_color.base_700
+    }"
   >
     <slot />
   </view>
@@ -16,26 +23,13 @@ import { useDarkMode } from "@/hooks";
 
 const { mode: darkMode } = useDarkMode();//light或者dark
 
-const themeMode = computed(() => 
-darkMode.value==='light'?
-serviceStore.theme.themeMode.light : serviceStore.theme.themeMode.dark);
-console.log("themeMode:", themeMode.value);
-// 主题过渡方案 sb特判 马上给你改了
-const Style = computed(() => {
-  //等后端改好就全改了
-  // if(themeMode.value !== "green" || "yellow" || "blue" || "pink"){
-  //   return ThemeStore.state.config
-  // }
-  // if (themeMode.value === "walk" && darkMode.value !== "dark") {
-  //   return "--wjh-color-background-page: #FAE7D4;background-position: bottom 0 right 120%;  background-size: cover;";
-  // } else 
-  if (darkMode.value === "dark") {
-    return "--wjh-color-background-page: #121212";
-  } else if (darkMode.value === "light") {
-    return "--wjh-color-background-page: #fefefe; --wjh-color-background-container: #FAFAFAFF";
-  } else {
-    return "";
-  }
-});
+const currentConfig = computed(() => serviceStore.theme.config)
 
+const backgroundPosition = computed(() => currentConfig.value.background_position);
+
+const backgroundImage = computed(() => currentConfig.value.background_img)
+
+const backgroundColor = computed(() => currentConfig.value.background_color)
+
+const base_color = computed(()=> currentConfig.value.base_color)
 </script>
