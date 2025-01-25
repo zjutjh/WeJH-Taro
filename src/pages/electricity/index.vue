@@ -130,7 +130,8 @@ const balance = computed(() => serviceStore.electricity.balance);
 const todayConsumption = computed(() => (serviceStore.electricity.todayConsumption));
 
 const { run: getQueryBalance } = useRequest(YxyService.queryBalance, {
-  manual: true,
+  manual: false,
+  defaultParams: { campus: serviceStore.electricity.electricityCampus },
   onBefore: () => {
     Taro.showLoading({ title: "正在加载" });
   },
