@@ -37,7 +37,6 @@
           输入密码时请注意特殊字符的中英文编码
         </card>
         <z-f v-if="bindTab === 'zf'" />
-        <library v-if="bindTab === 'library'" />
         <y-x-y v-if="bindTab === 'yxy'" />
         <oauth v-if="bindTab === 'oauth'" />
       </view>

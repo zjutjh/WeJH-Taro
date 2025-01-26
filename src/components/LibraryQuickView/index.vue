@@ -1,5 +1,10 @@
 <template>
-  <quick-view title="借阅信息" icon-name="library" @tap="nav">
+  <quick-view 
+    title="借阅信息" 
+    icon-name="library"
+    class="book-card" 
+    @tap="nav"
+  >
     <text class="sub-text">
       当前借阅 ({{ borrowUpdateTimeString }})
     </text>
@@ -14,15 +19,15 @@
       :key="item.loanId"
       class="book-card"
       :style="{
-        backgroundColor:index % 2? 
+        backgroundColor: index % 2 ?
         'var(--wjh-color-yellow-500)': 'var(--wjh-color-orange-500)',
       }"
-    >
+      >
       <view class="book-name">
         {{ item.title }}
       </view>
       <view class="borrow-time">
-        借阅日期：{{ item.loanDate }}
+        应还日期：{{ item.normReturnDate }}
       </view>
     </card>
     <view v-if="current?.length > 3" class="more-detail">

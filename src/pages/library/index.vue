@@ -68,7 +68,7 @@
                 {{ `归还日期：${item.returnDate}` }}
               </view>
               <view v-else-if="item.normReturnDate">
-                {{ `截止归还：${item.normReturnDate}` }}
+                {{ `应还日期：${item.normReturnDate}` }}
               </view>
               <view
                 class="book-index"
