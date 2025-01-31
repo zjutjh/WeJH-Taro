@@ -49,11 +49,13 @@ export default class CookieUtils {
         method: "POST"
       });
       const { data: realResponse, cookies } = taroWrapped;
-      if (realResponse && realResponse.code === ServiceErrorCode.OK) {
-        if (cookies && cookies.length > 0) {
-          const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
-          persistedStorage.setItem(this.keyInStorage, cookie);
-          return cookie;
+      if (realResponse) {
+        if (realResponse.code === ServiceErrorCode.OK) {
+          if (cookies && cookies.length > 0) {
+            const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
+            persistedStorage.setItem(this.keyInStorage, cookie);
+            return cookie;
+          }
         }
         return Promise.reject(
           new RequestError("小程序登录失败", MPErrorCode.MP_LOGIN_ERROR_MISSING_COOKIE)

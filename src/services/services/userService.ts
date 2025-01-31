@@ -110,10 +110,13 @@ export default class UserService {
         method: "POST"
       });
       const { data: realResponse, cookies } = taroWrapped;
-      if (realResponse && realResponse.code === ServiceErrorCode.OK) {
-        if (cookies && cookies.length > 0) {
-          const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
-          CookieUtils.set(cookie);
+      if (realResponse) {
+        if (realResponse.code === ServiceErrorCode.OK) {
+          if (cookies && cookies.length > 0) {
+            const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
+            CookieUtils.set(cookie);
+            return;
+          }
         }
         return Promise.reject(
           new RequestError("用户激活失败", MPErrorCode.MP_ACTIVATE_ERROR_MISSING_COOKIE)
