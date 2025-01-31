@@ -128,7 +128,6 @@ import "./index.scss";
 import { helpText } from "@/constants/copywriting";
 import { computed, ref } from "vue";
 import { RequestError } from "@/utils";
-import useUser from "@/hooks/user/info";
 import useUserWxProfile from "@/hooks/user/wxProfile";
 
 const studentid = ref<string | undefined>(undefined);
@@ -137,7 +136,6 @@ const comfirmPassword = ref<string | undefined>(undefined);
 const idcard = ref<string | undefined>(undefined);
 const email = ref<string | undefined>(undefined);
 
-const { fetchUserInfo } = useUser();
 const { getProfile } = useUserWxProfile();
 
 const step = ref(1);
@@ -159,7 +157,6 @@ async function activeClick() {
       idCardNumber: idcard.value!.toUpperCase(),
       email: email.value!
     });
-    fetchUserInfo();
     step.value++;
     Taro.hideLoading();
   } catch (e) {

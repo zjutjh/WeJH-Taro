@@ -49,9 +49,8 @@ import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import "./index.scss";
 import Taro from "@tarojs/taro";
 import { helpText } from "@/constants/copywriting";
-import { CookieUtils, RequestError } from "@/utils";
+import { RequestError } from "@/utils";
 import useUser from "@/hooks/user/info";
-import { UserService } from "@/services";
 
 const { logout } = useUser();
 const iid = ref("");
@@ -63,12 +62,14 @@ async function handleLogout() {
   Taro.showLoading({ title: "正在注销中", mask: true });
 
   try {
-    await UserService.logout({ iid: iid.value, stuid: stuid.value });
-    Taro.showToast({ icon: "success", title: "注销成功" });
-    CookieUtils.clear();
-    // TODO: 测试注销
-    logout();
-    setTimeout(nav2Home, 2000);
+    await logout({ stuid: stuid.value, iid: iid.value });
+    Taro.clearStorageSync();
+    Taro.hideLoading();
+    Taro.showModal({
+      title: "注销成功",
+      content: "请重启小程序",
+      success: () => Taro.exitMiniProgram()
+    });
   } catch (e) {
     if (e instanceof RequestError)
       Taro.showToast({ icon: "none", title: e.message });
@@ -77,11 +78,5 @@ async function handleLogout() {
 
 const onCancel = () => {
   isShowConfirm.value = false;
-};
-
-const nav2Home = () => {
-  Taro.navigateTo({
-    url: "/pages/index/index"
-  });
 };
 </script>

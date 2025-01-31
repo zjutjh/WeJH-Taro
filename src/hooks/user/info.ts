@@ -1,8 +1,6 @@
-import useMemorizedRequest from "@/hooks/useMemorizedRequest";
 import { UserService } from "@/services";
-import { RequestError } from "@/utils";
-import Taro from "@tarojs/taro";
-import { ref, watch } from "vue";
+import { useMutation, useQuery } from "@tanstack/vue-query";
+import { computed } from "vue";
 
 export type WXProfileType = {
   avatarUrl: string;
@@ -26,27 +24,17 @@ export type BindStateType = {
 };
 
 function useUser() {
-  const isActive = ref(false);
-  const { data: info, refresh: fetchUserInfo } = useMemorizedRequest(
-    "user/info",
-    () => UserService.getUserInfo().then((res) => res.user),
-    {
-      initialData: undefined,
-      onError: (e) => {
-        if (e instanceof RequestError) {
-          Taro.showToast({ title: `获取用户信息失败 ${e.message}`, icon: "none" });
-        }
-      }
-    }
-  );
+  const { data: info, refetch: fetchUserInfo } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: UserService.getUserInfo,
+    select: (res) => res.user
+  });
 
-  watch(info, (newVal) => {
-    if (newVal) isActive.value = true;
-  }, { immediate: true });
+  const { mutateAsync: logout } = useMutation({
+    mutationFn: UserService.logout
+  });
 
-  function logout() {
-    isActive.value = false;
-  }
+  const isActive = computed(() => info.value && "id" in info.value);
 
   return {
     info,
