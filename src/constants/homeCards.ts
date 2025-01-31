@@ -9,7 +9,7 @@ export type HomeCardName =
   "electricity-quick-view";
 
 // TODO: 从配置平台获取首页卡片配置
-export const homeCards: Record<HomeCardName, {
+export const homeCardNameMap: Record<HomeCardName, {
   name: HomeCardName;
   label: string;
   icon: string;

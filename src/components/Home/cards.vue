@@ -10,7 +10,7 @@ import WModal from "../Modal/index.vue";
 import ElectricityQuickView from "../ElectricityQuickView/index.vue";
 import useHomeCardStore from "@/store/service/homecard";
 import useBinding from "@/hooks/useBinding";
-import { HomeCardName, homeCards } from "@/constants/homeCards";
+import { HomeCardName, homeCardNameMap } from "@/constants/homeCards";
 
 const helpContent = ref<string | undefined>(undefined);
 const isShowHelp = ref(false);
@@ -19,8 +19,8 @@ const { canAccess } = useBinding();
 
 const cards = () => h(
   Fragment,
-  homeCardStore.namesOfSelected
-    .map(item => cardNameComponentMap.value[item])
+  homeCardStore.selectedCards
+    .map(item => cardNameComponentMap.value[item.name])
     .filter(item => item !== null)
 );
 
@@ -35,7 +35,7 @@ const cardNameComponentMap = computed(() => {
   };
 
   return Object.keys(map).reduce((prev, curr: HomeCardName) => {
-    prev[curr] = canAccess(homeCards[curr].require)
+    prev[curr] = canAccess(homeCardNameMap[curr].require)
       ? h(map[curr], { "onShowHelp": () => showHelp(curr) })
       : null;
     return prev;

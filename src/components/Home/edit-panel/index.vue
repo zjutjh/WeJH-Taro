@@ -2,32 +2,13 @@
 
 import { computed, onBeforeUpdate, ref, watch } from "vue";
 import styles from "./index.module.scss";
-import { HomeCardName, homeCards } from "@/constants/homeCards";
+import { HomeCardName } from "@/constants/homeCards";
 import { PopView, WBadge, WButton } from "@/components";
 import useHomeCardStore from "@/store/service/homecard";
-import useBinding from "@/hooks/useBinding";
+import { storeToRefs } from "pinia";
 
 const homeCardStore = useHomeCardStore();
-const { canAccess } = useBinding();
-
-/** 依赖于绑定状态的卡片名字列表 */
-// TODO: 移动到 useHomeCardStore 中
-const validList = computed(() => {
-  // 先根据绑定状态筛选出名字列表
-  const validNames = Object.values(homeCards)
-    .filter(item => canAccess(item.require))
-    .map(item => item.name);
-
-  // 删除缓存中已选，但是未绑定的卡片
-  homeCardStore.namesOfSelected.forEach(item => {
-    const toDelete = validNames.find(name => item === name);
-    if (toDelete === undefined) {
-      homeCardStore.remove(item);
-    }
-  });
-
-  return validNames;
-});
+const { allCards, selectedCards } = storeToRefs(homeCardStore);
 
 const props = defineProps<{
   show: boolean
@@ -46,13 +27,8 @@ watch(show, () => {
 });
 
 /** 未选择的卡片名字列表，使用差集运算得到 */
-const unselectedList = computed(() => {
-  const list = [...validList.value];
-  homeCardStore.namesOfSelected.forEach((name => {
-    const toDelete = list.findIndex(item => item === name);
-    list.splice(toDelete, 1);
-  }));
-  return list.map(item => homeCards[item]);
+const unselectedCards = computed(() => {
+  return allCards.value.filter(item => !selectedCards.value.includes(item));
 });
 
 const handleAddItem = (value: HomeCardName) => {
@@ -78,7 +54,7 @@ const handleClose = () => {
         </view>
         <view :class="[styles.content, styles.selected]">
           <view
-            v-for="item in homeCardStore.selected"
+            v-for="item in selectedCards"
             :key="item.name"
             :class="styles.item"
             @tap="handleRemoveItem(item.name)"
@@ -107,7 +83,7 @@ const handleClose = () => {
         </view>
         <view :class="[styles.content, styles.unselected]">
           <view
-            v-for="item in unselectedList"
+            v-for="item in unselectedCards"
             :key="item.name"
             :class="styles.item"
             @tap="handleAddItem(item.name)"

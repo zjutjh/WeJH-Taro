@@ -1,4 +1,5 @@
-import { HomeCardName, homeCards } from "@/constants/homeCards";
+import { HomeCardName, homeCardNameMap } from "@/constants/homeCards";
+import useBinding from "@/hooks/useBinding";
 import { persistedStorage } from "@/utils/storage";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
@@ -7,30 +8,37 @@ import { computed, ref } from "vue";
 const defaultHomeCard: HomeCardName[] = ["lessons-table-quick-view", "score-quick-view"];
 
 const useHomeCardStore = defineStore("homeCard", () => {
-  // TODO: 使用 useFirstStartup Hook 来解决绑定态和删除未绑定的默认卡片执行时机的问题
-  const namesOfSelected = ref(defaultHomeCard);
-  const initialization = ref(true);
+  const selectedKeys = ref(defaultHomeCard);
+  const { canAccess } = useBinding();
+
+  /** 根据绑定态，用户能访问的所有卡片 */
+  const allCards = computed(() => {
+    return Object.values(homeCardNameMap)
+      .filter(item => canAccess(item.require));
+  });
+
+  /** 选中的所有卡片，根据用户的绑定态做筛选 */
+  const filteredSelectedCards = computed(() => {
+    const uniqueNames = Array.from(new Set(selectedKeys.value));
+    const selected = uniqueNames.filter(name => homeCardNameMap[name]).map(name => homeCardNameMap[name]);
+
+    return selected.filter(card => allCards.value.includes(card));
+  });
 
   function add(value: HomeCardName) {
-    if (!namesOfSelected.value.includes(value))
-      namesOfSelected.value.push(value);
+    if (!selectedKeys.value.includes(value))
+      selectedKeys.value.push(value);
   }
 
   function remove(value: HomeCardName) {
-    const toDelete = namesOfSelected.value.findIndex(item => item === value);
-    if (toDelete !== -1) namesOfSelected.value.splice(toDelete, 1);
+    const toDelete = selectedKeys.value.findIndex(item => item === value);
+    if (toDelete !== -1) selectedKeys.value.splice(toDelete, 1);
   }
 
-  const selected = computed(() => {
-    const uniqueNames = Array.from(new Set(namesOfSelected.value));
-    return uniqueNames.filter(name => homeCards[name]).map(name => homeCards[name]);
-  });
-
   return {
-    selected,
-    namesOfSelected,
-    // FIXME: 这个有用？
-    initialization,
+    selectedKeys,
+    selectedCards: filteredSelectedCards,
+    allCards,
     add,
     remove
   };
