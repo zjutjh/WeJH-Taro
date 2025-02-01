@@ -86,7 +86,7 @@
           :year="queryOption.year"
           :period="queryOption.period"
           :selectflag="1"
-          @changed="termChanged"
+          @changed="handleChangeTerm"
         />
       </view>
       <view class="col">
@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, toRef } from "vue";
 import {
   BottomPanel,
   Card,
@@ -121,17 +121,18 @@ import { FinalTermScore, MidTermScore } from "@/types/Score";
 import useUser from "@/hooks/user/info";
 
 const queryOption = useScoreQueryOptionStore();
-const { list, fetchScore, loading } = useScoreQuery({
-  defaultQueryParams: {
-    year: queryOption.year,
-    term: queryOption.term,
-    period: queryOption.period
-  }
+const { list, refetch: refetchScore, loading } = useScoreQuery({
+  year: toRef(queryOption, "year"),
+  term: toRef(queryOption, "term"),
+  period: toRef(queryOption, "period")
 });
+
 const { info: userInfo } = useUser();
 const showSorted = ref(false);
 
 const scoreList = computed(() => {
+  if (!list.value) return [];
+
   return showSorted.value
     ? [...list.value].sort((a, b) => parseFloat(b.score) - parseFloat(a.score))
     : list.value;
@@ -141,18 +142,13 @@ const helpContent = computed(() => {
   return helpText.score;
 });
 
-async function termChanged(e) {
+async function handleChangeTerm(e) {
   queryOption.setOption(e);
-  fetchScore(e);
 }
 
 async function refresh() {
   if (loading.value) return;
-  fetchScore({
-    year: queryOption.year,
-    term: queryOption.term,
-    period: queryOption.period
-  });
+  refetchScore();
 }
 
 function handleSort() {

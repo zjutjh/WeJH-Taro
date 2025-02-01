@@ -55,10 +55,9 @@ const scoreUpdateTimeString = computed(() => {
   return dayjs(unreadScoreStore.lastScoreUpdateTime).fromNow();
 });
 
-// @tap="nav2Score" 点击卡片，跳转到成绩查询详细页面
-function nav2Score() {
+async function nav2Score() {
+  await Taro.navigateTo({ url: "/pages/score/index" });
   unreadScoreStore.readAll();
-  Taro.navigateTo({ url: "/pages/score/index" });
 }
 
 </script>
