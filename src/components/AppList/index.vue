@@ -1,7 +1,7 @@
 <template>
-  <view v-if="appListStore.list.length" class="applist">
+  <view v-if="list.length" class="applist">
     <app-list-item
-      v-for="(item, index) in appListStore.list"
+      v-for="(item, index) in list"
       :key="index"
       :label="item.title"
       :url="item.route"
@@ -19,8 +19,8 @@
 import AppListItem from "./AppListItem/index.vue";
 import Card from "../Card/index.vue";
 import "./index.scss";
-import useAppListStore from "@/store/service/appList";
+import useAppList from "@/store/service/appList";
 
-const appListStore = useAppListStore();
+const { list } = useAppList();
 
 </script>
