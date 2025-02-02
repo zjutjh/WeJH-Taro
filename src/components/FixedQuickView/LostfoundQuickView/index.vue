@@ -49,7 +49,7 @@
     </view>
     <view v-else :class="['content', 'empty']">
       <text class="campus">
-        {{ defaultCampus }}
+        {{ campus }}
       </text>
       <text> 校区暂时没有失物寻物信息 </text>
     </view>
@@ -58,38 +58,28 @@
 
 <script setup lang="ts">
 import { LostfoundService } from "@/services";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import Taro from "@tarojs/taro";
 import "./index.scss";
-import { useRequestNext } from "@/hooks";
-import useLostFoundStore from "@/store/service/lostfound";
+import useLostFoundQueryOption from "@/hooks/useLostFoundQueryOption";
+import { useQuery } from "@tanstack/vue-query";
+import { storeToRefs } from "pinia";
 
-const lostFoundStore = useLostFoundStore();
+const { campus, lostOrFound, kind } = storeToRefs(useLostFoundQueryOption());
 
-const defaultCampus = computed(() => {
-  return lostFoundStore.lastOpenCampus;
-});
-
-watch([defaultCampus], ([newValue]) => {
-  getRecords({
-    campus: newValue,
+const { data } = useQuery({
+  queryKey: ["lostfound/quick-view", campus, kind, lostOrFound] as const,
+  queryFn: ({ queryKey }) => LostfoundService.getRecords({
+    campus: queryKey[1],
+    kind: queryKey[2] === "全部" ? "" : queryKey[2],
+    lost_or_found: queryKey[3] === "全部" ? "" : queryKey[3],
     page_num: 1,
     page_size: 5
-  });
+  }),
+  meta: {
+    persist: false
+  }
 });
-
-const { data, run: getRecords } = useRequestNext(
-  LostfoundService.getRecords, {
-    initialData: {
-      data: [],
-      total_page_num: 0
-    },
-    defaultParams: {
-      campus: defaultCampus.value,
-      page_num: 1,
-      page_size: 5
-    }
-  });
 
 const handleClick = () => {
   Taro.navigateTo({
