@@ -91,6 +91,7 @@ import { UserService } from "@/services";
 import Taro from "@tarojs/taro";
 import { DarkModeTheme } from "@/types/DarkMode";
 import { useDarkMode } from "@/hooks";
+import { Config, defaultConfig } from "@/store/service/theme";
 const idMap = {};
 // 主题过渡方案
 const nameMap = {
@@ -120,14 +121,12 @@ useRequest(UserService.getUserTheme, {
   manual: false,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
-      console.log(res.data)
-      console.log('\n','当前黑白夜列表',hadThemeList_dark,hadThemeList_light)
+      console.log('\n','当前黑白夜列表',hadThemeList_dark,hadThemeList_light.value)
       store.commit("setHadTheme", res.data.data.theme_list);
       res.data.data.theme_list.forEach((item: any) => {
         idMap[item.name] = item.theme_id;
         configMap[item.name] = item.theme_config;
       });
-      console.log("idMap:",idMap)
     } else {
       Taro.showToast({
         icon: "none",
@@ -143,8 +142,6 @@ useRequest(UserService.getUserTheme, {
 const { run } = useRequest(UserService.setTheme, {
   manual: true,
   onSuccess: (res) => {
-    console.log(res);
-    console.log('\n','当前黑白夜列表',hadThemeList_dark,hadThemeList_light)
     if (res.data.code === 1 && res.data.msg === "OK") {
       store.commit("setThemeMode", currentTab);
       store.commit("setConfig", 
@@ -166,7 +163,18 @@ const { run } = useRequest(UserService.setTheme, {
 watch(() => serviceStore.theme, (newValue) => {
   currentTab.value = newValue.themeMode;
 });
-
+watch(() => serviceStore.theme.darkMode,()=>{
+  const themeStore = serviceStore.theme
+  let config : Config | undefined
+  if (darkMode.value === 'dark') {
+    config = hadThemeList_dark.value.find(theme => theme.name === themeStore.themeMode.dark)?.theme_config;
+  } else {
+    config = hadThemeList_light.value.find(theme => theme.name === themeStore.themeMode.light)?.theme_config;
+  }
+  console.log(config)
+  if(config === undefined) config = defaultConfig
+  store.commit("setConfig",config)
+})
 
 const handleTabClick = (theme: string, darkMode: DarkModeTheme) => {
   if (darkMode === 'dark'){

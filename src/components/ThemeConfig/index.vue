@@ -30,13 +30,17 @@ const { mode: darkMode } = useDarkMode();//light或者dark
 const currentConfig = computed(() => serviceStore.theme.config)
 
 const backgroundUrl = computed(() =>  {
-  const img = currentConfig.value.background_img
+  //规范: 开头#表示内置主题 即背景图在前端文件夹里
+  //      若为纯黑色背景的深色模式 则backgroundUrl使用空字符串 即无背景图 只用backgroundColor渲染
+  //      纯黑背景的backgroundPosition也填空字符串
+  const img = currentConfig.value?.background_img
   if(img.startsWith('#')){
      if(img === '#green') return greenImg
      else if (img === '#pink') return pinkImg
      else if (img === '#blue') return blueImg
      else if (img === '#yellow') return yellowImg
   }
+
   else return img
 });
 </script>

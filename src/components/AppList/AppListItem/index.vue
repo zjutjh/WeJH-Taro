@@ -1,7 +1,14 @@
 <template>
   <view class="applist-item" @tap="appTaped">
     <view class="icon-wrapper" :style="backgroundColor">
-      <view :class="['iconfont', iconClass]" />
+      <image 
+      :src="iconUrl"
+      v-if="isShowByUrl"
+      />
+      <view 
+      :class="['iconfont', 'icon-'+icon]"
+      v-else
+      />
     </view>
     <text class="label">
       {{ label }}
@@ -14,6 +21,7 @@ import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
 import "./index.scss";
+import { defaultTheme } from "@/store/service/theme";
 
 const props = defineProps<{
   label: string,
@@ -26,27 +34,40 @@ const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 // 主题过渡方案
 const icon = props.icon;
 const themeMode = computed(() => serviceStore.theme.themeMode);
-const iconClass = computed(() => {
-  if (themeMode.value === "walk") {
-    if (icon !== "lessonstable" && icon !== "exam" && icon !== "score") {
-      return "icon-15th-" + icon;
-    } else {
-      return "icon-" + icon;
-    }
+const currentConfig = computed(() => serviceStore.theme.config)
+
+const iconUrl =computed(() => {
+  const applist_icon = currentConfig.value.applist_icon
+  if (icon === 'lessonstable') return applist_icon.class_icon
+  if (icon === 'score') return applist_icon.grade_icon
+  if (icon === 'exam') return applist_icon.exam_icon
+  if (icon === 'freeroom') return applist_icon.free_classroom_icon
+  if (icon === 'schoolcard') return applist_icon.schoolcard_icon
+  if (icon === 'library') return applist_icon.lend_icon
+  if (icon === 'electricity') return applist_icon.electricity_icon
+  if (icon === 'schoolbus') return applist_icon.schoolbus_icon
+  if (icon === 'suit') return applist_icon.cloth_icon
+})
+
+const isShowByUrl = computed(() => {
+  if (serviceStore.theme.darkMode.mode ==='light') {
+    return themeMode.value.light !== defaultTheme.name
   } else {
-    return "icon-" + icon;
+    return themeMode.value.dark !== defaultTheme.name
+  }
+}) 
+const isDisabled = computed(() => {
+  switch (requireActive.value) {
+    case "zf":
+      return !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth;
+    case "library":
+      return !serviceStore.user.isBindLibrary;
+    case "yxy":
+      return !serviceStore.user.isBindYXY;
+    default:
+      return false;
   }
 });
-
-const isDisabled = ref(false);
-// 之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
-// 原来的代码是 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
-if (requireActive.value === "zf" && !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth)
-  isDisabled.value = true;
-if (requireActive.value === "library" && !serviceStore.user.isBindLibrary)
-  isDisabled.value = true;
-if (requireActive.value === "yxy" && !serviceStore.user.isBindYXY)
-  isDisabled.value = true;
 
 async function appTaped() {
   if (isDisabled.value) {

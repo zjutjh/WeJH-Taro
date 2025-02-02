@@ -21,7 +21,9 @@ import { useDarkMode } from "@/hooks";
 import { DarkModeTheme } from "@/types/DarkMode";
 import Taro from "@tarojs/taro";
 import { computed } from "vue";
-
+import store, { serviceStore } from "@/store";
+import { Config } from "@tarojs/taro/types/compile";
+import { defaultConfig } from "@/store/service/theme";
 const optionValueMap = {
   "adapted": "跟随微信",
   "dark": "深色",
@@ -39,11 +41,21 @@ const handleToggle = () => {
   Taro.showActionSheet({
     itemList: Object.values(optionValueMap),
     success: (e) => {
+      let newMode = Object.keys(optionValueMap)[e.tapIndex]
       if (e.tapIndex === 0) setIsAdapted(true);
       else {
         setIsAdapted(false);
-        setMode(Object.keys(optionValueMap)[e.tapIndex] as DarkModeTheme);
+        setMode(newMode as DarkModeTheme);
       }
+      const themeStore = serviceStore.theme
+      let config : Config | undefined
+      if (newMode === 'dark') {
+        config = themeStore.hadTheme.find(theme => theme.name === themeStore.themeMode.dark)?.theme_config;
+      } else {
+        config = themeStore.hadTheme.find(theme => theme.name === themeStore.themeMode.light)?.theme_config;
+      }
+      if(config === undefined) config = defaultConfig
+      store.commit("setConfig",config)
     }
   });
 };
