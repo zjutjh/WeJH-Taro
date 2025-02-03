@@ -105,7 +105,7 @@ export const ThemeStore = {
   state: {
     hadTheme: [defaultTheme],
     themeMode: {
-      light: "绿",
+      light: "毅行",
       dark: "深绿"
     },
     config: defaultConfig,//正在使用的主题的config

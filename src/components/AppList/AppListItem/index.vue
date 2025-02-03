@@ -31,9 +31,9 @@ const props = defineProps<{
   require: string,
 }>();
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
-// 主题过渡方案
+
 const icon = props.icon;
-const themeMode = computed(() => serviceStore.theme.themeMode);
+
 const currentConfig = computed(() => serviceStore.theme.config)
 
 const iconUrl =computed(() => {
@@ -50,10 +50,11 @@ const iconUrl =computed(() => {
 })
 
 const isShowByUrl = computed(() => {
+  const themeMode = serviceStore.theme.themeMode
   if (serviceStore.theme.darkMode.mode ==='light') {
-    return themeMode.value.light !== defaultTheme.name
+    return themeMode.light !== defaultTheme.name
   } else {
-    return themeMode.value.dark !== defaultTheme.name
+    return themeMode.dark !== defaultTheme.name
   }
 }) 
 const isDisabled = computed(() => {

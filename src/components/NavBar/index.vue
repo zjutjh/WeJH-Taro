@@ -5,7 +5,13 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('home')"
     >
-      <view class="iconfont " :class="homeClass" />
+      <image 
+        :src="barIcons.home_icon" 
+        v-if="isShowByUrl && (pageName !== 'home' || showPop)"/>
+      <image
+        :src="barIcons.selected_home_icon"
+        v-else-if="isShowByUrl"/>
+      <view class="iconfont icon-home" v-else/>
       <view class="description">
         首页
       </view>
@@ -18,7 +24,14 @@
       class="nav-bar-icon-wrapper"
       @tap="plusClick"
     >
-      <view class="iconfont " :class="applyClass" />
+      <image 
+        :src="barIcons.function_icon" 
+        v-if="isShowByUrl && !showPop"/>
+      <image
+        :src="barIcons.selected_function_icon"
+        v-else-if="isShowByUrl"
+      />
+      <view class="iconfont icon-applist" v-else/>
       <view class="description">
         功能
       </view>
@@ -31,7 +44,13 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('my')"
     >
-      <view class="iconfont " :class="personClass" />
+      <image
+        :src="barIcons.my_icon" 
+        v-if="isShowByUrl && (pageName!=='my' || showPop)"/>
+      <image
+        :src="barIcons.selected_my_icon"
+        v-else-if="isShowByUrl"/>
+      <view class="iconfont icon-user" v-else/>
       <view class="description">
         我的
       </view>
@@ -60,6 +79,7 @@ import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
+import { defaultTheme } from "@/store/service/theme";
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);
@@ -76,11 +96,15 @@ const notificationActive = computed(() => {
     my: checkNotification("my", store)
   };
 });
-// 主题过渡方案
-const themeMode = computed(() => serviceStore.theme.themeMode);
-const homeClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-home1" : "icon-home");
-const applyClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-apply1" : "icon-applist");
-const personClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-person1" : "icon-user");
+const barIcons = computed(() => serviceStore.theme.config.bar_icon);
+const isShowByUrl = computed(() => {
+  let themeMode = serviceStore.theme.themeMode
+  if (serviceStore.theme.darkMode.mode ==='light') {
+    return themeMode.light !== defaultTheme.name
+  } else {
+    return themeMode.dark !== defaultTheme.name
+  }
+}) 
 
 const { pageName } = toRefs(props);
 

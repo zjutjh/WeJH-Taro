@@ -41,7 +41,7 @@
                 :class="currentTab.light === item.name ? 'active' : undefined"
                 @tap="() => handleTabClick(item.name,'light')"
               >
-                {{ nameMap[item.name] }}
+                {{ item.name }}
               </text>
             </view>
             <view class="theme-config-title" 
@@ -57,7 +57,7 @@
                 :class="currentTab.dark === item.name ? 'active' : undefined"
                 @tap="() => handleTabClick(item.name,'dark')"
               >
-                {{ nameMap[item.name] }}
+                {{ item.name }}
               </text>
             </view>
           </view>
@@ -91,16 +91,8 @@ import { UserService } from "@/services";
 import Taro from "@tarojs/taro";
 import { DarkModeTheme } from "@/types/DarkMode";
 import { useDarkMode } from "@/hooks";
-import { Config, defaultConfig } from "@/store/service/theme";
+import { Theme } from "@/store/service/theme";
 const idMap = {};
-// 主题过渡方案
-const nameMap = {
-  green: "绿",
-  yellow: "黄",
-  walk: "毅行",
-  blue: "蓝",
-  pink: "粉"
-};
 const configMap = {}
 const isEmpty = ref(false);
 const emptyText = computed(() => {
@@ -121,9 +113,8 @@ useRequest(UserService.getUserTheme, {
   manual: false,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
-      console.log('\n','当前黑白夜列表',hadThemeList_dark,hadThemeList_light.value)
       store.commit("setHadTheme", res.data.data.theme_list);
-      res.data.data.theme_list.forEach((item: any) => {
+      res.data.data.theme_list.forEach((item: Theme) => {
         idMap[item.name] = item.theme_id;
         configMap[item.name] = item.theme_config;
       });
@@ -163,18 +154,7 @@ const { run } = useRequest(UserService.setTheme, {
 watch(() => serviceStore.theme, (newValue) => {
   currentTab.value = newValue.themeMode;
 });
-watch(() => serviceStore.theme.darkMode,()=>{
-  const themeStore = serviceStore.theme
-  let config : Config | undefined
-  if (darkMode.value === 'dark') {
-    config = hadThemeList_dark.value.find(theme => theme.name === themeStore.themeMode.dark)?.theme_config;
-  } else {
-    config = hadThemeList_light.value.find(theme => theme.name === themeStore.themeMode.light)?.theme_config;
-  }
-  console.log(config)
-  if(config === undefined) config = defaultConfig
-  store.commit("setConfig",config)
-})
+
 
 const handleTabClick = (theme: string, darkMode: DarkModeTheme) => {
   if (darkMode === 'dark'){
