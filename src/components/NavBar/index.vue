@@ -5,12 +5,10 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('home')"
     >
-      <image 
-        :src="barIcons.home_icon" 
-        v-if="isShowByUrl && (pageName !== 'home' || showPop)"/>
       <image
-        :src="barIcons.selected_home_icon"
-        v-else-if="isShowByUrl"/>
+        :src="pageName === 'home' && !showPop ?
+        barIcons.selected_home_icon : barIcons.home_icon"
+        v-if="isShowByUrl"/>
       <view class="iconfont icon-home" v-else/>
       <view class="description">
         首页
@@ -24,13 +22,9 @@
       class="nav-bar-icon-wrapper"
       @tap="plusClick"
     >
-      <image 
-        :src="barIcons.function_icon" 
-        v-if="isShowByUrl && !showPop"/>
       <image
-        :src="barIcons.selected_function_icon"
-        v-else-if="isShowByUrl"
-      />
+        :src="showPop ? barIcons.selected_function_icon : barIcons.function_icon"
+        v-if="isShowByUrl"/>
       <view class="iconfont icon-applist" v-else/>
       <view class="description">
         功能
@@ -45,11 +39,8 @@
       @tap="nav('my')"
     >
       <image
-        :src="barIcons.my_icon" 
-        v-if="isShowByUrl && (pageName!=='my' || showPop)"/>
-      <image
-        :src="barIcons.selected_my_icon"
-        v-else-if="isShowByUrl"/>
+        :src="pageName === 'my' && !showPop ? barIcons.selected_my_icon : barIcons.my_icon"
+        v-if="isShowByUrl"/>
       <view class="iconfont icon-user" v-else/>
       <view class="description">
         我的
@@ -80,6 +71,7 @@ import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
 import { defaultTheme } from "@/store/service/theme";
+import { defaultTheme } from "@/store/service/theme";
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);
@@ -104,7 +96,7 @@ const isShowByUrl = computed(() => {
   } else {
     return themeMode.dark !== defaultTheme.name
   }
-}) 
+})
 
 const { pageName } = toRefs(props);
 
