@@ -13,7 +13,4 @@ export interface Lesson {
   type: string;
   week: string;
   weekday: string;
-
-  mark?: boolean; // 标记冲突课程
-  color?: string; // 课程颜色
 }
