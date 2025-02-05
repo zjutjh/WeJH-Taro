@@ -2,7 +2,7 @@
   <view class="applist-item" @tap="appTaped">
     <view class="icon-wrapper" :style="backgroundColor">
       <image 
-      :src="iconUrl"
+      :src="getIconUrl(icon,'white')"
       v-if="isShowByUrl"
       />
       <view 
@@ -21,7 +21,7 @@ import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
 import "./index.scss";
-import { defaultTheme } from "@/store/service/theme";
+import { isShowByUrl,getIconUrl } from "@/hooks/userTheme";
 
 const props = defineProps<{
   label: string,
@@ -34,29 +34,6 @@ const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
 const icon = props.icon;
 
-const currentConfig = computed(() => serviceStore.theme.config)
-
-const iconUrl =computed(() => {
-  const applist_icon = currentConfig.value.applist_icon
-  if (icon === 'lessonstable') return applist_icon.class_icon
-  if (icon === 'score') return applist_icon.grade_icon
-  if (icon === 'exam') return applist_icon.exam_icon
-  if (icon === 'freeroom') return applist_icon.free_classroom_icon
-  if (icon === 'schoolcard') return applist_icon.schoolcard_icon
-  if (icon === 'library') return applist_icon.lend_icon
-  if (icon === 'electricity') return applist_icon.electricity_icon
-  if (icon === 'schoolbus') return applist_icon.schoolbus_icon
-  if (icon === 'suit') return applist_icon.cloth_icon
-})
-
-const isShowByUrl = computed(() => {
-  const themeMode = serviceStore.theme.themeMode
-  if (serviceStore.theme.darkMode.mode ==='light') {
-    return themeMode.light !== defaultTheme.name
-  } else {
-    return themeMode.dark !== defaultTheme.name
-  }
-}) 
 const isDisabled = computed(() => {
   switch (requireActive.value) {
     case "zf":

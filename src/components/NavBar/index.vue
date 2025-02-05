@@ -70,8 +70,7 @@ import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
-import { defaultTheme } from "@/store/service/theme";
-import { defaultTheme } from "@/store/service/theme";
+import { isShowByUrl } from "@/hooks/userTheme";
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);
@@ -89,14 +88,6 @@ const notificationActive = computed(() => {
   };
 });
 const barIcons = computed(() => serviceStore.theme.config.bar_icon);
-const isShowByUrl = computed(() => {
-  let themeMode = serviceStore.theme.themeMode
-  if (serviceStore.theme.darkMode.mode ==='light') {
-    return themeMode.light !== defaultTheme.name
-  } else {
-    return themeMode.dark !== defaultTheme.name
-  }
-})
 
 const { pageName } = toRefs(props);
 

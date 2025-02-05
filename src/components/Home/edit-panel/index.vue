@@ -6,6 +6,7 @@ import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
 import { PopView, WBadge, WButton } from "@/components";
 import { checkBind } from "@/utils";
+import { isShowByUrl,getIconUrl } from "@/hooks/userTheme";
 
 /** 依赖于绑定状态的卡片名字列表 */
 const validList = computed(() => {
@@ -93,8 +94,15 @@ const handleClose = () => {
             <view
               :class="styles[`icon-wrapper`]"
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
-            >
-              <view :class="['iconfont', `icon-${item.icon}`, styles.icon]" />
+              >
+              <image 
+                :src="getIconUrl(item.icon,'white')"
+                v-if="isShowByUrl"
+              />
+              <view 
+                :class="['iconfont', `icon-${item.icon}`, styles.icon]" 
+                v-else
+              />
             </view>
             <text>{{ item.label }}</text>
             <view :class="styles['badge-wrapper']">
@@ -123,7 +131,14 @@ const handleClose = () => {
               :class="styles[`icon-wrapper`]"
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
             >
-              <view :class="['iconfont', `icon-${item.icon}`, styles.icon]" />
+              <image 
+                :src="getIconUrl(item.icon,'white')"
+                v-if="isShowByUrl"
+              />
+              <view 
+                :class="['iconfont', `icon-${item.icon}`, styles.icon]" 
+                v-else
+              />
             </view>
             <text>{{ item.label }}</text>
             <view :class="styles['badge-wrapper']">
