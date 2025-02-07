@@ -3,7 +3,8 @@
     <title-bar title="主题" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card class="lab-card">
+         <DarkModeToogle/>
+         <card class="lab-card">
           <view
             v-if="isEmpty"
             class="empty"
@@ -67,7 +68,6 @@
             </view>
           </template>
         </card>
-        <dark-mode-toggle />
       </view>
     </scroll-view>
     <image
@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
-import DarkModeToggle from "./features/DarkModeToggle.vue";
+import DarkModeToogle from "./features/DarkModeToogle.vue";
 import { labText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import { computed, ref, watch } from "vue";
@@ -92,6 +92,7 @@ import Taro from "@tarojs/taro";
 import { DarkModeTheme } from "@/types/DarkMode";
 import { useDarkMode } from "@/hooks";
 import { Theme } from "@/store/service/theme";
+
 const idMap = {};
 const configMap = {}
 const isEmpty = ref(false);

@@ -25,14 +25,12 @@ import pinkImg from '@/assets/photos/background-pink.svg'
 import blueImg from '@/assets/photos/background-blue.svg'
 import yellowImg from '@/assets/photos/background-yellow.svg'
 
-const { mode: darkMode } = useDarkMode();//light或者dark
+const { mode: darkMode } = useDarkMode();
 
 const currentConfig = computed(() => serviceStore.theme.config)
 
 const backgroundUrl = computed(() =>  {
-  //规范: 开头#表示内置主题 即背景图在前端文件夹里
-  //      若为纯黑色背景的深色模式 则backgroundUrl使用空字符串 即无背景图 只用backgroundColor渲染
-  //      纯黑背景的backgroundPosition也填空字符串
+  //此处判定是根据background_img ↓ 的规范来的 具体可看其注释
   const img = currentConfig.value?.background_img
   if(img.startsWith('#')){
      if(img === '#green') return greenImg

@@ -23,7 +23,10 @@ export interface Config {
   },
   applist_icon: applistIcon
   applist_dark_icon: applistIcon
-  background_img: string;
+  /** 规范: 开头#表示内置主题 即背景图在前端文件夹里 
+   *  若为纯黑色背景的深色模式 则backgroundUrl使用空字符串 即无背景图 只用backgroundColor渲染 
+   * 纯黑背景的backgroundPosition也填空字符串*/ 
+  background_img: string;  
   background_color: string;
   background_position: string;
   selection_img: string;

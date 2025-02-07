@@ -2,7 +2,7 @@ import { serviceStore } from "@/store"
 import { defaultTheme } from "@/store/service/theme";
 import { computed } from "vue";
 
-// 映射对象, app功能名字 与 applist_icon 中的键名对应 更新app后需要维护
+/**  映射对象, app功能名字 与 applist_icon 中的键名对应 更新app后需要维护 */
 const iconMap = {
     'lessonstable': 'class_icon',
     'score': 'grade_icon',

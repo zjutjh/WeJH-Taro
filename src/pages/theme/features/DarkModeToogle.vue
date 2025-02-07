@@ -1,15 +1,22 @@
 <template>
   <w-list
     class="dark-mode-toggle"
-    style="border-radius: 8Px;"
-    @tap="handleToggle"
+    style="border-radius: 8px;"
   >
-    <w-list-item arrow="right">
+    <w-list-item 
+      arrow="right"     
+      @tap="handleAdaptToggle">
       <view class="text-wrapper">
-        <text> 深色模式 </text>
+        <text> 自动设置 </text>
         <text class="state">
           {{ optionText }}
         </text>
+      </view>
+    </w-list-item>
+    <w-list-item>
+      <view class="text-wrapper">
+        <text>深色模式</text>
+        <WSwtich @tap="handleDarkToogle"/>
       </view>
     </w-list-item>
   </w-list>
@@ -18,47 +25,50 @@
 <script setup lang="ts">
 import { WList, WListItem } from "@/components";
 import { useDarkMode } from "@/hooks";
-import { DarkModeTheme } from "@/types/DarkMode";
+import { WSwtich } from "@/components";
 import Taro from "@tarojs/taro";
 import { computed } from "vue";
 import store, { serviceStore } from "@/store";
-import { Config } from "@tarojs/taro/types/compile";
-import { defaultConfig } from "@/store/service/theme";
+import { Config, defaultConfig } from "@/store/service/theme";
 const optionValueMap = {
   "adapted": "跟随微信",
-  "dark": "深色",
-  "light": "浅色"
+  "noAdapted": "手动设置"
 };
 
-const { mode, isAdapted, setMode, setIsAdapted } = useDarkMode();
+const { isAdapted, setIsAdapted, setMode } = useDarkMode();
 
 const optionText = computed(() => {
   if (isAdapted.value) return optionValueMap["adapted"];
-  else return optionValueMap[mode.value];
+  else return optionValueMap["noAdapted"];
 });
 
-const handleToggle = () => {
+const handleAdaptToggle = () => {
   Taro.showActionSheet({
     itemList: Object.values(optionValueMap),
     success: (e) => {
-      let newMode = Object.keys(optionValueMap)[e.tapIndex]
       if (e.tapIndex === 0) setIsAdapted(true);
       else {
         setIsAdapted(false);
-        setMode(newMode as DarkModeTheme);
       }
-      const themeStore = serviceStore.theme
+    }
+  });
+};
+
+const handleDarkToogle = () => {
+  let mode = serviceStore.theme.darkMode.mode;
+
+  const themeStore = serviceStore.theme
       let config : Config | undefined
-      if (newMode === 'dark') {
+      if (mode === 'light') {
+        setMode('dark')
         config = themeStore.hadTheme.find(theme => theme.name === themeStore.themeMode.dark)?.theme_config;
       } else {
+        setMode('light')
         config = themeStore.hadTheme.find(theme => theme.name === themeStore.themeMode.light)?.theme_config;
       }
       if(config === undefined) config = defaultConfig
       store.commit("setConfig",config)
-    }
-  });
-};
+}
 
 </script>
 
@@ -69,6 +79,7 @@ const handleToggle = () => {
     display: flex;
     flex: auto;
     justify-content: space-between;
+    align-items: center;
   }
 
   .state {
