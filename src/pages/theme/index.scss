@@ -2,46 +2,58 @@
 
 .lab-card {
 
-  .empty {
-    padding: 1rem;
-  }
-
   .footer-text {
     text-align: center;
   }
 
   .theme-config {
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
     text-align: center;
+
+    .theme-config-title {
+      position: relative;
+      top: 5px;
+    }
   }
 
   .tab-bar {
     background-color: var(--wjh-color-background-container);
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 12Px 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 2rem 0 1.25rem 0;
+    gap: 48px;
 
-    .tab {
-      padding: 7Px 12Px;
-      background-color: var(--wjh-color-primary-light);
-      color: var(--wjh-color-primary);
+    .tab-noActivity {
+      width: 90px;
+      height: 110px;
+    }
+
+    .tab-noActivity-block {
+      width: 90px;
+      height: 90px;
+      border-radius: 10px;
       font-size: 0.875rem;
+      opacity: 0.8;
+
+      // .tab-dark {
+      //   background-color: ;
+      // }
+    }
+
+    .tab-block-activity {
+      border-top: 1Px solid var(--wjh-color-black);
+    }
+
+    .tab-name {
+      height: 2rem;
+      font-size: 0.8rem;
     }
 
     .active {
-      background-color: var(--wjh-color-primary);
-      color: var(--wjh-color-white);
+      border: 3px solid var(--wjh-color-primary-dark);
     }
 
-    .tab:first-child {
-      border-top-left-radius: 100Px;
-      border-bottom-left-radius: 100Px;
-    }
-
-    .tab:last-child {
-      border-top-right-radius: 100Px;
-      border-bottom-right-radius: 100Px;
-    }
   }
 }

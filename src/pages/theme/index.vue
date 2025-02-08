@@ -4,39 +4,46 @@
     <scroll-view :scroll-y="true">
       <view class="flex-column">
          <DarkModeToogle/>
-         <card class="lab-card">
-          <view class="theme-config">
-            <view class="theme-config-title"  
-              v-if="darkIsAdapted||darkMode==='light'">
-                浅色主题
+         <card class="lab-card" v-for="mode in modes">
+          <view 
+            class="theme-config"
+            :class="'tab-'+mode.name"
+            >
+            <view class="theme-config-title"
+              :style="{color : `var(${titleColor})`}"
+            >
+                色彩配置({{ modeNameMap[mode.name] }})
             </view>
-            <view class="tab-bar"
-              v-if="darkIsAdapted||darkMode==='light'">
-              <text
-                v-for="item in hadThemeList_light"
-                :key="item.name"
-                class="tab"
-                :class="currentTab.light === item.name ? 'active' : undefined"
-                @tap="() => handleTabClick(item.name,'light')"
+            <view class="tab-bar">
+              <view
+                v-for="item in mode.list.noActivity"
+                :key="item.theme_id"                             
+                class="tab-noActivity"
               >
+                <view
+                  class="tab-noActivity-block"
+                  :class="currentTab[mode.name] === item.name ? 'active' : undefined"
+                  :style="{backgroundColor: item.theme_config.base_color.base_600}"
+                  @tap="handleTabClick(item.name, mode.name)"
+                />
+                <view class="tab-name">{{ item.name }}</view>
+            </view>
+            </view>
+            <view class = "tab-bar"
+              style="border-top: 2px solid var(--wjh-color-black)"
+            >
+              <view 
+              v-if="mode.list.activity"
+              v-for="item in mode.list.activity"
+              :key="item.theme_id"
+              class="tab-block-activity"
+              :class="currentTab[mode.name] === item.name ? 'active' : undefined"
+              @tap="handleTabClick(item.name, modeNameMap[mode.name])"
+            >
+              <text>
                 {{ item.name }}
               </text>
             </view>
-            <view class="theme-config-title" 
-              v-if="darkIsAdapted||darkMode==='dark'">
-                深色主题
-            </view>
-            <view class="tab-bar"
-              v-if="darkIsAdapted||darkMode==='dark'">
-              <text
-                v-for="item in hadThemeList_dark"
-                :key="item.name"
-                class="tab"
-                :class="currentTab.dark === item.name ? 'active' : undefined"
-                @tap="() => handleTabClick(item.name,'dark')"
-              >
-                {{ item.name }}
-              </text>
             </view>
           </view>
           <template #footer>
@@ -54,7 +61,7 @@
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import DarkModeToogle from "./features/DarkModeToogle.vue";
 import { getCopyRight } from "@/utils";
-import { computed, ref, watch } from "vue";
+import { computed } from "vue";
 import store, { serviceStore } from "@/store";
 import "./index.scss";
 import { useRequest } from "@/hooks";
@@ -64,19 +71,37 @@ import { DarkModeTheme } from "@/types/DarkMode";
 import { useDarkMode } from "@/hooks";
 import { Theme } from "@/store/service/theme";
 
+const { mode: darkMode, isAdapted: darkIsAdapted  } = useDarkMode();
+
 const idMap = {};
 const configMap = {}
-//主题列表
+const titleColor = computed(() => {return darkMode.value === 'light' ? "--wjh-color-primary" : undefined})
+
 const hadThemeList_light = computed(() => {
-    return serviceStore.theme.hadTheme.filter((item:any) => !item.is_dark_mode)
+  const list = serviceStore.theme.hadTheme.filter((item:Theme) => !item.is_dark_mode)
+  return {
+    "noActivity": list.filter((item:Theme) => item.theme_config.selection_img === ""),
+    "activity": list.filter((item:Theme) => item.theme_config.selection_img.startsWith('h'))
+  }
 });
 const hadThemeList_dark = computed(() => {
-    return serviceStore.theme.hadTheme.filter((item: any) => item.is_dark_mode)
+  const list = serviceStore.theme.hadTheme.filter((item: Theme) => item.is_dark_mode)
+  return {
+    "noActivity": list.filter((item:Theme) => item.theme_config.selection_img === ""),
+    "activity": list.filter((item:Theme) => item.theme_config.selection_img!=="")
+  }
 });
-//当前黑白天模式
-const { mode: darkMode, isAdapted: darkIsAdapted  } = useDarkMode();
-//受维护的当前主题(包括黑白天)
-const currentTab = ref(serviceStore.theme.themeMode);
+
+/**用来实现——浅色模式时浅色卡片在上 深色时同理, 的工具变量 */
+const modes = computed(() => {
+  let modeSettingList = [ {name:'light',list:hadThemeList_light.value}, {name:'dark',list:hadThemeList_dark.value}]
+  if(darkMode.value === 'light') return modeSettingList
+  else return modeSettingList.reverse()
+})
+const modeNameMap = {"light":'浅色',"dark":'深色'}
+
+/** 受维护的当前主题(包括黑白天) */
+const currentTab = computed(()=>{ return serviceStore.theme.themeMode});
 useRequest(UserService.getUserTheme, {
   manual: false,
   onSuccess: (res) => {
@@ -119,12 +144,8 @@ const { run } = useRequest(UserService.setTheme, {
   }
 });
 
-watch(() => serviceStore.theme, (newValue) => {
-  currentTab.value = newValue.themeMode;
-});
 
-
-const handleTabClick = (theme: string, darkMode: DarkModeTheme) => {
+const handleTabClick = (theme: string, darkMode: string) => {
   if (darkMode === 'dark'){
     run({ id: idMap[theme],dark_id: idMap[currentTab.value.dark]})
   }
