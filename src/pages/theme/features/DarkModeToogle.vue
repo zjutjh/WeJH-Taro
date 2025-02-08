@@ -16,7 +16,12 @@
     <w-list-item>
       <view class="text-wrapper">
         <text>深色模式</text>
-        <WSwtich @tap="handleDarkToogle"/>
+        <WSwtich 
+          @tap="handleDarkToogle"
+            :bind-value="mode"
+            active-value="dark"
+            in-active-value="light"
+        />
       </view>
     </w-list-item>
   </w-list>
@@ -28,14 +33,12 @@ import { useDarkMode } from "@/hooks";
 import { WSwtich } from "@/components";
 import Taro from "@tarojs/taro";
 import { computed } from "vue";
-import store, { serviceStore } from "@/store";
-import { Config, defaultConfig } from "@/store/service/theme";
 const optionValueMap = {
   "adapted": "跟随微信",
   "noAdapted": "手动设置"
 };
 
-const { isAdapted, setIsAdapted, setMode } = useDarkMode();
+const { isAdapted, setIsAdapted, setMode, mode } = useDarkMode();
 
 const optionText = computed(() => {
   if (isAdapted.value) return optionValueMap["adapted"];
@@ -55,20 +58,10 @@ const handleAdaptToggle = () => {
 };
 
 const handleDarkToogle = () => {
-  let mode = serviceStore.theme.darkMode.mode;
-
-  const themeStore = serviceStore.theme
-      let config : Config | undefined
-      if (mode === 'light') {
-        setMode('dark')
-        config = themeStore.hadTheme.find(theme => theme.name === themeStore.themeMode.dark)?.theme_config;
-      } else {
-        setMode('light')
-        config = themeStore.hadTheme.find(theme => theme.name === themeStore.themeMode.light)?.theme_config;
-      }
-      if(config === undefined) config = defaultConfig
-      store.commit("setConfig",config)
+  setMode(mode.value === "light" ? "dark" : "light")
+  setIsAdapted(false)
 }
+
 
 </script>
 

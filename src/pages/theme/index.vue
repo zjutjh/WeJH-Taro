@@ -5,29 +5,6 @@
       <view class="flex-column">
          <DarkModeToogle/>
          <card class="lab-card">
-          <view
-            v-if="isEmpty"
-            class="empty"
-          >
-            {{ emptyText }}
-          </view>
-          <!-- <view class="theme-config" v-if="serviceStore.theme.darkMode.isAdapted === false">
-            <view class="theme-config-title">
-                主题色彩
-            </view>
-            <view class="tab-bar">
-              <text
-                v-for="item in 
-                serviceStore.theme.darkMode.mode === 'light' ? hadThemeList_light : hadThemeList_dark"
-                :key="item.name"
-                class="tab"
-                :class="currentTab === item.name ? 'active' : undefined"
-                @tap="() => handleTabClick(item.name)"
-              >
-                {{ nameMap[item.name] }}
-              </text>
-            </view>
-          </view> -->
           <view class="theme-config">
             <view class="theme-config-title"  
               v-if="darkIsAdapted||darkMode==='light'">
@@ -70,18 +47,12 @@
         </card>
       </view>
     </scroll-view>
-    <image
-      v-if="isEmpty"
-      src="@/assets/photos/lab.svg"
-      style="margin: 0 auto"
-    />
   </theme-config>
 </template>
 
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import DarkModeToogle from "./features/DarkModeToogle.vue";
-import { labText } from "@/constants/copywriting";
 import { getCopyRight } from "@/utils";
 import { computed, ref, watch } from "vue";
 import store, { serviceStore } from "@/store";
@@ -95,10 +66,6 @@ import { Theme } from "@/store/service/theme";
 
 const idMap = {};
 const configMap = {}
-const isEmpty = ref(false);
-const emptyText = computed(() => {
-  return labText.empty;
-});
 //主题列表
 const hadThemeList_light = computed(() => {
     return serviceStore.theme.hadTheme.filter((item:any) => !item.is_dark_mode)

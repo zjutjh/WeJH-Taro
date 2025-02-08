@@ -21,9 +21,6 @@ import { computed } from "vue";
 import { serviceStore } from "@/store";
 import { useDarkMode } from "@/hooks";
 import greenImg from '@/assets/photos/background.svg'
-import pinkImg from '@/assets/photos/background-pink.svg'
-import blueImg from '@/assets/photos/background-blue.svg'
-import yellowImg from '@/assets/photos/background-yellow.svg'
 
 const { mode: darkMode } = useDarkMode();
 
@@ -34,9 +31,6 @@ const backgroundUrl = computed(() =>  {
   const img = currentConfig.value?.background_img
   if(img.startsWith('#')){
      if(img === '#green') return greenImg
-     else if (img === '#pink') return pinkImg
-     else if (img === '#blue') return blueImg
-     else if (img === '#yellow') return yellowImg
   }
 
   else return img
