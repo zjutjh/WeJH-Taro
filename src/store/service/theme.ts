@@ -46,7 +46,7 @@ export interface Theme {
 
 export type ThemeList = Theme[]
 
-type ThemeMode = {light: string; dark: string}
+type ThemeMode = {light: number; dark: number}
 
 export interface ThemeStoreType {
   hadTheme: ThemeList;
@@ -108,8 +108,8 @@ export const ThemeStore = {
   state: {
     hadTheme: [defaultTheme],
     themeMode: {
-      light: "毅行",
-      dark: "深绿"
+      light: 18,
+      dark: 23
     },
     config: defaultConfig,//正在使用的主题的config
     darkMode: {

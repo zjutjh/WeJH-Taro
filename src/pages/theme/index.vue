@@ -22,23 +22,23 @@
               >
                 <view
                   class="tab-noActivity-block"
-                  :class="currentTab[mode.name] === item.name ? 'active' : undefined"
+                  :class="currentThemeMode[mode.name] === item.theme_id ? 'active' : undefined"
                   :style="{backgroundColor: item.theme_config.base_color.base_600}"
-                  @tap="handleTabClick(item.name, mode.name)"
+                  @tap="handleTabClick(item.theme_id, mode.name)"
                 />
                 <view class="tab-name">{{ item.name }}</view>
             </view>
             </view>
             <view class = "tab-bar"
+              v-if="mode.list.activity"
               style="border-top: 2px solid var(--wjh-color-black)"
             >
               <view 
-              v-if="mode.list.activity"
               v-for="item in mode.list.activity"
               :key="item.theme_id"
               class="tab-block-activity"
-              :class="currentTab[mode.name] === item.name ? 'active' : undefined"
-              @tap="handleTabClick(item.name, modeNameMap[mode.name])"
+              :class="currentThemeMode[mode.name] === item.theme_id ? 'active' : undefined"
+              @tap="handleTabClick(item.theme_id, modeNameMap[mode.name])"
             >
               <text>
                 {{ item.name }}
@@ -67,13 +67,11 @@ import "./index.scss";
 import { useRequest } from "@/hooks";
 import { UserService } from "@/services";
 import Taro from "@tarojs/taro";
-import { DarkModeTheme } from "@/types/DarkMode";
 import { useDarkMode } from "@/hooks";
 import { Theme } from "@/store/service/theme";
 
-const { mode: darkMode, isAdapted: darkIsAdapted  } = useDarkMode();
+const { mode: darkMode } = useDarkMode();
 
-const idMap = {};
 const configMap = {}
 const titleColor = computed(() => {return darkMode.value === 'light' ? "--wjh-color-primary" : undefined})
 
@@ -101,15 +99,16 @@ const modes = computed(() => {
 const modeNameMap = {"light":'浅色',"dark":'深色'}
 
 /** 受维护的当前主题(包括黑白天) */
-const currentTab = computed(()=>{ return serviceStore.theme.themeMode});
+const currentThemeMode = computed(()=>{ return serviceStore.theme.themeMode});
+let newThemeMode = currentThemeMode.value
+
 useRequest(UserService.getUserTheme, {
   manual: false,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
       store.commit("setHadTheme", res.data.data.theme_list);
       res.data.data.theme_list.forEach((item: Theme) => {
-        idMap[item.name] = item.theme_id;
-        configMap[item.name] = item.theme_config;
+        configMap[item.theme_id] = item.theme_config;
       });
     } else {
       Taro.showToast({
@@ -127,10 +126,10 @@ const { run } = useRequest(UserService.setTheme, {
   manual: true,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
-      store.commit("setThemeMode", currentTab);
+      store.commit("setThemeMode", newThemeMode);
       store.commit("setConfig", 
       darkMode.value==='light'? 
-      configMap[currentTab.value.light] : configMap[currentTab.value.dark]);
+      configMap[newThemeMode.light] : configMap[newThemeMode.dark]);
       Taro.showToast({ title: "设置成功" });
     } else {
       Taro.showToast({
@@ -145,12 +144,14 @@ const { run } = useRequest(UserService.setTheme, {
 });
 
 
-const handleTabClick = (theme: string, darkMode: string) => {
-  if (darkMode === 'dark'){
-    run({ id: idMap[theme],dark_id: idMap[currentTab.value.dark]})
+const handleTabClick = (themeId: number, darkMode: string) => {
+  if (darkMode === 'light'){
+    newThemeMode.light = themeId
+    run({ id: themeId, dark_id: currentThemeMode.value.dark})
   }
   else{
-    run({id: idMap[currentTab.value.light],dark_id: idMap[theme]})
+    newThemeMode.dark = themeId
+    run({id: currentThemeMode.value.light, dark_id: themeId})
   }
 };
 </script>

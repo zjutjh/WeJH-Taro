@@ -14,11 +14,14 @@ const iconMap = {
     'schoolbus': 'schoolbus_icon',
     'suit': 'cloth_icon'
 };
+/** main是功能里展示的 other是QuickView等里展示的
+ * 对于浅色主题 main是白的 other的黑的
+ * 对于深色主题 main是黑的 other是白的
+ */
+type iconType = 'main' | 'other'
 
-type iconColor = 'white' | 'black'
-
-export function getIconUrl(icon: string,color : iconColor) {
-    const applist_icon = (color === 'black')?
+export function getIconUrl(icon: string,type : iconType) {
+    const applist_icon = (type === 'other')?
     serviceStore.theme.config.applist_dark_icon : serviceStore.theme.config.applist_icon
     
     if(icon in iconMap){
@@ -31,8 +34,8 @@ export function getIconUrl(icon: string,color : iconColor) {
 export const isShowByUrl = computed(() => {
     const themeMode = serviceStore.theme.themeMode
     if (serviceStore.theme.darkMode.mode ==='light') {
-      return themeMode.light !== defaultTheme.name
+      return themeMode.light !== defaultTheme.theme_id
     } else {
-      return themeMode.dark !== defaultTheme.name
+      return themeMode.dark !== defaultTheme.theme_id
     }
 })

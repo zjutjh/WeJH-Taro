@@ -3,7 +3,7 @@
     <view class="quick-view-header">
       <view class="quick-view-title">
         <image 
-          :src="getIconUrl(iconName,'black')"
+          :src="getIconUrl(iconName,'other')"
           v-if="isShowByUrl"
         />
         <view :class="`iconfont icon-${iconName}`" v-else/>

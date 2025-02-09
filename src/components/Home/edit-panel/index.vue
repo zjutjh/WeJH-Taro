@@ -96,7 +96,7 @@ const handleClose = () => {
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
               >
               <image 
-                :src="getIconUrl(item.icon,'white')"
+                :src="getIconUrl(item.icon,'main')"
                 v-if="isShowByUrl"
               />
               <view 
@@ -132,7 +132,7 @@ const handleClose = () => {
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
             >
               <image 
-                :src="getIconUrl(item.icon,'white')"
+                :src="getIconUrl(item.icon,'main')"
                 v-if="isShowByUrl"
               />
               <view 
