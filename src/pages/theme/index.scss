@@ -28,31 +28,33 @@
     .tab-noActivity {
       width: 90px;
       height: 110px;
+
+      .tab-noActivity-block {
+        width: 90px;
+        height: 90px;
+        border-radius: 10px;
+        font-size: 0.875rem;
+        opacity: 0.8;
+      }
     }
 
-    .tab-noActivity-block {
-      width: 90px;
-      height: 90px;
-      border-radius: 10px;
-      font-size: 0.875rem;
-      opacity: 0.8;
+    .tab-activity {
+      width: 200px;
+      height: 133px;
 
-      // .tab-dark {
-      //   background-color: ;
-      // }
-    }
+      .tab-activity-block {
+        width: 200px;
+        height: 133px;
+        border-radius: 10px;
+        font-size: 0.875rem;
+        opacity: 0.8;
 
-    .tab-block-activity {
-      border-top: 1Px solid var(--wjh-color-black);
+      }
     }
 
     .tab-name {
       height: 2rem;
       font-size: 0.8rem;
-    }
-
-    .active {
-      border: 3px solid var(--wjh-color-primary-dark);
     }
 
   }

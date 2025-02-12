@@ -24,9 +24,9 @@ export interface Config {
   applist_icon: applistIcon
   applist_dark_icon: applistIcon
   /** 规范: 开头#表示内置主题 即背景图在前端文件夹里 目前内置主题是浅绿主题
-   *  若为纯黑色背景的深色模式 则backgroundUrl使用空字符串 即无背景图 只用backgroundColor渲染 
-   * 纯黑背景的backgroundPosition也填空字符串*/ 
-  background_img: string;  
+   *  若为纯黑色背景的深色模式 则backgroundUrl使用空字符串 即无背景图 只用backgroundColor渲染
+   * 纯黑背景的backgroundPosition也填空字符串*/
+  background_img: string;
   background_color: string;
   background_position: string;
   selection_img: string;
@@ -96,7 +96,7 @@ export const defaultConfig = {
       base_700: "#51bbbb"
   }
 }
-export const defaultTheme = { 
+export const defaultTheme = {
   name: "绿",
   is_dark_mode: false,
   theme_id: 1,
@@ -107,15 +107,17 @@ export const defaultTheme = {
 export const ThemeStore = {
   state: {
     hadTheme: [defaultTheme],
+    /**themeMode默认值需要根据实际环境来维护*/
     themeMode: {
       light: 18,
       dark: 23
     },
-    config: defaultConfig,//正在使用的主题的config
+    /** 正在使用的主题的config*/
+    config: defaultConfig,
     darkMode: {
       mode: "light",
       isAdapted: false
-    }    
+    }
   },
   mutations: {
     setHadTheme(state: ThemeStoreType, value: ThemeList) {
