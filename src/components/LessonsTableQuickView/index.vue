@@ -80,30 +80,27 @@ import Card from "../Card/index.vue";
 import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
-import { CSSProperties, computed, onMounted, onUnmounted, ref } from "vue";
+import { CSSProperties, computed, onMounted, onUnmounted, ref, toRef } from "vue";
 import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
-import useLessonTableStore from "@/store/service/lessonTable";
+import useLessonTableQuery from "@/store/service/lessonTable";
 import useGeneralInfo from "@/store/system/generalInfo";
 
 const classStartTimer = ref<ReturnType<typeof setTimeout>>();
 const tomorrowTableTimer = ref<ReturnType<typeof setTimeout>>();
 
 const emit = defineEmits(["showHelp"]);
-const lessonTableStore = useLessonTableStore();
 const generalInfo = useGeneralInfo();
+const { data: lessonInfo } = useLessonTableQuery({
+  year: toRef(() => generalInfo.value.termYear),
+  term: toRef(() => generalInfo.value.term)
+});
 const showTomorrow = ref(false); // 每晚 10 点过后展示第二天课表
 
-/** 当前学期的课程集合信息 */
-const termCollection = computed(() => {
-  return lessonTableStore.collections
-    .find(c => c.term === generalInfo.value.term
-      && generalInfo.value.termYear === c.year);
-});
-
+// TODO: 测试
 const lessonsOfDay = computed(() => {
-  const list = termCollection.value?.lessons || [];
+  const list = lessonInfo.value?.lessons || [];
   return list.filter((item) => {
     const currentDay = !showTomorrow.value ? (new Date().getDay() || 7) : (new Date().getDay() + 1 || 7);
     if (currentDay !== parseInt(item.weekday)) return false;
@@ -142,8 +139,8 @@ onUnmounted(() => {
 });
 
 const updateTimeString = computed(() => {
-  if (!termCollection.value?.updateTime) return "更新失败";
-  return dayjs(termCollection.value.updateTime).fromNow();
+  if (!lessonInfo.value?._upTime) return "更新失败";
+  return dayjs(lessonInfo.value?._upTime).fromNow();
 });
 
 function nav2Lesson() {

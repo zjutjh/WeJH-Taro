@@ -1,69 +1,32 @@
-import { persistedStorage, RequestError } from "@/utils";
-import { defineStore } from "pinia";
-import useGeneralInfo from "../system/generalInfo";
-import { ref } from "vue";
+import { Ref } from "vue";
 import { ZFService } from "@/services";
-import { useRequestNext } from "@/hooks";
-import { Lesson } from "@/types/Lesson";
-import Taro from "@tarojs/taro";
+import { useQuery } from "@tanstack/vue-query";
 
-type TermLessonCollection = {
-  lessons: Lesson[];
-  term: string;
+async function lessonTableFetcher(opts: {
   year: string;
-  updateTime: string | undefined;
-};
-
-async function termCollectionFetcher(params: { year: string, term: string }) {
-  return ZFService
-    .getLessonTable(params)
-    .then<TermLessonCollection>(_ => {
-      return {
-        lessons: _.lessonsTable ?? [],
-        ...params,
-        updateTime: Date().toString()
-      };
-    });
+  term: string;
+}) {
+  const raw = await ZFService.getLessonTable({
+    year: opts.year,
+    term: opts.term
+  });
+  return {
+    lessons: raw.lessonsTable,
+    _upTime: Date.now()
+  };
 }
 
-const useLessonTableStore = defineStore("lessonTable", () => {
-  const generalInfo = useGeneralInfo();
-  const collections = ref<TermLessonCollection[]>([]);
+function useLessonTableQuery(options: {
+  year: Ref<string> | string;
+  term: Ref<string> | string;
+}) {
+  return useQuery({
+    queryKey: ["lessonTable", options.year, options.term],
+    queryFn: ({ queryKey }) => lessonTableFetcher({
+      year: queryKey[1],
+      term: queryKey[2]
+    })
+  });
+}
 
-  const { loading, run: fetchLessonTable } = useRequestNext(
-    termCollectionFetcher, {
-      defaultParams: {
-        year: generalInfo.value.termYear,
-        term: generalInfo.value.term
-      },
-      initialData: { lessons: [], term: "", year: "", updateTime: undefined },
-      onSuccess: (newCollection) => {
-        const { year, term } = newCollection;
-        const existedIndex = collections.value.findIndex(_ => _.year === year && _.term === term);
-        if (existedIndex !== -1) {
-          collections.value[existedIndex] = newCollection;
-        } else {
-          collections.value.push(newCollection);
-        }
-      },
-      onError: (e) => {
-        if (e instanceof RequestError) {
-          Taro.showToast({ title: `更新课表失败: ${e.message}`, icon: "none" });
-        }
-      }
-    }
-  );
-
-  return {
-    collections,
-    loading,
-    fetchLessonTable
-  };
-}, {
-  persist: {
-    storage: persistedStorage,
-    pick: ["collections"]
-  }
-});
-
-export default useLessonTableStore;
+export default useLessonTableQuery;

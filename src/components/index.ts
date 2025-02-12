@@ -4,7 +4,6 @@ import BottomPanel from "./BottomPanel/index.vue";
 import Card from "./Card/index.vue";
 import ContactMe from "./ContactMe/index.vue";
 import Home from "./Home/index.vue";
-import LessonsTable from "./LessonsTable/index.vue";
 import LessonsTableQuickView from "./LessonsTableQuickView/index.vue";
 import LibraryQuickView from "./LibraryQuickView/index.vue";
 import My from "./My/index.vue";
@@ -17,7 +16,6 @@ import RoomPicker from "./RoomPicker/index.vue";
 import SchoolCardQuickView from "./SchoolCardQuickView/index.vue";
 import TermPicker from "./TermPicker/index.vue";
 import TitleBar from "./TitleBar/index.vue";
-import WeekPicker from "./WeekPicker/index.vue";
 import WButton from "./Button/index.vue";
 import WList from "./List/List.vue";
 import WListItem from "./List/ListItem.vue";
@@ -38,7 +36,6 @@ export {
   Card,
   ContactMe,
   Home,
-  LessonsTable,
   LessonsTableQuickView,
   LibraryQuickView,
   WButton,
@@ -53,7 +50,6 @@ export {
   TermPicker,
   TitleBar,
   ThemeConfig,
-  WeekPicker,
   WList,
   WListItem,
   WCollapse,

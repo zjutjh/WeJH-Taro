@@ -1,15 +1,14 @@
 <template>
   <picker
     mode="multiSelector"
-    :range="selector"
-    :value="selectorValue"
+    :range="showPeriod ? SELECT_OPTIONS_WITH_PERIOD : SELECT_OPTIONS"
+    :value="innerField"
     class="picker-wrapper"
     @change="onChange"
   >
     <w-button class="term-selector">
       <view class="picker">
-        {{ selectorChecked[0] }}/{{ parseInt(selectorChecked[0]) + 1 }}
-        ({{ selectorChecked[1] }}) {{ selectorChecked[2] }}
+        {{ renderText }}
       </view>
     </w-button>
   </picker>
@@ -17,76 +16,66 @@
 
 <script setup lang="ts">
 import WButton from "../Button/index.vue";
-import { computed, reactive, ref } from "vue";
+import { computed } from "vue";
 import useGeneralInfo from "@/store/system/generalInfo";
 
-interface PropsType {
-  year: string;
-  term: "上" | "下" | "短";
-  period?: "期中" | "期末";
-  // TODO: 这是干啥的？
-  selectflag: number; // flag为0表示学年、学期 ； 为1表示学年、学期、期中期末
-}
+const props = withDefaults(defineProps<{
+  showPeriod?: boolean
+}>(), {
+  showPeriod: false
+});
 
-const selectorArr = [
-  [["上", "下", "短"]],
-  [["上", "下", "短"], ["期中", "期末"]]
-];
-const props = defineProps<PropsType>();
 const generalInfo = useGeneralInfo();
 const termYear = +generalInfo.value.termYear;
 
-const emit = defineEmits(["changed"]);
-const selector = reactive(selectorArr[props.selectflag]);
+const SELECT_OPTIONS = [
+  // 支持选择最早三学年之前，最晚下一学年。形如 2021/2022
+  Array(5).fill(0).map((_, i) => `${termYear - i + 1}/${termYear - i + 2}`),
+  ["上", "下", "短"]
+] as const;
 
-/** e.g. 2022 上 期中 */
-const selectorChecked = ref<string[]>([]);
-selectorChecked.value[0] = props.year;
-if (props.selectflag >= 0)
-  selectorChecked.value[1] = props.term;
-if (props.selectflag >= 1)
-  selectorChecked.value[2] = props.period!;
+const SELECT_OPTIONS_WITH_PERIOD = [
+  ...SELECT_OPTIONS,
+  ["期中", "期末"]
+] as const;
 
-const years: string[] = [];
-
-for (let i = -1; i < 4; i++) years.push(`${termYear - i}/${termYear - i + 1}`);
-selector.unshift(years);
+const field = defineModel<{
+  year: string; // 例如 2021
+  term: string,
+  period?: string
+}>({
+  default: { year: new Date().getFullYear(), term: "上" }
+});
 
 /** Picker 依赖, 索引数组 */
-const selectorValue = computed(() => {
-  const indexOfYear = selector[0].indexOf(
-    `${selectorChecked.value[0]}/${parseInt(selectorChecked.value[0]) + 1}`
+const innerField = computed<[number, number, number?]>(() => {
+  const indexOfYear = SELECT_OPTIONS[0].indexOf(
+    `${field.value.year}/${+field.value.year + 1}`
   );
-  const indexOfTerm = selector[1].indexOf(selectorChecked.value[1]);
-
-  let indexOfPeriod = -1;
-  if (props.selectflag === 1) {
-    indexOfPeriod = selector[2].indexOf(selectorChecked.value[2]);
-    return [indexOfYear, indexOfTerm, indexOfPeriod];
-  } else {
+  const indexOfTerm = SELECT_OPTIONS[1].indexOf(field.value.term as "上" | "下" | "短");
+  if (props.showPeriod && field.value.period) {
+    const indexOfPeriod = SELECT_OPTIONS_WITH_PERIOD[2].indexOf(field.value.period as "期中" | "期末");
     return [indexOfYear, indexOfTerm, indexOfPeriod];
   }
+  return [indexOfYear, indexOfTerm];
+});
+
+const renderText = computed(() => {
+  const yearText = field.value.year;
+  const termText = field.value.term;
+  const periodText = field.value.period ?? "";
+
+  return `${ yearText }/${ +yearText + 1} (${ termText }) ${ periodText }`;
 });
 
 function onChange(e) {
-  selectorChecked.value = selector.map(
-    (column, index) => column[e.detail.value[index]]
-  );
-  selectorChecked.value[0] = selectorChecked.value[0].split("/")[0];
-  if (props.selectflag === 0) {
-    // 精确到 上/下学期
-    emit("changed", {
-      year: selectorChecked.value[0],
-      term: selectorChecked.value[1]
-    });
-  } else if (props.selectflag === 1) {
-    // 精确到 期中/期末
-    emit("changed", {
-      year: selectorChecked.value[0],
-      term: selectorChecked.value[1],
-      period: selectorChecked.value[2]
-    });
-  }
+  const [indexOfYear, indexOfTerm, indexOfPeriod] = e.detail.value;
+
+  field.value = {
+    year: SELECT_OPTIONS[0][indexOfYear].split("/")[0],
+    term: SELECT_OPTIONS[1][indexOfTerm],
+    period: props.showPeriod ? SELECT_OPTIONS_WITH_PERIOD[2][indexOfPeriod] : undefined
+  };
 }
 
 </script>
