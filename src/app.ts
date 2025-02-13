@@ -10,7 +10,7 @@ import utc from "dayjs/plugin/utc"; // dependent on utc plugin
 import "dayjs/locale/zh-cn";
 import "./app.scss";
 import { VueQueryPlugin } from "@tanstack/vue-query";
-import { createVueQueryPluginOptions } from "./utils/vueQuery";
+import { globalQueryClient } from "./utils/vueQuery";
 
 dayjs.locale("zh-cn");
 dayjs.extend(customParseFormat);
@@ -21,8 +21,8 @@ const App = createApp({});
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
-App.use(pinia);
 
-App.use(VueQueryPlugin, createVueQueryPluginOptions());
+App.use(pinia);
+App.use(VueQueryPlugin, { queryClient: globalQueryClient });
 
 export default App;
