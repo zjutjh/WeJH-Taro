@@ -1,4 +1,5 @@
 /// <reference types="@tarojs/taro" />
+import "@tanstack/vue-query";
 
 declare module "*.png";
 declare module "*.gif";
@@ -28,4 +29,15 @@ declare namespace NodeJS {
 
 declare module "@tarojs/components" {
   export * from "@tarojs/components/types/index.vue3";
+}
+
+interface CustomMeta extends Record<string, unknown> {
+  persist?: boolean
+}
+
+declare module "@tanstack/vue-query" {
+  interface Register {
+    queryMeta: CustomMeta
+    defaultError: RequestError
+  }
 }
