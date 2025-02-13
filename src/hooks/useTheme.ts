@@ -23,7 +23,7 @@ type iconType = 'main' | 'other'
 export function getIconUrl(icon: string,type : iconType) {
     const applist_icon = (type === 'other')?
     serviceStore.theme.config.applist_dark_icon : serviceStore.theme.config.applist_icon
-    
+
     if(icon in iconMap){
         const iconStoreName =iconMap[icon]
         return applist_icon[iconStoreName]
@@ -34,8 +34,8 @@ export function getIconUrl(icon: string,type : iconType) {
 export const isShowByUrl = computed(() => {
     const themeMode = serviceStore.theme.themeMode
     if (serviceStore.theme.darkMode.mode ==='light') {
-      return themeMode.light !== defaultTheme.theme_id
+      return themeMode.light !== defaultTheme.light.theme_id
     } else {
-      return themeMode.dark !== defaultTheme.theme_id
+      return themeMode.dark !== defaultTheme.dark.theme_id
     }
 })

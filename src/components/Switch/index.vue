@@ -1,9 +1,9 @@
 <template>
-    <view 
+    <view
     class="switch-container"
     :class="isActive"
     >
-        <view 
+        <view
         class="switch-slider"
         :class="isActive"
         :style="{

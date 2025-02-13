@@ -20,18 +20,19 @@
     background-color: var(--wjh-color-background-container);
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
     flex-wrap: wrap;
     padding: 2rem 0 1.25rem 0;
     gap: 70px;
 
     .tab-noActivity {
-      width: 90px;
-      height: 110px;
+      $block-width: 90px;
+      width: $block-width;
+      height: calc($block-width + 1.5rem);
 
       .tab-noActivity-block {
-        width: 90px;
-        height: 90px;
+        width: $block-width;
+        height: $block-width;
         border-radius: 10px;
         font-size: 0.875rem;
         opacity: 0.8;
@@ -39,16 +40,20 @@
     }
 
     .tab-activity {
-      width: 200px;
-      height: 133px;
+      $block-width: 240px;
+      $block-height: calc(#{$block-width} * (2/3));
+
+      width: $block-width;
+      height: calc(#{$block-height} + 1.5rem);
 
       .tab-activity-block {
-        width: 200px;
-        height: 133px;
+        width: $block-width;
+        height: $block-height;
         border-radius: 10px;
         font-size: 0.875rem;
         opacity: 0.8;
 
+        object-fit: cover;
       }
     }
 

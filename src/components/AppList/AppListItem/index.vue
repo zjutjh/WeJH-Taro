@@ -1,12 +1,12 @@
 <template>
   <view class="applist-item" @tap="appTaped">
     <view class="icon-wrapper" :style="backgroundColor">
-      <image 
+      <image
       :src="getIconUrl(icon,iconType())"
       :style="{opacity: iconOpacity()}"
       v-if="isShowByUrl"
       />
-      <view 
+      <view
       :class="['iconfont', 'icon-'+icon]"
       v-else
       />
@@ -22,7 +22,7 @@ import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
 import "./index.scss";
-import { isShowByUrl,getIconUrl } from "@/hooks/userTheme";
+import { isShowByUrl,getIconUrl } from "@/hooks/useTheme";
 import { useDarkMode } from "@/hooks";
 
 const props = defineProps<{

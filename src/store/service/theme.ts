@@ -55,7 +55,7 @@ export interface ThemeStoreType {
   darkMode: DarkModeOption
 }
 
-export const defaultConfig = {
+export const defaultConfig_light = {
   bar_icon: {
     home_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_light.png",
     function_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_light.png",
@@ -96,24 +96,75 @@ export const defaultConfig = {
       base_700: "#51bbbb"
   }
 }
-export const defaultTheme = {
-  name: "绿",
-  is_dark_mode: false,
-  theme_id: 1,
-  theme_config: defaultConfig
+export const defaultConfig_dark = {
+  bar_icon: {
+    home_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_dark.png",
+    function_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_dark.png",
+     my_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_dark.png",
+    selected_home_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_dark_green.png",
+    selected_function_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_dark_green.png",
+    selected_my_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_dark_green.png"
+  },
+  applist_icon: {
+    class_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf_table_black.png",
+    grade_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/grade_black.png",
+    exam_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam_black.png",
+    free_classroom_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-black.png",
+    schoolcard_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-black.png",
+    lend_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book-black.png",
+    electricity_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-black.png",
+    schoolbus_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-black.png",
+    cloth_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-black.png"
+  },
+  applist_dark_icon: {
+    class_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf_table_white.png",
+    grade_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/grade_white.png",
+    exam_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam_white.png",
+    free_classroom_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-white.png",
+    schoolcard_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-white.png",
+    lend_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book-white.png",
+    electricity_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-white.png",
+    schoolbus_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-white.png",
+    cloth_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-white.png"
+  },
+  selection_img: "",
+  background_img: "",
+  background_color: "#121212",
+  background_position: "bottom 0 right 50%",
+  base_color: {
+    base_500: "#334843",
+    base_600: "#4ab59e",
+    base_700: "#48a2a2"
+  },
 }
+
+export const defaultTheme = {
+  light: {
+    name: "绿",
+    is_dark_mode: false,
+    theme_id: 18,
+    theme_config: defaultConfig_light
+  },
+  dark: {
+    name: "绿",
+    is_dark_mode: true,
+    theme_id: 23,
+    theme_config: defaultConfig_dark
+  }
+}
+
 
 
 export const ThemeStore = {
   state: {
-    hadTheme: [defaultTheme],
+    hadTheme: [defaultTheme.light, defaultTheme.dark],
     /**themeMode默认值需要根据实际环境来维护*/
     themeMode: {
       light: 18,
       dark: 23
     },
     /** 正在使用的主题的config*/
-    config: defaultConfig,
+    config: defaultConfig_light,
     darkMode: {
       mode: "light",
       isAdapted: false

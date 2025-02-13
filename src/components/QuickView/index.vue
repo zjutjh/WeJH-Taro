@@ -2,7 +2,7 @@
   <view class="quick-view">
     <view class="quick-view-header">
       <view class="quick-view-title">
-        <image 
+        <image
           :src="getIconUrl(iconName,'other')"
           v-if="isShowByUrl"
         />
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { toRefs } from "vue";
 import "./index.scss";
-import { getIconUrl, isShowByUrl } from "@/hooks/userTheme";
+import { getIconUrl, isShowByUrl } from "@/hooks/useTheme";
 const props = defineProps<{ title: string; iconName: string; help?: boolean }>();
 const { title, iconName, help } = toRefs(props);
 

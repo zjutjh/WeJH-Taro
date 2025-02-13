@@ -2,7 +2,7 @@ import { computed, onMounted, onUnmounted } from "vue";
 import { DarkModeTheme } from "@/types/DarkMode";
 import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
-import { Config, defaultConfig } from "@/store/service/theme";
+import { Config, defaultConfig_dark, defaultConfig_light } from "@/store/service/theme";
 
 const useDarkMode = () => {
   const mode = computed(() => serviceStore.theme.darkMode.mode);
@@ -31,7 +31,7 @@ const useDarkMode = () => {
     } else {
       config = themeStore.hadTheme.find(theme => theme.theme_id === themeStore.themeMode.light)?.theme_config;
     }
-    if(config === undefined) config = defaultConfig
+    if(config === undefined) config = value === 'light' ? defaultConfig_light : defaultConfig_dark
     store.commit("setConfig",config)
   };
 

@@ -70,7 +70,7 @@ import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
-import { isShowByUrl } from "@/hooks/userTheme";
+import { isShowByUrl } from "@/hooks/useTheme";
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);

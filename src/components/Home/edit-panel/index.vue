@@ -6,7 +6,7 @@ import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
 import { PopView, WBadge, WButton } from "@/components";
 import { checkBind } from "@/utils";
-import { isShowByUrl,getIconUrl } from "@/hooks/userTheme";
+import { isShowByUrl,getIconUrl } from "@/hooks/useTheme";
 
 /** 依赖于绑定状态的卡片名字列表 */
 const validList = computed(() => {
@@ -95,12 +95,12 @@ const handleClose = () => {
               :class="styles[`icon-wrapper`]"
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
               >
-              <image 
+              <image
                 :src="getIconUrl(item.icon,'main')"
                 v-if="isShowByUrl"
               />
-              <view 
-                :class="['iconfont', `icon-${item.icon}`, styles.icon]" 
+              <view
+                :class="['iconfont', `icon-${item.icon}`, styles.icon]"
                 v-else
               />
             </view>
@@ -131,12 +131,12 @@ const handleClose = () => {
               :class="styles[`icon-wrapper`]"
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
             >
-              <image 
+              <image
                 :src="getIconUrl(item.icon,'main')"
                 v-if="isShowByUrl"
               />
-              <view 
-                :class="['iconfont', `icon-${item.icon}`, styles.icon]" 
+              <view
+                :class="['iconfont', `icon-${item.icon}`, styles.icon]"
                 v-else
               />
             </view>

@@ -3,8 +3,8 @@
     class="dark-mode-toggle"
     style="border-radius: 8px;"
   >
-    <w-list-item 
-      arrow="right"     
+    <w-list-item
+      arrow="right"
       @tap="handleAdaptToggle">
       <view class="text-wrapper">
         <text> 自动设置 </text>
@@ -16,11 +16,11 @@
     <w-list-item>
       <view class="text-wrapper">
         <text>深色模式</text>
-        <WSwtich 
+        <WSwtich
           @tap="handleDarkToogle"
             :bind-value="mode"
-            active-value="dark"
-            in-active-value="light"
+            active-value="light"
+            in-active-value="dark"
         />
       </view>
     </w-list-item>

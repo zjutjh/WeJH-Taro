@@ -7,14 +7,13 @@
          <card class="lab-card" v-for="mode in modes">
           <view
             class="theme-config"
-            :class="'tab-'+mode.name"
             >
             <view class="theme-config-title"
               :style="{color : `var(${titleColor})`}"
             >
                 色彩配置({{ modeNameMap[mode.name] }})
             </view>
-            <view class="tab-bar">
+            <view class="tab-bar noActivity">
               <view
                 v-for="item in mode.list.noActivity"
                 :key="item.theme_id"
@@ -31,7 +30,7 @@
                 <view class="tab-name">{{ item.name }}</view>
             </view>
             </view>
-            <view class = "tab-bar"
+            <view class = "tab-bar activity"
               v-if="mode.list.activity.length "
               style="border-top: 1Px solid var(--wjh-color-border);"
             >
@@ -39,13 +38,15 @@
                 v-for="item in mode.list.activity"
                 :key="item.theme_id"
                 class="tab-activity"
-                :style="{border: handleActiveBorder(item)}"
                 @tap="handleTabClick(item.theme_id, mode.name)"
               >
-                <image
-                  class="tab-activity-block"
-                  :src="item.theme_config.selection_img"
-                />
+                <view>
+                  <image
+                    class="tab-activity-block"
+                    :style="{border: handleActiveBorder(item)}"
+                    :src="item.theme_config.selection_img"
+                  />
+                </view>
                 <view class="tab-name">{{ item.name }}</view>
             </view>
             </view>
@@ -82,15 +83,15 @@ const titleColor = computed(() => {return darkMode.value === 'light' ? "--wjh-co
 const hadThemeList_light = computed(() => {
   const list = serviceStore.theme.hadTheme.filter((item:Theme) => !item.is_dark_mode)
   return {
-    "noActivity": list.filter((item:Theme) => item.theme_config.selection_img === ""),
-    "activity": list.filter((item:Theme) => item.theme_config.selection_img.startsWith('h'))
+    "noActivity": list.filter((item:Theme) => item.theme_config?.selection_img === ""),
+    "activity": list.filter((item:Theme) => item.theme_config?.selection_img.startsWith('h'))
   }
 });
 const hadThemeList_dark = computed(() => {
   const list = serviceStore.theme.hadTheme.filter((item: Theme) => item.is_dark_mode)
   return {
-    "noActivity": list.filter((item:Theme) => item.theme_config.selection_img === ""),
-    "activity": list.filter((item:Theme) => item.theme_config.selection_img.startsWith("h"))
+    "noActivity": list.filter((item:Theme) => item.theme_config?.selection_img === ""),
+    "activity": list.filter((item:Theme) => item.theme_config?.selection_img.startsWith("h"))
   }
 });
 
