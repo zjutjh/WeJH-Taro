@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { request, RequestError, MPErrorCode, ServiceErrorCode, CookieUtils } from "@/utils";
+import { MPErrorCode, request, RequestError } from "@/utils";
 import { api } from "@/services";
 import { Theme } from "@/store/service/theme";
 
@@ -18,6 +18,20 @@ export default class UserService {
         params
       }
     );
+  };
+
+  static login = async () => {
+    try {
+      const { code } = await Taro.login({ timeout: 3000 });
+      const { cookies } = await Taro.request({
+        url: import.meta.env.VITE_HOST + api.user.login.wechat,
+        data: { code },
+        method: "POST"
+      });
+      return cookies?.at(0) ?? "";
+    } catch {
+      throw new RequestError("小程序网络异常", MPErrorCode.MP_LOGIN_ERROR_UNKNOWN);
+    }
   };
 
   static logout = (params: { iid: string, stuid: string }) => {
@@ -95,41 +109,12 @@ export default class UserService {
     studentID: string;
     idCardNumber: string;
     email?: string;
+    /** 微信登录凭证 */
+    code: string;
   }) {
-    try {
-      const { code, errMsg } = await Taro.login({ timeout: 3000 });
-      if (!code) {
-        console.error(new Error(errMsg));
-        return Promise.reject(
-          new RequestError(errMsg, MPErrorCode.MP_LOGIN_ERROR_MISSING_WX_CODE)
-        );
-      }
-      const taroWrapped = await Taro.request({
-        url: import.meta.env.VITE_HOST + api.user.create.wechat,
-        data: { ...params, code },
-        method: "POST"
-      });
-      const { data: realResponse, cookies } = taroWrapped;
-      if (realResponse) {
-        if (realResponse.code === ServiceErrorCode.OK) {
-          if (cookies && cookies.length > 0) {
-            const cookie = cookies[0]; // 现业务全局仅有一个 Cookie，所以取第一个
-            CookieUtils.set(cookie);
-            return;
-          }
-        }
-        return Promise.reject(
-          new RequestError("用户激活失败", MPErrorCode.MP_ACTIVATE_ERROR_MISSING_COOKIE)
-        );
-      }
-      throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
-    } catch (e) {
-      console.error(e);
-      if (e instanceof RequestError) {
-        // TODO: if (e.code === )
-        throw e;
-      }
-      throw new RequestError("小程序网络异常", MPErrorCode.MP_LOGIN_ERROR_UNKNOWN);
-    }
+    return request(api.user.create.wechat, {
+      params,
+      method: "POST"
+    });
   }
 }

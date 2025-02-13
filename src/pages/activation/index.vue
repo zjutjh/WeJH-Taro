@@ -86,7 +86,7 @@
             </view>
           </view>
           <template #footer>
-            <w-button block class="active" @tap="activeClick">
+            <w-button block class="active" @tap="handleActive">
               绑定通行证
             </w-button>
             <w-steps :total="2" :current="step" />
@@ -145,21 +145,26 @@ const helpContent = computed(() => {
   return helpText.activtion;
 });
 
-async function activeClick() {
+async function handleActive() {
   if (!checkForm()) return;
   Taro.showLoading({ title: "正在绑定通行证", mask: true });
 
   try {
+    Taro.showLoading({ title: "正在绑定通行证", mask: true });
+    const { code } = await Taro.login({ timeout: 3000 });
     await UserService.createStudentInMP({
       username: studentid.value!.toUpperCase(),
       studentID: studentid.value!.toUpperCase(),
       password: password.value!,
       idCardNumber: idcard.value!.toUpperCase(),
-      email: email.value!
+      email: email.value!,
+      code
     });
+    Taro.showLoading({ title: "正在登录", mask: true });
+    await UserService.login();
     step.value++;
     Taro.hideLoading();
-  } catch (e) {
+  } catch (e: unknown) {
     Taro.hideLoading();
     if (e instanceof RequestError) {
       Taro.showToast({ title: e.message, icon: "error" });

@@ -1,19 +1,13 @@
-export const MPErrorCode = {
+export enum MPErrorCode {
   /** 客户端网络环境异常 */
-  MP_NETWORK_ERROR: Symbol("MP_NETWORK_ERROR"),
+  MP_NETWORK_ERROR = "MP_NETWORK_ERROR",
   /** 服务端响应体异常 */
-  MP_INVALID_RESPONSE_BODY: Symbol("MP_INVALID_RESPONSE_BODY"),
+  MP_INVALID_RESPONSE_BODY = "MP_INVALID_RESPONSE_BODY",
   /** 响应数据中 data 字段非法 */
-  MP_INVALID_DATA_VALUE: Symbol("MP_INVALID_DATA_VALUE"),
-  /** 微信登录流程中缺失 code */
-  MP_LOGIN_ERROR_MISSING_WX_CODE: Symbol("MP_LOGIN_ERROR_MISSING_WX_CODE"),
-  /** 服务端激活流程中缺失 Cookie */
-  MP_LOGIN_ERROR_MISSING_COOKIE: Symbol("MP_LOGIN_ERROR_MISSING_COOKIE"),
-  /** 服务端登录流程中缺失 Cookie */
-  MP_ACTIVATE_ERROR_MISSING_COOKIE: Symbol("MP_ACTIVATE_ERROR_MISSING_COOKIE"),
+  MP_INVALID_DATA_VALUE = "MP_INVALID_DATA_VALUE",
   /** 未知登录异常 */
-  MP_LOGIN_ERROR_UNKNOWN: Symbol("MP_LOGIN_ERROR_UNKNOWN")
-};
+  MP_LOGIN_ERROR_UNKNOWN = "MP_LOGIN_ERROR_UNKNOWN"
+}
 
 export enum ServiceErrorCode {
   OK = 1,
@@ -32,11 +26,13 @@ export enum ServiceErrorCode {
   ACTIVATION_SCHOOL_ID_ERROR = 200513
 }
 
+type RequestErrorCodeType = ServiceErrorCode | MPErrorCode | number;
+
 export default class RequestError extends Error {
   public message: string;
-  public code: ServiceErrorCode | number | symbol;
+  public code: RequestErrorCodeType;
 
-  constructor(message: string, code: ServiceErrorCode | number | symbol) {
+  constructor(message: string, code: RequestErrorCodeType) {
     super();
     this.message = message;
     this.code = code;

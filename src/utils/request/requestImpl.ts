@@ -1,6 +1,7 @@
 import Taro from "@tarojs/taro";
 import RequestError, { MPErrorCode, ServiceErrorCode } from "./requestError";
-import CookieUtils from "./cookie";
+import { globalQueryClient } from "../vueQuery";
+import { UserService } from "@/services";
 
 interface IResponse<T> {
   code: number;
@@ -42,10 +43,15 @@ async function request<Data, Params = Record<string, any>>(
     auth = true
   } = options || {};
 
-  const cookie = auth ? await CookieUtils.get() : "";
-
   try {
-    const taroWrapped = await Taro.request<IResponse<Data> | undefined>({
+    const cookie = auth ?
+      await globalQueryClient.fetchQuery({
+        queryKey: ["cookie"],
+        queryFn: UserService.login,
+        staleTime: Infinity
+      }) : "";
+
+    const { data: realResponse } = await Taro.request<IResponse<Data> | undefined>({
       ...globalConfig,
       url: urlPrefix + url,
       method,
@@ -55,17 +61,23 @@ async function request<Data, Params = Record<string, any>>(
       data: params
     });
 
-    const realResponse = taroWrapped.data;
-    if (realResponse) {
-      if (realResponse.code === ServiceErrorCode.OK) {
-        return realResponse.data;
-      }
-      return Promise.reject(
-        new RequestError(realResponse.msg, realResponse.code)
-      );
+    if (!realResponse) {
+      throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
     }
-    throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
-  } catch (e: any) {
+
+    if (realResponse.code !== ServiceErrorCode.OK) {
+      if (realResponse.code === ServiceErrorCode.USER_NOT_LOGIN && cookie) {
+        // Cookie 过期，调用登录接口刷新 Cookie，并重新发起请求
+        await globalQueryClient.invalidateQueries({
+          queryKey: ["cookie"]
+        }, { throwOnError: true });
+        return request(url, options);
+      }
+      throw new RequestError(realResponse.msg, realResponse.code);
+    }
+
+    return realResponse.data;
+  } catch (e: unknown) {
     console.error(e);
     throw e instanceof RequestError
       ? e
