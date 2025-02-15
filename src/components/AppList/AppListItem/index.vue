@@ -2,14 +2,11 @@
   <view class="applist-item" @tap="appTaped">
     <view class="icon-wrapper" :style="backgroundColor">
       <image
-      :src="getIconUrl(icon,iconType())"
-      :style="{opacity: iconOpacity()}"
-      v-if="isShowByUrl"
+        v-if="isShowByUrl"
+        :src="getIconUrl(icon,iconType())"
+        :style="{opacity: iconOpacity()}"
       />
-      <view
-      :class="['iconfont', 'icon-'+icon]"
-      v-else
-      />
+      <view v-else :class="['iconfont', 'icon-'+icon]" />
     </view>
     <text class="label">
       {{ label }}
@@ -22,7 +19,7 @@ import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
 import "./index.scss";
-import { isShowByUrl,getIconUrl } from "@/hooks/useTheme";
+import { isShowByUrl, getIconUrl } from "@/hooks/useTheme";
 import { useDarkMode } from "@/hooks";
 
 const props = defineProps<{
@@ -38,9 +35,9 @@ const { mode: darkMode } = useDarkMode();
 
 const icon = props.icon;
 const iconType = (() => {
-  if(darkMode.value === 'light') return 'main'
-  else return isDisabled.value ? 'other' : 'main'
-})
+  if (darkMode.value === "light") return "main";
+  else return isDisabled.value ? "other" : "main";
+});
 
 const isDisabled = computed(() => {
   switch (requireActive.value) {
@@ -56,9 +53,9 @@ const isDisabled = computed(() => {
 });
 
 const iconOpacity = (() => {
-  if(darkMode.value === 'light') return undefined
-  else return isDisabled.value ? 0.1 : undefined
-})
+  if (darkMode.value === "light") return undefined;
+  else return isDisabled.value ? 0.1 : undefined;
+});
 
 async function appTaped() {
   if (isDisabled.value) {
