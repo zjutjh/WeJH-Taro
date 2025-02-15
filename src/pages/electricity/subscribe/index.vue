@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button />
+    <title-bar title="寝室电量查询" back-button />
     <view class="flex-column">
       <card title="订阅消息说明">
         <text>

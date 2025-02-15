@@ -1,4 +1,5 @@
 export const freeroomMap = {
+  机: "机械楼",
   子: "子良楼",
   教: "新教楼",
   文: "文荟楼",

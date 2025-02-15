@@ -63,6 +63,7 @@
                     {{ item.examTime }}
                   </view>
                   <view
+                    v-if="item.examTime !== '未放开不可查'"
                     class="exam-place"
                     :style="
                       timeInterval(item.examTime) === 0
@@ -79,7 +80,7 @@
                   {{ getDetailedTime(item.examTime) }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试地点" :label-span="6">
-                  {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
+                  <text>{{ item.examPlace }}</text><text v-if="item.seatNum !== '未放开不可查'"> {{ ` - 座位号：${item.seatNum}` }}</text>
                 </w-descriptions-item>
                 <w-descriptions-item label="考试全称" :label-span="6">
                   {{ item.className }}
@@ -166,7 +167,12 @@ async function refresh() {
 function getDetailedTime(timeString: string) {
   const tmp: ConfigType = timeString.split("(")[0];
   const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-  return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
+  if (dayChars[dayjs(tmp).day()]) {
+    return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
+  } else {
+    return `${tmp}`;
+  }
+
 }
 
 function timeInterval(timeString: string) {

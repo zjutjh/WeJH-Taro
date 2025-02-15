@@ -1,4 +1,5 @@
 export interface Score {
+  selected: boolean;
   checkRead: boolean;
   className: string;
   credits: string;

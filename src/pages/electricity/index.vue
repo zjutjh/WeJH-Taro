@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button />
+    <title-bar title="寝室电量查询" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <image src="@/assets/photos/electricity.svg" />
@@ -13,9 +13,6 @@
             </view>
             <view class="text-wrapper">
               <text>{{ roomInfo.roomName }}</text>
-              <text class="week">
-                房间号 {{ roomInfo.roomCode }}
-              </text>
             </view>
           </view>
         </card>
@@ -104,18 +101,21 @@ import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 
 const options = ref(["朝晖/屏峰", "莫干山"]);
-const selectedIndex = ref(serviceStore.electricity.selectedIndex);
+const selectedIndex = computed(() => serviceStore.electricity.selectIndex);
+
+const selectedOption = computed(() => options.value[selectedIndex.value]);
+
 const valueMap = {
   "朝晖/屏峰": "zhpf",
   "莫干山": "mgs"
 };
 
-const selectedOption = computed(() => options.value[selectedIndex.value]);
 const onPickerChange = (event: { detail: { value: number } }) => {
-  selectedIndex.value = event.detail.value;
-  serviceStore.electricity.selectedIndex = selectedIndex.value;
-  const selectedValue = valueMap[selectedOption.value];
+
+  const selectedValue = valueMap[options.value[event.detail.value]];
   serviceStore.electricity.electricityCampus = selectedValue;
+  serviceStore.electricity.selectIndex = event.detail.value;
+  // 调用查询接口
   getQueryBalance({ campus: selectedValue });
   getQueryConsumption({ campus: selectedValue });
 };
@@ -130,7 +130,8 @@ const balance = computed(() => serviceStore.electricity.balance);
 const todayConsumption = computed(() => (serviceStore.electricity.todayConsumption));
 
 const { run: getQueryBalance } = useRequest(YxyService.queryBalance, {
-  manual: true,
+  manual: false,
+  defaultParams: { campus: serviceStore.electricity.electricityCampus },
   onBefore: () => {
     Taro.showLoading({ title: "正在加载" });
   },
@@ -157,9 +158,15 @@ const {
   run: getQueryConsumption,
   loading: consumptionLoading
 } = useRequest(YxyService.queryConsumption, {
+  defaultParams: {
+    campus: serviceStore.electricity.electricityCampus
+  },
   onSuccess: (response) => {
     if (response.data.code === 1) {
       store.commit("setConsumption", response.data.data[0].used);
+    } else if (response.data.code === 200525) {
+      serviceStore.electricity.selectIndex = 0;
+      serviceStore.electricity.electricityCampus = "zhpf";
     } else {
       throw new Error(response.data.msg);
     }
