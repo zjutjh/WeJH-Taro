@@ -17,20 +17,27 @@
 <script setup lang="ts">
 import WButton from "../Button/index.vue";
 import { computed } from "vue";
-import useGeneralInfo from "@/store/system/generalInfo";
 
-const props = withDefaults(defineProps<{
-  showPeriod?: boolean
-}>(), {
+interface TermOption {
+  year: string; // 例如 2021
+  term: "上" | "下" | "短",
+  period?: string
+}
+
+type PropsType = {
+  /** 是否展示期中期末选择 */
+  showPeriod?: boolean;
+  /** 当前的学年，picker 学年选择范围为 `termYear - 3` ~ `termYear + 1` */
+  termYear: number;
+};
+
+const props = withDefaults(defineProps<PropsType>(), {
   showPeriod: false
 });
 
-const generalInfo = useGeneralInfo();
-const termYear = +generalInfo.value.termYear;
-
 const SELECT_OPTIONS = [
   // 支持选择最早三学年之前，最晚下一学年。形如 2021/2022
-  Array(5).fill(0).map((_, i) => `${termYear - i + 1}/${termYear - i + 2}`),
+  Array(5).fill(0).map((_, i) => `${props.termYear - i + 1}/${props.termYear - i + 2}`),
   ["上", "下", "短"]
 ] as const;
 
@@ -39,11 +46,7 @@ const SELECT_OPTIONS_WITH_PERIOD = [
   ["期中", "期末"]
 ] as const;
 
-const field = defineModel<{
-  year: string; // 例如 2021
-  term: string,
-  period?: string
-}>({
+const field = defineModel<TermOption>({
   default: { year: new Date().getFullYear(), term: "上" }
 });
 
