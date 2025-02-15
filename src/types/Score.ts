@@ -16,3 +16,10 @@ export type FinalTermScore = ScoreBase & {
 };
 
 export type MidTermScore = ScoreBase;
+
+export interface ScoreTermOption {
+  /** 例如 2021 */
+  year: string;
+  term: "上" | "下" | "短";
+  period: "期中" | "期末";
+}

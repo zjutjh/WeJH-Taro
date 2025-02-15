@@ -1,4 +1,5 @@
 import useGeneralInfo from "@/store/system/generalInfo";
+import { ExamTermOption } from "@/types/Exam";
 import { persistedStorage } from "@/utils";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -6,13 +7,10 @@ import { ref } from "vue";
 const useExamQueryOptionsStore = defineStore("exam/queryOptions", () => {
   const generalInfo = useGeneralInfo();
 
-  const term = ref<"上" | "下" | "短">(generalInfo.value.scoreTerm);
+  const term = ref<ExamTermOption["term"]>(generalInfo.value.scoreTerm);
   const year = ref(generalInfo.value.scoreYear);
 
-  function setOption(value: {
-    term: "上" | "下" | "短";
-    year: string;
-  }) {
+  function setOption(value: ExamTermOption) {
     term.value = value.term;
     year.value = value.year;
   }

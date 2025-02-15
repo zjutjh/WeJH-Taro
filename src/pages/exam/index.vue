@@ -4,7 +4,7 @@
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <taro-image :src="ExamCoverImage" />
-        <view class="extra" @tap="showHelp">
+        <view class="extra" @tap="handleShowHelp">
           <view class="icon-wrapper">
             <view class="extra-icon iconfont icon-announcement" />
           </view>
@@ -102,23 +102,21 @@
       <view class="col" />
       <view class="col">
         <term-picker
+          v-model="fieldTerm"
           class="picker"
-          :year="queryOptions.year"
-          :term="queryOptions.term"
-          :selectflag="0"
-          @changed="termChanged"
+          :term-year="+generalInfo.termYear"
         />
       </view>
       <view class="col">
         <refresh-button :is-refreshing="isFetching" @refresh="refetch" />
       </view>
     </bottom-panel>
-    <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
+    <w-modal v-model:show="showModal" title="公告" :content="helpText.exam" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { ref, toRef, watchEffect } from "vue";
+import { ref, toRef, watch, watchEffect } from "vue";
 import {
   BottomPanel,
   Card,
@@ -132,47 +130,42 @@ import {
   WDescriptionsItem,
   WModal
 } from "@/components";
-import dayjs, { ConfigType } from "dayjs";
 import { helpText } from "@/constants/copywriting";
 import { Image as TaroImage } from "@tarojs/components";
 import ExamCoverImage from "@/assets/photos/exam.svg";
-import "./index.scss";
 import useExamQueryOptionsStore from "@/hooks/exam/queryOptions";
 import Taro from "@tarojs/taro";
 import useExamQuery from "@/hooks/exam/useExamQuery";
+import useGeneralInfo from "@/store/system/generalInfo";
+import { ExamTermOption } from "@/types/Exam";
+import { timeInterval, getDetailedTime } from "./utils";
+import "./index.scss";
 
-const queryOptions = useExamQueryOptionsStore();
 const showModal = ref(false);
-const helpContent = helpText.exam;
+const queryOptions = useExamQueryOptionsStore();
+const generalInfo = useGeneralInfo();
+
+const fieldTerm = ref<ExamTermOption>({
+  year: queryOptions.year,
+  term: queryOptions.term
+});
 
 const { data: examsInfo, refetch, isFetching, error } = useExamQuery({
-  year: toRef(queryOptions, "year"),
-  term: toRef(queryOptions, "term")
+  year: toRef(() => fieldTerm.value.year),
+  term: toRef(() => fieldTerm.value.term)
 });
 
 watchEffect(() => {
-  if (error.value instanceof Error) {
+  if (error.value !== null) {
     Taro.showToast({ title: `查询考试失败: ${error.value.message}`, icon: "none" });
   }
 });
 
-async function termChanged(e) {
-  queryOptions.setOption(e);
-}
+watch(fieldTerm, (newValue) => {
+  queryOptions.setOption(newValue);
+});
 
-function getDetailedTime(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-  return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-}
-
-function timeInterval(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
-}
-
-function showHelp() {
+function handleShowHelp() {
   showModal.value = true;
 }
-
 </script>
