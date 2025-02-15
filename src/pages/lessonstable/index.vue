@@ -21,7 +21,7 @@
           class="back-button"
           size="large"
           shape="circle"
-          @tap="backToOriginWeek"
+          @tap="handleBackToOriginWeek"
         >
           <view class="iconfont icon-back" />
         </w-button>
@@ -32,6 +32,7 @@
       <view v-else class="col">
         <term-picker
           v-model="fieldTerm"
+          :term-year="+generalInfo.termYear"
           class="picker"
         />
       </view>
@@ -51,7 +52,7 @@
         <view>班级：{{ lookUpLesson.className }} </view>
         <view>教师：{{ lookUpLesson.teacherName }} </view>
         <view>
-          时间：{{ lookUpLesson.week }}丨{{ detailWeekDay(lookUpLesson.weekday) }} ({{
+          时间：{{ lookUpLesson.week }}丨{{ composeWeekdayString(lookUpLesson.weekday) }} ({{
             lookUpLesson.sections
           }})丨{{ detailTimeInterval }}
         </view>
@@ -83,6 +84,7 @@ import WeekSwitcherIcon from "@/assets/icons/term-week-swicher/week.svg";
 import { Image as TaroImage } from "@tarojs/components";
 import useLessonTableQuery from "@/store/service/lessonTable";
 import Taro from "@tarojs/taro";
+import { composeWeekdayString } from "./utils";
 import "./index.scss";
 
 const generalInfo = useGeneralInfo();
@@ -106,7 +108,7 @@ const { data, error, refetch, isFetching } = useLessonTableQuery({
 });
 
 watchEffect(() => {
-  if (error.value instanceof Error) {
+  if (error.value !== null) {
     Taro.showToast({ title: `更新课表失败: ${error.value.message}`, icon: "none" });
   }
 });
@@ -131,10 +133,14 @@ const lessonsTableWeek = computed(() => {
 });
 
 const isThisWeek = computed(() => {
-  return (
-    fieldWeek.value === ORIGIN_WEEK &&
-          JSON.stringify(ORIGIN_TERM) === JSON.stringify(fieldTerm.value)
-  );
+  if (
+    fieldWeek.value === ORIGIN_WEEK
+    && fieldTerm.value.term === ORIGIN_TERM.term
+    && fieldTerm.value.year === ORIGIN_TERM.year
+  ) {
+    return false;
+  }
+  return true;
 });
 
 const detailTimeInterval = computed(() => {
@@ -164,14 +170,8 @@ function handleTapLesson(theClass: Lesson) {
   lookUpLesson.value = theClass;
 }
 
-function backToOriginWeek() {
+function handleBackToOriginWeek() {
   fieldTerm.value = ORIGIN_TERM;
   fieldWeek.value = ORIGIN_WEEK;
 }
-
-function detailWeekDay(weekDay: string) {
-  const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
-  return `周${charEnum[parseInt(weekDay) - 1]}`;
-}
-
 </script>
