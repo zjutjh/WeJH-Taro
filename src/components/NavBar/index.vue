@@ -6,10 +6,11 @@
       @tap="nav('home')"
     >
       <image
+        v-if="isShowByUrl"
         :src="pageName === 'home' && !showPop ?
-        barIcons.selected_home_icon : barIcons.home_icon"
-        v-if="isShowByUrl"/>
-      <view class="iconfont icon-home" v-else/>
+          barIcons.selected_home_icon : barIcons.home_icon"
+      />
+      <view v-else class="iconfont icon-home" />
       <view class="description">
         首页
       </view>
@@ -23,9 +24,10 @@
       @tap="plusClick"
     >
       <image
+        v-if="isShowByUrl"
         :src="showPop ? barIcons.selected_function_icon : barIcons.function_icon"
-        v-if="isShowByUrl"/>
-      <view class="iconfont icon-applist" v-else/>
+      />
+      <view v-else class="iconfont icon-applist" />
       <view class="description">
         功能
       </view>
@@ -39,9 +41,10 @@
       @tap="nav('my')"
     >
       <image
+        v-if="isShowByUrl"
         :src="pageName === 'my' && !showPop ? barIcons.selected_my_icon : barIcons.my_icon"
-        v-if="isShowByUrl"/>
-      <view class="iconfont icon-user" v-else/>
+      />
+      <view v-else class="iconfont icon-user" />
       <view class="description">
         我的
       </view>

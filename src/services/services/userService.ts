@@ -11,9 +11,9 @@ import { ThemeList } from "@/store/service/theme";
 export default class UserService {
   static getUserTheme = () => {
     return request<{
-        current_theme_id: number;
-        current_theme_dark_id: number;
-        theme_list: ThemeList
+      current_theme_id: number;
+      current_theme_dark_id: number;
+      theme_list: ThemeList
     }>(
       api.user.theme.get, {
         method: "GET",
@@ -22,8 +22,8 @@ export default class UserService {
     );
   };
 
-  static setTheme = (data: { id: number , dark_id: number }) => {
-    return request<{    
+  static setTheme = (data: { id: number, dark_id: number }) => {
+    return request<{
       null
     }>(
       api.user.theme.set, {

@@ -10,7 +10,7 @@ type applistIcon = {
   electricity_icon: string;
   schoolbus_icon: string;
   cloth_icon: string;
-}
+};
 
 export interface Config {
   bar_icon: {
@@ -44,9 +44,11 @@ export interface Theme {
   theme_id: number;
 }
 
-export type ThemeList = Theme[]
+export type ThemeList = Theme[];
 
-type ThemeMode = {light: number; dark: number}
+type ThemeMode = {
+  light: number; dark: number
+};
 
 export interface ThemeStoreType {
   hadTheme: ThemeList;
@@ -55,7 +57,7 @@ export interface ThemeStoreType {
   darkMode: DarkModeOption
 }
 
-export const defaultConfig_light = {
+export const defaultConfigLight: Config = {
   bar_icon: {
     home_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_light.png",
     function_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_light.png",
@@ -65,42 +67,42 @@ export const defaultConfig_light = {
     selected_my_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_light_green.png"
   },
   applist_icon: {
-      class_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf_table_white.png",
-      grade_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/grade_white.png",
-      exam_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam_white.png",
-      free_classroom_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-white.png",
-      schoolcard_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-white.png",
-      lend_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book-white.png",
-      electricity_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-white.png",
-      schoolbus_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-white.png",
-      cloth_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-white.png"
+    class_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf_table_white.png",
+    grade_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/grade_white.png",
+    exam_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam_white.png",
+    free_classroom_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-white.png",
+    schoolcard_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-white.png",
+    lend_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book-white.png",
+    electricity_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-white.png",
+    schoolbus_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-white.png",
+    cloth_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-white.png"
   },
   applist_dark_icon: {
-      class_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf-table-black(unused).png",
-      grade_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/score-black(unused).png",
-      exam_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam-black(unused).png",
-      free_classroom_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-black(unused).png",
-      schoolcard_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-black(unused).png",
-      lend_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book(unused).png",
-      electricity_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-black(unused).png",
-      schoolbus_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-black(unused).png",
-      cloth_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-black(unused).png"
+    class_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf-table-black(unused).png",
+    grade_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/score-black(unused).png",
+    exam_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam-black(unused).png",
+    free_classroom_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-black(unused).png",
+    schoolcard_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-black(unused).png",
+    lend_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book(unused).png",
+    electricity_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-black(unused).png",
+    schoolbus_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-black(unused).png",
+    cloth_icon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-black(unused).png"
   },
-  selection_img: '',
-  background_img: '#green',
+  selection_img: "",
+  background_img: "#green",
   background_color: "#f5f5f5",
   background_position: "bottom 0 right 50%",
-  base_color:{
-      base_500: "#d3f5ed",
-      base_600: "#53d1b6",
-      base_700: "#51bbbb"
+  base_color: {
+    base_500: "#d3f5ed",
+    base_600: "#53d1b6",
+    base_700: "#51bbbb"
   }
-}
-export const defaultConfig_dark = {
+};
+export const defaultConfigDark = {
   bar_icon: {
     home_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_dark.png",
     function_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_dark.png",
-     my_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_dark.png",
+    my_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_dark.png",
     selected_home_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_dark_green.png",
     selected_function_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_dark_green.png",
     selected_my_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_dark_green.png"
@@ -135,36 +137,34 @@ export const defaultConfig_dark = {
     base_500: "#334843",
     base_600: "#4ab59e",
     base_700: "#48a2a2"
-  },
-}
+  }
+};
 
 export const defaultTheme = {
   light: {
     name: "绿",
     is_dark_mode: false,
     theme_id: 18,
-    theme_config: defaultConfig_light
+    theme_config: defaultConfigLight
   },
   dark: {
     name: "绿",
     is_dark_mode: true,
     theme_id: 23,
-    theme_config: defaultConfig_dark
+    theme_config: defaultConfigDark
   }
-}
-
-
+};
 
 export const ThemeStore = {
   state: {
     hadTheme: [defaultTheme.light, defaultTheme.dark],
-    /**themeMode默认值需要根据实际环境来维护*/
+    /** themeMode默认值需要根据实际环境来维护*/
     themeMode: {
       light: 18,
       dark: 23
     },
     /** 正在使用的主题的config*/
-    config: defaultConfig_light,
+    config: defaultConfigLight,
     darkMode: {
       mode: "light",
       isAdapted: false

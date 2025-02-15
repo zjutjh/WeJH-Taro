@@ -1,4 +1,4 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
 
 .lab-card {
 
@@ -50,10 +50,7 @@
         width: $block-width;
         height: $block-height;
         border-radius: 10px;
-        font-size: 0.875rem;
         opacity: 0.8;
-
-        object-fit: cover;
       }
     }
 

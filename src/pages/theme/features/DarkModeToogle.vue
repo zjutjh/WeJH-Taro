@@ -1,11 +1,6 @@
 <template>
-  <w-list
-    class="dark-mode-toggle"
-    style="border-radius: 8px;"
-  >
-    <w-list-item
-      arrow="right"
-      @tap="handleAdaptToggle">
+  <w-list class="dark-mode-toggle" style="border-radius: 8px;">
+    <w-list-item arrow="right" @tap="handleAdaptToggle">
       <view class="text-wrapper">
         <text> 自动设置 </text>
         <text class="state">
@@ -16,11 +11,11 @@
     <w-list-item>
       <view class="text-wrapper">
         <text>深色模式</text>
-        <WSwtich
+        <w-swtich
+          :bind-value="mode"
+          active-value="light"
+          in-active-value="dark"
           @tap="handleDarkToogle"
-            :bind-value="mode"
-            active-value="light"
-            in-active-value="dark"
         />
       </view>
     </w-list-item>
@@ -28,9 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { WList, WListItem } from "@/components";
+import { WList, WListItem, WSwtich } from "@/components";
 import { useDarkMode } from "@/hooks";
-import { WSwtich } from "@/components";
 import Taro from "@tarojs/taro";
 import { computed } from "vue";
 const optionValueMap = {
@@ -58,11 +52,9 @@ const handleAdaptToggle = () => {
 };
 
 const handleDarkToogle = () => {
-  setMode(mode.value === "light" ? "dark" : "light")
-  setIsAdapted(false)
-}
-
-
+  setMode(mode.value === "light" ? "dark" : "light");
+  setIsAdapted(false);
+};
 </script>
 
 <style lang="scss">
