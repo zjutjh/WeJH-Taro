@@ -41,7 +41,7 @@
 
     .tab-activity {
       $block-width: 240px;
-      $block-height: calc(#{$block-width} * (2/3));
+      $block-height: 160px;
 
       width: $block-width;
       height: calc(#{$block-height} + 1.5rem);

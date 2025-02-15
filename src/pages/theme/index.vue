@@ -169,7 +169,7 @@ const handleActiveBorder = (item: Theme) => {
   borderColor = darkMode.value === "light" ? borderColorLight : borderColorDark;
 
   if (currentThemeMode.value.light === item.theme_id || currentThemeMode.value.dark === item.theme_id) {
-    return "2.5px solid " + borderColor;
+    return "5rpx solid " + borderColor;
   } else return "";
 };
 </script>

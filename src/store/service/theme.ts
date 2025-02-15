@@ -98,7 +98,7 @@ export const defaultConfigLight: Config = {
     base_700: "#51bbbb"
   }
 };
-export const defaultConfigDark = {
+export const defaultConfigDark: Config = {
   bar_icon: {
     home_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_dark.png",
     function_icon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_dark.png",
