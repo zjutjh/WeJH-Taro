@@ -70,23 +70,20 @@
         </card>
         <card v-if="scoreList?.length !== 0">
           <view class="score-help">
-            {{ helpContent }}
+            {{ helpText.score }}
           </view>
         </card>
       </view>
     </scroll-view>
     <bottom-panel class="score-bottom-panel">
       <view class="col">
-        <refresh-button :is-refreshing="loading" @refresh="refresh" />
+        <refresh-button :is-refreshing="loading" @refresh="handleRefresh" />
       </view>
       <view class="col">
         <term-picker
+          v-model="fieldTerm"
           class="picker"
-          :term="queryOption.term"
-          :year="queryOption.year"
-          :period="queryOption.period"
-          :selectflag="1"
-          @changed="handleChangeTerm"
+          :term-year="+generalInfo.scoreYear"
         />
       </view>
       <view class="col">
@@ -99,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from "vue";
+import { computed, ref, toRef, watch } from "vue";
 import {
   BottomPanel,
   Card,
@@ -117,14 +114,21 @@ import { helpText } from "@/constants/copywriting";
 import "./index.scss";
 import useScoreQuery from "@/hooks/score/query";
 import useScoreQueryOptionStore from "@/hooks/score/queryOptions";
-import { FinalTermScore, MidTermScore } from "@/types/Score";
+import { FinalTermScore, MidTermScore, ScoreTermOption } from "@/types/Score";
 import useUser from "@/hooks/user/info";
+import useGeneralInfo from "@/store/system/generalInfo";
 
+const generalInfo = useGeneralInfo();
 const queryOption = useScoreQueryOptionStore();
+const fieldTerm = ref<ScoreTermOption>({
+  year: queryOption.year,
+  term: queryOption.term,
+  period: queryOption.period
+});
 const { list, refetch: refetchScore, loading } = useScoreQuery({
-  year: toRef(queryOption, "year"),
-  term: toRef(queryOption, "term"),
-  period: toRef(queryOption, "period")
+  year: toRef(fieldTerm.value.year),
+  term: toRef(fieldTerm.value.term),
+  period: toRef(fieldTerm.value.period)
 });
 
 const { info: userInfo } = useUser();
@@ -138,15 +142,7 @@ const scoreList = computed(() => {
     : list.value;
 });
 
-const helpContent = computed(() => {
-  return helpText.score;
-});
-
-async function handleChangeTerm(e) {
-  queryOption.setOption(e);
-}
-
-async function refresh() {
+async function handleRefresh() {
   if (loading.value) return;
   refetchScore();
 }
@@ -196,6 +192,10 @@ const relativeTermInfo = computed(() => {
     }
   }
   return `大${char}${queryOption.term}学期`;
+});
+
+watch(fieldTerm, newValue => {
+  queryOption.setOption(newValue);
 });
 
 </script>
