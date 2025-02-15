@@ -12,10 +12,7 @@
               <view class="iconfont icon-electricity" />
             </view>
             <view class="text-wrapper">
-              <text>{{ room.name }}</text>
-              <text class="week">
-                房间号 {{ room.code }}
-              </text>
+              <text>{{ balanceInfo?.room ?? "-" }}</text>
             </view>
           </view>
         </card>
@@ -25,7 +22,7 @@
             <view class="text-wrapper">
               <text> 剩余总电量 </text>
               <text :class="[isUrgent ? 'dangerous' : 'normal', 'rest-number']">
-                {{ balance.toFixed(2) }}
+                {{ balanceInfo?.balance.toFixed(2) ?? '-' }}
               </text>
               <text> 度 </text>
             </view>
@@ -43,11 +40,11 @@
           <w-list-item arrow="right" class="electricity-list-item">
             <view class="text-wrapper" style="justify-content: space-between;">
               <text> 每日用电记录 </text>
-              <text v-if="consumptionLoading" class="today">
+              <text v-if="isFetching" class="today">
                 正在加载...
               </text>
-              <text v-else-if="todayConsumption" class="today">
-                今日已用: {{ todayConsumption }} kwh
+              <text v-else-if="consumption" class="today">
+                昨日已用: {{ consumption }}
               </text>
             </view>
           </w-list-item>
@@ -70,35 +67,50 @@
         </w-list>
       </view>
     </scroll-view>
+    <bottom-panel>
+      <campus-picker v-model="fieldCampus" />
+    </bottom-panel>
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
 import {
+  BottomPanel,
   Card,
   ThemeConfig,
   TitleBar,
   WList,
   WListItem
 } from "@/components";
-import { computed } from "vue";
+import { computed, ref, watch, watchEffect } from "vue";
 import Taro from "@tarojs/taro";
-import useElectricityBalanceStore from "@/store/service/balance";
-import { storeToRefs } from "pinia";
-import { useRequestNext } from "@/hooks";
 import { YxyService } from "@/services";
 import ElectricityCoverImage from "@/assets/photos/electricity.svg";
 import { Image as TaroImage } from "@tarojs/components";
+import useElectricityBalanceQuery from "@/store/service/balance";
+import { useQuery } from "@tanstack/vue-query";
+import CampusPicker from "./components/campus-picker.vue";
+import useElectricityQueryOption from "./composables/useElectricityQueryOption";
+import { RequestError } from "@/utils";
+import "./index.scss";
 
-const { room, balance } = storeToRefs(useElectricityBalanceStore());
-const { loading: consumptionLoading, data: consumption } = useRequestNext(
-  YxyService.queryConsumption, {
-    initialData: []
+const queryOptions = useElectricityQueryOption();
+const fieldCampus = ref(queryOptions.campus);
+const { data: balanceInfo, error: balanceError } = useElectricityBalanceQuery({
+  campus: fieldCampus
+});
+const { data: consumption, isFetching } = useQuery({
+  queryKey: ["electricity/consumption", fieldCampus] as const,
+  queryFn: ({ queryKey }) => YxyService.queryConsumption({ campus: queryKey[1] }),
+  select: raw => raw.at(0)?.used
+});
+
+const isUrgent = computed(() => {
+  if (balanceInfo.value) {
+    return balanceInfo.value?.balance < 20;
   }
-);
-const todayConsumption = computed(() => consumption.value[0]?.used);
-const isUrgent = computed(() => balance.value < 20);
+  return false;
+});
 
 function nav2Record() {
   Taro.navigateTo({
@@ -118,4 +130,18 @@ function nav2Subscribe() {
   });
 }
 
+watchEffect(() => {
+  const error = balanceError.value;
+  if (error instanceof RequestError && error.code === 200525) {
+    Taro.showModal({
+      content: "未绑定该校区，请尝试选择其他校区"
+    });
+  } else if (error instanceof Error) {
+    Taro.showToast({ title: error.message, icon: "none" });
+  }
+});
+
+watch(fieldCampus, newValue => {
+  queryOptions.campus = newValue;
+});
 </script>

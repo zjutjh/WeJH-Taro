@@ -31,9 +31,12 @@
 
 }
 
+.consumption-list {
+  background-color: var(--wjh-color-primary-light);
+}
+
 .consumption-list-item {
   border-radius: 16rpx;
-  background-color: var(--wjh-color-primary-light);
 
   .text-wrapper {
     padding: 8rpx;

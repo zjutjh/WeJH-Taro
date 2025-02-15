@@ -47,23 +47,30 @@ export default class YxyService {
   };
 
   /** 查询电费余额 */
-  static queryBalance = async () => {
+  static queryBalance = async (params: {
+    campus: string
+  }) => {
     return request<{
       display_room_name: string;
-      md_name: string;
-      room_code: string;
-      soc: number; // kwh
-      soc_amount: number; // rmb
-    }>(api.electricity.balance);
+      room_str_concat: string;
+      /** kwh */
+      soc: number;
+    }>(api.electricity.balance, {
+      params
+    });
   };
 
   /** 查询用电记录 */
-  static queryConsumption = async () => {
+  static queryConsumption = async (params: {
+    campus: string;
+  }) => {
     return request<Array<{
       datetime: string;
       room_dm: string;
       used: string;
-    }>>(api.electricity.consumption);
+    }>>(api.electricity.consumption, {
+      params
+    });
   };
 
   /** 申请订阅电费警告 */
@@ -75,7 +82,10 @@ export default class YxyService {
   };
 
   /** 查询缴费记录 */
-  static queryRecord = async (params: { "page": string }) => {
+  static queryRecord = async (params: {
+    page: string;
+    campus: string;
+  }) => {
     return request<Array<{
       buy_type: string;
       datetime: string;

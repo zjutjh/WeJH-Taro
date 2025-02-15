@@ -4,23 +4,24 @@
     <card class="consumption-card">
       <scroll-view :scroll-y="true">
         <view class="container">
-          <card v-if="!loading && !records.length" class="no-item">
+          <card v-if="!isFetching && !records?.length" class="no-item">
             无用电记录
           </card>
           <template v-else>
-            <list
+            <w-list
               v-for="consumption in records"
               :key="consumption.room_dm"
+              class="consumption-list"
             >
-              <list-item class="consumption-list-item">
+              <w-list-item class="consumption-list-item">
                 <view class="text-wrapper">
                   <text> {{ consumption.datetime }} </text>
-                  <text> {{ consumption.used }}度 </text>
+                  <text> {{ consumption.used }} </text>
                 </view>
-              </list-item>
-            </list>
+              </w-list-item>
+            </w-list>
           </template>
-          <text v-if="loading" class="load">
+          <text v-if="isFetching" class="load">
             正在加载中...
           </text>
         </view>
@@ -31,17 +32,14 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { Card, ThemeConfig, TitleBar } from "@/components";
-import List from "../../../components/List/List.vue";
-import ListItem from "../../../components/List/ListItem.vue";
+import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import { YxyService } from "@/services";
-import { useRequestNext } from "@/hooks";
+import useElectricityQueryOption from "../composables/useElectricityQueryOption";
+import { useQuery } from "@tanstack/vue-query";
 
-// TODO: support read cached promise from entrance
-const { loading, data: records } = useRequestNext(
-  YxyService.queryConsumption, {
-    initialData: []
-  }
-);
-
+const queryOptions = useElectricityQueryOption();
+const { data: records, isFetching } = useQuery({
+  queryKey: ["electricity/consumption", queryOptions.campus] as const,
+  queryFn: ({ queryKey }) => YxyService.queryConsumption({ campus: queryKey[1] })
+});
 </script>
