@@ -18,8 +18,8 @@
         </template>
       </card>
 
-      <view :class="styles.action" @tap="handleTapSubscribe">
-        <w-button :disable="loading" size="large" shape="rounded">
+      <view :class="styles.action" @tap="subscribe">
+        <w-button :disable="isPending" size="large" shape="rounded">
           点击订阅
         </w-button>
       </view>
@@ -32,8 +32,7 @@ import { Card, ThemeConfig, TitleBar, WButton } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import styles from "./index.module.scss";
-import { RequestError } from "@/utils";
-import { useRequestNext } from "@/hooks";
+import { useMutation } from "@tanstack/vue-query";
 
 /**
   * 订阅包含两步
@@ -43,35 +42,27 @@ import { useRequestNext } from "@/hooks";
 async function subscribeImpl() {
   const tmplId = import.meta.env.VITE_ELECTRICITY_SUBSCRIBE_TEMPLATE_ID;
 
-  try {
-    // @ts-expect-error 少了个 entityIds，这是支付宝小程序的模板 id，实际消费不到
-    const wxResponse = await Taro.requestSubscribeMessage({ tmplIds: [tmplId] });
-    if (wxResponse[tmplId] === "accept") {
-      await YxyService.queryElectricitySubscription();
-      Taro.showToast({ title: "订阅成功", icon: "none" });
-    }
-  } catch (e) {
-    console.error(e);
-    if (e instanceof RequestError) throw e;
-    if (e.errMsg) throw new Error(e.errMsg);
+  // @ts-expect-error 少了个 entityIds，这是支付宝小程序的模板 id，实际消费不到
+  const wxResponse = await Taro.requestSubscribeMessage({ tmplIds: [tmplId] });
+  if (wxResponse[tmplId] === "accept") {
+    return YxyService.queryElectricitySubscription();
   }
+  throw new Error("订阅失败");
 };
 
-const { loading, run: subscribe } = useRequestNext(subscribeImpl, {
-  manual: true,
-  initialData: undefined,
+const { isPending, mutate: subscribe } = useMutation({
+  mutationFn: subscribeImpl,
+  onSuccess: () => {
+    Taro.showToast({ title: "订阅成功", icon: "success" });
+  },
   onError: (e) => {
-    if (e instanceof RequestError) {
-      Taro.showToast({ title: `订阅异常: ${e.message}`, icon: "none" });
+    // TODO: 上报失败原因
+    if ("errMsg" in e) {
+      throw new Error(e.errMsg);
     } else if (e instanceof Error) {
-      Taro.showToast({ title: `客户端异常: ${e.message}`, icon: "none" });
+      Taro.showToast({ title: e.message, icon: "none" });
     }
   }
 });
-
-function handleTapSubscribe() {
-  if (loading.value) return;
-  subscribe();
-}
 
 </script>
