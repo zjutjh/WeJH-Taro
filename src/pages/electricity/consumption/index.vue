@@ -34,7 +34,7 @@
 import "./index.scss";
 import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import { YxyService } from "@/services";
-import useElectricityQueryOption from "../composables/useElectricityQueryOption";
+import useElectricityQueryOption from "@/hooks/electricity/useElectricityQueryOption";
 import { useQuery } from "@tanstack/vue-query";
 
 const queryOptions = useElectricityQueryOption();

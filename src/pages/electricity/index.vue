@@ -90,7 +90,7 @@ import { Image as TaroImage } from "@tarojs/components";
 import useElectricityBalanceQuery from "@/store/service/balance";
 import { useQuery } from "@tanstack/vue-query";
 import CampusPicker from "./components/campus-picker.vue";
-import useElectricityQueryOption from "./composables/useElectricityQueryOption";
+import useElectricityQueryOption from "../../hooks/electricity/useElectricityQueryOption";
 import { RequestError } from "@/utils";
 import "./index.scss";
 

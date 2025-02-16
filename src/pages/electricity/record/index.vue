@@ -39,7 +39,7 @@ import dayjs from "dayjs";
 import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import { YxyService } from "@/services";
 import { useInfiniteQuery } from "@tanstack/vue-query";
-import useElectricityQueryOption from "../composables/useElectricityQueryOption";
+import useElectricityQueryOption from "@/hooks/electricity/useElectricityQueryOption";
 import "./index.scss";
 
 const queryOptions = useElectricityQueryOption();
