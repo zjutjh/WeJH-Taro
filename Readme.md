@@ -8,10 +8,11 @@
 
 ## 技术栈
 
-- Vue3
-- Typescript
-- Taro
-- Vuex
+- typescript
+- vue@3.5
+- pinia
+- taro@4
+- @tanstack/vue-query
 
 ## 快速开始
 1. 下载微信开发者工具
@@ -38,8 +39,6 @@
 - Taro官方文档: [https://docs.taro.zone/docs/](https://docs.taro.zone/docs/)
 
 - 小程序后端: [https://github.com/zjutjh/wejh-go](https://github.com/zjutjh/wejh-server-docs)
-
-- 小程序后台: [https://github.com/zjutjh/JingHong-Admin-Vue](https://github.com/zjutjh/JingHong-Admin-Vue)
 
 - 微精弘1.0: [https://github.com/zjutjh/wejh-weapp](https://github.com/zjutjh/wejh-weapp)
 
