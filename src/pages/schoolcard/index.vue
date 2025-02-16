@@ -5,32 +5,24 @@
       <view class="school-card">
         <taro-image mode="aspectFit" :src="SchoolCardCoverImage" />
         <text class="balance">
-          ¥ {{ cardBalanceStore.balance }}
+          ¥ {{ balanceInfo?.balance ?? "-" }}
         </text>
       </view>
       <card class="consume-card">
         <template #header>
           <view class="col" />
           <view class="col">
-            <picker
-              mode="date"
-              :value="selectedDate"
-              :start="dayjs().subtract(69, 'day').format('YYYY-MM-DD')"
-              :end="dayjs().format('YYYY-MM-DD')"
-              @change="handleChangeDate"
-            >
-              <w-button>{{ selectedDate }}</w-button>
-            </picker>
+            <date-picker v-model="fieldDate" />
           </view>
           <view class="col">
             <refresh-button
-              :is-refreshing="loading"
-              @tap="updateData"
+              :is-refreshing="isFetching"
+              @tap="refetch"
             />
           </view>
         </template>
         <view class="flex-column">
-          <card v-if="consumeList.length === 0" style="text-align: center">
+          <card v-if="consumeList?.length === 0" style="text-align: center">
             <view> 无消费记录 </view>
           </card>
           <template v-else>
@@ -70,65 +62,57 @@
 
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue";
-import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
+import { Card, RefreshButton, ThemeConfig, TitleBar } from "@/components";
 import dayjs from "dayjs";
-import "./index.scss";
 import { YxyService } from "@/services";
-import { Picker, Image as TaroImage } from "@tarojs/components";
+import { Image as TaroImage } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import useCardBalanceStore from "@/store/service/cardBalance";
+import useSchoolCardBalanceQuery from "@/store/service/cardBalance";
 import { RequestError } from "@/utils";
-import { useRequestNext } from "@/hooks";
 import SchoolCardCoverImage from "@/assets/photos/card.svg";
+import { useQuery } from "@tanstack/vue-query";
+import DatePicker from "./components/date-picker.vue";
+import "./index.scss";
 
-const cardBalanceStore = useCardBalanceStore();
-const selectedDate = ref(dayjs().format("YYYY-MM-DD")); // YYYY-MM-DD
+const fieldDate = ref(dayjs().format("YYYYMMDD"));
+const { data: balanceInfo, error: balanceError } = useSchoolCardBalanceQuery();
+
+const { data: consumeList, isFetching, error, refetch } = useQuery({
+  queryKey: ["schoolCard/record", fieldDate] as const,
+  queryFn: ({ queryKey }) => YxyService.querySchoolCardRecord({
+    queryTime: queryKey[1]
+  }),
+  select: raw => raw?.filter(item => parseFloat(item.money) !== 0) ?? []
+});
+
+const totalConsume = computed(() => {
+  return consumeList.value?.reduce((prev, curr) => {
+    const value = +curr.money;
+    if (value < 0) return prev + Math.abs(value);
+    return prev;
+  }, 0) ?? 0;
+});
 
 watchEffect(() => {
-  const error = cardBalanceStore.error;
+  const error = balanceError.value;
   if (error instanceof RequestError && error.code === 200514) {
     Taro.showModal({
       title: "查询余额失败",
       content: error.message,
-      confirmText: "重新登录",
+      confirmText: "重新绑定",
       success: (res) => {
         if (res.confirm)
           Taro.navigateTo({ url: "/pages/bind/index" });
       }
     });
+  } else if (error instanceof Error) {
+    Taro.showToast({ title: `查询余额失败：${error.message}`, icon: "none" });
   }
 });
 
-const { data: records, run: queryRecord, loading } = useRequestNext(
-  YxyService.querySchoolCardRecord, {
-    defaultParams: { queryTime: dayjs().format("YYYYMMDD") },
-    initialData: [],
-    onError: (e) => {
-      if (e instanceof RequestError)
-        Taro.showToast({ title: `查询消费记录失败：${e.message}`, icon: "none" });
-    }
+watchEffect(() => {
+  if (error.value instanceof Error) {
+    Taro.showToast({ title: `查询消费记录失败：${error.value.message}`, icon: "none" });
   }
-);
-
-const consumeList = computed(() => {
-  return records.value.filter((item) => parseFloat(item.money) !== 0);
 });
-
-const totalConsume = computed(() => {
-  return records.value.reduce((prev, curr) => {
-    const value = +curr.money;
-    if (value < 0) return prev + Math.abs(value);
-    return prev;
-  }, 0);
-});
-
-async function updateData() {
-  queryRecord({ queryTime: selectedDate.value.split("-").join("") });
-}
-
-const handleChangeDate = (e) => {
-  selectedDate.value = e.detail.value;
-  queryRecord({ queryTime: selectedDate.value.split("-").join("") });
-};
-
 </script>

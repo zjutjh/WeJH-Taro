@@ -1,40 +1,24 @@
-import { useRequestNext } from "@/hooks";
 import { YxyService } from "@/services";
-import { MPErrorCode, persistedStorage, RequestError } from "@/utils";
-import Taro from "@tarojs/taro";
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { MPErrorCode, RequestError } from "@/utils";
+import { useQuery } from "@tanstack/vue-query";
 
-const useCardBalanceStore = defineStore("cardBalance", () => {
-  const updateTime = ref<string>();
-
-  const { data: balance, error } = useRequestNext(
-    () => YxyService.querySchoolCardBalance().then(value => {
-      if (!Number.isFinite(+value)) throw new RequestError("无效余额值", MPErrorCode.MP_INVALID_DATA_VALUE);
-      return +value;
-    }), {
-      initialData: 0,
-      onSuccess: () => {
-        updateTime.value = Date().toString();
-      },
-      onError: (e) => {
-        if (e instanceof RequestError) {
-          Taro.showToast({ title: `查询校园卡余额失败: ${e.message}`, icon: "none" });
-        }
-      }
-    }
-  );
+async function schoolCardBalanceFetcher() {
+  const balance = await YxyService.querySchoolCardBalance();
+  if (!Number.isFinite(+balance)) {
+    throw new RequestError("无效余额值", MPErrorCode.MP_INVALID_DATA_VALUE);
+  }
 
   return {
     balance,
-    error,
-    updateTime
+    _upTime: Date.now()
   };
-}, {
-  persist: {
-    storage: persistedStorage,
-    pick: ["balance", "updateTime"]
-  }
-});
+}
 
-export default useCardBalanceStore;
+function useSchoolCardBalanceQuery() {
+  return useQuery({
+    queryKey: ["schoolCard/balance"],
+    queryFn: schoolCardBalanceFetcher
+  });
+}
+
+export default useSchoolCardBalanceQuery;

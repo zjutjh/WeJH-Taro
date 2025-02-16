@@ -10,25 +10,27 @@
       当前余额 ({{ balanceUpdateTimeString }})
     </text>
     <view class="quickcard-balance">
-      <text> ¥ {{ cardBalanceStore.balance }} </text>
+      <text> ¥ {{ data?.balance ?? "-" }} </text>
     </view>
   </quick-view>
 </template>
 
 <script setup lang="ts">
-import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed } from "vue";
+import QuickView from "../QuickView/index.vue";
+import useSchoolCardBalanceQuery from "@/store/service/cardBalance";
 import "./index.scss";
-import useCardBalanceStore from "@/store/service/cardBalance";
 
-const cardBalanceStore = useCardBalanceStore();
-
+const { data, error } = useSchoolCardBalanceQuery();
 const emit = defineEmits(["showHelp"]);
 
 const balanceUpdateTimeString = computed(() => {
-  return !cardBalanceStore.error ? dayjs(cardBalanceStore.updateTime).fromNow() : "更新失败";
+  if (!data.value?._upTime || error.value) {
+    return "更新失败";
+  }
+  return dayjs(data.value?._upTime).fromNow();
 });
 
 function nav2Card() {

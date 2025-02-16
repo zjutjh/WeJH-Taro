@@ -105,7 +105,6 @@ export default class YxyService {
    * 可能报错易校园登录过期
    */
   static querySchoolCardBalance = async () => {
-    // TODO: 删除了异常处理逻辑
     return request<string>(api.card.balance);
   };
 
@@ -126,12 +125,11 @@ export default class YxyService {
       serial_no: string;
       time: string;
       type: string;
-    }>>(
+    }> | null>(
       api.card.record, {
         method: "POST",
         params
       }
-      // TODO: 删除了异常处理逻辑
     );
   };
 }
