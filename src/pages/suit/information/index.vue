@@ -21,7 +21,7 @@
           <text>学号</text>
           <view>
             <input
-              v-model="initialData.student_id"
+              v-model="formModel.studentId"
               :disabled="true"
               :class="style.input"
             >
@@ -32,7 +32,7 @@
               <text>姓名</text>
               <view>
                 <input
-                  v-model="inputData.name"
+                  v-model="formModel.name"
                   :disabled="!isEditing"
                   :class="style.input"
                 >
@@ -43,7 +43,7 @@
               <text>性别</text>
               <view>
                 <input
-                  v-model="inputData.gender"
+                  v-model="formModel.gender"
                   :disabled="!isEditing"
                   :class="style.input"
                   placeholder="男 / 女"
@@ -54,7 +54,7 @@
           <text>学院</text>
           <view>
             <input
-              v-model="inputData.college"
+              v-model="formModel.college"
               :disabled="!isEditing"
               :class="style.input"
               placeholder="如：计算机学院"
@@ -63,7 +63,7 @@
           <text>寝室</text>
           <view>
             <input
-              v-model="inputData.dormitory"
+              v-model="formModel.dormitory"
               :disabled="!isEditing"
               :class="style.input"
               placeholder="如：家和东苑1幢101室"
@@ -72,14 +72,14 @@
           <text>手机号码</text>
           <view>
             <input
-              v-model="inputData.contact"
+              v-model="formModel.contact"
               :disabled="!isEditing"
               :class="style.input"
             >
           </view>
           <template #footer>
             <view v-if="isEditing" :class="style.button">
-              <w-button :class="style.button_cancle" @tap="handleCancel">
+              <w-button :class="style.button_cancel" @tap="handleCancelEdit">
                 取消
               </w-button>
               <view>&ensp;</view>
@@ -90,14 +90,14 @@
             <w-button
               v-else-if="!isEditing"
               :block="true"
-              :disable="loading || !!error"
+              :disable="isFetching || !!error"
               @tap="handleStartEdit"
             >
               编辑
             </w-button>
           </template>
         </card>
-        <w-modal v-model:show="isShowHelp" :content="helpContent" />
+        <w-modal v-model:show="isShowHelp" :content="helpText.suit.information" />
       </view>
     </scroll-view>
   </theme-config>
@@ -105,60 +105,72 @@
 
 <script setup lang="ts">
 import style from "./index.module.scss";
-import { ref } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import { SuitService } from "@/services";
 import Taro from "@tarojs/taro";
 import { helpText } from "@/constants/copywriting";
 import { Image as TaroImage } from "@tarojs/components";
 import SuitInformationCoverImage from "@/assets/photos/suitapply-suitInformation.svg";
-import { useRequestNext } from "@/hooks";
-import { RequestError } from "@/utils";
-import { withTaroLoading } from "@/utils/promise";
+import { useQuery, useQueryClient } from "@tanstack/vue-query";
 
-const helpContent = helpText.suit.information;
+interface IFormModel {
+  studentId: string;
+  name: string;
+  gender: string;
+  college: string;
+  dormitory: string;
+  contact: string;
+};
 const isShowHelp = ref(false);
 const isEditing = ref(false);
-const inputData = ref({
-  student_id: "",
-  name: "",
-  gender: "",
-  college: "",
-  dormitory: "",
-  contact: ""
+const queryClient = useQueryClient();
+
+const { data: initialData, isFetching, error } = useQuery({
+  queryKey: ["suit/information"],
+  queryFn: SuitService.getInformation,
+  select: raw => ({
+    studentId: raw.student_id,
+    name: raw.name,
+    gender: raw.gender,
+    college: raw.college,
+    dormitory: raw.dormitory,
+    contact: raw.contact
+  }),
+  meta: {
+    persist: false
+  }
 });
+
+const formModel = ref<IFormModel>(
+  initialData.value ?
+    { ...initialData.value }
+    : {
+      studentId: "",
+      name: "",
+      gender: "",
+      college: "",
+      dormitory: "",
+      contact: ""
+    }
+);
 
 const handleStartEdit = () => {
   isEditing.value = true;
 };
 
-const { error, data: initialData, loading } = useRequestNext(
-  withTaroLoading(SuitService.getInformation, { title: "正在获取个人信息", mask: true }),
-  {
-    initialData: { id: 0, name: "", gender: "", student_id: "", college: "", dormitory: "", contact: "" },
-    onSuccess: (data) => {
-      inputData.value = { ...data };
-      isEditing.value = data.id === 0;
-    },
-    onError: (e: Error) => {
-      if (e instanceof RequestError)
-        Taro.showToast({ title: `获取信息失败: ${e.message}`, icon: "none" });
-    }
-  }
-);
-
 async function handleSubmit() {
   const phoneRegex = /^1\d{10}$/;
-  if (!phoneRegex.test(inputData.value.contact)) {
+  if (!phoneRegex.test(formModel.value.contact)) {
     Taro.showToast({ title: "请输入有效的手机号", icon: "none" });
     return;
   }
   const genderRegex = /^(男|女)$/;
-  if (!genderRegex.test(inputData.value.gender)) {
+  if (!genderRegex.test(formModel.value.gender)) {
     Taro.showToast({ title: "请输入有效的性别（男/女）", icon: "none" });
     return;
   }
-  const hasEmptyString = Object.values(inputData.value).some(
+  const hasEmptyString = Object.values(formModel.value).some(
     (value) => typeof value === "string" && value.trim() === ""
   );
   if (hasEmptyString) {
@@ -168,18 +180,36 @@ async function handleSubmit() {
 
   try {
     Taro.showLoading({ title: "正在保存", mask: true });
-    await SuitService.changeInformation(inputData.value);
+    await SuitService.changeInformation(formModel.value);
+    await queryClient.invalidateQueries({
+      queryKey: ["suit/information"]
+    });
     Taro.showToast({ title: "保存成功" });
   } catch (e) {
     Taro.showToast({ title: `编辑失败: ${e.message}`, icon: "none" });
+    if (initialData.value) {
+      formModel.value = { ...initialData.value };
+    }
   }
-
   isEditing.value = false;
-  Object.assign(initialData.value, inputData.value);
 };
 
-const handleCancel = () => {
+const handleCancelEdit = () => {
   isEditing.value = false;
-  Object.assign(inputData.value, initialData.value);
+  if (initialData.value) {
+    formModel.value = { ...initialData.value };
+  }
 };
+
+watch(initialData, newValue => {
+  if (newValue) {
+    formModel.value = { ...newValue };
+  }
+});
+
+watchEffect(() => {
+  if (error.value instanceof Error) {
+    Taro.showToast({ title: `获取信息失败: ${error.value.message}`, icon: "none" });
+  }
+});
 </script>

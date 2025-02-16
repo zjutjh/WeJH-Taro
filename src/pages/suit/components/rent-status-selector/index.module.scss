@@ -1,0 +1,30 @@
+.rent-status-selector {
+  display: flex;
+  font-size: 1.1rem;
+  color: var(--wjh-color-week);
+  background-color: var(--wjh-color-primary-light);
+
+  .scroll-view {
+    margin-top: -9px;
+    font-size: 0.9em;
+    display: flex;
+    overflow-x: auto;
+    align-items: center;
+    padding-right: 16Px;
+    flex: 1;
+    white-space: nowrap;
+
+    text {
+      transition: all .1s;
+      padding: 2Px 6Px;
+    }
+
+    text:active {
+      background-color: rgba(0, 0, 0, .06);
+    }
+
+    .active {
+      color: var(--wjh-color-primary-dark);
+    }
+  }
+}

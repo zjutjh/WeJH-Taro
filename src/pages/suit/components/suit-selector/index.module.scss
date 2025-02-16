@@ -1,0 +1,45 @@
+@import "@/style/theme.scss";
+
+.suit-selector {
+  display: flex;
+  flex: 0 0 auto;
+  margin-bottom: 6Px;
+  padding: 6Px;
+  padding-bottom: 16Px;
+  overflow-x: scroll;
+  white-space: nowrap;
+
+  .suits {
+    @include shadow;
+    position: relative;
+    height: 178Px;
+    margin: 0 6Px;
+    padding: 0Px 62Px;
+    border-radius: 12Px;
+    background-color: var(--wjh-color-week);
+    background-size: 100% 100%;
+    border: solid 4Px var(--wjh-color-background-page);
+    width: 124Px;
+
+    .suit-name {
+      width: 100%;
+      line-height: 200%;
+      position: absolute;
+      bottom: -4Px;
+      left: -4Px;
+      text-align: center;
+      border-radius: 0 0 12Px 12Px;
+      background-color: var(--wjh-color-background-container);
+      border: solid 4Px var(--wjh-color-background-container);
+      border-top: none;
+    }
+  }
+
+  .active {
+    border-color: var(--wjh-color-primary) !important;
+
+    .suit-name {
+      border-color: var(--wjh-color-primary) !important;
+    }
+  }
+}

@@ -1,79 +1,5 @@
 @import "@/style/theme.scss";
 
-.campus-selector {
-  padding: 12Px;
-
-  .container {
-    display: flex;
-    height: 100%;
-    gap: 16Px;
-  }
-
-  .campus {
-    @include shadow;
-    flex: 0 calc(100% / 3);
-    padding: 6Px 16Px;
-    border-radius: 100Px;
-    background-color: var(--wjh-color-primary-light);
-    color: var(--wjh-color-primary-dark);
-    text-align: center;
-    transition: all .1s;
-  }
-
-  .campus:active {
-    transform: scale(1.05);
-  }
-
-  .active {
-    background-color: var(--wjh-color-primary);
-    color: var(--wjh-color-white);
-  }
-}
-
-.suit-selector {
-  display: flex;
-  flex: 0 0 auto;
-  margin-bottom: 6Px;
-  padding: 6Px;
-  padding-bottom: 16Px;
-  overflow-x: scroll;
-  white-space: nowrap;
-
-  .suits {
-    @include shadow;
-    position: relative;
-    height: 178Px;
-    margin: 0 6Px;
-    padding: 0Px 62Px;
-    border-radius: 12Px;
-    background-color: var(--wjh-color-week);
-    background-size: 100% 100%;
-    border: solid 4Px var(--wjh-color-background-page);
-    width: 124Px;
-
-    .suit-name {
-      width: 100%;
-      line-height: 200%;
-      position: absolute;
-      bottom: -4Px;
-      left: -4Px;
-      text-align: center;
-      border-radius: 0 0 12Px 12Px;
-      background-color: var(--wjh-color-background-container);
-      border: solid 4Px var(--wjh-color-background-container);
-      border-top: none;
-    }
-  }
-
-  .active {
-    border-color: var(--wjh-color-primary) !important;
-
-    .suit-name {
-      border-color: var(--wjh-color-primary) !important;
-    }
-  }
-}
-
 .suit-panel {
   background-color: var(--wjh-color-background-popup);
   height: 100%;
@@ -96,30 +22,6 @@
       color: var(--wjh-color-primary);
     }
 
-    .size-scroll {
-      display: flex;
-      overflow-x: auto;
-      padding-bottom: 12Px;
-
-      .size-card {
-        @include shadow;
-        padding: 10Px 25Px;
-        margin-right: 16Px;
-        border: solid 2Px var(--wjh-color-week);
-        border-radius: 10Px;
-        color: var(--wjh-color-text-secondary);
-        text-align: center;
-
-        &.active {
-          border: solid 2Px var(--wjh-color-primary);
-          color: var(--wjh-color-primary);
-        }
-
-        text {
-          white-space: nowrap;
-        }
-      }
-    }
 
     .remain-suit-num {
       // display: inline-flex;
@@ -142,34 +44,7 @@
       }
     }
 
-    .rent-suit-number {
-      transition: all 0.1s; //need test
 
-      .number-symbol {
-        @include shadow;
-        display: inline-block;
-        height: 35Px;
-        width: 35Px;
-        border: solid 1Px var(--wjh-color-week);
-        border-radius: 5Px;
-        color: var(--wjh-color-week);
-        font-size: 1.6rem;
-        font-weight: var(--wjh-font-weight-medium);
-        text-align: center;
-        line-height: 35Px;
-
-        &:active {
-          color: var(--wjh-color-text-secondary);
-          background-color: var(--wjh-color-light);
-          border: solid 1Px var(--wjh-color-light);
-        }
-      }
-
-      .number-num {
-        display: inline-block;
-        margin: 0 30Px;
-      }
-    }
   }
 
   .confirm {
@@ -192,7 +67,7 @@
   margin: 0 30Px;
 }
 
-.card-alarmZhaoHui {
+.card-alarm-zh {
   margin: 0 20Px;
 }
 

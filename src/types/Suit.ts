@@ -1,19 +1,15 @@
-/**
- * 用户查看对应发布组织的问答
- * id  序号
- * title  标题
- * content  内容
- * publish_time  发布时间（2023-08-06T00:55:50+08:00 格式）
- * publisher  发布组织（“学生事务大厅”）
- */
+/** 用户查看对应发布组织的问答 */
 export interface SuitFaq {
   id: number;
   title: string;
   content: string;
+  /** publish_time  发布时间（2023-08-06T00:55:50+08:00 格式）*/
   publish_time: string,
+  /** 发布组织（“学生事务大厅”）*/
   publisher: string
 }
 
+/** 尺码信息 */
 export type Spec = {
   id: number,
   /** 尺码 */
@@ -22,6 +18,7 @@ export type Spec = {
   stock: number
 };
 
+/** 正装种类，e.g. 衬衫、皮带 */
 export type Suit = {
   img: string;
   name: string;

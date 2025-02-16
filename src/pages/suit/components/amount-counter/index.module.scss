@@ -1,0 +1,30 @@
+@import "@/style/theme.scss";
+
+.amount-counter {
+  transition: all 0.1s;
+
+  .number-symbol {
+    @include shadow;
+    display: inline-block;
+    height: 35Px;
+    width: 35Px;
+    border: solid 1Px var(--wjh-color-week);
+    border-radius: 5Px;
+    color: var(--wjh-color-week);
+    font-size: 1.6rem;
+    font-weight: var(--wjh-font-weight-medium);
+    text-align: center;
+    line-height: 35Px;
+
+    &:active {
+      color: var(--wjh-color-text-secondary);
+      background-color: var(--wjh-color-light);
+      border: solid 1Px var(--wjh-color-light);
+    }
+  }
+
+  .number-num {
+    display: inline-block;
+    margin: 0 30Px;
+  }
+}

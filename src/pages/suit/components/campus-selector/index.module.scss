@@ -1,7 +1,6 @@
 @import "@/style/theme.scss";
 
 .campus-selector {
-  background-color: var(--wjh-color-background-container);
   padding: 12Px;
 
   .container {
@@ -11,6 +10,7 @@
   }
 
   .campus {
+    @include shadow;
     flex: 0 calc(100% / 3);
     padding: 6Px 16Px;
     border-radius: 100Px;
@@ -28,8 +28,4 @@
     background-color: var(--wjh-color-primary);
     color: var(--wjh-color-white);
   }
-}
-
-.record-list {
-  padding: 16Px;
 }

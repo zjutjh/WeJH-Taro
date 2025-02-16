@@ -1,6 +1,7 @@
 @import "@/style/theme.scss";
 
 .container {
+  @include shadow;
   width: 100%;
   padding: 0 18Px;
   box-sizing: border-box;
@@ -23,6 +24,7 @@
     font-size: 1.1rem;
     line-height: 100%;
   }
+
   .icon-box {
     display: flex;
     border-radius: 8Px;
@@ -33,7 +35,8 @@
     margin-left: auto;
     align-items: center;
   }
-  .time{
+
+  .time {
     font-size: 0.8rem;
     line-height: 80%;
     margin-left: auto;
@@ -42,15 +45,17 @@
 
 .body {
 
-  .flex-container{
+  .flex-container {
     padding: 50px 0;
     display: flex;
+
     .content {
       max-width: 30%;
       padding: 6Px 0;
       white-space: pre-wrap;
       margin-left: auto;
       gap: 1.5rem;
+
       .text {
         margin-top: -20px;
         text-indent: -4em;
@@ -64,6 +69,7 @@
       gap: 6Px;
       padding-bottom: 6Px;
       margin-right: auto;
+
       .img-container {
         flex: 1; // dynamic
         display: flex;
@@ -86,7 +92,7 @@
 }
 
 .loan {
-  .header{
+  .header {
     color: var(--wjh-color-green-700);
   }
 }
@@ -103,12 +109,12 @@
   }
 }
 
-.button{
+.button {
   margin-left: auto;
   width: 200px;
   font-size: 0.9rem;
 }
 
-.wjh-modal-body{
+.wjh-modal-body {
   min-height: auto !important;
 }

@@ -85,24 +85,9 @@
           <text v-show="source.count" space="emsp" :class="styles.text">
             数量  {{ source.count }}
           </text>
-          <w-button :class="styles.button" @tap="handleClick">
+          <w-button :class="styles.button" @tap="handleCancel">
             取消申请
           </w-button>
-          <modal
-            v-model:show="isShowConfirm"
-            title="提示"
-            content="请确认是否要取消申请"
-            :actions="{
-              cancel: {
-                label: '取消',
-                callback: onCancel
-              },
-              confirm: {
-                label: '确定',
-                callback: handleConfirm
-              }
-            }"
-          />
         </view>
       </view>
     </view>
@@ -209,18 +194,14 @@
 import { SuitApplyRecord } from "@/types/Suit";
 import { computed, ref, toRefs } from "vue";
 import { Image as TaroImage } from "@tarojs/components";
-import { SuitService } from "@/services";
 import { WButton } from "@/components";
-import Modal from "./Modal/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import styles from "./index.module.scss";
-import { RequestError } from "@/utils";
 
 const props = defineProps<{
   source: SuitApplyRecord;
 }>();
-const isShowConfirm = ref(false);
 const needFixWidth = ref(false);
 const imageList = computed(() => [
   source.value?.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
@@ -228,7 +209,7 @@ const imageList = computed(() => [
 const { source } = toRefs(props);
 
 const emit = defineEmits<{
-  cancel: []
+  cancel: [id: number]
 }>();
 
 const isOverTime = computed(() => {
@@ -243,23 +224,8 @@ const handlePreviewImages = (url: string) => {
   });
 };
 
-const handleClick = () => {
-  isShowConfirm.value = true;
-};
-
-const onCancel = () => {
-  isShowConfirm.value = false;
-};
-
-async function handleConfirm() {
-  isShowConfirm.value = false;
-  try {
-    await SuitService.deleteRecords({ borrow_id: source.value.id });
-    emit("cancel");
-  } catch (e) {
-    if (e instanceof RequestError)
-      Taro.showToast({ title: `取消申请失败: ${e.message}`, icon: "none" });
-  }
+const handleCancel = () => {
+  emit("cancel", source.value.id);
 };
 
 const handleLoadFinish = ({ detail: { height, width } }) => {

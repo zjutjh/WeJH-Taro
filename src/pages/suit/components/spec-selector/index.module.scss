@@ -1,0 +1,26 @@
+@import "@/style/theme.scss";
+
+.spec-selector {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 12Px;
+
+  .size-card {
+    @include shadow;
+    padding: 10Px 25Px;
+    margin-right: 16Px;
+    border: solid 2Px var(--wjh-color-week);
+    border-radius: 10Px;
+    color: var(--wjh-color-text-secondary);
+    text-align: center;
+
+    &.active {
+      border: solid 2Px var(--wjh-color-primary);
+      color: var(--wjh-color-primary);
+    }
+
+    text {
+      white-space: nowrap;
+    }
+  }
+}
