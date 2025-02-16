@@ -36,9 +36,12 @@
   gap: 16rpx;
 }
 
+.record-list {
+  background-color: var(--wjh-color-primary-light);
+}
+
 .record-list-item {
   border-radius: 16rpx;
-  background-color: var(--wjh-color-primary-light);
 
   .text-wrapper {
     padding: 8rpx;

@@ -96,7 +96,7 @@ import "./index.scss";
 
 const queryOptions = useElectricityQueryOption();
 const fieldCampus = ref(queryOptions.campus);
-const { data: balanceInfo, error: balanceError } = useElectricityBalanceQuery({
+const { data: balanceInfo, error: balanceError, status } = useElectricityBalanceQuery({
   campus: fieldCampus
 });
 const { data: consumption, isFetching } = useQuery({
@@ -138,6 +138,14 @@ watchEffect(() => {
     });
   } else if (error instanceof Error) {
     Taro.showToast({ title: error.message, icon: "none" });
+  }
+});
+
+watchEffect(() => {
+  if (status.value === "pending") {
+    Taro.showLoading({ mask: true, title: "正在查询..." });
+  } else {
+    Taro.hideLoading();
   }
 });
 

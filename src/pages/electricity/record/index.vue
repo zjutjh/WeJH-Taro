@@ -8,7 +8,7 @@
             无缴费记录
           </card>
           <template v-else>
-            <w-list v-for="(item, index) in recordList" :key="index">
+            <w-list v-for="item in recordList" :key="item.datetime" class="record-list">
               <w-list-item class="record-list-item">
                 <view class="text-wrapper">
                   <text> {{ item.datetime }} </text>
