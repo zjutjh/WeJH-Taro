@@ -4,13 +4,13 @@ import { helpText } from "@/constants/copywriting";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
-import { useRequestNext } from "@/hooks";
 import { RequestError } from "@/utils";
 import useHomeCardStore from "@/store/service/homecard";
 import useWebview from "@/hooks/useWebview";
 import { Image as TaroImage } from "@tarojs/components";
 import useCountdown from "@/hooks/useCountdown";
 import useBinding from "@/hooks/useBinding";
+import { useQuery } from "@tanstack/vue-query";
 
 const { updateBindState } = useBinding();
 const homeCardStore = useHomeCardStore();
@@ -25,12 +25,18 @@ const isShowHelp = ref(false);
 const { countdown: captchaCD, start: refreshCaptchaCD } = useCountdown(10);
 
 const {
-  run: fetchCaptcha,
   data: captchaBase64,
-  loading: captchaLoading,
-  error: captchaError
-} = useRequestNext(YxyService.getGraph, {
-  initialData: ""
+  isFetching: captchaLoading,
+  error: captchaError,
+  refetch: fetchCaptcha
+} = useQuery({
+  queryKey: ["bind/yxy/captcha"],
+  queryFn: YxyService.getGraph,
+  staleTime: 0,
+  refetchInterval: false,
+  meta: {
+    persist: false
+  }
 });
 
 /**
