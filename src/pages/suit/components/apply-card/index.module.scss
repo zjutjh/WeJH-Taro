@@ -27,67 +27,40 @@
 
   .icon-box {
     display: flex;
-    border-radius: 8Px;
+    border-radius: 4Px;
     color: var(--wjh-color-orange-600);
     background-color: var(--wjh-color-orange-400);
     font-size: 0.8rem;
-    line-height: 80%;
-    margin-left: auto;
     align-items: center;
+    padding: 2Px 6Px;
+    gap: 4Px;
   }
 
   .time {
     font-size: 0.8rem;
     line-height: 80%;
-    margin-left: auto;
   }
 }
 
-.body {
+.flex-container {
+  padding: 50px 0;
+  display: flex;
 
-  .flex-container {
-    padding: 50px 0;
+  .content {
     display: flex;
+    flex-direction: column;
+    line-height: 200%;
+    padding: 6Px 0;
+    white-space: pre-wrap;
+    flex: 1;
+  }
 
-    .content {
-      max-width: 30%;
-      padding: 6Px 0;
-      white-space: pre-wrap;
-      margin-left: auto;
-      gap: 1.5rem;
-
-      .text {
-        margin-top: -20px;
-        text-indent: -4em;
-        font-weight: normal;
-      }
-    }
-
-    .img-list {
-      display: flex;
-      overflow-x: auto;
-      gap: 6Px;
-      padding-bottom: 6Px;
-      margin-right: auto;
-
-      .img-container {
-        flex: 1; // dynamic
-        display: flex;
-        gap: 16Px;
-        width: 100%;
-
-        .img-wrapper {
-          position: relative;
-
-          .image {
-            box-sizing: border-box;
-            border: 1Px solid var(--wjh-color-border);
-            border-radius: 12px;
-          }
-
-        }
-      }
-    }
+  .image {
+    width: 125Px;
+    height: 200Px;
+    box-sizing: border-box;
+    border: 1Px solid var(--wjh-color-border);
+    border-radius: 12px;
   }
 }
 
@@ -110,11 +83,6 @@
 }
 
 .button {
-  margin-left: auto;
-  width: 200px;
   font-size: 0.9rem;
-}
-
-.wjh-modal-body {
-  min-height: auto !important;
+  width: 200px;
 }

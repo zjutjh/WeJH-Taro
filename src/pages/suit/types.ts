@@ -7,8 +7,10 @@ export enum CampusCodeEnum {
 export enum RentStatusEnum {
   /** 待处理 */
   PENDING = 1,
+  /** 被驳回 */
+  REJECTED,
   /** 借用中 */
-  BORROWING = 3,
-  /** 已完成 */
-  COMPLETED = 4
+  BORROWING,
+  /** 已归还 */
+  COMPLETED
 }
