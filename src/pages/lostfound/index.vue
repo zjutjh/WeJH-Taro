@@ -48,7 +48,7 @@
           :source="item"
         />
         <w-skeleton v-if="isFetchingKindList || isFetchingRecords" :style="{borderRadius: '8Px'}" />
-        <card v-else-if="!records.length && isEmpty">
+        <card v-else-if="!records?.length && isEmpty">
           <text>该分类下暂无失物寻物记录</text>
         </card>
       </view>
@@ -121,10 +121,11 @@ watchEffect(() => {
 });
 
 const {
-  data: paginatedData,
+  data: records,
   error: fetchRecordsError,
   isFetching: isFetchingRecords,
-  hasNextPage, fetchNextPage
+  hasNextPage,
+  fetchNextPage
 } = useInfiniteQuery({
   queryKey: ["lostfound", campus, kind, lostOrFound] as const,
   queryFn: ({ queryKey, pageParam }) => LostfoundService.getRecords({
@@ -138,6 +139,7 @@ const {
   getNextPageParam: (lastPage, pages) =>
     lastPage.total_page_num >= pages.length + 1 ? pages.length + 1 : undefined,
   enabled: computed(() => !!kindList.value),
+  select: raw => raw.pages.map(page => page.data).flat(1),
   staleTime: 5 * 1000,
   meta: {
     persist: false
@@ -147,10 +149,6 @@ const {
 watchEffect(() => {
   if (fetchRecordsError.value instanceof RequestError)
     Taro.showToast({ title: `加载失物寻物信息失败\r\n${fetchRecordsError.value.message}`, icon: "none" });
-});
-
-const records = computed(() => {
-  return paginatedData.value?.pages.map(page => page.data).flat(1) || [];
 });
 
 const handleSelectCampus = (newVal: string) => {
