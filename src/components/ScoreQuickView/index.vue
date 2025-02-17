@@ -1,6 +1,6 @@
 <template>
   <quick-view
-    title="成绩查询"
+    title="成绩绩点"
     icon-name="score"
     class="score-quick-view"
     help

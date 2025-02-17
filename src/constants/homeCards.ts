@@ -46,14 +46,14 @@ export const homeCardNameMap: Record<HomeCardName, {
   },
   "score-quick-view": {
     name: "score-quick-view",
-    label: "成绩查询",
+    label: "成绩绩点",
     icon: "score",
     backgroundColor: "green",
     require: [["zf"], ["oauth"]]
   },
   "electricity-quick-view": {
     name: "electricity-quick-view",
-    label: "电费查询",
+    label: "电量查询",
     icon: "electricity",
     backgroundColor: "yellow",
     require: [["yxy"]]

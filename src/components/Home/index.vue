@@ -33,7 +33,7 @@
       >
         <view
           class="iconfont icon-add"
-          style="font-size: 1.3rem; font-weight: bolder"
+          style="font-size: 1.15rem; font-weight: normal"
         />
       </view>
     </view>

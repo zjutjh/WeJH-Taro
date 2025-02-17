@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue";
 import { BottomPanel, Card, RoomPicker, ThemeConfig, TitleBar } from "@/components";
-import { freeRoomMap } from "@/constants/freeRoomMap";
+import { freeRoomMap } from "./constants";
 import useGeneralInfo from "@/store/system/generalInfo";
 import { Room } from "@/types/Room";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";

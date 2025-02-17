@@ -1,5 +1,5 @@
 <template>
-  <quick-view title="电费查询" icon-name="electricity" @tap="nav2electricity">
+  <quick-view title="电量查询" icon-name="electricity" @tap="nav2electricity">
     <view class="text-view">
       <text class="sub-text-left">
         当前电费({{ status }})

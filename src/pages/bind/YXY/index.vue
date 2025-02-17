@@ -7,60 +7,40 @@ import { ref } from "vue";
 import { RequestError } from "@/utils";
 import useHomeCardStore from "@/store/service/homecard";
 import useWebview from "@/hooks/useWebview";
-import { Image as TaroImage } from "@tarojs/components";
 import useCountdown from "@/hooks/useCountdown";
 import useBinding from "@/hooks/useBinding";
-import { useQuery } from "@tanstack/vue-query";
 
 const { updateBindState } = useBinding();
 const homeCardStore = useHomeCardStore();
 const { open } = useWebview();
 
 const phoneNumber = ref("");
-const graphCode = ref("");
 const phoneCode = ref("");
 
 const helpContent = helpText.bind.yxy;
 const isShowHelp = ref(false);
-const { countdown: captchaCD, start: refreshCaptchaCD } = useCountdown(10);
-
-const {
-  data: captchaBase64,
-  isFetching: captchaLoading,
-  error: captchaError,
-  refetch: fetchCaptcha
-} = useQuery({
-  queryKey: ["bind/yxy/captcha"],
-  queryFn: YxyService.getGraph,
-  staleTime: 0,
-  refetchInterval: false,
-  meta: {
-    persist: false
-  }
-});
+const { countdown, start: refreshCountdown } = useCountdown(10);
 
 /**
- * 验证图形验证码，同时获取手机验证码
+ * 获取手机验证码
  */
-const handleValidateCaptcha = async () => {
-  if (graphCode.value.length && phoneNumber.value.length) {
-    try {
-      await YxyService.sendGraphAuthCode({
-        captcha: graphCode.value,
-        phoneNum: phoneNumber.value
-      });
-      Taro.showToast({ title: "已发送验证码", icon: "success" });
-      fetchCaptcha();
-      graphCode.value = "";
-      refreshCaptchaCD();
-    } catch (e) {
-      if (e instanceof RequestError) {
-        Taro.showToast({ title: e.message, icon: "none" });
-        fetchCaptcha(); // 验证失败，刷新验证码图片
-      }
+const handleSendPhoneCode = async () => {
+  if (countdown.value > 0 || !phoneNumber.value.length) return;
+
+  if (!phoneNumber.value.length) {
+    Taro.showToast({ icon: "none", title: "请输入手机号" });
+  }
+
+  try {
+    await YxyService.getPhoneCode({
+      phoneNum: phoneNumber.value
+    });
+    refreshCountdown();
+    Taro.showToast({ title: "已发送验证码", icon: "success" });
+  } catch (e: unknown) {
+    if (e instanceof RequestError) {
+      Taro.showToast({ title: e.message, icon: "none" });
     }
-  } else {
-    Taro.showToast({ icon: "none", title: "请输入手机号和图形验证码" });
   }
 };
 
@@ -100,40 +80,17 @@ const handleClickTutorial = () => {
     </template>
     <view>
       <text>手机号</text>
-      <input v-model="phoneNumber" placeholder="请输入手机号">
-    </view>
-    <view>
-      <text>图片验证码</text>
-      <input v-model="graphCode" placeholder="请输入图片验证码">
-    </view>
-    <view style="display: flex; justify-content: space-between">
-      <view
-        v-if="captchaLoading"
-        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
-      >
-        加载中...
+      <view style="display: flex; align-items: center;">
+        <input v-model="phoneNumber" placeholder="请输入手机号">
+        <w-button :disable="countdown > 0" @tap="handleSendPhoneCode">
+          <text v-if="countdown === 0">
+            获取验证码
+          </text>
+          <text v-else>
+            重新发送({{ countdown }})
+          </text>
+        </w-button>
       </view>
-      <view
-        v-else-if="captchaError || captchaBase64 === ''"
-        style="width: 160rpx; height: 60rpx; border: 2rpx solid gray"
-        @tap="fetchCaptcha"
-      >
-        点击重试
-      </view>
-      <taro-image
-        v-else-if="captchaBase64"
-        :src="captchaBase64.replace(/[\r\n]/g, '')"
-        style="width: 160rpx; height: 60rpx"
-        @tap="fetchCaptcha"
-      />
-      <w-button :disable="captchaCD > 0" @tap="handleValidateCaptcha">
-        <text v-if="captchaCD === 0">
-          获取手机验证码
-        </text>
-        <text v-else>
-          重新发送({{ captchaCD }})
-        </text>
-      </w-button>
     </view>
     <view>
       <text>手机验证码</text>
@@ -143,10 +100,7 @@ const handleClickTutorial = () => {
     <template #footer>
       <view style="display: flex; flex-direction: column; gap: 8Px">
         <text style="color: var(--wjh-color-red-600); font-size: .9rem;">
-          请先下载易校园app，注册并绑定浙工大校园卡，之后在此界面用同一手机号接收验证码即可完成注册
-        </text>
-        <text style="color: var(--wjh-color-red-600); font-size: .9rem;">
-          tips:验证码获取存在一定的不稳定性，如果无法获取成功，请再不同时间段进行尝试
+          请先下载易校园app，注册并绑定浙工大校园卡，之后在此界面用同一手机号接收验证码即可完成绑定
         </text>
         <text
           style="color: var(--wjh-color-blue-600); font-size: .9rem;"

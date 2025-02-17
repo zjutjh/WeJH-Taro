@@ -2,40 +2,16 @@ import { api } from "@/services";
 import { request } from "@/utils";
 
 export default class YxyService {
-
-  /**
-   * 获取图形验证码 base64 图像
-   * @returns
-   */
-  static getGraph = async () => {
-    return request<string>(
-      api.user.bind.yxy.getGraph, {
-        method: "POST"
-      }
-    );
-  };
-
-  /**
-   * 校验图形验证码
-   * @returns
-   */
-  static sendGraphAuthCode = async (
-    params: { captcha: string, phoneNum: string }
+  static getPhoneCode = async (
+    params: { phoneNum: string }
   ) => {
     return request<string>(
-      api.user.bind.yxy.sendGraphAuthCode, {
+      api.user.bind.yxy.getPhoneCode, {
         method: "POST",
         params
       });
   };
 
-  /**
-   * 登录
-   * @param data
-   * phoneNum: 手机号
-   * code: 手机验证码
-   * @returns
-   */
   static loginYxy = async (
     params: { phoneNum: string, code: string }
   ) => {

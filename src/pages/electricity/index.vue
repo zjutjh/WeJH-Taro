@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button />
+    <title-bar title="寝室电量查询" back-button />
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <taro-image :src="ElectricityCoverImage" />

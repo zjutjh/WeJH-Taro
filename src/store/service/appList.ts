@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/vue-query";
 import { omit } from "lodash-es";
 import { computed } from "vue";
 
-const permissionMap: Record<string, PermissionGroup> = {
+const permissionMap: Partial<Record<string, PermissionGroup>> = {
   "zf": [["zf"], ["oauth"]],
   "yxy": [["yxy"]],
   /**
