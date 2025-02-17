@@ -1,6 +1,5 @@
 <template>
   <w-list-item
-    :selected="props.selected"
     :class="[
       `wjh-collapse-panel-header`,
       isActive ? `wjh-collapse-panel-header-active` : undefined
@@ -31,18 +30,17 @@ import "./index.scss";
 
 type PropsType = {
   title?: string;
+  // TODO: typo
   defaltActive?: boolean
   maxHeight?: string;
   arrow?: boolean;
-  selected?: boolean;
 };
 
 const props = withDefaults(defineProps<PropsType>(), {
   title: undefined,
   defaltActive: false,
   maxHeight: "500px",
-  arrow: false,
-  selected: false
+  arrow: false
 });
 
 const isActive = ref(props.defaltActive);

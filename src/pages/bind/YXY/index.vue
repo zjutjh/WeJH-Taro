@@ -19,7 +19,7 @@ const phoneCode = ref("");
 
 const helpContent = helpText.bind.yxy;
 const isShowHelp = ref(false);
-const { countdown, start: refreshCountdown } = useCountdown(10);
+const { countdown, start: refreshCountdown } = useCountdown(60);
 
 /**
  * 获取手机验证码
@@ -80,8 +80,8 @@ const handleClickTutorial = () => {
     </template>
     <view>
       <text>手机号</text>
-      <view style="display: flex; align-items: center;">
-        <input v-model="phoneNumber" placeholder="请输入手机号">
+      <view style="display: flex; align-items: center; gap: 12Px">
+        <input v-model="phoneNumber" placeholder="请输入手机号" style="flex: 1">
         <w-button :disable="countdown > 0" @tap="handleSendPhoneCode">
           <text v-if="countdown === 0">
             获取验证码
