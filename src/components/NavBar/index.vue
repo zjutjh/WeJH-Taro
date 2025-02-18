@@ -8,7 +8,7 @@
       <image
         v-if="isShowByUrl"
         :src="pageName === 'home' && !showPop ?
-          barIcons.selected_home_icon : barIcons.home_icon"
+          barIcons.selectedHomeIcon : barIcons.homeIcon"
       />
       <view v-else class="iconfont icon-home" />
       <view class="description">
@@ -25,7 +25,7 @@
     >
       <image
         v-if="isShowByUrl"
-        :src="showPop ? barIcons.selected_function_icon : barIcons.function_icon"
+        :src="showPop ? barIcons.selectedFunctionIcon : barIcons.functionIcon"
       />
       <view v-else class="iconfont icon-applist" />
       <view class="description">
@@ -42,7 +42,7 @@
     >
       <image
         v-if="isShowByUrl"
-        :src="pageName === 'my' && !showPop ? barIcons.selected_my_icon : barIcons.my_icon"
+        :src="pageName === 'my' && !showPop ? barIcons.selectedMyIcon : barIcons.myIcon"
       />
       <view v-else class="iconfont icon-user" />
       <view class="description">
@@ -92,7 +92,7 @@ const notificationActive = computed(() => {
     my: checkNotification("my", store)
   };
 });
-const barIcons = computed(() => serviceStore.theme.config.bar_icon);
+const barIcons = computed(() => serviceStore.theme.config.barIcon);
 
 const { pageName } = toRefs(props);
 

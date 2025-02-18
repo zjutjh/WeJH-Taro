@@ -74,8 +74,9 @@ import { useRequest, useDarkMode } from "@/hooks";
 import { UserService } from "@/services";
 import Taro from "@tarojs/taro";
 import { Theme } from "@/store/service/theme";
+import { toCamelCase } from "@/utils/camelize";
 
-const { mode: darkMode } = useDarkMode();
+const { mode: darkMode, setMode } = useDarkMode();
 const configMap = {};
 const titleColor = computed(() => {
   return darkMode.value === "light" ? "--wjh-color-primary" : undefined;
@@ -85,20 +86,26 @@ const hadThemeListLight = computed(() => {
   const list = serviceStore.theme.hadTheme.filter((item: Theme) => !item.isDarkMode);
   return {
     "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
-    "activity": list.filter((item: Theme) => item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons"))
+    "activity": list.filter((item: Theme) =>
+      item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons")
+    )
   };
 });
 const hadThemeListDark = computed(() => {
   const list = serviceStore.theme.hadTheme.filter((item: Theme) => item.isDarkMode);
   return {
     "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
-    "activity": list.filter((item: Theme) => item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons"))
+    "activity": list.filter((item: Theme) =>
+      item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons")
+    )
   };
 });
 
 /** 用来实现——浅色模式时浅色卡片在上 深色时同理, 的工具变量 */
 const modes = computed(() => {
-  const modeSettingList = [{ name: "light", list: hadThemeListLight.value }, { name: "dark", list: hadThemeListDark.value }];
+  const modeSettingList = [
+    { name: "light", list: hadThemeListLight.value }, { name: "dark", list: hadThemeListDark.value }
+  ];
   if (darkMode.value === "light") return modeSettingList;
   else return modeSettingList.reverse();
 });
@@ -114,8 +121,13 @@ useRequest(UserService.getUserTheme, {
   manual: false,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
-      store.commit("setHadTheme", res.data.data.theme_list);
-      res.data.data.theme_list.forEach((item: Theme) => {
+      const camelizedData = toCamelCase(res.data.data);
+      store.commit("setHadTheme", camelizedData.themeList);
+      store.commit("setThemeMode", {
+        light: camelizedData.currentThemeId, dark: camelizedData.currentThemeDarkId
+      });
+      setMode(darkMode.value);
+      camelizedData.themeList.forEach((item: Theme) => {
         configMap[item.themeId] = item.themeConfig;
       });
     } else {
@@ -137,7 +149,8 @@ const { run } = useRequest(UserService.setTheme, {
       store.commit("setThemeMode", newThemeMode);
       store.commit("setConfig",
         darkMode.value === "light" ?
-          configMap[newThemeMode.light] : configMap[newThemeMode.dark]);
+          configMap[newThemeMode.light] : configMap[newThemeMode.dark]
+      );
       Taro.showToast({ title: "设置成功" });
     } else {
       Taro.showToast({
@@ -154,10 +167,10 @@ const { run } = useRequest(UserService.setTheme, {
 const handleTabClick = (themeId: number, darkMode: string) => {
   if (darkMode === "light") {
     newThemeMode.light = themeId;
-    run({ id: themeId, darkId: currentThemeMode.value.dark });
+    run({ id: themeId, dark_id: currentThemeMode.value.dark });
   } else {
     newThemeMode.dark = themeId;
-    run({ id: currentThemeMode.value.light, darkId: themeId });
+    run({ id: currentThemeMode.value.light, dark_id: themeId });
   }
 };
 

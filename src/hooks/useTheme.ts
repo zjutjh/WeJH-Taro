@@ -16,6 +16,7 @@ const useTheme = () => {
     "schoolbus": "schoolbusIcon",
     "suit": "clothIcon"
   };
+
   /** main是功能里展示的 other是QuickView等里展示的
    * 对于浅色主题 main是白的 other的黑的
    * 对于深色主题 main是黑的 other是白的

@@ -2,14 +2,7 @@
   <view
     :class="darkMode"
     class="background"
-    :style="{
-      backgroundImage: `url(${backgroundUrl})`,//背景图使用
-      backgroundPosition: currentConfig.background_position,
-      '--wjh-color-background-page': currentConfig.background_color,
-      '--wjh-color-primary-light': currentConfig.base_color.base_500,
-      '--wjh-color-primary': currentConfig.base_color.base_600,
-      '--wjh-color-primary-dark': currentConfig.base_color.base_700
-    }"
+    :style="computedStyle"
   >
     <slot />
   </view>
@@ -32,10 +25,19 @@ const currentConfig = computed(() => serviceStore.theme.config);
  *  其余正常主题就是直接用url
  * */
 const backgroundUrl = computed(() => {
-  const img = currentConfig.value?.background_img;
+  const img = currentConfig.value?.backgroundImg;
   if (img.startsWith("#")) {
     if (img === "#green") return greenImg;
   }
   return img;
 });
+
+const computedStyle = computed(() => ({
+  backgroundImage: `url(${backgroundUrl.value})`,
+  backgroundPosition: currentConfig.value.backgroundPosition,
+  "--wjh-color-background-page": currentConfig.value.backgroundColor,
+  "--wjh-color-primary-light": currentConfig.value.baseColor.base500,
+  "--wjh-color-primary": currentConfig.value.baseColor.base600,
+  "--wjh-color-primary-dark": currentConfig.value.baseColor.base700
+}));
 </script>

@@ -12,25 +12,25 @@
 
 
     &.active {
-      background-color: var(--wjh-color-week);
+      background-color: #545454;
     }
 
     .switch-slider {
-        $sliderRadius: 40px;
-        $sliderMarginLeft: 8%;
+        $slider-radius: 40px;
+        $slider-margin-left: 8%;
 
-        background-color: var(--wjh-color-week);
+        background-color: #545454;
         border-radius: 100%;
-        height: $sliderRadius;
-        width: $sliderRadius;
+        height: $slider-radius;
+        width: $slider-radius;
         align-items: center;
         transition: all 0.3s;
         position: absolute;
-        left: calc(100% - $sliderMarginLeft - $sliderRadius);
+        left: calc(100% - $slider-margin-left - $slider-radius);
 
         &.active {
             background-color: var(--wjh-color-white);
-            left: $sliderMarginLeft;
+            left: $slider-margin-left;
         }
     }
 }
