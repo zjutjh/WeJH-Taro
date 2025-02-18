@@ -12,21 +12,25 @@
 
 
     &.active {
-      background-color: #545454;
+      background-color: var(--wjh-color-week);
     }
 
     .switch-slider {
-        background-color: #545454;
+        $sliderRadius: 40px;
+        $sliderMarginLeft: 8%;
+
+        background-color: var(--wjh-color-week);
         border-radius: 100%;
-        height: 40px;
-        width: 40px;
+        height: $sliderRadius;
+        width: $sliderRadius;
         align-items: center;
         transition: all 0.3s;
         position: absolute;
-        left: calc(92% - 40px);
+        left: calc(100% - $sliderMarginLeft - $sliderRadius);
+
         &.active {
             background-color: var(--wjh-color-white);
-            left: 8%;
+            left: $sliderMarginLeft;
         }
     }
 }

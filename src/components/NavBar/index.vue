@@ -73,7 +73,9 @@ import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
-import { isShowByUrl } from "@/hooks/useTheme";
+import { useTheme } from "@/hooks";
+
+const { isShowByUrl } = useTheme();
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);

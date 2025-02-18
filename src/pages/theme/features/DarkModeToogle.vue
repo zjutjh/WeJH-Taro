@@ -12,9 +12,7 @@
       <view class="text-wrapper">
         <text>深色模式</text>
         <w-swtich
-          :bind-value="mode"
-          active-value="light"
-          in-active-value="dark"
+          :active="isActive"
           @tap="handleDarkToogle"
         />
       </view>
@@ -33,6 +31,10 @@ const optionValueMap = {
 };
 
 const { isAdapted, setIsAdapted, setMode, mode } = useDarkMode();
+
+const isActive = computed(() => {
+  return mode.value === "light";
+});
 
 const optionText = computed(() => {
   if (isAdapted.value) return optionValueMap["adapted"];

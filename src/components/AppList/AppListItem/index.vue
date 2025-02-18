@@ -3,8 +3,8 @@
     <view class="icon-wrapper" :style="backgroundColor">
       <image
         v-if="isShowByUrl"
-        :src="getIconUrl(icon,iconType())"
-        :style="{opacity: iconOpacity()}"
+        :src="getIconUrl(icon,iconType)"
+        :style="{opacity: iconOpacity}"
       />
       <view v-else :class="['iconfont', 'icon-'+icon]" />
     </view>
@@ -19,8 +19,7 @@ import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
 import "./index.scss";
-import { isShowByUrl, getIconUrl } from "@/hooks/useTheme";
-import { useDarkMode } from "@/hooks";
+import { useDarkMode, useTheme } from "@/hooks";
 
 const props = defineProps<{
   label: string,
@@ -32,9 +31,10 @@ const props = defineProps<{
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
 const { mode: darkMode } = useDarkMode();
+const { isShowByUrl, getIconUrl } = useTheme();
 
 const icon = props.icon;
-const iconType = (() => {
+const iconType = computed(() => {
   if (darkMode.value === "light") return "main";
   else return isDisabled.value ? "other" : "main";
 });
@@ -52,7 +52,7 @@ const isDisabled = computed(() => {
   }
 });
 
-const iconOpacity = (() => {
+const iconOpacity = computed(() => {
   if (darkMode.value === "light") return undefined;
   else return isDisabled.value ? 0.1 : undefined;
 });

@@ -6,7 +6,9 @@ import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
 import { PopView, WBadge, WButton } from "@/components";
 import { checkBind } from "@/utils";
-import { isShowByUrl, getIconUrl } from "@/hooks/useTheme";
+import { useTheme } from "@/hooks/index";
+
+const { isShowByUrl, getIconUrl } = useTheme();
 
 /** 依赖于绑定状态的卡片名字列表 */
 const validList = computed(() => {

@@ -27,9 +27,9 @@ const useDarkMode = () => {
     let config: Config | undefined;
     const themeStore = serviceStore.theme;
     if (value === "dark") {
-      config = themeStore.hadTheme.find(theme => theme.theme_id === themeStore.themeMode.dark)?.theme_config;
+      config = themeStore.hadTheme.find(theme => theme.themeId === themeStore.themeMode.dark)?.themeConfig;
     } else {
-      config = themeStore.hadTheme.find(theme => theme.theme_id === themeStore.themeMode.light)?.theme_config;
+      config = themeStore.hadTheme.find(theme => theme.themeId === themeStore.themeMode.light)?.themeConfig;
     }
     if (config === undefined) config = value === "light" ? defaultConfigLight : defaultConfigDark;
     store.commit("setConfig", config);

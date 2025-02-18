@@ -3,25 +3,25 @@
     <title-bar title="主题" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <darkmode-toogle />
+        <dark-mode-toogle />
         <card
           v-for="mode in modes"
           :key="mode.name"
-          class="lab-card"
+          class="theme-card"
         >
           <view class="theme-config">
             <view class="theme-config-title" :style="{ color: `var(${titleColor})` }">
               色彩配置({{ modeNameMap[mode.name] }})
             </view>
             <view class="tab-bar noActivity">
-              <view v-for="item in mode.list.noActivity" :key="item.theme_id" class="tab-noActivity">
+              <view v-for="item in mode.list.noActivity" :key="item.themeId" class="tab-noActivity">
                 <view
                   class="tab-noActivity-block"
                   :style="{
                     border: handleActiveBorder(item),
-                    backgroundColor: item.theme_config.base_color.base_600
+                    backgroundColor: item.themeConfig.baseColor.base600
                   }"
-                  @tap="handleTabClick(item.theme_id, mode.name)"
+                  @tap="handleTabClick(item.themeId, mode.name)"
                 />
                 <view class="tab-name">
                   {{ item.name }}
@@ -35,15 +35,15 @@
             >
               <view
                 v-for="item in mode.list.activity"
-                :key="item.theme_id"
+                :key="item.themeId"
                 class="tab-activity"
-                @tap="handleTabClick(item.theme_id, mode.name)"
+                @tap="handleTabClick(item.themeId, mode.name)"
               >
                 <view>
                   <image
                     class="tab-activity-block"
                     :style="{ border: handleActiveBorder(item) }"
-                    :src="item.theme_config.selection_img"
+                    :src="item.themeConfig.selectionImg"
                   />
                 </view>
                 <view class="tab-name">
@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
-import DarkmodeToogle from "./features/DarkModeToogle.vue";
+import DarkModeToogle from "./features/DarkModeToogle.vue";
 import { getCopyRight } from "@/utils";
 import { computed } from "vue";
 import store, { serviceStore } from "@/store";
@@ -82,17 +82,17 @@ const titleColor = computed(() => {
 });
 
 const hadThemeListLight = computed(() => {
-  const list = serviceStore.theme.hadTheme.filter((item: Theme) => !item.is_dark_mode);
+  const list = serviceStore.theme.hadTheme.filter((item: Theme) => !item.isDarkMode);
   return {
-    "noActivity": list.filter((item: Theme) => item.theme_config?.selection_img === ""),
-    "activity": list.filter((item: Theme) => item.theme_config?.selection_img.startsWith("h"))
+    "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
+    "activity": list.filter((item: Theme) => item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons"))
   };
 });
 const hadThemeListDark = computed(() => {
-  const list = serviceStore.theme.hadTheme.filter((item: Theme) => item.is_dark_mode);
+  const list = serviceStore.theme.hadTheme.filter((item: Theme) => item.isDarkMode);
   return {
-    "noActivity": list.filter((item: Theme) => item.theme_config?.selection_img === ""),
-    "activity": list.filter((item: Theme) => item.theme_config?.selection_img.startsWith("h"))
+    "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
+    "activity": list.filter((item: Theme) => item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons"))
   };
 });
 
@@ -116,7 +116,7 @@ useRequest(UserService.getUserTheme, {
     if (res.data.code === 1 && res.data.msg === "OK") {
       store.commit("setHadTheme", res.data.data.theme_list);
       res.data.data.theme_list.forEach((item: Theme) => {
-        configMap[item.theme_id] = item.theme_config;
+        configMap[item.themeId] = item.themeConfig;
       });
     } else {
       Taro.showToast({
@@ -154,21 +154,21 @@ const { run } = useRequest(UserService.setTheme, {
 const handleTabClick = (themeId: number, darkMode: string) => {
   if (darkMode === "light") {
     newThemeMode.light = themeId;
-    run({ id: themeId, dark_id: currentThemeMode.value.dark });
+    run({ id: themeId, darkId: currentThemeMode.value.dark });
   } else {
     newThemeMode.dark = themeId;
-    run({ id: currentThemeMode.value.light, dark_id: themeId });
+    run({ id: currentThemeMode.value.light, darkId: themeId });
   }
 };
 
 const handleActiveBorder = (item: Theme) => {
   let borderColor: string | undefined = undefined;
-  const borderColorLight = item.theme_config.base_color.base_700;
+  const borderColorLight = item.themeConfig.baseColor.base700;
   const borderColorDark = "#E5E5E5";
 
   borderColor = darkMode.value === "light" ? borderColorLight : borderColorDark;
 
-  if (currentThemeMode.value.light === item.theme_id || currentThemeMode.value.dark === item.theme_id) {
+  if (currentThemeMode.value.light === item.themeId || currentThemeMode.value.dark === item.themeId) {
     return "5rpx solid " + borderColor;
   } else return "";
 };
