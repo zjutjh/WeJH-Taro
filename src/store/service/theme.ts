@@ -1,6 +1,6 @@
 import { DarkModeOption, DarkModeTheme } from "@/types/DarkMode";
 
-type applistIcon = {
+type ApplistIcon = {
   classIcon: string;
   gradeIcon: string;
   examIcon: string;
@@ -21,8 +21,8 @@ export interface Config {
     selectedFunctionIcon: string;
     selectedMyIcon: string;
   },
-  applistIcon: applistIcon
-  applistDarkIcon: applistIcon
+  applistIcon: ApplistIcon
+  applistDarkIcon: ApplistIcon
   backgroundImg: string;
   backgroundColor: string;
   backgroundPosition: string;
@@ -159,8 +159,8 @@ export const ThemeStore = {
      *  themeMode.dark 是黑夜绿色主题的themeId
      * 需要根据实际环境来维护*/
     themeMode: {
-      light: 18,
-      dark: 23
+      light: defaultTheme.light.themeId,
+      dark: defaultTheme.dark.themeId
     },
     /** 正在使用的主题的config*/
     config: defaultConfigLight,

@@ -17,13 +17,14 @@ const useTheme = () => {
     "suit": "clothIcon"
   };
 
-  /** main是功能里展示的 other是QuickView等里展示的
-   * 对于浅色主题 main是白的 other的黑的
-   * 对于深色主题 main是黑的 other是白的
-   */
-  type IconType = "main" | "other";
+  enum IconTypeEnum {
+    /** Applist中使用的icon */
+    mainIcons = "main",
+    /** QuickViewCard中使用的icon */
+    otherIcons = "other"
+  }
 
-  function getIconUrl(icon: string, type: IconType) {
+  function getIconUrl(icon: string, type: IconTypeEnum) {
     const applistIcon = (type === "other") ?
       serviceStore.theme.config.applistDarkIcon : serviceStore.theme.config.applistIcon;
 
@@ -44,6 +45,7 @@ const useTheme = () => {
 
   return {
     iconMap,
+    IconTypeEnum,
     getIconUrl,
     isShowByUrl
   };

@@ -1,11 +1,12 @@
 <template>
   <view
     class="switch-container"
-    :class="isActive"
+    :class="activeClass"
+    @tap="ToggleActive()"
   >
     <view
       class="switch-slider"
-      :class="isActive"
+      :class="activeClass"
     />
   </view>
 </template>
@@ -15,12 +16,17 @@ import { computed } from "vue";
 import "./index.scss";
 
 /** 后续有需要props里加上颜色属性 改颜色 */
-const props = defineProps<{
-  active: boolean
+const emit = defineEmits<{
+  (e: "update:modelValue", value: boolean): void;
 }>();
+const isActive = defineModel<boolean>();
 
-const isActive = computed(() => {
-  return props.active ? "active" : null;
+function ToggleActive() {
+  isActive.value = !isActive.value;
+  emit("update:modelValue", isActive.value);
+}
+
+const activeClass = computed(() => {
+  return isActive.value ? "active" : null;
 });
-
 </script>

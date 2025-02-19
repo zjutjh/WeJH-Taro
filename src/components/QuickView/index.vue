@@ -4,7 +4,7 @@
       <view class="quick-view-title">
         <image
           v-if="isShowByUrl"
-          :src="getIconUrl(iconName,'other')"
+          :src="getIconUrl(iconName,IconTypeEnum.otherIcons)"
         />
         <view
           v-else
@@ -29,7 +29,7 @@ import { toRefs } from "vue";
 import "./index.scss";
 import { useTheme } from "@/hooks/index";
 
-const { getIconUrl, isShowByUrl } = useTheme();
+const { getIconUrl, isShowByUrl, IconTypeEnum } = useTheme();
 
 const props = defineProps<{ title: string; iconName: string; help?: boolean }>();
 const { title, iconName, help } = toRefs(props);

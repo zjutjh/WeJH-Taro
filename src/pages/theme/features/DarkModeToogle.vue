@@ -12,7 +12,7 @@
       <view class="text-wrapper">
         <text>深色模式</text>
         <w-swtich
-          :active="isActive"
+          :v-model="isActive"
           @tap="handleDarkToogle"
         />
       </view>
@@ -24,7 +24,7 @@
 import { WList, WListItem, WSwtich } from "@/components";
 import { useDarkMode } from "@/hooks";
 import Taro from "@tarojs/taro";
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 const optionValueMap = {
   "adapted": "跟随微信",
   "noAdapted": "手动设置"
@@ -32,8 +32,10 @@ const optionValueMap = {
 
 const { isAdapted, setIsAdapted, setMode, mode } = useDarkMode();
 
-const isActive = computed(() => {
-  return mode.value === "light";
+const isActive = ref(mode.value === "light");
+
+watch(isActive, () => {
+  handleDarkToogle();
 });
 
 const optionText = computed(() => {

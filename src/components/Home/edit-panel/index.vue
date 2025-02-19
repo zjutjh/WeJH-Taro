@@ -8,7 +8,7 @@ import { PopView, WBadge, WButton } from "@/components";
 import { checkBind } from "@/utils";
 import { useTheme } from "@/hooks/index";
 
-const { isShowByUrl, getIconUrl } = useTheme();
+const { isShowByUrl, getIconUrl, IconTypeEnum } = useTheme();
 
 /** 依赖于绑定状态的卡片名字列表 */
 const validList = computed(() => {
@@ -99,7 +99,7 @@ const handleClose = () => {
             >
               <image
                 v-if="isShowByUrl"
-                :src="getIconUrl(item.icon,'main')"
+                :src="getIconUrl(item.icon,IconTypeEnum.mainIcons)"
               />
               <view
                 v-else
@@ -135,7 +135,7 @@ const handleClose = () => {
             >
               <image
                 v-if="isShowByUrl"
-                :src="getIconUrl(item.icon,'main')"
+                :src="getIconUrl(item.icon, IconTypeEnum.mainIcons)"
               />
               <view
                 v-else

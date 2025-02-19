@@ -31,12 +31,13 @@ const props = defineProps<{
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
 const { mode: darkMode } = useDarkMode();
-const { isShowByUrl, getIconUrl } = useTheme();
+const { isShowByUrl, getIconUrl, IconTypeEnum } = useTheme();
 
 const icon = props.icon;
+
 const iconType = computed(() => {
-  if (darkMode.value === "light") return "main";
-  else return isDisabled.value ? "other" : "main";
+  if (darkMode.value === "light") return IconTypeEnum.mainIcons;
+  else return isDisabled.value ? IconTypeEnum.otherIcons : IconTypeEnum.mainIcons;
 });
 
 const isDisabled = computed(() => {
