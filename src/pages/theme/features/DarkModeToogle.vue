@@ -12,8 +12,7 @@
       <view class="text-wrapper">
         <text>深色模式</text>
         <w-swtich
-          :v-model="isActive"
-          @tap="handleDarkToogle"
+          v-model="isActive"
         />
       </view>
     </w-list-item>

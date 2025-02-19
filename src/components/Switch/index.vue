@@ -16,14 +16,10 @@ import { computed } from "vue";
 import "./index.scss";
 
 /** 后续有需要props里加上颜色属性 改颜色 */
-const emit = defineEmits<{
-  (e: "update:modelValue", value: boolean): void;
-}>();
 const isActive = defineModel<boolean>();
 
 function ToggleActive() {
   isActive.value = !isActive.value;
-  emit("update:modelValue", isActive.value);
 }
 
 const activeClass = computed(() => {
