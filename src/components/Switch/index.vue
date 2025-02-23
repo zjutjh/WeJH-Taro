@@ -2,7 +2,7 @@
   <view
     class="switch-container"
     :class="activeClass"
-    @tap="ToggleActive()"
+    @tap="toggleActive()"
   >
     <view
       class="switch-slider"
@@ -18,7 +18,7 @@ import "./index.scss";
 /** 后续有需要props里加上颜色属性 改颜色 */
 const isActive = defineModel<boolean>();
 
-function ToggleActive() {
+function toggleActive() {
   isActive.value = !isActive.value;
 }
 

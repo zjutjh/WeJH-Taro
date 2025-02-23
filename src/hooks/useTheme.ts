@@ -2,6 +2,13 @@ import { serviceStore } from "@/store";
 import { defaultTheme } from "@/store/service/theme";
 import { computed } from "vue";
 
+enum IconTypeEnum {
+  /** Applist中使用的icon */
+  mainIcons = "main",
+  /** QuickViewCard中使用的icon */
+  otherIcons = "other"
+}
+
 const useTheme = () => {
 
   /**  映射对象, app功能名字 与 applistIcon 中的键名对应 更新app后需要维护 */
@@ -16,13 +23,6 @@ const useTheme = () => {
     "schoolbus": "schoolbusIcon",
     "suit": "clothIcon"
   };
-
-  enum IconTypeEnum {
-    /** Applist中使用的icon */
-    mainIcons = "main",
-    /** QuickViewCard中使用的icon */
-    otherIcons = "other"
-  }
 
   function getIconUrl(icon: string, type: IconTypeEnum) {
     const applistIcon = (type === "other") ?
