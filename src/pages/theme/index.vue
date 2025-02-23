@@ -3,7 +3,7 @@
     <title-bar title="主题" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <dark-mode-toogle />
+        <dark-mode-toggle />
         <card
           v-for="mode in modes"
           :key="mode.name"
@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
-import DarkModeToogle from "./features/DarkModeToogle.vue";
+import DarkModeToggle from "./features/DarkModeToggle.vue";
 import { getCopyRight } from "@/utils";
 import { computed } from "vue";
 import store, { serviceStore } from "@/store";
@@ -87,7 +87,7 @@ const hadThemeListLight = computed(() => {
   return {
     "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
     "activity": list.filter((item: Theme) =>
-      item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons")
+      item.themeConfig?.selectionImg.startsWith("https://")
     )
   };
 });
@@ -96,7 +96,7 @@ const hadThemeListDark = computed(() => {
   return {
     "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
     "activity": list.filter((item: Theme) =>
-      item.themeConfig?.selectionImg.startsWith("https://api.cnpatrickstar.com/img/icons")
+      item.themeConfig?.selectionImg.startsWith("https://")
     )
   };
 });
@@ -126,6 +126,8 @@ useRequest(UserService.getUserTheme, {
       store.commit("setThemeMode", {
         light: camelizedData.currentThemeId, dark: camelizedData.currentThemeDarkId
       });
+      newThemeMode.light = camelizedData.currentThemeId;
+      newThemeMode.dark = camelizedData.currentThemeDarkId;
       setMode(darkMode.value);
       camelizedData.themeList.forEach((item: Theme) => {
         configMap[item.themeId] = item.themeConfig;

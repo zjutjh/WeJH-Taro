@@ -141,13 +141,15 @@ export const defaultTheme = {
   light: {
     name: "绿",
     isDarkMode: false,
-    themeId: 18,
+    /** 此处themeId无特殊意义 */
+    themeId: 1,
     themeConfig: defaultConfigLight
   },
   dark: {
     name: "绿",
     isDarkMode: true,
-    themeId: 23,
+    /** 此处themeId无特殊意义 */
+    themeId: 2,
     themeConfig: defaultConfigDark
   }
 };
@@ -155,9 +157,6 @@ export const defaultTheme = {
 export const ThemeStore = {
   state: {
     hadTheme: [defaultTheme.light, defaultTheme.dark],
-    /** themeMode.light是白天绿色主题的themeId
-     *  themeMode.dark 是黑夜绿色主题的themeId
-     * 需要根据实际环境来维护*/
     themeMode: {
       light: defaultTheme.light.themeId,
       dark: defaultTheme.dark.themeId

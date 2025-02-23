@@ -34,7 +34,7 @@ const { isAdapted, setIsAdapted, setMode, mode } = useDarkMode();
 const isActive = ref(mode.value === "light");
 
 watch(isActive, () => {
-  handleDarkToogle();
+  handleDarkToggle();
 });
 
 const optionText = computed(() => {
@@ -54,7 +54,7 @@ const handleAdaptToggle = () => {
   });
 };
 
-const handleDarkToogle = () => {
+const handleDarkToggle = () => {
   setMode(mode.value === "light" ? "dark" : "light");
   setIsAdapted(false);
 };
