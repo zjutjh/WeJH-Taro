@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
-import DarkModeToggle from "./features/DarkModeToggle.vue";
+import DarkModeToggle from "./components/DarkModeToggle.vue";
 import { getCopyRight } from "@/utils";
 import { computed } from "vue";
 import store, { serviceStore } from "@/store";
@@ -87,7 +87,7 @@ const hadThemeListLight = computed(() => {
   return {
     "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
     "activity": list.filter((item: Theme) =>
-      item.themeConfig?.selectionImg.startsWith("https://")
+      item.themeConfig?.selectionImg.startsWith("http")
     )
   };
 });
@@ -96,7 +96,7 @@ const hadThemeListDark = computed(() => {
   return {
     "noActivity": list.filter((item: Theme) => item.themeConfig?.selectionImg === ""),
     "activity": list.filter((item: Theme) =>
-      item.themeConfig?.selectionImg.startsWith("https://")
+      item.themeConfig?.selectionImg.startsWith("http")
     )
   };
 });
