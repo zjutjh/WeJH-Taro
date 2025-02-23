@@ -729,13 +729,13 @@ function handleCheckboxChange(item) {
   if (item.selected) {
     selectedLessonsList.value.push(item);
     unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
+      selected => selected.submitTime !== item.submitTime && selected.className !== item.className
     );
     store.commit("delUnCalc", item);
   } else {
     // 将这个课程从selectedLessons中删除
     selectedLessonsList.value = selectedLessonsList.value.filter(
-      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
+      selected => selected.submitTime !== item.submitTime && selected.className !== item.className
     );
     unSelectedLessonsList.value.push(item);
     store.commit("setUnCalc", item);
