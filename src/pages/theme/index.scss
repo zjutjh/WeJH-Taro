@@ -1,47 +1,63 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
 
-.lab-card {
-
-  .empty {
-    padding: 1rem;
-  }
+.theme-card {
 
   .footer-text {
     text-align: center;
   }
 
   .theme-config {
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
     text-align: center;
+
+    .theme-config-title {
+      position: relative;
+      top: 5px;
+    }
   }
 
   .tab-bar {
     background-color: var(--wjh-color-background-container);
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 12Px 0;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 2rem 0 1.25rem 0;
+    gap: 70px;
 
-    .tab {
-      padding: 7Px 12Px;
-      background-color: var(--wjh-color-primary-light);
-      color: var(--wjh-color-primary);
-      font-size: 0.875rem;
+    .tab-noActivity {
+      $block-width: 90px;
+      width: $block-width;
+      height: calc($block-width + 1.5rem);
+
+      .tab-noActivity-block {
+        width: $block-width;
+        height: $block-width;
+        border-radius: 10px;
+        font-size: 0.875rem;
+        opacity: 0.8;
+      }
     }
 
-    .active {
-      background-color: var(--wjh-color-primary);
-      color: var(--wjh-color-white);
+    .tab-activity {
+      $block-width: 240px;
+      $block-height: 160px;
+
+      width: $block-width;
+      height: calc(#{$block-height} + 1.5rem);
+
+      .tab-activity-block {
+        width: $block-width;
+        height: $block-height;
+        border-radius: 10px;
+        opacity: 0.8;
+      }
     }
 
-    .tab:first-child {
-      border-top-left-radius: 100Px;
-      border-bottom-left-radius: 100Px;
+    .tab-name {
+      height: 2rem;
+      font-size: 0.8rem;
     }
 
-    .tab:last-child {
-      border-top-right-radius: 100Px;
-      border-bottom-right-radius: 100Px;
-    }
   }
 }
