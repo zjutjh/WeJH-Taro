@@ -58,10 +58,15 @@ const useRequest = <TData extends TaroGeneral.IAnyObject, TParams>(
     data.value = undefined;
     error.value = undefined;
     config?.onBefore?.();
-    // TODO: add delay
-    const timer = setTimeout(() => {
+
+    let timer: NodeJS.Timeout | undefined;
+    if (config?.loadingDelay) {
+      timer = setTimeout(() => {
+        loading.value = true;
+      }, config.loadingDelay);
+    } else {
       loading.value = true;
-    }, config?.loadingDelay || 0);
+    }
 
     service(params || config?.defaultParams).then((response) => {
       config?.onSuccess?.(response);
