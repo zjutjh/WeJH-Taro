@@ -37,36 +37,10 @@
                 {{ averageScorePoint }}
               </view>
             </view>
+            <panel-toggle v-model="isShowPreview" />
           </template>
-
-          <w-collapse class="score-list-collapse">
-            <w-collapse-panel
-              v-for="item in (scoreList as Array<FinalTermScore & MidTermScore>)"
-              :key="item.lessonID"
-              arrow
-            >
-              <template #header>
-                <view class="score-list-collapse-item-title">
-                  {{ item.lessonName }}
-                </view>
-                <view class="score-list-collapse-item-extra">
-                  {{ item.score }}
-                </view>
-              </template>
-
-              <w-descriptions class="score-detail-list" size="small">
-                <w-descriptions-item label="课程名称">
-                  {{ item.lessonName }}
-                </w-descriptions-item>
-                <w-descriptions-item v-if="item.lessonType" label="课程性质">
-                  {{ item.lessonType }}
-                </w-descriptions-item>
-                <w-descriptions-item label="课程学分">
-                  {{ item.credits }}
-                </w-descriptions-item>
-              </w-descriptions>
-            </w-collapse-panel>
-          </w-collapse>
+          <preview-panel v-if="isShowPreview" :score-list="scoreList" />
+          <calculator-panel v-else :score-list="scoreList as FinalTermScore[]" />
         </card>
         <card v-if="scoreList?.length !== 0">
           <view class="score-help">
@@ -84,6 +58,7 @@
           v-model="fieldTerm"
           class="picker"
           :term-year="+generalInfo.scoreYear"
+          show-period
         />
       </view>
       <view class="col">
@@ -104,19 +79,20 @@ import {
   TermPicker,
   ThemeConfig,
   TitleBar,
-  WButton,
-  WCollapse,
-  WCollapsePanel,
-  WDescriptions,
-  WDescriptionsItem
+  WButton
 } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import "./index.scss";
 import useScoreQuery from "@/hooks/score/query";
 import useScoreQueryOptionStore from "@/hooks/score/queryOptions";
-import { FinalTermScore, MidTermScore, ScoreTermOption } from "@/types/Score";
+import { FinalTermScore, ScoreTermOption } from "@/types/Score";
+import PanelToggle from "./components/panel-toggle/index.vue";
+import PreviewPanel from "./components/preview-panel/index.vue";
+import CalculatorPanel from "./components/calculator-panel/index.vue";
 import useUser from "@/hooks/user/info";
 import useGeneralInfo from "@/store/system/generalInfo";
+
+const isShowPreview = ref(true);
 
 const generalInfo = useGeneralInfo();
 const queryOption = useScoreQueryOptionStore();

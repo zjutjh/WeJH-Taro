@@ -1,4 +1,5 @@
-export type ScoreBase = {
+export interface ScoreBase {
+  key: string;
   className: string;
   credits: string;
   lessonID: string;
@@ -7,7 +8,7 @@ export type ScoreBase = {
   teacherName: string;
 };
 
-export type FinalTermScore = ScoreBase & {
+export interface FinalTermScore extends ScoreBase {
   examType: string;
   lessonType: string;
   scorePoint: string;
