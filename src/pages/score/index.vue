@@ -386,7 +386,7 @@
       </view>
       <view class="col">
         <w-button shape="circle" size="large" class="sort-button">
-          <view class="iconfont icon-paixu" @tap="handleSort"/>
+          <view class="iconfont icon-paixu" @tap="handleSort" />
         </w-button>
       </view>
       <view />
@@ -735,7 +735,7 @@ function handleCheckboxChange(item) {
   } else {
     // 将这个课程从selectedLessons中删除
     selectedLessonsList.value = selectedLessonsList.value.filter(
-      selected => selected.key !== item.key 
+      selected => selected.key !== item.key
     );
     unSelectedLessonsList.value.push(item);
     store.commit("setUnCalc", item);
@@ -750,7 +750,7 @@ const averageScorePoint = computed(() => {
     if (item.examType === "重修" || item.examType === "补考") return false;
     return true;
   });
-  console.log(selectedLessonsList.value)
+  console.log(selectedLessonsList.value);
   let totalCredits = 0;
   let totalScorePoint = 0;
   validCourse.forEach((item: Score) => {
