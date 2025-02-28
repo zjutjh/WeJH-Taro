@@ -13,4 +13,6 @@ export interface Score {
   submitName: string;
   submitTime: string;
   teacherName: string;
+  scoreTerm: string;
+  key: string;
 }
