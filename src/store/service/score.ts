@@ -46,7 +46,7 @@ export const ScoreServiceStore = {
       state.unCalScore.push({
         name: value.className,
         scorePoint: value.scorePoint,
-        key: value.key,
+        key: value.key
       });
     },
 
