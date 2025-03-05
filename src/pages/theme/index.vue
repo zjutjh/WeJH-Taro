@@ -11,7 +11,7 @@
         >
           <view class="theme-config">
             <view class="theme-config-title" :style="{ color: `var(${titleColor})` }">
-              色彩配置({{ modeNameMap[mode.name] }})
+              {{ handleShowedTitle(mode.name) }}配置({{ modeNameMap[mode.name] }})
             </view>
             <view class="tab-bar noActivity">
               <view v-for="item in mode.list.noActivity" :key="item.themeId" class="tab-noActivity">
@@ -52,11 +52,11 @@
               </view>
             </view>
           </view>
-          <template #footer>
+          <!-- <template v-if="mode.name === modes[1].name" #footer>
             <view class="footer-text">
-              {{ getCopyRight() }}
+              预设切换为{{ modeNameMap[mode.name] }}时的主题配置
             </view>
-          </template>
+          </template> -->
         </card>
       </view>
     </scroll-view>
@@ -66,7 +66,6 @@
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import DarkModeToggle from "./components/DarkModeToggle.vue";
-import { getCopyRight } from "@/utils";
 import { computed } from "vue";
 import store, { serviceStore } from "@/store";
 import "./index.scss";
@@ -110,7 +109,10 @@ const modes = computed(() => {
   else return modeSettingList.reverse();
 });
 const modeNameMap = { "light": "浅色", "dark": "深色" };
-
+const handleShowedTitle = (mode) => {
+  if (mode === modes.value[0].name) return "色彩";
+  else return "预设";
+};
 /** 受维护的当前主题(包括黑白天) */
 const currentThemeMode = computed(() => {
   return serviceStore.theme.themeMode;
@@ -153,7 +155,6 @@ const { run } = useRequest(UserService.setTheme, {
         darkMode.value === "light" ?
           configMap[newThemeMode.light] : configMap[newThemeMode.dark]
       );
-      Taro.showToast({ title: "设置成功" });
     } else {
       Taro.showToast({
         icon: "none",

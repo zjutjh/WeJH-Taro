@@ -8,7 +8,7 @@
         </text>
       </view>
     </w-list-item>
-    <w-list-item>
+    <w-list-item v-if="!isAdapted">
       <view class="text-wrapper">
         <text>深色模式</text>
         <w-swtich
@@ -34,7 +34,7 @@ const { isAdapted, setIsAdapted, setMode, mode } = useDarkMode();
 const isActive = ref(mode.value === "light");
 
 watch(isActive, () => {
-  handleDarkToggle();
+  if (!isAdapted.value) handleDarkToggle();
 });
 
 const optionText = computed(() => {
@@ -45,10 +45,16 @@ const optionText = computed(() => {
 const handleAdaptToggle = () => {
   Taro.showActionSheet({
     itemList: Object.values(optionValueMap),
-    success: (e) => {
-      if (e.tapIndex === 0) setIsAdapted(true);
-      else {
-        setIsAdapted(false);
+    success: async (e) => {
+      const setActive = async () => {
+        isActive.value = mode.value === "light";
+      };
+      if (e.tapIndex === 0) {
+        await setIsAdapted(true);
+        await setActive();
+      } else {
+        await setActive();
+        await setIsAdapted(false);
       }
     }
   });

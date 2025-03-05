@@ -4,6 +4,7 @@
 
   .footer-text {
     text-align: center;
+    opacity: 0.6;
   }
 
   .theme-config {
@@ -23,7 +24,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 2rem 0 1.25rem 0;
-    gap: 70px;
+    gap: 55px;
 
     .tab-noActivity {
       $block-width: 90px;
