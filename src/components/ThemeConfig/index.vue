@@ -10,12 +10,15 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { computed } from "vue";
-import { serviceStore } from "@/store";
-import { useDarkMode } from "@/hooks";
+import { computed, onMounted } from "vue";
+import store, { serviceStore } from "@/store";
+import { useDarkMode, useRequest } from "@/hooks";
 import greenImg from "@/assets/photos/background.svg";
+import { UserService } from "@/services";
+import { toCamelCase } from "@/utils/camelize";
+import Taro from "@tarojs/taro";
 
-const { mode: darkMode } = useDarkMode();
+const { mode: darkMode, setMode } = useDarkMode();
 
 const currentConfig = computed(() => serviceStore.theme.config);
 
@@ -40,4 +43,30 @@ const computedStyle = computed(() => ({
   "--wjh-color-primary": currentConfig.value.baseColor.base600,
   "--wjh-color-primary-dark": currentConfig.value.baseColor.base700
 }));
+const { run } = useRequest(UserService.getUserTheme, {
+  manual: true,
+  onSuccess: (res) => {
+    if (res.data.code === 1 && res.data.msg === "OK") {
+      const camelizedData = toCamelCase(res.data.data);
+      store.commit("setHadTheme", camelizedData.themeList);
+      store.commit("setThemeMode", {
+        light: camelizedData.currentThemeId, dark: camelizedData.currentThemeDarkId
+      });
+      setMode(darkMode.value);
+    } else {
+      Taro.showToast({
+        icon: "none",
+        title: res.data.msg
+      });
+    }
+  },
+  onError: (e: Error) => {
+    return `失败\r\n${e.message || "网络错误"}`;
+  }
+});
+onMounted(() => {
+  if (serviceStore.user.isActive) {
+    run();
+  }
+});
 </script>
