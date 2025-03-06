@@ -750,7 +750,6 @@ const averageScorePoint = computed(() => {
     if (item.examType === "重修" || item.examType === "补考") return false;
     return true;
   });
-  console.log(selectedLessonsList.value);
   let totalCredits = 0;
   let totalScorePoint = 0;
   validCourse.forEach((item: Score) => {
