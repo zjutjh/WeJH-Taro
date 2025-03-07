@@ -45,7 +45,8 @@ export const ScoreServiceStore = {
       }
       state.unCalScore.push({
         name: value.className,
-        scorePoint: value.scorePoint
+        scorePoint: value.scorePoint,
+        key: value.key
       });
     },
 
@@ -62,7 +63,7 @@ export const ScoreServiceStore = {
         state.unCalScore = []; // 如果不是数组，初始化为空数组
       }
       const toDelete = state.unCalScore.findIndex(
-        item => item.name === value.className
+        item => item.name === value.className && item.key === value.key
       );
       if (toDelete !== -1) {
         state.unCalScore.splice(toDelete, 1);
