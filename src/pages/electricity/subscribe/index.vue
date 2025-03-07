@@ -41,6 +41,7 @@ async function handleSubscribe() {
   try {
     await requestMpSubscribe(tmpId);
   } catch {
+    Taro.hideLoading();
     return;
   }
 
