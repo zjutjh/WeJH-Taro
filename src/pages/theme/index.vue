@@ -18,7 +18,7 @@
                 <view
                   class="tab-noActivity-block"
                   :style="{
-                    border: handleActiveBorder(item),
+                    border: activeBorder(item),
                     backgroundColor: item.themeConfig.baseColor.base600
                   }"
                   @tap="handleTabClick(item.themeId, mode.name)"
@@ -42,7 +42,7 @@
                 <view>
                   <image
                     class="tab-activity-block"
-                    :style="{ border: handleActiveBorder(item) }"
+                    :style="{ border: activeBorder(item) }"
                     :src="item.themeConfig.selectionImg"
                   />
                 </view>
@@ -177,7 +177,7 @@ const handleTabClick = (themeId: number, darkMode: string) => {
   }
 };
 
-const handleActiveBorder = (item: Theme) => {
+const activeBorder = (item: Theme) => {
   let borderColor: string | undefined = undefined;
   const borderColorLight = item.themeConfig.baseColor.base700;
   const borderColorDark = "#E5E5E5";
