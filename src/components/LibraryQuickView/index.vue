@@ -1,8 +1,8 @@
 <template>
-  <quick-view 
-    title="借阅信息" 
+  <quick-view
+    title="借阅信息"
     icon-name="library"
-    class="book-card" 
+    class="book-card"
     @tap="nav"
   >
     <text class="sub-text">
@@ -20,9 +20,9 @@
       class="book-card"
       :style="{
         backgroundColor: index % 2 ?
-        'var(--wjh-color-yellow-500)': 'var(--wjh-color-orange-500)',
+          'var(--wjh-color-yellow-500)': 'var(--wjh-color-orange-500)',
       }"
-      >
+    >
       <view class="book-name">
         {{ item.title }}
       </view>
