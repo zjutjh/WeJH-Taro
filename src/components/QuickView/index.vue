@@ -4,7 +4,7 @@
       <view class="quick-view-title">
         <image
           v-if="isShowByUrl"
-          :src="getIconUrl(iconName,IconTypeEnum.otherIcons)"
+          :src="getIconUrl(iconName,IconTypeEnum.quickviewIcon)"
         />
         <view
           v-else

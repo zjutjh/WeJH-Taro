@@ -99,7 +99,7 @@ const handleClose = () => {
             >
               <image
                 v-if="isShowByUrl"
-                :src="getIconUrl(item.icon,IconTypeEnum.mainIcons)"
+                :src="getIconUrl(item.icon,IconTypeEnum.applistIcon)"
               />
               <view
                 v-else
@@ -135,7 +135,7 @@ const handleClose = () => {
             >
               <image
                 v-if="isShowByUrl"
-                :src="getIconUrl(item.icon, IconTypeEnum.mainIcons)"
+                :src="getIconUrl(item.icon, IconTypeEnum.applistIcon)"
               />
               <view
                 v-else

@@ -22,7 +22,7 @@ export interface Config {
     selectedMyIcon: string;
   },
   applistIcon: ApplistIcon
-  applistDarkIcon: ApplistIcon
+  quickviewIcon: ApplistIcon
   backgroundImg: string;
   backgroundColor: string;
   backgroundPosition: string;
@@ -74,7 +74,7 @@ export const defaultConfigLight: Config = {
     schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/bus-white.png",
     clothIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/suitapply-white.png"
   },
-  applistDarkIcon: {
+  quickviewIcon: {
     classIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/24gf-table-black(unused).png",
     gradeIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/score-black(unused).png",
     examIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/exam-black(unused).png",
@@ -115,7 +115,7 @@ export const defaultConfigDark: Config = {
     schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/bus-black.png",
     clothIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/suitapply-black.png"
   },
-  applistDarkIcon: {
+  quickviewIcon: {
     classIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/24gf_table_white.png",
     gradeIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/grade_white.png",
     examIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/exam_white.png",

@@ -36,8 +36,8 @@ const { isShowByUrl, getIconUrl, IconTypeEnum } = useTheme();
 const icon = props.icon;
 
 const iconType = computed(() => {
-  if (darkMode.value === "light") return IconTypeEnum.mainIcons;
-  else return isDisabled.value ? IconTypeEnum.otherIcons : IconTypeEnum.mainIcons;
+  if (darkMode.value === "light") return IconTypeEnum.applistIcon;
+  else return isDisabled.value ? IconTypeEnum.quickviewIcon : IconTypeEnum.applistIcon;
 });
 
 const isDisabled = computed(() => {
