@@ -10,6 +10,12 @@
   align-items: center;
   gap: 4Px;
 
+  image {
+    height: 55px;
+    width: 55px;
+    z-index: 1;
+  }
+  
   .icon-wrapper {
     position: relative;
     height: 60Px;

@@ -2,7 +2,14 @@
   <view class="quick-view">
     <view class="quick-view-header">
       <view class="quick-view-title">
-        <view :class="`iconfont icon-${iconName}`" />
+        <image
+          v-if="isShowByUrl"
+          :src="getIconUrl(iconName,IconTypeEnum.quickviewIcon)"
+        />
+        <view
+          v-else
+          :class="`iconfont icon-${iconName}`"
+        />
         <text>{{ title }}</text>
       </view>
       <view
@@ -20,6 +27,10 @@
 <script setup lang="ts">
 import { toRefs } from "vue";
 import "./index.scss";
+import { useTheme } from "@/hooks/index";
+
+const { getIconUrl, isShowByUrl, IconTypeEnum } = useTheme();
+
 const props = defineProps<{ title: string; iconName: string; help?: boolean }>();
 const { title, iconName, help } = toRefs(props);
 

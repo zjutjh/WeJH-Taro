@@ -5,7 +5,12 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('home')"
     >
-      <view class="iconfont " :class="homeClass" />
+      <image
+        v-if="isShowByUrl"
+        :src="pageName === 'home' && !showPop ?
+          barIcons.selectedHomeIcon : barIcons.homeIcon"
+      />
+      <view v-else class="iconfont icon-home" />
       <view class="description">
         首页
       </view>
@@ -18,7 +23,11 @@
       class="nav-bar-icon-wrapper"
       @tap="plusClick"
     >
-      <view class="iconfont " :class="applyClass" />
+      <image
+        v-if="isShowByUrl"
+        :src="showPop ? barIcons.selectedFunctionIcon : barIcons.functionIcon"
+      />
+      <view v-else class="iconfont icon-applist" />
       <view class="description">
         功能
       </view>
@@ -31,7 +40,11 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('my')"
     >
-      <view class="iconfont " :class="personClass" />
+      <image
+        v-if="isShowByUrl"
+        :src="pageName === 'my' && !showPop ? barIcons.selectedMyIcon : barIcons.myIcon"
+      />
+      <view v-else class="iconfont icon-user" />
       <view class="description">
         我的
       </view>
@@ -60,6 +73,9 @@ import Taro from "@tarojs/taro";
 import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
+import { useTheme } from "@/hooks";
+
+const { isShowByUrl } = useTheme();
 
 const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);
@@ -76,11 +92,7 @@ const notificationActive = computed(() => {
     my: checkNotification("my", store)
   };
 });
-// 主题过渡方案
-const themeMode = computed(() => serviceStore.theme.themeMode);
-const homeClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-home1" : "icon-home");
-const applyClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-apply1" : "icon-applist");
-const personClass = computed(() => themeMode.value === "walk" ? "icon-a-15th-person1" : "icon-user");
+const barIcons = computed(() => serviceStore.theme.config.barIcon);
 
 const { pageName } = toRefs(props);
 
