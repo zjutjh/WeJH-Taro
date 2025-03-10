@@ -52,11 +52,8 @@
               :key="index"
               class="book-card"
               :style="{
-                backgroundColor:
-                  index % 2
-                    ? 'var(--wjh-color-yellow-500)'
-                    : 'var(--wjh-color-green-500)',
-              }"
+                '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
+              } as CSSProperties"
             >
               <view class="book-name">
                 {{ item.title }}
@@ -91,7 +88,7 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, CSSProperties } from "vue";
 import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";

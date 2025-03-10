@@ -19,9 +19,8 @@
       :key="item.loanId"
       class="book-card"
       :style="{
-        backgroundColor: index % 2 ?
-          'var(--wjh-color-yellow-500)': 'var(--wjh-color-orange-500)',
-      }"
+        '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
+      } as CSSProperties"
     >
       <view class="book-name">
         {{ item.title }}
@@ -41,7 +40,7 @@ import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import Card from "../Card/index.vue";
-import { computed } from "vue";
+import { computed, CSSProperties } from "vue";
 import { serviceStore } from "@/store";
 import "./index.scss";
 

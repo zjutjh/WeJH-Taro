@@ -7,6 +7,19 @@
     box-shadow: none;
     padding: 0 16Px;
     position: relative;
+
+    &::before {
+      content: "";
+      z-index: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: var(--bg-color);
+      opacity: .3;
+      border-radius: 8Px;
+    }
   }
 
 
