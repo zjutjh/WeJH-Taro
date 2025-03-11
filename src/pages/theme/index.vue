@@ -16,13 +16,19 @@
             <view class="tab-bar noActivity">
               <view v-for="item in mode.list.noActivity" :key="item.themeId" class="tab-noActivity">
                 <view
-                  class="tab-noActivity-block"
+                  class="tab-noActivity-block-outer"
                   :style="{
                     border: activeBorder(item),
-                    backgroundColor: item.themeConfig.baseColor.base600
                   }"
                   @tap="handleTabClick(item.themeId, mode.name)"
-                />
+                >
+                  <view
+                    class="tab-noActivity-block-inner"
+                    :style="{
+                      backgroundColor: item.themeConfig.baseColor.base600
+                    }"
+                  />
+                </view>
                 <view class="tab-name">
                   {{ item.name }}
                 </view>
@@ -31,7 +37,6 @@
             <view
               v-if="mode.list.activity.length"
               class="tab-bar activity"
-              style="border-top: 1Px solid var(--wjh-color-border);"
             >
               <view
                 v-for="item in mode.list.activity"
@@ -39,10 +44,12 @@
                 class="tab-activity"
                 @tap="handleTabClick(item.themeId, mode.name)"
               >
-                <view>
+                <view
+                  class="tab-activity-block-outer"
+                  :style="{ border: activeBorder(item) }"
+                >
                   <image
-                    class="tab-activity-block"
-                    :style="{ border: activeBorder(item) }"
+                    class="tab-activity-block-inner"
                     :src="item.themeConfig.selectionImg"
                   />
                 </view>
@@ -52,11 +59,6 @@
               </view>
             </view>
           </view>
-          <!-- <template v-if="mode.name === modes[1].name" #footer>
-            <view class="footer-text">
-              预设切换为{{ modeNameMap[mode.name] }}时的主题配置
-            </view>
-          </template> -->
         </card>
       </view>
     </scroll-view>
@@ -75,7 +77,7 @@ import Taro from "@tarojs/taro";
 import { Theme } from "@/store/service/theme";
 import { toCamelCase } from "@/utils/camelize";
 
-const { mode: darkMode, setMode } = useDarkMode();
+const { mode: darkMode, setMode, isAdapted } = useDarkMode();
 const configMap = {};
 const titleColor = computed(() => {
   return darkMode.value === "light" ? "--wjh-color-primary" : undefined;
@@ -105,8 +107,12 @@ const modes = computed(() => {
   const modeSettingList = [
     { name: "light", list: hadThemeListLight.value }, { name: "dark", list: hadThemeListDark.value }
   ];
-  if (darkMode.value === "light") return modeSettingList;
-  else return modeSettingList.reverse();
+  if (isAdapted.value) {
+    if (darkMode.value === "light") return modeSettingList;
+    else return modeSettingList.reverse();
+  } else {
+    return modeSettingList.filter((item) => item.name === darkMode.value);
+  }
 });
 const modeNameMap = { "light": "浅色", "dark": "深色" };
 const handleShowedTitle = (mode) => {
@@ -178,14 +184,10 @@ const handleTabClick = (themeId: number, darkMode: string) => {
 };
 
 const activeBorder = (item: Theme) => {
-  let borderColor: string | undefined = undefined;
-  const borderColorLight = item.themeConfig.baseColor.base700;
-  const borderColorDark = "#E5E5E5";
-
-  borderColor = darkMode.value === "light" ? borderColorLight : borderColorDark;
+  const borderColor: string | undefined = item.themeConfig.baseColor.base700;
 
   if (currentThemeMode.value.light === item.themeId || currentThemeMode.value.dark === item.themeId) {
-    return "5rpx solid " + borderColor;
+    return "6rpx solid " + borderColor;
   } else return "";
 };
 </script>
