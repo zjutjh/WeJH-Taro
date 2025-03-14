@@ -20,7 +20,7 @@
   .tab-bar {
     background-color: var(--wjh-color-background-container);
     display: grid;
-    column-gap: 1rem;
+    column-gap: 1.5rem;
     padding: 2rem 1rem 1.25rem 1rem;
 
     .tab-noActivity {
@@ -31,40 +31,29 @@
         aspect-ratio: 1;
         border-radius: 15px;
         box-sizing: border-box;
-        border: 6rpx solid transparent;
-        transition: border 0.3s ease;
-
-        .tab-noActivity-block-inner {
-          display: grid;
-          aspect-ratio: 1;
-          width: 96%;
-          margin: 2%;
-          border-radius: 15px;
-          opacity: 0.6;
-        }
+        box-shadow: 0 0 0 10px var(--border-color);
+        border: 5px solid var(--wjh-color-background-container);
+        opacity: 0.8;
       }
     }
 
     .tab-activity {
       display: grid;
-      .tab-activity-block-outer {
-        display: grid;
-        aspect-ratio: 3/2;
+      .tab-activity-block {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 2;
         border-radius: 15px;
         box-sizing: border-box;
         border: 6rpx solid transparent;
         transition: border 0.3s ease;
-        .tab-activity-block-inner {
-          height: 88%;
-          width: 96%;
-          margin: 2%;
-          border-radius: 15px;
-          opacity: 0.8;
-        }
+        box-shadow: 0 0 0 10px var(--border-color);
+        opacity: 0.8;
       }
     }
 
     .tab-name {
+      padding-top: 0.5rem;
       height: 2rem;
       font-size: 0.8rem;
       text-align: center;

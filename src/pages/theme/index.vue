@@ -18,17 +18,11 @@
                 <view
                   class="tab-noActivity-block-outer"
                   :style="{
-                    border: activeBorder(item),
+                    '--border-color': activeBorder(item),
+                    backgroundColor: item.themeConfig.baseColor.base600
                   }"
                   @tap="handleTabClick(item.themeId, mode.name)"
-                >
-                  <view
-                    class="tab-noActivity-block-inner"
-                    :style="{
-                      backgroundColor: item.themeConfig.baseColor.base600
-                    }"
-                  />
-                </view>
+                />
                 <view class="tab-name">
                   {{ item.name }}
                 </view>
@@ -44,15 +38,11 @@
                 class="tab-activity"
                 @tap="handleTabClick(item.themeId, mode.name)"
               >
-                <view
-                  class="tab-activity-block-outer"
-                  :style="{ border: activeBorder(item) }"
-                >
-                  <image
-                    class="tab-activity-block-inner"
-                    :src="item.themeConfig.selectionImg"
-                  />
-                </view>
+                <image
+                  class="tab-activity-block"
+                  :style="{ '--border-color': activeBorder(item), }"
+                  :src="item.themeConfig.selectionImg"
+                />
                 <view class="tab-name">
                   {{ item.name }}
                 </view>
@@ -187,7 +177,7 @@ const activeBorder = (item: Theme) => {
   const borderColor: string | undefined = item.themeConfig.baseColor.base700;
 
   if (currentThemeMode.value.light === item.themeId || currentThemeMode.value.dark === item.themeId) {
-    return "6rpx solid " + borderColor;
+    return borderColor;
   } else return "";
 };
 </script>
