@@ -11,15 +11,19 @@
   }
 }
 
-
 .nav-bar-icon-wrapper {
   padding: 0 16Px;
   position: relative;
   opacity: .8;
+
+  image {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }
 
 .iconfont {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
 
 .unselected {
@@ -32,6 +36,7 @@
 
 .description {
   font-size: 0.75rem;
+  text-align: center;
 }
 
 .badge-wrapper {

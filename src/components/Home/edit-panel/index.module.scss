@@ -62,6 +62,12 @@
         width: 100rpx;
         position: relative;
 
+        image {
+          height: 50px;
+          width: 50px;
+          z-index: 1;
+        }
+
         &::before {
           content: "";
           position: absolute;
@@ -75,7 +81,7 @@
         }
 
         .icon {
-          font-size: 1.8em;
+          font-size: 50px;
           z-index: 10;
         }
       }
