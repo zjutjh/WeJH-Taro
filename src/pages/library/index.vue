@@ -52,7 +52,7 @@
               :key="index"
               class="book-card"
               :style="{
-                '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
+                '--bg-color': index % 2 ? 'var(--wjh-color-primary-dark)' : 'var(--wjh-color-primary)'
               } as CSSProperties"
             >
               <view class="book-name">
