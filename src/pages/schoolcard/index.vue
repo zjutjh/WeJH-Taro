@@ -125,18 +125,18 @@ const { run: queryRecord, loading } = useRequest(
   }
 );
 
-const totalConsume = ref(0);
 const consumeList = computed(() => {
-  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-  totalConsume.value = 0;
-  const tmp = records.value;
-  return (
-    tmp.filter((item) => {
-      if (parseFloat(item.money) < 0)
-        totalConsume.value += Math.abs(parseFloat(item.money));
-      return parseFloat(item.money) !== 0;
-    }) || []
-  );
+  return records.value
+    .filter((item) => parseFloat(item.money) !== 0);
+});
+
+const totalConsume = computed(() => {
+  return consumeList.value.reduce((acc, cur) => {
+    if (parseFloat(cur.money) < 0) {
+      acc += Math.abs(parseFloat(cur.money));
+    }
+    return acc;
+  }, 0);
 });
 
 async function updateData() {
