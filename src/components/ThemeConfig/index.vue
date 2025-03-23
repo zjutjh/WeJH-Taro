@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, watch } from "vue";
 import store, { serviceStore } from "@/store";
 import { useDarkMode, useRequest } from "@/hooks";
 import greenImg from "@/assets/photos/background.svg";
@@ -65,6 +65,11 @@ const { run } = useRequest(UserService.getUserTheme, {
   }
 });
 onMounted(() => {
+  if (serviceStore.user.isActive) {
+    run();
+  }
+});
+watch(() => serviceStore.user.isActive, () => {
   if (serviceStore.user.isActive) {
     run();
   }
