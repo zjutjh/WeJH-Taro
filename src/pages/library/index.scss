@@ -1,9 +1,5 @@
 @import '@/style/theme.scss';
 
-.background {
-  background-image: none;
-}
-
 .header-view {
   height: 200Px;
   background-color: var(--wjh-color-primary);
@@ -67,14 +63,33 @@
 }
 
 .book-card {
-  .wjh-card-body {
-    position: relative;
+  position: relative;
 
-    :not(:first-child) {
-      font-size: 0.875rem;
-      color: var(--wjh-color-week);
-    }
+  &::before {
+    content: "";
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-color);
+    opacity: .3;
+    border-radius: 8Px;
   }
+
+  .wjh-card {
+    .wjh-card-body {
+      position: relative;
+
+      :not(:first-child) {
+        font-size: 0.875rem;
+        color: var(--wjh-color-week);
+      }
+    }
+
+  }
+
 
   .book-name {
     color: var(--wjh-color-text-secondary);

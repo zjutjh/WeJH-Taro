@@ -38,18 +38,15 @@ const iconClass = computed(() => {
   }
 });
 
-const isDisabled = computed(() => {
-  switch (requireActive.value) {
-    case "zf":
-      return !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth;
-    case "library":
-      return !serviceStore.user.isBindLibrary;
-    case "yxy":
-      return !serviceStore.user.isBindYXY;
-    default:
-      return false;
-  }
-});
+const isDisabled = ref(false);
+// 之后需要改动，目前zf和oauth的功能是等效的，因此zf和oauth有一个为true即可使用
+// 原来的代码是 if (requireActive.value === "zf" && !serviceStore.user.isBindZF)
+if (requireActive.value === "zf" && !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth)
+  isDisabled.value = true;
+if (requireActive.value === "oauth" && !serviceStore.user.isBindOauth)
+  isDisabled.value = true;
+if (requireActive.value === "yxy" && !serviceStore.user.isBindYXY)
+  isDisabled.value = true;
 
 async function appTaped() {
   if (isDisabled.value) {

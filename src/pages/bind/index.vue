@@ -23,11 +23,6 @@
               统一验证系统
             </w-list-item>
           </w-list>
-          <w-list class="bind-list" :class="[{ binded: user.isBindLibrary }]">
-            <w-list-item :extra="user.isBindLibrary ? '已绑定' : '未绑定'" arrow="down">
-              图书馆账号(暂不可用)
-            </w-list-item>
-          </w-list>
           <w-list class="bind-list" :class="[{ binded: user.isBindYXY }]">
             <w-list-item
               :extra="user.isBindYXY ? '已绑定' : '未绑定'"
@@ -42,7 +37,6 @@
           输入密码时请注意特殊字符的中英文编码
         </card>
         <z-f v-if="bindTab === 'zf'" />
-        <library v-if="bindTab === 'library'" />
         <y-x-y v-if="bindTab === 'yxy'" />
         <oauth v-if="bindTab === 'oauth'" />
       </view>
@@ -52,7 +46,6 @@
 
 <script setup lang="ts">
 import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
-import Library from "./Library/index.vue";
 import ZF from "./ZF/index.vue";
 import YXY from "./YXY/index.vue";
 import Oauth from "./Oauth/index.vue";

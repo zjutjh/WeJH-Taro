@@ -22,7 +22,7 @@
       <cards />
 
       <card
-        v-if="!(isBindZf || isBindYXY || isBindLibrary || isBindOauth)"
+        v-if="!(isBindZf || isBindYXY || isBindOauth)"
         title="提示"
       >
         还没有绑定任何服务，请到我的页面绑定
@@ -120,9 +120,6 @@ const isNeverShowQuestionnaire = computed(() => {
 });
 const isBindZf = computed(() => {
   return serviceStore.user.isBindZF;
-});
-const isBindLibrary = computed(() => {
-  return serviceStore.user.isBindLibrary;
 });
 const isBindYXY = computed(() => {
   return serviceStore.user.isBindYXY;
