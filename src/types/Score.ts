@@ -1,4 +1,5 @@
 export interface Score {
+  selected: boolean;
   checkRead: boolean;
   className: string;
   credits: string;
@@ -12,4 +13,6 @@ export interface Score {
   submitName: string;
   submitTime: string;
   teacherName: string;
+  scoreTerm: string;
+  key: string;
 }

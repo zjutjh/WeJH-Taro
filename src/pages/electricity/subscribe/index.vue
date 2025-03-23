@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="寝室电费查询" back-button />
+    <title-bar title="寝室电量查询" back-button />
     <view class="flex-column">
       <card title="订阅消息说明">
         <text>
@@ -18,7 +18,7 @@
         </template>
       </card>
 
-      <view :class="styles.action" @tap="subscribe">
+      <view :class="styles.action" @tap="handleSubscribe">
         <w-button size="large" shape="rounded">
           点击订阅
         </w-button>
@@ -32,40 +32,36 @@ import { Card, ThemeConfig, TitleBar, WButton } from "@/components";
 import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import styles from "./index.module.scss";
+import { requestMpSubscribe } from "@/utils/subscribe";
 
-/**
-  * 订阅
-  * 包含两步
-  * 1. 向微信请求订阅
-  * 2. 给服务器发请求
-  */
-const subscribe = async () => {
+async function handleSubscribe() {
   const tmpId = import.meta.env.VITE_ELECTRICITY_SUBSCRIBE_TEMPLATE_ID;
 
-  Taro.requestSubscribeMessage({
-    tmplIds: [tmpId], // 微信小程序的模板 id
-    entityIds: [], // 支付宝小程序的模板 id，这里为了类型正确，声明一个空数组，实际消费不到
-    success: async res => {
-      if (res[tmpId] === "accept") {
-        try {
-          const res = await YxyService.queryElectricitySubscription();
-          if (res.data.code === 1) {
-            Taro.showToast({
-              title: "订阅成功",
-              icon: "none"
-            });
-          } else {
-            throw new Error(res.data.msg);
-          }
-        } catch (e) {
-          Taro.showToast({
-            title: e?.message || "订阅失败",
-            icon: "none"
-          });
-        }
-      }
-    }
-  });
-};
+  Taro.showLoading({ title: "订阅中", mask: true });
+  try {
+    await requestMpSubscribe(tmpId);
+  } catch {
+    Taro.hideLoading();
+    return;
+  }
 
+  try {
+    const res = await YxyService.queryElectricitySubscription();
+    Taro.hideLoading();
+    if (res.data.code === 1) {
+      Taro.showToast({
+        title: "订阅成功",
+        icon: "none"
+      });
+    } else {
+      throw new Error(res.data.msg);
+    }
+  } catch (e) {
+    Taro.hideLoading();
+    Taro.showToast({
+      title: e?.message || "订阅失败",
+      icon: "none"
+    });
+  }
+};
 </script>

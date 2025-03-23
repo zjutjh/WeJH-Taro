@@ -67,42 +67,35 @@ export default class UserService {
     );
   };
 
-  // fix: param autoLogin is overriden by showModal
-  static async bindLibrary(data?: { password: string }, showModal = true) {
+  static async bindLibrary(data?: { password: string }) {
     return updateDateStateWithSession(
       api.user.bind.library,
       data,
       "setBindLibrary",
-      (res: FetchResult) => res.data.code === 1,
-      true,
-      showModal
+      (res: FetchResult) => res.data.code === 1
     );
   }
 
-  static async bindZF(data?: { password: string }, showModal = true) {
+  static async bindZF(data?: { password: string }) {
     return updateDateStateWithSession(
       api.user.bind.zf,
       data,
       "setBindZF",
-      (res: FetchResult) => res.data.code === 1,
-      true,
-      showModal
+      (res: FetchResult) => res.data.code === 1
     );
   }
 
-  static async bindOauth(data?: { password: string }, showModal = true) {
+  static async bindOauth(data?: { password: string }) {
     return updateDateStateWithSession(
       api.user.bind.oauth,
       data,
       "setBindOauth",
-      (res: FetchResult) => res.data.code === 1,
-      true,
-      showModal
+      (res: FetchResult) => res.data.code === 1
     );
   }
 
   // comment: 返回用户信息
-  static async getUserInfo(autoLogin = true): Promise<any> {
+  static async getUserInfo(): Promise<any> {
     // comment: 创号成功，打开我的，每次 testSession 执行一次
     // testSession 进入时，autoLogin === false
     return await updateDateStateWithSession(
@@ -111,8 +104,7 @@ export default class UserService {
       "setUserInfo",
       (res: FetchResult) => {
         return res.data.data.user;
-      },
-      autoLogin
+      }
     );
   }
 
@@ -141,7 +133,7 @@ export default class UserService {
       return true;
     }
     Taro.hideLoading();
-    await errCodeHandler(res.data.code, true);
+    await errCodeHandler(res.data.code);
 
     return false;
   }

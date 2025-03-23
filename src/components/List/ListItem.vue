@@ -1,7 +1,12 @@
 <template>
   <view class="wjh-list-item">
     <view class="wjh-list-item-content">
-      <view class="wjh-list-item-content-main">
+      <view
+        :class="[
+          `wjh-list-item-content-main`,
+          isSelected ? `wjh-list-item-content-main-unselected line-through` : undefined
+        ]"
+      >
         <slot />
       </view>
       <template v-if="props.arrow">
@@ -15,13 +20,16 @@
 </template>
 
 <script setup lang="ts">
-import { CSSProperties } from "vue";
+import { CSSProperties, ref } from "vue";
 import "./index.scss";
 
 type PropsType = {
   arrow?: "right" | "down";
+  selected?: boolean;
 };
 const props = defineProps<PropsType>();
+
+const isSelected = ref(props.selected);
 
 const degrees = {
   right: "rotate(0)",
