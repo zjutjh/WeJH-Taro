@@ -46,14 +46,11 @@ const handleAdaptToggle = () => {
   Taro.showActionSheet({
     itemList: Object.values(optionValueMap),
     success: async (e) => {
-      const setActive = async () => {
-        isActive.value = mode.value === "light";
-      };
       if (e.tapIndex === 0) {
         await setIsAdapted(true);
-        await setActive();
+        isActive.value = mode.value === "light";
       } else {
-        await setActive();
+        isActive.value = mode.value === "light";
         await setIsAdapted(false);
       }
     }
