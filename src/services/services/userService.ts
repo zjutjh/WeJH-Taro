@@ -133,6 +133,7 @@ export default class UserService {
       return true;
     }
     Taro.hideLoading();
+    Taro.showToast({ title: res.data.msg, icon: "none" });
     await errCodeHandler(res.data.code);
 
     return false;

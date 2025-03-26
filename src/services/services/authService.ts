@@ -23,13 +23,15 @@ async function LoginByTaroImpl(): Promise<boolean> {
   if (!code) return false;
   const fet = await fetch.post(api.user.login.wechat, { code: res.code });
 
-  if (fet.data.code === ServerCode.OK)
+  if (fet.data.code === ServerCode.OK) {
     if (fet.cookies && fet.cookies.length > 0) {
       store.commit("setSession", fet.cookies[0]);
       store.commit("setUserInfo", fet.data.data.user);
       return true;
     }
+  }
 
+  Taro.showToast({ title: fet.data.msg, icon: "none" });
   errCodeHandler(fet.data.code);
   return false;
 }
