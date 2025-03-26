@@ -56,34 +56,34 @@ export interface ThemeStoreType {
 
 export const defaultConfigLight: Config = {
   barIcon: {
-    homeIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/homeFill_light.png",
-    functionIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/appstoreFill_light.png",
-    myIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/user_light.png",
-    selectedHomeIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/homeFill_light_green.png",
-    selectedFunctionIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/appstoreFill_light_green.png",
-    selectedMyIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/user_light_green.png"
+    homeIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_light.png",
+    functionIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_light.png",
+    myIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_light.png",
+    selectedHomeIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_light_green.png",
+    selectedFunctionIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_light_green.png",
+    selectedMyIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_light_green.png"
   },
   applistIcon: {
-    classIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/24gf_table_white.png",
-    gradeIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/grade_white.png",
-    examIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/exam_white.png",
-    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/emptyclass-white.png",
-    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/card-b-white.png",
-    lendIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/book-white.png",
-    electricityIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/electricity-white.png",
-    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/bus-white.png",
-    clothIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/suitapply-white.png"
+    classIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf_table_white.png",
+    gradeIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/grade_white.png",
+    examIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam_white.png",
+    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-white.png",
+    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-white.png",
+    lendIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book-white.png",
+    electricityIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-white.png",
+    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-white.png",
+    clothIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-white.png"
   },
   quickviewIcon: {
-    classIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/24gf-table-black(unused).png",
-    gradeIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/score-black(unused).png",
-    examIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/exam-black(unused).png",
-    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/emptyclass-black(unused).png",
-    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/card-b-black(unused).png",
-    lendIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/book(unused).png",
-    electricityIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/electricity-black(unused).png",
-    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/bus-black(unused).png",
-    clothIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/suitapply-black(unused).png"
+    classIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf-table-black(unused).png",
+    gradeIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/score-black(unused).png",
+    examIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam-black(unused).png",
+    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-black(unused).png",
+    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-black(unused).png",
+    lendIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book(unused).png",
+    electricityIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-black(unused).png",
+    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-black(unused).png",
+    clothIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-black(unused).png"
   },
   selectionImg: "",
   backgroundImg: "#green",
@@ -97,34 +97,34 @@ export const defaultConfigLight: Config = {
 };
 export const defaultConfigDark: Config = {
   barIcon: {
-    homeIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/homeFillDark.png",
-    functionIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/appstoreFillDark.png",
-    myIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/userDark.png",
-    selectedHomeIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/homeFillDark_green.png",
-    selectedFunctionIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/appstoreFillDark_green.png",
-    selectedMyIcon: "https://api.cnpatrickstar.com/img/icons/bottomIcon/userDark_green.png"
+    homeIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_dark.png",
+    functionIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_dark.png",
+    myIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_dark.png",
+    selectedHomeIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/home_fill_dark_green.png",
+    selectedFunctionIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/appstore_fill_dark_green.png",
+    selectedMyIcon: "https://api.cnpatrickstar.com/img/icons/bottom_icon/user_dark_green.png"
   },
   applistIcon: {
-    classIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/24gf_table_black.png",
-    gradeIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/grade_black.png",
-    examIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/exam_black.png",
-    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/emptyclass-black.png",
-    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/card-b-black.png",
-    lendIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/book-black.png",
-    electricityIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/electricity-black.png",
-    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/bus-black.png",
-    clothIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/suitapply-black.png"
+    classIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf_table_black.png",
+    gradeIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/grade_black.png",
+    examIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam_black.png",
+    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-black.png",
+    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-black.png",
+    lendIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book-black.png",
+    electricityIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-black.png",
+    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-black.png",
+    clothIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-black.png"
   },
   quickviewIcon: {
-    classIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/24gf_table_white.png",
-    gradeIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/grade_white.png",
-    examIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/exam_white.png",
-    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/emptyclass-white.png",
-    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/card-b-white.png",
-    lendIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/book-white.png",
-    electricityIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/electricity-white.png",
-    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/bus-white.png",
-    clothIcon: "https://api.cnpatrickstar.com/img/icons/applyIcon/suitapply-white.png"
+    classIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/24gf_table_white.png",
+    gradeIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/grade_white.png",
+    examIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/exam_white.png",
+    freeClassroomIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/emptyclass-white.png",
+    schoolcardIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/card-b-white.png",
+    lendIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/book-white.png",
+    electricityIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/electricity-white.png",
+    schoolbusIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/bus-white.png",
+    clothIcon: "https://api.cnpatrickstar.com/img/icons/apply_icon/suitapply-white.png"
   },
   selectionImg: "",
   backgroundImg: "",
