@@ -52,20 +52,20 @@
               :key="index"
               class="book-card"
               :style="{
-                backgroundColor:
-                  index % 2
-                    ? 'var(--wjh-color-yellow-500)'
-                    : 'var(--wjh-color-green-500)',
-              }"
+                '--bg-color': index % 2 ? 'var(--wjh-color-primary-dark)' : 'var(--wjh-color-primary)'
+              } as CSSProperties"
             >
               <view class="book-name">
-                {{ item.name }}
+                {{ item.title }}
               </view>
               <view>
-                {{ `借阅日期：${item.time.split(" ")[0]} | ${item.time.split(" ")[1] }` }}
+                {{ `借阅日期：${item.loanDate}` }}
               </view>
-              <view v-if="item.returnTime">
-                {{ `归还日期：${item.returnTime.split(" ")[0]}` }}
+              <view v-if="item.returnDate">
+                {{ `归还日期：${item.returnDate}` }}
+              </view>
+              <view v-else-if="item.normReturnDate">
+                {{ `应还日期：${item.normReturnDate}` }}
               </view>
               <view
                 class="book-index"
@@ -88,11 +88,12 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, CSSProperties } from "vue";
 import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
+import dayjs from "dayjs";
 
 const isSelectToday = ref(true);
 const isSelectHistory = ref(false);
@@ -122,10 +123,11 @@ const currentCount = computed(() => {
 });
 
 /** 超期本数 */
+
 const currentExtendedCount = computed(() => {
   return current.value
     ? current.value.filter((item) => {
-      return parseInt(item.overdueTime) > 0;
+      return !dayjs(item.normReturnDate).isAfter(dayjs());
     }).length
     : 0;
 });
