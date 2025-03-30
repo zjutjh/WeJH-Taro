@@ -13,7 +13,7 @@
           <view>
             超期：
             <text>
-              {{ currentExtendedCount }}
+              {{ currentExpiredCount }}
             </text>
             本
           </view>
@@ -44,7 +44,7 @@
         </template>
         <view>
           <view class="flex-column">
-            <card v-if="!borrowList" class="no-item">
+            <card v-if="!borrowList.length" class="no-item">
               无借阅记录
             </card>
             <card
@@ -58,24 +58,18 @@
               <view class="book-name">
                 {{ item.title }}
               </view>
-              <view>
-                {{ `借阅日期：${item.loanDate}` }}
+              <view class="borrow-time">
+                <view>
+                  {{ `借阅日期：${item.loanDate}` }}
+                </view>
+                <view v-if="item.returnDate">
+                  {{ `归还日期：${item.returnDate}` }}
+                </view>
+                <view v-else-if="item.normReturnDate">
+                  {{ `应还日期：${item.normReturnDate}` }}
+                </view>
               </view>
-              <view v-if="item.returnDate">
-                {{ `归还日期：${item.returnDate}` }}
-              </view>
-              <view v-else-if="item.normReturnDate">
-                {{ `应还日期：${item.normReturnDate}` }}
-              </view>
-              <view
-                class="book-index"
-                :style="{
-                  color:
-                    index % 2
-                      ? 'var(--wjh-color-orange-600)'
-                      : 'var(--wjh-color-green-700)',
-                }"
-              >
+              <view class="book-index">
                 {{ index + 1 }}
               </view>
             </card>
@@ -115,7 +109,7 @@ const history = computed(() => {
 });
 
 const current = computed(() => {
-  return serviceStore.library.current;
+  return serviceStore.library.current ?? [];
 });
 
 const currentCount = computed(() => {
@@ -123,13 +117,12 @@ const currentCount = computed(() => {
 });
 
 /** 超期本数 */
+const currentExpiredCount = computed(() => {
+  const expired = current.value.filter((item) =>
+    dayjs(item.normReturnDate).isBefore(dayjs())
+  );
 
-const currentExtendedCount = computed(() => {
-  return current.value
-    ? current.value.filter((item) => {
-      return !dayjs(item.normReturnDate).isAfter(dayjs());
-    }).length
-    : 0;
+  return expired.length;
 });
 
 async function updateData() {

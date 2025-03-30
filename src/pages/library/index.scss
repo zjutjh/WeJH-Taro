@@ -83,7 +83,6 @@
     color: var(--wjh-color-week);
   }
 
-
   .book-name {
     color: var(--wjh-color-text-secondary);
     margin-bottom: 10Px;
@@ -94,8 +93,9 @@
   .book-index {
     position: absolute;
     bottom: 12Px;
-    right: 0;
-    font-weight: var(--wjh-font-weight-medium);
+    right: 16Px;
+    font-weight: var(--wjh-font-weight-bold);
+    color: var(--wjh-color-primary-dark);
+    font-size: .8rem;
   }
-
 }
