@@ -1,6 +1,6 @@
 @import "@/style/theme.scss";
 
-.book-card {
+.book-quick-view {
   .wjh-card {
     padding: 0.2rem;
     margin-top: 0.5rem;
@@ -22,12 +22,9 @@
     }
   }
 
-
-  .wjh-card-body {
-    :not(:first-child) {
-      font-size: 0.75rem;
-      color: var(--wjh-color-week);
-    }
+  .borrow-time {
+    font-size: 0.75rem;
+    color: var(--wjh-color-week);
   }
 
   .book-name {

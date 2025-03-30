@@ -2,7 +2,7 @@
   <quick-view
     title="借阅信息"
     icon-name="library"
-    class="book-card"
+    class="book-quick-view"
     @tap="nav"
   >
     <text class="sub-text">
@@ -17,7 +17,6 @@
     <card
       v-for="(item, index) in current.slice(0, 3)"
       :key="item.loanId"
-      class="book-card"
       :style="{
         '--bg-color': index % 2 ? 'var(--wjh-color-primary-dark)' : 'var(--wjh-color-primary)'
       } as CSSProperties"
