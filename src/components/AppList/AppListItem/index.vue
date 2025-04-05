@@ -1,7 +1,12 @@
 <template>
   <view class="applist-item" @tap="appTaped">
     <view class="icon-wrapper" :style="backgroundColor">
-      <view :class="['iconfont', iconClass]" />
+      <image
+        v-if="isShowByUrl"
+        :src="getIconUrl(icon,iconType)"
+        :style="{opacity: iconOpacity}"
+      />
+      <view v-else :class="['iconfont', 'icon-'+icon]" />
     </view>
     <text class="label">
       {{ label }}
@@ -14,6 +19,7 @@ import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
 import "./index.scss";
+import { useDarkMode, useTheme } from "@/hooks";
 import { BIND_CODE_NAME_RECORD } from "../utils";
 
 const props = defineProps<{
@@ -24,19 +30,15 @@ const props = defineProps<{
   require: string,
 }>();
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
-// 主题过渡方案
+
+const { mode: darkMode } = useDarkMode();
+const { isShowByUrl, getIconUrl, IconTypeEnum } = useTheme();
+
 const icon = props.icon;
-const themeMode = computed(() => serviceStore.theme.themeMode);
-const iconClass = computed(() => {
-  if (themeMode.value === "walk") {
-    if (icon !== "lessonstable" && icon !== "exam" && icon !== "score") {
-      return "icon-15th-" + icon;
-    } else {
-      return "icon-" + icon;
-    }
-  } else {
-    return "icon-" + icon;
-  }
+
+const iconType = computed(() => {
+  if (darkMode.value === "light") return IconTypeEnum.applistIcon;
+  else return isDisabled.value ? IconTypeEnum.quickviewIcon : IconTypeEnum.applistIcon;
 });
 
 const isDisabled = computed(() => {
@@ -52,6 +54,11 @@ const isDisabled = computed(() => {
     default:
       return true;
   }
+});
+
+const iconOpacity = computed(() => {
+  if (darkMode.value === "light") return undefined;
+  else return isDisabled.value ? 0.1 : undefined;
 });
 
 async function appTaped() {

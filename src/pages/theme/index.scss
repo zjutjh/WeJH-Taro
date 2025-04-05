@@ -1,47 +1,71 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
 
-.lab-card {
-
-  .empty {
-    padding: 1rem;
-  }
-
+.theme-card {
+  padding: 0;
   .footer-text {
     text-align: center;
+    opacity: 0.6;
   }
 
   .theme-config {
-    padding: 1rem;
+    padding: 0 0 1rem 0;
     text-align: center;
+
+    .theme-config-title {
+      position: relative;
+      top: 5px;
+    }
   }
 
   .tab-bar {
     background-color: var(--wjh-color-background-container);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12Px 0;
+    display: grid;
+    column-gap: 1.5rem;
+    padding: 2rem 1rem 1.25rem 1rem;
 
-    .tab {
-      padding: 7Px 12Px;
-      background-color: var(--wjh-color-primary-light);
-      color: var(--wjh-color-primary);
-      font-size: 0.875rem;
+    .tab-noActivity {
+      display: grid;
+
+      .tab-noActivity-block-outer {
+        display: grid;
+        aspect-ratio: 1;
+        border-radius: 15px;
+        box-sizing: border-box;
+        box-shadow: 0 0 0 7px var(--border-color);
+        border: 5px solid var(--wjh-color-background-container);
+        opacity: 0.8;
+      }
     }
 
-    .active {
-      background-color: var(--wjh-color-primary);
-      color: var(--wjh-color-white);
+    .tab-activity {
+      display: grid;
+      .tab-activity-block {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 2;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 6rpx solid transparent;
+        transition: border 0.3s ease;
+        box-shadow: 0 0 0 7px var(--border-color);
+        opacity: 0.8;
+      }
     }
 
-    .tab:first-child {
-      border-top-left-radius: 100Px;
-      border-bottom-left-radius: 100Px;
+    .tab-name {
+      padding-top: 0.5rem;
+      height: 2rem;
+      font-size: 0.8rem;
+      text-align: center;
     }
 
-    .tab:last-child {
-      border-top-right-radius: 100Px;
-      border-bottom-right-radius: 100Px;
-    }
+  }
+
+  .tab-bar.noActivity {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .tab-bar.activity {
+    border-top: 1px solid var(--wjh-color-border);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
