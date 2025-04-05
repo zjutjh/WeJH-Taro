@@ -6,9 +6,7 @@ import { Information } from "@/types/Information";
 import { serviceStore } from "@/store";
 import request from "../request";
 
-// comment: 这里的所有请求无需 session
 export default class SystemService {
-  // comment: 系统通知
   static async getAnnouncement(
     page = 1,
     size = 10
@@ -16,12 +14,10 @@ export default class SystemService {
     return updateDateState(
       api.announcement,
       { page, size },
-      "setAnnouncements",
-      null
+      "setAnnouncements"
     );
   }
 
-  // comment: 校园资讯
   static getInformation = () => {
     return request<Information[]>(
       api.information, {
@@ -31,15 +27,11 @@ export default class SystemService {
     );
   };
 
-  // comment: 首页应用列表
   static async getAppList(): Promise<AppListItem[]> {
-    // comment: 缓存 applist
-    // return updateDateState(api.applist, null, 'setApplist', 'clearApplist');
-    return updateDateState(api.applist, null, "setApplist", null);
+    return updateDateState(api.applist, null, "setApplist");
   }
 
-  // comment: 学期学年信息
   static async getGeneralInfo(): Promise<any> {
-    return updateDateState(api.info, null, "setGeneralInfo", null);
+    return updateDateState(api.info, null, "setGeneralInfo");
   }
 }

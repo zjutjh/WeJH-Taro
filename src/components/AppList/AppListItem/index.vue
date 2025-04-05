@@ -20,6 +20,7 @@ import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
 import "./index.scss";
 import { useDarkMode, useTheme } from "@/hooks";
+import { BIND_CODE_NAME_RECORD } from "../utils";
 
 const props = defineProps<{
   label: string,
@@ -42,14 +43,16 @@ const iconType = computed(() => {
 
 const isDisabled = computed(() => {
   switch (requireActive.value) {
+    case "oauth":
+      return !serviceStore.user.isBindOauth;
     case "zf":
       return !serviceStore.user.isBindZF && !serviceStore.user.isBindOauth;
-    case "library":
-      return !serviceStore.user.isBindLibrary;
     case "yxy":
       return !serviceStore.user.isBindYXY;
-    default:
+    case "null":
       return false;
+    default:
+      return true;
   }
 });
 
@@ -60,12 +63,16 @@ const iconOpacity = computed(() => {
 
 async function appTaped() {
   if (isDisabled.value) {
-    await Taro.navigateTo({ url: "/pages/bind/index" });
-    Taro.showToast({
-      icon: "none",
-      title: "请绑定相关账号"
+    const { confirm: isConfirm } = await Taro.showModal({
+      title: "提示",
+      content: `前往绑定 ${BIND_CODE_NAME_RECORD[requireActive.value] ?? ""} 账号`
     });
-  } else if (url.value) await Taro.navigateTo({ url: url.value });
+    if (isConfirm) {
+      Taro.navigateTo({ url: `/pages/bind/index?bind=${requireActive.value}` });
+    }
+  } else if (url.value) {
+    Taro.navigateTo({ url: url.value });
+  }
 }
 
 const backgroundColor = computed(() => {

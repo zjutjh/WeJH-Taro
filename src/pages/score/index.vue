@@ -75,7 +75,7 @@
           <w-collapse v-if="!isEdit" class="score-list-collapse">
             <w-collapse-panel
               v-for="item in selectedLessonsList"
-              :key="`${item.lessonID}-${item.submitTime}`"
+              :key="`${item.key}`"
               arrow
               :selected="false"
             >
@@ -109,7 +109,7 @@
 
             <w-collapse-panel
               v-for="item in unSelectedLessonsList"
-              :key="`${item.lessonID}-${item.submitTime}`"
+              :key="`${item.key}`"
               arrow
               :selected="true"
             >
@@ -145,7 +145,7 @@
             必修课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in requiredScoreList" :key="`${item.lessonID}-${item.submitTime}`">
+            <w-panel v-for="item in requiredScoreList" :key="`${item.key}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox class="checkbox" :checked="item.selected" />
@@ -170,7 +170,7 @@
             限选课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in limitedScoreList" :key="`${item.lessonID}-${item.submitTime}`">
+            <w-panel v-for="item in limitedScoreList" :key="`${item.key}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -208,7 +208,7 @@
             任选课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in electiveScoreList" :key="`${item.lessonID}-${item.submitTime}`">
+            <w-panel v-for="item in electiveScoreList" :key="`${item.key}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -246,7 +246,7 @@
             选修课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in optionalScoreList" :key="`${item.lessonID}-${item.submitTime}`">
+            <w-panel v-for="item in optionalScoreList" :key="`${item.key}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -284,7 +284,7 @@
             体育课
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in sportsScoreList" :key="`${item.lessonID}-${item.submitTime}`">
+            <w-panel v-for="item in sportsScoreList" :key="`${item.key}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -322,7 +322,7 @@
             其他课程
           </w-button>
           <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in othersScoreList" :key="`${item.lessonID}-${item.submitTime}`">
+            <w-panel v-for="item in othersScoreList" :key="`${item.key}`">
               <template #header>
                 <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
                   <checkbox
@@ -386,7 +386,7 @@
       </view>
       <view class="col">
         <w-button shape="circle" size="large" class="sort-button">
-          <view class="iconfont icon-paixu" @tap="handleSort"/>
+          <view class="iconfont icon-paixu" @tap="handleSort" />
         </w-button>
       </view>
       <view />
@@ -506,7 +506,7 @@ const requireLessonChange = () => {
       if (!item.selected) {
         selectedLessonsList.value.push(item);
         unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
       };
       item.selected = true;
@@ -516,7 +516,7 @@ const requireLessonChange = () => {
     requiredScoreList.value.forEach(item => {
       if (item.selected) {
         selectedLessonsList.value = selectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
         unSelectedLessonsList.value.push(item);
         store.commit("setUnCalc", item);
@@ -533,7 +533,7 @@ const sportsLessonChange = () => {
       if (!item.selected) {
         selectedLessonsList.value.push(item);
         unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
       };
       item.selected = true;
@@ -543,7 +543,7 @@ const sportsLessonChange = () => {
     sportsScoreList.value.forEach(item => {
       if (item.selected) {
         selectedLessonsList.value = selectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
         unSelectedLessonsList.value.push(item);
         store.commit("setUnCalc", item);
@@ -560,7 +560,7 @@ const optionalLessonChange = () => {
       if (!item.selected) {
         selectedLessonsList.value.push(item);
         unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
       };
       item.selected = true;
@@ -570,7 +570,7 @@ const optionalLessonChange = () => {
     optionalScoreList.value.forEach(item => {
       if (item.selected) {
         selectedLessonsList.value = selectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
         unSelectedLessonsList.value.push(item);
         store.commit("setUnCalc", item);
@@ -587,7 +587,7 @@ const limitedLessonChange = () => {
       if (!item.selected) {
         selectedLessonsList.value.push(item);
         unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
       };
       item.selected = true;
@@ -597,7 +597,7 @@ const limitedLessonChange = () => {
     limitedScoreList.value.forEach(item => {
       if (item.selected) {
         selectedLessonsList.value = selectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
         unSelectedLessonsList.value.push(item);
         store.commit("setUnCalc", item);
@@ -614,7 +614,7 @@ const electiveLessonChange = () => {
       if (!item.selected) {
         selectedLessonsList.value.push(item);
         unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
       };
       item.selected = true;
@@ -624,7 +624,7 @@ const electiveLessonChange = () => {
     electiveScoreList.value.forEach(item => {
       if (item.selected) {
         selectedLessonsList.value = selectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
         unSelectedLessonsList.value.push(item);
         store.commit("setUnCalc", item);
@@ -641,7 +641,7 @@ const othersLessonChange = () => {
       if (!item.selected) {
         selectedLessonsList.value.push(item);
         unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
       };
       item.selected = true;
@@ -651,7 +651,7 @@ const othersLessonChange = () => {
     othersScoreList.value.forEach(item => {
       if (item.selected) {
         selectedLessonsList.value = selectedLessonsList.value.filter(
-          selected => selected.lessonID !== item.lessonID
+          selected => selected.key !== item.key
         );
         unSelectedLessonsList.value.push(item);
         store.commit("setUnCalc", item);
@@ -672,7 +672,7 @@ watch(scoreList, (newScoreList) => {
   unSelectedLessonsList.value = [];
   newScoreList.forEach((item) => {
     const isFind = unselectedLessons.find(
-      storeItem => item.className === storeItem.name && item.scorePoint === storeItem.scorePoint
+      storeItem => item.key === storeItem.key
     );
     // 如果在 unCalScore 中找到相同的课程，则不将其添加到 selectedLessons
 
@@ -729,13 +729,13 @@ function handleCheckboxChange(item) {
   if (item.selected) {
     selectedLessonsList.value.push(item);
     unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
+      selected => selected.key !== item.key
     );
     store.commit("delUnCalc", item);
   } else {
     // 将这个课程从selectedLessons中删除
     selectedLessonsList.value = selectedLessonsList.value.filter(
-      selected => selected.className !== item.className && selected.submitTime !== item.submitTime
+      selected => selected.key !== item.key
     );
     unSelectedLessonsList.value.push(item);
     store.commit("setUnCalc", item);

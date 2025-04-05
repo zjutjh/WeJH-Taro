@@ -1,16 +1,30 @@
 @import "@/style/theme.scss";
 
-.book-card {
-  padding: 0.2rem;
-  margin-top: 0.5rem;
-  box-shadow: none;
-  padding: 0 16Px;
+.book-quick-view {
+  .wjh-card {
+    padding: 0.2rem;
+    margin-top: 0.5rem;
+    box-shadow: none;
+    padding: 0 16Px;
+    position: relative;
 
-  .wjh-card-body {
-    :not(:first-child) {
-      font-size: 0.75rem;
-      color: var(--wjh-color-week);
+    &::before {
+      content: "";
+      z-index: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: var(--bg-color);
+      opacity: .3;
+      border-radius: 8Px;
     }
+  }
+
+  .borrow-time {
+    font-size: 0.75rem;
+    color: var(--wjh-color-week);
   }
 
   .book-name {

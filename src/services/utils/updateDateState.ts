@@ -3,6 +3,7 @@ import store from "@/store";
 import { postWithSession } from "./session";
 import { ServerCode } from "../api/codes";
 import errCodeHandler from "./errHandler";
+import Taro from "@tarojs/taro";
 
 /**
  * 无 session 请求更新全局状态，系统请求专用
@@ -10,26 +11,33 @@ import errCodeHandler from "./errHandler";
  * @param data
  * @param commitName
  * @param clearCommitName
- * @param showModal
  * @returns
  */
 async function updateDateState(
   api: string,
   data: any,
-  commitName: string,
-  clearCommitName: string | null,
-  showModal = true
+  commitName: string
 ) {
   store.commit("startLoading");
   // comment: 更新数据前发送请求
   const res = await fetch.post(api, data);
-  if (clearCommitName) store.commit(clearCommitName);
-  if (res.statusCode === 200 && res.data) {
-    if (res.data.code === ServerCode.OK)
-      store.commit(commitName, res.data.data);
-    else errCodeHandler(res.data.code, showModal);
-  } else errCodeHandler(res.data.code, showModal);
+
+  if (res?.statusCode !== 200) {
+    Taro.showToast({ icon: "none", title: "小程序网络异常" });
+    store.commit("stopLoading");
+    return;
+  }
+
+  if (res.data?.code !== ServerCode.OK) {
+    Taro.showToast({ icon: "none", title: res.data?.msg });
+    errCodeHandler(res.data?.code);
+    store.commit("stopLoading");
+    return;
+  }
+
+  store.commit(commitName, res.data.data);
   store.commit("stopLoading");
+
   return res.data;
 }
 
@@ -39,25 +47,34 @@ async function updateDateState(
  * @param data
  * @param commitName
  * @param commitData
- * @param autoLogin
- * @param showModal
  * @returns
  */
 async function updateDateStateWithSession(
   api: string,
   data: any,
   commitName: string,
-  commitData?: (res: FetchResult) => any,
-  autoLogin = true,
-  showModal = true
+  commitData?: (res: FetchResult) => any
 ) {
   store.commit("startLoading");
-  const res = await postWithSession(api, data, autoLogin);
-  if (res?.statusCode === 200 && res.data && res.data.code === ServerCode.OK) {
-    store.commit(commitName, commitData?.(res) || res.data.data);
-  } else errCodeHandler(res?.data.code, showModal);
+  const res = await postWithSession(api, data);
+
+  if (res?.statusCode !== 200) {
+    Taro.showToast({ icon: "none", title: "小程序网络异常" });
+    store.commit("stopLoading");
+    return;
+  }
+
+  if (res.data?.code !== ServerCode.OK) {
+    Taro.showToast({ icon: "none", title: res.data?.msg });
+    errCodeHandler(res.data?.code);
+    store.commit("stopLoading");
+    return;
+  }
+
+  store.commit(commitName, commitData?.(res) || res.data.data);
   store.commit("stopLoading");
-  return res?.data;
+
+  return res.data;
 }
 
 export { updateDateState, updateDateStateWithSession };
