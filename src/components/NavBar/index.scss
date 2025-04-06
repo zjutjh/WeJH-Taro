@@ -1,47 +1,49 @@
 @import "@/style/theme.scss";
-.sub-text-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  .sub-text {
-    font-size: 0.8rem;
-    line-height: 1.2rem;
+
+.nav-bar {
+  .nav-bar-icon-wrapper {
+    padding: 0 16Px;
+    position: relative;
+    opacity: .8;
+
+    image {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .unselected {
     color: var(--wjh-color-text-secondary);
   }
-}
 
-.nav-bar-icon-wrapper {
-  padding: 0 16Px;
-  position: relative;
-  opacity: .8;
+  .selected {
+    color: var(--wjh-color-primary);
+  }
 
-  image {
-    width: 1.5rem;
-    height: 1.5rem;
+  .description {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  .badge-wrapper {
+    top: -2Px;
+    right: 6Px;
+    display: inline-flex;
+    position: absolute;
   }
 }
 
-.iconfont {
-  font-size: 1.8rem;
-}
+.nav-bar-pop-view {
+  .sub-text-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
 
-.unselected {
-  color: var(--wjh-color-text-secondary);
-}
-
-.selected {
-  color: var(--wjh-color-primary);
-}
-
-.description {
-  font-size: 0.75rem;
-  text-align: center;
-}
-
-.badge-wrapper {
-  top: -2Px;
-  right: 6Px;
-  display: inline-flex;
-  position: absolute;
+    .sub-text {
+      font-size: 0.8rem;
+      line-height: 1.2rem;
+      color: var(--wjh-color-text-secondary);
+    }
+  }
 }

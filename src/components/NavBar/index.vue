@@ -1,5 +1,5 @@
 <template>
-  <bottom-panel>
+  <bottom-panel class="nav-bar">
     <view
       :class="pageName === 'home' && !showPop ? 'selected' : 'unselected'"
       class="nav-bar-icon-wrapper"
@@ -53,7 +53,7 @@
       </view>
     </view>
   </bottom-panel>
-  <pop-view v-model:show="showPop">
+  <pop-view v-model:show="showPop" class="nav-bar-pop-view">
     <view class="sub-text-container">
       <text class="sub-text">
         部分功能卡片可通过点击首页下方的加号添加
@@ -67,7 +67,7 @@
 import AppList from "../AppList/index.vue";
 import PopView from "../PopView/index.vue";
 import BottomPanel from "../BottomPanel/index.vue";
-import { WBadge } from "..";
+import WBadge from "../Badge/index.vue";
 import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
 import "./index.scss";
