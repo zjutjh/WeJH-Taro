@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { IconTypeEnum } from "@/hooks/useTheme";
 import { computed, onBeforeUpdate, ref, watch } from "vue";
-import styles from "./index.module.scss";
 import store, { serviceStore } from "@/store";
 import { HomeCardName, homeCards } from "@/constants/homeCards";
 import { PopView, WBadge, WButton } from "@/components";
 import { checkBind } from "@/utils";
 import { useTheme } from "@/hooks/index";
+import { Image as TaroImage } from "@tarojs/components";
+
+import styles from "./index.module.scss";
 
 const { isShowByUrl, getIconUrl } = useTheme();
 
@@ -97,9 +99,10 @@ const handleClose = () => {
               :class="styles[`icon-wrapper`]"
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
             >
-              <image
+              <taro-image
                 v-if="isShowByUrl"
-                :src="getIconUrl(item.icon,IconTypeEnum.AppList)"
+                :src="getIconUrl(item.icon, IconTypeEnum.AppList)"
+                mode="aspectFit"
               />
               <view
                 v-else
@@ -133,14 +136,12 @@ const handleClose = () => {
               :class="styles[`icon-wrapper`]"
               :style="`--bg-color: var(--wjh-color-${item.backgroundColor}-600)` as any"
             >
-              <image
+              <taro-image
                 v-if="isShowByUrl"
                 :src="getIconUrl(item.icon, IconTypeEnum.AppList)"
+                mode="aspectFit"
               />
-              <view
-                v-else
-                :class="['iconfont', `icon-${item.icon}`, styles.icon]"
-              />
+              <view v-else :class="['iconfont', `icon-${item.icon}`, styles.icon]" />
             </view>
             <text>{{ item.label }}</text>
             <view :class="styles['badge-wrapper']">
