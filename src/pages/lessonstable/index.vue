@@ -48,7 +48,7 @@
         </view>
       </view>
     </bottom-panel>
-    <pop-view v-model:show="showPop">
+    <pop-view v-model:show="showPop" style="z-index: 4000;">
       <view v-if="selection" class="lesson-detail">
         <view class="lesson-title">
           {{ selection.lessonName }}
