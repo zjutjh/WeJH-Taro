@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import { IconTypeEnum } from "@/hooks/useTheme";
 import { computed, onBeforeUpdate, ref, watch } from "vue";
 import styles from "./index.module.scss";
 import store, { serviceStore } from "@/store";
@@ -8,7 +8,7 @@ import { PopView, WBadge, WButton } from "@/components";
 import { checkBind } from "@/utils";
 import { useTheme } from "@/hooks/index";
 
-const { isShowByUrl, getIconUrl, IconTypeEnum } = useTheme();
+const { isShowByUrl, getIconUrl } = useTheme();
 
 /** 依赖于绑定状态的卡片名字列表 */
 const validList = computed(() => {

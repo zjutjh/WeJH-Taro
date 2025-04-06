@@ -24,6 +24,7 @@ import { computed, ref, StyleValue, toRefs } from "vue";
 import { useDarkMode, useTheme } from "@/hooks";
 import { Image as TaroImage } from "@tarojs/components";
 import { BIND_CODE_NAME_RECORD } from "../utils";
+import { IconTypeEnum } from "@/hooks/useTheme";
 
 const props = defineProps<{
   label: string,
@@ -36,7 +37,7 @@ const props = defineProps<{
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
 const { mode: darkMode } = useDarkMode();
-const { isShowByUrl, getIconUrl, IconTypeEnum } = useTheme();
+const { isShowByUrl, getIconUrl } = useTheme();
 
 const isDisabled = computed(() => {
   switch (requireActive.value) {

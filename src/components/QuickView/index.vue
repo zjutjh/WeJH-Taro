@@ -28,8 +28,9 @@
 import { toRefs } from "vue";
 import "./index.scss";
 import { useTheme } from "@/hooks/index";
+import { IconTypeEnum } from "@/hooks/useTheme";
 
-const { getIconUrl, isShowByUrl, IconTypeEnum } = useTheme();
+const { getIconUrl, isShowByUrl } = useTheme();
 
 const props = defineProps<{ title: string; iconName: string; help?: boolean }>();
 const { title, iconName, help } = toRefs(props);
