@@ -1,5 +1,5 @@
 <template>
-  <theme-config>
+  <theme-config :show-bg-image="false">
     <title-bar title="用电记录" back-button />
     <card class="consumption-card">
       <scroll-view :scroll-y="true">

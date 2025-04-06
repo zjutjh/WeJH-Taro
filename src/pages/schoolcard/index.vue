@@ -1,5 +1,5 @@
 <template>
-  <theme-config>
+  <theme-config :show-bg-image="false">
     <title-bar title="校园卡" back-button />
     <scroll-view :scroll-y="true">
       <view class="school-card">
