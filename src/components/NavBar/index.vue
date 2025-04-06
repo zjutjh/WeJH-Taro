@@ -5,10 +5,11 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('home')"
     >
-      <image
+      <taro-image
         v-if="isShowByUrl"
         :src="pageName === 'home' && !showPop ?
           barIcons.selectedHomeIcon : barIcons.homeIcon"
+        mode="aspectFit"
       />
       <view v-else class="iconfont icon-home" />
       <view class="description">
@@ -23,9 +24,10 @@
       class="nav-bar-icon-wrapper"
       @tap="plusClick"
     >
-      <image
+      <taro-image
         v-if="isShowByUrl"
         :src="showPop ? barIcons.selectedFunctionIcon : barIcons.functionIcon"
+        mode="aspectFit"
       />
       <view v-else class="iconfont icon-applist" />
       <view class="description">
@@ -40,9 +42,10 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('my')"
     >
-      <image
+      <taro-image
         v-if="isShowByUrl"
         :src="pageName === 'my' && !showPop ? barIcons.selectedMyIcon : barIcons.myIcon"
+        mode="aspectFit"
       />
       <view v-else class="iconfont icon-user" />
       <view class="description">
@@ -64,16 +67,18 @@
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
 import AppList from "../AppList/index.vue";
 import PopView from "../PopView/index.vue";
 import BottomPanel from "../BottomPanel/index.vue";
 import WBadge from "../Badge/index.vue";
 import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
-import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
 import { useTheme } from "@/hooks";
+import { Image as TaroImage } from "@tarojs/components";
 
 const { isShowByUrl } = useTheme();
 
