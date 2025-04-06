@@ -32,7 +32,7 @@ import WDescriptionsItem from "./Descriptions/DescriptionsItem.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WBadge from "./Badge/index.vue";
 import ThemeConfig from "./ThemeConfig/index.vue";
-import WSwtich from "./Switch/index.vue";
+import WSwitch from "./Switch/index.vue";
 
 export {
   Alarm,
@@ -69,5 +69,5 @@ export {
   WSteps,
   WSkeleton,
   WBadge,
-  WSwtich
+  WSwitch
 };
