@@ -1,0 +1,10 @@
+.background {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-color: var(--wjh-color-background-page);
+  color: var(--wjh-color-text);
+}

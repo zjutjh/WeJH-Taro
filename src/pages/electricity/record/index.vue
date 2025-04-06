@@ -1,5 +1,5 @@
 <template>
-  <theme-config>
+  <theme-config :show-bg-image="false">
     <title-bar title="缴费记录" back-button />
     <card class="record-card">
       <scroll-view :scroll-y="true">

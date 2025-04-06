@@ -6,18 +6,14 @@ import { updateDateStateWithSession } from "../utils/updateDateState";
 import errCodeHandler from "../utils/errHandler";
 import { ServerCode } from "../api/codes";
 import request from "../request";
+import { ThemeList } from "@/store/service/theme";
 
 export default class UserService {
   static getUserTheme = () => {
     return request<{
-      code: number,
-      msg: string,
-      theme_list: {
-        id?: number;
-        name?: string;
-        theme_config?: string;
-        type: string;
-      }[]
+      current_theme_id: number;
+      current_theme_dark_id: number;
+      theme_list: ThemeList
     }>(
       api.user.theme.get, {
         method: "GET",
@@ -26,11 +22,9 @@ export default class UserService {
     );
   };
 
-  static setTheme = (data: { id: number }) => {
+  static setTheme = (data: { id: number, dark_id: number }) => {
     return request<{
-      code: number,
-      msg: string,
-      data: null,
+      null
     }>(
       api.user.theme.set, {
         method: "POST",
@@ -41,9 +35,7 @@ export default class UserService {
   };
   static logout = (data?: { iid: string, stuid: string }) => {
     return request<{
-      code: number,
-      msg: string,
-      data: null;
+      null
     }>(
       api.user.logout, {
         method: "POST",
@@ -55,9 +47,7 @@ export default class UserService {
 
   static changePassword = (data?: { iid: string, stuid: string, password: string }) => {
     return request<{
-      code: number,
-      msg: string,
-      data: null;
+      null
     }>(
       api.user.changePassword, {
         method: "POST",

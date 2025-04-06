@@ -1,5 +1,5 @@
 <template>
-  <theme-config>
+  <theme-config :show-bg-image="false">
     <title-bar title="失物寻物" back-button />
     <view class="campus-selector">
       <view class="container">

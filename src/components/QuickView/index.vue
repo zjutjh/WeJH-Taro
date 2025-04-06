@@ -2,7 +2,8 @@
   <view class="quick-view">
     <view class="quick-view-header">
       <view class="quick-view-title">
-        <view :class="`iconfont icon-${iconName}`" />
+        <image v-if="isShowByUrl" :src="iconURL" />
+        <view v-else :class="`iconfont icon-${iconName}`" />
         <text>{{ title }}</text>
       </view>
       <view
@@ -18,12 +19,29 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs } from "vue";
 import "./index.scss";
-const props = defineProps<{ title: string; iconName: string; help?: boolean }>();
-const { title, iconName, help } = toRefs(props);
 
-const emit = defineEmits(["handleTapHelp"]);
+import { computed } from "vue";
+import { useTheme } from "@/hooks/index";
+import { IconTypeEnum } from "@/hooks/useTheme";
+
+const { getIconUrl, isShowByUrl } = useTheme();
+
+interface QuickViewProps {
+  title: string;
+  iconName: string;
+  help?: boolean
+}
+
+const props = defineProps<QuickViewProps>();
+
+const iconURL = computed(() => {
+  return getIconUrl(props.iconName, IconTypeEnum.QuickView);
+});
+
+const emit = defineEmits<{
+  handleTapHelp: []
+}>();
 
 function handleTapHelp() {
   emit("handleTapHelp");

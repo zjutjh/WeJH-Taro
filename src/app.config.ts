@@ -18,7 +18,6 @@ export default defineAppConfig({
     "pages/connect/faq/index",
     "pages/theme/index",
     "pages/freeroom/index",
-    "pages/canteenflow/index",
     "pages/announcement/index",
     "pages/electricity/index",
     "pages/electricity/record/index",
