@@ -1,10 +1,11 @@
 <template>
-  <view class="applist-item" @tap="appTaped">
-    <view class="icon-wrapper" :style="backgroundColor">
-      <image
+  <view class="applist-item" @tap="handleTap">
+    <view class="icon-wrapper" :style="iconWrapperStyle">
+      <taro-image
         v-if="isShowByUrl"
-        :src="getIconUrl(icon,iconType)"
-        :style="{opacity: iconOpacity}"
+        mode="aspectFit"
+        :src="iconURL"
+        :style="iconStyle"
       />
       <view v-else :class="['iconfont', 'icon-'+icon]" />
     </view>
@@ -15,11 +16,13 @@
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
 import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
-import { computed, ref, toRefs } from "vue";
-import "./index.scss";
+import { computed, ref, StyleValue, toRefs } from "vue";
 import { useDarkMode, useTheme } from "@/hooks";
+import { Image as TaroImage } from "@tarojs/components";
 import { BIND_CODE_NAME_RECORD } from "../utils";
 
 const props = defineProps<{
@@ -29,17 +32,11 @@ const props = defineProps<{
   bg: string,
   require: string,
 }>();
+
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);
 
 const { mode: darkMode } = useDarkMode();
 const { isShowByUrl, getIconUrl, IconTypeEnum } = useTheme();
-
-const icon = props.icon;
-
-const iconType = computed(() => {
-  if (darkMode.value === "light") return IconTypeEnum.applistIcon;
-  else return isDisabled.value ? IconTypeEnum.quickviewIcon : IconTypeEnum.applistIcon;
-});
 
 const isDisabled = computed(() => {
   switch (requireActive.value) {
@@ -56,12 +53,28 @@ const isDisabled = computed(() => {
   }
 });
 
-const iconOpacity = computed(() => {
-  if (darkMode.value === "light") return undefined;
-  else return isDisabled.value ? 0.1 : undefined;
+const iconURL = computed(() => {
+  return getIconUrl(props.icon, IconTypeEnum.AppList);
 });
 
-async function appTaped() {
+const iconStyle = computed<StyleValue>(() => {
+  if (darkMode.value === "dark" && isDisabled.value) {
+    return {
+      opacity: 0.1,
+      filter: "contrast(0) brightness(2) invert(0)"
+    };
+  }
+  return undefined;
+});
+
+const iconWrapperStyle = computed<StyleValue>(() => {
+  if (isDisabled.value) {
+    return { "--bg-color": "var(--wjh-color-light)" };
+  }
+  return { "--bg-color": `var(--wjh-color-${bg.value}-600)` };
+});
+
+async function handleTap() {
   if (isDisabled.value) {
     const { confirm: isConfirm } = await Taro.showModal({
       title: "提示",
@@ -74,11 +87,4 @@ async function appTaped() {
     Taro.navigateTo({ url: url.value });
   }
 }
-
-const backgroundColor = computed(() => {
-  if (isDisabled.value)
-    return { "--bg-color": "var(--wjh-color-light)" };
-  else return { "--bg-color": `var(--wjh-color-${bg.value}-600)` };
-});
-
 </script>

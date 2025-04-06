@@ -4,9 +4,9 @@ import { computed } from "vue";
 
 enum IconTypeEnum {
   /** Applist中使用的icon */
-  applistIcon = "applist",
+  AppList = "applist",
   /** QuickViewCard中使用的icon */
-  quickviewIcon = "quickview"
+  QuickView = "quickview"
 }
 
 const useTheme = () => {
@@ -25,12 +25,12 @@ const useTheme = () => {
   };
 
   function getIconUrl(icon: string, type: IconTypeEnum) {
-    const applistIcon = (type === "quickview") ?
+    const appListIcon = (type === IconTypeEnum.QuickView) ?
       serviceStore.theme.config.quickviewIcon : serviceStore.theme.config.applistIcon;
 
     if (icon in iconMap) {
       const iconStoreName = iconMap[icon];
-      return applistIcon[iconStoreName];
+      return appListIcon[iconStoreName];
     } else return "";
   }
 
