@@ -1,14 +1,15 @@
 <template>
-  <bottom-panel>
+  <bottom-panel class="nav-bar">
     <view
       :class="pageName === 'home' && !showPop ? 'selected' : 'unselected'"
       class="nav-bar-icon-wrapper"
       @tap="nav('home')"
     >
-      <image
+      <taro-image
         v-if="isShowByUrl"
         :src="pageName === 'home' && !showPop ?
           barIcons.selectedHomeIcon : barIcons.homeIcon"
+        mode="aspectFit"
       />
       <view v-else class="iconfont icon-home" />
       <view class="description">
@@ -23,9 +24,10 @@
       class="nav-bar-icon-wrapper"
       @tap="plusClick"
     >
-      <image
+      <taro-image
         v-if="isShowByUrl"
         :src="showPop ? barIcons.selectedFunctionIcon : barIcons.functionIcon"
+        mode="aspectFit"
       />
       <view v-else class="iconfont icon-applist" />
       <view class="description">
@@ -40,9 +42,10 @@
       class="nav-bar-icon-wrapper"
       @tap="nav('my')"
     >
-      <image
+      <taro-image
         v-if="isShowByUrl"
         :src="pageName === 'my' && !showPop ? barIcons.selectedMyIcon : barIcons.myIcon"
+        mode="aspectFit"
       />
       <view v-else class="iconfont icon-user" />
       <view class="description">
@@ -53,7 +56,7 @@
       </view>
     </view>
   </bottom-panel>
-  <pop-view v-model:show="showPop">
+  <pop-view v-model:show="showPop" class="nav-bar-pop-view">
     <view class="sub-text-container">
       <text class="sub-text">
         部分功能卡片可通过点击首页下方的加号添加
@@ -64,16 +67,18 @@
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
 import AppList from "../AppList/index.vue";
 import PopView from "../PopView/index.vue";
 import BottomPanel from "../BottomPanel/index.vue";
-import { WBadge } from "..";
+import WBadge from "../Badge/index.vue";
 import { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
-import "./index.scss";
 import { computed, ref, toRefs } from "vue";
 import { checkNotification } from "@/utils";
 import { useTheme } from "@/hooks";
+import { Image as TaroImage } from "@tarojs/components";
 
 const { isShowByUrl } = useTheme();
 
