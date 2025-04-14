@@ -53,19 +53,15 @@ export const ZFServiceStore = {
       value: {
         term: string;
         year: string;
-        lessonsTable: Lesson[];
+        lessonsTable: Lesson[] | null;
         practiceLessons: PracticeLesson[];
       }
     ) {
-      if (!value.lessonsTable) {
-        console.error("更新课表失败");
-        return;
-      }
       if (!state.lessonsTableInfo[value.year])
         state.lessonsTableInfo[value.year] = {};
       state.lessonsTableInfo[value.year][value.term] = {
         data: {
-          lessonsTable: value.lessonsTable,
+          lessonsTable: value.lessonsTable ?? [],
           practiceLessons: value.practiceLessons
         },
         updateTime: new Date()
