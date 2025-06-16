@@ -6,5 +6,5 @@ export const checkBind = {
   // 原来的代码是 isBindZF: computed(() => (serviceStore.user.isBindZF),
   isBindZF: computed(() => (serviceStore.user.isBindZF || serviceStore.user.isBindOauth)),
   isBindYXY: computed(() => serviceStore.user.isBindYXY),
-  isBindLibrary: computed(() => serviceStore.user.isBindLibrary)
+  isBindOauth: computed(() => serviceStore.user.isBindOauth)
 };

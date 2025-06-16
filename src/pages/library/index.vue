@@ -13,7 +13,7 @@
           <view>
             超期：
             <text>
-              {{ currentExtendedCount }}
+              {{ currentExpiredCount }}
             </text>
             本
           </view>
@@ -44,7 +44,7 @@
         </template>
         <view>
           <view class="flex-column">
-            <card v-if="!borrowList" class="no-item">
+            <card v-if="!borrowList.length" class="no-item">
               无借阅记录
             </card>
             <card
@@ -52,30 +52,24 @@
               :key="index"
               class="book-card"
               :style="{
-                backgroundColor:
-                  index % 2
-                    ? 'var(--wjh-color-yellow-500)'
-                    : 'var(--wjh-color-green-500)',
-              }"
+                '--bg-color': index % 2 ? 'var(--wjh-color-primary-dark)' : 'var(--wjh-color-primary)'
+              } as CSSProperties"
             >
               <view class="book-name">
-                {{ item.name }}
+                {{ item.title }}
               </view>
-              <view>
-                {{ `借阅日期：${item.time.split(" ")[0]} | ${item.time.split(" ")[1] }` }}
+              <view class="borrow-time">
+                <view>
+                  {{ `借阅日期：${item.loanDate}` }}
+                </view>
+                <view v-if="item.returnDate">
+                  {{ `归还日期：${item.returnDate}` }}
+                </view>
+                <view v-else-if="item.normReturnDate">
+                  {{ `应还日期：${item.normReturnDate}` }}
+                </view>
               </view>
-              <view v-if="item.returnTime">
-                {{ `归还日期：${item.returnTime.split(" ")[0]}` }}
-              </view>
-              <view
-                class="book-index"
-                :style="{
-                  color:
-                    index % 2
-                      ? 'var(--wjh-color-orange-600)'
-                      : 'var(--wjh-color-green-700)',
-                }"
-              >
+              <view class="book-index">
                 {{ index + 1 }}
               </view>
             </card>
@@ -88,11 +82,12 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, CSSProperties } from "vue";
 import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
+import dayjs from "dayjs";
 
 const isSelectToday = ref(true);
 const isSelectHistory = ref(false);
@@ -114,7 +109,7 @@ const history = computed(() => {
 });
 
 const current = computed(() => {
-  return serviceStore.library.current;
+  return serviceStore.library.current ?? [];
 });
 
 const currentCount = computed(() => {
@@ -122,12 +117,12 @@ const currentCount = computed(() => {
 });
 
 /** 超期本数 */
-const currentExtendedCount = computed(() => {
-  return current.value
-    ? current.value.filter((item) => {
-      return parseInt(item.overdueTime) > 0;
-    }).length
-    : 0;
+const currentExpiredCount = computed(() => {
+  const expired = current.value.filter((item) =>
+    dayjs(item.normReturnDate).isBefore(dayjs())
+  );
+
+  return expired.length;
 });
 
 async function updateData() {

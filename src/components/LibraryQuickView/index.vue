@@ -1,5 +1,10 @@
 <template>
-  <quick-view title="借阅信息" icon-name="library" @tap="nav">
+  <quick-view
+    title="借阅信息"
+    icon-name="library"
+    class="book-quick-view"
+    @tap="nav"
+  >
     <text class="sub-text">
       当前借阅 ({{ borrowUpdateTimeString }})
     </text>
@@ -11,16 +16,16 @@
     </view>
     <card
       v-for="(item, index) in current.slice(0, 3)"
-      v-else
-      :key="item.libraryID"
-      class="book-card"
-      :style="bookCardBackgroundColor(index)"
+      :key="item.loanId"
+      :style="{
+        '--bg-color': index % 2 ? 'var(--wjh-color-primary-dark)' : 'var(--wjh-color-primary)'
+      } as CSSProperties"
     >
       <view class="book-name">
-        {{ item.name }}
+        {{ item.title }}
       </view>
-      <view class="borrrow-date">
-        借阅日期：{{ item.time }}
+      <view class="borrow-time">
+        应还日期：{{ item.normReturnDate }}
       </view>
     </card>
     <view v-if="current?.length > 3" class="more-detail">
@@ -34,7 +39,7 @@ import QuickView from "../QuickView/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import Card from "../Card/index.vue";
-import { CSSProperties, computed } from "vue";
+import { computed, CSSProperties } from "vue";
 import { serviceStore } from "@/store";
 import "./index.scss";
 
@@ -48,13 +53,7 @@ const current = computed(() => {
   return serviceStore.library.current;
 });
 
-const bookCardBackgroundColor = (index: number): CSSProperties => {
-  return {
-    backgroundColor: ` var(--wjh-color-${index % 2 ? "yellow" : "orange"}-light)` };
-};
-
 function nav() {
   Taro.navigateTo({ url: "/pages/library/index" });
 }
-
 </script>

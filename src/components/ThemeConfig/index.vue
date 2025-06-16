@@ -1,7 +1,6 @@
 <template>
   <view
-    :class="darkMode"
-    class="background"
+    :class="[darkMode, styles.background]"
     :style="computedStyle"
   >
     <slot />
@@ -9,17 +8,23 @@
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
-import { computed, onMounted, watch } from "vue";
+import { computed, onMounted, StyleValue, watch } from "vue";
 import store, { serviceStore } from "@/store";
 import { useDarkMode, useRequest } from "@/hooks";
 import greenImg from "@/assets/photos/background.svg";
 import { UserService } from "@/services";
 import { toCamelCase } from "@/utils/camelize";
 import Taro from "@tarojs/taro";
+import styles from "./index.module.scss";
 
+interface ThemeConfigProps {
+  showBgImage?: boolean
+}
+
+const props = withDefaults(defineProps<ThemeConfigProps>(), {
+  showBgImage: true
+});
 const { mode: darkMode, setMode } = useDarkMode();
-
 const currentConfig = computed(() => serviceStore.theme.config);
 
 /** 规范: 开头#表示内置主题 即背景图在前端文件夹里 目前内置主题是浅绿主题
@@ -35,15 +40,16 @@ const backgroundUrl = computed(() => {
   return img;
 });
 
-const computedStyle = computed(() => ({
-  backgroundImage: `url(${backgroundUrl.value})`,
+const computedStyle = computed<StyleValue>(() => ({
+  backgroundImage: props.showBgImage ? `url(${backgroundUrl.value})` : "none",
   backgroundPosition: currentConfig.value.backgroundPosition,
   "--wjh-color-background-page": currentConfig.value.backgroundColor,
   "--wjh-color-primary-light": currentConfig.value.baseColor.base500,
   "--wjh-color-primary": currentConfig.value.baseColor.base600,
   "--wjh-color-primary-dark": currentConfig.value.baseColor.base700
 }));
-const { run } = useRequest(UserService.getUserTheme, {
+
+const { run: getUserTheme } = useRequest(UserService.getUserTheme, {
   manual: true,
   onSuccess: (res) => {
     if (res.data.code === 1 && res.data.msg === "OK") {
@@ -64,14 +70,16 @@ const { run } = useRequest(UserService.getUserTheme, {
     return `失败\r\n${e.message || "网络错误"}`;
   }
 });
+
 onMounted(() => {
   if (serviceStore.user.isActive) {
-    run();
+    getUserTheme();
   }
 });
+
 watch(() => serviceStore.user.isActive, () => {
   if (serviceStore.user.isActive) {
-    run();
+    getUserTheme();
   }
 });
 </script>

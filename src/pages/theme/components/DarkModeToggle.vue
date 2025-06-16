@@ -11,16 +11,14 @@
     <w-list-item v-if="!isAdapted">
       <view class="text-wrapper">
         <text>深色模式</text>
-        <w-swtich
-          v-model="isActive"
-        />
+        <w-switch v-model="isActive" />
       </view>
     </w-list-item>
   </w-list>
 </template>
 
 <script setup lang="ts">
-import { WList, WListItem, WSwtich } from "@/components";
+import { WList, WListItem, WSwitch } from "@/components";
 import { useDarkMode } from "@/hooks";
 import Taro from "@tarojs/taro";
 import { computed, ref, watch } from "vue";

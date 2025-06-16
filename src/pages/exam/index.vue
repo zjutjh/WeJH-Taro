@@ -80,7 +80,9 @@
                   {{ getDetailedTime(item.examTime) }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试地点" :label-span="6">
-                  <text>{{ item.examPlace }}</text><text v-if="item.seatNum !== '未放开不可查'"> {{ ` - 座位号：${item.seatNum}` }}</text>
+                  <text>{{ item.examPlace }}</text><text v-if="item.seatNum !== '未放开不可查'">
+                    {{ ` - 座位号：${item.seatNum}` }}
+                  </text>
                 </w-descriptions-item>
                 <w-descriptions-item label="考试全称" :label-span="6">
                   {{ item.className }}

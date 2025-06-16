@@ -39,29 +39,38 @@ const { run: loginYxyAPI } = useRequest(YxyService.loginYxy, {
   }
 });
 
-/**
- * 获取手机验证码
- */
-
-const handleSendPhoneCode = async () => {
-  if (timeCounter.value > 0) return;
-  try {
-    const res = await YxyService.getPhoneCode({ phoneNum: phoneNumber.value });
-    if (res.data.code === 1) {
-      Taro.showToast({ icon: "success", title: "发送成功" });
-      timeCounter.value = 60;
-      const timer = setInterval(() => {
-        timeCounter.value--;
-        if (timeCounter.value === 0)
-          clearInterval(timer);
-      }, 1000);
-    } else {
-      Taro.showToast({ icon: "none", title: res.data.msg });
+const { loading: isPhoneCodeLoading, run: sendPhoneCode } = useRequest(
+  YxyService.getPhoneCode, {
+    manual: true,
+    onSuccess: (res) => {
+      if (res.data.code === 1) {
+        Taro.showToast({ icon: "success", title: "发送成功" });
+        timeCounter.value = 60;
+        const timer = setInterval(() => {
+          timeCounter.value--;
+          if (timeCounter.value <= 0)
+            clearInterval(timer);
+        }, 1000);
+      } else {
+        Taro.showToast({ icon: "none", title: res.data.msg });
+      }
+    },
+    onError: (e: unknown) => {
+      console.error(e);
+      if (e instanceof Error)
+        Taro.showToast({ icon: "none", title: e.message });
     }
-  } catch (e: any) {
-    Taro.showToast({ icon: "none", title: e });
   }
-};
+);
+
+function handleSendPhoneCode() {
+  if (isPhoneCodeLoading.value || timeCounter.value > 0) {
+    return;
+  }
+  sendPhoneCode({
+    phoneNum: phoneNumber.value
+  });
+}
 
 const handleLoginYXY = () => {
   if (phoneCode.value.length && phoneNumber.value.length) {
@@ -99,7 +108,10 @@ const handleClickTutorial = () => {
       <view>手机号</view>
       <view style="display: flex; align-items: center; justify-content: space-between;">
         <input v-model="phoneNumber" placeholder="请输入手机号" style="flex:1;margin-right: 15px">
-        <w-button :disable="timeCounter > 0" @tap="handleSendPhoneCode">
+        <w-button
+          :disable="isPhoneCodeLoading || timeCounter > 0"
+          @tap="handleSendPhoneCode"
+        >
           <text v-if="timeCounter === 0">
             获取验证码
           </text>
