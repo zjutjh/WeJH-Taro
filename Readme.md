@@ -33,8 +33,6 @@
 
 
 ## 更多资料
-- 微精弘开发文档: [https://zjutjh.github.io/wejh-docs/](https://zjutjh.github.io/wejh-docs/)
-
 - Taro官方文档: [https://docs.taro.zone/docs/](https://docs.taro.zone/docs/)
 
 - 小程序后端: [https://github.com/zjutjh/wejh-go](https://github.com/zjutjh/wejh-server-docs)
