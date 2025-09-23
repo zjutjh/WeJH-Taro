@@ -93,7 +93,7 @@ const lessonsTable = computed(() => {
  *  具体每一项是什么有在interface Lesson里注释 */
 const lessonKey = (cl: Lesson) => {
   return `${cl.id}-${cl.week}-${cl.weekday}-${cl.sections}`;
-}
+};
 
 const nowWeekStyle = computed(() => {
   const now = new Date();
