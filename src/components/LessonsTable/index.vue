@@ -24,7 +24,7 @@
         >
           <view
             v-for="cl in lessonsTable"
-            :key="cl.id + cl.week + cl.weekday"
+            :key="cl.id + cl.week + cl.weekday + cl.sections"
             class="class"
             :style="getPosition(cl)"
           >
