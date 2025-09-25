@@ -65,9 +65,20 @@ const selectTerm = ref({
   term: systemStore.generalInfo.score || systemStore.generalInfo.term
 });
 
+/** 获取成绩信息打请求用的函数 */
+function getScoreInfo ( year: string, term: string ) {
+    const { data: midTermScores } = ZFService.getScoreInfo({ year,term, period: "期中" });
+    const { data: finalTermScores } = ZFService.getScoreInfo({ year,term, period: "期末" });
+
+    // 没新成绩也更新时间, 此处应该是用来表示请求的新鲜度
+    //todo: 判断失败态; 目前后端失败态也一坨, 所以先算了
+    store.commit("findNewScore");
+
+    return { midTermScores, finalTermScores };
+}
+
 onMounted(async () => {
-  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期中" });
-  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期末" });
+  getScoreInfo(selectTerm.value.year, selectTerm.value.term);
 });
 
 /**
@@ -90,10 +101,9 @@ const todayScoreList = computed(() => {
  * 获取指定学期的未读成绩
  * @param props 学期信息
  */
-function getUnreadScores(props: { year: string; term: string }) {
-  const { data: midTermScores } = ZFService.getScoreInfo({ ...props, period: "期中" });
-  const { data: finalTermScores } = ZFService.getScoreInfo({ ...props, period: "期末" });
+function getUnreadScores (props: { year: string; term: string }) {
   const unreadScores: Score[] = [];
+  const { midTermScores, finalTermScores } = getScoreInfo(props.year, props.term);
   [...midTermScores, ...finalTermScores].forEach(storeItem => {
     const existingScore = serviceStore.score.readScoreMarks.find(
       markItem => (storeItem.lessonID === markItem.name &&
@@ -101,8 +111,6 @@ function getUnreadScores(props: { year: string; term: string }) {
     );
     if (!existingScore) unreadScores.push(storeItem);
   });
-  // 若有新成绩，则更新时间
-  if (unreadScores.length !== 0) store.commit("findNewScore");
 
   return unreadScores;
 }
