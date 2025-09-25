@@ -24,7 +24,7 @@
         >
           <view
             v-for="cl in lessonsTable"
-            :key="cl.id + cl.week + cl.weekday"
+            :key="lessonKey(cl)"
             class="class"
             :style="getPosition(cl)"
           >
@@ -88,12 +88,20 @@ const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六",
 const lessonsTable = computed(() => {
   return markConflictLesson(lessons?.value);
 });
+
+/** lesson在v-for中的key; 为了避免重复key出现, 使用如下四个属性组合而成
+ *  具体每一项是什么有在interface Lesson里注释 */
+const lessonKey = (cl: Lesson) => {
+  return `${cl.id}-${cl.week}-${cl.weekday}-${cl.sections}`;
+};
+
 const nowWeekStyle = computed(() => {
   const now = new Date();
   const weekday = now.getDay() ? now.getDay() : 7;
   const left = `calc(100% / 7 * ${weekday - 1})`;
   return { left };
 });
+
 const nowStyle = computed(() => {
   const now = new Date();
   const hour = now.getHours();
