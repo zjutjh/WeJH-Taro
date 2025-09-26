@@ -58,18 +58,20 @@ export default class ZFService {
     data: Exam[];
     updateTime: Date | null;
   } {
+    // 若不手动调用, 则采用默认值
     if (!data) {
       data = {
         year: systemStore.generalInfo?.termYear,
         term: systemStore.generalInfo?.term
       };
     }
-    if (!serviceStore?.zf.examInfo[data.year])
-      return { data: [], updateTime: null };
-    if (!serviceStore?.zf.examInfo[data.year][data.term]?.data)
-      return { data: [], updateTime: null };
-    return serviceStore?.zf.examInfo[data.year][data.term];
-  } // 直接得到考试安排信息
+
+    // 直接得到考试安排信息
+    return {
+      data: serviceStore?.zf.examInfo[data.year][data.term]?.data || [],
+      updateTime: serviceStore?.zf.examInfo[data.year][data.term]?.updateTime || null
+    };
+  }
 
   static async updateScoreInfo(
     data?: { year: string; term: string, period: "期中" | "期末" }
