@@ -66,7 +66,7 @@ const selectTerm = ref({
 });
 
 /** 获取成绩信息打请求用的函数 */
-function getScoreInfo (year: string, term: string) {
+function getScoreInfo(year: string, term: string) {
   const { data: midTermScores } = ZFService.getScoreInfo({ year, term, period: "期中" });
   const { data: finalTermScores } = ZFService.getScoreInfo({ year, term, period: "期末" });
 
@@ -101,7 +101,7 @@ const todayScoreList = computed(() => {
  * 获取指定学期的未读成绩
  * @param props 学期信息
  */
-function getUnreadScores (props: { year: string; term: string }) {
+function getUnreadScores(props: { year: string; term: string }) {
   const unreadScores: Score[] = [];
   const { midTermScores, finalTermScores } = getScoreInfo(props.year, props.term);
   [...midTermScores, ...finalTermScores].forEach(storeItem => {
