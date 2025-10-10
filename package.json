@@ -24,7 +24,6 @@
     "@zjutjh/eslint-config": "^0.7.4",
     "dayjs": "^1.11.4",
     "lodash-es": "^4.17.21",
-    "simple-git-hooks": "^2.13.1",
     "vue": "^3.0.0",
     "vuex": "^4.0.0",
     "vuex-persistedstate": "^4.1.0"
@@ -48,6 +47,7 @@
     "globals": "^15.11.0",
     "postcss": "^8.4.38",
     "sass": "^1.75.0",
+    "simple-git-hooks": "^2.13.1",
     "stylelint": "^14.4.0",
     "terser": "^5.30.4",
     "typescript": "^5.4.5",
