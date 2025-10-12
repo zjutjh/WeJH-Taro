@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint",
     "dev:weapp": "npm run build:weapp -- --watch",
-    "build:weapp": "taro build --type weapp"
+    "build:weapp": "taro build --type weapp",
+    "postinstall": "npx simple-git-hooks"
   },
   "browserslist": [
     "defaults and fully supports es6-module",
