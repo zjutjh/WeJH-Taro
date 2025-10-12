@@ -43,8 +43,8 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
-      - name: Lint project
-        run: pnpm lint
+      - name: Lint changed files
+        run: pnpx lint-staged --diff="origin/${{ github.base_ref }}"
 
       - name: Build Taro weapp
         run: pnpm build:weapp
