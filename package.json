@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint",
     "dev:weapp": "npm run build:weapp -- --watch",
-    "build:weapp": "taro build --type weapp"
+    "build:weapp": "taro build --type weapp",
+    "postinstall": "npx simple-git-hooks"
   },
   "browserslist": [
     "defaults and fully supports es6-module",
@@ -16,11 +17,11 @@
     "@babel/runtime": "^7.24.4",
     "@tarojs/components": "4.0.6",
     "@tarojs/helper": "4.0.6",
+    "@tarojs/plugin-framework-vue3": "4.0.6",
     "@tarojs/plugin-platform-weapp": "4.0.6",
     "@tarojs/runtime": "4.0.6",
     "@tarojs/shared": "4.0.6",
     "@tarojs/taro": "4.0.6",
-    "@tarojs/plugin-framework-vue3": "4.0.6",
     "dayjs": "^1.11.4",
     "lodash-es": "^4.17.21",
     "vue": "^3.0.0",
@@ -30,23 +31,35 @@
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@babel/plugin-proposal-class-properties": "7.14.5",
+    "@stylistic/eslint-plugin": "^2.9.0",
     "@tarojs/cli": "4.0.6",
     "@tarojs/vite-runner": "4.0.6",
-    "@stylistic/eslint-plugin": "^2.9.0",
-    "@vue/eslint-config-typescript": "^14.0.0",
-    "babel-preset-taro": "4.0.6",
-    "terser": "^5.30.4",
-    "vite": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vue/eslint-config-typescript": "^14.0.0",
+    "@zjutjh/eslint-config": "^0.8.0",
+    "babel-preset-taro": "4.0.6",
     "eslint": "^9.12.0",
-    "stylelint": "^14.4.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-format": "^1.0.2",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-vue": "^9.28.0",
     "globals": "^15.11.0",
+    "postcss": "^8.4.38",
+    "prettier": "^3.6.2",
     "sass": "^1.75.0",
+    "simple-git-hooks": "^2.13.1",
+    "stylelint": "^14.4.0",
+    "terser": "^5.30.4",
     "typescript": "^5.4.5",
-    "postcss": "^8.4.38"
+    "vite": "^4.2.0",
+    "vue-eslint-parser": "^10.2.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpx lint-staged"
   }
 }

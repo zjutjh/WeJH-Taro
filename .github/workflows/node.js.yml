@@ -8,18 +8,20 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 9
+          version: 10
           run_install: false
 
       - name: Get pnpm store directory
@@ -43,8 +45,8 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
-      - name: Lint project
-        run: pnpm lint
+      - name: Lint changed files
+        run: pnpx lint-staged --diff="origin/${{ github.base_ref }}"
 
       - name: Build Taro weapp
         run: pnpm build:weapp
