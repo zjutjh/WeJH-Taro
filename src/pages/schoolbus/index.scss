@@ -1,0 +1,26 @@
+@import '@/style/theme.scss';
+
+.schoolbus-title-bar {
+  background-color: var(--wjh-color-primary-light);
+
+  display: flex;
+  justify-content: space-around;
+  padding: 0 20px;
+
+  .bus-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15Px;
+
+    .iconfont {
+      font-size: 2rem;
+      margin-bottom: 8Px;
+    }
+
+    .description {
+      font-size: 0.9rem;
+      color: var(--wjh-color-text);
+    }
+  }
+}
