@@ -46,6 +46,7 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Lint changed files
+        if: github.event_name == 'pull_request'
         run: pnpx lint-staged --diff="origin/${{ github.base_ref }}"
 
       - name: Build Taro weapp
