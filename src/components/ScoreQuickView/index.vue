@@ -3,17 +3,12 @@
     title="成绩绩点"
     icon-name="score"
     class="score-quick-view"
-    help
+    :help="true"
     @tap="nav2Score"
     @handle-tap-help="handleTapHelp"
   >
-    <text class="sub-text">
-      最新成绩 ({{ scoreUpdateTimeString }})
-    </text>
-    <view
-      v-if="!todayScoreList || todayScoreList.length === 0"
-      class="default-content"
-    >
+    <text class="sub-text"> 最新成绩 ({{ scoreUpdateTimeString }}) </text>
+    <view v-if="!todayScoreList || todayScoreList.length === 0" class="default-content">
       今日没有出新成绩哦～
     </view>
     <view v-else>
@@ -42,15 +37,18 @@
 </template>
 
 <script setup lang="ts">
-import QuickView from "../QuickView/index.vue";
-import Taro from "@tarojs/taro";
-import { ZFService } from "@/services";
-import dayjs from "dayjs";
-import { computed, onMounted, ref } from "vue";
-import store, { serviceStore, systemStore } from "@/store";
 import "./index.scss";
 import "../../style/theme.scss";
+
+import Taro from "@tarojs/taro";
+import dayjs from "dayjs";
+import { computed, onMounted, ref } from "vue";
+
+import { ZFService } from "@/services";
+import store, { serviceStore, systemStore } from "@/store";
 import { Score } from "@/types/Score";
+
+import QuickView from "../QuickView/index.vue";
 
 // 将帮助提示信息传到Home，点击帮助按钮显示该信息
 const emit = defineEmits(["showHelp"]);
@@ -71,13 +69,14 @@ function getScoreInfo(year: string, term: string) {
   const { data: finalTermScores } = ZFService.getScoreInfo({ year, term, period: "期末" });
 
   // 没新成绩也更新时间, 此处应该是用来表示请求的新鲜度
-  // todo: 判断失败态; 目前后端失败态也一坨, 所以先算了
+  // this is todo
+  /* 判断失败态; 目前后端失败态也一坨, 所以先算了 */
   store.commit("findNewScore");
 
   return { midTermScores, finalTermScores };
 }
 
-onMounted(async () => {
+onMounted(() => {
   getScoreInfo(selectTerm.value.year, selectTerm.value.term);
 });
 
@@ -90,10 +89,10 @@ const todayScoreList = computed(() => {
 
   return showSorted.value
     ? [...unreadScores].sort((a, b) => {
-      const scoreA = a.scorePoint,
-        scoreB = b.scorePoint;
-      return parseFloat(scoreB) - parseFloat(scoreA);
-    })
+        const scoreA = a.scorePoint,
+          scoreB = b.scorePoint;
+        return parseFloat(scoreB) - parseFloat(scoreA);
+      })
     : unreadScores;
 });
 
@@ -104,10 +103,10 @@ const todayScoreList = computed(() => {
 function getUnreadScores(props: { year: string; term: string }) {
   const unreadScores: Score[] = [];
   const { midTermScores, finalTermScores } = getScoreInfo(props.year, props.term);
-  [...midTermScores, ...finalTermScores].forEach(storeItem => {
+  [...midTermScores, ...finalTermScores].forEach((storeItem) => {
     const existingScore = serviceStore.score.readScoreMarks.find(
-      markItem => (storeItem.lessonID === markItem.name &&
-          storeItem.scorePoint === markItem.scorePoint)
+      (markItem) =>
+        storeItem.lessonID === markItem.name && storeItem.scorePoint === markItem.scorePoint
     );
     if (!existingScore) unreadScores.push(storeItem);
   });
@@ -131,10 +130,9 @@ const updateTime = computed(() => {
 
 // @tap="nav2Score" 点击卡片，跳转到成绩查询详细页面
 function nav2Score() {
-  todayScoreList.value.forEach(item => {
+  todayScoreList.value.forEach((item) => {
     store.commit("insertReadScore", item);
   });
   Taro.navigateTo({ url: "/pages/score/index" });
 }
-
 </script>

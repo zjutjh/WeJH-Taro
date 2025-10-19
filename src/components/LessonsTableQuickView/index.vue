@@ -3,42 +3,31 @@
     title="课程表"
     icon-name="lessonstable"
     class="lessons-table-quick-view"
-    help
+    :help="true"
     @tap="nav2Lesson"
     @handle-tap-help="handleTapHelp"
   >
-    <text v-if="!showTomorrow" class="sub-text">
-      今日课表 ({{ updateTimeString }})
-    </text>
-    <text v-else class="sub-text">
-      明日课表 ({{ updateTimeString }})
-    </text>
+    <text v-if="!showTomorrow" class="sub-text"> 今日课表 ({{ updateTimeString }}) </text>
+    <text v-else class="sub-text"> 明日课表 ({{ updateTimeString }}) </text>
 
     <card
       v-for="(item, index) in lessonTable"
       :key="item.lessonName"
-      :style="{
-        '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
-      } as CSSProperties"
+      :style="
+        {
+          '--bg-color': index % 2 ? 'var(--wjh-color-primary)' : 'var(--wjh-color-primary-dark)'
+        } as CSSProperties
+      "
     >
-      <view
-        :key="updateRestTimeCounter + index"
-        class="lesson-item"
-      >
+      <view :key="updateRestTimeCounter + index" class="lesson-item">
         <view class="important-line">
           <text class="lesson-place">
             {{ item.lessonPlace }}
           </text>
-          <text
-            v-if="lessonState(item.sections) === 'before'"
-            class="before-lesson"
-          >
+          <text v-if="lessonState(item.sections) === 'before'" class="before-lesson">
             还有 {{ getRestTimeString(item.sections) }} 上课
           </text>
-          <text
-            v-else-if="lessonState(item.sections) === 'taking'"
-            class="taking-lesson"
-          >
+          <text v-else-if="lessonState(item.sections) === 'taking'" class="taking-lesson">
             上课中
           </text>
         </view>
@@ -47,9 +36,7 @@
           <text class="teacher-name">
             {{ ` ${item.teacherName}` }}
           </text>
-          <text class="duration">
-            ({{ sectionsTimeString(item.sections) }})
-          </text>
+          <text class="duration"> ({{ sectionsTimeString(item.sections) }}) </text>
         </view>
         <text class="lesson-name">
           {{ item.lessonName }}
@@ -57,36 +44,31 @@
       </view>
     </card>
 
-    <view
-      v-if="lessonTable?.length === 0 && !showTomorrow"
-      class="default-content"
-    >
+    <view v-if="lessonTable?.length === 0 && !showTomorrow" class="default-content">
       今天居然没有课😄
     </view>
-    <view
-      v-if="lessonTable?.length === 0 && showTomorrow"
-      class="default-content"
-    >
+    <view v-if="lessonTable?.length === 0 && showTomorrow" class="default-content">
       明天居然没有课😄
     </view>
-    <view v-if="!lessonTable" class="default-content">
-      点击获取你的课表 ～
-    </view>
+    <view v-if="!lessonTable" class="default-content"> 点击获取你的课表 ～ </view>
   </quick-view>
 </template>
 
 <script setup lang="ts">
-import Card from "../Card/index.vue";
-import QuickView from "../QuickView/index.vue";
-import Taro from "@tarojs/taro";
-import { ZFService } from "@/services";
-import dayjs from "dayjs";
-import { CSSProperties, Ref, computed, onMounted, onUnmounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
 import "./index.scss";
+
+import Taro from "@tarojs/taro";
+import dayjs from "dayjs";
+import { computed, CSSProperties, onMounted, onUnmounted, Ref, ref } from "vue";
+
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
+import { ZFService } from "@/services";
+import { serviceStore, systemStore } from "@/store";
 import { Lesson } from "@/types/Lesson";
+
+import Card from "../Card/index.vue";
+import QuickView from "../QuickView/index.vue";
 
 const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
 const emit = defineEmits(["showHelp"]);
@@ -97,7 +79,9 @@ const showTomorrow = dayjs().isAfter(tenPM);
 const lessonTable = computed(() => {
   let tmp: Lesson[] | undefined;
   try {
-    tmp = showTomorrow ? ZFService.getDayLessonTable("tomorrow") : ZFService.getDayLessonTable("today");
+    tmp = showTomorrow
+      ? ZFService.getDayLessonTable("tomorrow")
+      : ZFService.getDayLessonTable("today");
   } catch {
     tmp = undefined;
   }
@@ -122,14 +106,13 @@ const updateTimeString = computed(() => {
 });
 
 const updateTime = computed(() => {
-  let updateTime: Date | undefined = undefined;
+  let time: Date | undefined = undefined;
   try {
-    updateTime =
+    time =
       serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear][
         systemStore.generalInfo.term
-      ]?.updateTime;
-    if (updateTime) return updateTime;
-    else return undefined;
+      ].updateTime;
+    return time;
   } catch {
     return undefined;
   }
@@ -159,15 +142,13 @@ function getRestTimeString(sections: string) {
 
   const hour = Math.floor((minutesCount - currentMinutes) / 60);
   const min = minutesCount - currentMinutes - hour * 60;
-  return `${hour ? hour + "小时" : ""}${min ? min + "分钟" : ""}`;
+  return `${hour ? `${hour}小时` : ""}${min ? `${min}分钟` : ""}`;
 }
 
 function lessonState(sections: string): "before" | "taking" | "after" {
   const arr = sections.split("-");
-  const detAfter =
-    getLessonTimeInstance(Number(arr[0])).valueOf() - dayjs().valueOf();
-  const detBefore =
-    getLessonTimeInstance(Number(arr[1]), 45).valueOf() - dayjs().valueOf();
+  const detAfter = getLessonTimeInstance(Number(arr[0])).valueOf() - dayjs().valueOf();
+  const detBefore = getLessonTimeInstance(Number(arr[1]), 45).valueOf() - dayjs().valueOf();
   if (detAfter > 0) return "before";
   if (detAfter < 0 && detBefore > 0) return "taking";
   return "after";

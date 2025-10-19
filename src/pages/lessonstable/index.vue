@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="课程表" back-button />
+    <title-bar title="课程表" :back-button="true" />
     <view class="table-wrapper">
       <lessons-table
         :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
@@ -40,15 +40,12 @@
       </view>
       <view class="col">
         <view class="switch-button" @tap="pickerModeSwitch">
-          <image
-            v-if="!showWeekPicker"
-            src="@/assets/icons/term-week-swicher/term.svg"
-          />
+          <image v-if="!showWeekPicker" src="@/assets/icons/term-week-swicher/term.svg" />
           <image v-else src="@/assets/icons/term-week-swicher/week.svg" />
         </view>
       </view>
     </bottom-panel>
-    <pop-view v-model:show="showPop" style="z-index: 4000;">
+    <pop-view v-model:show="showPop" style="z-index: 4000">
       <view v-if="selection" class="lesson-detail">
         <view class="lesson-title">
           {{ selection.lessonName }}
@@ -68,8 +65,10 @@
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
 import { computed, onMounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
+
 import {
   BottomPanel,
   LessonsTable,
@@ -81,11 +80,11 @@ import {
   WButton,
   WeekPicker
 } from "@/components";
-import { Lesson } from "@/types/Lesson";
-import { ZFService } from "@/services";
-import "./index.scss";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
+import { ZFService } from "@/services";
+import { serviceStore, systemStore } from "@/store";
+import { Lesson } from "@/types/Lesson";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
@@ -113,10 +112,8 @@ const lessonsTableWeek = computed(() => {
         const end = parseInt(time.split("-")[1]);
         if (selectWeek.value <= end && selectWeek.value >= start)
           if (!time.includes("单") && !time.includes("双")) return true;
-          else if (time.includes("单") && selectWeek.value % 2 === 1)
-            return true;
-          else if (time.includes("双") && selectWeek.value % 2 === 0)
-            return true;
+          else if (time.includes("单") && selectWeek.value % 2 === 1) return true;
+          else if (time.includes("双") && selectWeek.value % 2 === 0) return true;
       } else if (selectWeek.value === parseInt(time)) return true;
     }
     return false;
@@ -125,7 +122,7 @@ const lessonsTableWeek = computed(() => {
 const isThisWeek = computed(() => {
   return (
     selectWeek.value === originWeek &&
-          JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
+    JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
   );
 });
 const isRefreshing = ref(false);
@@ -138,8 +135,8 @@ async function refresh() {
 }
 
 const detailTimeInterval = computed(() => {
-  const startIndex = parseInt(selection?.value!.sections.split("-")[0]);
-  const endIndex = parseInt(selection?.value!.sections.split("-")[1]);
+  const startIndex = parseInt(selection.value?.sections.split("-")[0] ?? "");
+  const endIndex = parseInt(selection.value?.sections.split("-")[1] ?? "");
   const startTime = useTimeInstance(
     dayScheduleStartTime[startIndex - 1].hour,
     dayScheduleStartTime[startIndex - 1].min
@@ -184,20 +181,19 @@ function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
   return `周${charEnum[parseInt(weekDay) - 1]}`;
 }
-
 </script>
 
 <style>
-  @keyframes rote {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+@keyframes rote {
+  from {
+    transform: rotate(0);
   }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-  .refresh-running {
-    animation: rote 1s alternate infinite;
-  }
+.refresh-running {
+  animation: rote 1s alternate infinite;
+}
 </style>
