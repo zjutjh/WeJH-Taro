@@ -25,8 +25,9 @@ import "./index.scss";
 
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
-import { computed, CSSProperties } from "vue";
+import { computed, CSSProperties, onMounted } from "vue";
 
+import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 
 import Card from "../Card/index.vue";
@@ -45,4 +46,10 @@ const current = computed(() => {
 function nav() {
   Taro.navigateTo({ url: "/pages/library/index" });
 }
+
+onMounted(() => {
+  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
+    LibraryService.getLibraryCurrent();
+  }
+});
 </script>

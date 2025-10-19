@@ -58,7 +58,7 @@ import dayjs from "dayjs";
 import { computed, onMounted, ref } from "vue";
 
 import { ZFService } from "@/services";
-import { systemStore } from "@/store";
+import { serviceStore, systemStore } from "@/store";
 import { Exam } from "@/types/Exam";
 import { timeUtils } from "@/utils";
 
@@ -155,6 +155,8 @@ function examState(examTimeString: string) {
 }
 
 onMounted(() => {
-  ZFService.updateExamInfo(selectTerm.value);
+  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
+    ZFService.updateExamInfo(selectTerm.value);
+  }
 });
 </script>

@@ -444,7 +444,7 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 import {
   BottomPanel,
@@ -479,6 +479,12 @@ async function refresh() {
   await ZFService.updateScoreInfo(selectTerm.value);
   isRefreshing.value = false;
 }
+
+onMounted(async () => {
+  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
+    await refresh();
+  }
+});
 
 // const scoreList = computed(() => {
 //   const data = ZFService.getScoreInfo(selectTerm.value).data;

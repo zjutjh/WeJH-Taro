@@ -77,7 +77,9 @@ function getScoreInfo(year: string, term: string) {
 }
 
 onMounted(() => {
-  getScoreInfo(selectTerm.value.year, selectTerm.value.term);
+  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
+    getScoreInfo(selectTerm.value.year, selectTerm.value.term);
+  }
 });
 
 /**

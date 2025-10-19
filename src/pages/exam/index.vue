@@ -176,7 +176,7 @@ function showHelp() {
 }
 
 onMounted(async () => {
-  if (serviceStore.user.isBindZF) {
+  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
     await refresh();
   }
 });
