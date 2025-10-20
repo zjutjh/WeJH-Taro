@@ -115,15 +115,11 @@ const updateTimeString = computed(() => {
 
 const updateTime = computed(() => {
   let time: Date | undefined = undefined;
-  try {
-    time =
-      serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear][
-        systemStore.generalInfo.term
-      ].updateTime;
-    return time;
-  } catch {
-    return undefined;
-  }
+  time =
+    serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear]?.[
+      systemStore.generalInfo.term
+    ]?.updateTime;
+  return time;
 });
 
 function nav2Lesson() {

@@ -59,8 +59,8 @@ export default class ZFService {
 
     // 直接得到考试安排信息
     return {
-      data: serviceStore.zf.examInfo[data.year][data.term].data,
-      updateTime: serviceStore.zf.examInfo[data.year][data.term].updateTime
+      data: serviceStore.zf.examInfo[data.year]?.[data.term]?.data ?? [],
+      updateTime: serviceStore.zf.examInfo[data.year]?.[data.term]?.updateTime ?? null
     };
   }
 
@@ -92,7 +92,12 @@ export default class ZFService {
     data: Score[];
     updateTime: Date | null;
   } {
-    return serviceStore.zf.scoreInfo[data.year][data.term][data.period];
+    return (
+      serviceStore.zf.scoreInfo[data.year]?.[data.term]?.[data.period] ?? {
+        data: [],
+        updateTime: null
+      }
+    );
   }
 
   static async getFreeRoomInfo(data: {
@@ -157,7 +162,7 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-    return serviceStore.zf.lessonsTableInfo[data.year][data.term].data.lessonsTable;
+    return serviceStore.zf.lessonsTableInfo[data.year]?.[data.term]?.data.lessonsTable;
   }
 
   /**
@@ -173,6 +178,6 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-    return serviceStore.zf.lessonsTableInfo[data.year][data.term].data.practiceLessons;
+    return serviceStore.zf.lessonsTableInfo[data.year]?.[data.term]?.data.practiceLessons ?? [];
   }
 }
