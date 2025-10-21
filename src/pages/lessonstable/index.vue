@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
+import "./index.module.scss";
 
 import { computed, onMounted, ref } from "vue";
 
