@@ -73,7 +73,7 @@ const selectTerm = ref({
 });
 
 const updateTimeString = computed(() => {
-  if (updateTime.value !== undefined) return dayjs(updateTime.value).fromNow();
+  if (updateTime.value) return dayjs(updateTime.value).fromNow();
   return "更新失败!";
 });
 
@@ -85,17 +85,13 @@ const updateTimeString = computed(() => {
 const filteredExamItems = computed(() => {
   let list: Exam[] = [];
   const exam = ZFService.getExamInfo(selectTerm.value).data;
-  try {
-    list = exam.filter((item) => {
-      if (item.examTime === "未放开不可查") return 0;
-      const { date, start } = getExamTime(item.examTime);
-      // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
-      const resDay = timeUtils.getDayInterval(new Date(`${date} ${start}:00`));
-      return resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after";
-    });
-  } catch (e) {
-    console.error(e);
-  }
+  list = exam.filter((item) => {
+    if (item.examTime === "未放开不可查") return 0;
+    const { date, start } = getExamTime(item.examTime);
+    // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
+    const resDay = timeUtils.getDayInterval(new Date(`${date} ${start}:00`));
+    return resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after";
+  });
   return list.sort((a, b) => {
     const { date: dateA, start: timeA } = getExamTime(a.examTime);
     const { date: dateB, start: timeB } = getExamTime(b.examTime);
@@ -104,14 +100,7 @@ const filteredExamItems = computed(() => {
 });
 
 const updateTime = computed(() => {
-  let updata: Date | null = null;
-  try {
-    updata = ZFService.getExamInfo(selectTerm.value).updateTime;
-    if (updata === null) return undefined;
-    return updata;
-  } catch {
-    return undefined;
-  }
+  return ZFService.getExamInfo(selectTerm.value).updateTime;
 });
 
 function nav2Exam() {

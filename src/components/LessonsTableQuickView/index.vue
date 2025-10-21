@@ -110,12 +110,9 @@ const updateTimeString = computed(() => {
 });
 
 const updateTime = computed(() => {
-  let time: Date | undefined = undefined;
-  time =
-    serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear]?.[
-      systemStore.generalInfo.term
-    ]?.updateTime;
-  return time;
+  return serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear]?.[
+    systemStore.generalInfo.term
+  ]?.updateTime;
 });
 
 function nav2Lesson() {
