@@ -1,7 +1,7 @@
 <template>
   <theme-config>
     <title-bar title="课程表" :back-button="true" />
-    <view class="table-wrapper">
+    <view :class="styles['table-wrapper']">
       <lessons-table
         :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
         :is-this-week="isThisWeek"
@@ -9,8 +9,8 @@
       />
     </view>
 
-    <bottom-panel class="lessons-table-bottom-panel">
-      <view class="col">
+    <bottom-panel :class="styles['lessons-table-bottom-panel']">
+      <view :class="styles['col']">
         <refresh-button
           v-if="showWeekPicker && isThisWeek"
           :is-refreshing="isRefreshing"
@@ -18,36 +18,36 @@
         />
         <w-button
           v-else-if="showWeekPicker"
-          class="back-button"
+          :class="styles['back-button']"
           size="large"
           shape="circle"
           @tap="backToOriginWeek"
         >
-          <view class="iconfont icon-back" />
+          <view :class="[styles['iconfont'], styles['icon-back']]" />
         </w-button>
       </view>
-      <view v-if="showWeekPicker" class="col">
+      <view v-if="showWeekPicker" :class="styles['col']">
         <week-picker v-model:week="selectWeek" />
       </view>
-      <view v-else class="col">
+      <view v-else :class="styles['col']">
         <term-picker
-          class="picker"
+          :class="styles['picker']"
           :year="selectTerm.year"
           :term="selectTerm.term"
           :selectflag="0"
           @changed="termChanged"
         />
       </view>
-      <view class="col">
-        <view class="switch-button" @tap="pickerModeSwitch">
+      <view :class="styles['col']">
+        <view :class="styles['switch-button']" @tap="pickerModeSwitch">
           <image v-if="!showWeekPicker" src="@/assets/icons/term-week-swicher/term.svg" />
           <image v-else src="@/assets/icons/term-week-swicher/week.svg" />
         </view>
       </view>
     </bottom-panel>
     <pop-view v-model:show="showPop" style="z-index: 4000">
-      <view v-if="selection" class="lesson-detail">
-        <view class="lesson-title">
+      <view v-if="selection" :class="styles['lesson-detail']">
+        <view :class="styles['lesson-title']">
           {{ selection.lessonName }}
         </view>
         <view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
@@ -65,8 +65,6 @@
 </template>
 
 <script setup lang="ts">
-import "./index.module.scss";
-
 import { computed, onMounted, ref } from "vue";
 
 import {
@@ -85,6 +83,8 @@ import { useTimeInstance } from "@/hooks";
 import { ZFService } from "@/services";
 import { systemStore } from "@/store";
 import { Lesson } from "@/types/Lesson";
+
+import styles from "./index.module.scss";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
