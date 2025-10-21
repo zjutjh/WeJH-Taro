@@ -48,8 +48,6 @@ function nav() {
 }
 
 onMounted(() => {
-  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
-    LibraryService.getLibraryCurrent();
-  }
+  LibraryService.getLibraryCurrent();
 });
 </script>

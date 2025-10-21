@@ -130,7 +130,7 @@ import {
 } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { ZFService } from "@/services";
-import { serviceStore, systemStore } from "@/store";
+import { systemStore } from "@/store";
 
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
@@ -176,8 +176,6 @@ function showHelp() {
 }
 
 onMounted(async () => {
-  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
-    await refresh();
-  }
+  await refresh();
 });
 </script>

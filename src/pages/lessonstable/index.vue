@@ -83,7 +83,7 @@ import {
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import { ZFService } from "@/services";
-import { serviceStore, systemStore } from "@/store";
+import { systemStore } from "@/store";
 import { Lesson } from "@/types/Lesson";
 
 const showPop = ref(false);
@@ -157,9 +157,7 @@ async function termChanged(e) {
 }
 
 onMounted(async () => {
-  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
-    await refresh();
-  }
+  await refresh();
 });
 
 const showWeekPicker = ref(true);

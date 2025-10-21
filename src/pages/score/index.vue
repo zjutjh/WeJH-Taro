@@ -481,9 +481,7 @@ async function refresh() {
 }
 
 onMounted(async () => {
-  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
-    await refresh();
-  }
+  await refresh();
 });
 
 // const scoreList = computed(() => {

@@ -90,18 +90,14 @@ const lessonTable = computed(() => {
 
 const updateRestTimeCounter = ref(0);
 
-const selectTerm = ref({
-  year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.score || systemStore.generalInfo.term
-});
-
 onMounted(() => {
   timer.value = setInterval(() => {
     updateRestTimeCounter.value++;
   }, 5000);
-  if (serviceStore.user.isBindZF || serviceStore.user.isBindOauth) {
-    ZFService.updateLessonTable(selectTerm.value);
-  }
+  ZFService.updateLessonTable({
+    year: systemStore.generalInfo.termYear,
+    term: systemStore.generalInfo.term
+  });
 });
 
 onUnmounted(() => {
