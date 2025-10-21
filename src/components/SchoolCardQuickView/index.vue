@@ -26,7 +26,7 @@ import store, { serviceStore } from "@/store";
 
 import QuickView from "../QuickView/index.vue";
 
-const { error } = useRequest(YxyService.querySchoolCardBalance, {
+const { error, loading } = useRequest(YxyService.querySchoolCardBalance, {
   onSuccess: (res) => {
     if (res.data.code === 1) {
       if (Number.isFinite(parseFloat(res.data.data))) store.commit("setCardBalance", res.data.data);
@@ -44,6 +44,9 @@ const { error } = useRequest(YxyService.querySchoolCardBalance, {
 const emit = defineEmits(["showHelp"]);
 
 const balanceUpdateTimeString = computed(() => {
+  if (loading.value) {
+    return "正在查询";
+  }
   const time = serviceStore.card.updateTime;
   return !error.value ? dayjs(time.balance).fromNow() : "更新失败";
 });

@@ -67,6 +67,9 @@ const isUrgent = computed(() => {
 });
 
 const updateTimeString = computed(() => {
+  if (loading.value) {
+    return "请稍候";
+  }
   const time = serviceStore.electricity.updateTime.balance;
   return !error.value ? dayjs(time).fromNow() : "更新失败";
 });
