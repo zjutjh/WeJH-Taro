@@ -1,3 +1,5 @@
+import { get } from "lodash-es";
+
 import { serviceStore, systemStore } from "@/store";
 import { Exam } from "@/types/Exam";
 import { Lesson, PracticeLesson } from "@/types/Lesson";
@@ -59,8 +61,8 @@ export default class ZFService {
 
     // 直接得到考试安排信息
     return {
-      data: serviceStore.zf.examInfo[data.year]?.[data.term]?.data ?? [],
-      updateTime: serviceStore.zf.examInfo[data.year]?.[data.term]?.updateTime ?? null
+      data: get(serviceStore, `zf.examInfo[${data.year}][${data.term}].data`, []),
+      updateTime: get(serviceStore, `zf.examInfo[${data.year}][${data.term}].updateTime`, null)
     };
   }
 
@@ -92,12 +94,10 @@ export default class ZFService {
     data: Score[];
     updateTime: Date | null;
   } {
-    return (
-      serviceStore.zf.scoreInfo[data.year]?.[data.term]?.[data.period] ?? {
-        data: [],
-        updateTime: null
-      }
-    );
+    return get(serviceStore, `zf.scoreInfo[${data.year}][${data.term}][${data.period}]`, {
+      data: [],
+      updateTime: null
+    });
   }
 
   static async getFreeRoomInfo(data: {
@@ -162,7 +162,7 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-    return serviceStore.zf.lessonsTableInfo[data.year]?.[data.term]?.data.lessonsTable;
+    return get(serviceStore, `zf.lessonsTableInfo[${data.year}][${data.term}].data.lessonsTable`);
   }
 
   /**
@@ -178,6 +178,10 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-    return serviceStore.zf.lessonsTableInfo[data.year]?.[data.term]?.data.practiceLessons ?? [];
+    return get(
+      serviceStore,
+      `zf.lessonsTableInfo[${data.year}][${data.term}].data.practiceLessons`,
+      []
+    );
   }
 }
