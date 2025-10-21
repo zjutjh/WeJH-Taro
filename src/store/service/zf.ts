@@ -52,7 +52,7 @@ export const ZFServiceStore = {
         practiceLessons: PracticeLesson[];
       }
     ) {
-      set(state, `lessonsTableInfo[${value.year}][${value.term}]`, {
+      set(state, ["lessonsTableInfo", value.year, value.term], {
         data: {
           LessonsTable: value.lessonsTable ?? [],
           practiceLessons: value.practiceLessons
@@ -61,7 +61,7 @@ export const ZFServiceStore = {
       });
     },
     setExamInfo(state: ZFServiceType, value: { term: string; year: string; examInfo: Exam[] }) {
-      set(state, `examInfo[${value.year}][${value.term}]`, {
+      set(state, ["examInfo", value.year, value.term], {
         data: value.examInfo,
         updateTime: new Date()
       });
@@ -70,7 +70,7 @@ export const ZFServiceStore = {
       state: ZFServiceType,
       value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] }
     ) {
-      set(state, `scoreInfo[${value.year}][${value.term}][${value.period}]`, {
+      set(state, ["scoreInfo", value.year, value.term, value.period], {
         data: value.scoreInfo.map((item) => ({
           ...item,
           scorePeriod: value.period
