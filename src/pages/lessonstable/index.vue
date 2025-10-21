@@ -180,18 +180,3 @@ function detailWeekDay(weekDay: string) {
   return `周${charEnum[parseInt(weekDay) - 1]}`;
 }
 </script>
-
-<style>
-@keyframes rote {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.refresh-running {
-  animation: rote 1s alternate infinite;
-}
-</style>

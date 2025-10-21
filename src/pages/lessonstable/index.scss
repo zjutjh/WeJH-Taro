@@ -1,4 +1,4 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
 
 .table-wrapper {
   padding: 1rem;
@@ -33,7 +33,7 @@
 }
 
 .picker-wrapper {
-  height: 31Px;
+  height: 31px;
 }
 
 .lessons-table-bottom-panel {
@@ -56,20 +56,32 @@
 
   .switch-button {
     background-color: var(--wjh-color-primary);
-    width: 34Px;
-    height: 34Px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
 
     image {
-      width: 24Px;
-      height: 24Px;
-      padding: 5Px;
+      width: 24px;
+      height: 24px;
+      padding: 5px;
       transition: all 0.3s;
     }
-
   }
 }
 
 .back-button {
-  padding: 5Px;
+  padding: 5px;
+}
+
+@keyframes rote {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-running {
+  animation: rote 1s alternate infinite;
 }
