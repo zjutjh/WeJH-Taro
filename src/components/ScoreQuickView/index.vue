@@ -42,6 +42,7 @@ import "../../style/theme.scss";
 
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { get } from "lodash-es";
 import { computed, onMounted, ref } from "vue";
 
 import { ZFService } from "@/services";
@@ -70,13 +71,15 @@ function getScoreInfo(year: string, term: string) {
 
   // 没新成绩也更新时间, 此处应该是用来表示请求的新鲜度
   // TODO: 判断失败态; 目前后端失败态也一坨, 所以先算了
-  store.commit("findNewScore");
+
+  // store.commit("findNewScore");
 
   return { midTermScores, finalTermScores };
 }
 
 onMounted(() => {
-  getScoreInfo(selectTerm.value.year, selectTerm.value.term);
+  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期中" });
+  ZFService.updateScoreInfo({ ...selectTerm.value, period: "期末" });
 });
 
 /**
@@ -115,7 +118,17 @@ function getUnreadScores(props: { year: string; term: string }) {
 
 // 最新成绩的更新时间（几天前）
 const scoreUpdateTimeString = computed(() => {
-  const updateTime = serviceStore.score.findNewScoresTime;
+  const updateTime =
+    get(
+      serviceStore,
+      ["zf", "scoreInfo", selectTerm.value.year, selectTerm.value.term, "期中", "updateTime"],
+      undefined
+    ) ??
+    get(
+      serviceStore,
+      ["zf", "scoreInfo", selectTerm.value.year, selectTerm.value.term, "期末", "updateTime"],
+      undefined
+    );
   if (!updateTime) return "更新失败";
   return dayjs(updateTime).fromNow();
 });
