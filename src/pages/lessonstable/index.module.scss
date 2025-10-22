@@ -1,4 +1,4 @@
-@import '@/style/theme.scss';
+@import "@/style/theme.scss";
 
 .table-wrapper {
   padding: 1rem;
@@ -66,10 +66,22 @@
       padding: 5Px;
       transition: all 0.3s;
     }
-
   }
 }
 
 .back-button {
   padding: 5Px;
+}
+
+@keyframes rote {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-running {
+  animation: rote 1s alternate infinite;
 }

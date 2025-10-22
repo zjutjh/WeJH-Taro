@@ -1,38 +1,33 @@
+import { set } from "lodash-es";
+
 import { Exam } from "@/types/Exam";
 import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Room } from "@/types/Room";
 import { Score } from "@/types/Score";
 
+type EveryTermValueRecord<T> = Record<string, T | undefined>;
+type EveryYearValueRecord<T> = Record<string, EveryTermValueRecord<T> | undefined>;
+
 export interface ZFServiceType {
-  lessonsTableInfo: {
-    [key: string]: {
-      [key: string]: {
-        data: {
-          lessonsTable: Lesson[];
-          practiceLessons: PracticeLesson[];
-        };
-        updateTime: Date;
-      };
+  lessonsTableInfo: EveryYearValueRecord<{
+    data: {
+      lessonsTable: Lesson[];
+      practiceLessons: PracticeLesson[];
     };
-  };
-  examInfo: {
-    [key: string]: {
-      [key: string]: {
-        data: Exam[];
-        updateTime: Date;
-      };
-    };
-  };
-  scoreInfo: {
-    [key: string]: {
-      [key: string]: {
-        [key: string]: {
+    updateTime: Date;
+  }>;
+  examInfo: EveryYearValueRecord<{
+    data: Exam[];
+    updateTime: Date;
+  }>;
+  scoreInfo: EveryYearValueRecord<{
+    [key: string]:
+      | {
           data: Score[];
           updateTime: Date;
-        };
-      };
-    };
-  };
+        }
+      | undefined;
+  }>;
   roomInfo: {
     data: Room[];
     updateTime: Date;
@@ -57,42 +52,31 @@ export const ZFServiceStore = {
         practiceLessons: PracticeLesson[];
       }
     ) {
-      if (!state.lessonsTableInfo[value.year])
-        state.lessonsTableInfo[value.year] = {};
-      state.lessonsTableInfo[value.year][value.term] = {
+      set(state, ["lessonsTableInfo", value.year, value.term], {
         data: {
-          lessonsTable: value.lessonsTable ?? [],
+          LessonsTable: value.lessonsTable ?? [],
           practiceLessons: value.practiceLessons
         },
         updateTime: new Date()
-      };
+      });
     },
-    setExamInfo(
-      state: ZFServiceType,
-      value: { term: string; year: string; examInfo: Exam[] }
-    ) {
-      if (!state.examInfo[value.year]) state.examInfo[value.year] = {};
-      state.examInfo[value.year][value.term] = {
+    setExamInfo(state: ZFServiceType, value: { term: string; year: string; examInfo: Exam[] }) {
+      set(state, ["examInfo", value.year, value.term], {
         data: value.examInfo,
         updateTime: new Date()
-      };
+      });
     },
     setScoreInfo(
       state: ZFServiceType,
       value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] }
     ) {
-      if (!value.scoreInfo) return;
-      if (!state.scoreInfo[value.year])
-        state.scoreInfo[value.year] = {};
-      if (!state.scoreInfo[value.year][value.term])
-        state.scoreInfo[value.year][value.term] = {};
-      state.scoreInfo[value.year][value.term][value.period] = {
-        data: value.scoreInfo.map(item => ({
+      set(state, ["scoreInfo", value.year, value.term, value.period], {
+        data: value.scoreInfo.map((item) => ({
           ...item,
           scorePeriod: value.period
         })),
         updateTime: new Date()
-      };
+      });
     },
     setRoomInfo(state: ZFServiceType, value: []) {
       state.roomInfo = {

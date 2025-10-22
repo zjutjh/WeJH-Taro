@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="考试安排" back-button />
+    <title-bar title="考试安排" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <image src="@/assets/photos/exam.svg" />
@@ -8,23 +8,16 @@
           <view class="icon-wrapper">
             <view class="extra-icon iconfont icon-announcement" />
           </view>
-          <view class="label">
-            公告
-          </view>
+          <view class="label"> 公告 </view>
         </view>
       </view>
       <view class="flex-column">
         <card v-if="!exam || exam.length === 0" style="text-align: center">
           <view>无记录</view>
         </card>
-        <card
-          v-for="item in exam"
-          :key="item.id"
-          size="small"
-          class="exam-card"
-        >
+        <card v-for="item in exam" :key="item.id" size="small" class="exam-card">
           <w-collapse class="exam-collapse-item">
-            <w-collapse-panel arrow>
+            <w-collapse-panel :arrow="true">
               <template #header>
                 <view
                   class="lesson-name"
@@ -36,12 +29,7 @@
                 >
                   {{ item.lessonName }}
                 </view>
-                <view
-                  style="
-                    font-size: 14px;
-                    color: var(--wjh-color-text-secondary);
-                  "
-                >
+                <view style="font-size: 14px; color: var(--wjh-color-text-secondary)">
                   <view
                     v-if="timeInterval(item.examTime) >= 0 && timeInterval(item.examTime) <= 14"
                     :style="
@@ -80,7 +68,8 @@
                   {{ getDetailedTime(item.examTime) }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试地点" :label-span="6">
-                  <text>{{ item.examPlace }}</text><text v-if="item.seatNum !== '未放开不可查'">
+                  <text>{{ item.examPlace }}</text
+                  ><text v-if="item.seatNum !== '未放开不可查'">
                     {{ ` - 座位号：${item.seatNum}` }}
                   </text>
                 </w-descriptions-item>
@@ -90,9 +79,9 @@
                 <w-descriptions-item label="教师列表" :label-span="6">
                   {{
                     item.teacherName
-                      .split(';')
-                      .map((item) => item.split('/')[1])
-                      .join('；')
+                      .split(";")
+                      .map((item) => item.split("/")[1])
+                      .join("；")
                   }}
                 </w-descriptions-item>
               </w-descriptions>
@@ -121,8 +110,11 @@
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
+import dayjs, { ConfigType } from "dayjs";
 import { computed, onMounted, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
+
 import {
   BottomPanel,
   Card,
@@ -136,10 +128,9 @@ import {
   WDescriptionsItem,
   WModal
 } from "@/components";
-import { ZFService } from "@/services";
-import dayjs, { ConfigType } from "dayjs";
 import { helpText } from "@/constants/copywriting";
-import "./index.scss";
+import { ZFService } from "@/services";
+import { systemStore } from "@/store";
 
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
@@ -147,7 +138,7 @@ const selectTerm = ref({
 });
 const isRefreshing = ref(false);
 const exam = computed(() => {
-  return ZFService.getExamInfo(selectTerm.value)?.data;
+  return ZFService.getExamInfo(selectTerm.value).data;
 });
 const showModal = ref(false);
 const helpContent = helpText.exam;
@@ -171,10 +162,8 @@ function getDetailedTime(timeString: string) {
   const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
   if (dayChars[dayjs(tmp).day()]) {
     return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-  } else {
-    return `${tmp}`;
   }
-
+  return `${tmp}`;
 }
 
 function timeInterval(timeString: string) {
@@ -187,9 +176,6 @@ function showHelp() {
 }
 
 onMounted(async () => {
-  if (serviceStore.user.isBindZF) {
-    await refresh();
-  }
+  await refresh();
 });
-
 </script>
