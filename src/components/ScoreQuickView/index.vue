@@ -70,10 +70,6 @@ function getScoreInfo(year: string, term: string) {
   const { data: finalTermScores } = ZFService.getScoreInfo({ year, term, period: "期末" });
 
   // 没新成绩也更新时间, 此处应该是用来表示请求的新鲜度
-  // TODO: 判断失败态; 目前后端失败态也一坨, 所以先算了
-
-  // store.commit("findNewScore");
-
   return { midTermScores, finalTermScores };
 }
 
