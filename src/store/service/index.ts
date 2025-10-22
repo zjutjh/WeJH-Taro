@@ -47,7 +47,7 @@ export interface ServiceStoreType {
       scorePoint: string;
       key: string;
     }>;
-    findNewScoresTime: Date;
+    findNewScoresTime: Date | undefined;
     scorePeriod: "期中" | "期末";
   };
   library: {

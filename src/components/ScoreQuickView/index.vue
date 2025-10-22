@@ -115,11 +115,9 @@ function getUnreadScores(props: { year: string; term: string }) {
 
 // 最新成绩的更新时间（几天前）
 const scoreUpdateTimeString = computed(() => {
-  return dayjs(updateTime.value).fromNow();
-});
-
-const updateTime = computed(() => {
-  return serviceStore.score.findNewScoresTime;
+  const updateTime = serviceStore.score.findNewScoresTime;
+  if (!updateTime) return "更新失败";
+  return dayjs(updateTime).fromNow();
 });
 
 // @tap="nav2Score" 点击卡片，跳转到成绩查询详细页面
