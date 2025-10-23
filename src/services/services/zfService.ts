@@ -89,7 +89,7 @@ export default class ZFService {
     }));
   }
 
-  static getScoreInfo(data: { year: string; term: string; period: "期中" | "期末" | "" }): {
+  static getScoreInfo(data: { year: string; term: string; period: "期中" | "期末" }): {
     data: Score[];
     updateTime: Date | null;
   } {

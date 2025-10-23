@@ -28,9 +28,7 @@ export interface ZFServiceType {
   /** 考试信息，按年份、学期分层 */
   examInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<Exam[]>>>;
   /** 成绩信息，按年份、学期、期中/期末分层 */
-  scoreInfo: YearValueRecord<
-    TermValueRecord<PeriodValueRecord<StoreDataWithUpdateTime<Score[]> | undefined>>
-  >;
+  scoreInfo: YearValueRecord<TermValueRecord<PeriodValueRecord<StoreDataWithUpdateTime<Score[]>>>>;
   /** 空教室信息 */
   roomInfo?: StoreDataWithUpdateTime<Room[]>;
 }
