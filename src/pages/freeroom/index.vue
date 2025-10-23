@@ -59,7 +59,7 @@ const buildingList = computed(() => {
   const buildNameRoomListRecord = groupBy(serviceStore.zf.roomInfo?.data, (item) => {
     const buildNameFirstLetter = first(item.buildName);
     // TODO: 上报教学楼第一个字符和字典无法匹配
-    return FREE_ROOM_RECORD[buildNameFirstLetter ?? ""] ?? "未知教室";
+    return FREE_ROOM_RECORD[buildNameFirstLetter ?? ""] ?? "未知教学楼";
   });
 
   // 转数组，并对教室列表排序
