@@ -30,7 +30,7 @@ export interface ZFServiceType {
   }>;
   roomInfo: {
     data: Room[];
-    updateTime: Date;
+    updateTime: Date | null;
   };
 }
 
@@ -40,7 +40,10 @@ export const ZFServiceStore = {
     practiceLessons: [],
     examInfo: {},
     scoreInfo: {},
-    roomInfo: {}
+    roomInfo: {
+      data: [],
+      updateTime: null
+    }
   }),
   mutations: {
     setLessonTable(
@@ -49,32 +52,36 @@ export const ZFServiceStore = {
         term: string;
         year: string;
         lessonsTable: Lesson[] | null;
-        practiceLessons: PracticeLesson[];
+        practiceLessons: PracticeLesson[] | null;
       }
     ) {
       set(state, ["lessonsTableInfo", value.year, value.term], {
         data: {
-          LessonsTable: value.lessonsTable ?? [],
-          practiceLessons: value.practiceLessons
+          lessonsTable: value.lessonsTable ?? [],
+          practiceLessons: value.practiceLessons ?? []
         },
         updateTime: new Date()
       });
     },
-    setExamInfo(state: ZFServiceType, value: { term: string; year: string; examInfo: Exam[] }) {
+    setExamInfo(
+      state: ZFServiceType,
+      value: { term: string; year: string; examInfo: Exam[] | null }
+    ) {
       set(state, ["examInfo", value.year, value.term], {
-        data: value.examInfo,
+        data: value.examInfo ?? [],
         updateTime: new Date()
       });
     },
     setScoreInfo(
       state: ZFServiceType,
-      value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] }
+      value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] | null }
     ) {
       set(state, ["scoreInfo", value.year, value.term, value.period], {
-        data: value.scoreInfo.map((item) => ({
-          ...item,
-          scorePeriod: value.period
-        })),
+        data:
+          value.scoreInfo?.map((item) => ({
+            ...item,
+            scorePeriod: value.period
+          })) ?? [],
         updateTime: new Date()
       });
     },
@@ -85,4 +92,7 @@ export const ZFServiceStore = {
       };
     }
   }
+} satisfies {
+  state: () => ZFServiceType;
+  mutations: Record<string, (state: ZFServiceType, value: object | []) => void>;
 };
