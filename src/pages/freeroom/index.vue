@@ -3,19 +3,15 @@
     <title-bar title="空教室" back-button />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card v-if="!building" title="无记录" style="text-align: center" />
+        <card v-if="!buildingList" title="无记录" style="text-align: center" />
         <card
-          v-for="(item, index) in building"
+          v-for="(item, index) in buildingList"
           :key="index"
           class="building-card"
           :title="item.buildName"
         >
           <view class="building-card-body">
-            <view
-              v-for="room in item.roomList"
-              :key="room.roomName"
-              class="room-card"
-            >
+            <view v-for="room in item.roomList" :key="room.roomName" class="room-card">
               <view class="room-name">
                 {{ room.roomName }}
               </view>
@@ -28,55 +24,52 @@
       </view>
     </scroll-view>
     <bottom-panel>
-      <room-picker class="picker" :week="selectWeek" @changed="roomChanged" />
+      <room-picker class="picker" :week="selectWeek" @changed="handleRoomChange" />
     </bottom-panel>
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { serviceStore, systemStore } from "@/store";
-import { BottomPanel, Card, RoomPicker, ThemeConfig, TitleBar } from "@/components";
-import { ZFService } from "@/services";
-import { freeroomMap } from "@/constants/freeroomMap";
-import { Room } from "@/types/Room";
 import "./index.scss";
 
-type freeRoomQueryType = {
+import { first, groupBy } from "lodash-es";
+import { computed, ref } from "vue";
+
+import { BottomPanel, Card, RoomPicker, ThemeConfig, TitleBar } from "@/components";
+import { FREE_ROOM_RECORD } from "@/constants/freeroomMap";
+import { ZFService } from "@/services";
+import { serviceStore, systemStore } from "@/store";
+
+interface FreeRoomQueryType {
   campus: string;
-  sections: string; // 可扩展区间选择
+  /** 可扩展区间选择 */
+  sections: string;
   term: string;
   week: string;
   weekday: string;
   year: string;
-};
+}
 
-function roomChanged(e: freeRoomQueryType) {
+function handleRoomChange(e: FreeRoomQueryType) {
   ZFService.getFreeRoomInfo(e);
 }
 
-const building = computed(() => {
-  // comment: 数组，每个元素存放一幢教学楼的空教室
-  const buildingList: Array<{ buildName: string; roomList: Room[]; }> = [];
-  const tmp: Record<string, Room[]> = {};
+const buildingList = computed(() => {
+  /** 教学楼名称 -> 空教室列表的映射 */
+  const buildNameRoomListRecord = groupBy(serviceStore.zf.roomInfo?.data, (item) => {
+    const buildNameFirstLetter = first(item.buildName);
+    // TODO: 上报教学楼第一个字符和字典无法匹配
+    return FREE_ROOM_RECORD[buildNameFirstLetter ?? ""] ?? "未知教室";
+  });
 
-  serviceStore.zf.roomInfo.data?.forEach((item: Room) => {
-    // TODO:  上报无教学楼匹配
-    const fullBuildName = freeroomMap[item.buildName[0]] || "未知教室";
-    if (!tmp[fullBuildName]) tmp[fullBuildName] = [];
-    tmp[fullBuildName].push(item);
-  });
-  Object.keys(tmp).forEach((key) => {
-    buildingList.push({
-      buildName: key,
-      roomList: tmp[key].sort((a, b) => {
-        return a.roomName > b.roomName ? 1 : -1;
-      })
-    });
-  });
-  return buildingList;
+  // 转数组，并对教室列表排序
+  return Object.keys(buildNameRoomListRecord).map((buildName) => ({
+    buildName,
+    roomList: buildNameRoomListRecord[buildName].sort((a, b) => {
+      return a.roomName > b.roomName ? 1 : -1;
+    })
+  }));
 });
 
 const selectWeek = ref(systemStore.generalInfo.week);
-
 </script>
