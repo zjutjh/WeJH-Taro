@@ -5,32 +5,44 @@ import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Room } from "@/types/Room";
 import { Score } from "@/types/Score";
 
-type EveryTermValueRecord<T> = Record<string, T | undefined>;
-type EveryYearValueRecord<T> = Record<string, EveryTermValueRecord<T> | undefined>;
+/** 期中/期末 到值的映射 */
+type PeriodValueRecord<T> = Record<"期中" | "期末", T | undefined>;
 
-type Data<T> = { data: T; updateTime: Date };
-type LessonsTableData = Data<{ lessonsTable: Lesson[]; practiceLessons: PracticeLesson[] }>;
-type ExamData = Data<Exam[]>;
-type ScoreData = Data<Score[]>;
-type RoomData = Data<Room[]>;
+/** 学期到值的映射，分上学期和下学期 */
+type TermValueRecord<T> = Record<string, T | undefined>;
+
+/** 年份到值的映射 */
+type YearValueRecord<T> = Record<string, T | undefined>;
+
+/** 最小存储单元，带有请求成功的时间 */
+type StoreDataWithUpdateTime<T> = { data: T; updateTime: Date };
+
+interface LessonsTableData {
+  lessonsTable: Lesson[];
+  practiceLessons: PracticeLesson[];
+}
 
 export interface ZFServiceType {
-  lessonsTableInfo: EveryYearValueRecord<LessonsTableData>;
-  examInfo: EveryYearValueRecord<ExamData>;
-  scoreInfo: EveryYearValueRecord<{
-    [key: string]: ScoreData | undefined;
-  }>;
-  roomInfo: RoomData;
+  /** 课程表信息，按年份、学期分层 */
+  lessonsTableInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<LessonsTableData>>>;
+  /** 考试信息，按年份、学期分层 */
+  examInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<Exam[]>>>;
+  /** 成绩信息，按年份、学期、期中/期末分层 */
+  scoreInfo: YearValueRecord<
+    TermValueRecord<PeriodValueRecord<StoreDataWithUpdateTime<Score[]> | undefined>>
+  >;
+  /** 空教室信息 */
+  roomInfo?: StoreDataWithUpdateTime<Room[]>;
 }
 
 export const ZFServiceStore = {
-  state: () => ({
-    lessonsTableInfo: {},
-    practiceLessons: [],
-    examInfo: {},
-    scoreInfo: {},
-    roomInfo: {}
-  }),
+  state: () =>
+    ({
+      lessonsTableInfo: {},
+      examInfo: {},
+      scoreInfo: {},
+      roomInfo: undefined
+    }) satisfies ZFServiceType,
   mutations: {
     setLessonTable(
       state: ZFServiceType,
@@ -47,7 +59,7 @@ export const ZFServiceStore = {
           practiceLessons: value.practiceLessons ?? []
         },
         updateTime: new Date()
-      } satisfies LessonsTableData);
+      } satisfies StoreDataWithUpdateTime<LessonsTableData>);
     },
     setExamInfo(
       state: ZFServiceType,
@@ -56,7 +68,7 @@ export const ZFServiceStore = {
       set(state, ["examInfo", value.year, value.term], {
         data: value.examInfo ?? [],
         updateTime: new Date()
-      } satisfies ExamData);
+      } satisfies StoreDataWithUpdateTime<Exam[]>);
     },
     setScoreInfo(
       state: ZFServiceType,
@@ -69,13 +81,13 @@ export const ZFServiceStore = {
             scorePeriod: value.period
           })) ?? [],
         updateTime: new Date()
-      } satisfies ScoreData);
+      } satisfies StoreDataWithUpdateTime<Score[]>);
     },
-    setRoomInfo(state: ZFServiceType, value: []) {
+    setRoomInfo(state: ZFServiceType, value: Room[]) {
       state.roomInfo = {
         data: value,
         updateTime: new Date()
-      };
+      } satisfies StoreDataWithUpdateTime<Room[]>;
     }
   }
 };

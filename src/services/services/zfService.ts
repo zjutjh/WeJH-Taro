@@ -173,7 +173,8 @@ export default class ZFService {
 
   /**
    * 从缓存中获取 **实践** 课表
-   * @Deprecated 无此需求，没使用过
+   *
+   * @deprecated 无此需求，没使用过
    * @param 学期信息
    * @returns
    */
@@ -184,9 +185,8 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-    return get(
-      serviceStore,
-      ["zf", "lessonsTableInfo", data.year, data.term, "data", "practiceLessons"],
+    return (
+      get(serviceStore, ["zf", "lessonsTableInfo", data.year, data.term])?.data.practiceLessons ??
       []
     );
   }
