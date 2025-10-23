@@ -8,30 +8,19 @@ import { Score } from "@/types/Score";
 type EveryTermValueRecord<T> = Record<string, T | undefined>;
 type EveryYearValueRecord<T> = Record<string, EveryTermValueRecord<T> | undefined>;
 
+type Data<T> = { data: T; updateTime: Date };
+type LessonsTableData = Data<{ lessonsTable: Lesson[]; practiceLessons: PracticeLesson[] }>;
+type ExamData = Data<Exam[]>;
+type ScoreData = Data<Score[]>;
+type RoomData = Data<Room[]>;
+
 export interface ZFServiceType {
-  lessonsTableInfo: EveryYearValueRecord<{
-    data: {
-      lessonsTable: Lesson[];
-      practiceLessons: PracticeLesson[];
-    };
-    updateTime: Date;
-  }>;
-  examInfo: EveryYearValueRecord<{
-    data: Exam[];
-    updateTime: Date;
-  }>;
+  lessonsTableInfo: EveryYearValueRecord<LessonsTableData>;
+  examInfo: EveryYearValueRecord<ExamData>;
   scoreInfo: EveryYearValueRecord<{
-    [key: string]:
-      | {
-          data: Score[];
-          updateTime: Date;
-        }
-      | undefined;
+    [key: string]: ScoreData | undefined;
   }>;
-  roomInfo: {
-    data: Room[];
-    updateTime: Date | null;
-  };
+  roomInfo: RoomData;
 }
 
 export const ZFServiceStore = {
@@ -40,10 +29,7 @@ export const ZFServiceStore = {
     practiceLessons: [],
     examInfo: {},
     scoreInfo: {},
-    roomInfo: {
-      data: [],
-      updateTime: null
-    }
+    roomInfo: {}
   }),
   mutations: {
     setLessonTable(
@@ -61,7 +47,7 @@ export const ZFServiceStore = {
           practiceLessons: value.practiceLessons ?? []
         },
         updateTime: new Date()
-      });
+      } satisfies LessonsTableData);
     },
     setExamInfo(
       state: ZFServiceType,
@@ -70,7 +56,7 @@ export const ZFServiceStore = {
       set(state, ["examInfo", value.year, value.term], {
         data: value.examInfo ?? [],
         updateTime: new Date()
-      });
+      } satisfies ExamData);
     },
     setScoreInfo(
       state: ZFServiceType,
@@ -83,7 +69,7 @@ export const ZFServiceStore = {
             scorePeriod: value.period
           })) ?? [],
         updateTime: new Date()
-      });
+      } satisfies ScoreData);
     },
     setRoomInfo(state: ZFServiceType, value: []) {
       state.roomInfo = {
@@ -92,7 +78,4 @@ export const ZFServiceStore = {
       };
     }
   }
-} satisfies {
-  state: () => ZFServiceType;
-  mutations: Record<string, (state: ZFServiceType, value: object | []) => void>;
 };

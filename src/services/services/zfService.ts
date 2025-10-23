@@ -161,11 +161,14 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-    return get(
-      serviceStore,
-      ["zf", "lessonsTableInfo", data.year, data.term, "data", "lessonsTable"],
-      []
-    );
+    return get(serviceStore, [
+      "zf",
+      "lessonsTableInfo",
+      data.year,
+      data.term,
+      "data",
+      "lessonsTable"
+    ]);
   }
 
   /**
