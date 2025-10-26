@@ -5,43 +5,42 @@ import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Room } from "@/types/Room";
 import { Score } from "@/types/Score";
 
-type EveryTermValueRecord<T> = Record<string, T | undefined>;
-type EveryYearValueRecord<T> = Record<string, EveryTermValueRecord<T> | undefined>;
+/** 期中/期末 到值的映射 */
+type PeriodValueRecord<T> = Record<"期中" | "期末", T | undefined>;
+
+/** 学期到值的映射，分上学期和下学期 */
+type TermValueRecord<T> = Record<string, T | undefined>;
+
+/** 年份到值的映射 */
+type YearValueRecord<T> = Record<string, T | undefined>;
+
+/** 最小存储单元，带有请求成功的时间 */
+type StoreDataWithUpdateTime<T> = { data: T; updateTime: Date };
+
+interface LessonsTableData {
+  lessonsTable: Lesson[];
+  practiceLessons: PracticeLesson[];
+}
 
 export interface ZFServiceType {
-  lessonsTableInfo: EveryYearValueRecord<{
-    data: {
-      lessonsTable: Lesson[];
-      practiceLessons: PracticeLesson[];
-    };
-    updateTime: Date;
-  }>;
-  examInfo: EveryYearValueRecord<{
-    data: Exam[];
-    updateTime: Date;
-  }>;
-  scoreInfo: EveryYearValueRecord<{
-    [key: string]:
-      | {
-          data: Score[];
-          updateTime: Date;
-        }
-      | undefined;
-  }>;
-  roomInfo: {
-    data: Room[];
-    updateTime: Date;
-  };
+  /** 课程表信息，按年份、学期分层 */
+  lessonsTableInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<LessonsTableData>>>;
+  /** 考试信息，按年份、学期分层 */
+  examInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<Exam[]>>>;
+  /** 成绩信息，按年份、学期、期中/期末分层 */
+  scoreInfo: YearValueRecord<TermValueRecord<PeriodValueRecord<StoreDataWithUpdateTime<Score[]>>>>;
+  /** 空教室信息 */
+  roomInfo?: StoreDataWithUpdateTime<Room[]>;
 }
 
 export const ZFServiceStore = {
-  state: () => ({
-    lessonsTableInfo: {},
-    practiceLessons: [],
-    examInfo: {},
-    scoreInfo: {},
-    roomInfo: {}
-  }),
+  state: () =>
+    ({
+      lessonsTableInfo: {},
+      examInfo: {},
+      scoreInfo: {},
+      roomInfo: undefined
+    }) satisfies ZFServiceType,
   mutations: {
     setLessonTable(
       state: ZFServiceType,
@@ -49,40 +48,44 @@ export const ZFServiceStore = {
         term: string;
         year: string;
         lessonsTable: Lesson[] | null;
-        practiceLessons: PracticeLesson[];
+        practiceLessons: PracticeLesson[] | null;
       }
     ) {
       set(state, ["lessonsTableInfo", value.year, value.term], {
         data: {
-          LessonsTable: value.lessonsTable ?? [],
-          practiceLessons: value.practiceLessons
+          lessonsTable: value.lessonsTable ?? [],
+          practiceLessons: value.practiceLessons ?? []
         },
         updateTime: new Date()
-      });
+      } satisfies StoreDataWithUpdateTime<LessonsTableData>);
     },
-    setExamInfo(state: ZFServiceType, value: { term: string; year: string; examInfo: Exam[] }) {
+    setExamInfo(
+      state: ZFServiceType,
+      value: { term: string; year: string; examInfo: Exam[] | null }
+    ) {
       set(state, ["examInfo", value.year, value.term], {
-        data: value.examInfo,
+        data: value.examInfo ?? [],
         updateTime: new Date()
-      });
+      } satisfies StoreDataWithUpdateTime<Exam[]>);
     },
     setScoreInfo(
       state: ZFServiceType,
-      value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] }
+      value: { term: string; year: string; period: "期中" | "期末"; scoreInfo: Score[] | null }
     ) {
       set(state, ["scoreInfo", value.year, value.term, value.period], {
-        data: value.scoreInfo.map((item) => ({
-          ...item,
-          scorePeriod: value.period
-        })),
+        data:
+          value.scoreInfo?.map((item) => ({
+            ...item,
+            scorePeriod: value.period
+          })) ?? [],
         updateTime: new Date()
-      });
+      } satisfies StoreDataWithUpdateTime<Score[]>);
     },
-    setRoomInfo(state: ZFServiceType, value: []) {
+    setRoomInfo(state: ZFServiceType, value: Room[]) {
       state.roomInfo = {
         data: value,
         updateTime: new Date()
-      };
+      } satisfies StoreDataWithUpdateTime<Room[]>;
     }
   }
 };

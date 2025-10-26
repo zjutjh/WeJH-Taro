@@ -58,7 +58,6 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-
     // 直接得到考试安排信息
     return {
       data: get(serviceStore, ["zf", "examInfo", data.year, data.term, "data"], []),
@@ -90,7 +89,7 @@ export default class ZFService {
     }));
   }
 
-  static getScoreInfo(data: { year: string; term: string; period: "期中" | "期末" | "" }): {
+  static getScoreInfo(data: { year: string; term: string; period: "期中" | "期末" }): {
     data: Score[];
     updateTime: Date | null;
   } {
@@ -174,7 +173,8 @@ export default class ZFService {
 
   /**
    * 从缓存中获取 **实践** 课表
-   * @Deprecated 无此需求，没使用过
+   *
+   * @deprecated 无此需求，没使用过
    * @param 学期信息
    * @returns
    */
@@ -185,9 +185,8 @@ export default class ZFService {
         term: systemStore.generalInfo.term
       };
     }
-    return get(
-      serviceStore,
-      ["zf", "lessonsTableInfo", data.year, data.term, "data", "practiceLessons"],
+    return (
+      get(serviceStore, ["zf", "lessonsTableInfo", data.year, data.term])?.data.practiceLessons ??
       []
     );
   }

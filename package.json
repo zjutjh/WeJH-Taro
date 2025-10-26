@@ -34,6 +34,7 @@
     "@stylistic/eslint-plugin": "^2.9.0",
     "@tarojs/cli": "4.0.6",
     "@tarojs/vite-runner": "4.0.6",
+    "@types/lodash-es": "^4.17.12",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
     "@vitejs/plugin-vue": "^5.0.4",
