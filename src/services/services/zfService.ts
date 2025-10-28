@@ -6,7 +6,18 @@ import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Score } from "@/types/Score";
 
 import { api } from "../api/apiList";
+import { LessonsTableResponse } from "../api/types/zf";
+import request from "../request";
 import { updateDateStateWithSession } from "../utils/updateDateState";
+
+export const getLessonsTable = async ({ year, term }) => {
+  const res = await request<LessonsTableResponse>(api.zf.lessonTable, {
+    method: "POST",
+    header: { Cookie: serviceStore.sessionID },
+    data: { year, term }
+  });
+  return res.data.data;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class ZFService {
@@ -109,46 +120,6 @@ export default class ZFService {
   }) {
     return updateDateStateWithSession(api.zf.freeroom, data, "setRoomInfo");
   }
-
-  static getDayLessonTable(day: "today" | "tomorrow") {
-    const lessonsTable = this.getLessonTable();
-    const lessons = lessonsTable?.filter((item: Lesson) => {
-      /** 周日值为 7，周一值为 1 */
-      let queryDay: number = 1;
-      /** 当前学期的第几周 */
-      let queryWeek: number = 1;
-
-      if (day === "today") {
-        queryDay = new Date().getDay() || 7;
-        queryWeek = systemStore.generalInfo.week;
-      } else {
-        queryDay = new Date().getDay() + 1;
-        if (queryDay === 1) {
-          // 如果明天是周一，意味着要查询下一周
-          queryWeek = systemStore.generalInfo.week + 1;
-        } else {
-          queryWeek = systemStore.generalInfo.week;
-        }
-      }
-
-      if (queryDay !== parseInt(item.weekday)) return false;
-
-      for (const time of item.week.split(",")) {
-        if (time.includes("-")) {
-          const start = parseInt(time.split("-")[0]);
-          const end = parseInt(time.split("-")[1]);
-          if (queryWeek <= end && queryWeek >= start)
-            if (!time.includes("单") && !time.includes("双")) return true;
-            else if (time.includes("单") && queryWeek % 2 === 1) return true;
-            else if (time.includes("双") && queryWeek % 2 === 0) return true;
-        } else if (queryWeek === parseInt(time)) return true;
-      }
-      return false;
-    });
-
-    return lessons;
-  }
-
   /**
    * 从缓存中取出课表
    * @param data 学期信息

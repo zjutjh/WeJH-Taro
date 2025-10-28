@@ -57,15 +57,15 @@
 <script setup lang="ts">
 import "./index.scss";
 
+import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
-import { computed, CSSProperties, onMounted, onUnmounted, Ref, ref } from "vue";
+import { computed, CSSProperties, onMounted, onUnmounted, Ref, ref, toRef } from "vue";
 
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
-import { ZFService } from "@/services";
-import { serviceStore, systemStore } from "@/store";
-import { Lesson } from "@/types/Lesson";
+import { getLessonsTable } from "@/services/services/zfService";
+import { systemStore } from "@/store";
 
 import Card from "../Card/index.vue";
 import QuickView from "../QuickView/index.vue";
@@ -76,16 +76,40 @@ const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
 const showTomorrow = dayjs().isAfter(tenPM);
 
-const lessonTable = computed(() => {
-  let tmp: Lesson[] | undefined;
-  try {
-    tmp = showTomorrow
-      ? ZFService.getDayLessonTable("tomorrow")
-      : ZFService.getDayLessonTable("today");
-  } catch {
-    tmp = undefined;
-  }
-  return tmp;
+const {
+  data: lessonTable,
+  isError,
+  dataUpdatedAt
+} = useQuery({
+  queryKey: [
+    "lessonsTable",
+    toRef(() => systemStore.generalInfo.termYear),
+    toRef(() => systemStore.generalInfo.term)
+  ],
+  queryFn: ({ queryKey }) => getLessonsTable({ year: queryKey[1], term: queryKey[2] }),
+  // 筛选出当天或第二天的课表
+  select: (res) =>
+    res.lessonsTable.filter((item) => {
+      /** 周日值为 7，周一值为 1 */
+      const queryDay = !showTomorrow ? new Date().getDay() || 7 : new Date().getDay() + 1;
+      const queryWeek = !showTomorrow
+        ? systemStore.generalInfo.week
+        : // 如果明天是周一，意味着要查询下一周
+          systemStore.generalInfo.week + Number(queryDay === 1);
+      if (queryDay !== parseInt(item.weekday)) return false;
+
+      for (const time of item.week.split(",")) {
+        if (time.includes("-")) {
+          const start = parseInt(time.split("-")[0]);
+          const end = parseInt(time.split("-")[1]);
+          if (queryWeek <= end && queryWeek >= start)
+            if (!time.includes("单") && !time.includes("双")) return true;
+            else if (time.includes("单") && queryWeek % 2 === 1) return true;
+            else if (time.includes("双") && queryWeek % 2 === 0) return true;
+        } else if (queryWeek === parseInt(time)) return true;
+      }
+      return false;
+    })
 });
 
 const updateRestTimeCounter = ref(0);
@@ -94,10 +118,6 @@ onMounted(() => {
   timer.value = setInterval(() => {
     updateRestTimeCounter.value++;
   }, 5000);
-  ZFService.updateLessonTable({
-    year: systemStore.generalInfo.termYear,
-    term: systemStore.generalInfo.term
-  });
 });
 
 onUnmounted(() => {
@@ -105,14 +125,8 @@ onUnmounted(() => {
 });
 
 const updateTimeString = computed(() => {
-  if (!updateTime.value) return "更新失败";
-  return dayjs(updateTime.value).fromNow();
-});
-
-const updateTime = computed(() => {
-  return serviceStore.zf.lessonsTableInfo[systemStore.generalInfo.termYear]?.[
-    systemStore.generalInfo.term
-  ]?.updateTime;
+  if (isError.value) return "更新失败";
+  return dataUpdatedAt.value ? dayjs(new Date(dataUpdatedAt.value)).fromNow() : "请稍候";
 });
 
 function nav2Lesson() {
