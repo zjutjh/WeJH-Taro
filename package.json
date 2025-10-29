@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.24.4",
-    "@tanstack/vue-query": "5.62.8",
+    "@tanstack/vue-query": "^5.90.5",
     "@tarojs/components": "4.0.6",
     "@tarojs/helper": "4.0.6",
     "@tarojs/plugin-framework-vue3": "4.0.6",
