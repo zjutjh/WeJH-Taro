@@ -1,6 +1,7 @@
 <template>
   <theme-config>
     <home v-if="pageName === 'home'" />
+    <text>{{ appList }}</text>
     <my v-if="pageName === 'my'" />
     <nav-bar :page-name="pageName" @on-change="setPageName" />
     <w-modal
@@ -13,12 +14,16 @@
 </template>
 
 <script setup lang="ts">
-import { Home, My, NavBar, ThemeConfig, WModal } from "@/components";
+import "./index.scss";
+
+import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
-import store, { systemStore } from "@/store";
+
+import { Home, My, NavBar, ThemeConfig, WModal } from "@/components";
 import { updateInfo } from "@/constants/index";
-import "./index.scss";
+import { SystemService } from "@/services";
+import store, { systemStore } from "@/store";
 
 const pageName = ref("home");
 
@@ -26,11 +31,11 @@ const showUpdateInfo = ref(false);
 
 const updateManager = Taro.getUpdateManager();
 
-updateManager.onUpdateReady(function() {
+updateManager.onUpdateReady(function () {
   Taro.showModal({
     title: "微精弘更新提示",
     content: "新版本已经准备好，是否重启应用？",
-    success: function(res) {
+    success: function (res) {
       if (res.confirm) {
         updateManager.applyUpdate();
       }
@@ -48,4 +53,9 @@ if (newVersion && systemStore.version !== newVersion) {
   showUpdateInfo.value = true;
 }
 
+const { data: appList } = useQuery({
+  queryKey: ["appList"],
+  queryFn: SystemService.getAppList,
+  select: (data) => JSON.stringify(data)
+});
 </script>

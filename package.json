@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.24.4",
+    "@tanstack/vue-query": "5.62.8",
     "@tarojs/components": "4.0.6",
     "@tarojs/helper": "4.0.6",
     "@tarojs/plugin-framework-vue3": "4.0.6",
@@ -23,10 +24,12 @@
     "@tarojs/shared": "4.0.6",
     "@tarojs/taro": "4.0.6",
     "dayjs": "^1.11.4",
+    "event-target-polyfill": "^0.0.4",
     "lodash-es": "^4.17.21",
     "vue": "^3.0.0",
     "vuex": "^4.0.0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "yet-another-abortcontroller-polyfill": "^0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
