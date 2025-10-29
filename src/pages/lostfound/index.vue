@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import { omit } from "lodash-es";
+import { omitBy } from "lodash-es";
 import { computed, ref } from "vue";
 
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
@@ -121,12 +121,9 @@ const getRecords = (data: {
   lost_or_found?: string;
 }) => {
   isEmpty.value = false;
-  run(
-    omit(data, [
-      ...(data.kind === "全部" ? ["kind"] : []),
-      ...(data.lost_or_found === "全部" ? ["lost_or_found"] : [])
-    ]) as typeof data
-  );
+  // 过滤掉值为全部的所有属性，全部场景下接口不需要该字段
+  const newParams = omitBy(data, (value) => value === "全部") as typeof data;
+  run(newParams);
 };
 
 const kindList = computed<string[]>(() => [
