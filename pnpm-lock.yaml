@@ -11,6 +11,9 @@ importers:
       '@babel/runtime':
         specifier: ^7.24.4
         version: 7.25.7
+      '@tanstack/query-persist-client-core':
+        specifier: ^5.91.4
+        version: 5.91.4
       '@tanstack/vue-query':
         specifier: ^5.90.5
         version: 5.90.5(vue@3.5.11(typescript@5.6.3))
@@ -1629,6 +1632,9 @@ packages:
 
   '@tanstack/query-core@5.90.5':
     resolution: {integrity: sha512-wLamYp7FaDq6ZnNehypKI5fNvxHPfTYylE0m/ZpuuzJfJqhR5Pxg9gvGBHZx4n7J+V5Rg5mZxHHTlv25Zt5u+w==}
+
+  '@tanstack/query-persist-client-core@5.91.4':
+    resolution: {integrity: sha512-HZ8kvAbhttLZKUO4ASHl49u7dQXzRVEogi7/6CCZ5BBItWh2hoEUqy9QHUS4ji7iZiuXe4jwTJNzq2VIuxlnsQ==}
 
   '@tanstack/vue-query@5.90.5':
     resolution: {integrity: sha512-bTEmgIb6o5BqkoJPNV7ZKKsDHjiVnNydORw1n6S/x0dppb3lTT5KFOotQ5PqZG3OQY+9AwA6RJJN3pEx+9j1Pg==}
@@ -8008,6 +8014,10 @@ snapshots:
       remove-accents: 0.5.0
 
   '@tanstack/query-core@5.90.5': {}
+
+  '@tanstack/query-persist-client-core@5.91.4':
+    dependencies:
+      '@tanstack/query-core': 5.90.5
 
   '@tanstack/vue-query@5.90.5(vue@3.5.11(typescript@5.6.3))':
     dependencies:
