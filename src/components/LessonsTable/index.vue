@@ -18,10 +18,7 @@
             </view>
           </view>
         </view>
-        <view
-          v-if="lessonsTable && lessonsTable.length !== 0"
-          class="table table-box"
-        >
+        <view v-if="lessonsTable && lessonsTable.length !== 0" class="table table-box">
           <view
             v-for="cl in lessonsTable"
             :key="lessonKey(cl)"
@@ -43,10 +40,7 @@
                 </view>
               </view>
               <view class="row">
-                <text
-                  class="item-content"
-                  :style="`-webkit-line-clamp: ${2}` as any"
-                >
+                <text class="item-content" :style="`-webkit-line-clamp: ${2}` as any">
                   {{ cl.lessonName }}
                 </text>
               </view>
@@ -60,10 +54,12 @@
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
+import { computed, toRefs, watch } from "vue";
+
 import { dayScheduleStartTime } from "@/constants/index";
 import { Lesson } from "@/types/Lesson";
-import { computed, toRefs, watch } from "vue";
-import "./index.scss";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);
@@ -86,7 +82,7 @@ const colorSet = [
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
 const lessonsTable = computed(() => {
-  return markConflictLesson(lessons?.value);
+  return markConflictLesson(lessons.value);
 });
 
 /** lesson在v-for中的key; 为了避免重复key出现, 使用如下四个属性组合而成
@@ -111,10 +107,7 @@ const nowStyle = computed(() => {
 
   // 这节课的开始时间
   let thisLesson = dayScheduleStartTime.find((item) => {
-    if (
-      nowTime >= item.hour * 60 + item.min &&
-        nowTime <= item.hour * 60 + item.min + 45
-    )
+    if (nowTime >= item.hour * 60 + item.min && nowTime <= item.hour * 60 + item.min + 45)
       return true;
   });
 
@@ -132,12 +125,12 @@ const nowStyle = computed(() => {
   };
 });
 
-function markConflictLesson(lessons: Lesson[]) {
-  if (lessons && lessons.length !== 0)
-    for (let i = 0; i < lessons.length; i++) {
-      for (let j = i + 1; j < lessons.length; j++) {
-        const item = lessons[i],
-          item2 = lessons[j];
+function markConflictLesson(lessonsList: Lesson[]) {
+  if (lessonsList.length !== 0)
+    for (let i = 0; i < lessonsList.length; i++) {
+      for (let j = i + 1; j < lessonsList.length; j++) {
+        const item = lessonsList[i],
+          item2 = lessonsList[j];
         if (item.weekday !== item2.weekday) continue;
         const from1 = parseInt(item.sections.split("-")[0]);
         const to1 = parseInt(item.sections.split("-")[1]);
@@ -145,12 +138,12 @@ function markConflictLesson(lessons: Lesson[]) {
         const to2 = parseInt(item2.sections.split("-")[1]);
 
         if (!(to1 < from2 || to2 < from1)) {
-          lessons[i]["mark"] = true;
-          lessons[j]["mark"] = true;
+          lessonsList[i]["mark"] = true;
+          lessonsList[j]["mark"] = true;
         }
       }
     }
-  return lessons;
+  return lessonsList;
 }
 
 function classCardColor(color = "primary") {
@@ -170,11 +163,7 @@ function classCardClick(theClass: Lesson) {
 
 function initialLessonsColor() {
   let colorSetTemp = new Set(colorSet);
-  for (
-    let currentIndex = 0;
-    currentIndex < lessons.value.length;
-    currentIndex++
-  ) {
+  for (let currentIndex = 0; currentIndex < lessons.value.length; currentIndex++) {
     if (lessons.value[currentIndex].color) continue;
 
     if (!colorSetTemp.size) colorSetTemp = new Set(colorSet);
@@ -188,8 +177,7 @@ function initialLessonsColor() {
           surroundedLessons.top.push(lessons.value[i]);
         } else if (
           surroundedLessons.top.length !== 0 &&
-            lessons.value[i].sections ===
-              surroundedLessons.top.slice(-1)[0].sections
+          lessons.value[i].sections === surroundedLessons.top.slice(-1)[0].sections
         )
           surroundedLessons.top.push(lessons.value[i]);
         else break;
@@ -204,8 +192,7 @@ function initialLessonsColor() {
           surroundedLessons.bottom.push(lessons.value[i]);
         } else if (
           surroundedLessons.bottom.length !== 0 &&
-            lessons.value[i].sections ===
-              surroundedLessons.bottom.slice(-1)[0].sections
+          lessons.value[i].sections === surroundedLessons.bottom.slice(-1)[0].sections
         )
           surroundedLessons.bottom.push(lessons.value[i]);
         else break;
@@ -217,28 +204,26 @@ function initialLessonsColor() {
 
     // calculate left position
     if (parseInt(weekday) > 1) {
-      surroundedLessons.left =
-          lessons.value.filter(
-            (item) =>
-              parseInt(item.weekday) === parseInt(weekday) - 1 &&
-              ((currentStart <= parseInt(item.sections.split("-")[0]) &&
-                currentEnd >= parseInt(item.sections.split("-")[1])) ||
-                (currentStart >= parseInt(item.sections.split("-")[0]) &&
-                  currentEnd <= parseInt(item.sections.split("-")[1])))
-          ) || [];
+      surroundedLessons.left = lessons.value.filter(
+        (item) =>
+          parseInt(item.weekday) === parseInt(weekday) - 1 &&
+          ((currentStart <= parseInt(item.sections.split("-")[0]) &&
+            currentEnd >= parseInt(item.sections.split("-")[1])) ||
+            (currentStart >= parseInt(item.sections.split("-")[0]) &&
+              currentEnd <= parseInt(item.sections.split("-")[1])))
+      );
     }
 
     // calculate right position
     if (parseInt(weekday) < 7) {
-      surroundedLessons.right =
-          lessons.value.filter(
-            (item) =>
-              parseInt(item.weekday) === parseInt(weekday) - 1 &&
-              ((currentStart <= parseInt(item.sections.split("-")[0]) &&
-                currentEnd >= parseInt(item.sections.split("-")[1])) ||
-                (currentStart >= parseInt(item.sections.split("-")[0]) &&
-                  currentEnd <= parseInt(item.sections.split("-")[1])))
-          ) || [];
+      surroundedLessons.right = lessons.value.filter(
+        (item) =>
+          parseInt(item.weekday) === parseInt(weekday) - 1 &&
+          ((currentStart <= parseInt(item.sections.split("-")[0]) &&
+            currentEnd >= parseInt(item.sections.split("-")[1])) ||
+            (currentStart >= parseInt(item.sections.split("-")[0]) &&
+              currentEnd <= parseInt(item.sections.split("-")[1])))
+      );
     }
 
     colorSetTemp.delete(surroundedLessons.top[0]?.color || "");
@@ -247,8 +232,7 @@ function initialLessonsColor() {
     colorSetTemp.delete(surroundedLessons.right[0]?.color || "");
 
     lessons.value.forEach((item) => {
-      if (item.classID == classID)
-        item.color = colorSetTemp.values().next().value;
+      if (item.classID == classID) item.color = colorSetTemp.values().next().value;
     });
   }
 }
@@ -257,7 +241,7 @@ function getPosition(theClass) {
   const begin = parseInt(theClass.sections.split("-")[0]);
   const end = parseInt(theClass.sections.split("-")[1]);
   const weekday = parseInt(theClass.weekday);
-  const fontSize = Math.min(12, (end - begin + 2) * 4) + "px";
+  const fontSize = `${Math.min(12, (end - begin + 2) * 4)}px`;
   const height = `calc(100% / 12 * ${end - begin + 1})`;
   const top = `calc(100% / 12 * ${begin - 1})`;
   const left = `calc(100% / 7 * ${weekday - 1})`;
@@ -271,5 +255,4 @@ watch(
   },
   { immediate: true }
 );
-
 </script>
