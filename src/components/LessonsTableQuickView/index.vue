@@ -21,9 +21,7 @@
     >
       <view :key="updateRestTimeCounter + index" class="lesson-item">
         <view class="important-line">
-          <text class="lesson-place">
-            {{ item.lessonPlace }}
-          </text>
+          <text class="lesson-place"> {{ item.lessonPlace }} </text>
           <text v-if="lessonState(item.sections) === 'before'" class="before-lesson">
             还有 {{ getRestTimeString(item.sections) }} 上课
           </text>
@@ -33,14 +31,10 @@
         </view>
         <view class="teacher">
           <text class="iconfont icon-teacher" />
-          <text class="teacher-name">
-            {{ ` ${item.teacherName}` }}
-          </text>
+          <text class="teacher-name"> {{ ` ${item.teacherName}` }} </text>
           <text class="duration"> ({{ sectionsTimeString(item.sections) }}) </text>
         </view>
-        <text class="lesson-name">
-          {{ item.lessonName }}
-        </text>
+        <text class="lesson-name"> {{ item.lessonName }} </text>
       </view>
     </card>
 

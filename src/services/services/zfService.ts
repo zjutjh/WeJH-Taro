@@ -10,6 +10,7 @@ import { api } from "../api/apiList";
 import { LessonsTableResponse } from "../api/types/zf";
 import { updateDateStateWithSession } from "../utils/updateDateState";
 
+// Vue Query 实现的查询课表
 export const getLessonsTable = ({ year, term }) =>
   request<LessonsTableResponse>(api.zf.lessonTable, {
     method: "POST",
@@ -122,6 +123,7 @@ export default class ZFService {
    * 从缓存中取出课表
    * @param data 学期信息
    * @returns 该学期课表
+   * @deprecated
    */
   static getLessonTable(data?: { year: string; term: string }): Lesson[] | undefined {
     if (!data) {
