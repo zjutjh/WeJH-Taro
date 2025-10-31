@@ -62,17 +62,17 @@ const api = {
     submit: "/api/func/supplies-borrow/borrow",
     record: "/api/func/supplies-borrow/borrow"
   }
-};
+} as const;
 
 const defDevHost = "http://0.0.0.0:8080";
-function appendHost(api: any) {
-  for (const key in api)
-    if (Object.prototype.hasOwnProperty.call(api, key))
-      if (api[key] instanceof Object) appendHost(api[key]);
+function appendHost(url) {
+  for (const key in url)
+    if (Object.prototype.hasOwnProperty.call(url, key))
+      if (url[key] instanceof Object) appendHost(url[key]);
       else
-        api[key] = import.meta.env.VITE_HOST
-          ? import.meta.env.VITE_HOST + api[key]
-          : defDevHost + api[key];
+        url[key] = import.meta.env.VITE_HOST
+          ? import.meta.env.VITE_HOST + url[key]
+          : defDevHost + url[key];
 }
 
 appendHost(api);
