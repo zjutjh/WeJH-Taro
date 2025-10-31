@@ -77,7 +77,7 @@ const {
   dataUpdatedAt
 } = useQuery({
   queryKey: [
-    QUERY_KEY.ZF.LESSONS_TABLE,
+    QUERY_KEY.ZF_LESSONS_TABLE,
     toRef(() => systemStore.generalInfo.termYear),
     toRef(() => systemStore.generalInfo.term)
   ] as const,

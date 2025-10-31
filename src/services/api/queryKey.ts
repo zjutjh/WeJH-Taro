@@ -1,9 +1,7 @@
 export const QUERY_KEY = {
-  ZF: {
-    LESSONS_TABLE: "lessonsTable",
-    MIDTERM_SCORE: "midtermScore",
-    EXAM: "exam",
-    SCORE: "score",
-    ROOM: "room"
-  }
+  ZF_LESSONS_TABLE: "lessonsTable",
+  ZF_MIDTERM_SCORE: "midtermScore",
+  ZF_EXAM: "exam",
+  ZF_SCORE: "score",
+  ZF_ROOM: "room"
 } as const;

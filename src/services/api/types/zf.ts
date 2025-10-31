@@ -1,7 +1,8 @@
-// 查询课表
+/** 查询课表 */
 export interface LessonsTableResponse {
   lessonsTable: Array<{
     id: string;
+    /** 课程从第几节到第几节 */
     sections: string;
     lessonName: string;
     campus: string;
@@ -9,7 +10,9 @@ export interface LessonsTableResponse {
     placeID: string;
     teacherName: string;
     className: string;
+    /** 周几 */
     weekday: string;
+    /** 第几周 */
     week: string;
     lessonsHours: string;
     credits: string;
@@ -27,7 +30,7 @@ export interface LessonsTableResponse {
   };
 }
 
-// 查询期中成绩
+/** 查询期中成绩 */
 export interface midtermScoreResponse {
   className: string;
   credits: string;
@@ -37,7 +40,7 @@ export interface midtermScoreResponse {
   teacherName: string;
 }
 
-// 查询考试安排
+/** 查询考试安排 */
 export interface ExamResponse {
   campus: string;
   className: string;
@@ -51,7 +54,7 @@ export interface ExamResponse {
   teacherName: string;
 }
 
-// 查询期末成绩
+/** 查询期末成绩 */
 export interface ScoreResponse {
   className: string;
   credits: string;
@@ -66,7 +69,7 @@ export interface ScoreResponse {
   teacherName: string;
 }
 
-// 查询空教室
+/** 查询空教室 */
 export interface RoomResponse {
   buildName: string;
   campus: string;
