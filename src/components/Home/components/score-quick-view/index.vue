@@ -1,5 +1,5 @@
 <template>
-  <quick-view
+  <quick-view-container
     title="成绩绩点"
     icon-name="score"
     class="score-quick-view"
@@ -33,7 +33,7 @@
         </view>
       </template>
     </view>
-  </quick-view>
+  </quick-view-container>
 </template>
 
 <script setup lang="ts">
@@ -49,7 +49,7 @@ import { ZFService } from "@/services";
 import store, { serviceStore, systemStore } from "@/store";
 import { Score } from "@/types/Score";
 
-import QuickView from "../QuickView/index.vue";
+import QuickViewContainer from "../quick-view-container/index.vue";
 
 // 将帮助提示信息传到Home，点击帮助按钮显示该信息
 const emit = defineEmits(["showHelp"]);

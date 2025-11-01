@@ -6,11 +6,7 @@
         <view v-else :class="`iconfont icon-${iconName}`" />
         <text>{{ title }}</text>
       </view>
-      <view
-        v-if="help"
-        class="quick-view-help-icon iconfont icon-help"
-        @tap.stop="handleTapHelp"
-      />
+      <view v-if="help" class="quick-view-help-icon iconfont icon-help" @tap.stop="handleTapHelp" />
     </view>
     <view class="quick-view-body">
       <slot />
@@ -22,6 +18,7 @@
 import "./index.scss";
 
 import { computed } from "vue";
+
 import { useTheme } from "@/hooks/index";
 import { IconTypeEnum } from "@/hooks/useTheme";
 
@@ -30,7 +27,7 @@ const { getIconUrl, isShowByUrl } = useTheme();
 interface QuickViewProps {
   title: string;
   iconName: string;
-  help?: boolean
+  help?: boolean;
 }
 
 const props = defineProps<QuickViewProps>();
@@ -40,7 +37,7 @@ const iconURL = computed(() => {
 });
 
 const emit = defineEmits<{
-  handleTapHelp: []
+  handleTapHelp: [];
 }>();
 
 function handleTapHelp() {
