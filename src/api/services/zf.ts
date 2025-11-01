@@ -7,7 +7,7 @@ export default class ZFService<TOptions> extends BaseService<TOptions> {
     options?: TOptions
   ): Promise<ZfAPI.QueryLessonsTableResponse> {
     const url = this.genBaseURL("/api/func/zf/classtable");
-    const method = "GET";
+    const method = "POST";
     const data = req;
 
     return this.request({ url, method, data }, options);
