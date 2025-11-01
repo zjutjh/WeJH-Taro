@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import "./index.scss";
-import "../../style/theme.scss";
 
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
