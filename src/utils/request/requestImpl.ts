@@ -15,7 +15,7 @@ const globalConfig: Partial<Taro.request.Option> = {
   timeout: 12 * 1000
 };
 
-const request = async <TData>(url: string, config: Omit<Taro.request.Option, "url">) => {
+const request = async <TData>(config: Taro.request.Option) => {
   // 检查 Session 是否为空，是则尝试重新登录
   if (config.header && !config.header.Cookie) {
     await LoginByTaro();
@@ -24,7 +24,6 @@ const request = async <TData>(url: string, config: Omit<Taro.request.Option, "ur
   try {
     const { data: realResponse } = await Taro.request<IResponse<TData> | undefined>({
       ...globalConfig,
-      url,
       ...config
     });
     if (!realResponse) {

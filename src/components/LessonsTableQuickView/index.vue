@@ -58,8 +58,8 @@ import { computed, CSSProperties, onMounted, onUnmounted, Ref, ref, toRef } from
 
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
+import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/queryKey";
-import { getLessonsTable } from "@/services/services/zfService";
 import { systemStore } from "@/store";
 
 import Card from "../Card/index.vue";
@@ -81,7 +81,8 @@ const {
     toRef(() => systemStore.generalInfo.termYear),
     toRef(() => systemStore.generalInfo.term)
   ] as const,
-  queryFn: ({ queryKey }) => getLessonsTable({ year: queryKey[1], term: queryKey[2] }),
+  queryFn: ({ queryKey }) =>
+    zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] }),
   // 筛选出当天或第二天的课表
   select: (res) =>
     res.lessonsTable.filter((item) => {
