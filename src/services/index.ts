@@ -1,5 +1,5 @@
 import ZFServiceNext from "@/api/services/zf";
-import requestNext, { RequestCustomOptions } from "@/utils/request/requestImpl";
+import { type RequestCustomOptions, requestNext } from "@/utils/request-next";
 
 import { api } from "./api/apiList";
 import { LoginByTaro } from "./services/authService";

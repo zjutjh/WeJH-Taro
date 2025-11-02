@@ -3,10 +3,10 @@ import { first, isNil } from "lodash-es";
 import urlcat from "urlcat";
 
 import { RequestFnParams } from "@/api/services/base";
-import { QUERY_KEY } from "@/services/api/queryKey";
+import { QUERY_KEY } from "@/services/api/query-key";
 
-import { globalQueryClient } from "../vueQuery";
-import RequestError, { MPErrorCode, ServiceErrorCode } from "./requestError";
+import RequestError, { MPErrorCode, ServiceErrorCode } from "./request-error";
+import { globalQueryClient } from "./vue-query";
 
 interface IResponse<T> {
   code: number;
@@ -33,7 +33,7 @@ export interface RequestCustomOptions {
  * @throws {RequestError}
  * @returns 转换成对象的响应 JSON 数据
  */
-async function request<Data>(
+export async function requestNext<Data>(
   { url, method, params, data }: RequestFnParams,
   { auth = true }: RequestCustomOptions | undefined = {}
 ): Promise<Data> {
@@ -90,5 +90,3 @@ export const refreshCookie = async (): Promise<string> => {
 
   return first(cookies) ?? "";
 };
-
-export default request;

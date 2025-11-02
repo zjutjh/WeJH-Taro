@@ -1,4 +1,4 @@
-import type RequestError from "@/utils/request/requestError";
+import type RequestError from "@/utils/request-error";
 
 declare module "*.png";
 declare module "*.gif";

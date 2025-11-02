@@ -60,7 +60,7 @@ import { Card } from "@/components";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import { zfServiceNext } from "@/services";
-import { QUERY_KEY } from "@/services/api/queryKey";
+import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
 
 import QuickViewContainer from "../quick-view-container/index.vue";

@@ -12,7 +12,7 @@ import { createApp } from "vue";
 
 import { LoginByTaro, SystemService } from "./services";
 import store from "./store/index";
-import { globalQueryClient } from "./utils/vueQuery";
+import { globalQueryClient } from "./utils/vue-query";
 
 dayjs.locale("zh-cn");
 dayjs.extend(customParseFormat);
