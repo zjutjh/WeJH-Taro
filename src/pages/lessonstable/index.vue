@@ -23,7 +23,7 @@
           shape="circle"
           @tap="backToOriginWeek"
         >
-          <view :class="[styles['iconfont'], styles['icon-back']]" />
+          <view class="iconfont icon-back" />
         </w-button>
       </view>
       <view v-if="showWeekPicker" :class="styles['col']">
