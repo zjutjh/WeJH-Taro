@@ -1,5 +1,5 @@
 import ZFServiceNext from "@/api/services/zf";
-import requestNext from "@/utils/request/requestImpl";
+import requestNext, { RequestCustomOptions } from "@/utils/request/requestImpl";
 
 import { api } from "./api/apiList";
 import { LoginByTaro } from "./services/authService";
@@ -25,7 +25,7 @@ export {
   ZFService
 };
 
-export const zfServiceNext = new ZFServiceNext({
+export const zfServiceNext = new ZFServiceNext<RequestCustomOptions>({
   request: requestNext,
   baseURL: import.meta.env.VITE_HOST
 });

@@ -1,4 +1,5 @@
 export const QUERY_KEY = {
+  USER_COOKIE: "cookie",
   ZF_LESSONS_TABLE: "lessonsTable",
   ZF_MIDTERM_SCORE: "midtermScore",
   ZF_EXAM: "exam",

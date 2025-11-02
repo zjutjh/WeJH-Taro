@@ -1,4 +1,4 @@
-interface RequestFnParams {
+export interface RequestFnParams {
   url: string;
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   /** 用对象表示的 body */
