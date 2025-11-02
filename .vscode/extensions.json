@@ -7,6 +7,7 @@
     "dbaeumer.vscode-eslint",
     "usernamehw.errorlens",
     "yutengjing.vscode-colorize-plus",
-    "editorconfig.editorconfig"
-  ],
+    "editorconfig.editorconfig",
+    "antfu.pnpm-catalog-lens"
+  ]
 }
