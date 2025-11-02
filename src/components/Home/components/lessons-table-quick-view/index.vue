@@ -71,11 +71,32 @@ const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
 const showTomorrow = dayjs().isAfter(tenPM);
 
-const {
-  data: lessonTable,
-  isError,
-  dataUpdatedAt
-} = useQuery({
+// 筛选出第一天或第二天的课表
+const lessonTable = computed(() =>
+  data.value?.filter((item) => {
+    /** 周日值为 7，周一值为 1 */
+    const queryDay = !showTomorrow ? new Date().getDay() || 7 : new Date().getDay() + 1;
+    const queryWeek = !showTomorrow
+      ? systemStore.generalInfo.week
+      : // 如果明天是周一，意味着要查询下一周
+        systemStore.generalInfo.week + Number(queryDay === 1);
+    if (queryDay !== parseInt(item.weekday)) return false;
+
+    for (const time of item.week.split(",")) {
+      if (time.includes("-")) {
+        const start = parseInt(time.split("-")[0]);
+        const end = parseInt(time.split("-")[1]);
+        if (queryWeek <= end && queryWeek >= start)
+          if (!time.includes("单") && !time.includes("双")) return true;
+          else if (time.includes("单") && queryWeek % 2 === 1) return true;
+          else if (time.includes("双") && queryWeek % 2 === 0) return true;
+      } else if (queryWeek === parseInt(time)) return true;
+    }
+    return false;
+  })
+);
+
+const { data, isError, dataUpdatedAt } = useQuery({
   queryKey: [
     QUERY_KEY.ZF_LESSONS_TABLE,
     toRef(() => systemStore.generalInfo.termYear),
@@ -83,29 +104,7 @@ const {
   ] as const,
   queryFn: ({ queryKey }) =>
     zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] }),
-  // 筛选出当天或第二天的课表
-  select: (res) =>
-    res.lessonsTable.filter((item) => {
-      /** 周日值为 7，周一值为 1 */
-      const queryDay = !showTomorrow ? new Date().getDay() || 7 : new Date().getDay() + 1;
-      const queryWeek = !showTomorrow
-        ? systemStore.generalInfo.week
-        : // 如果明天是周一，意味着要查询下一周
-          systemStore.generalInfo.week + Number(queryDay === 1);
-      if (queryDay !== parseInt(item.weekday)) return false;
-
-      for (const time of item.week.split(",")) {
-        if (time.includes("-")) {
-          const start = parseInt(time.split("-")[0]);
-          const end = parseInt(time.split("-")[1]);
-          if (queryWeek <= end && queryWeek >= start)
-            if (!time.includes("单") && !time.includes("双")) return true;
-            else if (time.includes("单") && queryWeek % 2 === 1) return true;
-            else if (time.includes("双") && queryWeek % 2 === 0) return true;
-        } else if (queryWeek === parseInt(time)) return true;
-      }
-      return false;
-    })
+  select: (res) => res.lessonsTable
 });
 
 const updateRestTimeCounter = ref(0);
