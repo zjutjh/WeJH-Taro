@@ -1,22 +1,27 @@
 import { experimental_createQueryPersister as createQueryPersister } from "@tanstack/query-persist-client-core";
-import { QueryClient, QueryClientConfig } from "@tanstack/vue-query";
+import { QueryCache, QueryClient, QueryClientConfig } from "@tanstack/vue-query";
+import { noop } from "lodash-es";
 
 import { persistedStorage } from "./storage";
 
-const OneMinute = 60 * 1000;
-const OneDay = 24 * 60 * 60 * 1000;
+const ONE_SECOND = 1000;
+const ONE_DAY = 24 * 60 * 60 * 1000;
 
 const globalQueryClientConfig: QueryClientConfig = {
+  queryCache: new QueryCache({
+    // TODO: 上报接口错误
+    onError: noop
+  }),
   defaultOptions: {
     queries: {
       retry: 2,
       meta: {
         persist: true
       },
-      staleTime: 5 * OneMinute,
+      staleTime: 30 * ONE_SECOND,
       persister: createQueryPersister({
         storage: persistedStorage,
-        maxAge: 7 * OneDay,
+        maxAge: ONE_DAY,
         filters: {
           predicate: (query) => Boolean(query.meta?.persist)
         }
