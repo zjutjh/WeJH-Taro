@@ -1,12 +1,7 @@
 {
   "recommendations": [
     "streetsidesoftware.code-spell-checker",
-    "wayou.vscode-todo-highlight",
-    "vue.volar",
-    "eamodio.gitlens",
     "dbaeumer.vscode-eslint",
-    "usernamehw.errorlens",
-    "yutengjing.vscode-colorize-plus",
     "editorconfig.editorconfig",
     "antfu.pnpm-catalog-lens"
   ]
