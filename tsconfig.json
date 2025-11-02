@@ -17,25 +17,13 @@
     "rootDir": ".",
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "typeRoots": [
-      "node_modules/@types",
-    ],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/package": [
-        "./package.json"
-      ],
-      "@/project": [
-        "./project.config.json"
-      ]
+      "@/*": ["./src/*"],
+      "@/package": ["./package.json"],
+      "@/project": ["./project.config.json"]
     }
   },
-  "include": [
-    "./types",
-    "./src",
-    "./config",
-  ],
+  "include": ["./types", "./src", "./config", "./eslint.config.mjs"],
   "compileOnSave": false
 }
