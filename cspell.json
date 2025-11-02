@@ -4,6 +4,9 @@
   "dictionaries": ["typescript", "node", "html", "css", "bash", "npm"],
   "words": [
     "darkmode",
+    "dbaeumer",
+    "eamodio",
+    "errorlens",
     "freeroom",
     "htmltransform",
     "iconfont",
@@ -20,9 +23,12 @@
     "schoolcard",
     "stuid",
     "tarojs",
+    "usernamehw",
+    "wayou",
     "weapp",
     "wechat",
     "wejh",
+    "yutengjing",
     "zjutjh"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
