@@ -32,7 +32,7 @@
     "dayjs": "catalog:frontend",
     "event-target-polyfill": "catalog:frontend",
     "lodash-es": "catalog:frontend",
-    "urlcat": "^3.1.0",
+    "urlcat": "catalog:frontend",
     "vue": "catalog:frontend",
     "vuex": "catalog:frontend",
     "vuex-persistedstate": "catalog:frontend",

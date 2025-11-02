@@ -21,6 +21,9 @@ catalogs:
     lodash-es:
       specifier: ^4.17.21
       version: 4.17.21
+    urlcat:
+      specifier: ^3.1.0
+      version: 3.1.0
     vue:
       specifier: ^3.5.22
       version: 3.5.22
@@ -195,7 +198,7 @@ importers:
         specifier: catalog:frontend
         version: 4.17.21
       urlcat:
-        specifier: ^3.1.0
+        specifier: catalog:frontend
         version: 3.1.0
       vue:
         specifier: catalog:frontend
