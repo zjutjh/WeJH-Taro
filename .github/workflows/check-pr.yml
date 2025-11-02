@@ -2,7 +2,7 @@ on:
   - pull_request
 
 jobs:
-  cache-and-install:
+  lint-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -49,3 +49,9 @@ jobs:
 
       - name: Build Taro weapp
         run: pnpm build:weapp
+
+  spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: streetsidesoftware/cspell-action@v7

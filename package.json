@@ -47,6 +47,7 @@
     "@vue/eslint-config-typescript": "catalog:infra",
     "@zjutjh/eslint-config": "catalog:infra",
     "babel-preset-taro": "catalog:taro",
+    "cspell": "catalog:infra",
     "eslint": "catalog:infra",
     "eslint-config-prettier": "catalog:infra",
     "eslint-import-resolver-typescript": "catalog:infra",
