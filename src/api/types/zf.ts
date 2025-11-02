@@ -1,5 +1,9 @@
-/** 查询课表 */
-export interface LessonsTableResponse {
+export type QueryLessonsTableRequest = {
+  year: string;
+  term: string;
+};
+
+export type QueryLessonsTableResponse = {
   lessonsTable: Array<{
     id: string;
     /** 课程从第几节到第几节 */
@@ -28,20 +32,20 @@ export interface LessonsTableResponse {
     Name: string;
     ClassName: string;
   };
-}
+};
 
 /** 查询期中成绩 */
-export interface midtermScoreResponse {
+export type QueryMidtermScoreResponse = {
   className: string;
   credits: string;
   lessonID: string;
   lessonName: string;
   score: string;
   teacherName: string;
-}
+};
 
 /** 查询考试安排 */
-export interface ExamResponse {
+export type QueryExamResponse = {
   campus: string;
   className: string;
   credits: string;
@@ -52,10 +56,10 @@ export interface ExamResponse {
   lessonPlace: string;
   seatNum: string;
   teacherName: string;
-}
+};
 
 /** 查询期末成绩 */
-export interface ScoreResponse {
+export type QueryScoreResponse = {
   className: string;
   credits: string;
   examType: string;
@@ -67,10 +71,10 @@ export interface ScoreResponse {
   submitName: string;
   submitTime: string;
   teacherName: string;
-}
+};
 
 /** 查询空教室 */
-export interface RoomResponse {
+export type QueryFreeRoomResponse = {
   buildName: string;
   campus: string;
   roomName: string;
@@ -78,4 +82,4 @@ export interface RoomResponse {
   roomSeatsForExam: string;
   roomSize: string;
   type: string;
-}
+};

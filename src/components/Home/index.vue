@@ -1,19 +1,9 @@
 <template>
-  <title-bar
-    title="微精弘"
-    :back-button="false"
-  >
-    <alarm
-      v-if="isActive"
-      :counter="counter"
-      @tap="nav2announcement"
-    />
+  <title-bar title="微精弘" :back-button="false">
+    <alarm v-if="isActive" :counter="counter" @tap="nav2announcement" />
   </title-bar>
   <scroll-view :scroll-y="true">
-    <view
-      v-if="isActive"
-      class="flex-column"
-    >
+    <view v-if="isActive" class="flex-column">
       <questionnaire v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire" />
 
       <fixed-quick-view />
@@ -21,41 +11,20 @@
       <!-- 这里是可选卡片列表 -->
       <cards />
 
-      <card
-        v-if="!(isBindZf || isBindYXY || isBindOauth)"
-        title="提示"
-      >
+      <card v-if="!(isBindZf || isBindYXY || isBindOauth)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
       </card>
 
-      <view
-        :class="styles[`edit-button`]"
-        @tap="showEditPanel"
-      >
-        <view
-          class="iconfont icon-add"
-          style="font-size: 1.15rem; font-weight: normal"
-        />
+      <view :class="styles[`edit-button`]" @tap="showEditPanel">
+        <view class="iconfont icon-add" style="font-size: 1.15rem; font-weight: normal" />
       </view>
     </view>
-    <view
-      v-else
-      class="flex-column"
-    >
+    <view v-else class="flex-column">
       <card title="未激活">
-        <w-button
-          block
-          class="active"
-          @tap="nav2activation"
-        >
-          激活
-        </w-button>
+        <w-button block class="active" @tap="nav2activation"> 激活 </w-button>
       </card>
-      <card
-        v-show="registerTips"
-        title="新生提醒"
-      >
-        <text style="font-size:14.5px">
+      <card v-show="registerTips" title="新生提醒">
+        <text style="font-size: 14.5px">
           {{ registerTips }}
         </text>
       </card>
@@ -65,19 +34,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import Taro from "@tarojs/taro";
+import { computed, onMounted, ref } from "vue";
+
+import { questionnaireInfo } from "@/constants/updateInfo";
+import { SystemService } from "@/services";
 import store, { serviceStore, systemStore } from "@/store";
+
 import Alarm from "../Alarm/index.vue";
 import WButton from "../Button/index.vue";
 import Card from "../Card/index.vue";
+import FixedQuickView from "../FixedQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
-import Taro from "@tarojs/taro";
-import { SystemService } from "@/services";
-import { questionnaireInfo } from "@/constants/updateInfo";
-import cards from "./cards.vue";
-import FixedQuickView from "../FixedQuickView/index.vue";
-import EditPanel from "./edit-panel/index.vue";
+import cards from "./components/card-list/index.vue";
+import EditPanel from "./components/edit-panel/index.vue";
 import styles from "./index.module.scss";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
@@ -104,7 +75,7 @@ if (questionnairePath != systemStore.questionnaire.path) {
 }
 onMounted(() => {
   SystemService.getAnnouncement();
-  SystemService.getGeneralInfo().then(res => {
+  SystemService.getGeneralInfo().then((res) => {
     registerTips.value = res.data.registerTips;
   });
 });
@@ -116,7 +87,8 @@ const isActive = computed(() => {
 const isNeverShowQuestionnaire = computed(() => {
   if (systemStore.questionnaire.state === "close") {
     return false;
-  } else return true;
+  }
+  return true;
 });
 const isBindZf = computed(() => {
   return serviceStore.user.isBindZF;

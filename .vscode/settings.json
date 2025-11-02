@@ -2,14 +2,18 @@
   "eslint.useFlatConfig": true,
   "eslint.format.enable": true,
   "editor.formatOnSaveMode": "file",
-  "eslint.probe": [
-    "typescript",
-    "vue",
-  ],
+  "eslint.probe": ["typescript", "vue", "json", "jsonc"],
+  "eslint.validate": ["typescript", "vue", "json", "jsonc"],
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[vue]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
+  "[json]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  }
 }

@@ -10,7 +10,19 @@ export default zjutjh(
   },
   {
     rules: {
-      "unicorn/filename-case": "off"
+      "unicorn/filename-case": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          args: "all",
+          argsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true
+        }
+      ]
     }
   }
 );

@@ -4,19 +4,9 @@ import { serviceStore, systemStore } from "@/store";
 import { Exam } from "@/types/Exam";
 import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Score } from "@/types/Score";
-import request from "@/utils/request/requestImpl";
 
 import { api } from "../api/apiList";
-import { LessonsTableResponse } from "../api/types/zf";
 import { updateDateStateWithSession } from "../utils/updateDateState";
-
-// Vue Query 实现的查询课表
-export const getLessonsTable = ({ year, term }) =>
-  request<LessonsTableResponse>(api.zf.lessonTable, {
-    method: "POST",
-    header: { Cookie: serviceStore.sessionID },
-    data: { year, term }
-  });
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class ZFService {

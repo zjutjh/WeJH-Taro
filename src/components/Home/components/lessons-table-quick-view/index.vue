@@ -1,5 +1,5 @@
 <template>
-  <quick-view
+  <quick-view-container
     title="课程表"
     icon-name="lessonstable"
     class="lessons-table-quick-view"
@@ -45,7 +45,7 @@
       明天居然没有课😄
     </view>
     <view v-if="!lessonTable" class="default-content"> 点击获取你的课表 ～ </view>
-  </quick-view>
+  </quick-view-container>
 </template>
 
 <script setup lang="ts">
@@ -56,14 +56,14 @@ import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed, CSSProperties, onMounted, onUnmounted, Ref, ref, toRef } from "vue";
 
+import { Card } from "@/components";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
-import { QUERY_KEY } from "@/services/api/queryKey";
-import { getLessonsTable } from "@/services/services/zfService";
+import { zfServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
 
-import Card from "../Card/index.vue";
-import QuickView from "../QuickView/index.vue";
+import QuickViewContainer from "../quick-view-container/index.vue";
 
 const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
 const emit = defineEmits(["showHelp"]);
@@ -81,7 +81,8 @@ const {
     toRef(() => systemStore.generalInfo.termYear),
     toRef(() => systemStore.generalInfo.term)
   ] as const,
-  queryFn: ({ queryKey }) => getLessonsTable({ year: queryKey[1], term: queryKey[2] }),
+  queryFn: ({ queryKey }) =>
+    zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] }),
   // 筛选出当天或第二天的课表
   select: (res) =>
     res.lessonsTable.filter((item) => {
