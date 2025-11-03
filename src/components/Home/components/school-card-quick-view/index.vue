@@ -1,5 +1,5 @@
 <template>
-  <quick-view
+  <quick-view-container
     title="校园卡"
     icon-name="schoolcard"
     :help="true"
@@ -10,7 +10,7 @@
     <view class="quickcard-balance">
       <text> ¥ {{ balance || 0 }} </text>
     </view>
-  </quick-view>
+  </quick-view-container>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +24,7 @@ import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import store, { serviceStore } from "@/store";
 
-import QuickView from "../QuickView/index.vue";
+import QuickViewContainer from "../quick-view-container/index.vue";
 
 const { error, loading } = useRequest(YxyService.querySchoolCardBalance, {
   onSuccess: (res) => {

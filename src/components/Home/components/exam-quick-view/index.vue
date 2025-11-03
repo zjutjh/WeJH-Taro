@@ -1,5 +1,5 @@
 <template>
-  <quick-view
+  <quick-view-container
     title="考试安排"
     icon-name="exam"
     :help="true"
@@ -47,7 +47,7 @@
         </view>
       </view>
     </card>
-  </quick-view>
+  </quick-view-container>
 </template>
 
 <script lang="ts" setup>
@@ -57,13 +57,13 @@ import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed, onMounted, ref } from "vue";
 
+import { Card } from "@/components";
 import { ZFService } from "@/services";
 import { systemStore } from "@/store";
 import { Exam } from "@/types/Exam";
 import { timeUtils } from "@/utils";
 
-import Card from "../Card/index.vue";
-import QuickView from "../QuickView/index.vue";
+import QuickViewContainer from "../quick-view-container/index.vue";
 
 const emit = defineEmits(["showHelp"]);
 
