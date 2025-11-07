@@ -7,14 +7,11 @@
     >
       <taro-image
         v-if="isShowByUrl"
-        :src="pageName === 'home' && !showPop ?
-          barIcons.selectedHomeIcon : barIcons.homeIcon"
+        :src="pageName === 'home' && !showPop ? barIcons.selectedHomeIcon : barIcons.homeIcon"
         mode="aspectFit"
       />
       <view v-else class="iconfont icon-home" />
-      <view class="description">
-        首页
-      </view>
+      <view class="description"> 首页 </view>
       <view v-if="notificationActive.home" class="badge-wrapper">
         <w-badge size="small" />
       </view>
@@ -30,9 +27,7 @@
         mode="aspectFit"
       />
       <view v-else class="iconfont icon-applist" />
-      <view class="description">
-        功能
-      </view>
+      <view class="description"> 功能 </view>
       <view v-if="notificationActive.applist" class="badge-wrapper">
         <w-badge size="small" />
       </view>
@@ -48,9 +43,7 @@
         mode="aspectFit"
       />
       <view v-else class="iconfont icon-user" />
-      <view class="description">
-        我的
-      </view>
+      <view class="description"> 我的 </view>
       <view v-if="notificationActive.my" class="badge-wrapper">
         <w-badge size="small" />
       </view>
@@ -58,9 +51,7 @@
   </bottom-panel>
   <pop-view v-model:show="showPop" class="nav-bar-pop-view">
     <view class="sub-text-container">
-      <text class="sub-text">
-        部分功能卡片可通过点击首页下方的加号添加
-      </text>
+      <text class="sub-text"> 部分功能卡片可通过点击首页下方的加号添加 </text>
     </view>
     <app-list v-if="showPop" />
   </pop-view>
@@ -69,16 +60,16 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import AppList from "../AppList/index.vue";
-import PopView from "../PopView/index.vue";
-import BottomPanel from "../BottomPanel/index.vue";
-import WBadge from "../Badge/index.vue";
-import { serviceStore } from "@/store";
+import { Image as TaroImage } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { computed, ref, toRefs } from "vue";
-import { checkNotification } from "@/utils";
+
+import { BottomPanel, PopView, WBadge } from "@/components";
 import { useTheme } from "@/hooks";
-import { Image as TaroImage } from "@tarojs/components";
+import { serviceStore } from "@/store";
+import { checkNotification } from "@/utils";
+
+import AppList from "./components/app-list/index.vue";
 
 const { isShowByUrl } = useTheme();
 
@@ -86,7 +77,7 @@ const emit = defineEmits(["plusClick", "onChange"]);
 const showPop = ref(false);
 
 const props = defineProps<{
-  pageName: string
+  pageName: string;
 }>();
 
 const notificationActive = computed(() => {
@@ -122,5 +113,4 @@ const plusClick = () => {
   showPop.value = !showPop.value;
   emit("plusClick");
 };
-
 </script>
