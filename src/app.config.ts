@@ -1,6 +1,7 @@
 export default defineAppConfig({
   pages: [
     "pages/index/index",
+    "pages/mine/index",
     "pages/activation/index",
     "pages/bind/index",
     "pages/webview/index",
@@ -31,6 +32,20 @@ export default defineAppConfig({
     "pages/suit/apply/index",
     "pages/suit/myapplication/index"
   ],
+  tabBar: {
+    custom: true,
+    list: [
+      {
+        pagePath: "pages/index/index",
+        text: "首页"
+      },
+      {
+        pagePath: "pages/mine/index",
+        text: "我的"
+      }
+    ]
+  },
+  usingComponents: {},
   darkmode: true,
   themeLocation: "theme.json",
   window: {

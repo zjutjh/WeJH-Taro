@@ -1,4 +1,3 @@
-import NavBar from "../custom-tab-bar/index.vue";
 import Alarm from "./Alarm/index.vue";
 import WBadge from "./Badge/index.vue";
 import BottomPanel from "./BottomPanel/index.vue";
@@ -33,7 +32,6 @@ export {
   Card,
   ContactMe,
   LessonsTable,
-  NavBar,
   PopView,
   Questionnaire,
   RefreshButton,

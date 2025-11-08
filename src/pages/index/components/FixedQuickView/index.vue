@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import LostfoundQuickView from "./LostfoundQuickView/index.vue";
-import InformationQuickView from "./InformationQuickView/index.vue";
 import "./index.scss";
+
+import InformationQuickView from "./InformationQuickView/index.vue";
+import LostfoundQuickView from "./LostfoundQuickView/index.vue";
 </script>
 
 <template>

@@ -1,51 +1,116 @@
 <template>
   <theme-config>
-    <home v-if="pageName === 'home'" />
-    <my v-if="pageName === 'my'" />
-    <nav-bar :page-name="pageName" @on-change="setPageName" />
-    <w-modal
-      v-model:show="showUpdateInfo"
-      :title="updateInfo.title"
-      :content="updateInfo.content"
-      :actions="updateInfo.actions"
-    />
+    <title-bar title="微精弘" :back-button="false">
+      <alarm v-if="isActive" :counter="counter" @tap="nav2announcement" />
+    </title-bar>
+    <scroll-view :scroll-y="true">
+      <view v-if="isActive" class="flex-column">
+        <questionnaire v-if="isQuestionnaireAccess() && isNeverShowQuestionnaire" />
+
+        <fixed-quick-view />
+
+        <!-- 这里是可选卡片列表 -->
+        <cards />
+
+        <card v-if="!(isBindZf || isBindYXY || isBindOauth)" title="提示">
+          还没有绑定任何服务，请到我的页面绑定
+        </card>
+
+        <view :class="styles[`edit-button`]" @tap="showEditPanel">
+          <view class="iconfont icon-add" style="font-size: 1.15rem; font-weight: normal" />
+        </view>
+      </view>
+      <view v-else class="flex-column">
+        <card title="未激活">
+          <w-button block class="active" @tap="nav2activation"> 激活 </w-button>
+        </card>
+        <card v-show="registerTips" title="新生提醒">
+          <text style="font-size: 14.5px">
+            {{ registerTips }}
+          </text>
+        </card>
+      </view>
+    </scroll-view>
+    <edit-panel v-model:show="isShowEditPanel" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Home, My, NavBar, ThemeConfig, WModal } from "@/components";
 import Taro from "@tarojs/taro";
-import { ref } from "vue";
-import store, { systemStore } from "@/store";
-import { updateInfo } from "@/constants/index";
-import "./index.scss";
+import { computed, onMounted, ref } from "vue";
 
-const pageName = ref("home");
+import { Alarm, Card, Questionnaire, ThemeConfig, TitleBar, WButton } from "@/components";
+import { questionnaireInfo } from "@/constants/updateInfo";
+import { SystemService } from "@/services";
+import store, { serviceStore, systemStore } from "@/store";
 
-const showUpdateInfo = ref(false);
+import cards from "./components/card-list/index.vue";
+import EditPanel from "./components/edit-panel/index.vue";
+import FixedQuickView from "./components/FixedQuickView/index.vue";
+import styles from "./index.module.scss";
 
-const updateManager = Taro.getUpdateManager();
+const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
-updateManager.onUpdateReady(function() {
-  Taro.showModal({
-    title: "微精弘更新提示",
-    content: "新版本已经准备好，是否重启应用？",
-    success: function(res) {
-      if (res.confirm) {
-        updateManager.applyUpdate();
-      }
-    }
+const isShowEditPanel = ref(false);
+
+const registerTips = ref<string>("");
+
+const showEditPanel = () => {
+  isShowEditPanel.value = true;
+};
+
+// 检查问卷可访问状态
+const isQuestionnaireAccess = () => {
+  return questionnaireInfo.isAccess;
+};
+
+// 问卷路径有更新，更新状态，并打开问卷入口
+if (questionnairePath != systemStore.questionnaire.path) {
+  store.commit("setQuestionnaire", {
+    path: questionnairePath,
+    state: "open"
+  });
+}
+onMounted(() => {
+  SystemService.getAnnouncement();
+  SystemService.getGeneralInfo().then((res) => {
+    registerTips.value = res.data.registerTips;
   });
 });
 
-const setPageName = (key: string) => {
-  pageName.value = key;
-};
+const isActive = computed(() => {
+  return serviceStore.user.isActive;
+});
 
-const newVersion = updateInfo.version;
-if (newVersion && systemStore.version !== newVersion) {
-  store.commit("setVersion", newVersion);
-  showUpdateInfo.value = true;
+const isNeverShowQuestionnaire = computed(() => {
+  if (systemStore.questionnaire.state === "close") {
+    return false;
+  }
+  return true;
+});
+const isBindZf = computed(() => {
+  return serviceStore.user.isBindZF;
+});
+const isBindYXY = computed(() => {
+  return serviceStore.user.isBindYXY;
+});
+const isBindOauth = computed(() => {
+  return serviceStore.user.isBindOauth;
+});
+const counter = computed(() => {
+  return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
+});
+
+function nav2activation() {
+  Taro.navigateTo({
+    url: "/pages/activation/index"
+  });
 }
 
+function nav2announcement() {
+  store.commit("clearAnnouncementsUpdateCounter");
+  Taro.navigateTo({
+    url: "/pages/announcement/index"
+  });
+}
 </script>

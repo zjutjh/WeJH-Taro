@@ -1,13 +1,8 @@
 <template>
   <view class="applist-item" @tap="handleTap">
     <view class="icon-wrapper" :style="iconWrapperStyle">
-      <taro-image
-        v-if="isShowByUrl"
-        mode="aspectFit"
-        :src="iconURL"
-        :style="iconStyle"
-      />
-      <view v-else :class="['iconfont', 'icon-'+icon]" />
+      <taro-image v-if="isShowByUrl" mode="aspectFit" :src="iconURL" :style="iconStyle" />
+      <view v-else :class="['iconfont', 'icon-' + icon]" />
     </view>
     <text class="label">
       {{ label }}
@@ -18,20 +13,22 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import { serviceStore } from "@/store";
+import { Image as TaroImage } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { computed, ref, StyleValue, toRefs } from "vue";
+
 import { useDarkMode, useTheme } from "@/hooks";
-import { Image as TaroImage } from "@tarojs/components";
-import { BIND_CODE_NAME_RECORD } from "../utils";
 import { IconTypeEnum } from "@/hooks/useTheme";
+import { serviceStore } from "@/store";
+
+import { BIND_CODE_NAME_RECORD } from "../../utils";
 
 const props = defineProps<{
-  label: string,
-  icon: string,
-  url: string,
-  bg: string,
-  require: string,
+  label: string;
+  icon: string;
+  url: string;
+  bg: string;
+  require: string;
 }>();
 
 const { require: requireActive, bg = ref("green"), label, url } = toRefs(props);

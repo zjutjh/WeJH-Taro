@@ -10,20 +10,20 @@
       :require="item.require"
     />
   </view>
-  <card v-else>
-    无可用服务
-  </card>
+  <card v-else> 无可用服务 </card>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import AppListItem from "./AppListItem/index.vue";
-import Card from "../Card/index.vue";
-import { serviceStore } from "@/store";
 import "./index.scss";
+
+import { computed } from "vue";
+
+import { Card } from "@/components";
+import { serviceStore } from "@/store";
+
+import AppListItem from "../app-list-item/index.vue";
 
 const applist = computed(() => {
   return serviceStore.appList;
 });
-
 </script>
