@@ -1,0 +1,31 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "language": "en",
+  "dictionaries": ["typescript", "node", "html", "css", "bash", "npm"],
+  "words": [
+    "darkmode",
+    "dbaeumer",
+    "errorlens",
+    "freeroom",
+    "htmltransform",
+    "iconfont",
+    "lessonstable",
+    "lostfound",
+    "miniprogram",
+    "paixu",
+    "persistedstate",
+    "projectname",
+    "puhuiti",
+    "pxtransform",
+    "quickview",
+    "schoolbus",
+    "schoolcard",
+    "stuid",
+    "tarojs",
+    "weapp",
+    "wechat",
+    "wejh",
+    "zjutjh"
+  ],
+  "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
+}

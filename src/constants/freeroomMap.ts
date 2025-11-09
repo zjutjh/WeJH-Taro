@@ -1,4 +1,4 @@
-export const freeroomMap = {
+export const FREE_ROOM_RECORD: Record<string, string | undefined> = {
   机: "机械楼",
   子: "子良楼",
   教: "新教楼",

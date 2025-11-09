@@ -2,27 +2,17 @@
   <quick-view
     title="考试安排"
     icon-name="exam"
-    help
+    :help="true"
     class="exam-quick-view"
     @tap="nav2Exam"
     @handle-tap-help="handleTapHelp"
   >
-    <text class="sub-text">
-      近期考试 ({{ updateTimeString }})
-    </text>
-    <card
-      v-if="!filteredExamItems || filteredExamItems.length === 0"
-      style="text-align: center"
-    >
+    <text class="sub-text"> 近期考试 ({{ updateTimeString }}) </text>
+    <card v-if="!filteredExamItems || filteredExamItems.length === 0" style="text-align: center">
       未查询到近日考试信息
     </card>
-    <card
-      v-for="item in filteredExamItems"
-      v-else
-      :key="item.id"
-      class="exam-card"
-    >
-      <view style="display: flex; flex-direction: column; gap: 10Px; align-items: flex-start;">
+    <card v-for="item in filteredExamItems" v-else :key="item.id" class="exam-card">
+      <view style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
         <view class="text-wrapper">
           <view :class="['exam-name', examState(item.examTime)]">
             {{ item.lessonName }}
@@ -37,22 +27,16 @@
             {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
           </text>
           <view class="exam-state">
-            <text
-              v-if="examState(item.examTime) === 'taking'"
-              class="taking"
-            >
-              正在考试
-            </text>
-            <text v-else-if="examState(item.examTime) === 'after'">
-              考试已结束
-            </text>
+            <text v-if="examState(item.examTime) === 'taking'" class="taking"> 正在考试 </text>
+            <text v-else-if="examState(item.examTime) === 'after'"> 考试已结束 </text>
             <template v-else-if="examState(item.examTime) === 'before'">
               <text v-if="timeUtils.getDayInterval(getExamTime(item.examTime).date) > 0">
                 还有 {{ timeUtils.getDayInterval(getExamTime(item.examTime).date) }} 天开始
               </text>
               <template v-else>
                 <text v-if="minuteInterval(getExamTime(item.examTime).start) >= 60">
-                  还有 {{ Math.floor(minuteInterval(getExamTime(item.examTime).start) / 60) }} 小时开始
+                  还有
+                  {{ Math.floor(minuteInterval(getExamTime(item.examTime).start) / 60) }} 小时开始
                 </text>
                 <text v-else>
                   还有 {{ minuteInterval(getExamTime(item.examTime).start) }} 分钟开始
@@ -67,16 +51,19 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
+
+import Taro from "@tarojs/taro";
+import dayjs from "dayjs";
+import { computed, onMounted, ref } from "vue";
+
+import { ZFService } from "@/services";
+import { systemStore } from "@/store";
+import { Exam } from "@/types/Exam";
+import { timeUtils } from "@/utils";
+
 import Card from "../Card/index.vue";
 import QuickView from "../QuickView/index.vue";
-import Taro from "@tarojs/taro";
-import "./index.scss";
-import { computed, onMounted, ref } from "vue";
-import { systemStore } from "@/store";
-import { ZFService } from "@/services";
-import dayjs from "dayjs";
-import { timeUtils } from "@/utils";
-import { Exam } from "@/types/Exam";
 
 const emit = defineEmits(["showHelp"]);
 
@@ -86,8 +73,8 @@ const selectTerm = ref({
 });
 
 const updateTimeString = computed(() => {
-  if (updateTime.value !== undefined) return dayjs(updateTime.value).fromNow();
-  else return "更新失败!";
+  if (updateTime.value) return dayjs(updateTime.value).fromNow();
+  return "更新失败!";
 });
 
 /**
@@ -97,20 +84,14 @@ const updateTimeString = computed(() => {
  */
 const filteredExamItems = computed(() => {
   let list: Exam[] = [];
-  const exam = ZFService.getExamInfo(selectTerm.value)?.data;
-  try {
-    list = exam.filter(item => {
-      if (item.examTime === "未放开不可查") return 0;
-      const { date, start } = getExamTime(item.examTime);
-      // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
-      const resDay = timeUtils.getDayInterval(
-        new Date(date + " " + start + ":00")
-      );
-      return (resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after");
-    });
-  } catch (e) {
-    console.error(e);
-  }
+  const exam = ZFService.getExamInfo(selectTerm.value).data;
+  list = exam.filter((item) => {
+    if (item.examTime === "未放开不可查") return 0;
+    const { date, start } = getExamTime(item.examTime);
+    // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
+    const resDay = timeUtils.getDayInterval(new Date(`${date} ${start}:00`));
+    return resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after";
+  });
   return list.sort((a, b) => {
     const { date: dateA, start: timeA } = getExamTime(a.examTime);
     const { date: dateB, start: timeB } = getExamTime(b.examTime);
@@ -119,14 +100,7 @@ const filteredExamItems = computed(() => {
 });
 
 const updateTime = computed(() => {
-  let updata: Date | null = null;
-  try {
-    updata = ZFService.getExamInfo(selectTerm.value)?.updateTime;
-    if (updata === null) return undefined;
-    else return updata;
-  } catch {
-    return undefined;
-  }
+  return ZFService.getExamInfo(selectTerm.value).updateTime;
 });
 
 function nav2Exam() {
@@ -149,7 +123,7 @@ function getExamTime(examTimeString: string) {
 }
 
 const minuteInterval = (clock: string) => {
-  const [ hour, minute ] = clock.split(":").map(item => parseInt(item));
+  const [hour, minute] = clock.split(":").map((item) => parseInt(item));
   const { hours, minutes } = timeUtils.getHMInterval({ hour, minute });
   return hours * 60 + minutes;
 };
@@ -162,15 +136,14 @@ const minuteInterval = (clock: string) => {
 function examState(examTimeString: string) {
   const { date, start, end } = getExamTime(examTimeString);
   const nowTime = new Date();
-  const startTime = new Date(date + " " + start + ":00");
-  const endTime = new Date(date + " " + end);
+  const startTime = new Date(`${date} ${start}:00`);
+  const endTime = new Date(`${date} ${end}`);
   if (nowTime.getTime() - startTime.getTime() < 0) return "before";
   else if (nowTime.getTime() - endTime.getTime() <= 0) return "taking";
-  else return "after";
+  return "after";
 }
 
 onMounted(() => {
   ZFService.updateExamInfo(selectTerm.value);
 });
-
 </script>

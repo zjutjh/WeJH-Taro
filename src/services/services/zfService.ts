@@ -1,52 +1,45 @@
-import { updateDateStateWithSession } from "../utils/updateDateState";
-import { api } from "../api/apiList";
+import { get } from "lodash-es";
+
 import { serviceStore, systemStore } from "@/store";
-import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Exam } from "@/types/Exam";
+import { Lesson, PracticeLesson } from "@/types/Lesson";
 import { Score } from "@/types/Score";
+
+import { api } from "../api/apiList";
+import { updateDateStateWithSession } from "../utils/updateDateState";
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class ZFService {
   static async updateLessonTable(data?: { year: string; term: string }) {
     if (!data) {
       data = {
         year: systemStore.generalInfo.termYear,
         term: systemStore.generalInfo.term
-
       };
     }
-    return updateDateStateWithSession(
-      api.zf.lessonTable,
-      data,
-      "setLessonTable",
-      (res: any) => {
-        return {
-          ...res.data.data,
-          year: data?.year,
-          term: data?.term
-        };
-
-      }
-    );
+    return updateDateStateWithSession(api.zf.lessonTable, data, "setLessonTable", (res) => {
+      return {
+        ...res.data.data,
+        year: data.year,
+        term: data.term
+      };
+    });
   }
 
   static async updateExamInfo(data?: { year: string; term: string }) {
     if (!data) {
       data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
+        year: systemStore.generalInfo.termYear,
+        term: systemStore.generalInfo.term
       };
     }
-    return updateDateStateWithSession(
-      api.zf.examInfo,
-      data,
-      "setExamInfo",
-      (res) => {
-        return {
-          examInfo: res.data.data, // 和store/service/zf.ts 相对应
-          year: data?.year,
-          term: data?.term
-        };
-      }
-    );
+    return updateDateStateWithSession(api.zf.examInfo, data, "setExamInfo", (res) => {
+      return {
+        examInfo: res.data.data, // 和store/service/zf.ts 相对应
+        year: data.year,
+        term: data.term
+      };
+    });
   }
 
   /**
@@ -61,68 +54,49 @@ export default class ZFService {
     // 若不手动调用, 则采用默认值
     if (!data) {
       data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
+        year: systemStore.generalInfo.termYear,
+        term: systemStore.generalInfo.term
       };
     }
-
     // 直接得到考试安排信息
     return {
-      data: serviceStore?.zf.examInfo[data.year][data.term]?.data || [],
-      updateTime: serviceStore?.zf.examInfo[data.year][data.term]?.updateTime || null
+      data: get(serviceStore, ["zf", "examInfo", data.year, data.term, "data"], []),
+      updateTime: get(serviceStore, ["zf", "examInfo", data.year, data.term, "updateTime"], null)
     };
   }
 
-  static async updateScoreInfo(
-    data?: { year: string; term: string, period: "期中" | "期末" }
-  ) {
+  static async updateScoreInfo(data?: { year: string; term: string; period: "期中" | "期末" }) {
     if (!data) {
       data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term,
+        year: systemStore.generalInfo.termYear,
+        term: systemStore.generalInfo.term,
         period: serviceStore.score.scorePeriod
       };
     }
     if (data.period === "期末") {
-      return updateDateStateWithSession(
-        api.zf.scoreInfo,
-        data,
-        "setScoreInfo",
-        (res) => ({
-          scoreInfo: res.data.data,
-          year: data?.year,
-          term: data?.term,
-          period: "期末"
-        })
-      );
-    } else if (data.period === "期中") {
-      return updateDateStateWithSession(
-        api.zf.midtermscoreInfo,
-        data,
-        "setScoreInfo",
-        (res) => ({
-          scoreInfo: res.data.data,
-          year: data?.year,
-          term: data?.term,
-          period: "期中"
-        })
-      );
+      return updateDateStateWithSession(api.zf.scoreInfo, data, "setScoreInfo", (res) => ({
+        scoreInfo: res.data.data,
+        year: data.year,
+        term: data.term,
+        period: "期末"
+      }));
     }
+    return updateDateStateWithSession(api.zf.midtermscoreInfo, data, "setScoreInfo", (res) => ({
+      scoreInfo: res.data.data,
+      year: data.year,
+      term: data.term,
+      period: "期中"
+    }));
   }
 
-  static getScoreInfo(
-    data: { year: string; term: string, period: "期中" | "期末" | "" }
-  ): {
-      data: Score[];
-      updateTime: Date | null;
-    } {
-    if (!serviceStore?.zf.scoreInfo[data.year])
-      return { data: [], updateTime: null };
-    if (!serviceStore?.zf.scoreInfo[data.year][data.term])
-      return { data: [], updateTime: null };
-    if (!serviceStore?.zf.scoreInfo[data.year][data.term][data.period]?.data)
-      return { data: [], updateTime: null };
-    return serviceStore?.zf.scoreInfo[data.year][data.term][data.period];
+  static getScoreInfo(data: { year: string; term: string; period: "期中" | "期末" }): {
+    data: Score[];
+    updateTime: Date | null;
+  } {
+    return get(serviceStore, ["zf", "scoreInfo", data.year, data.term, data.period], {
+      data: [],
+      updateTime: null
+    });
   }
 
   static async getFreeRoomInfo(data: {
@@ -147,7 +121,7 @@ export default class ZFService {
       if (day === "today") {
         queryDay = new Date().getDay() || 7;
         queryWeek = systemStore.generalInfo.week;
-      } else if (day === "tomorrow") {
+      } else {
         queryDay = new Date().getDay() + 1;
         if (queryDay === 1) {
           // 如果明天是周一，意味着要查询下一周
@@ -180,45 +154,40 @@ export default class ZFService {
    * @param data 学期信息
    * @returns 该学期课表
    */
-  static getLessonTable(data?: {
-    year: string;
-    term: string;
-  }): Lesson[] | undefined {
+  static getLessonTable(data?: { year: string; term: string }): Lesson[] | undefined {
     if (!data) {
       data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
+        year: systemStore.generalInfo.termYear,
+        term: systemStore.generalInfo.term
       };
     }
-    if (!serviceStore?.zf.lessonsTableInfo[data.year]) return undefined;
-    if (!serviceStore?.zf.lessonsTableInfo[data.year][data.term])
-      return undefined;
-    return (
-      serviceStore?.zf.lessonsTableInfo[data.year][data.term]?.data
-        ?.lessonsTable || []
-    );
+    return get(serviceStore, [
+      "zf",
+      "lessonsTableInfo",
+      data.year,
+      data.term,
+      "data",
+      "lessonsTable"
+    ]);
   }
 
   /**
    * 从缓存中获取 **实践** 课表
-   * @Deprecated 无此需求，没使用过
+   *
+   * @deprecated 无此需求，没使用过
    * @param 学期信息
    * @returns
    */
-  static getPracticeLessonsTable(data?: {
-    year: string;
-    term: string;
-  }): PracticeLesson[] {
+  static getPracticeLessonsTable(data?: { year: string; term: string }): PracticeLesson[] {
     if (!data) {
       data = {
-        year: systemStore.generalInfo?.termYear,
-        term: systemStore.generalInfo?.term
+        year: systemStore.generalInfo.termYear,
+        term: systemStore.generalInfo.term
       };
     }
-    if (!serviceStore?.zf.lessonsTableInfo[data.year]) return [];
     return (
-      serviceStore?.zf.lessonsTableInfo[data.year][data.term]?.data
-        ?.practiceLessons || []
+      get(serviceStore, ["zf", "lessonsTableInfo", data.year, data.term])?.data.practiceLessons ??
+      []
     );
   }
 }
