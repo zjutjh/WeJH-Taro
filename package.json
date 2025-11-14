@@ -20,6 +20,8 @@
   ],
   "dependencies": {
     "@babel/runtime": "catalog:taro",
+    "@tanstack/query-persist-client-core": "catalog:frontend",
+    "@tanstack/vue-query": "catalog:frontend",
     "@tarojs/components": "catalog:taro",
     "@tarojs/helper": "catalog:taro",
     "@tarojs/plugin-framework-vue3": "catalog:taro",
@@ -28,10 +30,13 @@
     "@tarojs/shared": "catalog:taro",
     "@tarojs/taro": "catalog:taro",
     "dayjs": "catalog:frontend",
+    "event-target-polyfill": "catalog:frontend",
     "lodash-es": "catalog:frontend",
+    "urlcat": "catalog:frontend",
     "vue": "catalog:frontend",
     "vuex": "catalog:frontend",
-    "vuex-persistedstate": "catalog:frontend"
+    "vuex-persistedstate": "catalog:frontend",
+    "yet-another-abortcontroller-polyfill": "catalog:frontend"
   },
   "devDependencies": {
     "@babel/core": "catalog:taro",

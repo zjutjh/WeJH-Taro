@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { IconTypeEnum } from "@/hooks/useTheme";
-import { computed, onBeforeUpdate, ref, watch } from "vue";
-import store, { serviceStore } from "@/store";
-import { HomeCardName, homeCards } from "@/constants/homeCards";
-import { PopView, WBadge, WButton } from "@/components";
-import { checkBind } from "@/utils";
-import { useTheme } from "@/hooks/index";
 import { Image as TaroImage } from "@tarojs/components";
+import { computed, onBeforeUpdate, ref, watch } from "vue";
+
+import { PopView, WBadge, WButton } from "@/components";
+import { HomeCardName, homeCards } from "@/constants/homeCards";
+import { useTheme } from "@/hooks/index";
+import { IconTypeEnum } from "@/hooks/useTheme";
+import store, { serviceStore } from "@/store";
+import { checkBind } from "@/utils";
 
 import styles from "./index.module.scss";
 
@@ -15,14 +16,14 @@ const { isShowByUrl, getIconUrl } = useTheme();
 /** 依赖于绑定状态的卡片名字列表 */
 const validList = computed(() => {
   // 先根据绑定状态筛选出名字列表
-  const valid = (Object.entries(homeCards) as Array<[HomeCardName, any]>)
-    .filter(item => checkBind[`${item[1].require}`].value)
-    .map(item => item[0]);
+  const valid = Object.entries(homeCards)
+    .filter((item) => checkBind[`${item[1].require}`].value)
+    .map((item) => item[0]);
 
   // 删除缓存中已选，但是未绑定的卡片
   const selectedInStore = [...serviceStore.homecard.selected];
-  selectedInStore.forEach(item => {
-    const toDelete = valid.find(validItem => item === validItem);
+  selectedInStore.forEach((item) => {
+    const toDelete = valid.find((validItem) => item === validItem);
     if (toDelete === undefined) {
       store.commit("removeHomeCardItem", item);
     }
@@ -38,11 +39,11 @@ const selectedList = computed(() => {
   }
 
   const list = serviceStore.homecard.selected;
-  return list.filter(item => homeCards[item]).map(item => homeCards[item]);
+  return list.filter((item) => Boolean(homeCards[item])).map((item) => homeCards[item]);
 });
 
 const props = defineProps<{
-  show: boolean
+  show: boolean;
 }>();
 
 const emit = defineEmits(["update:show"]);
@@ -60,11 +61,11 @@ watch(show, () => {
 /** 未选择的卡片名字列表，使用差集运算得到 */
 const unselectedList = computed(() => {
   const list = [...validList.value];
-  serviceStore.homecard.selected.forEach((name => {
-    const toDelete = list.findIndex(item => item === name);
+  serviceStore.homecard.selected.forEach((name) => {
+    const toDelete = list.findIndex((item) => item === name);
     list.splice(toDelete, 1);
-  }));
-  return list.map(item => homeCards[item]);
+  });
+  return list.map((item) => homeCards[item]);
 });
 
 const handleAddItem = (value: HomeCardName) => {
@@ -78,11 +79,10 @@ const handleRemoveItem = (value: HomeCardName) => {
 const handleClose = () => {
   show.value = false;
 };
-
 </script>
 
 <template>
-  <pop-view v-model:show="show" style="z-index: 4000;">
+  <pop-view v-model:show="show" style="z-index: 4000">
     <view :class="styles.container">
       <view :class="styles.card">
         <view :class="styles.header">
@@ -104,17 +104,12 @@ const handleClose = () => {
                 :src="getIconUrl(item.icon, IconTypeEnum.AppList)"
                 mode="aspectFit"
               />
-              <view
-                v-else
-                :class="['iconfont', `icon-${item.icon}`, styles.icon]"
-              />
+              <view v-else :class="['iconfont', `icon-${item.icon}`, styles.icon]" />
             </view>
             <text>{{ item.label }}</text>
             <view :class="styles['badge-wrapper']">
               <w-badge>
-                <view style="transform: scale(1.5);">
-                  -
-                </view>
+                <view style="transform: scale(1.5)"> - </view>
               </w-badge>
             </view>
           </view>
@@ -146,9 +141,7 @@ const handleClose = () => {
             <text>{{ item.label }}</text>
             <view :class="styles['badge-wrapper']">
               <w-badge color="var(--wjh-color-primary)">
-                <view style="transform: scale(1.5);">
-                  +
-                </view>
+                <view style="transform: scale(1.5)"> + </view>
               </w-badge>
             </view>
           </view>
@@ -156,9 +149,7 @@ const handleClose = () => {
       </view>
 
       <view :class="styles.footer">
-        <w-button shape="rounded" @tap="handleClose">
-          完成
-        </w-button>
+        <w-button shape="rounded" @tap="handleClose"> 完成 </w-button>
       </view>
     </view>
   </pop-view>

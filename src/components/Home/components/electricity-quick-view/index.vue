@@ -1,5 +1,5 @@
 <template>
-  <quick-view title="电量查询" icon-name="electricity" @tap="nav2electricity">
+  <quick-view-container title="电量查询" icon-name="electricity" @tap="nav2electricity">
     <view class="text-view">
       <text class="sub-text-left"> 当前电量({{ updateTimeString }}) </text>
       <text v-if="isUrgent" class="sub-text-right"> 温馨提示: 电量较低 </text>
@@ -14,7 +14,7 @@
       </view>
       <text v-else> 正在查询... </text>
     </card>
-  </quick-view>
+  </quick-view-container>
 </template>
 
 <script lang="ts" setup>
@@ -24,12 +24,12 @@ import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed, watch } from "vue";
 
-import { QuickView } from "@/components";
+import { Card } from "@/components";
 import { useRequest } from "@/hooks";
 import { YxyService } from "@/services";
 import store, { serviceStore } from "@/store";
 
-import Card from "../Card/index.vue";
+import QuickViewContainer from "../quick-view-container/index.vue";
 
 function nav2electricity() {
   Taro.navigateTo({ url: "/pages/electricity/index" });
