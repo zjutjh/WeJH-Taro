@@ -1,3 +1,4 @@
+import LostfoundServiceNext from "@/api/services/lostfound";
 import ZFServiceNext from "@/api/services/zf";
 import { type RequestCustomOptions, requestNext } from "@/utils/request-next";
 
@@ -26,6 +27,11 @@ export {
 };
 
 export const zfServiceNext = new ZFServiceNext<RequestCustomOptions>({
+  request: requestNext,
+  baseURL: import.meta.env.VITE_HOST
+});
+
+export const lostfoundServiceNext = new LostfoundServiceNext<RequestCustomOptions>({
   request: requestNext,
   baseURL: import.meta.env.VITE_HOST
 });

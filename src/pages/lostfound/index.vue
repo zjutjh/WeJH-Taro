@@ -1,6 +1,6 @@
 <template>
   <theme-config :show-bg-image="false">
-    <title-bar title="失物寻物" back-button />
+    <title-bar title="失物寻物" :back-button="true" />
     <view class="campus-selector">
       <view class="container">
         <view
@@ -21,7 +21,7 @@
           :class="selectMain === item ? 'active' : undefined"
           @tap="() => handleSelectMain(item)"
         >
-          {{ item }}
+          {{ item || "全部" }}
         </text>
       </view>
       <view class="scroll-view">
@@ -31,7 +31,7 @@
           :class="selectKind === item ? 'active' : undefined"
           @tap="() => handleSelectKind(item)"
         >
-          {{ item }}
+          {{ item || "全部" }}
         </text>
       </view>
     </view>
@@ -43,7 +43,7 @@
     >
       <view class="record-list">
         <preview-card v-for="item in recordList" :key="item.id" :source="item" />
-        <w-skeleton v-if="loading" :style="{ borderRadius: '8Px' }" />
+        <w-skeleton v-if="isFetching" :style="{ borderRadius: '8Px' }" />
         <card v-else-if="!recordList.length && isEmpty">
           <text>该分类下暂无失物寻物记录</text>
         </card>
@@ -57,14 +57,14 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import { omitBy } from "lodash-es";
-import { computed, ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { computed, ref, watch } from "vue";
 
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { contactMsg } from "@/constants/lostfound";
-import { useRequest } from "@/hooks";
-import { LostfoundService } from "@/services";
+import { lostfoundServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
 import store, { serviceStore } from "@/store";
 import { LostfoundRecord } from "@/types/Lostfound";
 
@@ -72,63 +72,44 @@ import WModal from "../../components/Modal/index.vue";
 import PreviewCard from "./PreviewCard/index.vue";
 
 const currentPage = ref(0);
-const maxPage = ref(0);
+const maxPage = computed(() => data.value?.total_page_num ?? 0);
 const recordList = ref<LostfoundRecord[]>([]);
-const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
-const selectKind = ref("全部");
-const selectCampus = ref(serviceStore.lostfound.lastOpenCampus || "屏峰");
-const mainList = ref<string[]>(["全部", "失物", "寻物"]);
-const selectMain = ref(serviceStore.lostfound.lastOpenMain || "全部");
-const isEmpty = ref(false);
+const campusList = ref(["屏峰", "朝晖", "莫干山"]);
+const selectKind = ref("");
+const selectCampus = ref(serviceStore.lostfound.lastOpenCampus ?? "屏峰");
+const mainList = ref(["", "失物", "寻物"]);
+const selectMain = ref(serviceStore.lostfound.lastOpenMain ?? "");
+const isEmpty = computed(() => recordList.value.length === 0);
 const helpContent = ref(helpText.lostfound);
 const isShowHelp = ref(false);
 
-const { data: getKindsResponse } = useRequest(LostfoundService.getKindList, {
-  onSuccess: (res) => {
-    if (res.data.code !== 1) throw new Error(res.data.msg);
-  },
-  onError: (e: Error) => {
-    return `获取分类失败\r\n${e.message || "网络错误"}`;
+const { data: getKindsResponse } = useQuery({
+  queryKey: [QUERY_KEY.LOSTFOUND_KIND],
+  queryFn: () => lostfoundServiceNext.QueryKindList()
+});
+
+const { data, fetchStatus, isFetching, refetch } = useQuery({
+  queryKey: [QUERY_KEY.LOSTFOUND_RECORD, selectCampus, selectKind, selectMain] as const,
+  queryFn: ({ queryKey }) =>
+    lostfoundServiceNext.QueryLostRecords({
+      campus: queryKey[1],
+      kind: queryKey[2],
+      lost_or_found: queryKey[3],
+      page_num: currentPage.value + 1,
+      page_size: 10
+    })
+});
+
+watch(fetchStatus, (value) => {
+  if (value === "idle") {
+    currentPage.value++;
+    recordList.value = recordList.value.concat(data.value?.data ?? []);
   }
 });
 
-const { loading, run } = useRequest(LostfoundService.getRecords, {
-  defaultParams: {
-    campus: selectCampus.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: ""
-  },
-  loadingDelay: 300,
-  onSuccess: (res) => {
-    if (res.data.code === 1) {
-      recordList.value = recordList.value.concat(res.data.data.data);
-      if (recordList.value.length === 0) isEmpty.value = true;
-      maxPage.value = res.data.data.total_page_num;
-      currentPage.value++;
-    } else throw new Error(res.data.msg);
-  },
-  onError: (e: Error) => {
-    return `加载失物寻物信息失败\r\n${e.message || "网络错误"}`;
-  }
-});
-
-const getRecords = (data: {
-  campus?: string;
-  kind?: string;
-  page_num: number;
-  page_size: number;
-  lost_or_found?: string;
-}) => {
-  isEmpty.value = false;
-  // 过滤掉值为全部的所有属性，全部场景下接口不需要该字段
-  const newParams = omitBy(data, (value) => value === "全部") as typeof data;
-  run(newParams);
-};
-
-const kindList = computed<string[]>(() => [
-  "全部",
-  ...(getKindsResponse.value?.data || []).map((item) => item.kind_name)
+const kindList = computed(() => [
+  "",
+  ...(getKindsResponse.value ?? []).map((item) => item.kind_name)
 ]);
 
 const handleSelectCampus = (campus: string) => {
@@ -136,13 +117,7 @@ const handleSelectCampus = (campus: string) => {
   selectCampus.value = campus;
   store.commit("setLastOpenCampus", campus);
   resetList();
-  getRecords({
-    campus: campus,
-    kind: selectKind.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: selectMain.value
-  });
+  refetch();
 };
 
 const handleSelectMain = (main: string) => {
@@ -150,26 +125,14 @@ const handleSelectMain = (main: string) => {
   selectMain.value = main;
   store.commit("setLastOpenMain", main);
   resetList();
-  getRecords({
-    campus: selectCampus.value,
-    kind: selectKind.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: main
-  });
+  refetch();
 };
 
 const handleSelectKind = (kind: string) => {
   if (selectKind.value === kind) return;
   selectKind.value = kind;
   resetList();
-  getRecords({
-    campus: selectCampus.value,
-    kind,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: selectMain.value
-  });
+  refetch();
 };
 
 const resetList = () => {
@@ -178,14 +141,8 @@ const resetList = () => {
 };
 
 const handleScrollToBottom = () => {
-  if (loading.value || maxPage.value <= currentPage.value) return;
-  getRecords({
-    campus: selectCampus.value,
-    kind: selectKind.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: selectMain.value
-  });
+  if (isFetching.value || maxPage.value <= currentPage.value) return;
+  refetch();
 };
 
 const setHelp = () => {
