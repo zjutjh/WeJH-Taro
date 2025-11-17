@@ -91,13 +91,17 @@ const { data: getKindsResponse } = useQuery({
 const { data, fetchStatus, isFetching, refetch } = useQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_RECORD, selectCampus, selectKind, selectMain] as const,
   queryFn: ({ queryKey }) =>
-    lostfoundServiceNext.QueryLostRecords({
-      campus: queryKey[1],
-      kind: queryKey[2],
-      lost_or_found: queryKey[3],
-      page_num: currentPage.value + 1,
-      page_size: 10
-    })
+    lostfoundServiceNext.QueryLostRecords(
+      {
+        campus: queryKey[1],
+        kind: queryKey[2],
+        lostOrFound: queryKey[3],
+        pageNum: currentPage.value + 1,
+        pageSize: 10
+      },
+      { snake: true }
+    ),
+  refetchOnMount: "always"
 });
 
 watch(fetchStatus, (value) => {

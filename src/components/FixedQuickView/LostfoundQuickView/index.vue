@@ -62,13 +62,16 @@ const defaultCampus = computed(() => serviceStore.lostfound.lastOpenCampus ?? "å
 const { data } = useQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_RECORD, defaultCampus] as const,
   queryFn: ({ queryKey }) =>
-    lostfoundServiceNext.QueryLostRecords({
-      campus: queryKey[1],
-      page_num: 1,
-      page_size: 5,
-      kind: "",
-      lost_or_found: ""
-    }),
+    lostfoundServiceNext.QueryLostRecords(
+      {
+        campus: queryKey[1],
+        pageNum: 1,
+        pageSize: 5,
+        kind: "",
+        lostOrFound: ""
+      },
+      { snake: true }
+    ),
   select: (res) => res.data
 });
 
