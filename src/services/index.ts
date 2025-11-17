@@ -1,23 +1,31 @@
-import ZFService from "./services/zfService";
-import SystemService from "./services/systemService";
-import UserService from "./services/userService";
+import ZFServiceNext from "@/api/services/zf";
+import { type RequestCustomOptions, requestNext } from "@/utils/request-next";
+
+import { api } from "./api/apiList";
+import { LoginByTaro } from "./services/authService";
 import LibraryService from "./services/libraryService";
-import YxyService from "./services/yxyService";
 import LostfoundService from "./services/lostfoundService";
 import SuitService from "./services/suitService";
-import { LoginByTaro } from "./services/authService";
+import SystemService from "./services/systemService";
+import UserService from "./services/userService";
+import YxyService from "./services/yxyService";
+import ZFService from "./services/zfService";
 import errCodeHandler from "./utils/errHandler";
-import { api } from "./api/apiList";
 
 export {
-  ZFService,
-  SystemService,
-  UserService,
+  api,
+  errCodeHandler,
   LibraryService,
-  YxyService,
+  LoginByTaro,
   LostfoundService,
   SuitService,
-  LoginByTaro,
-  errCodeHandler,
-  api
+  SystemService,
+  UserService,
+  YxyService,
+  ZFService
 };
+
+export const zfServiceNext = new ZFServiceNext<RequestCustomOptions>({
+  request: requestNext,
+  baseURL: import.meta.env.VITE_HOST
+});

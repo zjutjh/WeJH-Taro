@@ -1,5 +1,5 @@
 <template>
-  <quick-view title="借阅信息" icon-name="library" class="book-quick-view" @tap="nav">
+  <quick-view-container title="借阅信息" icon-name="library" class="book-quick-view" @tap="nav">
     <text class="sub-text"> 当前借阅 ({{ borrowUpdateTimeString }}) </text>
     <view v-if="!current || current.length === 0" class="default-content"> 当前无借阅图书 </view>
     <card
@@ -17,7 +17,7 @@
       <view class="borrow-time"> 应还日期：{{ item.normReturnDate }} </view>
     </card>
     <view v-if="current?.length > 3" class="more-detail"> 点击查看更多记录 </view>
-  </quick-view>
+  </quick-view-container>
 </template>
 
 <script setup lang="ts">
@@ -27,11 +27,11 @@ import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed, CSSProperties, onMounted } from "vue";
 
+import { Card } from "@/components";
 import { LibraryService } from "@/services";
 import { serviceStore } from "@/store";
 
-import Card from "../Card/index.vue";
-import QuickView from "../QuickView/index.vue";
+import QuickViewContainer from "../quick-view-container/index.vue";
 
 const borrowUpdateTimeString = computed(() => {
   const updateTime = serviceStore.library.updateTime.current;
