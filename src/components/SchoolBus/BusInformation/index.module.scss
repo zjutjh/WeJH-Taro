@@ -1,0 +1,53 @@
+.busInformationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  margin-bottom: 20Px;
+  width: 100%;
+}
+
+.busInformationTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  padding-bottom: 10Px;
+  margin-bottom: 10Px;
+  border-bottom: 2Px solid var(--wjh-color-border);
+  font-weight: bold;
+  gap: 5Px;
+  .startTime {
+    font-size: 20Px;
+  }
+  .routeName {
+    font-size: 16Px;
+  }
+}
+
+.busInformationContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  gap: 10Px;
+  .rowItem {
+    display: flex;
+    .remainSeats {
+      padding: 0 6Px 0 2Px
+    }
+  }
+  .detailButton {
+    width: 90Px;
+    height: 35Px;
+    border-radius: 7.5Px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: var(--wjh-color-primary);
+    color: white;
+    font-size: 14Px;
+    text-align: center;
+    line-height: 35Px;
+  }
+}

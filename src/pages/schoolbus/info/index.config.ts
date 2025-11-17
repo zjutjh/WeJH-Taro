@@ -1,5 +1,5 @@
 export default {
-  navigationBarTitleText: "班车信息",
+  navigationBarTitleText: "班次信息",
   disableScroll: true,
   backgroundColor: "#dfdfdf"
 };

@@ -1,4 +1,9 @@
 @import '@/style/theme.scss';
+.schoolbus-container {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
 
 .schoolbus-title-bar {
   background-color: var(--wjh-color-primary-light);
@@ -22,5 +27,16 @@
       font-size: 0.9rem;
       color: var(--wjh-color-text);
     }
+  }
+}
+
+.function-block {
+  margin-top: 10Px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .function-block-item {
+    display: flex;
+    align-items: center;
   }
 }
