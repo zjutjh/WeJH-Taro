@@ -1,19 +1,16 @@
-export interface LostfoundStoreType {
-  lastOpenCampus?: string;
-  lastOpenMain?: string;
-}
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const LostfoundStore = {
-  state: () => ({
-    lastOpenCampus: "屏峰",
-    lastOpenMain: "全部"
-  }),
-  mutations: {
-    setLastOpenCampus(state: LostfoundStoreType, value: string) {
-      state.lastOpenCampus = value;
-    },
-    setLastOpenMain(state: LostfoundStoreType, value: string) {
-      state.lastOpenMain = value;
-    }
-  }
-};
+import { Campus, Main } from "@/api/types/lostfound";
+import { persistedStorage } from "@/utils/storage";
+
+export const useLostfoundStore = defineStore(
+  "lostfound",
+  () => {
+    const lastOpenCampus = ref<Campus>("屏峰");
+    const lastOpenMain = ref<Main>("");
+
+    return { lastOpenCampus, lastOpenMain };
+  },
+  { persist: { storage: persistedStorage } }
+);

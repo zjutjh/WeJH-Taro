@@ -4,16 +4,19 @@ export type QueryKindListResponse = Array<{
   kind_name: string;
 }>;
 
+export type Campus = "朝晖" | "屏峰" | "莫干山";
+export type Main = "" | "寻物" | "失物";
+
 /** 获取分页的失物招领信息 */
 export type QueryLostRecordsRequest = {
   /** 默认为屏峰 */
-  campus: string;
+  campus: Campus;
   /** 物品种类，空字符串代表全部 */
   kind: string;
   pageNum: number;
   pageSize: number;
   /** 记录类型，空字符串代表全部 */
-  lostOrFound: string;
+  lostOrFound: Main;
 };
 
 export type QueryLostRecordsResponse = {
@@ -21,7 +24,7 @@ export type QueryLostRecordsResponse = {
     id: number;
     /** false:寻物启事；true: 失物招领 */
     type: boolean;
-    campus: string;
+    campus: Campus;
     kind: string;
     publish_time: string;
     img1: string;

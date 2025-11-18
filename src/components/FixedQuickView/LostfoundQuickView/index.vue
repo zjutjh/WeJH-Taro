@@ -40,7 +40,7 @@
       </text>
     </view>
     <view v-else :class="['content', 'empty']">
-      <text class="campus"> {{ defaultCampus }} </text>
+      <text class="campus"> {{ lastOpenCampus }} </text>
       <text> 校区暂时没有失物寻物信息 </text>
     </view>
   </view>
@@ -51,16 +51,17 @@ import "./index.scss";
 
 import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
+import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
 import { lostfoundServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { serviceStore } from "@/store";
+import { useLostfoundStore } from "@/store/service/lostfound";
 
-const defaultCampus = computed(() => serviceStore.lostfound.lastOpenCampus ?? "屏峰");
+const { lastOpenCampus } = storeToRefs(useLostfoundStore());
 
 const { data } = useQuery({
-  queryKey: [QUERY_KEY.LOSTFOUND_RECORD, defaultCampus] as const,
+  queryKey: [QUERY_KEY.LOSTFOUND_RECORD, lastOpenCampus] as const,
   queryFn: ({ queryKey }) =>
     lostfoundServiceNext.QueryLostRecords(
       {

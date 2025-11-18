@@ -32,6 +32,8 @@
     "dayjs": "catalog:frontend",
     "event-target-polyfill": "catalog:frontend",
     "lodash-es": "catalog:frontend",
+    "pinia": "catalog:frontend",
+    "pinia-plugin-persistedstate": "catalog:frontend",
     "urlcat": "catalog:frontend",
     "vue": "catalog:frontend",
     "vuex": "catalog:frontend",

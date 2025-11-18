@@ -7,7 +7,6 @@ import { ElectricityServiceStore } from "./electricity";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { InformationStore, InformationStoreType } from "./information";
 import { LibraryServiceStore } from "./library";
-import { LostfoundStore, LostfoundStoreType } from "./lostfound";
 import { NotificationStore, NotificationStoreType } from "./notification";
 import { ScoreServiceStore } from "./score";
 import { SuitStore, SuitStoreType } from "./suit";
@@ -32,9 +31,7 @@ export interface ServiceStoreType {
     selectIndex: number;
     lastCampus: string;
     todayConsumption: string;
-    updateTime: {
-      balance: Date;
-    };
+    updateTime: { balance: Date };
   };
   score: {
     readScoreMarks: Array<{
@@ -56,7 +53,6 @@ export interface ServiceStoreType {
     updateTime: { history: string; current: string };
   };
   zf: ZFServiceType;
-  lostfound: LostfoundStoreType;
   homecard: HomeCardServiceType;
   notification: NotificationStoreType;
   theme: ThemeStoreType;
@@ -75,7 +71,6 @@ export const ServiceStore = {
     score: ScoreServiceStore,
     homecard: HomeCardServiceStore,
     electricity: ElectricityServiceStore,
-    lostfound: LostfoundStore,
     notification: NotificationStore,
     theme: ThemeStore,
     suit: SuitStore

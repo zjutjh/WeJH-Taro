@@ -6,7 +6,7 @@
         <view
           v-for="item in campusList"
           :key="item"
-          :class="['campus', selectCampus === item ? 'active' : undefined]"
+          :class="['campus', lastOpenCampus === item ? 'active' : undefined]"
           @tap="() => handleSelectCampus(item)"
         >
           <text>{{ item }}</text>
@@ -18,7 +18,7 @@
         <text
           v-for="item in mainList"
           :key="item"
-          :class="selectMain === item ? 'active' : undefined"
+          :class="lastOpenMain === item ? 'active' : undefined"
           @tap="() => handleSelectMain(item)"
         >
           {{ item || "全部" }}
@@ -58,28 +58,29 @@
 import "./index.scss";
 
 import { useQuery } from "@tanstack/vue-query";
+import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
 
+import { Campus, Main } from "@/api/types/lostfound";
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { contactMsg } from "@/constants/lostfound";
 import { lostfoundServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import store, { serviceStore } from "@/store";
+import { useLostfoundStore } from "@/store/service/lostfound";
 import { LostfoundRecord } from "@/types/Lostfound";
 
 import WModal from "../../components/Modal/index.vue";
 import PreviewCard from "./PreviewCard/index.vue";
 
 const currentPage = ref(0);
-const maxPage = computed(() => data.value?.total_page_num ?? 0);
+const campusList = ref(["屏峰", "朝晖", "莫干山"] as const);
 const recordList = ref<LostfoundRecord[]>([]);
-const campusList = ref(["屏峰", "朝晖", "莫干山"]);
+const mainList = ref(["", "失物", "寻物"] as const);
+const { lastOpenCampus, lastOpenMain } = storeToRefs(useLostfoundStore());
 const selectKind = ref("");
-const selectCampus = ref(serviceStore.lostfound.lastOpenCampus ?? "屏峰");
-const mainList = ref(["", "失物", "寻物"]);
-const selectMain = ref(serviceStore.lostfound.lastOpenMain ?? "");
 const isEmpty = computed(() => recordList.value.length === 0);
+const maxPage = computed(() => data.value?.total_page_num ?? 0);
 const helpContent = ref(helpText.lostfound);
 const isShowHelp = ref(false);
 
@@ -89,7 +90,7 @@ const { data: getKindsResponse } = useQuery({
 });
 
 const { data, fetchStatus, isFetching, refetch } = useQuery({
-  queryKey: [QUERY_KEY.LOSTFOUND_RECORD, selectCampus, selectKind, selectMain] as const,
+  queryKey: [QUERY_KEY.LOSTFOUND_RECORD, lastOpenCampus, selectKind, lastOpenMain] as const,
   queryFn: ({ queryKey }) =>
     lostfoundServiceNext.QueryLostRecords(
       {
@@ -116,18 +117,16 @@ const kindList = computed(() => [
   ...(getKindsResponse.value ?? []).map((item) => item.kind_name)
 ]);
 
-const handleSelectCampus = (campus: string) => {
-  if (selectCampus.value === campus) return;
-  selectCampus.value = campus;
-  store.commit("setLastOpenCampus", campus);
+const handleSelectCampus = (campus: Campus) => {
+  if (lastOpenCampus.value === campus) return;
+  lastOpenCampus.value = campus;
   resetList();
   refetch();
 };
 
-const handleSelectMain = (main: string) => {
-  if (selectMain.value === main) return;
-  selectMain.value = main;
-  store.commit("setLastOpenMain", main);
+const handleSelectMain = (main: Main) => {
+  if (lastOpenMain.value === main) return;
+  lastOpenMain.value = main;
   resetList();
   refetch();
 };
