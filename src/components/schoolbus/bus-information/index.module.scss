@@ -1,4 +1,4 @@
-.busInformationContainer {
+.bus-information-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-.busInformationTitle {
+.bus-information-title {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,27 +17,27 @@
   border-bottom: 2Px solid var(--wjh-color-border);
   font-weight: bold;
   gap: 5Px;
-  .startTime {
+  .start-time {
     font-size: 20Px;
   }
-  .routeName {
+  .route-name {
     font-size: 16Px;
   }
 }
 
-.busInformationContent {
+.bus-information-content {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 80%;
   gap: 10Px;
-  .rowItem {
+  .row-item {
     display: flex;
-    .remainSeats {
+    .remain-seats {
       padding: 0 6Px 0 2Px
     }
   }
-  .detailButton {
+  .detail-button {
     width: 90Px;
     height: 35Px;
     border-radius: 7.5Px;

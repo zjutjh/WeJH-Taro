@@ -1,23 +1,23 @@
 <template>
   <!-- 班车信息卡片 -->
-  <view :class="styles['busInformationContainer']">
-    <view :class="styles['busInformationTitle']">
-      <view :class="styles['startTime']"> {{ props.departureTime }}发车</view>
-      <view :class="styles['routeName']">{{ props.routeName }}</view>
+  <view :class="styles['bus-information-container']">
+    <view :class="styles['bus-information-title']">
+      <view :class="styles['start-time']"> {{ props.departureTime }}发车</view>
+      <view :class="styles['route-name']">{{ props.routeName }}</view>
     </view>
-    <view :class="styles['busInformationContent']">
-      <view :class="styles['rowItem']">{{ `起终点站: ${props.start}——${props.end}` }} </view>
-      <view :class="styles['rowItem']">
+    <view :class="styles['bus-information-content']">
+      <view :class="styles['row-item']">{{ `起终点站: ${props.start}——${props.end}` }} </view>
+      <view :class="styles['row-item']">
         余票:
         <span
-          :class="styles['remainSeats']"
+          :class="styles['remain-seats']"
           :style="{ color: props.remainSeats <= 0 ? 'red' : 'yellowgreen' }"
           >{{ props.remainSeats }}</span
         >
         {{ `| 已约：${props.orderedSeats}` }}
       </view>
-      <view :class="styles['rowItem']">{{ `票价: ${props.price}元` }}</view>
-      <view :class="styles['detailButton']">班车详情</view>
+      <view :class="styles['row-item']">{{ `票价: ${props.price}元` }}</view>
+      <view :class="styles['detail-button']">班车详情</view>
     </view>
   </view>
 </template>
