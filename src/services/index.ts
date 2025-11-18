@@ -5,7 +5,6 @@ import { type RequestCustomOptions, requestNext } from "@/utils/request-next";
 import { api } from "./api/apiList";
 import { LoginByTaro } from "./services/authService";
 import LibraryService from "./services/libraryService";
-import LostfoundService from "./services/lostfoundService";
 import SuitService from "./services/suitService";
 import SystemService from "./services/systemService";
 import UserService from "./services/userService";
@@ -18,7 +17,6 @@ export {
   errCodeHandler,
   LibraryService,
   LoginByTaro,
-  LostfoundService,
   SuitService,
   SystemService,
   UserService,

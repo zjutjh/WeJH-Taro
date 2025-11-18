@@ -44,9 +44,7 @@
       <view class="record-list">
         <preview-card v-for="item in recordList" :key="item.id" :source="item" />
         <w-skeleton v-if="isFetching" :style="{ borderRadius: '8Px' }" />
-        <card v-else-if="!recordList?.length">
-          <text>该分类下暂无失物寻物记录</text>
-        </card>
+        <card v-else-if="!recordList?.length"><text>该分类下暂无失物寻物记录</text></card>
       </view>
     </scroll-view>
     <contact-me :data="contactMsg.data" :message="contactMsg.message" @show-help="setHelp" />

@@ -75,17 +75,15 @@ export const ServiceStore = {
     theme: ThemeStore,
     suit: SuitStore
   },
-  state: () => ({
-    sessionID: undefined
-  }),
+  state: () => ({ sessionID: undefined }),
   mutations: {
-    setSession(state: ServiceStoreType, value) {
+    setSession(state: ServiceStoreType, value: string) {
       state.sessionID = value;
     },
     clearSession(state: ServiceStoreType) {
       state.sessionID = undefined;
     },
-    setApplist(state: ServiceStoreType, value) {
+    setApplist(state: ServiceStoreType, value: AppListItem[]) {
       state.appList = value;
     },
     clearApplist(state: ServiceStoreType) {

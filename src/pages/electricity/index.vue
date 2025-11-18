@@ -2,15 +2,11 @@
   <theme-config>
     <title-bar title="寝室电量查询" :back-button="true" />
     <scroll-view :scroll-y="true">
-      <view class="header-view">
-        <image src="@/assets/photos/electricity.svg" />
-      </view>
+      <view class="header-view"><image src="@/assets/photos/electricity.svg" /></view>
       <view class="flex-column">
         <card class="info-card">
           <view class="dormitory-info">
-            <view class="icon-wrapper">
-              <view class="iconfont icon-electricity" />
-            </view>
+            <view class="icon-wrapper"><view class="iconfont icon-electricity" /></view>
             <view class="text-wrapper">
               <text>{{ roomInfo.roomName }}</text>
             </view>
@@ -21,9 +17,7 @@
           <w-list-item class="electricity-list-item">
             <view class="text-wrapper">
               <text> 剩余总电量 </text>
-              <text :class="[isUrgent ? 'dangerous' : 'normal', 'rest-number']">
-                {{ balance }}
-              </text>
+              <text :class="[isUrgent ? 'dangerous' : 'normal', 'rest-number']">{{ balance }}</text>
               <text> 度 </text>
             </view>
           </w-list-item>
@@ -46,17 +40,13 @@
 
         <w-list @tap="nav2Record">
           <w-list-item arrow="right" class="electricity-list-item">
-            <view class="text-wrapper">
-              <text> 缴费记录 </text>
-            </view>
+            <view class="text-wrapper"><text> 缴费记录 </text></view>
           </w-list-item>
         </w-list>
 
         <w-list @tap="nav2Subscribe">
           <w-list-item arrow="right" class="electricity-list-item">
-            <view class="text-wrapper">
-              <text> 低电提醒消息订阅 </text>
-            </view>
+            <view class="text-wrapper"><text> 低电提醒消息订阅 </text></view>
           </w-list-item>
         </w-list>
       </view>

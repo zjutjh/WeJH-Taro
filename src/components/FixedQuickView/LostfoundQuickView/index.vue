@@ -1,8 +1,6 @@
 <template>
   <view class="quick-view-container" @tap="handleClick">
-    <view class="header">
-      <view class="title"> 失物寻物 </view>
-    </view>
+    <view class="header"><view class="title"> 失物寻物 </view></view>
     <view v-if="randomContent" class="content flex-column">
       <text v-show="!randomContent?.type && randomContent?.item_name" class="text">
         物品名称 {{ randomContent?.item_name }}
