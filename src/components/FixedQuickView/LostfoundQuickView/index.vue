@@ -73,7 +73,8 @@ const { data } = useQuery({
       },
       { snake: true }
     ),
-  select: (res) => res.data
+  select: (res) => res.data,
+  meta: { persist: false }
 });
 
 const handleClick = () => Taro.navigateTo({ url: "/pages/lostfound/index" });

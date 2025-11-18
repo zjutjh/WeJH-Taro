@@ -7,7 +7,7 @@
           v-for="item in campusList"
           :key="item"
           :class="['campus', lastOpenCampus === item ? 'active' : undefined]"
-          @tap="() => handleSelectCampus(item)"
+          @tap="handleSelectCampus(item)"
         >
           <text>{{ item }}</text>
         </view>
@@ -19,7 +19,7 @@
           v-for="item in mainList"
           :key="item"
           :class="lastOpenMain === item ? 'active' : undefined"
-          @tap="() => handleSelectMain(item)"
+          @tap="handleSelectMain(item)"
         >
           {{ item || "全部" }}
         </text>
@@ -29,7 +29,7 @@
           v-for="item in kindList"
           :key="item"
           :class="selectKind === item ? 'active' : undefined"
-          @tap="() => handleSelectKind(item)"
+          @tap="handleSelectKind(item)"
         >
           {{ item || "全部" }}
         </text>
@@ -44,7 +44,7 @@
       <view class="record-list">
         <preview-card v-for="item in recordList" :key="item.id" :source="item" />
         <w-skeleton v-if="isFetching" :style="{ borderRadius: '8Px' }" />
-        <card v-else-if="!recordList.length && isEmpty">
+        <card v-else-if="!recordList?.length">
           <text>该分类下暂无失物寻物记录</text>
         </card>
       </view>
@@ -57,9 +57,9 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import { useQuery } from "@tanstack/vue-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/vue-query";
 import { storeToRefs } from "pinia";
-import { computed, ref, watch } from "vue";
+import { ref } from "vue";
 
 import { Campus, Main } from "@/api/types/lostfound";
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
@@ -68,87 +68,58 @@ import { contactMsg } from "@/constants/lostfound";
 import { lostfoundServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { useLostfoundStore } from "@/store/service/lostfound";
-import { LostfoundRecord } from "@/types/Lostfound";
 
 import WModal from "../../components/Modal/index.vue";
 import PreviewCard from "./PreviewCard/index.vue";
 
-const currentPage = ref(0);
 const campusList = ref(["屏峰", "朝晖", "莫干山"] as const);
-const recordList = ref<LostfoundRecord[]>([]);
 const mainList = ref(["", "失物", "寻物"] as const);
 const { lastOpenCampus, lastOpenMain } = storeToRefs(useLostfoundStore());
 const selectKind = ref("");
-const isEmpty = computed(() => recordList.value.length === 0);
-const maxPage = computed(() => data.value?.total_page_num ?? 0);
 const helpContent = ref(helpText.lostfound);
 const isShowHelp = ref(false);
 
-const { data: getKindsResponse } = useQuery({
+const { data: kindList } = useQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_KIND],
-  queryFn: () => lostfoundServiceNext.QueryKindList()
+  queryFn: () => lostfoundServiceNext.QueryKindList(),
+  select: (res) => ["", ...res.map((item) => item.kind_name)],
+  meta: { persist: false }
 });
 
-const { data, fetchStatus, isFetching, refetch } = useQuery({
+const {
+  data: recordList,
+  fetchNextPage,
+  hasNextPage,
+  isFetching
+} = useInfiniteQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_RECORD, lastOpenCampus, selectKind, lastOpenMain] as const,
-  queryFn: ({ queryKey }) =>
+  queryFn: ({ queryKey, pageParam }) =>
     lostfoundServiceNext.QueryLostRecords(
       {
         campus: queryKey[1],
         kind: queryKey[2],
         lostOrFound: queryKey[3],
-        pageNum: currentPage.value + 1,
+        pageNum: pageParam,
         pageSize: 10
       },
       { snake: true }
     ),
-  refetchOnMount: "always"
+  initialPageParam: 1,
+  getNextPageParam: (lastPage, pages) =>
+    lastPage.total_page_num > pages.length ? pages.length + 1 : undefined,
+  select: (res) => res.pages.map((page) => page.data).flat(1),
+  refetchOnMount: "always",
+  meta: { persist: false }
 });
 
-watch(fetchStatus, (value) => {
-  if (value === "idle") {
-    currentPage.value++;
-    recordList.value = recordList.value.concat(data.value?.data ?? []);
-  }
-});
-
-const kindList = computed(() => [
-  "",
-  ...(getKindsResponse.value ?? []).map((item) => item.kind_name)
-]);
-
-const handleSelectCampus = (campus: Campus) => {
-  if (lastOpenCampus.value === campus) return;
-  lastOpenCampus.value = campus;
-  resetList();
-  refetch();
-};
-
-const handleSelectMain = (main: Main) => {
-  if (lastOpenMain.value === main) return;
-  lastOpenMain.value = main;
-  resetList();
-  refetch();
-};
-
-const handleSelectKind = (kind: string) => {
-  if (selectKind.value === kind) return;
-  selectKind.value = kind;
-  resetList();
-  refetch();
-};
-
-const resetList = () => {
-  currentPage.value = 0;
-  recordList.value = [];
-};
+const handleSelectCampus = (campus: Campus) => (lastOpenCampus.value = campus);
+const handleSelectMain = (main: Main) => (lastOpenMain.value = main);
+const handleSelectKind = (kind: string) => (selectKind.value = kind);
 
 const handleScrollToBottom = () => {
-  if (isFetching.value || maxPage.value <= currentPage.value) return;
-  refetch();
+  if (isFetching.value || !hasNextPage.value) return;
+  fetchNextPage();
 };
 
-const setHelp = () => {
-  isShowHelp.value = true;
-};
+const setHelp = () => (isShowHelp.value = true);
 </script>
