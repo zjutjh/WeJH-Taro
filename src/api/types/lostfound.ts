@@ -13,10 +13,10 @@ export type QueryLostRecordsRequest = {
   campus: Campus;
   /** 物品种类，空字符串代表全部 */
   kind: string;
-  pageNum: number;
-  pageSize: number;
+  page_num: number;
+  page_size: number;
   /** 记录类型，空字符串代表全部 */
-  lostOrFound: Main;
+  lost_or_found: Main;
 };
 
 export type QueryLostRecordsResponse = {

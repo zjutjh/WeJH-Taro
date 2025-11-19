@@ -92,16 +92,13 @@ const {
 } = useInfiniteQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_RECORD, lastOpenCampus, selectKind, lastOpenMain] as const,
   queryFn: ({ queryKey, pageParam }) =>
-    lostfoundServiceNext.QueryLostRecords(
-      {
-        campus: queryKey[1],
-        kind: queryKey[2],
-        lostOrFound: queryKey[3],
-        pageNum: pageParam,
-        pageSize: 10
-      },
-      { snake: true }
-    ),
+    lostfoundServiceNext.QueryLostRecords({
+      campus: queryKey[1],
+      kind: queryKey[2],
+      lost_or_found: queryKey[3],
+      page_num: pageParam,
+      page_size: 10
+    }),
   initialPageParam: 1,
   getNextPageParam: (lastPage, pages) =>
     lastPage.total_page_num > pages.length ? pages.length + 1 : undefined,

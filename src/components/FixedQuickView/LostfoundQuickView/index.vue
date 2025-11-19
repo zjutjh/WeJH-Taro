@@ -61,16 +61,13 @@ const { lastOpenCampus } = storeToRefs(useLostfoundStore());
 const { data } = useQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_RECORD, lastOpenCampus] as const,
   queryFn: ({ queryKey }) =>
-    lostfoundServiceNext.QueryLostRecords(
-      {
-        campus: queryKey[1],
-        pageNum: 1,
-        pageSize: 5,
-        kind: "",
-        lostOrFound: ""
-      },
-      { snake: true }
-    ),
+    lostfoundServiceNext.QueryLostRecords({
+      campus: queryKey[1],
+      page_num: 1,
+      page_size: 5,
+      lost_or_found: "",
+      kind: ""
+    }),
   select: (res) => res.data,
   meta: { persist: false }
 });

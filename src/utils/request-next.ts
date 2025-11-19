@@ -6,7 +6,6 @@ import { RequestFnParams } from "@/api/services/base";
 import { QUERY_KEY } from "@/services/api/query-key";
 
 import RequestError, { MPErrorCode, ServiceErrorCode } from "./request-error";
-import { toSnakeCase } from "./snake";
 import { globalQueryClient } from "./vue-query";
 
 interface IResponse<T> {
@@ -26,12 +25,6 @@ export interface RequestCustomOptions {
    * @default true
    */
   auth?: boolean;
-  /**
-   * 是否将参数转换为蛇形
-   *
-   * @default false
-   */
-  snake?: boolean;
 }
 
 /**
@@ -42,7 +35,7 @@ export interface RequestCustomOptions {
  */
 export async function requestNext<Data>(
   { url, method, params, data }: RequestFnParams,
-  { auth = true, snake }: RequestCustomOptions | undefined = {}
+  { auth = true }: RequestCustomOptions | undefined = {}
 ): Promise<Data> {
   try {
     const cookie = auth
@@ -52,7 +45,6 @@ export async function requestNext<Data>(
           staleTime: Infinity
         })
       : "";
-    if (snake) data = toSnakeCase(data);
     const { data: realResponse } = await Taro.request<IResponse<Data> | undefined>({
       ...globalConfig,
       // Taro.request 对于 GET 和 POST 的请求都共用 data 传参，POST 请求时无法拼接 url query，这里手动拼接
