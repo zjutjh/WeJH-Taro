@@ -1,14 +1,14 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { Campus, Main } from "@/api/types/lostfound";
+import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
 import { persistedStorage } from "@/utils/storage";
 
 export const useLostfoundStore = defineStore(
   "lostfound",
   () => {
-    const lastOpenCampus = ref<Campus>("屏峰");
-    const lastOpenMain = ref<Main>("");
+    const lastOpenCampus = ref<CampusOption>("屏峰");
+    const lastOpenMain = ref<LostOrFoundOption>("");
 
     return { lastOpenCampus, lastOpenMain };
   },

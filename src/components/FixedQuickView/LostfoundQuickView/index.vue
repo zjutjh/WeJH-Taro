@@ -49,6 +49,7 @@ import "./index.scss";
 
 import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
+import { random } from "lodash-es";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
@@ -68,8 +69,7 @@ const { data } = useQuery({
       lost_or_found: "",
       kind: ""
     }),
-  select: (res) => res.data,
-  meta: { persist: false }
+  select: (res) => res.data
 });
 
 const handleClick = () => Taro.navigateTo({ url: "/pages/lostfound/index" });
@@ -77,6 +77,6 @@ const handleClick = () => Taro.navigateTo({ url: "/pages/lostfound/index" });
 const randomContent = computed(() => {
   const list = data.value;
   const realLength = list?.length;
-  return realLength ? list[Math.floor(Math.random() * realLength)] : "";
+  return realLength ? list[random(realLength - 1)] : "";
 });
 </script>

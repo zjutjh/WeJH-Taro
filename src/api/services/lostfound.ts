@@ -2,7 +2,7 @@ import { LostfoundAPI } from "../types";
 import { BaseService } from "./base";
 
 export default class LostfoundService<TOptions> extends BaseService<TOptions> {
-  QueryKindList(options?: TOptions): Promise<LostfoundAPI.QueryKindListResponse> {
+  QueryKindList(_?: unknown, options?: TOptions): Promise<LostfoundAPI.QueryKindListResponse> {
     return this.request(
       { url: this.genBaseURL("/api/func/lost/kind_list"), method: "GET" },
       options

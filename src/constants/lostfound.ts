@@ -1,12 +1,11 @@
+import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
+
 export interface ContactMsg {
-  data: {
-    content: string;
-    extra?: string;
-  }[];
+  data: Array<{ content: string; extra?: string }>;
   message: string;
 }
 
-export const contactMsg: ContactMsg = {
+export const CONTACT_MSG: ContactMsg = {
   data: [
     { content: "“For You”工程 朝晖校区 QQ: 2716709627" },
     { content: "“For You”工程 屏峰校区 QQ: 3252819828" },
@@ -26,3 +25,20 @@ export const contactMsg: ContactMsg = {
   ],
   message: "点击查看相关业务服务组织的联系方式"
 };
+
+export interface Option<T = string> {
+  key: string;
+  label: T;
+}
+
+export const CAMPUS_OPTION_LIST: Option<CampusOption>[] = [
+  { key: "屏峰", label: "屏峰" },
+  { key: "朝晖", label: "朝晖" },
+  { key: "莫干山", label: "莫干山" }
+];
+
+export const LOST_OR_FOUND_OPTION_LIST: Option<LostOrFoundOption>[] = [
+  { key: "全部", label: "" },
+  { key: "寻物", label: "寻物" },
+  { key: "失物", label: "失物" }
+];
