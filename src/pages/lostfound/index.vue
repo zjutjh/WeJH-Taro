@@ -6,7 +6,7 @@
         <view
           v-for="{ key, label } in CAMPUS_OPTION_LIST"
           :key="key"
-          :class="['campus', lastOpenCampus === key ? 'active' : undefined]"
+          :class="['campus', lastOpenCampus === label ? 'active' : undefined]"
           @tap="handleSelectCampus(label)"
         >
           <text>{{ key }}</text>
@@ -18,7 +18,7 @@
         <text
           v-for="{ key, label } in LOST_OR_FOUND_OPTION_LIST"
           :key="key"
-          :class="lastOpenMain === key ? 'active' : undefined"
+          :class="lastOpenMain === label ? 'active' : undefined"
           @tap="handleSelectMain(label)"
         >
           {{ key }}
@@ -28,7 +28,7 @@
         <text
           v-for="{ key, label } in kindList"
           :key="key"
-          :class="selectedKind === key ? 'active' : undefined"
+          :class="selectedKind === label ? 'active' : undefined"
           @tap="handleSelectKind(label)"
         >
           {{ key }}
