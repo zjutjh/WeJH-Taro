@@ -4,34 +4,34 @@
     <view class="campus-selector">
       <view class="container">
         <view
-          v-for="{ key, label } in CAMPUS_OPTION_LIST"
-          :key="key"
-          :class="['campus', lastOpenCampus === label ? 'active' : undefined]"
-          @tap="handleSelectCampus(label)"
+          v-for="{ label, value } in CAMPUS_OPTION_LIST"
+          :key="label"
+          :class="['campus', lastOpenCampus === value ? 'active' : undefined]"
+          @tap="handleSelectCampus(value)"
         >
-          <text>{{ key }}</text>
+          <text>{{ label }}</text>
         </view>
       </view>
     </view>
     <view class="kind-selector flex-column">
       <view class="scroll-view">
         <text
-          v-for="{ key, label } in LOST_OR_FOUND_OPTION_LIST"
-          :key="key"
-          :class="lastOpenMain === label ? 'active' : undefined"
-          @tap="handleSelectMain(label)"
+          v-for="{ label, value } in LOST_OR_FOUND_OPTION_LIST"
+          :key="label"
+          :class="lastOpenMain === value ? 'active' : undefined"
+          @tap="handleSelectMain(value)"
         >
-          {{ key }}
+          {{ label }}
         </text>
       </view>
       <view class="scroll-view">
         <text
-          v-for="{ key, label } in kindList"
-          :key="key"
-          :class="selectedKind === label ? 'active' : undefined"
-          @tap="handleSelectKind(label)"
+          v-for="{ label, value } in kindList"
+          :key="label"
+          :class="selectedKind === value ? 'active' : undefined"
+          @tap="handleSelectKind(value)"
         >
-          {{ key }}
+          {{ label }}
         </text>
       </view>
     </view>
@@ -43,11 +43,11 @@
     >
       <view class="record-list">
         <preview-card v-for="item in recordList" :key="item.id" :source="item" />
-        <w-skeleton v-if="loading" :style="{ borderRadius: '8Px' }" />
+        <w-skeleton v-if="debouncedLoading" :style="{ borderRadius: '8Px' }" />
         <card v-else-if="!recordList?.length"><text>该分类下暂无失物寻物记录</text></card>
       </view>
     </scroll-view>
-    <contact-me :data="CONTACT_MSG.data" :message="CONTACT_MSG.message" @show-help="showHelp" />
+    <contact-me :data="CONTACT_ME_DATA" :message="CONTACT_ME_MSG" @show-help="showHelp" />
     <w-modal v-model:show="isShowHelp" :content="`&emsp;&emsp;${helpContent}`" />
   </theme-config>
 </template>
@@ -57,27 +57,28 @@ import "./index.scss";
 
 import { useInfiniteQuery, useQuery } from "@tanstack/vue-query";
 import { refDebounced } from "@vueuse/core";
+import { first } from "lodash-es";
 import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 
 import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
 import { helpText } from "@/constants/copywriting";
-import {
-  CAMPUS_OPTION_LIST,
-  CONTACT_MSG,
-  LOST_OR_FOUND_OPTION_LIST,
-  Option
-} from "@/constants/lostfound";
+import { CONTACT_ME_DATA, CONTACT_ME_MSG } from "@/constants/lostfound";
 import { lostfoundServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { useLostfoundStore } from "@/store/service/lostfound";
+import {
+  CAMPUS_OPTION_LIST,
+  LOST_OR_FOUND_OPTION_LIST,
+  Option,
+  useLostfoundStore
+} from "@/store/service/lostfound";
 
 import WModal from "../../components/Modal/index.vue";
 import PreviewCard from "./PreviewCard/index.vue";
 
 const { lastOpenCampus, lastOpenMain } = storeToRefs(useLostfoundStore());
-const selectedKind = ref("");
+
 const helpContent = ref(helpText.lostfound);
 const isShowHelp = ref(false);
 
@@ -85,10 +86,12 @@ const { data: kindList } = useQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_KIND],
   queryFn: () => lostfoundServiceNext.QueryKindList(),
   select: (res): Option[] => [
-    { key: "全部", label: "" },
-    ...res.map((item): Option => ({ key: item.kind_name, label: item.kind_name }))
+    { label: "全部", value: "" },
+    ...res.map((item): Option => ({ label: item.kind_name, value: item.kind_name }))
   ]
 });
+
+const selectedKind = ref(first(kindList.value)?.value ?? "");
 
 const {
   data: recordList,
@@ -113,7 +116,7 @@ const {
 });
 
 const delay = computed(() => (isFetching.value ? 300 : 0));
-const loading = refDebounced(isFetching, delay);
+const debouncedLoading = refDebounced(isFetching, delay);
 
 const handleSelectCampus = (campus: CampusOption) => (lastOpenCampus.value = campus);
 const handleSelectMain = (main: LostOrFoundOption) => (lastOpenMain.value = main);

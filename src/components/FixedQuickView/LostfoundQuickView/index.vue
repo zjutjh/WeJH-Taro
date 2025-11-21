@@ -77,6 +77,6 @@ const handleClick = () => Taro.navigateTo({ url: "/pages/lostfound/index" });
 const randomContent = computed(() => {
   const list = data.value;
   const realLength = list?.length;
-  return realLength ? list[random(realLength - 1)] : "";
+  return realLength && list.at(random(realLength - 1));
 });
 </script>

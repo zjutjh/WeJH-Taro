@@ -1,14 +1,32 @@
+import { first } from "lodash-es";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
 import { persistedStorage } from "@/utils/storage";
 
+export interface Option<T = string> {
+  label: string;
+  value: T;
+}
+
+export const CAMPUS_OPTION_LIST: Option<CampusOption>[] = [
+  { label: "屏峰", value: "屏峰" },
+  { label: "朝晖", value: "朝晖" },
+  { label: "莫干山", value: "莫干山" }
+];
+
+export const LOST_OR_FOUND_OPTION_LIST: Option<LostOrFoundOption>[] = [
+  { label: "全部", value: "" },
+  { label: "寻物", value: "寻物" },
+  { label: "失物", value: "失物" }
+];
+
 export const useLostfoundStore = defineStore(
   "lostfound",
   () => {
-    const lastOpenCampus = ref<CampusOption>("屏峰");
-    const lastOpenMain = ref<LostOrFoundOption>("");
+    const lastOpenCampus = ref<CampusOption>(first(CAMPUS_OPTION_LIST)?.value ?? "屏峰");
+    const lastOpenMain = ref<LostOrFoundOption>(first(LOST_OR_FOUND_OPTION_LIST)?.value ?? "");
 
     return { lastOpenCampus, lastOpenMain };
   },
