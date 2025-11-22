@@ -1,4 +1,4 @@
-@import "../variables/color.scss";
+@use "../variables/color.scss";
 
 .light {
   --wjh-color-text: #333;
@@ -16,37 +16,37 @@
 }
 
 .light {
-  --wjh-color-white: #{$white-600};
+  --wjh-color-white: #{color.$white-600};
 
-  --wjh-color-green-500: #{$green-500};
-  --wjh-color-green-600: #{$green-600};
-  --wjh-color-green-700: #{$green-700};
+  --wjh-color-green-500: #{color.$green-500};
+  --wjh-color-green-600: #{color.$green-600};
+  --wjh-color-green-700: #{color.$green-700};
 
-  --wjh-color-blue-500: #{$blue-500};
-  --wjh-color-blue-600: #{$blue-600};
-  --wjh-color-blue-700: #{$blue-700};
+  --wjh-color-blue-500: #{color.$blue-500};
+  --wjh-color-blue-600: #{color.$blue-600};
+  --wjh-color-blue-700: #{color.$blue-700};
 
-  --wjh-color-yellow-500: #{$yellow-500};
-  --wjh-color-yellow-600: #{$yellow-600};
-  --wjh-color-yellow-700: #{$yellow-700};
+  --wjh-color-yellow-500: #{color.$yellow-500};
+  --wjh-color-yellow-600: #{color.$yellow-600};
+  --wjh-color-yellow-700: #{color.$yellow-700};
 
-  --wjh-color-pink-500: #{$pink-500};
-  --wjh-color-pink-600: #{$pink-600};
-  --wjh-color-pink-700: #{$pink-700};
+  --wjh-color-pink-500: #{color.$pink-500};
+  --wjh-color-pink-600: #{color.$pink-600};
+  --wjh-color-pink-700: #{color.$pink-700};
 
-  --wjh-color-orange-400: #{$orange-400};
-  --wjh-color-orange-500: #{$orange-500};
-  --wjh-color-orange-600: #{$orange-600};
+  --wjh-color-orange-400: #{color.$orange-400};
+  --wjh-color-orange-500: #{color.$orange-500};
+  --wjh-color-orange-600: #{color.$orange-600};
 
-  --wjh-color-red-400: #{$red-400};
-  --wjh-color-red-500: #{$red-500};
-  --wjh-color-red-600: #{$red-600};
-  --wjh-color-red-700: #{$red-700};
-  --wjh-color-red-800: #{$red-800};
+  --wjh-color-red-400: #{color.$red-400};
+  --wjh-color-red-500: #{color.$red-500};
+  --wjh-color-red-600: #{color.$red-600};
+  --wjh-color-red-700: #{color.$red-700};
+  --wjh-color-red-800: #{color.$red-800};
 
-  --wjh-color-purple-500: #{$purple-500};
-  --wjh-color-purple-600: #{$purple-600};
-  --wjh-color-purple-700: #{$purple-700};
+  --wjh-color-purple-500: #{color.$purple-500};
+  --wjh-color-purple-600: #{color.$purple-600};
+  --wjh-color-purple-700: #{color.$purple-700};
 
 
 }

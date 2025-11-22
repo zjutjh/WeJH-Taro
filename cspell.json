@@ -32,9 +32,11 @@
     "styl",
     "tarojs",
     "urlcat",
+    "vueuse",
     "weapp",
     "wechat",
     "wejh",
+    "zhpf",
     "zjutjh"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
