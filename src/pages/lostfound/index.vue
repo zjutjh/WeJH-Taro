@@ -1,34 +1,34 @@
 <template>
   <theme-config :show-bg-image="false">
     <title-bar title="失物寻物" :back-button="true" />
-    <view class="campus-selector">
-      <view class="container">
+    <view :class="styles['campus-selector']">
+      <view :class="styles.container">
         <view
           v-for="{ label, value } in CAMPUS_OPTION_LIST"
           :key="label"
-          :class="['campus', lastOpenCampus === value ? 'active' : undefined]"
+          :class="[styles['campus'], { [styles.active]: lastOpenCampus === value }]"
           @tap="handleSelectCampus(value)"
         >
           <text>{{ label }}</text>
         </view>
       </view>
     </view>
-    <view class="kind-selector flex-column">
-      <view class="scroll-view">
+    <view :class="[styles['kind-selector'], 'flex-column']">
+      <view :class="['scroll-view', styles['scroll-view']]">
         <text
           v-for="{ label, value } in LOST_OR_FOUND_OPTION_LIST"
           :key="label"
-          :class="lastOpenMain === value ? 'active' : undefined"
+          :class="{ [styles.active]: lastOpenMain === value }"
           @tap="handleSelectMain(value)"
         >
           {{ label }}
         </text>
       </view>
-      <view class="scroll-view">
+      <view :class="['scroll-view', styles['scroll-view']]">
         <text
           v-for="{ label, value } in kindList"
           :key="label"
-          :class="selectedKind === value ? 'active' : undefined"
+          :class="{ [styles.active]: selectedKind === value }"
           @tap="handleSelectKind(value)"
         >
           {{ label }}
@@ -38,10 +38,10 @@
     <scroll-view
       lower-threshold="100"
       :scroll-y="true"
-      class="list-wrapper"
+      :class="styles['list-wrapper']"
       @scrolltolower="handleScrollToBottom"
     >
-      <view class="record-list">
+      <view :class="styles['record-list']">
         <preview-card v-for="item in recordList" :key="item.id" :source="item" />
         <w-skeleton v-if="debouncedLoading" :style="{ borderRadius: '8Px' }" />
         <card v-else-if="!recordList?.length"><text>该分类下暂无失物寻物记录</text></card>
@@ -53,8 +53,6 @@
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
-
 import { useInfiniteQuery, useQuery } from "@tanstack/vue-query";
 import { refDebounced } from "@vueuse/core";
 import { first } from "lodash-es";
@@ -75,6 +73,7 @@ import {
 } from "@/store/service/lostfound";
 
 import WModal from "../../components/Modal/index.vue";
+import styles from "./index.module.scss";
 import PreviewCard from "./PreviewCard/index.vue";
 
 const { lastOpenCampus, lastOpenMain } = storeToRefs(useLostfoundStore());
