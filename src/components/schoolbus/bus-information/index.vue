@@ -1,6 +1,6 @@
 <template>
   <!-- 班车信息卡片 -->
-  <view :class="styles['bus-information-container']">
+  <card :class="styles['bus-information-container']">
     <view :class="styles['bus-information-title']">
       <view :class="styles['start-time']"> {{ props.departureTime }}发车</view>
       <view :class="styles['route-name']">{{ props.routeName }}</view>
@@ -19,12 +19,13 @@
       <view :class="styles['row-item']">{{ `票价: ${props.price}元` }}</view>
       <view :class="styles['detail-button']">班车详情</view>
     </view>
-  </view>
+  </card>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 
+import { Card } from "@/components";
 import { FEBusTime, OpenTypeEnum } from "@/types/school-bus";
 
 import styles from "./index.module.scss";

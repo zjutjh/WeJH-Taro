@@ -3,22 +3,38 @@
     <title-bar title="校车" :back-button="true" />
     <view :class="styles['schoolbus-container']">
       <view :class="styles['schoolbus-title-bar']">
-        <view :class="[styles['bus-btn'], styles['bus-info']]">
-          <view class="iconfont icon-schoolbus" />
-          <view :class="styles['description']"> 班车信息 </view>
+        <view :class="styles['left-area']">
+          <view :class="styles['left-top-block']">
+            <view :class="styles['line-type-selector']"></view>
+          </view>
+          <view :class="styles['left-bottom-block']">
+            <view :class="styles['route-selector']"></view>
+          </view>
         </view>
-        <view :class="[styles['bus-btn'], styles['bus-ticket']]">
-          <view class="iconfont icon-chepiao" />
-          <view :class="styles['description']"> 已约车票 </view>
+        <view :class="styles['center-area']">
+          <view :class="styles['station-changer']">
+            <view :class="styles['station-changer-icon']" />
+          </view>
         </view>
-        <view :class="[styles['bus-btn'], styles['bus-record']]">
-          <view class="iconfont icon-a-lishijilubiaodanjishi" />
-          <view :class="styles['description']"> 乘车记录 </view>
+        <view :class="styles['right-area']">
+          <view :class="styles['right-top-block']">
+            <view :class="styles['icon-wrapper']">
+              <view :class="[styles['icon'], styles['route']]" />
+              <view :class="styles['description']">路线</view>
+            </view>
+            <view :class="styles['icon-wrapper']">
+              <view :class="[styles['icon'], styles['announcement']]" />
+              <view :class="styles['description']">通知</view>
+            </view>
+            <view :class="styles['icon-wrapper']">
+              <view :class="[styles['icon'], styles['hint']]" />
+              <view :class="styles['description']">提示</view>
+            </view>
+          </view>
+          <view :class="styles['right-bottom-block']">
+            <view :class="styles['route-selector']"></view>
+          </view>
         </view>
-      </view>
-      <view :class="styles['function-block']">
-        <view :class="styles['function-block-item']"> </view>
-        <view :class="styles['function-block-item']"> </view>
       </view>
       <bus-information> </bus-information>
     </view>

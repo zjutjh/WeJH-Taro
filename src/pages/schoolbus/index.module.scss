@@ -2,41 +2,147 @@
 .schoolbus-container {
   width: 100%;
   height: 100%;
-  background-color: white;
 }
 
 .schoolbus-title-bar {
-  background-color: var(--wjh-color-primary-light);
-
   display: flex;
   justify-content: space-around;
-  padding: 0 20px;
+  box-sizing: border-box;
+  padding: 10Px 40Px 10Px 40Px;
+  width: 100%;
 
-  .bus-btn {
+  height: 100Px;
+  align-items: center;
+  background-color: var(--wjh-color-primary-light);
+  .left-area {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 15Px;
-
-    .iconfont {
-      font-size: 2rem;
-      margin-bottom: 8Px;
+    flex: 1;
+    height: 100%;
+    .left-top-block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50%;
+      border-bottom: 2Px solid var(--wjh-color-primary);
+      .line-type-selector {
+        width: 90Px;
+        height: 30Px;
+        background-color: var(--wjh-color-primary);
+        border-radius: 7Px;
+      }
     }
-
-    .description {
-      font-size: 0.9rem;
-      color: var(--wjh-color-text);
+    .left-bottom-block {
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
-}
+  .center-area {
+    width: 30Px;
+    max-height: 100%;
+    object-position: center;
+    .station-changer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30Px;
+      height: 30Px;
+      background-color: var(--wjh-color-primary);
+      transform: rotate(45deg);
 
-.function-block {
-  margin-top: 10Px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .function-block-item {
+      .station-changer-icon {
+        display: inline;
+        width: 20Px;
+        height: 15Px;
+        z-index: 1;
+        transform: rotate(-45deg);
+        background-color: white;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: contain;
+        mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fstation-change.webp");
+      }
+    }
+  }
+  .right-area {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    .right-top-block {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 50%;
+      border-bottom: 2Px solid var(--wjh-color-primary);
+      .icon-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2Px;
+        justify-content: center;
+        align-items: center;
+        width: 40Px;
+        height: 40Px;
+        .description {
+          color: var(--wjh-color-text);
+          font-size: 10Px;
+        }
+        .icon {
+          width: 26Px;
+          height: 26Px;
+          -webkit-mask-repeat: no-repeat;
+          -webkit-mask-position: center;
+          -webkit-mask-size: contain;
+          mask-repeat: no-repeat;
+          mask-position: center;
+          mask-size: contain;
+          background-color: var(--wjh-color-primary);
+        }
+        .route {
+          mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Froute.webp");
+        }
+        .announcement {
+          mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fannouncement.webp");
+        }
+        .hint {
+          mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fhint.webp");
+        }
+      }
+    }
+    .right-bottom-block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50%;
+    }
+  }
+
+  .route-selector {
+    position: relative;
+    width: 110Px;
+    height: 30Px;
+    border-radius: 7Px;
+    border: 2Px solid var(--wjh-color-primary);
+    margin-top: 5Px;
+    overflow: hidden;
+    z-index: 0;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      opacity: 0.2;
+      z-index: -1;
+    }
   }
 }
+
