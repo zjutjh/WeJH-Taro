@@ -14,7 +14,7 @@
       </view>
     </view>
     <view :class="[styles['kind-selector'], 'flex-column']">
-      <view :class="['scroll-view', styles['scroll-view']]">
+      <view :class="styles['scroll-view']">
         <text
           v-for="{ label, value } in LOST_OR_FOUND_OPTION_LIST"
           :key="label"
@@ -24,7 +24,7 @@
           {{ label }}
         </text>
       </view>
-      <view :class="['scroll-view', styles['scroll-view']]">
+      <view :class="styles['scroll-view']">
         <text
           v-for="{ label, value } in kindList"
           :key="label"
