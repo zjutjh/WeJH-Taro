@@ -55,7 +55,6 @@
 <script setup lang="ts">
 import { useInfiniteQuery, useQuery } from "@tanstack/vue-query";
 import { refDebounced } from "@vueuse/core";
-import { first } from "lodash-es";
 import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 
@@ -78,19 +77,20 @@ import PreviewCard from "./PreviewCard/index.vue";
 
 const { lastOpenCampus, lastOpenMain } = storeToRefs(useLostfoundStore());
 
+const defaultKind: Option = { label: "全部", value: "" };
 const helpContent = ref(helpText.lostfound);
 const isShowHelp = ref(false);
 
 const { data: kindList } = useQuery({
   queryKey: [QUERY_KEY.LOSTFOUND_KIND],
   queryFn: () => lostfoundServiceNext.QueryKindList(),
-  select: (res): Option[] => [
-    { label: "全部", value: "" },
+  select: (res) => [
+    defaultKind,
     ...res.map((item): Option => ({ label: item.kind_name, value: item.kind_name }))
   ]
 });
 
-const selectedKind = ref(first(kindList.value)?.value ?? "");
+const selectedKind = ref(defaultKind.value);
 
 const {
   data: recordList,

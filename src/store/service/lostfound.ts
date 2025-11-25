@@ -10,23 +10,23 @@ export interface Option<T = string> {
   value: T;
 }
 
-export const CAMPUS_OPTION_LIST: Option<CampusOption>[] = [
+export const CAMPUS_OPTION_LIST = [
   { label: "屏峰", value: "屏峰" },
   { label: "朝晖", value: "朝晖" },
   { label: "莫干山", value: "莫干山" }
-];
+] as const;
 
-export const LOST_OR_FOUND_OPTION_LIST: Option<LostOrFoundOption>[] = [
+export const LOST_OR_FOUND_OPTION_LIST = [
   { label: "全部", value: "" },
   { label: "寻物", value: "寻物" },
   { label: "失物", value: "失物" }
-];
+] as const;
 
 export const useLostfoundStore = defineStore(
   "lostfound",
   () => {
-    const lastOpenCampus = ref<CampusOption>(first(CAMPUS_OPTION_LIST)?.value ?? "屏峰");
-    const lastOpenMain = ref<LostOrFoundOption>(first(LOST_OR_FOUND_OPTION_LIST)?.value ?? "");
+    const lastOpenCampus = ref<CampusOption>(first(CAMPUS_OPTION_LIST).value);
+    const lastOpenMain = ref<LostOrFoundOption>(first(LOST_OR_FOUND_OPTION_LIST).value);
 
     return { lastOpenCampus, lastOpenMain };
   },
