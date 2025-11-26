@@ -60,6 +60,7 @@ import { computed, ref } from "vue";
 
 import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
+import { Option } from "@/constants";
 import { helpText } from "@/constants/copywriting";
 import { CONTACT_ME_DATA, CONTACT_ME_MSG } from "@/constants/lostfound";
 import { lostfoundServiceNext } from "@/services";
@@ -67,7 +68,6 @@ import { QUERY_KEY } from "@/services/api/query-key";
 import {
   CAMPUS_OPTION_LIST,
   LOST_OR_FOUND_OPTION_LIST,
-  Option,
   useLostfoundStore
 } from "@/store/service/lostfound";
 
@@ -110,7 +110,7 @@ const {
   initialPageParam: 1,
   getNextPageParam: (lastPage, pages) =>
     lastPage.total_page_num > pages.length ? pages.length + 1 : undefined,
-  select: (res) => res.pages.map((page) => page.data).flat(1),
+  select: (res) => res.pages.flatMap((page) => page.data),
   refetchOnMount: "always"
 });
 
