@@ -32,7 +32,6 @@ import QuickViewContainer from "../quick-view-container/index.vue";
 const nav2electricity = () => Taro.navigateTo({ url: "/pages/electricity/index" });
 
 const campus = computed(() => serviceStore.electricity.electricityCampus);
-
 const {
   data: balanceData,
   loading,
