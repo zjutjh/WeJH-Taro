@@ -7,5 +7,6 @@ export const QUERY_KEY = {
   ZF_FREEROOM: "freeroom",
   LOSTFOUND_KIND: "lostfoundKind",
   LOSTFOUND_RECORD: "lostfoundRecord",
-  ELECTRICITY_BALANCE: "electricityBalance"
+  ELECTRICITY_BALANCE: "electricityBalance",
+  ELECTRICITY_CONSUMPTION: "electricityConsumption"
 } as const;

@@ -43,8 +43,9 @@ export const useElectricityStore = defineStore(
   "electricity",
   () => {
     const campus = ref<CampusOption>("zhpf");
+    const selectIndex = ref(0);
 
-    return { campus };
+    return { campus, selectIndex };
   },
   { persist: { storage: persistedStorage } }
 );
