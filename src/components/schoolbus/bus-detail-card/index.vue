@@ -1,55 +1,61 @@
 <template>
-  <theme-config>
-    <title-bar title="班车详情" :back-button="true" />
-    <scroll-view :scroll-y="true" :class="styles['bus-detail-container']">
-      <bus-detail-card :key="testData.id" :class="styles['bus-detail-card']" v-bind="testData" />
-    </scroll-view>
+  <!-- 班车详情卡片 -->
+  <card :class="styles['bus-detail-container']">
+    <view :class="styles['bus-detail-title']">
+      {{ props.name }}
+    </view>
+    <view :class="styles['bus-detail-route']">
+      <view :class="styles['dot']" />
+      <span :class="styles['text']">{{ props.start }}</span>
+      <Image :class="styles['triple-arrow']" /><span :class="styles['text']">{{ props.end }}</span>
+    </view>
+    <view :class="styles['schedule-table']">
+      <!-- 表头 -->
+      <view :class="[styles['table-row'], styles['table-header']]">
+        <text :class="[styles['col'], styles['col-date']]">日期</text>
+        <text :class="[styles['col'], styles['col-time']]">发车时间</text>
+        <text :class="[styles['col'], styles['col-seats']]">余票</text>
+      </view>
 
-    <bottom-panel :class="styles['bus-detail-bottom-panel']">
-      <view :class="styles['col']">
-        <w-button shape="circle" size="large" :class="styles['button']"> </w-button>
+      <!-- 内容行 -->
+      <view
+        v-for="item in props.busTime"
+        :key="item.id"
+        :class="[styles['table-row'], styles['table-body-row']]"
+      >
+        <!-- 日期 (这里假设是当天，实际项目可能需要根据逻辑传入) -->
+        <text :class="[styles['col'], styles['col-date']]">2024.11.22</text>
+
+        <!-- 时间 -->
+        <text :class="[styles['col'], styles['col-time']]">{{ item.departureTime }}</text>
+
+        <!-- 余票状态处理 -->
+        <view :class="[styles['col'], styles['col-seats']]">
+          <!-- 情况1: 特殊类型 (如仅工作日) -->
+          <text v-if="item.openType === 'weekday'" :class="styles['status-text']">
+            仅工作日发车
+          </text>
+          <!-- 情况2: 票数为0 -->
+          <text v-else-if="item.remainSeats === 0" :class="[styles['seats-num'], styles['zero']]">
+            0
+          </text>
+          <!-- 情况3: 正常余票 -->
+          <text v-else :class="styles['seats-num']">
+            {{ item.remainSeats }}
+          </text>
+        </view>
       </view>
-      <view :class="styles['col']">
-        <picker
-          mode="selector"
-          :range="[PickerSelectionEnum.BusDetail, PickerSelectionEnum.RouteTable]"
-          @change="onChange"
-        >
-          <w-button :class="styles['picker']">
-            {{ selectedFilter }}
-          </w-button>
-        </picker>
-      </view>
-      <view :class="styles['col']">
-        <w-button shape="circle" size="large" :class="styles['button']"> </w-button>
-      </view>
-      <view />
-    </bottom-panel>
-  </theme-config>
+    </view>
+  </card>
 </template>
-
 <script setup lang="ts">
-import { Picker, ScrollView } from "@tarojs/components";
 import { ref } from "vue";
 
-import { BottomPanel, BusDetailCard, ThemeConfig, TitleBar, WButton } from "@/components";
+import { Card } from "@/components";
 import { FEBusInformation, OpenTypeEnum } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
-
-enum PickerSelectionEnum {
-  BusDetail = "班车详情",
-  RouteTable = "线路详情"
-}
-
-const selectedFilter = ref(PickerSelectionEnum.BusDetail);
-
-const onChange = (e) => {
-  const index = e.detail.value;
-  selectedFilter.value = Object.values(PickerSelectionEnum)[index];
-};
-
-const testData = ref<FEBusInformation>({
+const props = ref<FEBusInformation>({
   id: "line-06",
   name: "6号线",
   start: "翰墨香林",

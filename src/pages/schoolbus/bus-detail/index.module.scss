@@ -1,0 +1,27 @@
+.bus-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5% 6% 0 6%;
+  box-sizing: border-box;
+}
+
+
+.bus-detail-bottom-panel {
+  .col {
+    flex: auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .col:first-child {
+    justify-content: center;
+    flex: 0 0 25%;
+  }
+
+  .col:last-child {
+    justify-content: center;
+    flex: 0 0 25%;
+  }
+}

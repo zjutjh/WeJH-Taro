@@ -35,7 +35,8 @@
     "weapp",
     "wechat",
     "wejh",
-    "zjutjh"
+    "zjutjh",
+    "myapplication"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
 }

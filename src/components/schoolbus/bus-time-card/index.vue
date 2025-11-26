@@ -16,17 +16,19 @@
         >
         {{ `| 已约：${props.orderedSeats}` }}
       </view>
+
       <view :class="styles['row-item']">{{ `票价: ${props.price}元` }}</view>
-      <view :class="styles['detail-button']">班车详情</view>
+      <view :class="styles['detail-button']" @tap="nav2Detail()">班车详情</view>
     </view>
   </card>
 </template>
 
 <script setup lang="ts">
+import Taro from "@tarojs/taro";
 import { ref } from "vue";
 
 import { Card } from "@/components";
-import { FEBusTime, OpenTypeEnum } from "@/types/school-bus";
+import { FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
 
@@ -43,4 +45,10 @@ const props = ref<FEBusTime>({
   start: "邵科馆",
   end: "语林楼"
 });
+
+const nav2Detail = () => {
+  Taro.navigateTo({
+    url: `/pages/schoolbus/bus-detail/index?id=${props.value.id}`
+  });
+};
 </script>

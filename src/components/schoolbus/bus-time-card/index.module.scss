@@ -1,0 +1,54 @@
+.bus-information-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5% 6% 0 6%;
+  padding-bottom: 5Px;
+}
+
+.bus-information-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10Px;
+  margin-bottom: 10Px;
+  border-bottom: 2Px solid var(--wjh-color-border);
+  color: var(--wjh-color-primary);
+  font-weight: bold;
+  gap: 5Px;
+  min-width: 250Px;
+  .start-time {
+    font-size: 20Px;
+  }
+  .route-name {
+    font-size: 14Px;
+    font-weight: 500;
+    color: var(--wjh-color-text-secondary);
+  }
+}
+
+.bus-information-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10Px;
+  .row-item {
+    display: flex;
+    .remain-seats {
+      padding: 0 6Px 0 2Px
+    }
+  }
+  .detail-button {
+    width: 80Px;
+    height: 35Px;
+    border-radius: 6.5Px;
+    position: absolute;
+    right: 0Px;
+    bottom: 0Px;
+    background-color: var(--wjh-color-primary);
+    color: white;
+    font-size: 14Px;
+    text-align: center;
+    line-height: 35Px;
+  }
+}

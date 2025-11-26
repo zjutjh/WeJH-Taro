@@ -36,13 +36,13 @@
           </view>
         </view>
       </view>
-      <bus-information> </bus-information>
+      <bus-time-card></bus-time-card>
     </view>
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { BusInformation, ThemeConfig, TitleBar } from "@/components";
+import { BusTimeCard, ThemeConfig, TitleBar } from "@/components";
 
 import styles from "./index.module.scss";
 </script>

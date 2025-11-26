@@ -5,7 +5,6 @@ export default defineAppConfig({
     "pages/bind/index",
     "pages/webview/index",
     "pages/lessonstable/index",
-    "pages/schoolbus/index",
     "pages/library/index",
     "pages/schoolcard/index",
     "pages/about/index",
@@ -29,7 +28,9 @@ export default defineAppConfig({
     "pages/suit/faq/index",
     "pages/suit/information/index",
     "pages/suit/apply/index",
-    "pages/suit/myapplication/index"
+    "pages/suit/myapplication/index",
+    "pages/schoolbus/index",
+    "pages/schoolbus/bus-detail/index"
   ],
   darkmode: true,
   themeLocation: "theme.json",

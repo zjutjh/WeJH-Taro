@@ -21,7 +21,8 @@ import PopView from "./PopView/index.vue";
 import Questionnaire from "./Questionnaire/index.vue";
 import RefreshButton from "./RefreshButton/index.vue";
 import RoomPicker from "./RoomPicker/index.vue";
-import BusInformation from "./schoolbus/bus-information/index.vue";
+import BusDetailCard from "./schoolbus/bus-detail-card/index.vue";
+import BusTimeCard from "./schoolbus/bus-time-card/index.vue";
 import ScoreTermPicker from "./ScoreTermPicker/index.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WSteps from "./Steps/index.vue";
@@ -35,7 +36,8 @@ export {
   Alarm,
   AppList,
   BottomPanel,
-  BusInformation,
+  BusDetailCard,
+  BusTimeCard,
   Card,
   ContactMe,
   Home,
