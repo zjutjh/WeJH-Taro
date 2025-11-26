@@ -1,3 +1,9 @@
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
+import { CampusOption } from "@/api/types/electricity";
+import { persistedStorage } from "@/utils/storage";
+
 import { ServiceStoreType } from ".";
 
 export const ElectricityServiceStore = {
@@ -32,3 +38,13 @@ export const ElectricityServiceStore = {
     }
   }
 };
+
+export const useElectricityStore = defineStore(
+  "electricity",
+  () => {
+    const campus = ref<CampusOption>("zhpf");
+
+    return { campus };
+  },
+  { persist: { storage: persistedStorage } }
+);
