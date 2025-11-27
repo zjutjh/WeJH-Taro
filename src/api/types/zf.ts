@@ -35,17 +35,17 @@ export type QueryLessonsTableResponse = {
 };
 
 /** 查询期中成绩 */
-export type QueryMidtermScoreResponse = {
+export type QueryMidtermScoreResponse = Array<{
   className: string;
   credits: string;
   lessonID: string;
   lessonName: string;
   score: string;
   teacherName: string;
-};
+}>;
 
 /** 查询考试安排 */
-export type QueryExamResponse = {
+export type QueryExamResponse = Array<{
   campus: string;
   className: string;
   credits: string;
@@ -56,10 +56,10 @@ export type QueryExamResponse = {
   lessonPlace: string;
   seatNum: string;
   teacherName: string;
-};
+}>;
 
 /** 查询期末成绩 */
-export type QueryScoreResponse = {
+export type QueryScoreResponse = Array<{
   className: string;
   credits: string;
   examType: string;
@@ -71,10 +71,10 @@ export type QueryScoreResponse = {
   submitName: string;
   submitTime: string;
   teacherName: string;
-};
+}>;
 
 /** 查询空教室 */
-export type QueryFreeRoomResponse = {
+export type QueryFreeRoomResponse = Array<{
   buildName: string;
   campus: string;
   roomName: string;
@@ -82,4 +82,4 @@ export type QueryFreeRoomResponse = {
   roomSeatsForExam: string;
   roomSize: string;
   type: string;
-};
+}>;
