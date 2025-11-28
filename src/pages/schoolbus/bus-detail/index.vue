@@ -5,49 +5,19 @@
       <bus-detail-card :key="testData.id" :class="styles['bus-detail-card']" v-bind="testData" />
     </scroll-view>
 
-    <bottom-panel :class="styles['bus-detail-bottom-panel']">
-      <view :class="styles['col']">
-        <w-button shape="circle" size="large" :class="styles['button']"> </w-button>
-      </view>
-      <view :class="styles['col']">
-        <picker
-          mode="selector"
-          :range="[PickerSelectionEnum.BusDetail, PickerSelectionEnum.RouteTable]"
-          @change="onChange"
-        >
-          <w-button :class="styles['picker']">
-            {{ selectedFilter }}
-          </w-button>
-        </picker>
-      </view>
-      <view :class="styles['col']">
-        <w-button shape="circle" size="large" :class="styles['button']"> </w-button>
-      </view>
-      <view />
-    </bottom-panel>
+    <bus-detail-bottom-panel />
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import { Picker, ScrollView } from "@tarojs/components";
+import { ScrollView } from "@tarojs/components";
 import { ref } from "vue";
 
-import { BottomPanel, BusDetailCard, ThemeConfig, TitleBar, WButton } from "@/components";
+import { BusDetailCard, ThemeConfig, TitleBar } from "@/components";
+import BusDetailBottomPanel from "@/components/schoolbus/bus-detail-card/bus-detail-bottom-panel/index.vue";
 import { FEBusInformation, OpenTypeEnum } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
-
-enum PickerSelectionEnum {
-  BusDetail = "班车详情",
-  RouteTable = "线路详情"
-}
-
-const selectedFilter = ref(PickerSelectionEnum.BusDetail);
-
-const onChange = (e) => {
-  const index = e.detail.value;
-  selectedFilter.value = Object.values(PickerSelectionEnum)[index];
-};
 
 const testData = ref<FEBusInformation>({
   id: "line-06",

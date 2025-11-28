@@ -1,0 +1,33 @@
+.bus-detail-bottom-panel {
+  .col {
+    flex: auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .col:first-child {
+    justify-content: center;
+    flex: 0 0 25%;
+  }
+
+  .col:last-child {
+    justify-content: center;
+    flex: 0 0 25%;
+  }
+  .button {
+    display: block;
+    width: 30Px;
+    height: 30Px;
+    opacity: 0.8;
+    .bottom-icon {
+      width: 20Px;
+      height: 20Px;
+      display: block;
+      position: relative;
+      right: 2.5Px;
+      bottom: 2Px;
+    }
+  }
+
+}

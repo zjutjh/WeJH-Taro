@@ -10,39 +10,31 @@
       <Image :class="styles['triple-arrow']" /><span :class="styles['text']">{{ props.end }}</span>
     </view>
     <view :class="styles['schedule-table']">
-      <!-- 表头 -->
       <view :class="[styles['table-row'], styles['table-header']]">
-        <text :class="[styles['col'], styles['col-date']]">日期</text>
-        <text :class="[styles['col'], styles['col-time']]">发车时间</text>
-        <text :class="[styles['col'], styles['col-seats']]">余票</text>
+        <span :class="[styles['col']]">日期</span>
+        <span :class="[styles['col']]">发车时间</span>
+        <span :class="[styles['col']]">余票</span>
       </view>
 
-      <!-- 内容行 -->
       <view
-        v-for="item in props.busTime"
+        v-for="(item, index) in props.busTime"
         :key="item.id"
-        :class="[styles['table-row'], styles['table-body-row']]"
+        :class="[styles['table-row']]"
+        :style="index % 2 === 1 ? { backgroundColor: 'var(--wjh-color-primary-light)' } : {}"
       >
-        <!-- 日期 (这里假设是当天，实际项目可能需要根据逻辑传入) -->
-        <text :class="[styles['col'], styles['col-date']]">2024.11.22</text>
+        <span :class="[styles['col']]">2024.11.22</span>
 
-        <!-- 时间 -->
-        <text :class="[styles['col'], styles['col-time']]">{{ item.departureTime }}</text>
-
-        <!-- 余票状态处理 -->
-        <view :class="[styles['col'], styles['col-seats']]">
-          <!-- 情况1: 特殊类型 (如仅工作日) -->
-          <text v-if="item.openType === 'weekday'" :class="styles['status-text']">
+        <span :class="[styles['col']]">{{ item.departureTime }}</span>
+        <view :class="[styles['col']]">
+          <span v-if="item.openType === 'weekday'" :class="styles['status-span']">
             仅工作日发车
-          </text>
-          <!-- 情况2: 票数为0 -->
-          <text v-else-if="item.remainSeats === 0" :class="[styles['seats-num'], styles['zero']]">
+          </span>
+          <span v-else-if="item.remainSeats === 0" :class="[styles['seats-num'], styles['zero']]">
             0
-          </text>
-          <!-- 情况3: 正常余票 -->
-          <text v-else :class="styles['seats-num']">
+          </span>
+          <span v-else :class="styles['seats-num']">
             {{ item.remainSeats }}
-          </text>
+          </span>
         </view>
       </view>
     </view>

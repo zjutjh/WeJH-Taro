@@ -47,7 +47,7 @@ const isDisabled = computed(() => {
     case "null":
       return false;
     default:
-      return false;
+      return true;
   }
 });
 

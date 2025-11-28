@@ -50,33 +50,36 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 12px 12px;
   box-sizing: border-box;
-
+  padding-top: 20Px;
+  .table-header {
+    background-color: var(--wjh-color-primary);
+    opacity: 0.8;
+    font-size: 15Px;
+  }
   .table-row {
     display: flex;
     align-items: center;
-    height: 36px;
+    height: 28Px;
 
     .col {
       flex: 1;
       text-align: center;
-      font-size: 13px;
-      color: var(--wjh-color-primary);
+      font-size: 13Px;
 
       &.col-seats {
         font-weight: 500;
       }
     }
-  }
-}
-
-.status-text {
-  color: var(--wjh-color-text-secondary);
-}
-
-.seats-num {
-  &.zero {
+  .status-text {
     color: var(--wjh-color-text-secondary);
   }
+
+  .seats-num {
+    &.zero {
+      color: var(--wjh-color-text-secondary);
+    }
+  }
+  }
 }
+
