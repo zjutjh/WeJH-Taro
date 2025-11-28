@@ -33,10 +33,6 @@ declare namespace NodeJS {
      * @see https://taro-docs.jd.com/docs/next/env-mode-config#特殊环境变量-taro_app_id
      */
     readonly TARO_APP_ID: string;
-    /**
-     * 腾讯云 RUM 上报 key
-     */
-    readonly TENCENT_RUN_REPORT_KEY: string;
   }
 }
 
