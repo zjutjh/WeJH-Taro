@@ -2,6 +2,7 @@ import "dayjs/locale/zh-cn";
 import "./app.scss";
 import "event-target-polyfill";
 import "yet-another-abortcontroller-polyfill";
+import "@/plugins/aegis";
 
 import { VueQueryPlugin } from "@tanstack/vue-query";
 import dayjs from "dayjs";

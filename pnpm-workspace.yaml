@@ -2,6 +2,7 @@ catalogs:
   frontend:
     "@tanstack/query-persist-client-core": "^5.91.4"
     "@tanstack/vue-query": "^5.90.5"
+    "aegis-mp-sdk": "^1.39.1"
     "dayjs": "^1.11.19"
     "event-target-polyfill": "^0.0.4"
     "lodash-es": "^4.17.21"
