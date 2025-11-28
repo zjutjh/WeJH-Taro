@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { get } from "lodash-es";
+import { get, isEmpty } from "lodash-es";
 
 import { aegis } from "@/plugins/aegis";
 import { api } from "@/services";
@@ -94,8 +94,10 @@ export default class UserService {
     );
 
     // TODO: 后续切换到新请求方式后，更新 aegis 的参数也要兼容
-    const studentID = get(data, ["data", "user", "studentID"], "");
-    aegis.setConfig({ uin: studentID });
+    const studentID = String(get(data, ["data", "user", "studentID"], ""));
+    if (!isEmpty(studentID)) {
+      aegis.setConfig({ uin: studentID });
+    }
 
     return data;
   }
