@@ -1,60 +1,57 @@
 import Taro from "@tarojs/taro";
-import store, { serviceStore } from "@/store";
-import { FetchResult, fetch } from "@/utils";
+import { get, isEmpty } from "lodash-es";
+
+import { aegis } from "@/plugins/aegis";
 import { api } from "@/services";
-import { updateDateStateWithSession } from "../utils/updateDateState";
-import errCodeHandler from "../utils/errHandler";
+import store, { serviceStore } from "@/store";
+import { ThemeList } from "@/store/service/theme";
+import { fetch, FetchResult } from "@/utils";
+
 import { ServerCode } from "../api/codes";
 import request from "../request";
-import { ThemeList } from "@/store/service/theme";
+import errCodeHandler from "../utils/errHandler";
+import { updateDateStateWithSession } from "../utils/updateDateState";
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class UserService {
   static getUserTheme = () => {
     return request<{
       current_theme_id: number;
       current_theme_dark_id: number;
-      theme_list: ThemeList
-    }>(
-      api.user.theme.get, {
-        method: "GET",
-        header: { "Cookie": serviceStore.sessionID }
-      }
-    );
+      theme_list: ThemeList;
+    }>(api.user.theme.get, {
+      method: "GET",
+      header: { Cookie: serviceStore.sessionID }
+    });
   };
 
-  static setTheme = (data: { id: number, dark_id: number }) => {
+  static setTheme = (data: { id: number; dark_id: number }) => {
     return request<{
-      null
-    }>(
-      api.user.theme.set, {
-        method: "POST",
-        header: { "Cookie": serviceStore.sessionID },
-        data
-      }
-    );
+      null;
+    }>(api.user.theme.set, {
+      method: "POST",
+      header: { Cookie: serviceStore.sessionID },
+      data
+    });
   };
-  static logout = (data?: { iid: string, stuid: string }) => {
+  static logout = (data?: { iid: string; stuid: string }) => {
     return request<{
-      null
-    }>(
-      api.user.logout, {
-        method: "POST",
-        header: { "Cookie": serviceStore.sessionID },
-        data
-      }
-    );
+      null;
+    }>(api.user.logout, {
+      method: "POST",
+      header: { Cookie: serviceStore.sessionID },
+      data
+    });
   };
 
-  static changePassword = (data?: { iid: string, stuid: string, password: string }) => {
+  static changePassword = (data?: { iid: string; stuid: string; password: string }) => {
     return request<{
-      null
-    }>(
-      api.user.changePassword, {
-        method: "POST",
-        header: { "Cookie": serviceStore.sessionID },
-        data
-      }
-    );
+      null;
+    }>(api.user.changePassword, {
+      method: "POST",
+      header: { Cookie: serviceStore.sessionID },
+      data
+    });
   };
 
   static async bindLibrary(data?: { password: string }) {
@@ -84,11 +81,10 @@ export default class UserService {
     );
   }
 
-  // comment: 返回用户信息
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static async getUserInfo(): Promise<any> {
-    // comment: 创号成功，打开我的，每次 testSession 执行一次
     // testSession 进入时，autoLogin === false
-    return await updateDateStateWithSession(
+    const data = await updateDateStateWithSession(
       api.user.info,
       null,
       "setUserInfo",
@@ -96,6 +92,14 @@ export default class UserService {
         return res.data.data.user;
       }
     );
+
+    // TODO: 后续切换到新请求方式后，更新 aegis 的参数也要兼容
+    const studentID = String(get(data, ["data", "user", "studentID"], ""));
+    if (!isEmpty(studentID)) {
+      aegis.setConfig({ uin: studentID });
+    }
+
+    return data;
   }
 
   static async createUserApp(userForm: {

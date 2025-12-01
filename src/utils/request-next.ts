@@ -8,7 +8,7 @@ import { QUERY_KEY } from "@/services/api/query-key";
 import RequestError, { MPErrorCode, ServiceErrorCode } from "./request-error";
 import { globalQueryClient } from "./vue-query";
 
-interface IResponse<T> {
+export interface IResponse<T> {
   code: number;
   msg: string;
   data: T;
