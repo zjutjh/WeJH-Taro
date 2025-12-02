@@ -5,11 +5,6 @@ import { ref } from "vue";
 import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
 import { persistedStorage } from "@/utils/storage";
 
-export interface Option<T = string> {
-  label: string;
-  value: T;
-}
-
 export const CAMPUS_OPTION_LIST = [
   { label: "屏峰", value: "屏峰" },
   { label: "朝晖", value: "朝晖" },
