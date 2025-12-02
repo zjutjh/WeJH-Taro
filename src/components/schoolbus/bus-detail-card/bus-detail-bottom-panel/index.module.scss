@@ -16,17 +16,17 @@
     flex: 0 0 25%;
   }
   .button {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30Px;
     height: 30Px;
     opacity: 0.8;
     .bottom-icon {
+      flex-shrink: 0;
       width: 20Px;
       height: 20Px;
       display: block;
-      position: relative;
-      right: 2.5Px;
-      bottom: 2Px;
     }
   }
 
