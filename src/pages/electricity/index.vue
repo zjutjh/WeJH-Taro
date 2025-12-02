@@ -70,6 +70,7 @@
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
+import { first } from "lodash-es";
 import { storeToRefs } from "pinia";
 import { computed, watch, watchEffect } from "vue";
 
@@ -106,7 +107,7 @@ const {
 } = useQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_CONSUMPTION, campus] as const,
   queryFn: ({ queryKey }) => electricityServiceNext.QueryConsumptionRecord({ campus: queryKey[1] }),
-  select: (res) => res[0].used
+  select: (res) => first(res)?.used
 });
 
 watch(error, (value) => {
