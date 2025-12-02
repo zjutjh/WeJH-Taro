@@ -1,34 +1,22 @@
-import { ServiceStoreType } from ".";
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const ElectricityServiceStore = {
-  state: () => ({
-    roomName: "未知",
-    roomCode: "未知",
-    balance: undefined,
-    electricityCampus: "zhpf",
-    selectIndex: 0,
-    lastCampus: "zhpf",
-    todayConsumption: undefined,
-    updateTime: {
-      balance: undefined
-    }
-  }),
-  mutations: {
-    setElectricityStore(
-      state: ServiceStoreType["electricity"],
-      value: Partial<ServiceStoreType["electricity"]>
-    ) {
-      if (value.roomName !== undefined) state.roomName = value.roomName;
-      if (value.roomCode !== undefined) state.roomCode = value.roomCode;
-      if (value.balance !== undefined) state.balance = value.balance;
-      state.updateTime.balance = new Date();
-    },
-    setBalance(state: ServiceStoreType["electricity"], value: number) {
-      state.balance = value;
-      state.updateTime.balance = new Date();
-    },
-    setConsumption(state: ServiceStoreType["electricity"], value: string) {
-      state.todayConsumption = value;
-    }
-  }
-};
+import { CampusOption } from "@/api/types/electricity";
+import { Option } from "@/constants";
+import { persistedStorage } from "@/utils/storage";
+
+export const CAMPUS_OPTION = [
+  { label: "朝晖/屏峰", value: "zhpf" },
+  { label: "莫干山", value: "mgs" }
+] as const satisfies Option<CampusOption>[];
+
+export const useElectricityStore = defineStore(
+  "electricity",
+  () => {
+    const campus = ref<CampusOption>("zhpf");
+    const selectIndex = ref(0);
+
+    return { campus, selectIndex };
+  },
+  { persist: { storage: persistedStorage } }
+);
