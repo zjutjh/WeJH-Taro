@@ -8,7 +8,7 @@
           <view class="dormitory-info">
             <view class="icon-wrapper"><view class="iconfont icon-electricity" /></view>
             <view class="text-wrapper">
-              <text>{{ roomInfo.roomName }}</text>
+              <text>{{ data?.display_room_name ?? "未知" }}</text>
             </view>
           </view>
         </card>
@@ -17,7 +17,9 @@
           <w-list-item class="electricity-list-item">
             <view class="text-wrapper">
               <text> 剩余总电量 </text>
-              <text :class="[isUrgent ? 'dangerous' : 'normal', 'rest-number']">{{ balance }}</text>
+              <text :class="[isUrgent ? 'dangerous' : 'normal', 'rest-number']">
+                {{ data?.soc ?? "" }}
+              </text>
               <text> 度 </text>
             </view>
           </w-list-item>
@@ -31,9 +33,7 @@
             <view class="text-wrapper" style="justify-content: space-between">
               <text> 每日用电记录 </text>
               <text v-if="consumptionLoading" class="today"> 正在加载... </text>
-              <text v-else-if="todayConsumption" class="today">
-                昨日使用: {{ todayConsumption }}
-              </text>
+              <text v-else-if="consumption" class="today"> 昨日使用: {{ consumption }} </text>
             </view>
           </w-list-item>
         </w-list>
@@ -55,7 +55,7 @@
       <picker
         mode="selector"
         :range="options"
-        :value="selectedIndex"
+        :value="selectIndex"
         class="picker-wrapper"
         @change="onPickerChange"
       >
@@ -68,73 +68,53 @@
 <script setup lang="ts">
 import "./index.scss";
 
+import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
-import { computed, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { computed, watch, watchEffect } from "vue";
 
 import { BottomPanel, Card, ThemeConfig, TitleBar, WButton, WList, WListItem } from "@/components";
-import { useRequest } from "@/hooks";
-import { YxyService } from "@/services";
-import store, { serviceStore } from "@/store";
+import { electricityServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
+import { CAMPUS_OPTION, useElectricityStore } from "@/store/service/electricity";
+import { ServiceErrorCode } from "@/utils/request-error";
 
-const options = ref(["朝晖/屏峰", "莫干山"]);
-const selectedIndex = computed(() => serviceStore.electricity.selectIndex);
-const selectedOption = computed(() => options.value[selectedIndex.value]);
-
-const valueMap = { "朝晖/屏峰": "zhpf", 莫干山: "mgs" };
+const { campus, selectIndex } = storeToRefs(useElectricityStore());
+const options = CAMPUS_OPTION.map((item) => item.label);
+const selectedOption = computed(() => options[selectIndex.value]);
 
 const onPickerChange = (event: { detail: { value: number } }) => {
-  const selectedValue = valueMap[options.value[event.detail.value]];
-  serviceStore.electricity.electricityCampus = selectedValue;
-  serviceStore.electricity.selectIndex = event.detail.value;
-  // 调用查询接口
-  getQueryBalance({ campus: selectedValue });
-  getQueryConsumption({ campus: selectedValue });
+  selectIndex.value = event.detail.value;
+  campus.value = CAMPUS_OPTION[selectIndex.value].value;
 };
 
-const roomInfo = computed(() => ({
-  roomName: serviceStore.electricity.roomName,
-  roomCode: serviceStore.electricity.roomCode
-}));
-
-const balance = computed(() => serviceStore.electricity.balance);
-const todayConsumption = computed(() => serviceStore.electricity.todayConsumption);
-
-const { run: getQueryBalance } = useRequest(YxyService.queryBalance, {
-  manual: false,
-  defaultParams: { campus: serviceStore.electricity.electricityCampus },
-  onBefore: () => Taro.showLoading({ title: "正在加载" }),
-  onSuccess: (response) => {
-    if (response.data.code === 1) {
-      store.commit("setElectricityStore", {
-        roomName: response.data.data.display_room_name,
-        roomCode: response.data.data.room_code,
-        balance: response.data.data.soc
-      });
-    } else throw new Error(response.data.msg || response.errMsg);
-    Taro.hideLoading();
-  },
-  onError: (error) =>
-    error instanceof Error ? error.message : `查询电费余额失败\r\n${error.errMsg}`
+const { data, isFetching } = useQuery({
+  queryKey: [QUERY_KEY.ELECTRICITY_BALANCE, campus] as const,
+  queryFn: ({ queryKey }) => electricityServiceNext.QueryBalance({ campus: queryKey[1] })
 });
 
-const { run: getQueryConsumption, loading: consumptionLoading } = useRequest(
-  YxyService.queryConsumption,
-  {
-    defaultParams: { campus: serviceStore.electricity.electricityCampus },
-    onSuccess: (response) => {
-      if (response.data.code === 1) store.commit("setConsumption", response.data.data[0].used);
-      else if (response.data.code === 200525) {
-        serviceStore.electricity.selectIndex = 0;
-        serviceStore.electricity.electricityCampus = "zhpf";
-      } else throw new Error(response.data.msg);
-    },
-    onError: (error) => {
-      if (error instanceof Error) return error.message;
-    }
-  }
+watchEffect(() =>
+  isFetching.value ? Taro.showLoading({ title: "正在加载" }) : Taro.hideLoading()
 );
 
-const isUrgent = computed(() => balance.value < 20);
+const {
+  data: consumption,
+  error,
+  isFetching: consumptionLoading
+} = useQuery({
+  queryKey: [QUERY_KEY.ELECTRICITY_CONSUMPTION, campus] as const,
+  queryFn: ({ queryKey }) => electricityServiceNext.QueryConsumptionRecord({ campus: queryKey[1] }),
+  select: (res) => res[0].used
+});
+
+watch(error, (value) => {
+  if (value?.code === ServiceErrorCode.CAMPUS_MISMATCH) {
+    selectIndex.value = 0;
+    campus.value = "zhpf";
+  }
+});
+
+const isUrgent = computed(() => (data.value ? data.value.soc < 20 : false));
 
 const nav2Record = () => Taro.navigateTo({ url: "/pages/electricity/record/index" });
 const nav2Consumption = () => Taro.navigateTo({ url: "/pages/electricity/consumption/index" });
