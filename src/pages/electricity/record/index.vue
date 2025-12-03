@@ -31,9 +31,10 @@ import "./index.scss";
 
 import { useInfiniteQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
-import { uniqBy } from "lodash-es";
+import { last, uniqBy } from "lodash-es";
 import { storeToRefs } from "pinia";
 
+import { QueryChargeRecordResponse } from "@/api/types/electricity";
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import List from "@/components/List/List.vue";
 import ListItem from "@/components/List/ListItem.vue";
@@ -47,27 +48,33 @@ const { campus } = storeToRefs(useElectricityStore());
  * 这里的数据直接来自提供方，后端没有做处理，已知问题有：第一页为 0-base，没有返回总页数，且超出最后一页时仍返回最后一页数据
  * TODO: 与后端沟通协商优化方案
  */
-const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+
+const {
+  data,
+  fetchNextPage: loadMore,
+  hasNextPage,
+  isFetching
+} = useInfiniteQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_CHARGE_RECORD, campus] as const,
   queryFn: ({ queryKey, pageParam }) =>
     electricityServiceNext.QueryChargeRecord({ page: pageParam.toString(), campus: queryKey[1] }),
   initialPageParam: 0,
   getNextPageParam: (lastPage, pages) => {
     if (pages.length > 1) {
-      const prevPage = pages[pages.length - 2];
-      if (prevPage[prevPage.length - 1].datetime === lastPage[lastPage.length - 1].datetime)
-        return undefined;
+      const prevPage = pages.at(pages.length - 2);
+      if (prevPage && last(prevPage)?.datetime === last(lastPage)?.datetime) return undefined;
     }
     return pages.length;
   },
   select: (res) => {
-    const records = res.pages.flatMap((page) =>
-      page.map((item) => ({ ...item, datetime: dayjs(item.datetime).format("YYYY.MM.DD HH:mm") }))
+    const formatPages = (pages: QueryChargeRecordResponse[]) =>
+      pages.flatMap((page) =>
+        page.map((item) => ({ ...item, datetime: dayjs(item.datetime).format("YYYY.MM.DD HH:mm") }))
+      );
+    // 只对最后两页去重
+    return formatPages(res.pages.slice(0, -2)).concat(
+      uniqBy(formatPages(res.pages.slice(-2)), "datetime")
     );
-    // 只有第二页时需要去重（第一页就是最后一页的情况）
-    return res.pages.length === 2 ? uniqBy(records, "datetime") : records;
   }
 });
-
-const loadMore = () => fetchNextPage();
 </script>

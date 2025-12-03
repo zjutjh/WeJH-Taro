@@ -8,7 +8,7 @@
           <view :class="styles['dormitory-info']">
             <view :class="styles['icon-wrapper']"><view class="iconfont icon-electricity" /></view>
             <view :class="styles['text-wrapper']">
-              <text>{{ data?.display_room_name ?? "未知" }}</text>
+              <text>{{ data?.display_room_name || "未知" }}</text>
             </view>
           </view>
         </card>
@@ -61,7 +61,7 @@
         :class="styles['picker-wrapper']"
         @change="onPickerChange"
       >
-        <w-button :class="styles.selector"> {{ selectedOption }} </w-button>
+        <w-button :class="styles.selector"> {{ options.at(selectIndex) }} </w-button>
       </picker>
     </bottom-panel>
   </theme-config>
@@ -84,7 +84,6 @@ import styles from "./index.module.scss";
 
 const { campus, selectIndex } = storeToRefs(useElectricityStore());
 const options = CAMPUS_OPTION.map((item) => item.label);
-const selectedOption = computed(() => options[selectIndex.value]);
 
 const onPickerChange = (event: { detail: { value: number } }) => {
   selectIndex.value = event.detail.value;
