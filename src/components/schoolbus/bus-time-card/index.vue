@@ -6,7 +6,7 @@
       <view :class="styles['route-name']">{{ props.routeName }}</view>
     </view>
     <view :class="styles['bus-information-content']">
-      <view :class="styles['row-item']">{{ `起终点站: ${props.start}——${props.end}` }} </view>
+      <view :class="styles['row-item']">{{ `起终点站: ${props.start}-${props.end}` }} </view>
       <view :class="styles['row-item']">
         余票:
         <span
@@ -25,30 +25,17 @@
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
-import { ref } from "vue";
 
 import { Card } from "@/components";
-import { FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
+import { FEBusTime } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
 
-// const props = defineProps<FEBusTime>();
-
-const props = ref<FEBusTime>({
-  departureTime: "11.19 13:00",
-  id: "bus-time-001",
-  orderedSeats: 10,
-  openType: OpenTypeEnum.All,
-  remainSeats: 5,
-  routeName: "直达线  ( 朝晖——屏峰 )",
-  price: 4,
-  start: "邵科馆",
-  end: "语林楼"
-});
+const props = defineProps<FEBusTime>();
 
 const nav2Detail = () => {
   Taro.navigateTo({
-    url: `/pages/schoolbus/bus-detail/index?id=${props.value.id}`
+    url: `/pages/schoolbus/bus-detail/index?id=${props.routeName}`
   });
 };
 </script>

@@ -6,7 +6,6 @@
 interface BusTime {
   /** 发车时间 */
   departureTime: string;
-  id: string;
   /** 已约车票数 */
   orderedSeats: number;
   /** 剩余车票数 */
@@ -15,24 +14,16 @@ interface BusTime {
 
 interface BusStation {
   stationName: string;
-  id: string;
 }
 
 /** 班车信息，起终点相反的算作不同 */
 interface BusInformation {
   busTime: BusTime[];
-  /** 起点 */
-  start: string;
-  /** 终点 */
-  end: string;
-  /** 线路id */
-  id: string;
   /** 线路名称 */
   name: string;
   /** 价格 */
   price: number;
   seats: number;
-
   /** 站点 */
   stations: BusStation[];
 }
