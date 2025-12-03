@@ -21,9 +21,6 @@ interface BusInformation {
   busTime: BusTime[];
   /** 线路名称 */
   name: string;
-  /** 价格 */
-  price: number;
-  seats: number;
   /** 站点 */
   stations: BusStation[];
 }
@@ -37,7 +34,7 @@ export enum OpenTypeEnum {
 
 export interface FEBusTime extends BusTime {
   openType: OpenTypeEnum;
-  /** 线路名程, 应copy对应班车里的name字段 */
+  /** 线路名程 如1号线 */
   routeName: string;
   /** 起点 */
   start: string;
@@ -45,9 +42,17 @@ export interface FEBusTime extends BusTime {
   end: string;
   /** 票价 */
   price: number;
+  /** 发车时间 */
+  departureTime: string;
+  /** 已约车票数 */
+  orderedSeats: number;
+  /** 剩余车票数 */
+  remainSeats: number;
 }
 
 export interface FEBusInformation extends BusInformation {
+  /** 线路名程 如1号线 */
+  routeName: string;
   /** 不管节假日，全集的班次时间 */
   busTime: FEBusTime[];
 }

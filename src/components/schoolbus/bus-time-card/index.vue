@@ -3,7 +3,9 @@
   <card :class="styles['bus-information-container']">
     <view :class="styles['bus-information-title']">
       <view :class="styles['start-time']"> {{ props.departureTime }}发车</view>
-      <view :class="styles['route-name']">{{ props.routeName }}</view>
+      <view :class="styles['route-name']">{{
+        `${props.routeName} (${props.start}-${props.end})`
+      }}</view>
     </view>
     <view :class="styles['bus-information-content']">
       <view :class="styles['row-item']">{{ `起终点站: ${props.start}-${props.end}` }} </view>
@@ -27,15 +29,15 @@
 import Taro from "@tarojs/taro";
 
 import { Card } from "@/components";
-import { FEBusTime } from "@/types/schoolbus";
+import { BusTime } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
 
-const props = defineProps<FEBusTime>();
+const props = defineProps<BusTime>();
 
 const nav2Detail = () => {
   Taro.navigateTo({
-    url: `/pages/schoolbus/bus-detail/index?id=${props.routeName}`
+    url: `/pages/schoolbus/bus-detail/index?routeName=${props.routeName}&start=${props.start}&end=${props.end}`
   });
 };
 </script>

@@ -31,6 +31,14 @@
         height: 30Px;
         background-color: var(--wjh-color-primary);
         border-radius: 7Px;
+        .picker-button {
+          width: 100%;
+          height: 30Px;
+          color: var(--wjh-color-text);
+          background-color: transparent;
+          font-size: 14Px;
+          line-height: 30Px;
+        }
       }
     }
     .left-bottom-block {
@@ -44,7 +52,7 @@
     width: 30Px;
     max-height: 100%;
     object-position: center;
-    .station-changer {
+    .station-swapper {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -53,7 +61,7 @@
       background-color: var(--wjh-color-primary);
       transform: rotate(45deg);
 
-      .station-changer-icon {
+      .station-swapper-icon {
         display: inline;
         width: 20Px;
         height: 15Px;
@@ -143,6 +151,14 @@
       background-color: white;
       opacity: 0.2;
       z-index: -1;
+    }
+    .picker-button {
+      width: 100%;
+      height: 30Px;
+      color: var(--wjh-color-text);
+      background-color: transparent;
+      font-size: 14Px;
+      line-height: 30Px;
     }
   }
 }

@@ -4,15 +4,27 @@
     <view :class="styles['schoolbus-title-bar']">
       <view :class="styles['left-area']">
         <view :class="styles['left-top-block']">
-          <view :class="styles['line-type-selector']"></view>
+          <!-- 先空着 看UI打算修改为什么展示模式 -->
+          <picker :class="styles['line-type-selector']" mode="selector">
+            <button :class="styles['picker-button']">{{}}</button>
+          </picker>
         </view>
         <view :class="styles['left-bottom-block']">
-          <view :class="styles['route-selector']"></view>
+          <picker
+            :class="styles['route-selector']"
+            mode="selector"
+            :range="allCampus"
+            @change="onChangeStart"
+          >
+            <button :class="styles['picker-button']">
+              {{ selectedStart ? `${selectedStart}校区` : "" }}
+            </button>
+          </picker>
         </view>
       </view>
       <view :class="styles['center-area']">
-        <view :class="styles['station-changer']">
-          <view :class="styles['station-changer-icon']" />
+        <view :class="styles['station-swapper']" @tap="swapCampus">
+          <view :class="styles['station-swapper-icon']" />
         </view>
       </view>
       <view :class="styles['right-area']">
@@ -31,23 +43,62 @@
           </view>
         </view>
         <view :class="styles['right-bottom-block']">
-          <view :class="styles['route-selector']"></view>
+          <picker
+            :class="styles['route-selector']"
+            mode="selector"
+            :range="allCampus"
+            @change="onChangeEnd"
+          >
+            <button :class="styles['picker-button']">
+              {{ selectedEnd ? `${selectedEnd}校区` : "" }}
+            </button>
+          </picker>
         </view>
       </view>
     </view>
     <scroll-view :class="styles['schoolbus-container']" :scroll-y="true">
-      <bus-time-card v-for="item in busTimeList" :key="`${item.start}-${item.end}`" v-bind="item" />
+      <bus-time-card
+        v-for="item in filteredBusTimeList"
+        :key="`${item.start}-${item.end}-${item.departureTime}`"
+        v-bind="item"
+      />
     </scroll-view>
   </theme-config>
 </template>
 
 <script setup lang="ts">
-const { busTimeList } = useBusInfo(undefined);
-
-import { ScrollView } from "@tarojs/components";
+import { Picker, ScrollView } from "@tarojs/components";
+import { computed, ref } from "vue";
 
 import { BusTimeCard, ThemeConfig, TitleBar } from "@/components";
 import { useBusInfo } from "@/hooks/use-bus-info";
 
 import styles from "./index.module.scss";
+
+const { busTimeList } = useBusInfo();
+const filteredBusTimeList = computed(() => {
+  return busTimeList.value.filter((item) => {
+    const matchStart = item.start === selectedStart.value;
+    const matchEnd = item.end === selectedEnd.value;
+    return matchStart && matchEnd;
+  });
+});
+
+const selectedStart = ref();
+const selectedEnd = ref();
+const allCampus = ["朝晖", "屏峰", "莫干山"];
+const onChangeStart = (e) => {
+  const index = e.detail.value;
+  selectedStart.value = Object.values(allCampus)[index];
+};
+const onChangeEnd = (e) => {
+  const index = e.detail.value;
+  selectedEnd.value = Object.values(allCampus)[index];
+};
+
+const swapCampus = () => {
+  const temp = selectedStart.value;
+  selectedStart.value = selectedEnd.value;
+  selectedEnd.value = temp;
+};
 </script>

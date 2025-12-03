@@ -1,15 +1,20 @@
 import { useQuery } from "@tanstack/vue-query";
-import { computed, MaybeRef } from "vue";
+import dayjs from "dayjs";
+import { computed, MaybeRef, unref } from "vue";
 
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
 
-export const useBusInfo = (search: MaybeRef<string | undefined>) => {
-  const { data, refetch } = useQuery({
+/** 获取班车信息的 Hook
+ * @param options 可选参数 包括search
+ */
+export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) => {
+  const { search } = options ?? {};
+  const { data, refetch, isLoading } = useQuery({
     queryKey: [QUERY_KEY.SCHOOLBUS_INFO, search] as const,
-    /** 可选字段search */
     queryFn: ({ queryKey }) => {
+      /** 可选字段search */
       const req = queryKey[1] ? { search: queryKey[1] } : {};
       return yxyServiceNext.QueryBusInfo(req);
     }
@@ -18,28 +23,81 @@ export const useBusInfo = (search: MaybeRef<string | undefined>) => {
   /** 校车首页班次卡片使用的字段 */
   const busTimeList = computed<FEBusTime[]>(() => {
     if (!data.value?.list) return [];
-    return data.value.list.flatMap((bus) => {
-      /** name形如 朝晖-屏峰, 进行拆解 得到start和end字段 */
-      const start = bus.name.split("-")[0] ?? "";
-      const end = bus.name.split("-")[1] ?? "";
-      return bus.bus_time.map((time) => ({
-        departureTime: time.departure_time,
-        orderedSeats: time.ordered_seats,
-        remainSeats: time.remain_seats,
-        /** 暂时先为All, 等待自定义接口里的数据 */
-        openType: OpenTypeEnum.All,
-        routeName: bus.name,
-        start,
-        end,
-        /** 后端传来的如400表示的是4.00元 */
-        price: bus.price / 100
-      }));
+
+    const now = dayjs();
+
+    /**  构建带日期时间的中间数组，用于排序 */
+    const items = data.value.list.flatMap((bus) => {
+      /** 此处bus.name形如: 1号线（屏峰-朝晖）*/
+      let [start, end] = bus.name.split("-");
+      start = start.split("（")[1];
+      end = end.split("）")[0];
+      const routeName = bus.name.split("（")[0];
+
+      return bus.bus_time.map((time) => {
+        const [hourStr, minuteStr] = time.departure_time.split(":");
+        const hour = Number(hourStr);
+        const minute = Number(minuteStr);
+
+        // 构造今天的该时间点
+        let date = dayjs().hour(hour).minute(minute).second(0).millisecond(0);
+
+        // 如果该时间点早于当前时刻，则视为第二天的班次
+        if (date.isBefore(now)) date = date.add(1, "day");
+
+        const item: FEBusTime = {
+          departureTime: date.format("MM.DD HH:mm"),
+          orderedSeats: time.ordered_seats,
+          remainSeats: time.remain_seats,
+          /** 暂时用all, 等待接后端的自定义接口, 来判断openType */
+          openType: OpenTypeEnum.All,
+          routeName: routeName,
+          start: start,
+          end: end,
+          price: bus.price / 100
+        };
+
+        return { item, date: date };
+      });
     });
+
+    // 按真实日期时间升序排序
+    items.sort((a, b) => a.date.valueOf() - b.date.valueOf());
+
+    return items.map((x) => x.item);
   });
 
   return {
-    busInfo: computed(() => data.value?.list),
     busTimeList: busTimeList,
+    refetch,
+    isLoading
+  };
+};
+
+/**
+ * 获取单个班次详情的 Hook
+ * @param matcher 匹配条件
+ */
+export const useBusDetail = (
+  matcher: MaybeRef<{
+    routeName: string;
+    start: string;
+    end: string;
+  }>
+) => {
+  const { busTimeList, isLoading, refetch } = useBusInfo();
+
+  const busDetail = computed(() => {
+    const m = unref(matcher);
+
+    return busTimeList.value.find(
+      (item) => item.routeName === m.routeName && item.start === m.start && item.end === m.end
+    );
+  });
+
+  return {
+    busDetail,
+    isLoading,
     refetch
   };
 };
