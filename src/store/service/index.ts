@@ -3,7 +3,6 @@ import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 
 import { AnnouncementStore, AnnouncementType } from "./announcement";
 import { CardServiceStore, CardServiceType } from "./card";
-import { ElectricityServiceStore } from "./electricity";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { InformationStore, InformationStoreType } from "./information";
 import { LibraryServiceStore } from "./library";
@@ -23,16 +22,6 @@ export interface ServiceStoreType {
   webview: WebviewStoreType;
   announcement: AnnouncementType;
   information: InformationStoreType;
-  electricity: {
-    roomName: string;
-    roomCode: string;
-    balance: number;
-    electricityCampus: string;
-    selectIndex: number;
-    lastCampus: string;
-    todayConsumption: string;
-    updateTime: { balance: Date };
-  };
   score: {
     readScoreMarks: Array<{
       name: string;
@@ -70,7 +59,6 @@ export const ServiceStore = {
     information: InformationStore,
     score: ScoreServiceStore,
     homecard: HomeCardServiceStore,
-    electricity: ElectricityServiceStore,
     notification: NotificationStore,
     theme: ThemeStore,
     suit: SuitStore

@@ -6,5 +6,8 @@ export const QUERY_KEY = {
   ZF_SCORE: "score",
   ZF_FREEROOM: "freeroom",
   LOSTFOUND_KIND: "lostfoundKind",
-  LOSTFOUND_RECORD: "lostfoundRecord"
+  LOSTFOUND_RECORD: "lostfoundRecord",
+  ELECTRICITY_BALANCE: "electricityBalance",
+  ELECTRICITY_CONSUMPTION: "electricityConsumption",
+  ELECTRICITY_CHARGE_RECORD: "electricityChargeRecord"
 } as const;

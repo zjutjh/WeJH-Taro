@@ -60,6 +60,7 @@ import { computed, ref } from "vue";
 
 import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
+import { Option } from "@/constants";
 import { helpText } from "@/constants/copywriting";
 import { CONTACT_ME_DATA, CONTACT_ME_MSG } from "@/constants/lostfound";
 import { lostfoundServiceNext } from "@/services";
@@ -67,7 +68,6 @@ import { QUERY_KEY } from "@/services/api/query-key";
 import {
   CAMPUS_OPTION_LIST,
   LOST_OR_FOUND_OPTION_LIST,
-  Option,
   useLostfoundStore
 } from "@/store/service/lostfound";
 
