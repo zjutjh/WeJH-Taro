@@ -90,7 +90,7 @@ export const useBusDetail = (
   const busDetail = computed(() => {
     const m = unref(matcher);
 
-    return busTimeList.value.find(
+    return busTimeList.value.filter(
       (item) => item.routeName === m.routeName && item.start === m.start && item.end === m.end
     );
   });

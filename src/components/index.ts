@@ -23,6 +23,7 @@ import RefreshButton from "./RefreshButton/index.vue";
 import RoomPicker from "./RoomPicker/index.vue";
 import BusDetailCard from "./schoolbus/bus-detail-card/index.vue";
 import BusTimeCard from "./schoolbus/bus-time-card/index.vue";
+import BusTimeEmpty from "./schoolbus/bus-time-empty/index.vue";
 import ScoreTermPicker from "./ScoreTermPicker/index.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WSteps from "./Steps/index.vue";
@@ -38,6 +39,7 @@ export {
   BottomPanel,
   BusDetailCard,
   BusTimeCard,
+  BusTimeEmpty,
   Card,
   ContactMe,
   Home,

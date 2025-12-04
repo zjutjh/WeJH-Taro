@@ -13,9 +13,9 @@
     </view>
     <view :class="styles['schedule-table']">
       <view :class="[styles['table-row'], styles['table-header']]">
-        <span :class="[styles['col']]">日期</span>
         <span :class="[styles['col']]">发车时间</span>
         <span :class="[styles['col']]">余票</span>
+        <span :class="[styles['col']]">发车情况</span>
       </view>
 
       <view
@@ -26,27 +26,31 @@
       >
         <span :class="[styles['col']]">{{ item.departureTime }}</span>
         <view :class="[styles['col']]">
-          <span v-if="item.openType === 'weekday'" :class="styles['status-span']">
-            仅工作日发车
-          </span>
-          <span v-else-if="item.remainSeats === 0" :class="[styles['seats-num'], styles['zero']]">
+          <span v-if="item.remainSeats === 0" :class="[styles['seats-num'], styles['zero']]">
             0
           </span>
           <span v-else :class="styles['seats-num']">
             {{ item.remainSeats }}
           </span>
         </view>
+        <span :class="[styles['col']]">{{ openTypeMap[item.openType] }}</span>
       </view>
     </view>
   </card>
 </template>
 <script setup lang="ts">
 import { Card } from "@/components";
-import { FEBusTime } from "@/types/schoolbus";
+import { FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
 
 const props = defineProps<{
   list: FEBusTime[];
 }>();
+
+const openTypeMap = {
+  [OpenTypeEnum.All]: "正常发车",
+  [OpenTypeEnum.Weekday]: "仅工作日发车",
+  [OpenTypeEnum.Weekend]: "仅节假日发车"
+};
 </script>

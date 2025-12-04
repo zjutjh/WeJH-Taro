@@ -4,6 +4,7 @@
   align-items: center;
   padding: 5% 6% 0 6%;
   box-sizing: border-box;
+  margin-bottom: 20Px;
 }
 
 .bus-detail-title {
@@ -71,15 +72,17 @@
         font-weight: 500;
       }
     }
-  .status-text {
-    color: var(--wjh-color-text-secondary);
-  }
 
-  .seats-num {
-    &.zero {
+    .seats-num {
+      &.zero {
+        color: var(--wjh-color-text-secondary);
+      }
+    }
+    // 工作日发车 or 节假日发车 or 都发车
+    .departure-days {
+      font-size: 12Px;
       color: var(--wjh-color-text-secondary);
     }
-  }
   }
 }
 

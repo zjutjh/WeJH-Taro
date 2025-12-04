@@ -56,13 +56,20 @@
         </view>
       </view>
     </view>
-    <scroll-view :class="styles['schoolbus-container']" :scroll-y="true">
+    <scroll-view
+      v-if="selectedStart && selectedEnd"
+      :class="styles['schoolbus-container']"
+      :scroll-y="true"
+    >
       <bus-time-card
         v-for="item in filteredBusTimeList"
         :key="`${item.start}-${item.end}-${item.departureTime}`"
         v-bind="item"
       />
     </scroll-view>
+    <view v-else :class="styles['schoolbus-container']">
+      <bus-time-empty />
+    </view>
   </theme-config>
 </template>
 
@@ -70,7 +77,7 @@
 import { Picker, ScrollView } from "@tarojs/components";
 import { computed, ref } from "vue";
 
-import { BusTimeCard, ThemeConfig, TitleBar } from "@/components";
+import { BusTimeCard, BusTimeEmpty, ThemeConfig, TitleBar } from "@/components";
 import { useBusInfo } from "@/hooks/use-bus-info";
 
 import styles from "./index.module.scss";

@@ -2,8 +2,8 @@
   <theme-config>
     <title-bar title="班车详情" :back-button="true" />
     <scroll-view :scroll-y="true" :class="styles['bus-detail-container']">
-      <bus-detail-card :class="styles['bus-detail-card']" v-bind="start2EndDetail" />
-      <bus-detail-card :class="styles['bus-detail-card']" v-bind="end2StartDetail" />
+      <bus-detail-card :class="styles['bus-detail-card']" :list="start2EndDetail" />
+      <bus-detail-card :class="styles['bus-detail-card']" :list="end2StartDetail" />
     </scroll-view>
 
     <bus-detail-bottom-panel />

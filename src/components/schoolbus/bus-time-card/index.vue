@@ -29,11 +29,11 @@
 import Taro from "@tarojs/taro";
 
 import { Card } from "@/components";
-import { BusTime } from "@/types/schoolbus";
+import { FEBusTime } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
 
-const props = defineProps<BusTime>();
+const props = defineProps<FEBusTime>();
 
 const nav2Detail = () => {
   Taro.navigateTo({
