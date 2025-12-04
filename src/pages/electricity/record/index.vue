@@ -34,7 +34,6 @@ import dayjs from "dayjs";
 import { last, uniqBy } from "lodash-es";
 import { storeToRefs } from "pinia";
 
-import { QueryChargeRecordResponse } from "@/api/types/electricity";
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import List from "@/components/List/List.vue";
 import ListItem from "@/components/List/ListItem.vue";
@@ -61,20 +60,18 @@ const {
   initialPageParam: 0,
   getNextPageParam: (lastPage, pages) => {
     if (pages.length > 1) {
-      const prevPage = pages.at(pages.length - 2);
+      const prevPage = pages.at(-2);
       if (prevPage && last(prevPage)?.datetime === last(lastPage)?.datetime) return undefined;
     }
     return pages.length;
   },
-  select: (res) => {
-    const formatPages = (pages: QueryChargeRecordResponse[]) =>
-      pages.flatMap((page) =>
+  select: (res) =>
+    // 最后两页会数据重复，这里直接全部去重
+    uniqBy(
+      res.pages.flatMap((page) =>
         page.map((item) => ({ ...item, datetime: dayjs(item.datetime).format("YYYY.MM.DD HH:mm") }))
-      );
-    // 只对最后两页去重
-    return formatPages(res.pages.slice(0, -2)).concat(
-      uniqBy(formatPages(res.pages.slice(-2)), "datetime")
-    );
-  }
+      ),
+      "datetime"
+    )
 });
 </script>

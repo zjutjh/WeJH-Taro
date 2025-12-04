@@ -3,7 +3,7 @@
     <title-bar title="寝室电量查询" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view :class="styles['header-view']"><image src="@/assets/photos/electricity.svg" /></view>
-      <view :class="['flex-column', styles['flex-column']]">
+      <view :class="[styles['flex-column']]">
         <card :class="styles['info-card']">
           <view :class="styles['dormitory-info']">
             <view :class="styles['icon-wrapper']"><view class="iconfont icon-electricity" /></view>
@@ -56,12 +56,13 @@
     <bottom-panel>
       <picker
         mode="selector"
-        :range="options"
+        :range="CAMPUS_OPTION"
+        rangeKey="label"
         :value="selectIndex"
         :class="styles['picker-wrapper']"
         @change="onPickerChange"
       >
-        <w-button :class="styles.selector"> {{ options.at(selectIndex) }} </w-button>
+        <w-button :class="styles.selector"> {{ CAMPUS_OPTION.at(selectIndex)?.label }} </w-button>
       </picker>
     </bottom-panel>
   </theme-config>
@@ -83,7 +84,6 @@ import { ServiceErrorCode } from "@/utils/request-error";
 import styles from "./index.module.scss";
 
 const { campus, selectIndex } = storeToRefs(useElectricityStore());
-const options = CAMPUS_OPTION.map((item) => item.label);
 
 const onPickerChange = (event: { detail: { value: number } }) => {
   selectIndex.value = event.detail.value;
