@@ -36,7 +36,14 @@
     "wechat",
     "wejh",
     "zjutjh",
-    "myapplication"
+    "myapplication",
+    "todaytomorrow",
+    "workdayholiday",
+    "lishijilubiaodanjishi",
+    "jisuanqi",
+    "kongjiaoshi",
+    "baocun",
+    "jisuanqi"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
 }
