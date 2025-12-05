@@ -1,6 +1,11 @@
 <template>
   <!-- 班车信息卡片 -->
   <card :class="styles['bus-information-container']">
+    <view class="iconfont icon-tag" :class="styles['tag']">
+      <span :class="styles['tag-text']">
+        {{ props.openType === OpenTypeEnum.Weekday ? "工作日" : "节假日" }}</span
+      >
+    </view>
     <view :class="styles['bus-information-title']">
       <view :class="styles['start-time']"> {{ props.departureTime }}发车</view>
       <view :class="styles['route-name']">{{
@@ -29,7 +34,7 @@
 import Taro from "@tarojs/taro";
 
 import { Card } from "@/components";
-import { FEBusTime } from "@/types/schoolbus";
+import { FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
 

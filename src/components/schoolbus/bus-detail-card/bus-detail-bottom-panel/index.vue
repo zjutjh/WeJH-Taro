@@ -1,18 +1,7 @@
 <template>
   <bottom-panel :class="styles['bus-detail-bottom-panel']">
     <view :class="styles['col']">
-      <w-button shape="circle" size="large" :class="styles['button']">
-        <Image
-          v-if="1"
-          :class="styles['bottom-icon']"
-          src="https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fswitch-time-today.webp"
-        />
-        <Image
-          v-else
-          :class="styles['bottom-icon']"
-          src="https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fswitch-time-tomorrow.webp"
-        />
-      </w-button>
+      <!-- <refresh-button /> -->
     </view>
     <view :class="styles['col']">
       <picker
@@ -26,9 +15,17 @@
       </picker>
     </view>
     <view :class="styles['col']">
-      <w-button shape="circle" size="large" :class="styles['button']">
-        <Image v-if="1" :class="styles['bottom-icon']" />
-        <Image v-else :class="styles['bottom-icon']" />
+      <w-button shape="circle" size="large" :class="styles['button']" @tab="isToday = !isToday">
+        <image
+          v-if="isToday"
+          src="@/assets/icons/today-tomorrow-switcher/today.svg"
+          :class="styles['bottom-icon']"
+        />
+        <image
+          v-else
+          src="@/assets/icons/today-tomorrow-switcher/tomorrow.svg"
+          :class="styles['bottom-icon']"
+        />
       </w-button>
     </view>
     <view />
@@ -42,7 +39,6 @@ import { ref } from "vue";
 import { BottomPanel, WButton } from "@/components";
 
 import styles from "./index.module.scss";
-
 enum PickerSelectionEnum {
   BusDetail = "班车详情",
   RouteTable = "线路详情"
@@ -54,4 +50,6 @@ const onChange = (e) => {
   const index = e.detail.value;
   selectedFilter.value = Object.values(PickerSelectionEnum)[index];
 };
+
+const isToday = ref(true);
 </script>

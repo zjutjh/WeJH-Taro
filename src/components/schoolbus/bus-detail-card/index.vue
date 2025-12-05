@@ -7,9 +7,8 @@
     <view :class="styles['bus-detail-route']">
       <view :class="styles['dot']" />
       <span :class="styles['text']">{{ props.list[0].start }}</span>
-      <Image :class="styles['triple-arrow']" /><span :class="styles['text']">{{
-        props.list[0].end
-      }}</span>
+      <span :class="styles['triple-arrow']" class="iconfont icon-triple-arrow" />
+      <span :class="styles['text']">{{ props.list[0].end }}</span>
     </view>
     <view :class="styles['schedule-table']">
       <view :class="[styles['table-row'], styles['table-header']]">

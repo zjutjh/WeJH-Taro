@@ -24,21 +24,21 @@
       </view>
       <view :class="styles['center-area']">
         <view :class="styles['station-swapper']" @tap="swapCampus">
-          <view :class="styles['station-swapper-icon']" />
+          <view :class="styles['station-swapper-icon']" class="iconfont icon-station-change" />
         </view>
       </view>
       <view :class="styles['right-area']">
         <view :class="styles['right-top-block']">
           <view :class="styles['icon-wrapper']">
-            <view :class="[styles['icon'], styles['route']]" />
+            <view :class="[styles['icon']]" class="iconfont icon-route" />
             <view :class="styles['description']">路线</view>
           </view>
           <view :class="styles['icon-wrapper']">
-            <view :class="[styles['icon'], styles['announcement']]" />
+            <view :class="[styles['icon']]" class="iconfont icon-alarm" />
             <view :class="styles['description']">通知</view>
           </view>
           <view :class="styles['icon-wrapper']">
-            <view :class="[styles['icon'], styles['hint']]" />
+            <view :class="[styles['icon']]" class="iconfont icon-help" />
             <view :class="styles['description']">提示</view>
           </view>
         </view>
@@ -62,8 +62,8 @@
       :scroll-y="true"
     >
       <bus-time-card
-        v-for="item in filteredBusTimeList"
-        :key="`${item.start}-${item.end}-${item.departureTime}`"
+        v-for="(item, index) in filteredBusTimeList"
+        :key="`${item.start}-${item.end}-${item.departureTime}-${index}`"
         v-bind="item"
       />
     </scroll-view>

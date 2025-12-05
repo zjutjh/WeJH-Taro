@@ -2,48 +2,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5% 6% 0 6%;
+  padding: 0 6% 0 6%;
   box-sizing: border-box;
-  margin-bottom: 20Px;
+  margin: 10Px 6% 20Px 6%;
 }
 
 .bus-detail-title {
   font-size: 20Px;
   font-weight: bold;
   min-width: 250Px;
-  color: var(--wjh-color-primary);
   padding-bottom: 10Px;
-  margin-bottom: 10Px;
   border-bottom: 2Px solid var(--wjh-color-primary);
   color: var(--wjh-color-primary);
   text-align: center;
 }
 
 .bus-detail-route {
+  display: flex;
+  align-items: center;
   .text {
     padding: 0 8Px 0 8Px;
   }
   .dot {
     display: inline-block;
     position: relative;
+    top: 1Px;
     width: 9Px;
     height: 9Px;
     background-color: var(--wjh-color-primary);
     border-radius: 10Px;
   }
   .triple-arrow {
-    position: relative;
-    top: 4.5Px;
-    width: 50Px;
-    height: 20Px;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-    background-color: var(--wjh-color-primary);
-    mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Ftriple-arrow.webp");
+    color: var(--wjh-color-primary);
+    font-size: 3rem;
   }
 }
 
@@ -52,7 +43,6 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-top: 20Px;
   .table-header {
     background-color: var(--wjh-color-primary);
     opacity: 0.8;

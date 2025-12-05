@@ -62,19 +62,8 @@
       transform: rotate(45deg);
 
       .station-swapper-icon {
-        display: inline;
-        width: 20Px;
-        height: 15Px;
-        z-index: 1;
         transform: rotate(-45deg);
-        background-color: white;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        -webkit-mask-size: contain;
-        mask-repeat: no-repeat;
-        mask-position: center;
-        mask-size: contain;
-        mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fstation-change.webp");
+        color: white
       }
     }
   }
@@ -98,28 +87,12 @@
         width: 40Px;
         height: 40Px;
         .description {
-          color: var(--wjh-color-text);
-          font-size: 10Px;
+          color: var(--wjh-color-text-secondary);
+          font-size: 9Px;
+          opacity: 0.8;
         }
         .icon {
-          width: 26Px;
-          height: 26Px;
-          -webkit-mask-repeat: no-repeat;
-          -webkit-mask-position: center;
-          -webkit-mask-size: contain;
-          mask-repeat: no-repeat;
-          mask-position: center;
-          mask-size: contain;
-          background-color: var(--wjh-color-primary);
-        }
-        .route {
-          mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Froute.webp");
-        }
-        .announcement {
-          mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fannouncement.webp");
-        }
-        .hint {
-          mask-image: url("https://cube.phlin.cn/api/file?bucket=wjh&object_key=schoolbus%2Fhint.webp");
+          color: var(--wjh-color-primary);
         }
       }
     }
