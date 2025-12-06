@@ -20,6 +20,10 @@ export interface Lesson {
   mark?: boolean;
   /** 课程颜色 */
   color?: string;
+  /** 层数，0为正常层，≥1为冲突层 */
+  stack?: number;
+  /** 显示顺序 */
+  displayOrder?: number;
 }
 export interface PracticeLesson {
   className: string;
