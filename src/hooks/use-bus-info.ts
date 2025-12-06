@@ -4,10 +4,11 @@ import { computed, MaybeRef, unref } from "vue";
 
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
+import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
 
-/** 获取班车信息的 Hook
- * @param options 可选参数 包括search
+/** 获取班车信息大表的 Hook
+ *  为以下useBusDetail和useBusRoute等其余接口提供数据支持
+ *  @param options 可选参数 包括search
  */
 export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) => {
   const { search } = options ?? {};
@@ -18,6 +19,25 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
       const req = queryKey[1] ? { search: queryKey[1] } : {};
       return yxyServiceNext.QueryBusInfo(req);
     }
+  });
+
+  /** 校车线路信息 */
+  const busRoutes = computed<BusRouteDetail[]>(() => {
+    if (!data.value?.list) return [];
+    return data.value.list.map((bus) => {
+      /** 此处bus.name形如: 1号线（屏峰-朝晖）*/
+      let [start, end] = bus.name.split("-");
+      start = start.split("（")[1];
+      end = end.split("）")[0];
+      const routeName = bus.name.split("（")[0];
+
+      return {
+        routeName,
+        start,
+        end,
+        stations: bus.stations.map((s) => ({ stationName: s }))
+      };
+    });
   });
 
   /** 校车首页班次卡片使用的字段 */
@@ -68,14 +88,15 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
   });
 
   return {
-    busTimeList: busTimeList,
+    busTimeList,
+    busRoutes,
     refetch,
     isLoading
   };
 };
 
 /**
- * 获取单个班次详情的 Hook
+ * 获取某个班车详情的 Hook
  * @param matcher 匹配条件
  */
 export const useBusDetail = (
@@ -97,6 +118,33 @@ export const useBusDetail = (
 
   return {
     busDetail,
+    isLoading,
+    refetch
+  };
+};
+
+/**
+ * 获取某条线路详情的 Hook
+ * @param matcher 匹配条件
+ */
+export const useBusRoute = (
+  matcher: MaybeRef<{
+    routeName: string;
+    start: string;
+    end: string;
+  }>
+) => {
+  const { busRoutes, isLoading, refetch } = useBusInfo();
+
+  const route = computed(() => {
+    const m = unref(matcher);
+    return busRoutes.value.find(
+      (item) => item.routeName === m.routeName && item.start === m.start && item.end === m.end
+    );
+  });
+
+  return {
+    route,
     isLoading,
     refetch
   };

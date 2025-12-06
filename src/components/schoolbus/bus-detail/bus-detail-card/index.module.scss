@@ -1,14 +1,16 @@
 .bus-detail-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 0 6% 0 6%;
   box-sizing: border-box;
   margin: 10Px 6% 20Px 6%;
+  &:global(.wjh-card-body) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .bus-detail-title {
-  font-size: 20Px;
+  font-size: 18Px;
   font-weight: bold;
   min-width: 250Px;
   padding-bottom: 10Px;

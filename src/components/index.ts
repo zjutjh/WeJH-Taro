@@ -21,7 +21,9 @@ import PopView from "./PopView/index.vue";
 import Questionnaire from "./Questionnaire/index.vue";
 import RefreshButton from "./RefreshButton/index.vue";
 import RoomPicker from "./RoomPicker/index.vue";
-import BusDetailCard from "./schoolbus/bus-detail-card/index.vue";
+import BusDetailBottomPanel from "./schoolbus/bus-detail/bus-detail-bottom-panel/index.vue";
+import BusDetailCard from "./schoolbus/bus-detail/bus-detail-card/index.vue";
+import RouteLineCard from "./schoolbus/bus-detail/route-line-card/index.vue";
 import BusTimeCard from "./schoolbus/bus-time-card/index.vue";
 import BusTimeEmpty from "./schoolbus/bus-time-empty/index.vue";
 import ScoreTermPicker from "./ScoreTermPicker/index.vue";
@@ -37,6 +39,7 @@ export {
   Alarm,
   AppList,
   BottomPanel,
+  BusDetailBottomPanel,
   BusDetailCard,
   BusTimeCard,
   BusTimeEmpty,
@@ -50,6 +53,7 @@ export {
   Questionnaire,
   RefreshButton,
   RoomPicker,
+  RouteLineCard,
   ScoreTermPicker,
   TermPicker,
   ThemeConfig,

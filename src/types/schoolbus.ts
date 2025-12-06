@@ -12,16 +12,14 @@ interface BusTime {
   remainSeats: number;
 }
 
-interface BusStation {
+export interface BusStation {
   stationName: string;
 }
 
-/** 班车信息，起终点相反的算作不同 */
-interface BusInformation {
-  busTime: BusTime[];
-  /** 线路名称 */
-  name: string;
-  /** 站点 */
+export interface BusRouteDetail {
+  routeName: string;
+  start: string;
+  end: string;
   stations: BusStation[];
 }
 
@@ -50,9 +48,8 @@ export interface FEBusTime extends BusTime {
   remainSeats: number;
 }
 
-export interface FEBusInformation extends BusInformation {
-  /** 线路名程 如1号线 */
-  routeName: string;
-  /** 不管节假日，全集的班次时间 */
-  busTime: FEBusTime[];
+/** 校车详情页的两个选项 */
+export enum BusDetailPickerEnum {
+  BusDetail = "班车详情",
+  RouteTable = "线路详情"
 }

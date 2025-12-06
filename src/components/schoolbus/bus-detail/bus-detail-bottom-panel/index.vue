@@ -6,7 +6,7 @@
     <view :class="styles['col']">
       <picker
         mode="selector"
-        :range="[PickerSelectionEnum.BusDetail, PickerSelectionEnum.RouteTable]"
+        :range="[BusDetailPickerEnum.BusDetail, BusDetailPickerEnum.RouteTable]"
         @change="onChange"
       >
         <w-button :class="styles['picker']">
@@ -37,18 +37,15 @@ import { Picker } from "@tarojs/components";
 import { ref } from "vue";
 
 import { BottomPanel, WButton } from "@/components";
+import { BusDetailPickerEnum } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
-enum PickerSelectionEnum {
-  BusDetail = "班车详情",
-  RouteTable = "线路详情"
-}
 
-const selectedFilter = ref(PickerSelectionEnum.BusDetail);
+const selectedFilter = defineModel<BusDetailPickerEnum>();
 
 const onChange = (e) => {
   const index = e.detail.value;
-  selectedFilter.value = Object.values(PickerSelectionEnum)[index];
+  selectedFilter.value = Object.values(BusDetailPickerEnum)[index];
 };
 
 const isToday = ref(true);
