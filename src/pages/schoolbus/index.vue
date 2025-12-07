@@ -2,59 +2,52 @@
   <theme-config>
     <title-bar title="校车" :back-button="true" />
     <view :class="styles['schoolbus-title-bar']">
-      <view :class="styles['left-area']">
-        <view :class="styles['left-top-block']">
-          <!-- 先空着 看UI打算修改为什么展示模式 -->
-          <picker :class="styles['line-type-selector']" mode="selector">
-            <button :class="styles['picker-button']">{{}}</button>
-          </picker>
+      <view :class="styles['row-1']">
+        <view :class="styles['search-input-container']">
+          <view class="iconfont icon-search" :class="styles['search-icon']" />
+          <input type="text" :class="styles['search-input']" placeholder="请输入关键词" disabled />
         </view>
-        <view :class="styles['left-bottom-block']">
-          <picker
-            :class="styles['route-selector']"
-            mode="selector"
-            :range="allPoint"
-            @change="onChangeStart"
-          >
-            <button :class="styles['picker-button']">
-              {{ selectedStart ? allPointMap[selectedStart] : "" }}
-            </button>
-          </picker>
+        <view :class="styles['icon-wrapper']" @tap="showLineModal = true">
+          <view :class="[styles['icon']]" class="iconfont icon-route" />
+          <view :class="styles['description']">路线</view>
+        </view>
+        <view :class="styles['icon-wrapper']">
+          <view :class="[styles['icon']]" class="iconfont icon-alarm" />
+          <view :class="styles['description']">通知</view>
+        </view>
+        <view :class="styles['icon-wrapper']" @tap="showTipModal = true">
+          <view :class="[styles['icon']]" class="iconfont icon-help" />
+          <view :class="styles['description']">提示</view>
         </view>
       </view>
-      <view :class="styles['center-area']">
-        <view :class="styles['station-swapper']" @tap="swapCampus">
-          <view :class="styles['station-swapper-icon']" class="iconfont icon-station-change" />
-        </view>
+      <view :class="styles['row-2']">
+        <picker
+          :class="styles['route-selector']"
+          mode="selector"
+          :range="allPoint"
+          @change="onChangeStart"
+        >
+          <button :class="styles['picker-button']">
+            {{ selectedStart ? allPointMap[selectedStart] : "" }}
+          </button>
+        </picker>
+        <view
+          class="iconfont icon-a-Switchroute"
+          :class="styles['routeSwapper']"
+          @tap="swapCampus"
+        />
+        <picker
+          :class="styles['route-selector']"
+          mode="selector"
+          :range="allPoint"
+          @change="onChangeEnd"
+        >
+          <button :class="styles['picker-button']">
+            {{ selectedEnd ? allPointMap[selectedEnd] : "" }}
+          </button>
+        </picker>
       </view>
-      <view :class="styles['right-area']">
-        <view :class="styles['right-top-block']">
-          <view :class="styles['icon-wrapper']" @tap="showLineModal = true">
-            <view :class="[styles['icon']]" class="iconfont icon-route" />
-            <view :class="styles['description']">路线</view>
-          </view>
-          <view :class="styles['icon-wrapper']">
-            <view :class="[styles['icon']]" class="iconfont icon-alarm" />
-            <view :class="styles['description']">通知</view>
-          </view>
-          <view :class="styles['icon-wrapper']" @tap="showTipModal = true">
-            <view :class="[styles['icon']]" class="iconfont icon-help" />
-            <view :class="styles['description']">提示</view>
-          </view>
-        </view>
-        <view :class="styles['right-bottom-block']">
-          <picker
-            :class="styles['route-selector']"
-            mode="selector"
-            :range="allPoint"
-            @change="onChangeEnd"
-          >
-            <button :class="styles['picker-button']">
-              {{ selectedEnd ? allPointMap[selectedEnd] : "" }}
-            </button>
-          </picker>
-        </view>
-      </view>
+      <view :class="styles['row-3']"> </view>
     </view>
     <scroll-view
       v-if="selectedStart && selectedEnd"

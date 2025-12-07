@@ -43,7 +43,8 @@
     "jisuanqi",
     "kongjiaoshi",
     "baocun",
-    "jisuanqi"
+    "jisuanqi",
+    "Switchroute"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
 }
