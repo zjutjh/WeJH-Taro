@@ -6,8 +6,21 @@ import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
 
+/** 班车名称解析工具
+ * 输入: "1号线（屏峰-朝晖）"
+ * 输出: { routeName: "1号线", start: "屏峰", end: "朝晖" } */
+const parseBusName = (name: string) => {
+  // 尝试用正则匹配
+  const match = name.match(/^(.*?)（(.*?)-(.*?)）$/);
+  if (match) {
+    return { routeName: match[1], start: match[2], end: match[3] };
+  }
+  // Fallback: 如果格式不匹配，做一些容错处理或返回空
+  return { routeName: name, start: "", end: "" };
+};
+
 /** 获取班车信息大表的 Hook
- *  为以下useBusDetail和useBusRoute等其余接口提供数据支持
+ *  所有范围为"所有线路维度",而非"某条线路维度" 的信息在useBusInfo中获取
  *  @param options 可选参数 包括search
  */
 export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) => {
@@ -21,26 +34,8 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
     }
   });
 
-  /** 校车线路信息 */
-  const busRoutes = computed<BusRouteDetail[]>(() => {
-    if (!data.value?.list) return [];
-    return data.value.list.map((bus) => {
-      /** 此处bus.name形如: 1号线（屏峰-朝晖）*/
-      let [start, end] = bus.name.split("-");
-      start = start.split("（")[1];
-      end = end.split("）")[0];
-      const routeName = bus.name.split("（")[0];
-
-      return {
-        routeName,
-        start,
-        end,
-        stations: bus.stations.map((s) => ({ stationName: s }))
-      };
-    });
-  });
-
-  /** 校车首页班次卡片使用的字段 */
+  /** 将原大表flat化得到的"所有班次列表"
+   *  用于渲染校车首页班次列表 */
   const busTimeList = computed<FEBusTime[]>(() => {
     if (!data.value?.list) return [];
 
@@ -48,11 +43,7 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
 
     /**  构建带日期时间的中间数组，用于排序 */
     const items = data.value.list.flatMap((bus) => {
-      /** 此处bus.name形如: 1号线（屏峰-朝晖）*/
-      let [start, end] = bus.name.split("-");
-      start = start.split("（")[1];
-      end = end.split("）")[0];
-      const routeName = bus.name.split("（")[0];
+      const { routeName, start, end } = parseBusName(bus.name);
 
       return bus.bus_time.map((time) => {
         const [hourStr, minuteStr] = time.departure_time.split(":");
@@ -87,9 +78,61 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
     return items.map((x) => x.item);
   });
 
+  /** 校车线路信息 */
+  const busRouteList = computed<BusRouteDetail[]>(() => {
+    if (!data.value?.list) return [];
+    return data.value.list.map((bus) => {
+      const { routeName, start, end } = parseBusName(bus.name);
+
+      return {
+        routeName,
+        start,
+        end,
+        stations: bus.stations.map((s) => ({ stationName: s }))
+      };
+    });
+  });
+
+  /** 根据校区分类的线路名列表 */
+  const busLineList = computed(() => {
+    const groups = {
+      "朝晖-屏峰": new Set<string>(),
+      "朝晖-莫干山": new Set<string>(),
+      "屏峰-莫干山": new Set<string>()
+    };
+
+    if (!data.value?.list) {
+      return {
+        "朝晖-屏峰": [],
+        "朝晖-莫干山": [],
+        "屏峰-莫干山": []
+      };
+    }
+
+    data.value.list.forEach((bus) => {
+      const { routeName, start, end } = parseBusName(bus.name);
+      const campuses = new Set([start, end]);
+
+      if (campuses.has("朝晖") && campuses.has("屏峰")) {
+        groups["朝晖-屏峰"].add(routeName);
+      } else if (campuses.has("朝晖") && campuses.has("莫干山")) {
+        groups["朝晖-莫干山"].add(routeName);
+      } else if (campuses.has("屏峰") && campuses.has("莫干山")) {
+        groups["屏峰-莫干山"].add(routeName);
+      }
+    });
+
+    return {
+      "朝晖-屏峰": Array.from(groups["朝晖-屏峰"]),
+      "朝晖-莫干山": Array.from(groups["朝晖-莫干山"]),
+      "屏峰-莫干山": Array.from(groups["屏峰-莫干山"])
+    };
+  });
+
   return {
     busTimeList,
-    busRoutes,
+    busRouteList: busRouteList,
+    busLineList: busLineList,
     refetch,
     isLoading
   };
@@ -134,7 +177,7 @@ export const useBusRoute = (
     end: string;
   }>
 ) => {
-  const { busRoutes, isLoading, refetch } = useBusInfo();
+  const { busRouteList: busRoutes, isLoading, refetch } = useBusInfo();
 
   const route = computed(() => {
     const m = unref(matcher);

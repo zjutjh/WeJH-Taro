@@ -1,0 +1,36 @@
+.tip-modal {
+  :global(.wjh-modal-header) {
+    color: var(--wjh-color-primary);
+    padding-bottom: 5Px;
+    font-size: 1.25rem;
+  }
+  :global(.wjh-modal-body) {
+    padding-top: 0;
+    line-height: inherit;
+  }
+}
+
+.close-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 16Px;
+  color: var(--wjh-color-text-secondary);
+  font-size: 1rem !important;
+}
+
+.content {
+  text-align: left;
+  font-size: 14Px;
+  color: var(--wjh-color-text);
+
+  .paragraph {
+    margin-bottom: 10Px;
+    text-align: justify;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

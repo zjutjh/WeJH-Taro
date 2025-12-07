@@ -24,8 +24,10 @@ import RoomPicker from "./RoomPicker/index.vue";
 import BusDetailBottomPanel from "./schoolbus/bus-detail/bus-detail-bottom-panel/index.vue";
 import BusDetailCard from "./schoolbus/bus-detail/bus-detail-card/index.vue";
 import RouteLineCard from "./schoolbus/bus-detail/route-line-card/index.vue";
+import BusLineModal from "./schoolbus/bus-line-modal/index.vue";
 import BusTimeCard from "./schoolbus/bus-time-card/index.vue";
 import BusTimeEmpty from "./schoolbus/bus-time-empty/index.vue";
+import BusTipModal from "./schoolbus/bus-tip-modal/index.vue";
 import ScoreTermPicker from "./ScoreTermPicker/index.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WSteps from "./Steps/index.vue";
@@ -41,8 +43,10 @@ export {
   BottomPanel,
   BusDetailBottomPanel,
   BusDetailCard,
+  BusLineModal,
   BusTimeCard,
   BusTimeEmpty,
+  BusTipModal,
   Card,
   ContactMe,
   Home,
