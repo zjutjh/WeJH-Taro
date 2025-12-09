@@ -44,7 +44,8 @@
     "kongjiaoshi",
     "baocun",
     "jisuanqi",
-    "Switchroute"
+    "Switchroute",
+    "rcgy"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
 }

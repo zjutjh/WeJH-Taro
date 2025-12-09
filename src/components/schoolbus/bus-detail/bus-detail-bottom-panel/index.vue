@@ -15,7 +15,7 @@
       </picker>
     </view>
     <view :class="styles['col']">
-      <w-button shape="circle" size="large" :class="styles['button']" @tab="isToday = !isToday">
+      <w-button shape="circle" size="large" :class="styles['button']" @tap="isToday = !isToday">
         <image
           v-if="isToday"
           src="@/assets/icons/today-tomorrow-switcher/today.svg"
@@ -34,19 +34,19 @@
 
 <script setup lang="ts">
 import { Picker } from "@tarojs/components";
-import { ref } from "vue";
 
 import { BottomPanel, WButton } from "@/components";
 import { BusDetailPickerEnum } from "@/types/schoolbus";
 
 import styles from "./index.module.scss";
 
-const selectedFilter = defineModel<BusDetailPickerEnum>();
+const selectedFilter = defineModel<BusDetailPickerEnum>("selectedFilter");
 
 const onChange = (e) => {
   const index = e.detail.value;
   selectedFilter.value = Object.values(BusDetailPickerEnum)[index];
 };
 
-const isToday = ref(true);
+/** true时是今天 false是明天 */
+const isToday = defineModel<boolean>("isToday");
 </script>

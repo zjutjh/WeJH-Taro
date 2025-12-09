@@ -1,4 +1,6 @@
 .line-modal {
+  display: flex;
+  align-items: center;
   :global(.wjh-modal-header) {
     color: var(--wjh-color-primary);
     padding-bottom: 5Px;
@@ -6,6 +8,9 @@
   :global(.wjh-modal-body) {
     padding-top: 0;
     line-height: inherit;
+  }
+  :global(.wjh-modal-container) {
+    top: auto;
   }
 }
 

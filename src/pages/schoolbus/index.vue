@@ -85,6 +85,7 @@ import {
   ThemeConfig,
   TitleBar
 } from "@/components";
+import diyData from "@/hooks/diy-data.json";
 import { useBusInfo } from "@/hooks/use-bus-info";
 
 import styles from "./index.module.scss";
@@ -93,10 +94,22 @@ const showLineModal = ref(false);
 const showTipModal = ref(false);
 
 const { busTimeList, busLineList } = useBusInfo();
+
 const filteredBusTimeList = computed(() => {
+  /** 根据浙工大官方网站 翰墨香林 金月巷 也认为是 "屏峰" */
+  const isPF = (point: string) => {
+    return point === "屏峰" || point === "翰墨香林" || point === "金月巷";
+  };
+
   return busTimeList.value.filter((item) => {
-    const matchStart = item.start === selectedStart.value;
-    const matchEnd = item.end === selectedEnd.value;
+    let matchEnd: boolean = true;
+    let matchStart: boolean = true;
+    if (selectedStart.value === "屏峰") matchStart = isPF(item.start);
+    else matchStart = item.start === selectedStart.value;
+
+    if (selectedEnd.value === "屏峰") matchEnd = isPF(item.end);
+    else matchStart = item.start === selectedStart.value;
+
     return matchStart && matchEnd;
   });
 });
@@ -131,12 +144,12 @@ const handleLineSelect = (line: string) => {
   let start = "";
   let end = "";
 
-  for (const [groupName, lines] of Object.entries(busLineList.value)) {
-    if (lines.includes(line)) {
-      [start, end] = groupName.split("-");
-      break;
+  diyData.forEach((item) => {
+    if (item.name.startsWith(line)) {
+      start = item.name.split("（")[1].split("-")[0];
+      end = item.name.split("（")[1].split("-")[1].split("）")[0];
     }
-  }
+  });
 
   if (start && end) {
     Taro.navigateTo({

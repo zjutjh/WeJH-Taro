@@ -19,7 +19,7 @@
       >
         <view :class="styles['group-title']">
           <view :class="styles['dot']" />
-          <text>{{ groupName }}</text>
+          <text>{{ groupName === "" ? "其他" : groupName }}</text>
         </view>
 
         <view :class="styles['chips-container']">

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
 import { computed, MaybeRef, unref } from "vue";
 
+import diyData from "@/hooks/diy-data.json";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
@@ -60,8 +61,7 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
           departureTime: date.format("MM.DD HH:mm"),
           orderedSeats: time.ordered_seats,
           remainSeats: time.remain_seats,
-          /** 暂时用all, 等待接后端的自定义接口, 来判断openType */
-          openType: OpenTypeEnum.All,
+          openType: "" as OpenTypeEnum,
           routeName: routeName,
           start: start,
           end: end,
@@ -80,8 +80,7 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
 
   /** 校车线路信息 */
   const busRouteList = computed<BusRouteDetail[]>(() => {
-    if (!data.value?.list) return [];
-    return data.value.list.map((bus) => {
+    return diyData.map((bus) => {
       const { routeName, start, end } = parseBusName(bus.name);
 
       return {
@@ -98,34 +97,32 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
     const groups = {
       "朝晖-屏峰": new Set<string>(),
       "朝晖-莫干山": new Set<string>(),
-      "屏峰-莫干山": new Set<string>()
+      "屏峰-莫干山": new Set<string>(),
+      "": new Set<string>()
     };
 
-    if (!data.value?.list) {
-      return {
-        "朝晖-屏峰": [],
-        "朝晖-莫干山": [],
-        "屏峰-莫干山": []
-      };
-    }
-
-    data.value.list.forEach((bus) => {
+    diyData.forEach((bus) => {
       const { routeName, start, end } = parseBusName(bus.name);
       const campuses = new Set([start, end]);
 
-      if (campuses.has("朝晖") && campuses.has("屏峰")) {
+      /** 根据浙工大官方网站 翰墨香林 金月巷 也认为是 "屏峰" */
+      const hasPF = campuses.has("屏峰") || campuses.has("翰墨香林") || campuses.has("金月巷");
+      if (campuses.has("朝晖") && hasPF) {
         groups["朝晖-屏峰"].add(routeName);
       } else if (campuses.has("朝晖") && campuses.has("莫干山")) {
         groups["朝晖-莫干山"].add(routeName);
-      } else if (campuses.has("屏峰") && campuses.has("莫干山")) {
+      } else if (hasPF && campuses.has("莫干山")) {
         groups["屏峰-莫干山"].add(routeName);
+      } else {
+        groups[""].add(routeName);
       }
     });
 
     return {
       "朝晖-屏峰": Array.from(groups["朝晖-屏峰"]),
       "朝晖-莫干山": Array.from(groups["朝晖-莫干山"]),
-      "屏峰-莫干山": Array.from(groups["屏峰-莫干山"])
+      "屏峰-莫干山": Array.from(groups["屏峰-莫干山"]),
+      "": Array.from(groups[""])
     };
   });
 

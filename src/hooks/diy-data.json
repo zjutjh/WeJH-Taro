@@ -1,0 +1,868 @@
+[
+  {
+    "name": "1号线（朝晖-屏峰）",
+    "start": "朝晖体育馆北",
+    "end": "语林楼",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "朝晖体育馆北",
+      "德胜路东粮泊巷口公交站",
+      "白荡海公交站",
+      "文一路学院路口公交站",
+      "宋江村公交站（西端）",
+      "益乐新村公交站",
+      "雅仕苑公交站",
+      "高教新村",
+      "留下北公交站",
+      "西溪医院横街公交站",
+      "1-A区块（3#楼西侧）",
+      "乌溪江路北口",
+      "古运河路西口",
+      "语林楼"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "08:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:00",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "16:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "1号线（屏峰-朝晖）",
+    "start": "语林楼",
+    "end": "朝晖体育馆北",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "语林楼",
+      "水口公交站",
+      "西溪医院横街公交站",
+      "留下北公交站",
+      "高教新村",
+      "雅仕苑公交站",
+      "益乐新村公交站",
+      "宋江村公交站",
+      "文一路学院路口公交站",
+      "白荡海公交站",
+      "德胜路东粮泊巷口公交站",
+      "朝晖南大门",
+      "朝晖体育馆北"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "16:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "2号线（朝晖-屏峰）",
+    "start": "朝晖体育馆北",
+    "end": "语林楼",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "朝晖体育馆北",
+      "市交警支队公交站",
+      "文三路马塍路口公交站",
+      "古荡新村西公交站",
+      "文三西路丰潭路口公交站",
+      "古墩路金月巷公交站",
+      "古墩路平安桥公交站",
+      "留下北公交站",
+      "西溪医院横街公交站",
+      "1-A区块（3#楼西侧）",
+      "乌溪江路北口",
+      "古运河路西口",
+      "语林楼"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "3号线（屏峰-朝晖）",
+    "start": "语林楼",
+    "end": "朝晖体育馆北",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "语林楼",
+      "水口公交站",
+      "西溪医院横街公交站",
+      "留下北公交站",
+      "府苑新村公交站",
+      "高教新村",
+      "雅仕苑公交站",
+      "文二西路丰潭路口公交站",
+      "文二西路通普路口公交站（古翠路地铁站）",
+      "花园南村公交站",
+      "下宁桥公交站",
+      "文二路马塍路口公交站",
+      "朝晖九区公交站",
+      "朝晖南大门",
+      "朝晖体育馆北"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "17:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "20:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:00",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "16:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "直达线（朝晖-屏峰）",
+    "start": "朝晖体育馆北",
+    "end": "语林楼",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "朝晖体育馆北",
+      "西溪医院横街公交站",
+      "1-A区块（3#楼西侧）",
+      "乌溪江路北口",
+      "古运河路西口",
+      "语林楼"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "07:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "15:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "16:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "20:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "直达线（屏峰-朝晖）",
+    "start": "语林楼",
+    "end": "朝晖体育馆北",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "语林楼",
+      "水口公交站",
+      "西溪医院横街公交站",
+      "朝晖南大门",
+      "朝晖体育馆北"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "07:40",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "14:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "16:15",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday",
+        "note": "始发站为1-A区块"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "6号线（朝晖-翰墨香林）",
+    "start": "朝晖体育馆北",
+    "end": "翰墨香林苑",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "朝晖体育馆北",
+      "留下北公交站",
+      "留下西公交站",
+      "西溪医院横街公交站",
+      "1-A区块（3#楼西侧）",
+      "乌溪江路北口",
+      "生活区南门",
+      "翰墨香林苑"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "17:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "6号线（翰墨香林-朝晖）",
+    "start": "翰墨香林苑",
+    "end": "朝晖体育馆北",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "翰墨香林苑",
+      "水口公交站",
+      "西溪医院横街公交站",
+      "留下西公交站",
+      "留下北公交站",
+      "朝晖南大门",
+      "朝晖体育馆北"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "7号线（朝晖-莫干山）",
+    "start": "朝晖体育馆北",
+    "end": "莫干山校区（校车1号站）",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "朝晖体育馆北",
+      "德胜新村公交站",
+      "大关北公交站",
+      "莫干山校区"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:50",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "07:20",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "08:20",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "10:10",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "07:50",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "12:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "17:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "7号线（莫干山-朝晖）",
+    "start": "莫干山校区（校车1号站）",
+    "end": "朝晖体育馆北",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "莫干山校区",
+      "大关北公交站",
+      "德胜新村公交站",
+      "朝晖南大门",
+      "朝晖体育馆北"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "15:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "16:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "17:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "20:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "21:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "8号线（朝晖-莫干山）",
+    "start": "朝晖体育馆北",
+    "end": "莫干山校区（校车1号站）",
+    "seats": 50,
+    "price": 400,
+    "stations": ["朝晖体育馆北", "绍兴路德胜路口公交站", "莫干山校区"],
+    "bus_time": [
+      {
+        "departure_time": "07:20",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "08:20",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "13:40",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "16:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "17:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "19:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "20:20",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "20:20",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "21:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "8号线（莫干山-朝晖）",
+    "start": "莫干山校区（校车1号站）",
+    "end": "朝晖体育馆北",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "莫干山校区",
+      "绍兴路德胜路口公交站",
+      "朝晖南大门",
+      "朝晖体育馆北"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "07:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "09:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "10:10",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:25",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "13:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "15:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "16:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "07:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "09:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "12:25",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "9号线（屏峰-莫干山）",
+    "start": "语林楼",
+    "end": "莫干山校区（校车1号站）",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "语林楼",
+      "水口公交站",
+      "西溪医院横街公交站",
+      "留下北公交站",
+      "古墩路金月巷公交站",
+      "政新花园公交站",
+      "三坝公交站",
+      "华东陶瓷建材市场公交站",
+      "莫干山校区"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "07:20",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "11:50",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "13:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "15:40",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "18:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "20:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "07:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "12:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "17:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "21:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "9号线（莫干山-屏峰）",
+    "start": "莫干山校区（校车1号站）",
+    "end": "语林楼",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "莫干山校区",
+      "华东陶瓷建材市场公交站",
+      "三坝公交站",
+      "政新花园公交站",
+      "古墩路金月巷公交站",
+      "留下北公交站",
+      "西溪医院横街公交站",
+      "1-A区块（3#楼西侧）",
+      "乌溪江路北口",
+      "古运河路西口",
+      "语林楼"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "10:10",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "13:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "17:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "21:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday",
+        "note": "延伸至翰墨香林苑"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "12:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "17:00",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      },
+      {
+        "departure_time": "21:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekend",
+        "note": "延伸至翰墨香林苑"
+      }
+    ]
+  },
+  {
+    "name": "10号线（翰墨香林-莫干山）",
+    "start": "翰墨香林苑",
+    "end": "莫干山校区（校车1号站）",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "翰墨香林苑",
+      "水口公交站",
+      "西溪医院横街公交站",
+      "留下西公交站",
+      "莫干山校区"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "10号线（莫干山-翰墨香林）",
+    "start": "莫干山校区（校车1号站）",
+    "end": "翰墨香林苑",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "莫干山校区",
+      "留下西公交站",
+      "西溪医院横街公交站",
+      "1-A区块（3#楼西侧）",
+      "乌溪江路北口",
+      "生活区南门",
+      "翰墨香林苑"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "16:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "9号线支线（金月巷-莫干山）",
+    "start": "古墩路金月巷公交站",
+    "end": "莫干山校区（校车1号站）",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "古墩路金月巷公交站",
+      "政新花园公交站",
+      "三坝公交站",
+      "华东陶瓷建材市场公交站",
+      "莫干山校区"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "9号线支线（莫干山-金月巷）",
+    "start": "莫干山校区（校车1号站）",
+    "end": "古墩路金月巷公交站",
+    "seats": 50,
+    "price": 400,
+    "stations": [
+      "莫干山校区",
+      "华东陶瓷建材市场公交站",
+      "三坝公交站",
+      "政新花园公交站",
+      "古墩路金月巷公交站"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "16:30",
+        "remain_seats": 50,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "人才公寓专线（人才公寓-莫干山）",
+    "start": "人才公寓北门",
+    "end": "莫干山校区（校车1号站）",
+    "seats": 45,
+    "price": 400,
+    "stations": ["人才公寓北门", "千人计划产业园公交站", "莫干山校区"],
+    "bus_time": [
+      {
+        "departure_time": "07:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  },
+  {
+    "name": "人才公寓专线（莫干山-人才公寓）",
+    "start": "莫干山校区（校车1号站）",
+    "end": "人才公寓北门",
+    "seats": 45,
+    "price": 400,
+    "stations": ["莫干山校区", "千人计划产业园公交站", "人才公寓北门"],
+    "bus_time": [
+      {
+        "departure_time": "16:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      }
+    ]
+  }
+]

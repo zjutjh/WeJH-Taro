@@ -25,8 +25,11 @@
       >
         <span :class="[styles['col']]">{{ item.departureTime }}</span>
         <view :class="[styles['col']]">
-          <span v-if="item.remainSeats === 0" :class="[styles['seats-num'], styles['zero']]">
-            0
+          <span
+            v-if="item.remainSeats === -1 || item.remainSeats === 0"
+            :class="[styles['seats-num'], styles['zero']]"
+          >
+            {{ item.remainSeats === -1 ? "-" : "0" }}
           </span>
           <span v-else :class="styles['seats-num']">
             {{ item.remainSeats }}
