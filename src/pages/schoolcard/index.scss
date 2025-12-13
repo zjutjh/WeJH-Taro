@@ -1,5 +1,5 @@
-@import "@/style/theme.scss";
-@import "./dark.scss";
+@use "@/style/theme.scss";
+@use "dark.scss";
 
 .school-card {
   text-align: center;
@@ -53,28 +53,6 @@
   margin-top: 24Px;
   min-height: calc(100% - 200Px - 24Px);
   border-radius: 16Px;
-
-  .swicher {
-    flex: 1;
-
-    button {
-      border-radius: 0;
-      font-size: 0.875rem;
-    }
-
-    button:first-child {
-      border-radius: 1000px 0 0 1000px;
-    }
-
-    button:last-child {
-      border-radius: 0 1000px 1000px 0;
-    }
-
-    .button-not-active {
-      background-color: #def9f3 !important;
-      color: var(--wjh-color-green-700);
-    }
-  }
 
   .wjh-card-header {
     .col {
