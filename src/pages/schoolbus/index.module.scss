@@ -1,4 +1,7 @@
 @import '@/style/theme.scss';
+@import "./light.scss";
+@import "./dark.scss";
+
 .schoolbus-container {
   width: 100%;
   flex: 1;
@@ -9,10 +12,10 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 10Px 40Px 10Px 40Px;
+  padding: 10Px 40Px;
   width: 100%;
-  border-radius: 0 0 8Px 8Px;
-  height: 100Px;
+  border-radius: 0 0 10Px 10Px;
+  height: 140Px;
   align-items: center;
   gap: 5Px;
   background-color: var(--wjh-color-primary-light);
@@ -23,26 +26,19 @@
     width: 100%;
     height: 40Px;
     .search-input-container {
+      display: flex;
       position: relative;
       width: 160Px;
       height: 30Px;
       border-radius: 7Px;
-      border: 2Px solid var(--wjh-color-primary);
       overflow: hidden;
       z-index: 0;
+      gap: 5Px;
+
       .search-icon {
         color: var(--wjh-color-primary);
-      }
-      &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: white;
-        opacity: 0.2;
-        z-index: -1;
+        position: relative;
+        top: 4Px;
       }
       .search-input {
         width: 100%;
@@ -77,28 +73,15 @@
     justify-content: space-between;
     width: 100%;
     height: 40Px;
-    border-bottom: 2Px solid white;
     padding-bottom: 10Px;
     .route-selector {
       position: relative;
       width: 110Px;
       height: 30Px;
       border-radius: 7Px;
-      border: 2Px solid var(--wjh-color-primary);
       overflow: hidden;
       z-index: 0;
 
-      &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: white;
-        opacity: 0.2;
-        z-index: -1;
-      }
       .picker-button {
         width: 100%;
         height: 30Px;
@@ -110,14 +93,30 @@
     }
     .routeSwapper {
       color: var(--wjh-color-primary);
+      font-size: 2rem;
     }
   }
   .row-3 {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
     height: 40Px;
+
+    .filter-item {
+      font-size: 14Px;
+      color: var(--wjh-color-text-secondary);
+      padding: 4Px 12Px;
+      border-radius: 15Px;
+
+      &.active {
+        color: var(--wjh-color-primary);
+      }
+    }
+
+    .divider {
+      font-size: 14Px;
+    }
   }
 
 }

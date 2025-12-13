@@ -8,8 +8,8 @@ export default class YxyService<TOptions> extends BaseService<TOptions> {
   ): Promise<YxyAPI.QueryBusInfoResponse> {
     const url = this.genBaseURL("/api/func/bus/info");
     const method = "GET";
-    const data = req;
+    const params = req;
 
-    return this.request({ url, method, data }, options);
+    return this.request({ url, method, params }, options);
   }
 }

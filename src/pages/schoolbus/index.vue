@@ -5,7 +5,12 @@
       <view :class="styles['row-1']">
         <view :class="styles['search-input-container']">
           <view class="iconfont icon-search" :class="styles['search-icon']" />
-          <input type="text" :class="styles['search-input']" placeholder="请输入关键词" disabled />
+          <input
+            v-model="search"
+            type="text"
+            :class="styles['search-input']"
+            placeholder="请输入关键词"
+          />
         </view>
         <view :class="styles['icon-wrapper']" @tap="showLineModal = true">
           <view :class="[styles['icon']]" class="iconfont icon-route" />
@@ -47,7 +52,33 @@
           </button>
         </picker>
       </view>
-      <view :class="styles['row-3']"> </view>
+      <view :class="styles['row-3']">
+        <view
+          :class="[styles['filter-item'], isDirectOnly ? styles['active'] : '']"
+          @tap="isDirectOnly = !isDirectOnly"
+        >
+          直达线
+        </view>
+        <view :class="styles['divider']">|</view>
+        <view
+          :class="[styles['filter-item'], timeFilter.includes('morning') ? styles['active'] : '']"
+          @tap="toggleTimeFilter('morning')"
+        >
+          早上
+        </view>
+        <view
+          :class="[styles['filter-item'], timeFilter.includes('afternoon') ? styles['active'] : '']"
+          @tap="toggleTimeFilter('afternoon')"
+        >
+          下午
+        </view>
+        <view
+          :class="[styles['filter-item'], timeFilter.includes('evening') ? styles['active'] : '']"
+          @tap="toggleTimeFilter('evening')"
+        >
+          晚上
+        </view>
+      </view>
     </view>
     <scroll-view
       v-if="selectedStart && selectedEnd"
@@ -93,7 +124,22 @@ import styles from "./index.module.scss";
 const showLineModal = ref(false);
 const showTipModal = ref(false);
 
-const { busTimeList, busLineList } = useBusInfo();
+/** 是否直达 */
+const isDirectOnly = ref(false);
+/** 时间段筛选 */
+const timeFilter = ref<string[]>([]);
+
+const toggleTimeFilter = (type: "morning" | "afternoon" | "evening") => {
+  if (timeFilter.value.includes(type)) {
+    timeFilter.value = timeFilter.value.filter((t) => t !== type);
+  } else {
+    timeFilter.value.push(type);
+  }
+};
+
+const search = ref("");
+
+const { busTimeList, busLineList } = useBusInfo({ search });
 
 const filteredBusTimeList = computed(() => {
   /** 根据浙工大官方网站 翰墨香林 金月巷 也认为是 "屏峰" */
@@ -102,15 +148,41 @@ const filteredBusTimeList = computed(() => {
   };
 
   return busTimeList.value.filter((item) => {
+    // 1. 校区筛选
     let matchEnd: boolean = true;
     let matchStart: boolean = true;
     if (selectedStart.value === "屏峰") matchStart = isPF(item.start);
     else matchStart = item.start === selectedStart.value;
 
     if (selectedEnd.value === "屏峰") matchEnd = isPF(item.end);
-    else matchStart = item.start === selectedStart.value;
+    else matchEnd = item.end === selectedEnd.value;
 
-    return matchStart && matchEnd;
+    if (!matchStart || !matchEnd) return false;
+
+    // 2. 是否直达线
+    if (isDirectOnly.value) {
+      if (!item.routeName.includes("直达")) return false;
+    }
+
+    // 3. 时间段筛选(早上 下午 晚上)
+    if (timeFilter.value.length > 0) {
+      const timeStr = item.departureTime.split(" ")[1];
+      const [hour, minute] = timeStr.split(":").map(Number);
+      const totalMinutes = hour * 60 + minute;
+
+      const isMorning = totalMinutes >= 0 && totalMinutes < 12 * 60;
+      const isAfternoon = totalMinutes >= 12 * 60 && totalMinutes < 18 * 60;
+      const isEvening = totalMinutes >= 18 * 60 && totalMinutes < 24 * 60;
+
+      let matchTime = false;
+      if (timeFilter.value.includes("morning") && isMorning) matchTime = true;
+      if (timeFilter.value.includes("afternoon") && isAfternoon) matchTime = true;
+      if (timeFilter.value.includes("evening") && isEvening) matchTime = true;
+
+      if (!matchTime) return false;
+    }
+
+    return true;
   });
 });
 

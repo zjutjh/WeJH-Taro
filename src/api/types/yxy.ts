@@ -14,7 +14,7 @@ export type QueryBusInfoResponse = {
     seats: number;
     price: number;
     stations: string[];
-    bus_time: Array<{
+    bus_time?: Array<{
       departure_time: string;
       remain_seats: number;
       ordered_seats: number;

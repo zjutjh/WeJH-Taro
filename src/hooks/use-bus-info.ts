@@ -46,6 +46,8 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
     const items = data.value.list.flatMap((bus) => {
       const { routeName, start, end } = parseBusName(bus.name);
 
+      if (!bus.bus_time) return [];
+
       return bus.bus_time.map((time) => {
         const [hourStr, minuteStr] = time.departure_time.split(":");
         const hour = Number(hourStr);
