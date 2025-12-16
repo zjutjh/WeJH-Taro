@@ -33,15 +33,11 @@
               :key="index"
               class="consume-item-card"
               size="small"
-              :class="
-                parseFloat(item.money) >= 0 ? 'consume-item-positive' : 'consume-item-negative'
-              "
+              :class="item.moneyValue >= 0 ? 'consume-item-positive' : 'consume-item-negative'"
             >
               <view class="content-wrapper">
                 <view class="col">
-                  <text class="transactions">
-                    ¥ {{ Math.abs(round(parseFloat(item.money), 2)) }}
-                  </text>
+                  <text class="transactions"> ¥ {{ Math.abs(round(item.moneyValue, 2)) }} </text>
                 </view>
                 <view class="col">
                   <view>地点：{{ item.address }}</view>
@@ -104,7 +100,7 @@ const { run: queryRecord, loading } = useRequest(YxyService.querySchoolCardRecor
   defaultParams: { queryTime: dayjs().format("YYYYMMDD") },
   onSuccess: (response) => {
     if (response.data.code !== 1) throw new Error(response.data.msg);
-    records.value = response.data.data;
+    records.value = response.data.data ?? [];
     store.commit("setCardToday", records.value);
   },
   onError: (e) => {
@@ -112,11 +108,15 @@ const { run: queryRecord, loading } = useRequest(YxyService.querySchoolCardRecor
   }
 });
 
-const consumeList = computed(() => records.value.filter((item) => parseFloat(item.money) !== 0));
+const consumeList = computed(() =>
+  records.value
+    .map((item) => ({ ...item, moneyValue: parseFloat(item.money) }))
+    .filter((item) => item.moneyValue !== 0)
+);
 
 const totalConsume = computed(() =>
   consumeList.value.reduce((acc, cur) => {
-    if (parseFloat(cur.money) < 0) acc += Math.abs(parseFloat(cur.money));
+    if (cur.moneyValue < 0) acc += Math.abs(cur.moneyValue);
     return acc;
   }, 0)
 );
