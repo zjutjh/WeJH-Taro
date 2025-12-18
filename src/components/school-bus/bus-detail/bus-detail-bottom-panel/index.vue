@@ -44,7 +44,8 @@ const selectedFilter = defineModel<BusDetailPickerEnum>("selectedFilter");
 
 const onChange = (e) => {
   const index = e.detail.value;
-  selectedFilter.value = Object.values(BusDetailPickerEnum)[index];
+  const range = [BusDetailPickerEnum.BusDetail, BusDetailPickerEnum.RouteTable];
+  selectedFilter.value = range[index];
 };
 
 /** true时是今天 false是明天 */

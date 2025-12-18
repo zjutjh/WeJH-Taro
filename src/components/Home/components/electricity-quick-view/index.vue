@@ -25,7 +25,7 @@ import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
 import { Card } from "@/components";
-import { electricityServiceNext } from "@/services";
+import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { useElectricityStore } from "@/store/service/electricity";
 
@@ -36,7 +36,7 @@ const nav2electricity = () => Taro.navigateTo({ url: "/pages/electricity/index" 
 const { campus } = storeToRefs(useElectricityStore());
 const { data, status, dataUpdatedAt } = useQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_BALANCE, campus] as const,
-  queryFn: ({ queryKey }) => electricityServiceNext.QueryBalance({ campus: queryKey[1] })
+  queryFn: ({ queryKey }) => yxyServiceNext.QueryBalance({ campus: queryKey[1] })
 });
 
 const isUrgent = computed(() => (data.value ? data.value.soc < 20 : false));

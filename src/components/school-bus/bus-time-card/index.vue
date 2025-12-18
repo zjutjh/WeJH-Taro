@@ -1,7 +1,11 @@
 <template>
   <!-- 班车信息卡片 -->
   <card :class="styles['bus-information-container']">
-    <view class="iconfont icon-tag" :class="styles['tag']">
+    <view
+      v-if="props.openType !== OpenTypeEnum.All"
+      class="iconfont icon-tag"
+      :class="styles['tag']"
+    >
       <span :class="styles['tag-text']">
         {{ props.openType === OpenTypeEnum.Weekday ? "工作日" : "节假日" }}</span
       >

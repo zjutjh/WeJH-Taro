@@ -42,7 +42,7 @@ export enum OpenTypeEnum {
 
 /** 前端维度的BusTime, 通过diyData手动维护着openType */
 export interface FEBusTime extends BusTime {
-  openType: OpenTypeEnum;
+  openType?: OpenTypeEnum;
 }
 
 /** 校车详情页的两个选项 */

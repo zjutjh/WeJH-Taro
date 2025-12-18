@@ -2,13 +2,13 @@
   <!-- 班车详情卡片 -->
   <card v-if="props.list && props.list.length > 0" :class="styles['bus-detail-container']">
     <view :class="styles['bus-detail-title']">
-      {{ props.list[0].routeName }}
+      {{ props.list[0]?.routeName }}
     </view>
     <view :class="styles['bus-detail-route']">
       <view :class="styles['dot']" />
       <view :class="styles['route-point']">
         <view :class="styles['campus-row']">
-          <span :class="styles['text']">{{ props.list[0].start }}</span>
+          <span :class="styles['text']">{{ props.list[0]?.start }}</span>
         </view>
         <view v-if="props.route && props.route.stations.length > 0" :class="styles['station-name']">
           {{ props.route.stations[0].stationName }}
@@ -20,7 +20,7 @@
 
       <view :class="styles['route-point']">
         <view :class="styles['campus-row']">
-          <span :class="styles['text']">{{ props.list[0].end }}</span>
+          <span :class="styles['text']">{{ props.list[0]?.end }}</span>
         </view>
         <view v-if="props.route && props.route.stations.length > 0" :class="styles['station-name']">
           {{ props.route.stations[props.route.stations.length - 1].stationName }}

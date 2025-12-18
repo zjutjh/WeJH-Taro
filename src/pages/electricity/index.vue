@@ -57,7 +57,7 @@
       <picker
         mode="selector"
         :range="CAMPUS_OPTION"
-        rangeKey="label"
+        range-key="label"
         :value="selectIndex"
         :class="styles['picker-wrapper']"
         @change="onPickerChange"
@@ -76,7 +76,7 @@ import { storeToRefs } from "pinia";
 import { computed, watch, watchEffect } from "vue";
 
 import { BottomPanel, Card, ThemeConfig, TitleBar, WButton, WList, WListItem } from "@/components";
-import { electricityServiceNext } from "@/services";
+import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { CAMPUS_OPTION, useElectricityStore } from "@/store/service/electricity";
 import { ServiceErrorCode } from "@/utils/request-error";
@@ -92,7 +92,7 @@ const onPickerChange = (event: { detail: { value: number } }) => {
 
 const { data, isFetching } = useQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_BALANCE, campus] as const,
-  queryFn: ({ queryKey }) => electricityServiceNext.QueryBalance({ campus: queryKey[1] })
+  queryFn: ({ queryKey }) => yxyServiceNext.QueryBalance({ campus: queryKey[1] })
 });
 
 watchEffect(() =>
@@ -105,7 +105,7 @@ const {
   isFetching: consumptionLoading
 } = useQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_CONSUMPTION, campus] as const,
-  queryFn: ({ queryKey }) => electricityServiceNext.QueryConsumptionRecord({ campus: queryKey[1] }),
+  queryFn: ({ queryKey }) => yxyServiceNext.QueryConsumptionRecord({ campus: queryKey[1] }),
   select: (res) => first(res)?.used
 });
 

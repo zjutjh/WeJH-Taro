@@ -5,7 +5,8 @@ import { computed, MaybeRef, unref } from "vue";
 import diyData from "@/hooks/diy-data.json";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/school-bus";
+import { BusRouteDetail, FEBusTime } from "@/types/school-bus";
+import { isPFCampus } from "@/utils/school-bus";
 
 /** 班车名称解析工具
  * 输入: "1号线（屏峰-朝晖）"
@@ -62,7 +63,6 @@ export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined>
           departureTime: date.format("MM.DD HH:mm"),
           orderedSeats: time.ordered_seats,
           remainSeats: time.remain_seats,
-          openType: "" as OpenTypeEnum,
           routeName: routeName,
           start: start,
           end: end,
@@ -118,8 +118,7 @@ export const useBusLineList = () => {
       const { routeName, start, end } = parseBusName(bus.name);
       const campuses = new Set([start, end]);
 
-      /** 根据浙工大官方网站 翰墨香林 金月巷 也认为是 "屏峰" */
-      const hasPF = campuses.has("屏峰") || campuses.has("翰墨香林") || campuses.has("金月巷");
+      const hasPF = isPFCampus(start) || isPFCampus(end);
       if (campuses.has("朝晖") && hasPF) {
         groups["朝晖-屏峰"].add(routeName);
       } else if (campuses.has("朝晖") && campuses.has("莫干山")) {

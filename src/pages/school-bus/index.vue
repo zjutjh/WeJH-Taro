@@ -37,7 +37,7 @@
           </button>
         </picker>
         <view
-          class="iconfont icon-a-Switchroute"
+          class="iconfont icon-a-switch-route"
           :class="styles['routeSwapper']"
           @tap="swapCampus"
         />
@@ -122,6 +122,7 @@ import {
 } from "@/components";
 import diyData from "@/hooks/diy-data.json";
 import { useBusLineList, useBusTimeList } from "@/hooks/use-bus-info";
+import { isPFCampus } from "@/utils/school-bus";
 
 import styles from "./index.module.scss";
 
@@ -147,19 +148,14 @@ const { busTimeList } = useBusTimeList({ search });
 const { busLineList } = useBusLineList();
 
 const filteredBusTimeList = computed(() => {
-  /** 根据浙工大官方网站 翰墨香林 金月巷 也认为是 "屏峰" */
-  const isPF = (point: string) => {
-    return point === "屏峰" || point === "翰墨香林" || point === "金月巷";
-  };
-
   return busTimeList.value.filter((item) => {
     // 1. 校区筛选
     let matchEnd: boolean = true;
     let matchStart: boolean = true;
-    if (selectedStart.value === "屏峰") matchStart = isPF(item.start);
+    if (selectedStart.value === "屏峰") matchStart = isPFCampus(item.start);
     else matchStart = item.start === selectedStart.value;
 
-    if (selectedEnd.value === "屏峰") matchEnd = isPF(item.end);
+    if (selectedEnd.value === "屏峰") matchEnd = isPFCampus(item.end);
     else matchEnd = item.end === selectedEnd.value;
 
     if (!matchStart || !matchEnd) return false;
@@ -204,11 +200,11 @@ const allPointMap = {
 
 const onChangeStart = (e) => {
   const index = e.detail.value;
-  selectedStart.value = Object.values(allPoint)[index];
+  selectedStart.value = allPoint[index];
 };
 const onChangeEnd = (e) => {
   const index = e.detail.value;
-  selectedEnd.value = Object.values(allPoint)[index];
+  selectedEnd.value = allPoint[index];
 };
 
 const swapCampus = () => {

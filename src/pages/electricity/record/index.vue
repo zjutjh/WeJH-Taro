@@ -37,7 +37,7 @@ import { storeToRefs } from "pinia";
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import List from "@/components/List/List.vue";
 import ListItem from "@/components/List/ListItem.vue";
-import { electricityServiceNext } from "@/services";
+import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { useElectricityStore } from "@/store/service/electricity";
 
@@ -56,7 +56,7 @@ const {
 } = useInfiniteQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_CHARGE_RECORD, campus] as const,
   queryFn: ({ queryKey, pageParam }) =>
-    electricityServiceNext.QueryChargeRecord({ page: pageParam.toString(), campus: queryKey[1] }),
+    yxyServiceNext.QueryChargeRecord({ page: pageParam.toString(), campus: queryKey[1] }),
   initialPageParam: 0,
   getNextPageParam: (lastPage, pages) => {
     if (pages.length > 1) {
