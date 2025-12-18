@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { Card } from "@/components";
-import { BusRouteDetail } from "@/types/schoolbus";
+import { BusRouteDetail } from "@/types/school-bus";
 
 import styles from "./index.module.scss";
 

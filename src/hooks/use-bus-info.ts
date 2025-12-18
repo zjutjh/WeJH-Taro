@@ -5,7 +5,7 @@ import { computed, MaybeRef, unref } from "vue";
 import diyData from "@/hooks/diy-data.json";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
+import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/school-bus";
 
 /** 班车名称解析工具
  * 输入: "1号线（屏峰-朝晖）"
@@ -26,7 +26,7 @@ const parseBusName = (name: string) => {
 export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined> }) => {
   const { search } = options ?? {};
   const { data, refetch, isLoading } = useQuery({
-    queryKey: [QUERY_KEY.SCHOOLBUS_INFO, search] as const,
+    queryKey: [QUERY_KEY.SCHOOL_BUS_INFO, search] as const,
     queryFn: ({ queryKey }) => {
       /** 可选字段search */
       const req = queryKey[1] ? { search: queryKey[1] } : {};

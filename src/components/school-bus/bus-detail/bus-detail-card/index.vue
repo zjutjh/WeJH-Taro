@@ -65,7 +65,7 @@
 </template>
 <script setup lang="ts">
 import { Card } from "@/components";
-import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
+import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/school-bus";
 
 import styles from "./index.module.scss";
 

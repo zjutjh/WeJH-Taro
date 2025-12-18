@@ -36,7 +36,7 @@
 import { Picker } from "@tarojs/components";
 
 import { BottomPanel, WButton } from "@/components";
-import { BusDetailPickerEnum } from "@/types/schoolbus";
+import { BusDetailPickerEnum } from "@/types/school-bus";
 
 import styles from "./index.module.scss";
 

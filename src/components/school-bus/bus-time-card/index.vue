@@ -34,7 +34,7 @@
 import Taro from "@tarojs/taro";
 
 import { Card } from "@/components";
-import { FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
+import { FEBusTime, OpenTypeEnum } from "@/types/school-bus";
 
 import styles from "./index.module.scss";
 
@@ -42,7 +42,7 @@ const props = defineProps<FEBusTime>();
 
 const nav2Detail = () => {
   Taro.navigateTo({
-    url: `/pages/schoolbus/bus-detail/index?routeName=${props.routeName}&start=${props.start}&end=${props.end}`
+    url: `/pages/school-bus/bus-detail/index?routeName=${props.routeName}&start=${props.start}&end=${props.end}`
   });
 };
 </script>

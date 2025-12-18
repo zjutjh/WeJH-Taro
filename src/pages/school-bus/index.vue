@@ -1,7 +1,7 @@
 <template>
   <theme-config>
     <title-bar title="校车" :back-button="true" />
-    <view :class="styles['schoolbus-title-bar']">
+    <view :class="styles['school-bus-title-bar']">
       <view :class="styles['row-1']">
         <view :class="styles['search-input-container']">
           <view class="iconfont icon-search" :class="styles['search-icon']" />
@@ -82,7 +82,7 @@
     </view>
     <scroll-view
       v-if="selectedStart && selectedEnd && filteredBusTimeList.length > 0"
-      :class="styles['schoolbus-container']"
+      :class="styles['school-bus-container']"
       :scroll-y="true"
     >
       <bus-time-card
@@ -91,10 +91,10 @@
         v-bind="item"
       />
     </scroll-view>
-    <view v-else-if="!selectedStart || !selectedEnd" :class="styles['schoolbus-container']">
+    <view v-else-if="!selectedStart || !selectedEnd" :class="styles['school-bus-container']">
       <bus-time-unselected />
     </view>
-    <view v-else :class="styles['schoolbus-container']">
+    <view v-else :class="styles['school-bus-container']">
       <bus-time-empty />
     </view>
     <bus-line-modal
@@ -230,7 +230,7 @@ const handleLineSelect = (line: string) => {
 
   if (start && end) {
     Taro.navigateTo({
-      url: `/pages/schoolbus/bus-detail/index?routeName=${line}&start=${start}&end=${end}`
+      url: `/pages/school-bus/bus-detail/index?routeName=${line}&start=${start}&end=${end}`
     });
   }
 };

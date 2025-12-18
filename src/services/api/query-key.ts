@@ -5,5 +5,5 @@ export const QUERY_KEY = {
   ZF_EXAM: "exam",
   ZF_SCORE: "score",
   ZF_ROOM: "room",
-  SCHOOLBUS_INFO: "busInfo"
+  SCHOOL_BUS_INFO: "busInfo"
 } as const;

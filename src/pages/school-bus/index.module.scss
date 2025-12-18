@@ -2,13 +2,13 @@
 @import "./light.scss";
 @import "./dark.scss";
 
-.schoolbus-container {
+.school-bus-container {
   width: 100%;
   flex: 1;
   min-height: 0;
 }
 
-.schoolbus-title-bar {
+.school-bus-title-bar {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

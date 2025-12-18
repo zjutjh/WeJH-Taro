@@ -42,7 +42,7 @@ import {
 } from "@/components";
 import diyData from "@/hooks/diy-data.json";
 import { useBusDetail, useBusRoute } from "@/hooks/use-bus-info";
-import { BusDetailPickerEnum, FEBusTime, OpenTypeEnum } from "@/types/schoolbus";
+import { BusDetailPickerEnum, FEBusTime, OpenTypeEnum } from "@/types/school-bus";
 
 import styles from "./index.module.scss";
 
