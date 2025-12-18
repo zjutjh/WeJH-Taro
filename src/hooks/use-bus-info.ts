@@ -21,10 +21,9 @@ const parseBusName = (name: string) => {
 };
 
 /** 获取班车信息大表的 Hook
- *  所有范围为"所有线路维度",而非"某条线路维度" 的信息在useBusInfo中获取
  *  @param options 可选参数 包括search
  */
-export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) => {
+export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined> }) => {
   const { search } = options ?? {};
   const { data, refetch, isLoading } = useQuery({
     queryKey: [QUERY_KEY.SCHOOLBUS_INFO, search] as const,
@@ -80,7 +79,15 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
     return items.map((x) => x.item);
   });
 
-  /** 校车线路信息 */
+  return {
+    busTimeList,
+    refetch,
+    isLoading
+  };
+};
+
+/** 校车线路信息 Hook */
+export const useBusRouteList = () => {
   const busRouteList = computed<BusRouteDetail[]>(() => {
     return diyData.map((bus) => {
       const { routeName, start, end } = parseBusName(bus.name);
@@ -94,7 +101,11 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
     });
   });
 
-  /** 根据校区分类的线路名列表 */
+  return { busRouteList };
+};
+
+/** 根据校区分类的线路名列表 Hook */
+export const useBusLineList = () => {
   const busLineList = computed(() => {
     const groups = {
       "朝晖-屏峰": new Set<string>(),
@@ -128,13 +139,7 @@ export const useBusInfo = (options?: { search?: MaybeRef<string | undefined> }) 
     };
   });
 
-  return {
-    busTimeList,
-    busRouteList: busRouteList,
-    busLineList: busLineList,
-    refetch,
-    isLoading
-  };
+  return { busLineList };
 };
 
 /**
@@ -148,7 +153,7 @@ export const useBusDetail = (
     end: string;
   }>
 ) => {
-  const { busTimeList, isLoading, refetch } = useBusInfo();
+  const { busTimeList, isLoading, refetch } = useBusTimeList();
 
   const busDetail = computed(() => {
     const m = unref(matcher);
@@ -176,7 +181,8 @@ export const useBusRoute = (
     end: string;
   }>
 ) => {
-  const { busRouteList: busRoutes, isLoading, refetch } = useBusInfo();
+  const { busRouteList: busRoutes } = useBusRouteList();
+  const { isLoading, refetch } = useBusTimeList();
 
   const route = computed(() => {
     const m = unref(matcher);

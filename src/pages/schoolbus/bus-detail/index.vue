@@ -6,8 +6,16 @@
         v-if="selectedFilter === BusDetailPickerEnum.BusDetail"
         :class="styles['bus-detail-content']"
       >
-        <bus-detail-card :class="styles['bus-detail-card']" :list="mergedStart2EndDetail" />
-        <bus-detail-card :class="styles['bus-detail-card']" :list="mergedEnd2StartDetail" />
+        <bus-detail-card
+          :class="styles['bus-detail-card']"
+          :list="mergedStart2EndDetail"
+          :route="start2EndRouteLine"
+        />
+        <bus-detail-card
+          :class="styles['bus-detail-card']"
+          :list="mergedEnd2StartDetail"
+          :route="end2StartRouteLine"
+        />
       </view>
       <view v-else :class="styles['route-line-content']">
         <route-line-card :class="styles['route-line-card']" :route-line="start2EndRouteLine" />

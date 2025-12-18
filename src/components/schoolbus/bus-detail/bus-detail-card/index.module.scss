@@ -15,29 +15,66 @@
   min-width: 250Px;
   padding-bottom: 10Px;
   border-bottom: 2Px solid var(--wjh-color-primary);
+
   color: var(--wjh-color-primary);
   text-align: center;
 }
 
 .bus-detail-route {
   display: flex;
-  align-items: center;
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+  margin: 15Px 0 25Px 0;
+  gap: 4Px;
+
+  .route-point {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .station-name {
+      position: absolute;
+      bottom: -20Px;
+      font-size: 12Px;
+      color: var(--wjh-color-text-secondary);
+      margin-top: 4Px;
+      white-space: nowrap;
+      max-width: 80Px;
+      overflow: hidden;
+    }
+  }
+
+  .campus-row {
+    display: flex;
+    align-items: center;
+  }
+
   .text {
     padding: 0 8Px 0 8Px;
+    font-size: 16Px;
   }
   .dot {
     display: inline-block;
     position: relative;
-    top: 1Px;
+    top: 7Px;
     width: 9Px;
     height: 9Px;
     background-color: var(--wjh-color-primary);
-    border-radius: 10Px;
+    border-radius: 9Px;
   }
-  .triple-arrow {
-    color: var(--wjh-color-primary);
-    font-size: 3rem;
+  .triple-arrow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25Px;
+    .triple-arrow {
+      color: var(--wjh-color-primary);
+      font-size: 3rem;
+    }
   }
+
+
 }
 
 .schedule-table {
@@ -45,15 +82,23 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+
   .table-header {
     background-color: var(--wjh-color-primary);
     opacity: 0.8;
     font-size: 15Px;
+    color: white;
+    border-radius: 5Px 5Px 0 0;
   }
+
   .table-row {
     display: flex;
     align-items: center;
     height: 28Px;
+
+    &:last-child {
+      border-radius: 0 0 5Px 5Px;
+    }
 
     .col {
       flex: 1;
@@ -63,8 +108,14 @@
       &.col-seats {
         font-weight: 500;
       }
-    }
 
+      &:last-child {
+        border-right: none;
+      }
+    }
+    .divider {
+      visibility: hidden;
+    }
     .seats-num {
       &.zero {
         color: var(--wjh-color-text-secondary);
@@ -76,5 +127,11 @@
       color: var(--wjh-color-text-secondary);
     }
   }
+  .table-row.has-divider {
+    .divider {
+      visibility: visible;
+      font-size: 14Px;
+      color: white;
+    }
+  }
 }
-

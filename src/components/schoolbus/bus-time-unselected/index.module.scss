@@ -1,0 +1,33 @@
+.bus-information-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5% 6% 0 6%;
+  padding-bottom: 5Px;
+}
+
+.title {
+  font-size: 22Px;
+  color: var(--wjh-color-text-secondary);
+  margin-bottom: 8Px;
+  padding-bottom: 8Px;
+  letter-spacing: 1Px;
+  border-bottom: 2Px solid var(--wjh-color-border);
+  opacity: 0.8;
+  text-align: center;
+}
+
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.text {
+  font-size: 14Px;
+  color: var(--wjh-color-text-secondary);
+  margin-bottom: 10Px;
+  line-height: 1.5;
+  opacity: 0.8;
+}

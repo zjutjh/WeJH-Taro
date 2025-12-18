@@ -81,7 +81,7 @@
       </view>
     </view>
     <scroll-view
-      v-if="selectedStart && selectedEnd"
+      v-if="selectedStart && selectedEnd && filteredBusTimeList.length > 0"
       :class="styles['schoolbus-container']"
       :scroll-y="true"
     >
@@ -91,6 +91,9 @@
         v-bind="item"
       />
     </scroll-view>
+    <view v-else-if="!selectedStart || !selectedEnd" :class="styles['schoolbus-container']">
+      <bus-time-unselected />
+    </view>
     <view v-else :class="styles['schoolbus-container']">
       <bus-time-empty />
     </view>
@@ -112,12 +115,13 @@ import {
   BusLineModal,
   BusTimeCard,
   BusTimeEmpty,
+  BusTimeUnselected,
   BusTipModal,
   ThemeConfig,
   TitleBar
 } from "@/components";
 import diyData from "@/hooks/diy-data.json";
-import { useBusInfo } from "@/hooks/use-bus-info";
+import { useBusLineList, useBusTimeList } from "@/hooks/use-bus-info";
 
 import styles from "./index.module.scss";
 
@@ -139,7 +143,8 @@ const toggleTimeFilter = (type: "morning" | "afternoon" | "evening") => {
 
 const search = ref("");
 
-const { busTimeList, busLineList } = useBusInfo({ search });
+const { busTimeList } = useBusTimeList({ search });
+const { busLineList } = useBusLineList();
 
 const filteredBusTimeList = computed(() => {
   /** 根据浙工大官方网站 翰墨香林 金月巷 也认为是 "屏峰" */
