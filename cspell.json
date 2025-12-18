@@ -35,17 +35,7 @@
     "weapp",
     "wechat",
     "wejh",
-    "zjutjh",
-    "myapplication",
-    "todaytomorrow",
-    "workdayholiday",
-    "lishijilubiaodanjishi",
-    "jisuanqi",
-    "kongjiaoshi",
-    "baocun",
-    "jisuanqi",
-    "Switchroute",
-    "rcgy"
+    "zjutjh"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
 }

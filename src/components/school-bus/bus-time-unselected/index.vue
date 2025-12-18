@@ -1,5 +1,4 @@
 <template>
-  <!-- 班车信息列表空状态用的卡片 -->
   <card :class="styles['bus-information-container']">
     <view :class="styles['title']">请先选择起点和终点</view>
     <view :class="styles['content']">
