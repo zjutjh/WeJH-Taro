@@ -1,194 +1,130 @@
 <template>
   <theme-config :show-bg-image="false">
-    <title-bar title="失物寻物" back-button />
-    <view class="campus-selector">
-      <view class="container">
+    <title-bar title="失物寻物" :back-button="true" />
+    <view :class="styles['campus-selector']">
+      <view :class="styles.container">
         <view
-          v-for="item in campusList"
-          :key="item"
-          :class="['campus', selectCampus === item ? 'active' : undefined]"
-          @tap="() => handleSelectCampus(item)"
+          v-for="{ label, value } in CAMPUS_OPTION_LIST"
+          :key="label"
+          :class="[styles['campus'], { [styles.active]: lastOpenCampus === value }]"
+          @tap="handleSelectCampus(value)"
         >
-          <text>{{ item }}</text>
+          <text>{{ label }}</text>
         </view>
       </view>
     </view>
-    <view class="kind-selector flex-column">
-      <view class="scroll-view">
+    <view :class="[styles['kind-selector'], 'flex-column']">
+      <view :class="styles['scroll-view']">
         <text
-          v-for="item in mainList"
-          :key="item"
-          :class="selectMain === item ? 'active' : undefined"
-          @tap="() => handleSelectMain(item)"
+          v-for="{ label, value } in LOST_OR_FOUND_OPTION_LIST"
+          :key="label"
+          :class="{ [styles.active]: lastOpenMain === value }"
+          @tap="handleSelectMain(value)"
         >
-          {{ item }}
+          {{ label }}
         </text>
       </view>
-      <view class="scroll-view">
+      <view :class="styles['scroll-view']">
         <text
-          v-for="item in kindList"
-          :key="item"
-          :class="selectKind === item ? 'active' : undefined"
-          @tap="() => handleSelectKind(item)"
+          v-for="{ label, value } in kindList"
+          :key="label"
+          :class="{ [styles.active]: selectedKind === value }"
+          @tap="handleSelectKind(value)"
         >
-          {{ item }}
+          {{ label }}
         </text>
       </view>
     </view>
     <scroll-view
       lower-threshold="100"
       :scroll-y="true"
-      class="list-wrapper"
+      :class="styles['list-wrapper']"
       @scrolltolower="handleScrollToBottom"
     >
-      <view class="record-list">
+      <view :class="styles['record-list']">
         <preview-card v-for="item in recordList" :key="item.id" :source="item" />
-        <w-skeleton v-if="loading" :style="{ borderRadius: '8Px' }" />
-        <card v-else-if="!recordList.length && isEmpty">
-          <text>该分类下暂无失物寻物记录</text>
-        </card>
+        <w-skeleton v-if="debouncedLoading" :style="{ borderRadius: '8Px' }" />
+        <card v-else-if="!recordList?.length"><text>该分类下暂无失物寻物记录</text></card>
       </view>
     </scroll-view>
-    <contact-me :data="contactMsg.data" :message="contactMsg.message" @show-help="setHelp" />
+    <contact-me :data="CONTACT_ME_DATA" :message="CONTACT_ME_MSG" @show-help="showHelp" />
     <w-modal v-model:show="isShowHelp" :content="`&emsp;&emsp;${helpContent}`" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
-
-import { omitBy } from "lodash-es";
+import { useInfiniteQuery, useQuery } from "@tanstack/vue-query";
+import { refDebounced } from "@vueuse/core";
+import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 
+import { CampusOption, LostOrFoundOption } from "@/api/types/lostfound";
 import { Card, ContactMe, ThemeConfig, TitleBar, WSkeleton } from "@/components";
+import { Option } from "@/constants";
 import { helpText } from "@/constants/copywriting";
-import { contactMsg } from "@/constants/lostfound";
-import { useRequest } from "@/hooks";
-import { LostfoundService } from "@/services";
-import store, { serviceStore } from "@/store";
-import { LostfoundRecord } from "@/types/Lostfound";
+import { CONTACT_ME_DATA, CONTACT_ME_MSG } from "@/constants/lostfound";
+import { lostfoundServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
+import {
+  CAMPUS_OPTION_LIST,
+  LOST_OR_FOUND_OPTION_LIST,
+  useLostfoundStore
+} from "@/store/service/lostfound";
 
 import WModal from "../../components/Modal/index.vue";
+import styles from "./index.module.scss";
 import PreviewCard from "./PreviewCard/index.vue";
 
-const currentPage = ref(0);
-const maxPage = ref(0);
-const recordList = ref<LostfoundRecord[]>([]);
-const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
-const selectKind = ref("全部");
-const selectCampus = ref(serviceStore.lostfound.lastOpenCampus || "屏峰");
-const mainList = ref<string[]>(["全部", "失物", "寻物"]);
-const selectMain = ref(serviceStore.lostfound.lastOpenMain || "全部");
-const isEmpty = ref(false);
+const { lastOpenCampus, lastOpenMain } = storeToRefs(useLostfoundStore());
+
+const defaultKind: Option = { label: "全部", value: "" };
 const helpContent = ref(helpText.lostfound);
 const isShowHelp = ref(false);
 
-const { data: getKindsResponse } = useRequest(LostfoundService.getKindList, {
-  onSuccess: (res) => {
-    if (res.data.code !== 1) throw new Error(res.data.msg);
-  },
-  onError: (e: Error) => {
-    return `获取分类失败\r\n${e.message || "网络错误"}`;
-  }
+const { data: kindList } = useQuery({
+  queryKey: [QUERY_KEY.LOSTFOUND_KIND],
+  queryFn: () => lostfoundServiceNext.QueryKindList(),
+  select: (res) => [
+    defaultKind,
+    ...res.map((item): Option => ({ label: item.kind_name, value: item.kind_name }))
+  ]
 });
 
-const { loading, run } = useRequest(LostfoundService.getRecords, {
-  defaultParams: {
-    campus: selectCampus.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: ""
-  },
-  loadingDelay: 300,
-  onSuccess: (res) => {
-    if (res.data.code === 1) {
-      recordList.value = recordList.value.concat(res.data.data.data);
-      if (recordList.value.length === 0) isEmpty.value = true;
-      maxPage.value = res.data.data.total_page_num;
-      currentPage.value++;
-    } else throw new Error(res.data.msg);
-  },
-  onError: (e: Error) => {
-    return `加载失物寻物信息失败\r\n${e.message || "网络错误"}`;
-  }
+const selectedKind = ref(defaultKind.value);
+
+const {
+  data: recordList,
+  fetchNextPage,
+  hasNextPage,
+  isFetching
+} = useInfiniteQuery({
+  queryKey: [QUERY_KEY.LOSTFOUND_RECORD, lastOpenCampus, selectedKind, lastOpenMain] as const,
+  queryFn: ({ queryKey, pageParam }) =>
+    lostfoundServiceNext.QueryLostRecords({
+      campus: queryKey[1],
+      kind: queryKey[2],
+      lost_or_found: queryKey[3],
+      page_num: pageParam,
+      page_size: 10
+    }),
+  initialPageParam: 1,
+  getNextPageParam: (lastPage, pages) =>
+    lastPage.total_page_num > pages.length ? pages.length + 1 : undefined,
+  select: (res) => res.pages.map((page) => page.data).flat(1),
+  refetchOnMount: "always"
 });
 
-const getRecords = (data: {
-  campus?: string;
-  kind?: string;
-  page_num: number;
-  page_size: number;
-  lost_or_found?: string;
-}) => {
-  isEmpty.value = false;
-  // 过滤掉值为全部的所有属性，全部场景下接口不需要该字段
-  const newParams = omitBy(data, (value) => value === "全部") as typeof data;
-  run(newParams);
-};
+const delay = computed(() => (isFetching.value ? 300 : 0));
+const debouncedLoading = refDebounced(isFetching, delay);
 
-const kindList = computed<string[]>(() => [
-  "全部",
-  ...(getKindsResponse.value?.data || []).map((item) => item.kind_name)
-]);
-
-const handleSelectCampus = (campus: string) => {
-  if (selectCampus.value === campus) return;
-  selectCampus.value = campus;
-  store.commit("setLastOpenCampus", campus);
-  resetList();
-  getRecords({
-    campus: campus,
-    kind: selectKind.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: selectMain.value
-  });
-};
-
-const handleSelectMain = (main: string) => {
-  if (selectMain.value === main) return;
-  selectMain.value = main;
-  store.commit("setLastOpenMain", main);
-  resetList();
-  getRecords({
-    campus: selectCampus.value,
-    kind: selectKind.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: main
-  });
-};
-
-const handleSelectKind = (kind: string) => {
-  if (selectKind.value === kind) return;
-  selectKind.value = kind;
-  resetList();
-  getRecords({
-    campus: selectCampus.value,
-    kind,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: selectMain.value
-  });
-};
-
-const resetList = () => {
-  currentPage.value = 0;
-  recordList.value = [];
-};
+const handleSelectCampus = (campus: CampusOption) => (lastOpenCampus.value = campus);
+const handleSelectMain = (main: LostOrFoundOption) => (lastOpenMain.value = main);
+const handleSelectKind = (kind: string) => (selectedKind.value = kind);
 
 const handleScrollToBottom = () => {
-  if (loading.value || maxPage.value <= currentPage.value) return;
-  getRecords({
-    campus: selectCampus.value,
-    kind: selectKind.value,
-    page_num: currentPage.value + 1,
-    page_size: 10,
-    lost_or_found: selectMain.value
-  });
+  if (isFetching.value || !hasNextPage.value) return;
+  fetchNextPage();
 };
 
-const setHelp = () => {
-  isShowHelp.value = true;
-};
+const showHelp = () => (isShowHelp.value = true);
 </script>

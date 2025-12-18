@@ -3,11 +3,9 @@ import { BorrowBooksInfo } from "@/types/BorrowBooksInfo";
 
 import { AnnouncementStore, AnnouncementType } from "./announcement";
 import { CardServiceStore, CardServiceType } from "./card";
-import { ElectricityServiceStore } from "./electricity";
 import { HomeCardServiceStore, HomeCardServiceType } from "./homecard";
 import { InformationStore, InformationStoreType } from "./information";
 import { LibraryServiceStore } from "./library";
-import { LostfoundStore, LostfoundStoreType } from "./lostfound";
 import { NotificationStore, NotificationStoreType } from "./notification";
 import { ScoreServiceStore } from "./score";
 import { SuitStore, SuitStoreType } from "./suit";
@@ -24,18 +22,6 @@ export interface ServiceStoreType {
   webview: WebviewStoreType;
   announcement: AnnouncementType;
   information: InformationStoreType;
-  electricity: {
-    roomName: string;
-    roomCode: string;
-    balance: number;
-    electricityCampus: string;
-    selectIndex: number;
-    lastCampus: string;
-    todayConsumption: string;
-    updateTime: {
-      balance: Date;
-    };
-  };
   score: {
     readScoreMarks: Array<{
       name: string;
@@ -56,7 +42,6 @@ export interface ServiceStoreType {
     updateTime: { history: string; current: string };
   };
   zf: ZFServiceType;
-  lostfound: LostfoundStoreType;
   homecard: HomeCardServiceType;
   notification: NotificationStoreType;
   theme: ThemeStoreType;
@@ -74,23 +59,19 @@ export const ServiceStore = {
     information: InformationStore,
     score: ScoreServiceStore,
     homecard: HomeCardServiceStore,
-    electricity: ElectricityServiceStore,
-    lostfound: LostfoundStore,
     notification: NotificationStore,
     theme: ThemeStore,
     suit: SuitStore
   },
-  state: () => ({
-    sessionID: undefined
-  }),
+  state: () => ({ sessionID: undefined }),
   mutations: {
-    setSession(state: ServiceStoreType, value) {
+    setSession(state: ServiceStoreType, value: string) {
       state.sessionID = value;
     },
     clearSession(state: ServiceStoreType) {
       state.sessionID = undefined;
     },
-    setApplist(state: ServiceStoreType, value) {
+    setApplist(state: ServiceStoreType, value: AppListItem[]) {
       state.appList = value;
     },
     clearApplist(state: ServiceStoreType) {

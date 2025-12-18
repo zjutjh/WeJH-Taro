@@ -5,11 +5,9 @@
       <text v-if="isUrgent" class="sub-text-right"> 温馨提示: 电量较低 </text>
     </view>
     <card class="electricity-card">
-      <view v-if="!loading" class="text-wrapper">
+      <view v-if="status !== 'pending'" class="text-wrapper">
         <text>寝室剩余电量</text>
-        <text :class="isUrgent ? 'dangerous' : 'normal'">
-          {{ balanceData?.data.soc || 0 }}
-        </text>
+        <text :class="isUrgent ? 'dangerous' : 'normal'"> {{ data?.soc || 0 }} </text>
         <text>度</text>
       </view>
       <text v-else> 正在查询... </text>
@@ -20,57 +18,31 @@
 <script lang="ts" setup>
 import "./index.scss";
 
+import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
-import { computed, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { computed } from "vue";
 
 import { Card } from "@/components";
-import { useRequest } from "@/hooks";
-import { YxyService } from "@/services";
-import store, { serviceStore } from "@/store";
+import { electricityServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
+import { useElectricityStore } from "@/store/service/electricity";
 
 import QuickViewContainer from "../quick-view-container/index.vue";
 
-function nav2electricity() {
-  Taro.navigateTo({ url: "/pages/electricity/index" });
-}
-const campus = computed(() => serviceStore.electricity.electricityCampus);
+const nav2electricity = () => Taro.navigateTo({ url: "/pages/electricity/index" });
 
-const {
-  data: balanceData,
-  loading,
-  error,
-  run
-} = useRequest(YxyService.queryBalance, {
-  manual: true,
-  onSuccess: (res) => {
-    if (res.data.data.soc) {
-      serviceStore.electricity.lastCampus = campus.value;
-      store.commit("setBalance", res.data.data.soc);
-    } else {
-      throw new Error(res.data.msg);
-    }
-  }
+const { campus } = storeToRefs(useElectricityStore());
+const { data, status, dataUpdatedAt } = useQuery({
+  queryKey: [QUERY_KEY.ELECTRICITY_BALANCE, campus] as const,
+  queryFn: ({ queryKey }) => electricityServiceNext.QueryBalance({ campus: queryKey[1] })
 });
 
-watch(
-  campus,
-  (newCampus) => {
-    run({ campus: newCampus });
-  },
-  { immediate: true }
-);
-
-const isUrgent = computed(() => {
-  if (balanceData.value) return balanceData.value.data.soc < 20;
-  return false;
-});
+const isUrgent = computed(() => (data.value ? data.value.soc < 20 : false));
 
 const updateTimeString = computed(() => {
-  if (loading.value) {
-    return "请稍候";
-  }
-  const time = serviceStore.electricity.updateTime.balance;
-  return !error.value ? dayjs(time).fromNow() : "更新失败";
+  if (status.value === "pending") return "请稍候";
+  return status.value !== "error" ? dayjs(dataUpdatedAt.value).fromNow() : "更新失败";
 });
 </script>
