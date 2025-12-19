@@ -21,6 +21,8 @@ import PopView from "./PopView/index.vue";
 import Questionnaire from "./Questionnaire/index.vue";
 import RefreshButton from "./RefreshButton/index.vue";
 import RoomPicker from "./RoomPicker/index.vue";
+import BusAnnounceCard from "./school-bus/bus-announce-card/index.vue";
+import BusAnnounceModal from "./school-bus/bus-announce-modal/index.vue";
 import BusDetailBottomPanel from "./school-bus/bus-detail/bus-detail-bottom-panel/index.vue";
 import BusDetailCard from "./school-bus/bus-detail/bus-detail-card/index.vue";
 import RouteLineCard from "./school-bus/bus-detail/route-line-card/index.vue";
@@ -42,6 +44,8 @@ export {
   Alarm,
   AppList,
   BottomPanel,
+  BusAnnounceCard,
+  BusAnnounceModal,
   BusDetailBottomPanel,
   BusDetailCard,
   BusLineModal,

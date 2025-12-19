@@ -82,3 +82,23 @@ export type QueryBusInfoResponse = {
     }>;
   }>;
 };
+
+/** 查询校车公告请求 */
+export type QueryBusAnnounceRequest = {
+  page?: string;
+  page_size?: string;
+};
+
+/** 查询校车公告响应 */
+export type QueryBusAnnounceResponse = {
+  updated_at: string;
+  total: number;
+  list: Array<{
+    title: string;
+    author: string;
+    published_at: string;
+    content: string;
+    /** 摘要 */
+    abstract: string;
+  }>;
+};

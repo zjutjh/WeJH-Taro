@@ -54,4 +54,17 @@ export default class YxyService<TOptions> extends BaseService<TOptions> {
 
     return this.request({ url, method, params }, options);
   }
+  QueryBusAnnounce(
+    req: YxyAPI.QueryBusAnnounceRequest,
+    options?: TOptions
+  ): Promise<YxyAPI.QueryBusAnnounceResponse> {
+    return this.request(
+      {
+        url: this.genBaseURL("/api/func/bus/announcement"),
+        method: "GET",
+        data: req
+      },
+      options
+    );
+  }
 }

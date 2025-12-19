@@ -1,5 +1,111 @@
 [
   {
+    "name": "直达线（朝晖-屏峰）",
+    "start": "朝晖体育馆北",
+    "end": "语林楼",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "朝晖体育馆北",
+      "西溪医院横街公交站",
+      "1-A区块（3#楼西侧）",
+      "乌溪江路北口",
+      "古运河路西口",
+      "语林楼"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "07:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "15:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "16:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "20:30",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
+    "name": "直达线（屏峰-朝晖）",
+    "start": "语林楼",
+    "end": "朝晖体育馆北",
+    "seats": 45,
+    "price": 400,
+    "stations": [
+      "语林楼",
+      "水口公交站",
+      "西溪医院横街公交站",
+      "朝晖南大门",
+      "朝晖体育馆北"
+    ],
+    "bus_time": [
+      {
+        "departure_time": "06:40",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "07:40",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "12:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "14:20",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday"
+      },
+      {
+        "departure_time": "16:15",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekday",
+        "note": "始发站为1-A区块"
+      },
+      {
+        "departure_time": "08:00",
+        "remain_seats": 45,
+        "ordered_seats": 0,
+        "open_type": "weekend"
+      }
+    ]
+  },
+  {
     "name": "1号线（朝晖-屏峰）",
     "start": "朝晖体育馆北",
     "end": "语林楼",
@@ -158,112 +264,6 @@
       },
       {
         "departure_time": "16:30",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekend"
-      }
-    ]
-  },
-  {
-    "name": "直达线（朝晖-屏峰）",
-    "start": "朝晖体育馆北",
-    "end": "语林楼",
-    "seats": 45,
-    "price": 400,
-    "stations": [
-      "朝晖体育馆北",
-      "西溪医院横街公交站",
-      "1-A区块（3#楼西侧）",
-      "乌溪江路北口",
-      "古运河路西口",
-      "语林楼"
-    ],
-    "bus_time": [
-      {
-        "departure_time": "07:20",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "12:20",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "15:30",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "16:30",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "20:30",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "08:00",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekend"
-      }
-    ]
-  },
-  {
-    "name": "直达线（屏峰-朝晖）",
-    "start": "语林楼",
-    "end": "朝晖体育馆北",
-    "seats": 45,
-    "price": 400,
-    "stations": [
-      "语林楼",
-      "水口公交站",
-      "西溪医院横街公交站",
-      "朝晖南大门",
-      "朝晖体育馆北"
-    ],
-    "bus_time": [
-      {
-        "departure_time": "06:40",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "07:40",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "12:20",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "14:20",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday"
-      },
-      {
-        "departure_time": "16:15",
-        "remain_seats": 45,
-        "ordered_seats": 0,
-        "open_type": "weekday",
-        "note": "始发站为1-A区块"
-      },
-      {
-        "departure_time": "08:00",
         "remain_seats": 45,
         "ordered_seats": 0,
         "open_type": "weekend"

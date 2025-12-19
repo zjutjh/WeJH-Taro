@@ -30,7 +30,8 @@ export default defineAppConfig({
     "pages/suit/apply/index",
     "pages/suit/myapplication/index",
     "pages/school-bus/index",
-    "pages/school-bus/bus-detail/index"
+    "pages/school-bus/bus-detail/index",
+    "pages/school-bus/announce/index"
   ],
   darkmode: true,
   themeLocation: "theme.json",

@@ -16,7 +16,7 @@
           <view :class="[styles['icon']]" class="iconfont icon-route" />
           <view :class="styles['description']">路线</view>
         </view>
-        <view :class="styles['icon-wrapper']">
+        <view :class="styles['icon-wrapper']" @tap="navigate2Announce()">
           <view :class="[styles['icon']]" class="iconfont icon-alarm" />
           <view :class="styles['description']">通知</view>
         </view>
@@ -229,5 +229,11 @@ const handleLineSelect = (line: string) => {
       url: `/pages/school-bus/bus-detail/index?routeName=${line}&start=${start}&end=${end}`
     });
   }
+};
+
+const navigate2Announce = () => {
+  Taro.navigateTo({
+    url: "/pages/school-bus/announce/index"
+  });
 };
 </script>

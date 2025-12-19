@@ -50,3 +50,13 @@ export enum BusDetailPickerEnum {
   BusDetail = "班车详情",
   RouteTable = "线路详情"
 }
+
+/** 校车公告 */
+export interface BusAnnounceItem {
+  title: string;
+  author: string;
+  publishedAt: string;
+  content: string;
+  /** 摘要 */
+  abstract: string;
+}
