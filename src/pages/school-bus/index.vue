@@ -32,8 +32,11 @@
           :range="allPoint"
           @change="onChangeStart"
         >
-          <button :class="styles['picker-button']">
-            {{ selectedStart ? allPointMap[selectedStart] : "" }}
+          <button
+            :class="styles['picker-button']"
+            :style="selectedStart ? '' : { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }"
+          >
+            {{ selectedStart ? allPointMap[selectedStart] : "请选择起点" }}
           </button>
         </picker>
         <view
@@ -47,8 +50,11 @@
           :range="allPoint"
           @change="onChangeEnd"
         >
-          <button :class="styles['picker-button']">
-            {{ selectedEnd ? allPointMap[selectedEnd] : "" }}
+          <button
+            :class="styles['picker-button']"
+            :style="selectedEnd ? '' : { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }"
+          >
+            {{ selectedEnd ? allPointMap[selectedEnd] : "请选择终点" }}
           </button>
         </picker>
       </view>
