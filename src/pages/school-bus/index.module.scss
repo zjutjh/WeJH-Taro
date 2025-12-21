@@ -14,7 +14,6 @@
   box-sizing: border-box;
   padding: 10Px 40Px;
   width: 100%;
-  border-radius: 0 0 10Px 10Px;
   height: 140Px;
   align-items: center;
   gap: 5Px;
@@ -105,13 +104,13 @@
     height: 40Px;
 
     .filter-item {
-      font-size: 14Px;
+      font-size: 14.5Px;
       color: var(--wjh-color-text-secondary);
       padding: 4Px 12Px;
       border-radius: 15Px;
 
       &.active {
-        color: var(--wjh-color-primary);
+        color: var(--wjh-color-primary-dark);
       }
     }
 

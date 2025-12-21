@@ -40,7 +40,7 @@
           </button>
         </picker>
         <view
-          class="iconfont icon-a-switch-route"
+          class="iconfont icon-switch-route"
           :class="styles['routeSwapper']"
           @tap="swapCampus"
         />

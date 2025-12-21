@@ -1,8 +1,6 @@
 <template>
   <bottom-panel :class="styles['bus-detail-bottom-panel']">
-    <view :class="styles['col']">
-      <!-- <refresh-button /> -->
-    </view>
+    <view :class="styles['col']" />
     <view :class="styles['col']">
       <picker
         mode="selector"
