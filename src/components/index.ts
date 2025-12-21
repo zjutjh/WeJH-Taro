@@ -29,7 +29,6 @@ import RouteLineCard from "./school-bus/bus-detail/route-line-card/index.vue";
 import BusLineModal from "./school-bus/bus-line-modal/index.vue";
 import BusTimeCard from "./school-bus/bus-time-card/index.vue";
 import BusTimeEmpty from "./school-bus/bus-time-empty/index.vue";
-import BusTimeUnselected from "./school-bus/bus-time-unselected/index.vue";
 import BusTipModal from "./school-bus/bus-tip-modal/index.vue";
 import ScoreTermPicker from "./ScoreTermPicker/index.vue";
 import WSkeleton from "./Skeleton/index.vue";
@@ -51,7 +50,6 @@ export {
   BusLineModal,
   BusTimeCard,
   BusTimeEmpty,
-  BusTimeUnselected,
   BusTipModal,
   Card,
   ContactMe,

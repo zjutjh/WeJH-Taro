@@ -34,9 +34,13 @@
         >
           <button
             :class="styles['picker-button']"
-            :style="selectedStart ? '' : { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }"
+            :style="
+              selectedStart === '不限'
+                ? { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }
+                : ''
+            "
           >
-            {{ selectedStart ? allPointMap[selectedStart] : "请选择起点" }}
+            {{ selectedStart === "不限" ? "请选择起点" : allPointMap[selectedStart] }}
           </button>
         </picker>
         <view
@@ -52,9 +56,13 @@
         >
           <button
             :class="styles['picker-button']"
-            :style="selectedEnd ? '' : { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }"
+            :style="
+              selectedEnd === '不限'
+                ? { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }
+                : ''
+            "
           >
-            {{ selectedEnd ? allPointMap[selectedEnd] : "请选择终点" }}
+            {{ selectedEnd === "不限" ? "请选择终点" : allPointMap[selectedEnd] }}
           </button>
         </picker>
       </view>
@@ -87,7 +95,7 @@
       </view>
     </view>
     <scroll-view
-      v-if="selectedStart && selectedEnd && filteredBusTimeList.length > 0"
+      v-if="filteredBusTimeList.length > 0"
       :class="styles['school-bus-container']"
       :scroll-y="true"
     >
@@ -97,9 +105,6 @@
         v-bind="item"
       />
     </scroll-view>
-    <view v-else-if="!selectedStart || !selectedEnd" :class="styles['school-bus-container']">
-      <bus-time-unselected />
-    </view>
     <view v-else :class="styles['school-bus-container']">
       <bus-time-empty />
     </view>
@@ -121,7 +126,6 @@ import {
   BusLineModal,
   BusTimeCard,
   BusTimeEmpty,
-  BusTimeUnselected,
   BusTipModal,
   ThemeConfig,
   TitleBar
@@ -156,12 +160,14 @@ const { busLineList } = useBusLineList();
 const filteredBusTimeList = computed(() => {
   return busTimeList.value.filter((item) => {
     // 1. 校区筛选
-    let matchEnd: boolean = true;
-    let matchStart: boolean = true;
-    if (selectedStart.value === "屏峰") matchStart = isPFCampus(item.start);
+    let matchEnd: boolean;
+    let matchStart: boolean;
+    if (selectedStart.value === "不限") matchStart = true;
+    else if (selectedStart.value === "屏峰") matchStart = isPFCampus(item.start);
     else matchStart = item.start === selectedStart.value;
 
-    if (selectedEnd.value === "屏峰") matchEnd = isPFCampus(item.end);
+    if (selectedEnd.value === "不限") matchEnd = true;
+    else if (selectedEnd.value === "屏峰") matchEnd = isPFCampus(item.end);
     else matchEnd = item.end === selectedEnd.value;
 
     if (!matchStart || !matchEnd) return false;
@@ -193,11 +199,12 @@ const filteredBusTimeList = computed(() => {
   });
 });
 
-const selectedStart = ref();
-const selectedEnd = ref();
+const selectedStart = ref("不限");
+const selectedEnd = ref("不限");
 
-const allPoint = ["朝晖", "屏峰", "莫干山", "人才公寓"];
+const allPoint = ["不限", "朝晖", "屏峰", "莫干山", "人才公寓"];
 const allPointMap = {
+  不限: null,
   朝晖: "朝晖校区",
   屏峰: "屏峰校区",
   莫干山: "莫干山校区",
