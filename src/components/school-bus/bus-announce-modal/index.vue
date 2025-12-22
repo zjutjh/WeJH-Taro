@@ -15,7 +15,6 @@
 
     <view :class="styles['modal-content']">
       <view :class="styles['meta-info']">
-        <text>{{ props.announce?.author }}</text>
         <text>{{ timeFormat(props.announce?.publishedAt) }}</text>
       </view>
       <view :class="styles['divider']"></view>

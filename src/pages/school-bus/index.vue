@@ -40,7 +40,7 @@
                 : ''
             "
           >
-            {{ selectedStart === "不限" ? "请选择起点" : allPointMap[selectedStart] }}
+            {{ selectedStart === "不限" ? "请选择起点" : selectedStart }}
           </button>
         </picker>
         <view
@@ -62,7 +62,7 @@
                 : ''
             "
           >
-            {{ selectedEnd === "不限" ? "请选择终点" : allPointMap[selectedEnd] }}
+            {{ selectedEnd === "不限" ? "请选择终点" : selectedEnd }}
           </button>
         </picker>
       </view>
@@ -130,8 +130,7 @@ import {
   ThemeConfig,
   TitleBar
 } from "@/components";
-import diyData from "@/hooks/diy-data.json";
-import { useBusLineList, useBusTimeList } from "@/hooks/use-bus-info";
+import { useBusConfig, useBusLineList, useBusTimeList } from "@/hooks/use-bus-info";
 import { isPFCampus } from "@/utils/school-bus";
 
 import styles from "./index.module.scss";
@@ -156,6 +155,8 @@ const search = ref("");
 
 const { busTimeList } = useBusTimeList({ search });
 const { busLineList } = useBusLineList();
+
+const { busConfig } = useBusConfig();
 
 const filteredBusTimeList = computed(() => {
   return busTimeList.value.filter((item) => {
@@ -202,22 +203,29 @@ const filteredBusTimeList = computed(() => {
 const selectedStart = ref("不限");
 const selectedEnd = ref("不限");
 
-const allPoint = ["不限", "朝晖", "屏峰", "莫干山", "人才公寓"];
-const allPointMap = {
-  不限: null,
-  朝晖: "朝晖校区",
-  屏峰: "屏峰校区",
-  莫干山: "莫干山校区",
-  人才公寓: "人才公寓"
-};
+const allPoint = computed(() => {
+  const fixedPoints = ["不限", "朝晖", "屏峰", "莫干山"];
+  const dynamicPoints = new Set<string>();
+
+  busTimeList.value.forEach((item) => {
+    if (item.start && !fixedPoints.includes(item.start)) {
+      dynamicPoints.add(item.start);
+    }
+    if (item.end && !fixedPoints.includes(item.end)) {
+      dynamicPoints.add(item.end);
+    }
+  });
+
+  return [...fixedPoints, ...Array.from(dynamicPoints).sort()];
+});
 
 const onChangeStart = (e) => {
   const index = e.detail.value;
-  selectedStart.value = allPoint[index];
+  selectedStart.value = allPoint.value[index];
 };
 const onChangeEnd = (e) => {
   const index = e.detail.value;
-  selectedEnd.value = allPoint[index];
+  selectedEnd.value = allPoint.value[index];
 };
 
 const swapCampus = () => {
@@ -229,8 +237,9 @@ const swapCampus = () => {
 const handleLineSelect = (line: string) => {
   let start = "";
   let end = "";
+  const config = busConfig.value || [];
 
-  diyData.forEach((item) => {
+  config.forEach((item) => {
     if (item.name.startsWith(line)) {
       start = item.name.split("（")[1].split("-")[0];
       end = item.name.split("（")[1].split("-")[1].split("）")[0];

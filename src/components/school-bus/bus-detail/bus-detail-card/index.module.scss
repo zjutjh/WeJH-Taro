@@ -2,10 +2,28 @@
   padding: 0 6% 0 6%;
   box-sizing: border-box;
   margin: 10Px 6% 20Px 6%;
-  &:global(.wjh-card-body) {
+  :global(.wjh-list-item-content-main) {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  :global(.wjh-list-item) {
+    padding: 0;
+  }
+  :global(.wjh-collapse-panel-header-active) {
+    .bus-detail-title {
+      transition: all 0.3s;
+      color: var(--wjh-color-primary);
+    }
+    .campus-row {
+      color: var(--wjh-color-primary);
+    }
+    .dot {
+      background-color: var(--wjh-color-primary);
+    }
+    .triple-arrow {
+      color: var(--wjh-color-primary) !important;
+    }
   }
 }
 
@@ -13,11 +31,10 @@
   font-size: 18Px;
   font-weight: bold;
   min-width: 250Px;
-  padding-bottom: 10Px;
-  border-bottom: 2Px solid var(--wjh-color-primary);
+  line-height: 25Px;
 
-  color: var(--wjh-color-primary);
-  text-align: center;
+  color: var(--wjh-color-text);
+  text-align: start;
 }
 
 .bus-detail-route {
@@ -25,42 +42,31 @@
   align-items: start;
   justify-content: start;
   width: 100%;
-  margin: 15Px 0 25Px 0;
-  gap: 4Px;
+  gap: 5Px;
 
   .route-point {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    .station-name {
-      position: absolute;
-      bottom: -20Px;
-      font-size: 12Px;
-      color: var(--wjh-color-text-secondary);
-      margin-top: 4Px;
-      white-space: nowrap;
-      max-width: 80Px;
-      overflow: hidden;
-    }
   }
 
   .campus-row {
     display: flex;
     align-items: center;
+    font-size: 16Px;
+    line-height: 25Px;
+    color: var(--wjh-color-week);
   }
 
-  .text {
-    padding: 0 8Px 0 8Px;
-    font-size: 16Px;
-  }
   .dot {
     display: inline-block;
     position: relative;
-    top: 7Px;
+    top: 8Px;
     width: 9Px;
     height: 9Px;
-    background-color: var(--wjh-color-primary);
+    margin-right: 5Px;
+    background-color: var(--wjh-color-light);
     border-radius: 9Px;
   }
   .triple-arrow-container {
@@ -69,7 +75,7 @@
     justify-content: center;
     height: 25Px;
     .triple-arrow {
-      color: var(--wjh-color-primary);
+      color: var(--wjh-color-light);
       font-size: 3rem;
     }
   }
@@ -82,7 +88,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-
+  margin-top: 20Px;
   .table-header {
     background-color: var(--wjh-color-primary);
     opacity: 0.8;

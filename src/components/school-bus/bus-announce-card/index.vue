@@ -5,7 +5,7 @@
     </view>
     <template #footer>
       <view :class="styles['time-wrapper']">
-        <view>{{ props.item.author }} {{ timeFormat(props.item.publishedAt) }}</view>
+        <view> {{ timeFormat(props.item.publishedAt) }}</view>
       </view>
     </template>
   </card>

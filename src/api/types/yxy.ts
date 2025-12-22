@@ -102,3 +102,21 @@ export type QueryBusAnnounceResponse = {
     abstract: string;
   }>;
 };
+
+export interface BusConfigItem {
+  name: string;
+  start: string;
+  end: string;
+  seats: number;
+  price: number;
+  stations: string[];
+  bus_time: Array<{
+    departure_time: string;
+    remain_seats: number;
+    ordered_seats: number;
+    open_type: string;
+    note?: string;
+  }>;
+}
+
+export type QueryBusConfigResponse = BusConfigItem[];

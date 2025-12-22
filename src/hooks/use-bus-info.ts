@@ -2,10 +2,9 @@ import { useQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
 import { computed, MaybeRef, unref } from "vue";
 
-import diyData from "@/hooks/diy-data.json";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { BusRouteDetail, FEBusTime } from "@/types/school-bus";
+import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/school-bus";
 import { isPFCampus } from "@/utils/school-bus";
 
 /** 班车名称解析工具
@@ -21,11 +20,24 @@ const parseBusName = (name: string) => {
   return { routeName: name, start: "", end: "" };
 };
 
+/** 获取班车配置信息的 Hook (实际上是获取一个静态的json文件) */
+export const useBusConfig = () => {
+  const { data: busConfig, isLoading } = useQuery({
+    queryKey: [QUERY_KEY.SCHOOL_BUS_CONFIG] as const,
+    queryFn: () => yxyServiceNext.QueryBusConfig(),
+    staleTime: Infinity
+  });
+
+  return { busConfig, isLoading };
+};
+
 /** 获取班车信息大表的 Hook
  *  @param options 可选参数 包括search
  */
 export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined> }) => {
   const { search } = options ?? {};
+  const { busConfig } = useBusConfig();
+
   const { data, refetch, isLoading } = useQuery({
     queryKey: [QUERY_KEY.SCHOOL_BUS_INFO, search] as const,
     queryFn: ({ queryKey }) => {
@@ -39,12 +51,14 @@ export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined>
    *  用于渲染校车首页班次列表 */
   const busTimeList = computed<FEBusTime[]>(() => {
     if (!data.value?.list) return [];
+    const config = busConfig.value || [];
 
     const now = dayjs();
 
     /**  构建带日期时间的中间数组，用于排序 */
     const items = data.value.list.flatMap((bus) => {
       const { routeName, start, end } = parseBusName(bus.name);
+      const staticBus = config.find((item) => item.name === bus.name);
 
       if (!bus.bus_time) return [];
 
@@ -59,6 +73,12 @@ export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined>
         // 如果该时间点早于当前时刻，则视为第二天的班次
         if (date.isBefore(now)) date = date.add(1, "day");
 
+        const staticTime = staticBus?.bus_time.find((t) =>
+          t.departure_time.startsWith(`${hourStr}:${minuteStr}`)
+        );
+        let openType = OpenTypeEnum.All;
+        openType = staticTime?.open_type as OpenTypeEnum;
+
         const item: FEBusTime = {
           departureTime: date.format("MM.DD HH:mm"),
           orderedSeats: time.ordered_seats,
@@ -66,7 +86,8 @@ export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined>
           routeName: routeName,
           start: start,
           end: end,
-          price: bus.price / 100
+          price: bus.price / 100,
+          openType
         };
 
         return { item, date: date };
@@ -88,8 +109,11 @@ export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined>
 
 /** 校车线路信息 Hook */
 export const useBusRouteList = () => {
+  const { busConfig, isLoading } = useBusConfig();
+
   const busRouteList = computed<BusRouteDetail[]>(() => {
-    return diyData.map((bus) => {
+    const config = busConfig.value || [];
+    return config.map((bus) => {
       const { routeName, start, end } = parseBusName(bus.name);
 
       return {
@@ -101,12 +125,15 @@ export const useBusRouteList = () => {
     });
   });
 
-  return { busRouteList };
+  return { busRouteList, isLoading };
 };
 
 /** 根据校区分类的线路名列表 Hook */
 export const useBusLineList = () => {
+  const { busConfig, isLoading } = useBusConfig();
+
   const busLineList = computed(() => {
+    const config = busConfig.value || [];
     const groups = {
       "朝晖-屏峰": new Set<string>(),
       "朝晖-莫干山": new Set<string>(),
@@ -114,7 +141,7 @@ export const useBusLineList = () => {
       "": new Set<string>()
     };
 
-    diyData.forEach((bus) => {
+    config.forEach((bus) => {
       const { routeName, start, end } = parseBusName(bus.name);
       const campuses = new Set([start, end]);
 
@@ -138,7 +165,7 @@ export const useBusLineList = () => {
     };
   });
 
-  return { busLineList };
+  return { busLineList, isLoading };
 };
 
 /**

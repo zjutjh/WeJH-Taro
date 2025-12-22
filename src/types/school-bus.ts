@@ -54,7 +54,6 @@ export enum BusDetailPickerEnum {
 /** 校车公告 */
 export interface BusAnnounceItem {
   title: string;
-  author: string;
   publishedAt: string;
   content: string;
   /** 摘要 */
