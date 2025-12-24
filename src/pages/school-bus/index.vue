@@ -67,31 +67,34 @@
         </picker>
       </view>
       <view :class="styles['row-3']">
-        <view
+        <span
           :class="[styles['filter-item'], isDirectOnly ? styles['active'] : '']"
           @tap="isDirectOnly = !isDirectOnly"
         >
           直达线
-        </view>
-        <view :class="styles['divider']">|</view>
-        <view
+        </span>
+        <span :class="styles['divider']">|</span>
+        <span
           :class="[styles['filter-item'], timeFilter.includes('morning') ? styles['active'] : '']"
           @tap="toggleTimeFilter('morning')"
         >
-          早上
-        </view>
-        <view
+          06:00~12:00
+          <!-- 此处三个时间段在代码里被命名为早上下午晚上, 实际是也就是这个意思, 此处仅为了严谨易懂(今早明早都是早上)使用了具体时间的写法 -->
+        </span>
+        <span :class="styles['divider']">|</span>
+        <span
           :class="[styles['filter-item'], timeFilter.includes('afternoon') ? styles['active'] : '']"
           @tap="toggleTimeFilter('afternoon')"
         >
-          下午
-        </view>
-        <view
+          12:01~18:00
+        </span>
+        <span :class="styles['divider']">|</span>
+        <span
           :class="[styles['filter-item'], timeFilter.includes('evening') ? styles['active'] : '']"
           @tap="toggleTimeFilter('evening')"
         >
-          晚上
-        </view>
+          18:01~23:00
+        </span>
       </view>
     </view>
     <scroll-view

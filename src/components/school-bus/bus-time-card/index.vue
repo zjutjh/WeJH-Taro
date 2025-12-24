@@ -7,7 +7,7 @@
       :class="styles['tag']"
     >
       <span :class="styles['tag-text']">
-        {{ props.openType === OpenTypeEnum.Weekday ? "工作日" : "节假日" }}</span
+        {{ props.openType === OpenTypeEnum.Weekday ? "仅工作日" : "仅节假日" }}</span
       >
     </view>
     <view :class="styles['bus-information-title']">

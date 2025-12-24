@@ -7,10 +7,6 @@
     :class="styles['line-modal']"
     @update:show="handleUpdateShow"
   >
-    <template #header>
-      <view :class="styles['close-icon']" class="iconfont icon-close-unfilled" @tap="close" />
-    </template>
-
     <view :class="styles['content']">
       <view
         v-for="(lines, groupName) in props.lineList"

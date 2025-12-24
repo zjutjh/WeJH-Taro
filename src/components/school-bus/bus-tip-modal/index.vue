@@ -7,10 +7,6 @@
     :class="styles['tip-modal']"
     @update:show="handleUpdateShow"
   >
-    <template #header>
-      <view :class="styles['close-icon']" class="iconfont icon-close-unfilled" @tap="close" />
-    </template>
-
     <view :class="styles['content']">
       <view :class="styles['paragraph']">
         1.预约校车: 请到工大钉、容大后勤服务的"班车预约".
@@ -38,10 +34,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "update:show", value: boolean): void;
 }>();
-
-const close = () => {
-  emit("update:show", false);
-};
 
 const handleUpdateShow = (val: boolean) => {
   emit("update:show", val);
