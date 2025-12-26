@@ -28,8 +28,8 @@ import { computed, ref } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
 import { useBusConfig, useBusDetail, useBusRoute } from "@/pages/school-bus/_hooks/use-bus-info";
-import { FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 
+import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
 import BusDetailCard from "./_components/bus-detail-card/index.vue";
 import RouteLineCard from "./_components/route-line-card/index.vue";
 import styles from "./index.module.scss";
@@ -53,35 +53,39 @@ const { busDetail: end2StartDetail } = useBusDetail({
 
 const { busConfig } = useBusConfig();
 
+/**
+ * 合并后端数据和配置维护的班车详情数据
+ */
 const mergeBusData = (
   routeName: string,
   startCampus: string,
   endCampus: string,
-  dynamicList: FEBusTime[],
+  dynamicList: ParsedBusSchedule[],
   isTodayStatue: boolean
-): FEBusTime[] => {
+): ParsedBusSchedule[] => {
   const staticName = `${routeName}（${startCampus}-${endCampus}）`;
-  const config = busConfig.value || [];
-  const staticRoute = config.find((item) => item.name === staticName);
+  const routeConfig = busConfig.value?.find((item) => item.name === staticName);
 
-  if (!staticRoute) return [];
+  if (!routeConfig) return [];
 
   const targetDate = isTodayStatue ? dayjs() : dayjs().add(1, "day");
-  const dateStr = targetDate.format("MM.DD");
 
   // 判断目标日期是工作日还是周末 (0是周日, 6是周六)
   const isWeekend = [0, 6].includes(targetDate.day());
   const validOpenTypes = ["all", isWeekend ? "weekend" : "weekday"];
 
-  return staticRoute.bus_time
-    .filter((staticTime) => validOpenTypes.includes(staticTime.open_type))
-    .map((staticTime) => {
-      const fullDepartureTime = `${dateStr} ${staticTime.departure_time}`;
+  return routeConfig.bus_time
+    .filter((config) => validOpenTypes.includes(config.open_type))
+    .map((config) => {
+      // TODO: 这里可能有问题
+      const [configHour, configMinute] = config.departure_time.split(":").map(Number);
 
-      const dynamicItem = dynamicList.find((item) => item.departureTime === fullDepartureTime);
+      const dynamicItem = dynamicList.find(
+        (item) =>
+          item.departureTime.hour() === configHour && item.departureTime.minute() === configMinute
+      );
 
-      const openType =
-        staticTime.open_type === "weekend" ? OpenTypeEnum.Weekend : OpenTypeEnum.Weekday;
+      const openType = config.open_type === "weekend" ? OpenTypeEnum.Weekend : OpenTypeEnum.Weekday;
 
       // 如果后端拉取到的表里有这个班次, 那么就是正常使用
       if (dynamicItem) {
@@ -93,14 +97,16 @@ const mergeBusData = (
       // 如果表里没有, 那么就仅做默认静态数据展示
       // (表里没有也得展示静态数据, 是为了让用户感受到'工作日''节假日'的区别)
       return {
-        departureTime: fullDepartureTime,
+        // TODO: 这里有问题，不需要消费日期，消费时间就行了
+        departureTime: dayjs().hour(configHour).minute(configMinute),
         orderedSeats: 0,
         remainSeats: -1,
         openType,
         routeName: routeName,
         start: startCampus,
         end: endCampus,
-        price: staticRoute.price / 100
+        // TODO: 单位转化可能有问题
+        price: routeConfig.price / 100
       };
     });
 };

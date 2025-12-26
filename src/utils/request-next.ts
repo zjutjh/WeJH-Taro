@@ -64,6 +64,7 @@ export async function requestNext<Data>(
     if (!realResponse)
       throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
 
+    // FIXME: 处理这个逻辑
     if (isRaw) {
       return realResponse as Data;
     }

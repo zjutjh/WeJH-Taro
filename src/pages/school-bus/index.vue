@@ -105,7 +105,7 @@
       <bus-schedule-card
         v-for="(item, index) in filteredBusTimeList"
         :key="`${item.start}-${item.end}-${item.departureTime}-${index}`"
-        v-bind="item"
+        :schedule="item"
       />
     </scroll-view>
     <view v-else :class="styles['school-bus-container']">
@@ -129,7 +129,7 @@ import { ThemeConfig, TitleBar } from "@/components";
 import {
   useBusConfig,
   useBusLineList,
-  useBusTimeList
+  useBusScheduleList
 } from "@/pages/school-bus/_hooks/use-bus-info";
 import { isPFCampus } from "@/utils/school-bus";
 
@@ -157,11 +157,12 @@ const toggleTimeFilter = (type: "morning" | "afternoon" | "evening") => {
 
 const search = ref("");
 
-const { busTimeList } = useBusTimeList({ search });
+const { parsedScheduleList: busTimeList } = useBusScheduleList({ search });
 const { busLineList } = useBusLineList();
 
 const { busConfig } = useBusConfig();
 
+// TODO: 动态筛选项
 const filteredBusTimeList = computed(() => {
   return busTimeList.value.filter((item) => {
     // 1. 校区筛选
@@ -184,8 +185,8 @@ const filteredBusTimeList = computed(() => {
 
     // 3. 时间段筛选(早上 下午 晚上)
     if (timeFilter.value.length > 0) {
-      const timeStr = item.departureTime.split(" ")[1];
-      const [hour, minute] = timeStr.split(":").map(Number);
+      const hour = item.departureTime.hour();
+      const minute = item.departureTime.minute();
       const totalMinutes = hour * 60 + minute;
 
       const isMorning = totalMinutes >= 0 && totalMinutes < 12 * 60;

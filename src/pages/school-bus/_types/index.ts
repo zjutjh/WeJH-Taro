@@ -4,23 +4,7 @@
  * 如早上6点发车的一号线 是班次
  * 一号线是班车  */
 
-/** 后端维度的BusTime, 没有openType */
-export interface BusTime {
-  /** 线路名程 如1号线 */
-  routeName: string;
-  /** 起点 */
-  start: string;
-  /** 终点 */
-  end: string;
-  /** 票价 */
-  price: number;
-  /** 发车时间 */
-  departureTime: string;
-  /** 已约车票数 */
-  orderedSeats: number;
-  /** 剩余车票数 */
-  remainSeats: number;
-}
+import { type Dayjs } from "dayjs";
 
 interface BusStation {
   stationName: string;
@@ -40,8 +24,25 @@ export enum OpenTypeEnum {
   All = "all"
 }
 
-/** 前端维度的BusTime, 通过diyData手动维护着openType */
-export interface FEBusTime extends BusTime {
+/**
+ * 班次信息, 解析了一些硬编码字段
+ */
+export interface ParsedBusSchedule {
+  /** 线路名程 如1号线 */
+  routeName: string;
+  /** 起点 */
+  start: string;
+  /** 终点 */
+  end: string;
+  /** 票价 */
+  price: number;
+  /** 发车时间 */
+  departureTime: Dayjs;
+  /** 已约车票数 */
+  orderedSeats: number;
+  /** 剩余车票数 */
+  remainSeats: number;
+  /** 节假日开放时间的类型 */
   openType?: OpenTypeEnum;
 }
 

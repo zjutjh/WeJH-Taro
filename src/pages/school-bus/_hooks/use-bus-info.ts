@@ -1,24 +1,14 @@
 import { useQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
+import { isEmpty, isNil } from "lodash-es";
 import { computed, MaybeRef, unref } from "vue";
 
-import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { isPFCampus } from "@/utils/school-bus";
 
-/** 班车名称解析工具
- * 输入: "1号线（屏峰-朝晖）"
- * 输出: { routeName: "1号线", start: "屏峰", end: "朝晖" } */
-const parseBusName = (name: string) => {
-  // 尝试用正则匹配
-  const match = name.match(/^(.*?)（(.*?)-(.*?)）$/);
-  if (match) {
-    return { routeName: match[1], start: match[2], end: match[3] };
-  }
-  // Fallback: 如果格式不匹配，做一些容错处理或返回空
-  return { routeName: name, start: "", end: "" };
-};
+import { BusRouteDetail, OpenTypeEnum, ParsedBusSchedule } from "../_types";
+import { parseBusName } from "../_utils";
 
 /** 获取班车配置信息的 Hook (实际上是获取一个静态的json文件) */
 export const useBusConfig = () => {
@@ -31,10 +21,10 @@ export const useBusConfig = () => {
   return { busConfig, isLoading };
 };
 
-/** 获取班车信息大表的 Hook
- *  @param options 可选参数 包括search
+/**
+ * 班次信息列表
  */
-export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined> }) => {
+export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefined> }) => {
   const { search } = options ?? {};
   const { busConfig } = useBusConfig();
 
@@ -49,59 +39,50 @@ export const useBusTimeList = (options?: { search?: MaybeRef<string | undefined>
 
   /** 将原大表flat化得到的"所有班次列表"
    *  用于渲染校车首页班次列表 */
-  const busTimeList = computed<FEBusTime[]>(() => {
-    if (!data.value?.list) return [];
+  const parsedScheduleList = computed<ParsedBusSchedule[]>(() => {
+    if (isNil(data.value?.list) || isEmpty(data.value.list)) {
+      return [];
+    }
+
     const config = busConfig.value || [];
 
-    const now = dayjs();
-
     /**  构建带日期时间的中间数组，用于排序 */
-    const items = data.value.list.flatMap((bus) => {
-      const { routeName, start, end } = parseBusName(bus.name);
-      const staticBus = config.find((item) => item.name === bus.name);
+    return data.value.list
+      .flatMap((bus) => {
+        const { routeName, start, end } = parseBusName(bus.name);
+        const staticBus = config.find((item) => item.name === bus.name);
 
-      if (!bus.bus_time) return [];
+        if (!bus.bus_time) return [];
 
-      return bus.bus_time.map((time) => {
-        const [hourStr, minuteStr] = time.departure_time.split(":");
-        const hour = Number(hourStr);
-        const minute = Number(minuteStr);
+        return bus.bus_time.map((time) => {
+          const [hourStr, minuteStr] = time.departure_time.split(":");
 
-        // 构造今天的该时间点
-        let date = dayjs().hour(hour).minute(minute).second(0).millisecond(0);
+          const staticTime = staticBus?.bus_time.find((t) =>
+            t.departure_time.startsWith(`${hourStr}:${minuteStr}`)
+          );
 
-        // 如果该时间点早于当前时刻，则视为第二天的班次
-        if (date.isBefore(now)) date = date.add(1, "day");
+          // TODO: 这里兜底处理可能不准确
+          const openType = (staticTime?.open_type as OpenTypeEnum) || OpenTypeEnum.All;
 
-        const staticTime = staticBus?.bus_time.find((t) =>
-          t.departure_time.startsWith(`${hourStr}:${minuteStr}`)
-        );
-        let openType = OpenTypeEnum.All;
-        openType = staticTime?.open_type as OpenTypeEnum;
+          const item: ParsedBusSchedule = {
+            departureTime: dayjs(time.departure_time),
+            orderedSeats: time.ordered_seats,
+            remainSeats: time.remain_seats,
+            routeName: routeName,
+            start: start,
+            end: end,
+            price: bus.price / 100,
+            openType
+          };
 
-        const item: FEBusTime = {
-          departureTime: date.format("MM.DD HH:mm"),
-          orderedSeats: time.ordered_seats,
-          remainSeats: time.remain_seats,
-          routeName: routeName,
-          start: start,
-          end: end,
-          price: bus.price / 100,
-          openType
-        };
-
-        return { item, date: date };
-      });
-    });
-
-    // 按真实日期时间升序排序
-    items.sort((a, b) => a.date.valueOf() - b.date.valueOf());
-
-    return items.map((x) => x.item);
+          return item;
+        });
+      })
+      .sort((a, b) => (a.departureTime.isAfter(b.departureTime) ? 1 : -1));
   });
 
   return {
-    busTimeList,
+    parsedScheduleList,
     refetch,
     isLoading
   };
@@ -134,7 +115,7 @@ export const useBusLineList = () => {
 
   const busLineList = computed(() => {
     const config = busConfig.value || [];
-    console.log({ config });
+    console.log("* config *", { config });
 
     const groups = {
       "朝晖-屏峰": new Set<string>(),
@@ -181,7 +162,7 @@ export const useBusDetail = (
     end: string;
   }>
 ) => {
-  const { busTimeList, isLoading, refetch } = useBusTimeList();
+  const { parsedScheduleList: busTimeList, isLoading, refetch } = useBusScheduleList();
 
   const busDetail = computed(() => {
     const m = unref(matcher);
@@ -210,7 +191,7 @@ export const useBusRoute = (
   }>
 ) => {
   const { busRouteList: busRoutes } = useBusRouteList();
-  const { isLoading, refetch } = useBusTimeList();
+  const { isLoading, refetch } = useBusScheduleList();
 
   const route = computed(() => {
     const m = unref(matcher);

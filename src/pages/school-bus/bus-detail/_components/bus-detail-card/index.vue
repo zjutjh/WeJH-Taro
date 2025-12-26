@@ -39,7 +39,7 @@
             :class="[styles['table-row'], index % 2 === 1 ? styles['has-divider'] : '']"
             :style="index % 2 === 1 ? { backgroundColor: 'var(--wjh-color-primary-light)' } : {}"
           >
-            <span :class="[styles['col']]">{{ item.departureTime.split(" ")[1] }}</span>
+            <span :class="[styles['col']]">{{ item.departureTime.format("HH:mm") }}</span>
             <span :class="styles['divider']">|</span>
             <span :class="[styles['col']]" style="flex-grow: 1.3">{{
               openTypeMap[item.openType || ""]
@@ -52,12 +52,12 @@
 </template>
 <script setup lang="ts">
 import { Card, WCollapse, WCollapsePanel } from "@/components";
-import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 
+import { BusRouteDetail, OpenTypeEnum, ParsedBusSchedule } from "../../../_types";
 import styles from "./index.module.scss";
 
 const props = defineProps<{
-  list: FEBusTime[];
+  list: ParsedBusSchedule[];
   route?: BusRouteDetail;
 }>();
 

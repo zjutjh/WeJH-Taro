@@ -1,52 +1,78 @@
 <template>
-  <!-- 班车信息卡片 -->
   <card :class="styles['bus-information-container']">
     <view
-      v-if="props.openType !== OpenTypeEnum.All"
-      class="iconfont icon-tag"
-      :class="styles['tag']"
+      v-if="schedule.openType !== OpenTypeEnum.All"
+      :class="['iconfont', 'icon-tag', styles['tag']]"
     >
       <span :class="styles['tag-text']">
-        {{ props.openType === OpenTypeEnum.Weekday ? "仅工作日" : "仅节假日" }}</span
-      >
+        {{ openTypeText }}
+      </span>
     </view>
-    <view :class="styles['bus-information-title']">
-      <view :class="styles['start-time']"> {{ props.departureTime }}发车</view>
-      <view :class="styles['route-name']">{{
-        `${props.routeName} (${props.start}-${props.end})`
-      }}</view>
+    <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
+      <view :class="styles['start-time']"> {{ departureText }}</view>
+      <view :class="styles['route-name']">
+        {{ `${schedule.routeName} (${schedule.start}-${schedule.end})` }}
+      </view>
     </view>
     <view :class="styles['bus-information-content']">
-      <view :class="styles['row-item']">{{ `起终点站: ${props.start}-${props.end}` }} </view>
+      <view :class="styles['row-item']">{{ `起终点站: ${schedule.start}-${schedule.end}` }} </view>
       <view :class="styles['row-item']">
         余票:
         <span
           :class="styles['remain-seats']"
-          :style="{ color: props.remainSeats <= 0 ? 'red' : 'yellowgreen' }"
-          >{{ props.remainSeats }}</span
+          :style="{ color: schedule.remainSeats <= 0 ? 'red' : 'yellowgreen' }"
         >
-        {{ `| 已约：${props.orderedSeats}` }}
+          {{ schedule.remainSeats }}
+        </span>
+        {{ `| 已约：${schedule.orderedSeats}` }}
       </view>
 
-      <view :class="styles['row-item']">{{ `票价: ${props.price}元` }}</view>
-      <view :class="styles['detail-button']" @tap="nav2Detail()">班车详情</view>
+      <view :class="styles['row-item']">{{ `票价: ${schedule.price}元` }}</view>
+      <view :class="styles['detail-button']" @tap="handleClickDetail">班车详情</view>
     </view>
   </card>
 </template>
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
+import urlcat from "urlcat";
+import { computed, ref, toRefs } from "vue";
 
 import { Card } from "@/components";
-import { FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 
+import { OpenTypeEnum, type ParsedBusSchedule } from "../../_types";
+import { formatRelativeDayPeriod } from "../../_utils";
 import styles from "./index.module.scss";
 
-const props = defineProps<FEBusTime>();
+interface BusScheduleCardProps {
+  schedule: ParsedBusSchedule;
+}
 
-const nav2Detail = () => {
-  Taro.navigateTo({
-    url: `/pages/school-bus/bus-detail/index?routeName=${props.routeName}&start=${props.start}&end=${props.end}`
-  });
+const props = defineProps<BusScheduleCardProps>();
+const { schedule } = toRefs(props);
+const showRelativeDate = ref(true);
+
+const handleClickDepartureText = () => {
+  showRelativeDate.value = !showRelativeDate.value;
 };
+
+const handleClickDetail = () => {
+  const url = urlcat("/pages/school-bus/bus-detail/index", {
+    routeName: schedule.value.routeName,
+    start: schedule.value.start,
+    end: schedule.value.end
+  });
+  Taro.navigateTo({ url });
+};
+
+const departureText = computed(() => {
+  if (showRelativeDate.value) {
+    return `${formatRelativeDayPeriod(schedule.value.departureTime)} 发车`;
+  }
+  return `${schedule.value.departureTime.format("MM月DD日 HH:mm")} 发车`;
+});
+
+const openTypeText = computed(() => {
+  return schedule.value.openType === OpenTypeEnum.Weekday ? "仅工作日" : "仅节假日";
+});
 </script>
