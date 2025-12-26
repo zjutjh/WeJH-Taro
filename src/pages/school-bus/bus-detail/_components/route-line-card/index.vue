@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { Card, WCollapse, WCollapsePanel } from "@/components";
-import { BusRouteDetail } from "@/types/school-bus";
+import { BusRouteDetail } from "@/pages/school-bus/_types";
 
 import styles from "./index.module.scss";
 

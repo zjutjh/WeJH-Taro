@@ -38,7 +38,7 @@
 import Taro from "@tarojs/taro";
 
 import { Card } from "@/components";
-import { FEBusTime, OpenTypeEnum } from "@/types/school-bus";
+import { FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 
 import styles from "./index.module.scss";
 

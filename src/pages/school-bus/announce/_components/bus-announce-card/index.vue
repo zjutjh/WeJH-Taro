@@ -15,8 +15,8 @@
 import dayjs from "dayjs";
 
 import { Card } from "@/components";
-import { BusAnnounceItem } from "@/types/school-bus";
 
+import { BusAnnounceItem } from "../../../_types";
 import styles from "./index.module.scss";
 
 const props = defineProps<{

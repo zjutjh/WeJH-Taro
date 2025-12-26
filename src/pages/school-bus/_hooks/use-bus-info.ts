@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
 import { computed, MaybeRef, unref } from "vue";
 
+import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/school-bus";
 import { isPFCampus } from "@/utils/school-bus";
 
 /** 班车名称解析工具
@@ -134,6 +134,8 @@ export const useBusLineList = () => {
 
   const busLineList = computed(() => {
     const config = busConfig.value || [];
+    console.log({ config });
+
     const groups = {
       "朝晖-屏峰": new Set<string>(),
       "朝晖-莫干山": new Set<string>(),

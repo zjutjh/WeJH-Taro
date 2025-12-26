@@ -111,6 +111,7 @@ export interface BusConfigItem {
   price: number;
   stations: string[];
   bus_time: Array<{
+    /** e.g. `8:00` */
     departure_time: string;
     remain_seats: number;
     ordered_seats: number;

@@ -52,7 +52,7 @@
 </template>
 <script setup lang="ts">
 import { Card, WCollapse, WCollapsePanel } from "@/components";
-import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/types/school-bus";
+import { BusRouteDetail, FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 
 import styles from "./index.module.scss";
 

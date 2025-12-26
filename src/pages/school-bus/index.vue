@@ -102,7 +102,7 @@
       :class="styles['school-bus-container']"
       :scroll-y="true"
     >
-      <bus-time-card
+      <bus-schedule-card
         v-for="(item, index) in filteredBusTimeList"
         :key="`${item.start}-${item.end}-${item.departureTime}-${index}`"
         v-bind="item"
@@ -125,17 +125,18 @@ import { Picker, ScrollView } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { computed, ref } from "vue";
 
+import { ThemeConfig, TitleBar } from "@/components";
 import {
-  BusLineModal,
-  BusTimeCard,
-  BusTimeEmpty,
-  BusTipModal,
-  ThemeConfig,
-  TitleBar
-} from "@/components";
-import { useBusConfig, useBusLineList, useBusTimeList } from "@/hooks/use-bus-info";
+  useBusConfig,
+  useBusLineList,
+  useBusTimeList
+} from "@/pages/school-bus/_hooks/use-bus-info";
 import { isPFCampus } from "@/utils/school-bus";
 
+import BusLineModal from "./_components/bus-line-modal/index.vue";
+import BusScheduleCard from "./_components/bus-schedule-card/index.vue";
+import BusTimeEmpty from "./_components/bus-time-empty/index.vue";
+import BusTipModal from "./_components/bus-tip-modal/index.vue";
 import styles from "./index.module.scss";
 
 const showLineModal = ref(false);

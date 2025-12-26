@@ -22,11 +22,13 @@ import { useInfiniteQuery } from "@tanstack/vue-query";
 import { ScrollView } from "@tarojs/components";
 import { computed, ref } from "vue";
 
-import { BusAnnounceCard, BusAnnounceModal, ThemeConfig, TitleBar } from "@/components";
+import { ThemeConfig, TitleBar } from "@/components";
+import { BusAnnounceItem } from "@/pages/school-bus/_types";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { BusAnnounceItem } from "@/types/school-bus";
 
+import BusAnnounceCard from "./_components/bus-announce-card/index.vue";
+import BusAnnounceModal from "./_components/bus-announce-modal/index.vue";
 import styles from "./index.module.scss";
 
 const showModal = ref(false);

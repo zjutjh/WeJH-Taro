@@ -36,7 +36,7 @@
 import dayjs from "dayjs";
 
 import { WModal } from "@/components";
-import { BusAnnounceItem } from "@/types/school-bus";
+import { BusAnnounceItem } from "@/pages/school-bus/_types";
 
 import styles from "./index.module.scss";
 

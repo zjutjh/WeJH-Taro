@@ -17,23 +17,6 @@
         <route-line-card :class="styles['route-line-card']" :route-line="end2StartRouteLine" />
       </view>
     </scroll-view>
-    <w-button
-      shape="circle"
-      size="large"
-      :class="styles['today-tomorrow-switcher']"
-      @tap="isToday = !isToday"
-    >
-      <image
-        v-if="isToday"
-        src="@/assets/icons/today-tomorrow-switcher/today.svg"
-        :class="styles['bottom-icon']"
-      />
-      <image
-        v-else
-        src="@/assets/icons/today-tomorrow-switcher/tomorrow.svg"
-        :class="styles['bottom-icon']"
-      />
-    </w-button>
   </theme-config>
 </template>
 
@@ -43,10 +26,12 @@ import { useRouter } from "@tarojs/taro";
 import dayjs from "dayjs";
 import { computed, ref } from "vue";
 
-import { BusDetailCard, RouteLineCard, ThemeConfig, TitleBar, WButton } from "@/components";
-import { useBusConfig, useBusDetail, useBusRoute } from "@/hooks/use-bus-info";
-import { FEBusTime, OpenTypeEnum } from "@/types/school-bus";
+import { ThemeConfig, TitleBar } from "@/components";
+import { useBusConfig, useBusDetail, useBusRoute } from "@/pages/school-bus/_hooks/use-bus-info";
+import { FEBusTime, OpenTypeEnum } from "@/pages/school-bus/_types";
 
+import BusDetailCard from "./_components/bus-detail-card/index.vue";
+import RouteLineCard from "./_components/route-line-card/index.vue";
 import styles from "./index.module.scss";
 
 const router = useRouter();
