@@ -17,17 +17,25 @@ export interface BusRouteDetail {
   stations: BusStation[];
 }
 
-// --- 下面是前端自定义的一些类型，用于班车静态数据维护 --
+// 班次开放日期类型
+// TODO: 周末和节假日是一个意思吧？
 export enum OpenTypeEnum {
+  /** 仅工作日 */
   Weekday = "weekday",
+  /** 仅节假日 */
   Weekend = "weekend",
-  All = "all"
+  /** 都开放 */
+  All = "all",
+  /** 未知 */
+  Unknown = "unknown"
 }
 
 /**
  * 班次信息, 解析了一些硬编码字段
  */
 export interface ParsedBusSchedule {
+  /** 唯一标识符 */
+  id: string;
   /** 线路名程 如1号线 */
   routeName: string;
   /** 起点 */

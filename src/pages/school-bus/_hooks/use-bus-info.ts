@@ -50,27 +50,30 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
     return data.value.list
       .flatMap((bus) => {
         const { routeName, start, end } = parseBusName(bus.name);
-        const staticBus = config.find((item) => item.name === bus.name);
+        const staticRoute = config.find((item) => item.name === bus.name);
 
         if (!bus.bus_time) return [];
 
-        return bus.bus_time.map((time) => {
-          const [hourStr, minuteStr] = time.departure_time.split(":");
+        return bus.bus_time.map((schedule) => {
+          const hourStr = dayjs(schedule.departure_time).hour();
+          const minuteStr = dayjs(schedule.departure_time).minute();
 
-          const staticTime = staticBus?.bus_time.find((t) =>
+          const staticTime = staticRoute?.bus_time.find((t) =>
             t.departure_time.startsWith(`${hourStr}:${minuteStr}`)
           );
 
           // TODO: 这里兜底处理可能不准确
-          const openType = (staticTime?.open_type as OpenTypeEnum) || OpenTypeEnum.All;
+          const openType = (staticTime?.open_type as OpenTypeEnum) || OpenTypeEnum.Unknown;
 
           const item: ParsedBusSchedule = {
-            departureTime: dayjs(time.departure_time),
-            orderedSeats: time.ordered_seats,
-            remainSeats: time.remain_seats,
-            routeName: routeName,
-            start: start,
-            end: end,
+            id: `${bus.name}-${schedule.departure_time}`,
+            departureTime: dayjs(schedule.departure_time),
+            orderedSeats: schedule.ordered_seats,
+            remainSeats: schedule.remain_seats,
+            routeName,
+            start,
+            end,
+            // TODO: 这里单位转换可能有问题
             price: bus.price / 100,
             openType
           };

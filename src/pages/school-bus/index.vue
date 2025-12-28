@@ -97,20 +97,17 @@
         </span>
       </view>
     </view>
-    <scroll-view
-      v-if="filteredBusTimeList.length > 0"
-      :class="styles['school-bus-container']"
-      :scroll-y="true"
-    >
-      <bus-schedule-card
-        v-for="(item, index) in filteredBusTimeList"
-        :key="`${item.start}-${item.end}-${item.departureTime}-${index}`"
-        :schedule="item"
-      />
+    <scroll-view v-if="!isEmpty(filteredScheduleList)" :scroll-y="true">
+      <view :class="styles.list">
+        <bus-schedule-card
+          v-for="item in filteredScheduleList"
+          :key="item.id"
+          :schedule="item"
+          :class="styles.item"
+        />
+      </view>
     </scroll-view>
-    <view v-else :class="styles['school-bus-container']">
-      <bus-time-empty />
-    </view>
+    <bus-time-empty v-else />
     <bus-line-modal
       v-model:show="showLineModal"
       :line-list="busLineList"
@@ -123,6 +120,7 @@
 <script setup lang="ts">
 import { Picker, ScrollView } from "@tarojs/components";
 import Taro from "@tarojs/taro";
+import { isEmpty } from "lodash-es";
 import { computed, ref } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
@@ -163,7 +161,7 @@ const { busLineList } = useBusLineList();
 const { busConfig } = useBusConfig();
 
 // TODO: 动态筛选项
-const filteredBusTimeList = computed(() => {
+const filteredScheduleList = computed(() => {
   return busTimeList.value.filter((item) => {
     // 1. 校区筛选
     let matchEnd: boolean;

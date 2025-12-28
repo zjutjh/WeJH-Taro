@@ -1,9 +1,6 @@
 <template>
-  <card :class="styles['bus-information-container']">
-    <view
-      v-if="schedule.openType !== OpenTypeEnum.All"
-      :class="['iconfont', 'icon-tag', styles['tag']]"
-    >
+  <card :class="styles.container">
+    <view v-if="!isEmpty(openTypeText)" :class="['iconfont', 'icon-tag', styles['tag']]">
       <span :class="styles['tag-text']">
         {{ openTypeText }}
       </span>
@@ -15,31 +12,33 @@
       </view>
     </view>
     <view :class="styles['bus-information-content']">
-      <view :class="styles['row-item']">{{ `起终点站: ${schedule.start}-${schedule.end}` }} </view>
+      <view :class="styles['row-item']">{{ `起终点站：${schedule.start}-${schedule.end}` }} </view>
       <view :class="styles['row-item']">
-        余票:
-        <span
-          :class="styles['remain-seats']"
-          :style="{ color: schedule.remainSeats <= 0 ? 'red' : 'yellowgreen' }"
-        >
+        余票：
+        <span :style="{ color: schedule.remainSeats <= 0 ? '#F56C6C' : '#49DF17' }">
           {{ schedule.remainSeats }}
         </span>
-        {{ `| 已约：${schedule.orderedSeats}` }}
+        <span :class="styles.divider" />
+        <span>
+          {{ `已约：${schedule.orderedSeats}` }}
+        </span>
       </view>
 
-      <view :class="styles['row-item']">{{ `票价: ${schedule.price}元` }}</view>
-      <view :class="styles['detail-button']" @tap="handleClickDetail">班车详情</view>
+      <view :class="styles['row-item']">{{ `票价：${schedule.price}元` }}</view>
+      <w-button :class="styles['detail-button']" @tap="handleClickDetail">班车详情</w-button>
     </view>
   </card>
 </template>
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
+import { isEmpty, isNil } from "lodash-es";
 import urlcat from "urlcat";
 import { computed, ref, toRefs } from "vue";
 
-import { Card } from "@/components";
+import { Card, WButton } from "@/components";
 
+import { SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../../_constants";
 import { OpenTypeEnum, type ParsedBusSchedule } from "../../_types";
 import { formatRelativeDayPeriod } from "../../_utils";
 import styles from "./index.module.scss";
@@ -69,10 +68,14 @@ const departureText = computed(() => {
   if (showRelativeDate.value) {
     return `${formatRelativeDayPeriod(schedule.value.departureTime)} 发车`;
   }
-  return `${schedule.value.departureTime.format("MM月DD日 HH:mm")} 发车`;
+  return `${schedule.value.departureTime.format("MM 月 DD 日 HH:mm")} 发车`;
 });
 
 const openTypeText = computed(() => {
-  return schedule.value.openType === OpenTypeEnum.Weekday ? "仅工作日" : "仅节假日";
+  if (isNil(schedule.value.openType)) {
+    return SCHEDULE_OPEN_TYPE_TEXT_RECORD[OpenTypeEnum.Unknown];
+  }
+
+  return SCHEDULE_OPEN_TYPE_TEXT_RECORD[schedule.value.openType];
 });
 </script>

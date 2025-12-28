@@ -1,20 +1,24 @@
-.bus-information-container {
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 5% 6% 0 6%;
-  padding-bottom: 5Px;
   position: relative;
+  padding: 0 30Px;
+
+  :global(.wjh-card-body) {
+    padding: 11Px 0;
+  }
+
   .tag {
     position: absolute;
     left: -4Px;
     color: var(--wjh-color-primary);
+
     .tag-text {
       display: block;
       position: absolute;
-      bottom: 6.5Px;
+      bottom: 6Px;
       left: 3Px;
-      font-size: 9.5Px;
+      font-size: 10Px;
       color: white;
     }
   }
@@ -24,20 +28,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 10Px;
-  margin-bottom: 10Px;
+  padding-bottom: 4Px;
+  margin-bottom: 6Px;
   border-bottom: 2Px solid var(--wjh-color-border);
   color: var(--wjh-color-primary);
-  font-weight: bold;
-  gap: 5Px;
-  min-width: 250Px;
+  font-weight: 500;
+
   .start-time {
     font-size: 20Px;
+    line-height: 28Px;
   }
+
   .route-name {
     font-size: 14Px;
-    font-weight: 500;
-    color: var(--wjh-color-text-secondary);
+    color: var(--wjh-color-text);
   }
 }
 
@@ -45,24 +49,28 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10Px;
+  gap: 4Px;
+  font-size: 14Px;
+  color: var(--wjh-color-text-secondary);
+
   .row-item {
-    display: flex;
-    .remain-seats {
-      padding: 0 6Px 0 2Px
+    display: inline-flex;
+
+    .divider {
+      width: 2Px;
+      background-color: var(--wjh-color-border);
+      border-radius: 2Px;
+      height: 14Px;
+      margin: auto 8Px;
     }
   }
+
   .detail-button {
-    width: 80Px;
-    height: 35Px;
-    border-radius: 6.5Px;
     position: absolute;
     right: 0Px;
     bottom: 0Px;
-    background-color: var(--wjh-color-primary);
-    color: white;
-    font-size: 14Px;
-    text-align: center;
-    line-height: 35Px;
+    font-size: 13Px;
+    line-height: 22Px;
+    padding: 4Px 13Px;
   }
 }

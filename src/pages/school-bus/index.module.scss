@@ -1,7 +1,9 @@
-.school-bus-container {
-  width: 100%;
-  flex: 1;
-  min-height: 0;
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 16Px;
+  padding-bottom: env(safe-area-inset-bottom);
+  gap: 16Px;
 }
 
 .school-bus-title-bar {
