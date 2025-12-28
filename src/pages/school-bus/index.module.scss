@@ -14,34 +14,13 @@
   gap: 8Px;
   background-color: var(--wjh-color-primary-light);
 
-  --row-height: 32Px;
-  --row-field-border-radius: 6Px;
+  .filter-quick-field {
+    margin-top: 4Px;
 
-
-
-  .row-3 {
-    display: flex;
-    line-height: 20Px;
-    overflow-x: auto;
-    white-space: nowrap;
-
-    .filter-item {
-      font-size: 12.5Px;
-      color: var(--wjh-color-text-secondary);
-
-      &.active {
-        color: var(--wjh-color-primary-dark);
-      }
-    }
-
-    .divider {
-      font-size: 14Px;
-      padding: 0Px 4Px;
-      flex-grow: 1;
-      text-align: center;
+    :global(.wjh-tag:not(.wjh-tag__active)) {
+      opacity: 0.6;
     }
   }
-
 }
 
 :global(.dark) {
