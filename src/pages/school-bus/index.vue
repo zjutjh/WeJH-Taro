@@ -32,8 +32,10 @@
         />
       </view>
     </scroll-view>
-    <bus-time-empty v-else />
-    <bus-line-modal v-model:show="showLineModal" :line-list="group" @select="handleSelectBusName" />
+    <view v-else :class="styles['empty-container']">
+      <bus-time-empty />
+    </view>
+    <bus-name-group-modal v-model:show="showLineModal" @select="handleSelectBusName" />
     <bus-tip-modal v-model:show="showTipModal" />
   </theme-config>
 </template>
@@ -46,9 +48,8 @@ import urlcat from "urlcat";
 import { computed, ref } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
-import { useBusConfig, useBusNameGroup } from "@/pages/school-bus/_hooks/use-bus-info";
 
-import BusLineModal from "./_components/bus-line-modal/index.vue";
+import BusNameGroupModal from "./_components/bus-name-group-modal/index.vue";
 import BusScheduleCard from "./_components/bus-schedule-card/index.vue";
 import BusTimeEmpty from "./_components/bus-time-empty/index.vue";
 import BusTipModal from "./_components/bus-tip-modal/index.vue";
@@ -57,6 +58,7 @@ import { QuickFilterItem } from "./_components/filter-quick-field/constants";
 import FilterQuickField from "./_components/filter-quick-field/index.vue";
 import FilterStartEndField from "./_components/filter-start-end-field/index.vue";
 import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
+import { useBusStaticConfig } from "./_hooks/use-bus-static-config";
 import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
 
@@ -69,9 +71,8 @@ const activeQuickFilter = ref<QuickFilterItem[]>([]);
 const keywords = ref("");
 
 const { parsedScheduleList: busTimeList } = useBusScheduleList({ search: keywords });
-const { group } = useBusNameGroup();
 
-const { busConfig } = useBusConfig();
+const { busConfig } = useBusStaticConfig();
 
 const baseFilteredList = computed(() => {
   return busTimeList.value.filter((item) => {

@@ -17,7 +17,7 @@ import { useRouter } from "@tarojs/taro";
 import { computed } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
-import { useBusConfig } from "@/pages/school-bus/_hooks/use-bus-info";
+import { useBusStaticConfig } from "@/pages/school-bus/_hooks/use-bus-static-config";
 
 import { parseRouteName } from "../_utils";
 import RouteDetailCard from "./_components/route-detail-card/index.vue";
@@ -34,7 +34,7 @@ const busRouteParams = computed(() => {
   };
 });
 
-const { busConfig } = useBusConfig();
+const { busConfig } = useBusStaticConfig();
 
 const start2EndRouteConfig = computed(() => {
   const config = busConfig.value || [];

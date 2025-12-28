@@ -8,14 +8,14 @@ import { QUERY_KEY } from "@/services/api/query-key";
 
 import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
 import { parseRouteName } from "../_utils";
-import { useBusConfig } from "./use-bus-info";
+import { useBusStaticConfig } from "./use-bus-static-config";
 
 /**
  * 班次信息列表
  */
 export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefined> }) => {
   const { search } = options ?? {};
-  const { busConfig } = useBusConfig();
+  const { busConfig } = useBusStaticConfig();
 
   const { data, refetch, isLoading } = useQuery({
     queryKey: [QUERY_KEY.SCHOOL_BUS_INFO, search] as const,

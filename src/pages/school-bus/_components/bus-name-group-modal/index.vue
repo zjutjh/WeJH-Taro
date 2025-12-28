@@ -32,7 +32,7 @@ import { computed } from "vue";
 
 import { WModal } from "@/components";
 
-import { useBusConfig } from "../../_hooks/use-bus-info";
+import { useBusStaticConfig } from "../../_hooks/use-bus-static-config";
 import { parseRouteName } from "../../_utils";
 import styles from "./index.module.scss";
 
@@ -40,7 +40,7 @@ const show = defineModel<boolean>("show", {
   default: false
 });
 
-const { busConfig } = useBusConfig();
+const { busConfig } = useBusStaticConfig();
 
 const group = computed(() => {
   const _group = groupBy(busConfig.value, (item) => {
