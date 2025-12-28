@@ -1,83 +1,103 @@
 @import "@/style/mixin.scss";
 
-.wjh-modal-mask {
-  position: fixed;
-  background: rgba(0, 0, 0, 0.65);
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
 .wjh-modal {
+  --anim-duration: 0.3s;
+
   position: fixed;
   z-index: 2000;
   width: 100vw;
   height: 100vh;
   top: 0;
   left: 0;
-}
 
-.wjh-modal-container {
-  @include radius;
-  position: relative;
-  background-color: var(--wjh-color-background-container);
-  z-index: 2100;
-  width: 80%;
-  max-width: 300Px;
-  top: 30vh;
-  margin: 0 auto;
-}
+  visibility: visible;
+  transition: visibility 0s linear 0s;
 
-.wjh-modal-header {
-  position: relative;
-  text-align: center;
-  border-bottom: 1px solid var(--wjh-color-border);
-  font-size: 1.125rem;
-  font-weight: var(--wjh-font-weight-medium);
-  padding: 16Px 0;
-  margin: 0 16Px;
-}
+  &__hidden {
+    visibility: hidden;
+    transition: visibility 0s linear var(--anim-duration);
 
-.wjh-modal-body {
-  padding: 16Px;
-  font-size: 0.875rem;
-  color: var(--wjh-color-week);
-  min-height: 120Px;
-  line-height: 1.5rem;
-  white-space: break-spaces;
-}
-
-.wjh-modal-footer {
-  border-top: 1px solid var(--wjh-color-border);
-}
-
-.hidden {
-  display: none;
-}
-
-.actions {
-  border-top: 1Px solid var(--wjh-color-border);
-
-  .button {
-    flex: 50%;
-    padding: 16Px 0;
-    transition: all .1s;
-    background-color: var(--wjh-color-background-container);
-
-    &:last-child {
-      border-bottom-right-radius: 8Px;
+    .wjh-modal-mask {
+      opacity: 0;
     }
 
-    &:first-child {
-      border-right: 1Px solid var(--wjh-color-border);
-      border-bottom-left-radius: 8Px;
+    .wjh-modal-container {
+      opacity: 0;
+      transform: scale(0.90);
+      transition: opacity var(--anim-duration) ease, transform var(--anim-duration) ease;
     }
-
-    &:active {
-      filter: brightness(.9);
-    }
-
   }
 
+  &-mask {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.65);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: opacity var(--anim-duration) ease;
+  }
+
+  &-container {
+    @include radius;
+    position: relative;
+    background-color: var(--wjh-color-background-container);
+    z-index: 2100;
+    width: 80%;
+    max-width: 300Px;
+    top: 30vh;
+    margin: 0 auto;
+
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity var(--anim-duration) ease, transform var(--anim-duration) cubic-bezier(0.36, 0.66, 0.04, 1);
+  }
+
+  &-header {
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid var(--wjh-color-border);
+    font-size: 1.125rem;
+    font-weight: var(--wjh-font-weight-medium);
+    padding: 16Px 0;
+    margin: 0 16Px;
+  }
+
+  &-body {
+    padding: 16Px;
+    font-size: 0.875rem;
+    color: var(--wjh-color-week);
+    min-height: 120Px;
+    line-height: 1.5rem;
+    white-space: break-spaces;
+  }
+
+  &-footer {
+    border-top: 1px solid var(--wjh-color-border);
+  }
+
+  &-actions {
+    border-top: 1Px solid var(--wjh-color-border);
+
+    .button {
+      flex: 50%;
+      padding: 16Px 0;
+      transition: all .1s;
+      background-color: var(--wjh-color-background-container);
+
+      &:last-child {
+        border-bottom-right-radius: 8Px;
+      }
+
+      &:first-child {
+        border-right: 1Px solid var(--wjh-color-border);
+        border-bottom-left-radius: 8Px;
+      }
+
+      &:active {
+        filter: brightness(.9);
+      }
+    }
+  }
 }
