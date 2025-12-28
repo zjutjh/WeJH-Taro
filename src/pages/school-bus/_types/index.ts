@@ -39,11 +39,15 @@ export interface ParsedBusSchedule {
   id: string;
   /** 班车名称，如1号线 */
   busName: string;
-  /** 起点 */
+  /** 起始位置，比如「屏峰」，通过解析得到。注意和 **起始站点(`startStation`)** 区分 */
   start: string;
-  /** 终点 */
+  /** 终止位置，比如「屏峰」，通过解析得到。注意和 **终点站点(`endStation`)** 区分 */
   end: string;
-  /** 票价 */
+  /** 起始站点，比如屏峰校区的站点「语林楼」 */
+  startStation?: string;
+  /** 终点站点，比如屏峰校区的站点「语林楼」 */
+  endStation?: string;
+  /** 票价，单位「分」 */
   price: number;
   /** 发车时间 */
   departureTime: Dayjs;

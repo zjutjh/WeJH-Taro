@@ -46,7 +46,7 @@
         <view
           class="iconfont icon-switch-route"
           :class="styles['routeSwapper']"
-          @tap="swapCampus"
+          @tap="handleSwapDirection"
         />
         <picker
           :class="styles['route-selector']"
@@ -230,7 +230,7 @@ const onChangeEnd = (e) => {
   selectedEnd.value = allPoint.value[index];
 };
 
-const swapCampus = () => {
+const handleSwapDirection = () => {
   const temp = selectedStart.value;
   selectedStart.value = selectedEnd.value;
   selectedEnd.value = temp;

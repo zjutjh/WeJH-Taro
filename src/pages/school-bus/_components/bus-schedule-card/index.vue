@@ -12,7 +12,9 @@
       </view>
     </view>
     <view :class="styles['bus-information-content']">
-      <view :class="styles['row-item']">{{ `起终点站：${schedule.start}-${schedule.end}` }} </view>
+      <view v-if="!isEmpty(schedule.startStation)" :class="styles['row-item']">
+        {{ `起终点站：${schedule.startStation}-${schedule.endStation}` }}
+      </view>
       <view :class="styles['row-item']">
         余票：
         <span :style="{ color: schedule.remainSeats <= 0 ? '#F56C6C' : '#49DF17' }">
@@ -24,7 +26,7 @@
         </span>
       </view>
 
-      <view :class="styles['row-item']">{{ `票价：${schedule.price}元` }}</view>
+      <view :class="styles['row-item']">{{ `票价：${priceText}` }}</view>
       <w-button :class="styles['detail-button']" @tap="handleClickDetail">班车详情</w-button>
     </view>
   </card>
@@ -77,5 +79,14 @@ const openTypeText = computed(() => {
   }
 
   return SCHEDULE_OPEN_TYPE_TEXT_RECORD[schedule.value.openType];
+});
+
+const priceText = computed(() => {
+  if (isNaN(schedule.value.price)) {
+    return "--";
+  } else if (schedule.value.price === 0) {
+    return "免费";
+  }
+  return `${(schedule.value.price / 100).toFixed(2)} 元`;
 });
 </script>

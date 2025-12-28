@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
-import { isEmpty, isNil } from "lodash-es";
+import { first, isEmpty, isNil, last } from "lodash-es";
 import { computed, MaybeRef } from "vue";
 
 import { yxyServiceNext } from "@/services";
@@ -44,12 +44,14 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
         if (!bus.bus_time) return [];
 
         return bus.bus_time.map((schedule) => {
-          const hourStr = dayjs(schedule.departure_time).hour();
-          const minuteStr = dayjs(schedule.departure_time).minute();
+          const hour = dayjs(schedule.departure_time).hour();
+          const minute = dayjs(schedule.departure_time).minute();
 
-          const staticTime = staticRoute?.bus_time.find((t) =>
-            t.departure_time.startsWith(`${hourStr}:${minuteStr}`)
-          );
+          const staticTime = staticRoute?.bus_time.find((t) => {
+            const configDepartureHour = dayjs(t.departure_time).hour();
+            const configDepartureMinute = dayjs(t.departure_time).minute();
+            return configDepartureHour === hour && configDepartureMinute === minute;
+          });
 
           // TODO: 这里兜底处理可能不准确
           const openType = (staticTime?.open_type as OpenTypeEnum) || OpenTypeEnum.Unknown;
@@ -62,8 +64,9 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
             busName,
             start,
             end,
-            // TODO: 这里单位转换可能有问题
-            price: bus.price / 100,
+            startStation: first(staticRoute?.stations),
+            endStation: last(staticRoute?.stations),
+            price: bus.price,
             openType
           };
 

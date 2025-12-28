@@ -11,39 +11,35 @@
   flex-direction: column;
   box-sizing: border-box;
   padding: 10Px 20Px;
-  width: 100%;
-  height: 140Px;
-  align-items: center;
-  gap: 5Px;
+  gap: 8Px;
   background-color: var(--wjh-color-primary-light);
+
+  --row-height: 32Px;
+  --row-field-border-radius: 6Px;
 
   .row-1 {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 40Px;
+    gap: 10Px;
 
     .search-input-container {
       display: flex;
       position: relative;
-      width: 160Px;
-      height: 30Px;
-      border-radius: 7Px;
+      align-items: center;
+      flex: auto;
+      border-radius: var(--row-field-border-radius);
       overflow: hidden;
-      z-index: 0;
       gap: 5Px;
+      padding-left: 8Px;
 
       .search-icon {
         color: var(--wjh-color-primary);
         position: relative;
-        top: 4Px;
-        left: 2Px;
       }
 
       .search-input {
         width: 100%;
-        height: 30Px;
+        height: var(--row-height);
         color: var(--wjh-color-text);
         background-color: transparent;
         font-size: 14Px;
@@ -54,11 +50,8 @@
     .icon-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 2Px;
-      justify-content: center;
       align-items: center;
       width: 40Px;
-      height: 40Px;
 
       .description {
         color: var(--wjh-color-text-secondary);
@@ -68,6 +61,7 @@
 
       .icon {
         color: var(--wjh-color-primary);
+        font-size: 22Px;
       }
     }
   }
@@ -76,21 +70,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    height: 40Px;
     padding-bottom: 10Px;
 
     .route-selector {
       position: relative;
-      width: 110Px;
-      height: 30Px;
-      border-radius: 7Px;
+      flex: 1;
+      border-radius: var(--row-field-border-radius);
       overflow: hidden;
       z-index: 0;
 
       .picker-button {
         width: 100%;
-        height: 30Px;
+        height: var(--row-height);
         color: var(--wjh-color-text);
         background-color: transparent;
         font-size: 14Px;
@@ -100,14 +91,15 @@
 
     .routeSwapper {
       color: var(--wjh-color-primary);
-      font-size: 2rem;
+      font-size: 28Px;
+      flex-shrink: 0;
+      margin: 0 18Px;
+      width: 32Px;
     }
   }
 
   .row-3 {
     display: flex;
-    width: 100%;
-    height: 40Px;
     line-height: 20Px;
     overflow-x: auto;
     white-space: nowrap;
