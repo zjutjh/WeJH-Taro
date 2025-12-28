@@ -16,10 +16,12 @@
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
 import Taro from "@tarojs/taro";
 import { computed, toRefs } from "vue";
+
 import { systemStore } from "@/store";
-import "./index.scss";
 
 const props = defineProps<{
   title: string;
@@ -34,27 +36,25 @@ const loading = computed(() => {
 
 const titleStyle = computed(() => {
   const MenuRect = Taro.getMenuButtonBoundingClientRect();
-  const statusBarHeight = Taro.getSystemInfoSync().statusBarHeight || 0;
+  const statusBarHeight = Taro.getWindowInfo().statusBarHeight || 0;
   return {
-    height: MenuRect.top + MenuRect.height +
-      MenuRect.top - statusBarHeight + "px"
+    height: `${MenuRect.top + MenuRect.height + MenuRect.top - statusBarHeight}px`
   };
 });
 
 const justTitleStyle = computed(() => {
   const MenuRect = Taro.getMenuButtonBoundingClientRect();
   return {
-    height: MenuRect.height + "px",
-    marginTop: MenuRect.top + "px",
+    height: `${MenuRect.height}px`,
+    marginTop: `${MenuRect.top}px`,
     marginLeft: "1rem",
     display: "flex",
     fontSize: "1.5rem",
-    lineHeight: MenuRect.height + "px"
+    lineHeight: `${MenuRect.height}px`
   };
 });
 
 function goBack() {
   Taro.navigateBack();
 }
-
 </script>

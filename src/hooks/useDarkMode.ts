@@ -1,8 +1,9 @@
-import { computed, onMounted, onUnmounted } from "vue";
-import { DarkModeTheme } from "@/types/DarkMode";
-import store, { serviceStore } from "@/store";
 import Taro from "@tarojs/taro";
+import { computed, onMounted, onUnmounted } from "vue";
+
+import store, { serviceStore } from "@/store";
 import { Config, defaultConfigDark, defaultConfigLight } from "@/store/service/theme";
+import { DarkModeTheme } from "@/types/DarkMode";
 
 const useDarkMode = () => {
   const mode = computed(() => serviceStore.theme.darkMode.mode);
@@ -14,31 +15,35 @@ const useDarkMode = () => {
     }
   };
 
-  const setIsAdapted = async (value: boolean) => {
+  const setIsAdapted = (value: boolean) => {
     store.commit("setDarkModeAdapted", value);
     if (value === true) {
-      const sysInfo = await Taro.getSystemInfo();
-      setMode(sysInfo.theme as DarkModeTheme);
+      const { theme } = Taro.getAppBaseInfo();
+      setMode(theme as DarkModeTheme);
     }
   };
 
-  const setMode = async (value: DarkModeTheme) => {
+  const setMode = (value: DarkModeTheme) => {
     store.commit("setDarkMode", value);
     let config: Config | undefined;
     const themeStore = serviceStore.theme;
     if (value === "dark") {
-      config = themeStore.hadTheme.find(theme => theme.themeId === themeStore.themeMode.dark)?.themeConfig;
+      config = themeStore.hadTheme.find(
+        (theme) => theme.themeId === themeStore.themeMode.dark
+      )?.themeConfig;
     } else {
-      config = themeStore.hadTheme.find(theme => theme.themeId === themeStore.themeMode.light)?.themeConfig;
+      config = themeStore.hadTheme.find(
+        (theme) => theme.themeId === themeStore.themeMode.light
+      )?.themeConfig;
     }
     if (config === undefined) config = value === "light" ? defaultConfigLight : defaultConfigDark;
     store.commit("setConfig", config);
   };
 
-  onMounted(async () => {
+  onMounted(() => {
     if (isAdapted.value) {
-      const sysInfo = await Taro.getSystemInfo();
-      setMode(sysInfo.theme as DarkModeTheme);
+      const { theme } = Taro.getAppBaseInfo();
+      setMode(theme as DarkModeTheme);
     }
 
     Taro.onThemeChange(handleModeChange);
