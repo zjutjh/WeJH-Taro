@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10Px;
+
+  .filter-start-end-field {
+    flex: 1;
+    border-radius: var(--row-field-border-radius, 6Px);
+    overflow: hidden;
+    z-index: 0;
+
+    --row-height: 32Px;
+
+    .picker-button {
+      width: 100%;
+      height: var(--row-height);
+      color: var(--wjh-color-text);
+      background-color: var(--wjh-color-background-container);
+      font-size: 14Px;
+      line-height: var(--row-height);
+      margin: 0;
+      padding: 0;
+
+      &::after {
+        border: none;
+      }
+    }
+  }
+
+  .route-swapper {
+    color: var(--wjh-color-primary);
+    font-size: 28Px;
+    flex-shrink: 0;
+    margin: 0 18Px;
+    width: 32Px;
+  }
+}

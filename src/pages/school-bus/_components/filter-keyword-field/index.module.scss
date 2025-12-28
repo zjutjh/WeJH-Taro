@@ -1,0 +1,46 @@
+.filter-keyword-field {
+  display: flex;
+  align-items: center;
+  gap: 10Px;
+
+  .search-input-container {
+    display: flex;
+    align-items: center;
+    flex: auto;
+    border-radius: var(--row-field-border-radius, 6Px);
+    overflow: hidden;
+    gap: 5Px;
+    padding-left: 8Px;
+    background-color: var(--wjh-color-background-container);
+
+    .search-icon {
+      color: var(--wjh-color-primary);
+    }
+
+    .search-input {
+      width: 100%;
+      height: var(--row-height, 32Px);
+      color: var(--wjh-color-text);
+      background-color: transparent;
+      font-size: 14Px;
+      margin-right: 8Px;
+    }
+  }
+
+  .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40Px;
+
+    .description {
+      color: var(--wjh-color-text-secondary);
+      font-size: 10Px;
+    }
+
+    .icon {
+      color: var(--wjh-color-primary);
+      font-size: 22Px;
+    }
+  }
+}

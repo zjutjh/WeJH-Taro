@@ -2,70 +2,19 @@
   <theme-config>
     <title-bar title="校车" :back-button="true" />
     <view :class="styles['school-bus-title-bar']">
-      <view :class="styles['row-1']">
-        <view :class="styles['search-input-container']">
-          <view class="iconfont icon-search" :class="styles['search-icon']" />
-          <input
-            v-model="search"
-            type="text"
-            :class="styles['search-input']"
-            placeholder="请输入关键词"
-          />
-        </view>
-        <view :class="styles['icon-wrapper']" @tap="showLineModal = true">
-          <view :class="[styles['icon']]" class="iconfont icon-route" />
-          <view :class="styles['description']">路线</view>
-        </view>
-        <view :class="styles['icon-wrapper']" @tap="handleTapAnnounce()">
-          <view :class="[styles['icon']]" class="iconfont icon-alarm" />
-          <view :class="styles['description']">通知</view>
-        </view>
-        <view :class="styles['icon-wrapper']" @tap="showTipModal = true">
-          <view :class="[styles['icon']]" class="iconfont icon-help" />
-          <view :class="styles['description']">提示</view>
-        </view>
-      </view>
-      <view :class="styles['row-2']">
-        <picker
-          :class="styles['route-selector']"
-          mode="selector"
-          :range="allPoint"
-          @change="onChangeStart"
-        >
-          <button
-            :class="styles['picker-button']"
-            :style="
-              selectedStart === '不限'
-                ? { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }
-                : ''
-            "
-          >
-            {{ selectedStart === "不限" ? "请选择起点" : selectedStart }}
-          </button>
-        </picker>
-        <view
-          class="iconfont icon-switch-route"
-          :class="styles['routeSwapper']"
-          @tap="handleSwapDirection"
-        />
-        <picker
-          :class="styles['route-selector']"
-          mode="selector"
-          :range="allPoint"
-          @change="onChangeEnd"
-        >
-          <button
-            :class="styles['picker-button']"
-            :style="
-              selectedEnd === '不限'
-                ? { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 }
-                : ''
-            "
-          >
-            {{ selectedEnd === "不限" ? "请选择终点" : selectedEnd }}
-          </button>
-        </picker>
-      </view>
+      <filter-keyword-field
+        v-model="keywords"
+        @click-line="showLineModal = true"
+        @click-announce="handleTapAnnounce"
+        @click-tip="showTipModal = true"
+      />
+
+      <filter-start-end-field
+        v-model:start="selectedStart"
+        v-model:end="selectedEnd"
+        :options="allPoint"
+      />
+
       <view :class="styles['row-3']">
         <span
           :class="[styles['filter-item'], isDirectOnly ? styles['active'] : '']"
@@ -118,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { Picker, ScrollView } from "@tarojs/components";
+import { ScrollView } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { isEmpty } from "lodash-es";
 import urlcat from "urlcat";
@@ -132,6 +81,8 @@ import BusLineModal from "./_components/bus-line-modal/index.vue";
 import BusScheduleCard from "./_components/bus-schedule-card/index.vue";
 import BusTimeEmpty from "./_components/bus-time-empty/index.vue";
 import BusTipModal from "./_components/bus-tip-modal/index.vue";
+import FilterKeywordField from "./_components/filter-keyword-field/index.vue";
+import FilterStartEndField from "./_components/filter-start-end-field/index.vue";
 import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
 import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
@@ -152,9 +103,9 @@ const toggleTimeFilter = (type: "morning" | "afternoon" | "evening") => {
   }
 };
 
-const search = ref("");
+const keywords = ref("");
 
-const { parsedScheduleList: busTimeList } = useBusScheduleList({ search });
+const { parsedScheduleList: busTimeList } = useBusScheduleList({ search: keywords });
 const { busLineList } = useBusLineList();
 
 const { busConfig } = useBusConfig();
@@ -220,21 +171,6 @@ const allPoint = computed(() => {
 
   return [...fixedPoints, ...Array.from(dynamicPoints).sort()];
 });
-
-const onChangeStart = (e) => {
-  const index = e.detail.value;
-  selectedStart.value = allPoint.value[index];
-};
-const onChangeEnd = (e) => {
-  const index = e.detail.value;
-  selectedEnd.value = allPoint.value[index];
-};
-
-const handleSwapDirection = () => {
-  const temp = selectedStart.value;
-  selectedStart.value = selectedEnd.value;
-  selectedEnd.value = temp;
-};
 
 const handleSelectBusName = (busName: string) => {
   const config = busConfig.value || [];
