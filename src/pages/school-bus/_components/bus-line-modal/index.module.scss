@@ -1,19 +1,21 @@
 .line-modal {
-  display: flex;
-  align-items: center;
+  :global {
+    .wjh-modal-header {
+      color: var(--wjh-color-primary);
+      padding-bottom: 5Px;
+    }
 
-  :global(.wjh-modal-header) {
-    color: var(--wjh-color-primary);
-    padding-bottom: 5Px;
-  }
+    .wjh-modal-container {
+      top: 50%;
+      transform: scale(1) translateY(-50%);
+    }
 
-  :global(.wjh-modal-body) {
-    padding-top: 0;
-    line-height: inherit;
-  }
-
-  :global(.wjh-modal-container) {
-    top: auto;
+    .wjh-modal-body {
+      padding-top: 0;
+      line-height: inherit;
+      max-height: 60vh;
+      overflow: auto;
+    }
   }
 }
 
@@ -54,7 +56,7 @@
     .chip {
       background-color: var(--wjh-color-primary);
       color: white;
-      padding: 6Px 16Px;
+      padding: 6Px 14Px;
       border-radius: 6Px;
       font-size: 14Px;
     }

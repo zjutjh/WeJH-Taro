@@ -2,6 +2,7 @@
 
 .wjh-modal {
   --anim-duration: 0.3s;
+  --horizontal-gap-to-window: 24Px;
 
   position: fixed;
   z-index: 2000;
@@ -44,8 +45,8 @@
     position: relative;
     background-color: var(--wjh-color-background-container);
     z-index: 2100;
-    width: 80%;
-    max-width: 300Px;
+    min-width: 80%;
+    max-width: calc(100vw - var(--horizontal-gap-to-window) * 2);
     top: 30vh;
     margin: 0 auto;
 
