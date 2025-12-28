@@ -1,12 +1,5 @@
 <template>
-  <w-modal
-    :show="props.show"
-    title="全部路线"
-    :mask="true"
-    content=""
-    :class="styles['line-modal']"
-    @update:show="handleUpdateShow"
-  >
+  <w-modal v-model:show="show" title="全部路线" :class="styles['line-modal']">
     <view :class="styles['content']">
       <view
         v-for="(lines, groupName) in props.lineList"
@@ -38,25 +31,19 @@ interface BusLinesMap {
 }
 
 const props = defineProps<{
-  show: boolean;
   lineList: BusLinesMap;
 }>();
 
+const show = defineModel<boolean>("show", {
+  default: false
+});
+
 const emit = defineEmits<{
-  (e: "update:show", value: boolean): void;
   (e: "select", line: string): void;
 }>();
 
-const close = () => {
-  emit("update:show", false);
-};
-
-const handleUpdateShow = (val: boolean) => {
-  emit("update:show", val);
-};
-
 const handleSelect = (line: string) => {
   emit("select", line);
-  close();
+  show.value = false;
 };
 </script>

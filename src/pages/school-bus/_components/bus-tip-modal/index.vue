@@ -1,12 +1,5 @@
 <template>
-  <w-modal
-    :show="props.show"
-    title="提示"
-    :mask="true"
-    content=""
-    :class="styles['tip-modal']"
-    @update:show="handleUpdateShow"
-  >
+  <w-modal v-model:show="show" title="提示" :class="styles['tip-modal']">
     <view :class="styles['content']">
       <view :class="styles['paragraph']">
         1.预约校车: 请到工大钉、容大后勤服务的"班车预约".
@@ -27,15 +20,7 @@ import { WModal } from "@/components";
 
 import styles from "./index.module.scss";
 
-const props = defineProps<{
-  show: boolean;
-}>();
-
-const emit = defineEmits<{
-  (e: "update:show", value: boolean): void;
-}>();
-
-const handleUpdateShow = (val: boolean) => {
-  emit("update:show", val);
-};
+const show = defineModel<boolean>("show", {
+  default: false
+});
 </script>

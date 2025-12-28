@@ -1,11 +1,8 @@
 <template>
   <w-modal
-    :show="props.show"
-    :mask="true"
+    v-model:show="show"
     :title="props.announce?.title || ''"
-    content=""
     :class="styles['modal-container']"
-    @update:show="emit('update:show', $event)"
   >
     <template #header>
       <view :class="styles['close-icon']" @tap="handleClose">
@@ -15,7 +12,7 @@
 
     <view :class="styles['modal-content']">
       <view :class="styles['meta-info']">
-        <text>{{ timeFormat(props.announce?.publishedAt) }}</text>
+        <text>{{ publishTime }}</text>
       </view>
       <view :class="styles['divider']"></view>
 
@@ -34,6 +31,7 @@
 
 <script lang="ts" setup>
 import dayjs from "dayjs";
+import { computed } from "vue";
 
 import { WModal } from "@/components";
 import { BusAnnounceItem } from "@/pages/school-bus/_types";
@@ -41,18 +39,22 @@ import { BusAnnounceItem } from "@/pages/school-bus/_types";
 import styles from "./index.module.scss";
 
 const props = defineProps<{
-  show: boolean;
   announce?: BusAnnounceItem;
 }>();
 
-const emit = defineEmits(["update:show"]);
+const show = defineModel<boolean>("show", {
+  default: false
+});
 
 const handleClose = () => {
-  emit("update:show", false);
+  show.value = false;
 };
 
-const timeFormat = (time?: string) => {
-  if (!time) return "";
+const publishTime = computed(() => {
+  const time = props.announce?.publishedAt;
+  if (!time) {
+    return "";
+  }
   return dayjs(time).format("YYYY-MM-DD HH:mm");
-};
+});
 </script>
