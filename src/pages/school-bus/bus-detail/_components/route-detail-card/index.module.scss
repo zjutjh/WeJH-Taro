@@ -1,94 +1,59 @@
 .bus-detail-container {
-  padding: 0 6% 0 6%;
-  box-sizing: border-box;
-  margin: 10Px 6% 20Px 6%;
-  :global(.wjh-list-item-content-main) {
+  :global(.wjh-card-header) {
+    padding-bottom: 12Px;
+  }
+
+  .header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-  }
-  :global(.wjh-list-item) {
-    padding: 0;
-  }
-  :global(.wjh-collapse-panel-header-active) {
-    .bus-detail-title {
-      transition: all 0.3s;
-      color: var(--wjh-color-primary);
-    }
-    .campus-row {
-      color: var(--wjh-color-primary);
-    }
-    .dot {
-      background-color: var(--wjh-color-primary);
-    }
-    .triple-arrow {
-      color: var(--wjh-color-primary) !important;
-    }
-  }
-}
+    width: 100%;
+    gap: 8Px;
 
-.bus-detail-title {
-  font-size: 18Px;
-  font-weight: bold;
-  min-width: 250Px;
-  line-height: 25Px;
+    .extra {
+      align-items: flex-end;
+      color: var(--wjh-color-week);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
 
-  color: var(--wjh-color-text);
-  text-align: start;
+      :global(.iconfont) {
+        font-size: 20Px;
+      }
+    }
+  }
 }
 
 .bus-detail-route {
   display: flex;
-  align-items: start;
-  justify-content: start;
-  width: 100%;
   gap: 5Px;
+  font-size: 18Px;
+  font-weight: 500;
+  line-height: 26Px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--wjh-color-primary);
 
-  .route-point {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .campus-row {
-    display: flex;
-    align-items: center;
-    font-size: 16Px;
-    line-height: 25Px;
-    color: var(--wjh-color-week);
-  }
-
-  .dot {
-    display: inline-block;
-    position: relative;
-    top: 8Px;
-    width: 9Px;
-    height: 9Px;
-    margin-right: 5Px;
-    background-color: var(--wjh-color-light);
-    border-radius: 9Px;
-  }
   .triple-arrow-container {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 25Px;
+
     .triple-arrow {
-      color: var(--wjh-color-light);
+      opacity: .6;
       font-size: 3rem;
     }
   }
 
-
 }
 
 .schedule-table {
-  width: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  margin-top: 20Px;
+
   .table-header {
     background-color: var(--wjh-color-primary);
     opacity: 0.8;
@@ -119,20 +84,24 @@
         border-right: none;
       }
     }
+
     .divider {
       visibility: hidden;
     }
+
     .seats-num {
       &.zero {
         color: var(--wjh-color-text-secondary);
       }
     }
+
     // 工作日发车 or 节假日发车 or 都发车
     .departure-days {
       font-size: 12Px;
       color: var(--wjh-color-text-secondary);
     }
   }
+
   .table-row.has-divider {
     .divider {
       visibility: visible;

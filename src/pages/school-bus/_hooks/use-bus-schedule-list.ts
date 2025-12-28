@@ -7,7 +7,7 @@ import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 
 import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
-import { parseBusName } from "../_utils";
+import { parseRouteName } from "../_utils";
 import { useBusConfig } from "./use-bus-info";
 
 /**
@@ -38,7 +38,7 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
     /**  构建带日期时间的中间数组，用于排序 */
     return data.value.list
       .flatMap((bus) => {
-        const { routeName, start, end } = parseBusName(bus.name);
+        const { busName, start, end } = parseRouteName(bus.name);
         const staticRoute = config.find((item) => item.name === bus.name);
 
         if (!bus.bus_time) return [];
@@ -59,7 +59,7 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
             departureTime: dayjs(schedule.departure_time),
             orderedSeats: schedule.ordered_seats,
             remainSeats: schedule.remain_seats,
-            routeName,
+            busName,
             start,
             end,
             // TODO: 这里单位转换可能有问题

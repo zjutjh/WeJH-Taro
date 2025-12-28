@@ -1,18 +1,18 @@
 import dayjs, { Dayjs } from "dayjs";
 
 /**
- * 班车名称解析
+ * 路线名称解析
  *
- * @param raw 班车名称 e.g. `1号线（屏峰-朝晖）`
+ * @param raw 路线名称 e.g. `1号线（屏峰-朝晖）`
  */
-export const parseBusName = (raw: string) => {
+export const parseRouteName = (raw: string) => {
   const match = raw.match(/^(.*?)（(.*?)-(.*?)）$/);
   if (match) {
-    return { routeName: match[1], start: match[2], end: match[3] };
+    return { busName: match[1], start: match[2], end: match[3] };
   }
 
   // 处理格式不匹配
-  return { routeName: raw, start: "", end: "" };
+  return { busName: raw, start: "", end: "" };
 };
 
 /**

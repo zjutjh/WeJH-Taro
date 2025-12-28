@@ -10,8 +10,9 @@ interface BusStation {
   stationName: string;
 }
 
+// TODO: 转移位置
 export interface BusRouteDetail {
-  routeName: string;
+  busName: string;
   start: string;
   end: string;
   stations: BusStation[];
@@ -36,8 +37,8 @@ export enum OpenTypeEnum {
 export interface ParsedBusSchedule {
   /** 唯一标识符 */
   id: string;
-  /** 线路名程 如1号线 */
-  routeName: string;
+  /** 班车名称，如1号线 */
+  busName: string;
   /** 起点 */
   start: string;
   /** 终点 */

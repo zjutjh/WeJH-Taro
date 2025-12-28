@@ -8,7 +8,7 @@
     <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
       <view :class="styles['start-time']"> {{ departureText }}</view>
       <view :class="styles['route-name']">
-        {{ `${schedule.routeName} (${schedule.start}-${schedule.end})` }}
+        {{ `${schedule.busName} (${schedule.start}-${schedule.end})` }}
       </view>
     </view>
     <view :class="styles['bus-information-content']">
@@ -57,7 +57,7 @@ const handleClickDepartureText = () => {
 
 const handleClickDetail = () => {
   const url = urlcat("/pages/school-bus/bus-detail/index", {
-    routeName: schedule.value.routeName,
+    busName: schedule.value.busName,
     start: schedule.value.start,
     end: schedule.value.end
   });
