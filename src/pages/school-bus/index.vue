@@ -16,7 +16,7 @@
           <view :class="[styles['icon']]" class="iconfont icon-route" />
           <view :class="styles['description']">路线</view>
         </view>
-        <view :class="styles['icon-wrapper']" @tap="navigate2Announce()">
+        <view :class="styles['icon-wrapper']" @tap="handleTapAnnounce()">
           <view :class="[styles['icon']]" class="iconfont icon-alarm" />
           <view :class="styles['description']">通知</view>
         </view>
@@ -111,7 +111,7 @@
     <bus-line-modal
       v-model:show="showLineModal"
       :line-list="busLineList"
-      @select="handleLineSelect"
+      @select="handleSelectBusName"
     />
     <bus-tip-modal v-model:show="showTipModal" />
   </theme-config>
@@ -121,6 +121,7 @@
 import { Picker, ScrollView } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { isEmpty } from "lodash-es";
+import urlcat from "urlcat";
 import { computed, ref } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
@@ -132,6 +133,7 @@ import BusScheduleCard from "./_components/bus-schedule-card/index.vue";
 import BusTimeEmpty from "./_components/bus-time-empty/index.vue";
 import BusTipModal from "./_components/bus-tip-modal/index.vue";
 import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
+import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
 
 const showLineModal = ref(false);
@@ -175,7 +177,7 @@ const filteredScheduleList = computed(() => {
 
     // 2. 是否直达线
     if (isDirectOnly.value) {
-      if (!item.routeName.includes("直达")) return false;
+      if (!item.busName.includes("直达")) return false;
     }
 
     // 3. 时间段筛选(早上 下午 晚上)
@@ -234,26 +236,30 @@ const swapCampus = () => {
   selectedEnd.value = temp;
 };
 
-const handleLineSelect = (line: string) => {
-  let start = "";
-  let end = "";
+const handleSelectBusName = (busName: string) => {
   const config = busConfig.value || [];
 
-  config.forEach((item) => {
-    if (item.name.startsWith(line)) {
-      start = item.name.split("（")[1].split("-")[0];
-      end = item.name.split("（")[1].split("-")[1].split("）")[0];
-    }
+  const targetRoute = config.find((item) => {
+    const parsed = parseRouteName(item.name);
+    return parsed.busName === busName;
   });
 
-  if (start && end) {
-    Taro.navigateTo({
-      url: `/pages/school-bus/bus-detail/index?routeName=${line}&start=${start}&end=${end}`
-    });
+  if (!targetRoute) {
+    return;
   }
+
+  const { start, end } = parseRouteName(targetRoute.name);
+
+  const url = urlcat(`/pages/school-bus/bus-detail/index`, {
+    busName,
+    start,
+    end
+  });
+
+  Taro.navigateTo({ url });
 };
 
-const navigate2Announce = () => {
+const handleTapAnnounce = () => {
   Taro.navigateTo({
     url: "/pages/school-bus/announce/index"
   });

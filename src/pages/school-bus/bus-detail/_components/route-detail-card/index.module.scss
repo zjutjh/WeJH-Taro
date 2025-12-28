@@ -110,3 +110,27 @@
     }
   }
 }
+
+.station-popover {
+  :global(.wjh-pop-view-body) {
+    box-sizing: border-box;
+  }
+
+  &-header {
+    margin-top: 24Px;
+    color: var(--wjh-color-primary);
+    font-weight: 700;
+    font-size: 22Px;
+    line-height: 26Px;
+    margin-bottom: 10Px;
+    padding: 0 24Px;
+  }
+
+  &-content {
+    padding: 0 24Px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14Px;
+    line-height: 22Px;
+  }
+}

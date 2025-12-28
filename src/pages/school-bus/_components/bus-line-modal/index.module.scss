@@ -1,27 +1,20 @@
 .line-modal {
   display: flex;
   align-items: center;
+
   :global(.wjh-modal-header) {
     color: var(--wjh-color-primary);
     padding-bottom: 5Px;
   }
+
   :global(.wjh-modal-body) {
     padding-top: 0;
     line-height: inherit;
   }
+
   :global(.wjh-modal-container) {
     top: auto;
   }
-}
-
-.close-icon {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0 16Px;
-  color: var(--wjh-color-text-secondary);
-  font-size: 1rem !important;
 }
 
 .content {
@@ -30,21 +23,24 @@
 
   .group-section {
     margin-bottom: 20Px;
+
     &:last-child {
       margin-bottom: 0;
     }
+
     .group-title {
       display: flex;
       align-items: center;
       margin-bottom: 12Px;
       font-size: 15Px;
       color: var(--wjh-color-text);
+
       .dot {
         display: inline-block;
         width: 8Px;
         height: 8Px;
         background-color: var(--wjh-color-primary);
-        border-radius: 50%;
+        border-radius: 4Px;
         margin-right: 8Px;
       }
     }
@@ -54,6 +50,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 12Px;
+
     .chip {
       background-color: var(--wjh-color-primary);
       color: white;
@@ -63,9 +60,3 @@
     }
   }
 }
-
-
-
-
-
-

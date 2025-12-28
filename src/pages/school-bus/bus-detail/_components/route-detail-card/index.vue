@@ -37,12 +37,16 @@
       </view>
     </view>
 
-    <pop-view
-      v-model:visible="isShowStationPopover"
-      :content="routeInConfig.stations"
-      :content-item-key="'name'"
-      :content-item-text="'name'"
-    />
+    <pop-view v-model:show="isShowStationPopover" :class="styles['station-popover']">
+      <view :class="styles['station-popover-header']">
+        <text>{{ routeInConfig.name }} </text>
+      </view>
+      <view :class="styles['station-popover-content']">
+        <view v-for="(station, index) in routeInConfig.stations" :key="`${station}-${index}`">
+          <text>{{ station }}</text>
+        </view>
+      </view>
+    </pop-view>
   </card>
 </template>
 

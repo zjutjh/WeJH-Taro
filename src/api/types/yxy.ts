@@ -105,8 +105,6 @@ export type QueryBusAnnounceResponse = {
 
 export interface BusStaticConfigItem {
   name: string;
-  start: string;
-  end: string;
   stations: string[];
   bus_time: Array<{
     /** e.g. `8:00` / `08:00` / `23:00` */
