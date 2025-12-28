@@ -42,7 +42,7 @@ const handleSubscribe = async () => {
   }
 
   try {
-    await yxyServiceNext.CreateSubscription();
+    await yxyServiceNext.CreateElectricitySubscription();
     Taro.showToast({ title: "订阅成功", icon: "none" });
   } catch (e) {
     e instanceof Error && Taro.showToast({ title: e.message || "订阅失败", icon: "none" });

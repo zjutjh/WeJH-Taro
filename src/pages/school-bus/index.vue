@@ -124,17 +124,14 @@ import { isEmpty } from "lodash-es";
 import { computed, ref } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
-import {
-  useBusConfig,
-  useBusLineList,
-  useBusScheduleList
-} from "@/pages/school-bus/_hooks/use-bus-info";
+import { useBusConfig, useBusLineList } from "@/pages/school-bus/_hooks/use-bus-info";
 import { isPFCampus } from "@/utils/school-bus";
 
 import BusLineModal from "./_components/bus-line-modal/index.vue";
 import BusScheduleCard from "./_components/bus-schedule-card/index.vue";
 import BusTimeEmpty from "./_components/bus-time-empty/index.vue";
 import BusTipModal from "./_components/bus-tip-modal/index.vue";
+import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
 import styles from "./index.module.scss";
 
 const showLineModal = ref(false);

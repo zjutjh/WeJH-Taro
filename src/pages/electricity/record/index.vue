@@ -56,7 +56,10 @@ const {
 } = useInfiniteQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_CHARGE_RECORD, campus] as const,
   queryFn: ({ queryKey, pageParam }) =>
-    yxyServiceNext.QueryChargeRecord({ page: pageParam.toString(), campus: queryKey[1] }),
+    yxyServiceNext.QueryElectricityChargeRecord({
+      page: pageParam.toString(),
+      campus: queryKey[1]
+    }),
   initialPageParam: 0,
   getNextPageParam: (lastPage, pages) => {
     if (pages.length > 1) {

@@ -92,7 +92,7 @@ const onPickerChange = (event: { detail: { value: number } }) => {
 
 const { data, isFetching } = useQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_BALANCE, campus] as const,
-  queryFn: ({ queryKey }) => yxyServiceNext.QueryBalance({ campus: queryKey[1] })
+  queryFn: ({ queryKey }) => yxyServiceNext.QueryElectricityBalance({ campus: queryKey[1] })
 });
 
 watchEffect(() =>
@@ -105,7 +105,8 @@ const {
   isFetching: consumptionLoading
 } = useQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_CONSUMPTION, campus] as const,
-  queryFn: ({ queryKey }) => yxyServiceNext.QueryConsumptionRecord({ campus: queryKey[1] }),
+  queryFn: ({ queryKey }) =>
+    yxyServiceNext.QueryElectricityConsumptionRecord({ campus: queryKey[1] }),
   select: (res) => first(res)?.used
 });
 

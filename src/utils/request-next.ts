@@ -25,13 +25,6 @@ export interface RequestCustomOptions {
    * @default true
    */
   auth?: boolean;
-  /**
-   * 是否直接返回响应数据，不进行 code 校验
-   * 适用于重定向下载等非标准 JSON 响应的场景
-   *
-   * @default false
-   */
-  isRaw?: boolean;
 }
 
 /**
@@ -42,7 +35,7 @@ export interface RequestCustomOptions {
  */
 export async function requestNext<Data>(
   { url, method, params, data }: RequestFnParams,
-  { auth = true, isRaw = false }: RequestCustomOptions | undefined = {}
+  { auth = true }: RequestCustomOptions | undefined = {}
 ): Promise<Data> {
   try {
     const cookie = auth
@@ -52,33 +45,33 @@ export async function requestNext<Data>(
           staleTime: Infinity
         })
       : "";
-    const { data: realResponse } = await Taro.request<IResponse<Data> | Data | undefined>({
+
+    const { data: realResponse } = await Taro.request<IResponse<Data> | undefined>({
       ...globalConfig,
       // Taro.request 对于 GET 和 POST 的请求都共用 data 传参，POST 请求时无法拼接 url query，这里手动拼接
       url: isNil(params) ? url : urlcat(url, params),
       method,
-      header: { Cookie: cookie },
+      header: {
+        Cookie: cookie
+      },
       data
     });
 
-    if (!realResponse)
+    if (!realResponse) {
       throw new RequestError("小程序网络异常", MPErrorCode.MP_INVALID_RESPONSE_BODY);
-
-    // FIXME: 处理这个逻辑
-    if (isRaw) {
-      return realResponse as Data;
     }
 
-    const res = realResponse as IResponse<Data>;
-
-    if (res.code !== ServiceErrorCode.OK) {
-      if (res.code === ServiceErrorCode.USER_NOT_LOGIN && cookie)
+    if (realResponse.code !== ServiceErrorCode.OK) {
+      if (realResponse.code === ServiceErrorCode.USER_NOT_LOGIN && cookie) {
         // Cookie 过期，调用登录接口刷新 Cookie，之后抛出错误后利用请求重试，在新一轮请求中拿到 Cookie
-        await globalQueryClient.invalidateQueries({ queryKey: [QUERY_KEY.USER_COOKIE] as const });
-      throw new RequestError(res.msg, res.code);
+        await globalQueryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.USER_COOKIE] as const
+        });
+      }
+      throw new RequestError(realResponse.msg, realResponse.code);
     }
 
-    return res.data;
+    return realResponse.data;
   } catch (e: unknown) {
     console.error(e);
     throw e instanceof RequestError
