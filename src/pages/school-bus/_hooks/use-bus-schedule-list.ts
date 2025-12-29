@@ -48,9 +48,8 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
           const minute = dayjs(schedule.departure_time).minute();
 
           const staticTime = staticRoute?.bus_time.find((t) => {
-            const configDepartureHour = dayjs(t.departure_time).hour();
-            const configDepartureMinute = dayjs(t.departure_time).minute();
-            return configDepartureHour === hour && configDepartureMinute === minute;
+            const [configHour, configMinute] = t.departure_time.split(":").map(Number);
+            return configHour === hour && configMinute === minute;
           });
 
           // TODO: 这里兜底处理可能不准确

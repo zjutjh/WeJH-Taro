@@ -1,11 +1,11 @@
 <template>
   <theme-config>
     <title-bar title="校车" :back-button="true" />
-    <view :class="styles['school-bus-title-bar']">
+    <view :class="styles['filter-section']">
       <!-- 关键词筛选 -->
       <filter-keyword-field
         v-model="keywords"
-        @click-line="showLineModal = true"
+        @click-line="showBusNameGroupModal = true"
         @click-announce="handleTapAnnounce"
         @click-tip="showTipModal = true"
       />
@@ -35,7 +35,7 @@
     <view v-else :class="styles['empty-container']">
       <bus-time-empty />
     </view>
-    <bus-name-group-modal v-model:show="showLineModal" @select="handleSelectBusName" />
+    <bus-name-group-modal v-model:show="showBusNameGroupModal" @select="handleSelectBusName" />
     <bus-tip-modal v-model:show="showTipModal" />
   </theme-config>
 </template>
@@ -62,7 +62,7 @@ import { useBusStaticConfig } from "./_hooks/use-bus-static-config";
 import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
 
-const showLineModal = ref(false);
+const showBusNameGroupModal = ref(false);
 const showTipModal = ref(false);
 
 /** 快捷筛选 */
@@ -70,12 +70,12 @@ const activeQuickFilter = ref<QuickFilterItem[]>([]);
 
 const keywords = ref("");
 
-const { parsedScheduleList: busTimeList } = useBusScheduleList({ search: keywords });
+const { parsedScheduleList } = useBusScheduleList({ search: keywords });
 
 const { busConfig } = useBusStaticConfig();
 
 const baseFilteredList = computed(() => {
-  return busTimeList.value.filter((item) => {
+  return parsedScheduleList.value.filter((item) => {
     // 1. 校区筛选
     let matchEnd: boolean;
     let matchStart: boolean;
@@ -123,7 +123,7 @@ const allPoint = computed(() => {
   const fixedPoints = ["不限", "朝晖", "屏峰", "莫干山"];
   const dynamicPoints = new Set<string>();
 
-  busTimeList.value.forEach((item) => {
+  parsedScheduleList.value.forEach((item) => {
     if (item.start && !fixedPoints.includes(item.start)) {
       dynamicPoints.add(item.start);
     }
