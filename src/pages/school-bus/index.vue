@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="校车" :back-button="true" />
+    <title-bar title="校车信息" :back-button="true" />
     <view :class="styles['filter-section']">
       <!-- 关键词筛选 -->
       <filter-keyword-field

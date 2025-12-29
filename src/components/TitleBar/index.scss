@@ -8,15 +8,14 @@
 
   .wjh-title-bar-back-button {
     color: var(--wjh-color-text);
-    font-size: 2rem;
-    border-radius: 5rem;
+    font-size: 28Px;
   }
 
   .wjh-title-bar-title {
     color: var(--wjh-color-text);
-    font-size: 1.3rem;
-    font-weight: var(--wjh-font-weight-bold);
-    margin-left: 0.3rem;
+    font-size: 20Px;
+    font-weight: var(--wjh-font-weight-bold, 500);
+    margin-left: 6Px;
   }
 }
 
@@ -27,7 +26,7 @@
   /*当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）*/
   animation-iteration-count: infinite;
   /* 动画次数 无限次 */
-  animation-name: animationa;
+  animation-name: animationA;
   /* 执行动画名称 */
   animation-timing-function: linear;
   /* 动画速度，线性匀速 */
@@ -44,7 +43,7 @@
   opacity: .9;
 }
 
-@keyframes animationa {
+@keyframes animationA {
 
   /* 修改背景定位 */
   0% {
