@@ -1,9 +1,10 @@
 <template>
   <card :class="styles.container">
-    <view v-if="!isEmpty(openTypeText)" :class="['iconfont', 'icon-tag', styles['tag']]">
-      <span :class="styles['tag-text']">
+    <view v-if="!isEmpty(openTypeText)" :class="styles['open-type-tag']">
+      <view class="iconfont icon-tag" />
+      <text :class="styles['tag-text']">
         {{ openTypeText }}
-      </span>
+      </text>
     </view>
     <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
       <view :class="styles['start-time']"> {{ departureText }}</view>
@@ -17,13 +18,13 @@
       </view>
       <view :class="styles['row-item']">
         余票：
-        <span :style="{ color: schedule.remainSeats <= 0 ? '#F56C6C' : '#49DF17' }">
+        <text :style="{ color: schedule.remainSeats <= 0 ? '#F56C6C' : '#49DF17' }">
           {{ schedule.remainSeats }}
-        </span>
-        <span :class="styles.divider" />
-        <span>
+        </text>
+        <text :class="styles.divider" />
+        <text>
           {{ `已约：${schedule.orderedSeats}` }}
-        </span>
+        </text>
       </view>
 
       <view :class="styles['row-item']">{{ `票价：${priceText}` }}</view>

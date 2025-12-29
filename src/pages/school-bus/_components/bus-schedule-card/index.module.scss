@@ -8,19 +8,23 @@
     padding: 11Px 0;
   }
 
-  .tag {
+  .open-type-tag {
     position: absolute;
     left: -4Px;
     color: var(--wjh-color-primary);
-    font-size: 26Px;
+
+    :global(.iconfont) {
+      font-size: 28Px;
+    }
 
     .tag-text {
-      display: block;
+      margin-left: 4Px;
       position: absolute;
-      bottom: 6Px;
-      left: 3Px;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
       font-size: 11Px;
-      color: white;
+      color: var(--wjh-color-white);
     }
   }
 }

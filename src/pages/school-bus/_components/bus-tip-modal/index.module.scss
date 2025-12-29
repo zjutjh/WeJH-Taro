@@ -4,11 +4,8 @@
   color: var(--wjh-color-text);
 
   .paragraph {
-    margin-bottom: 10Px;
-    text-align: justify;
-
-    &:last-child {
-      margin-bottom: 0;
+    &:not(:last-child) {
+      margin-bottom: 10Px;
     }
   }
 }
