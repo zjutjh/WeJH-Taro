@@ -128,9 +128,11 @@
 
   &-content {
     padding: 0 24Px;
+    padding-bottom: 16Px;
     display: flex;
     flex-direction: column;
-    font-size: 14Px;
+    font-size: 16Px;
     line-height: 22Px;
+    gap: 6Px;
   }
 }

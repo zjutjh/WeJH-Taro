@@ -97,7 +97,7 @@ export type QueryBusAnnounceResponse = {
     title: string;
     author: string;
     published_at: string;
-    content: string;
+    content: string[];
     /** 摘要 */
     abstract: string;
   }>;

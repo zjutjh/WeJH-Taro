@@ -2,7 +2,7 @@
   <theme-config>
     <title-bar :title="`${busRouteParams.busName}详情`" :back-button="true" />
     <scroll-view :scroll-y="true">
-      <view :class="styles.list">
+      <view :class="styles.container">
         <!-- 同时展示正反方向的线路 -->
         <route-detail-card v-if="start2EndRouteConfig" :route-in-config="start2EndRouteConfig" />
         <route-detail-card v-if="end2StartRouteConfig" :route-in-config="end2StartRouteConfig" />

@@ -7,11 +7,11 @@
   >
     <view class="wjh-modal-container">
       <view class="wjh-modal-header">
-        {{ props.title }}
+        <text v-if="!isEmpty(title)">{{ title }}</text>
         <slot name="header" />
       </view>
       <view class="wjh-modal-body">
-        {{ props.content }}
+        <text v-if="!isEmpty(content)">{{ content }}</text>
         <slot />
       </view>
       <view v-if="slots.footer" class="wjh-modal-footer">
@@ -28,13 +28,14 @@
         </view>
       </view>
     </view>
-    <view v-if="props.mask" class="wjh-modal-mask" @tap="handleClose" />
+    <view v-if="mask" class="wjh-modal-mask" @tap="handleClose" />
   </view>
 </template>
 
 <script setup lang="ts">
 import "./index.scss";
 
+import { isEmpty } from "lodash-es";
 import { useSlots } from "vue";
 
 type ModelPropsType = {

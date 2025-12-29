@@ -1,6 +1,4 @@
 .bus-announce-card {
-  margin: 5% 6% 0 6%;
-
   :global(.wjh-card-header) {
     font-size: 15Px;
     font-weight: var(--wjh-font-weight-medium);
@@ -8,6 +6,7 @@
   }
 
   .time-wrapper {
+    color: var(--wjh-color-week);
     font-size: 12Px;
     text-align: end;
   }

@@ -1,5 +1,5 @@
 <template>
-  <w-modal v-model:show="show" title="提示" :class="styles['tip-modal']">
+  <w-modal v-model:show="show" title="提示">
     <view :class="styles['content']">
       <view :class="styles['paragraph']">
         1.预约校车: 请到工大钉、容大后勤服务的"班车预约".

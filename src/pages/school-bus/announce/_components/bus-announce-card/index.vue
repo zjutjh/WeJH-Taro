@@ -5,7 +5,7 @@
     </view>
     <template #footer>
       <view :class="styles['time-wrapper']">
-        <view> {{ timeFormat(props.item.publishedAt) }}</view>
+        <view> {{ timeFormat(props.item.published_at) }}</view>
       </view>
     </template>
   </card>
@@ -14,13 +14,13 @@
 <script lang="ts" setup>
 import dayjs from "dayjs";
 
+import { QueryBusAnnounceResponse } from "@/api/types/yxy";
 import { Card } from "@/components";
 
-import { BusAnnounceItem } from "../../../_types";
 import styles from "./index.module.scss";
 
 const props = defineProps<{
-  item: BusAnnounceItem;
+  item: QueryBusAnnounceResponse["list"][number];
 }>();
 
 const timeFormat = (time: string) => {

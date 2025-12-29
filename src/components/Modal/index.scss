@@ -47,11 +47,11 @@
     z-index: 2100;
     min-width: 80%;
     max-width: calc(100vw - var(--horizontal-gap-to-window) * 2);
-    top: 30vh;
+    top: 50%;
     margin: 0 auto;
 
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(-50%);
     transition: opacity var(--anim-duration) ease, transform var(--anim-duration) cubic-bezier(0.36, 0.66, 0.04, 1);
   }
 
