@@ -38,9 +38,9 @@
       font-size: 10Px;
     }
 
-    .icon {
+    :global(.iconfont) {
       color: var(--wjh-color-primary);
-      font-size: 22Px;
+      font-size: 20Px;
     }
   }
 }

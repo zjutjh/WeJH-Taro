@@ -6,9 +6,7 @@
     }
 
     .wjh-modal-body {
-      padding-top: 0;
-      line-height: inherit;
-      max-height: 60vh;
+      max-height: 56vh;
       overflow: auto;
     }
   }
@@ -19,16 +17,14 @@
   padding-bottom: 16Px;
 
   .group-section {
-    margin-bottom: 20Px;
-
-    &:last-child {
-      margin-bottom: 0;
+    &:not(:last-child) {
+      margin-bottom: 16Px;
     }
 
     .group-title {
       display: flex;
       align-items: center;
-      margin-bottom: 12Px;
+      margin-bottom: 8Px;
       font-size: 15Px;
       color: var(--wjh-color-text);
 
@@ -50,9 +46,9 @@
 
     .chip {
       background-color: var(--wjh-color-primary);
-      color: white;
-      padding: 6Px 14Px;
-      border-radius: 6Px;
+      color: var(--wjh-color-white);
+      padding: 2Px 12Px;
+      border-radius: 4Px;
       font-size: 14Px;
     }
   }

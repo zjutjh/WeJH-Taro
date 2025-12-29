@@ -13,15 +13,15 @@
       />
     </view>
     <view :class="styles['icon-wrapper']" @tap="emit('click-line')">
-      <view :class="[styles['icon']]" class="iconfont icon-route" />
+      <view class="iconfont icon-route" />
       <view :class="styles['description']">路线</view>
     </view>
     <view :class="styles['icon-wrapper']" @tap="emit('click-announce')">
-      <view :class="[styles['icon']]" class="iconfont icon-alarm" />
+      <view class="iconfont icon-alarm" />
       <view :class="styles['description']">通知</view>
     </view>
     <view :class="styles['icon-wrapper']" @tap="emit('click-tip')">
-      <view :class="[styles['icon']]" class="iconfont icon-help" />
+      <view class="iconfont icon-help" />
       <view :class="styles['description']">提示</view>
     </view>
   </view>
