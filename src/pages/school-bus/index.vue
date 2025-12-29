@@ -44,8 +44,9 @@
 import { ScrollView } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { isEmpty } from "lodash-es";
+import { storeToRefs } from "pinia";
 import urlcat from "urlcat";
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
 
@@ -59,6 +60,7 @@ import FilterQuickField from "./_components/filter-quick-field/index.vue";
 import FilterStartEndField from "./_components/filter-start-end-field/index.vue";
 import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
 import { useBusStaticConfig } from "./_hooks/use-bus-static-config";
+import { useSchoolBusFeatureFirstOpen } from "./_hooks/use-feature-initial";
 import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
 
@@ -67,10 +69,12 @@ const showTipModal = ref(false);
 /** 快捷筛选 */
 const activeQuickFilter = ref<QuickFilterItem[]>([]);
 const keywords = ref("");
+const selectedStart = ref("不限");
+const selectedEnd = ref("不限");
 
 const { parsedScheduleList } = useBusScheduleList({ search: keywords });
-
 const { busConfig } = useBusStaticConfig();
+const { isFirstOpen } = storeToRefs(useSchoolBusFeatureFirstOpen());
 
 const baseFilteredList = computed(() => {
   return parsedScheduleList.value.filter((item) => {
@@ -113,9 +117,6 @@ const filteredScheduleList = computed(() => {
 
   return list;
 });
-
-const selectedStart = ref("不限");
-const selectedEnd = ref("不限");
 
 const allPoint = computed(() => {
   const fixedPoints = ["不限", "朝晖", "屏峰", "莫干山"];
@@ -161,4 +162,13 @@ const handleTapAnnounce = () => {
     url: "/pages/school-bus/announce/index"
   });
 };
+
+watchEffect(() => {
+  if (isFirstOpen.value) {
+    isFirstOpen.value = false;
+    setTimeout(() => {
+      showTipModal.value = true;
+    }, 1000);
+  }
+});
 </script>

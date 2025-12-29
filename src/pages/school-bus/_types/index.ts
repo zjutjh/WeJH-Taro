@@ -58,9 +58,3 @@ export interface ParsedBusSchedule {
   /** 节假日开放时间的类型 */
   openType?: OpenTypeEnum;
 }
-
-/** 校车详情页的两个选项 */
-export enum BusDetailPickerEnum {
-  BusDetail = "班车详情",
-  RouteTable = "线路详情"
-}
