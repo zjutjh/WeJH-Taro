@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { CampusOption } from "@/api/types/electricity";
+import { CampusOption } from "@/api/types/yxy";
 import { Option } from "@/constants";
 import { persistedStorage } from "@/utils/storage";
 

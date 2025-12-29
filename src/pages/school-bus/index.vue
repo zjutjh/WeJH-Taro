@@ -64,10 +64,8 @@ import styles from "./index.module.scss";
 
 const showBusNameGroupModal = ref(false);
 const showTipModal = ref(false);
-
 /** 快捷筛选 */
 const activeQuickFilter = ref<QuickFilterItem[]>([]);
-
 const keywords = ref("");
 
 const { parsedScheduleList } = useBusScheduleList({ search: keywords });
