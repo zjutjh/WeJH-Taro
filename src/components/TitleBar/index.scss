@@ -4,53 +4,30 @@
   width: 100vw;
   display: inline-flex;
   background-color: var(--wjh-color-background-page);
-  z-index: 3000;
 
-  .wjh-title-bar-back-button {
+  padding: var(--menu-rect-top-offset) 16Px 4Px 16Px;
+  height: var(--menu-rect-height);
+
+  &-left-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &-back-button {
     color: var(--wjh-color-text);
     font-size: 28Px;
   }
 
-  .wjh-title-bar-title {
+  &-title {
     color: var(--wjh-color-text);
     font-size: 20Px;
     font-weight: var(--wjh-font-weight-bold, 500);
-    margin-left: 6Px;
-  }
-}
-
-.bg-default {
-  animation-duration: 1s;
-  /* 动画时长1s */
-  animation-fill-mode: forwards;
-  /*当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）*/
-  animation-iteration-count: infinite;
-  /* 动画次数 无限次 */
-  animation-name: animationA;
-  /* 执行动画名称 */
-  animation-timing-function: linear;
-  /* 动画速度，线性匀速 */
-  /* background: #f6f7f8; */
-  background: linear-gradient(to right, var(--wjh-color-primary-dark) 8%, #dddddd 18%, var(--wjh-color-primary-dark) 33%);
-  /* 背景颜色 */
-  background-size: 750px auto;
-  /* 背景大小 */
-  width: 100%;
-  min-height: 10px;
-  top: 0;
-  position: fixed;
-  z-index: 9999;
-  opacity: .9;
-}
-
-@keyframes animationA {
-
-  /* 修改背景定位 */
-  0% {
-    background-position: -750rpx 0;
   }
 
-  100% {
-    background-position: 750rpx 0;
+  &-spinner {
+    width: 16Px;
+    height: 16Px;
+    opacity: 0.3;
+    margin-left: 12Px;
   }
 }
