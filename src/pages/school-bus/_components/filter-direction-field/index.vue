@@ -76,6 +76,8 @@ const endIndex = computed(() => {
 
 const handleChangeStart: PickerSelectorProps["onChange"] = (e) => {
   const index = Number(e.detail.value);
+  console.log("index", props.options);
+
   start.value = props.options.at(index) || SCHEDULE_DIRECTION_UNLIMITED_OPTION;
 };
 

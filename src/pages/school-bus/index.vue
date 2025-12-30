@@ -10,9 +10,9 @@
         @click-tip="showTipModal = true"
       />
       <!-- 起点终点筛选 -->
-      <filter-start-end-field
-        v-model:start="selectedStart"
-        v-model:end="selectedEnd"
+      <filter-direction-field
+        v-model:start="startDirection"
+        v-model:end="endDirection"
         :options="directionOptionsList"
       />
       <!-- 快捷筛选项 -->
@@ -49,32 +49,33 @@ import urlcat from "urlcat";
 import { computed, ref, watchEffect } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
+import { Option } from "@/constants";
 
 import BusNameGroupModal from "./_components/bus-name-group-modal/index.vue";
 import BusScheduleCard from "./_components/bus-schedule-card/index.vue";
 import BusTimeEmpty from "./_components/bus-time-empty/index.vue";
 import BusTipModal from "./_components/bus-tip-modal/index.vue";
+import FilterDirectionField from "./_components/filter-direction-field/index.vue";
 import FilterKeywordField from "./_components/filter-keyword-field/index.vue";
 import { QuickFilterItem } from "./_components/filter-quick-field/constants";
 import FilterQuickField from "./_components/filter-quick-field/index.vue";
-import FilterStartEndField from "./_components/filter-start-end-field/index.vue";
 import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
 import { useBusStaticConfig } from "./_hooks/use-bus-static-config";
 import { useSchoolBusFeatureFirstOpen } from "./_hooks/use-feature-initial";
+import { useScheduleFilter } from "./_hooks/use-schedule-filter";
 import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
 
 const showBusNameGroupModal = ref(false);
 const showTipModal = ref(false);
-import { Option } from "@/constants";
 
 import { PINNED_DIRECTION_OPTION_LABELS, SCHEDULE_DIRECTION_UNLIMITED_OPTION } from "./_constants";
 
 /** 快捷筛选 */
 const activeQuickFilter = ref<QuickFilterItem[]>([]);
 const keywords = ref("");
-const selectedStart = ref<Option>(SCHEDULE_DIRECTION_UNLIMITED_OPTION);
-const selectedEnd = ref<Option>(SCHEDULE_DIRECTION_UNLIMITED_OPTION);
+
+const { startDirection, endDirection } = storeToRefs(useScheduleFilter());
 
 const { parsedScheduleList } = useBusScheduleList({ search: keywords });
 const { busConfig } = useBusStaticConfig();
@@ -82,41 +83,43 @@ const { isFirstOpen } = storeToRefs(useSchoolBusFeatureFirstOpen());
 
 const baseFilteredList = computed(() => {
   return parsedScheduleList.value.filter((item) => {
-    // 1. 校区筛选
+    // TODO: 尝试合并
+    // 起点终点筛选
     let matchEnd: boolean;
     let matchStart: boolean;
-    if (selectedStart.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchStart = true;
-    else matchStart = item.start === selectedStart.value.value;
+    if (startDirection.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchStart = true;
+    else matchStart = item.start === startDirection.value.value;
 
-    if (selectedEnd.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchEnd = true;
-    else matchEnd = item.end === selectedEnd.value.value;
+    if (endDirection.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchEnd = true;
+    else matchEnd = item.end === endDirection.value.value;
 
     return matchStart && matchEnd;
   });
 });
 
 const filteredScheduleList = computed(() => {
+  if (isEmpty(activeQuickFilter.value)) {
+    return baseFilteredList.value;
+  }
+
+  const intersectionFilters = activeQuickFilter.value.filter((f) => f.type === "intersection");
+  const unionFilters = activeQuickFilter.value.filter((f) => f.type === "union");
   let list = baseFilteredList.value;
 
-  if (activeQuickFilter.value.length > 0) {
-    const intersectionFilters = activeQuickFilter.value.filter((f) => f.type === "intersection");
-    const unionFilters = activeQuickFilter.value.filter((f) => f.type === "union");
+  // "Intersection" filters: AND logic
+  intersectionFilters.forEach((f) => {
+    list = f.filter(list);
+  });
 
-    // "Intersection" filters: AND logic
-    intersectionFilters.forEach((f) => {
-      list = f.filter(list);
+  // "Union" filters: OR logic
+  if (unionFilters.length > 0) {
+    const unionFilteredResults = new Set<string>();
+    unionFilters.forEach((f) => {
+      const matches = f.filter(list);
+      matches.forEach((m) => unionFilteredResults.add(m.id));
     });
 
-    // "Union" filters: OR logic
-    if (unionFilters.length > 0) {
-      const unionFilteredResults = new Set<string>();
-      unionFilters.forEach((f) => {
-        const matches = f.filter(list);
-        matches.forEach((m) => unionFilteredResults.add(m.id));
-      });
-
-      list = list.filter((item) => unionFilteredResults.has(item.id));
-    }
+    list = list.filter((item) => unionFilteredResults.has(item.id));
   }
 
   return list;
