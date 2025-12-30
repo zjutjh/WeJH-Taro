@@ -26,8 +26,7 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
     }
   });
 
-  /** 将原大表flat化得到的"所有班次列表"
-   *  用于渲染校车首页班次列表 */
+  /** 班次列表 */
   const parsedScheduleList = computed<ParsedBusSchedule[]>(() => {
     if (isNil(data.value?.list) || isEmpty(data.value.list)) {
       return [];

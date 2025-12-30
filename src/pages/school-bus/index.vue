@@ -18,7 +18,7 @@
       <!-- 快捷筛选项 -->
       <filter-quick-field
         v-model="activeQuickFilter"
-        :list="baseFilteredList"
+        :list="parsedScheduleList"
         :class="styles['filter-quick-field']"
       />
     </view>
@@ -81,50 +81,41 @@ const { parsedScheduleList } = useBusScheduleList({ search: keywords });
 const { busConfig } = useBusStaticConfig();
 const { isFirstOpen } = storeToRefs(useSchoolBusFeatureFirstOpen());
 
-const baseFilteredList = computed(() => {
-  return parsedScheduleList.value.filter((item) => {
-    // TODO: 尝试合并
-    // 起点终点筛选
-    let matchEnd: boolean;
-    let matchStart: boolean;
-    if (startDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value)
-      matchStart = true;
-    else matchStart = item.startDirection === startDirectionOption.value.value;
+const filteredScheduleList = computed(() => {
+  // 先按方向筛选一遍
+  let filtered = parsedScheduleList.value.filter((item) => {
+    const matchStart =
+      startDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ||
+      item.startDirection === startDirectionOption.value.value;
 
-    if (endDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value)
-      matchEnd = true;
-    else matchEnd = item.endDirection === endDirectionOption.value.value;
+    const matchEnd =
+      endDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ||
+      item.endDirection === endDirectionOption.value.value;
 
     return matchStart && matchEnd;
   });
-});
 
-const filteredScheduleList = computed(() => {
-  if (isEmpty(activeQuickFilter.value)) {
-    return baseFilteredList.value;
-  }
-
+  // 按快筛项筛选，先筛交集，再筛并集
   const intersectionFilters = activeQuickFilter.value.filter((f) => f.type === "intersection");
   const unionFilters = activeQuickFilter.value.filter((f) => f.type === "union");
-  let list = baseFilteredList.value;
 
   // "Intersection" filters: AND logic
   intersectionFilters.forEach((f) => {
-    list = f.filter(list);
+    filtered = f.filter(filtered);
   });
 
   // "Union" filters: OR logic
-  if (unionFilters.length > 0) {
+  if (!isEmpty(unionFilters)) {
     const unionFilteredResults = new Set<string>();
     unionFilters.forEach((f) => {
-      const matches = f.filter(list);
+      const matches = f.filter(filtered);
       matches.forEach((m) => unionFilteredResults.add(m.id));
     });
 
-    list = list.filter((item) => unionFilteredResults.has(item.id));
+    filtered = filtered.filter((item) => unionFilteredResults.has(item.id));
   }
 
-  return list;
+  return filtered;
 });
 
 const directionOptionsList = computed<Option[]>(() => {
