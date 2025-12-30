@@ -20,7 +20,10 @@
       </button>
     </picker>
 
-    <view :class="[styles['route-swapper'], 'iconfont', 'icon-switch-route']" @tap="handleSwap" />
+    <view
+      :class="[styles['direction-swapper'], 'iconfont', 'icon-switch-route']"
+      @tap="handleSwap"
+    />
 
     <picker
       :class="styles.picker"
