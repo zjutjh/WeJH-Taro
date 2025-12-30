@@ -20,9 +20,5 @@
 
   .filter-quick-field {
     margin-top: 4Px;
-
-    :global(.wjh-tag:not(.wjh-tag__active)) {
-      opacity: 0.6;
-    }
   }
 }

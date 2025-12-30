@@ -1,4 +1,4 @@
-.filter-quick-field {
+.container {
   display: flex;
   line-height: 20Px;
   overflow-x: auto;
@@ -6,11 +6,14 @@
   gap: 8Px;
   padding-bottom: 2Px;
 
-  // Hide scrollbar
   &::-webkit-scrollbar {
     display: none;
     width: 0;
     height: 0;
     color: transparent;
+  }
+
+  :global(.wjh-tag:not(.wjh-tag__active)) {
+    opacity: 0.6;
   }
 }

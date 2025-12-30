@@ -1,5 +1,5 @@
 <template>
-  <view :class="styles['filter-quick-field']">
+  <view :class="styles.container">
     <template v-for="item in QUICK_FILTER_ITEMS" :key="item.id">
       <w-tag
         v-if="!item.shouldHide || !item.shouldHide(list)"
