@@ -77,7 +77,7 @@ const keywords = ref("");
 
 const { startDirectionOption, endDirectionOption } = storeToRefs(useScheduleFilter());
 
-const { parsedScheduleList } = useBusScheduleList({ search: keywords });
+const { parsedScheduleList } = useBusScheduleList({ keywords });
 const { busConfig } = useBusStaticConfig();
 const { isFirstOpen } = storeToRefs(useSchoolBusFeatureFirstOpen());
 

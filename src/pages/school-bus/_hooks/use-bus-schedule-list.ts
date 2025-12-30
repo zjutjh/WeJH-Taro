@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
 import { first, isEmpty, isNil, last } from "lodash-es";
-import { computed, MaybeRef } from "vue";
+import { computed, MaybeRef, unref } from "vue";
 
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
@@ -10,19 +10,24 @@ import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
 import { parseRouteName } from "../_utils";
 import { useBusStaticConfig } from "./use-bus-static-config";
 
+interface BusScheduleListParams {
+  keywords: MaybeRef<string>;
+}
+
 /**
  * 班次信息列表
  */
-export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefined> }) => {
-  const { search } = options ?? {};
+export const useBusScheduleList = ({ keywords }: BusScheduleListParams) => {
   const { busConfig } = useBusStaticConfig();
 
+  const trimmedKeywords = computed(() => {
+    return unref(keywords).trim();
+  });
+
   const { data, refetch, isLoading } = useQuery({
-    queryKey: [QUERY_KEY.SCHOOL_BUS_INFO, search] as const,
+    queryKey: [QUERY_KEY.SCHOOL_BUS_INFO, trimmedKeywords] as const,
     queryFn: ({ queryKey }) => {
-      /** 可选字段search */
-      const req = queryKey[1] ? { search: queryKey[1] } : {};
-      return yxyServiceNext.QueryBusInfo(req);
+      return yxyServiceNext.QueryBusInfo({ search: queryKey[1] });
     }
   });
 
