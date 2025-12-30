@@ -3,12 +3,12 @@
     <template #header>
       <view :class="styles.header">
         <view :class="styles['bus-detail-route']">
-          <text>{{ routeNameParams.start }}</text>
+          <text>{{ routeNameParams.startDirection }}</text>
           <view :class="styles['triple-arrow-container']">
             <text :class="[styles['triple-arrow'], 'iconfont', 'icon-triple-arrow']" />
           </view>
 
-          <text>{{ routeNameParams.end }}</text>
+          <text>{{ routeNameParams.endDirection }}</text>
         </view>
 
         <view :class="styles.extra" @tap="handleClickStations">
@@ -27,7 +27,7 @@
 
       <view
         v-for="(item, index) in tableRowList"
-        :key="`${item.start}-${item.end}-${item.departureTimeText}`"
+        :key="`${item.startDirection}-${item.endDirection}-${item.departureTimeText}`"
         :class="[styles['table-row'], index % 2 === 1 ? styles['has-divider'] : '']"
         :style="index % 2 === 1 ? { backgroundColor: 'var(--wjh-color-primary-light)' } : {}"
       >
@@ -78,8 +78,8 @@ const tableRowList = computed(() => {
       departureTimeText: `${padStart(configHour, 2, "0")}:${padStart(configMinute, 2, "0")}`,
       openType: scheduleConfig.open_type as OpenTypeEnum,
       busName: routeNameParams.value.busName,
-      start: routeNameParams.value.start,
-      end: routeNameParams.value.end
+      startDirection: routeNameParams.value.startDirection,
+      endDirection: routeNameParams.value.endDirection
     };
   });
 });

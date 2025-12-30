@@ -38,7 +38,7 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
     /**  构建带日期时间的中间数组，用于排序 */
     return data.value.list
       .flatMap((bus) => {
-        const { busName, start, end } = parseRouteName(bus.name);
+        const { busName, startDirection, endDirection } = parseRouteName(bus.name);
         const staticRoute = config.find((item) => item.name === bus.name);
 
         if (!bus.bus_time) return [];
@@ -61,8 +61,8 @@ export const useBusScheduleList = (options?: { search?: MaybeRef<string | undefi
             orderedSeats: schedule.ordered_seats,
             remainSeats: schedule.remain_seats,
             busName,
-            start,
-            end,
+            startDirection,
+            endDirection,
             startStation: first(staticRoute?.stations),
             endStation: last(staticRoute?.stations),
             price: bus.price,

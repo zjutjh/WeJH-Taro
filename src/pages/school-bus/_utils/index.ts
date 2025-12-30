@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
+import { get } from "lodash-es";
 
 /**
  * 路线名称解析
@@ -7,12 +8,12 @@ import dayjs, { Dayjs } from "dayjs";
  */
 export const parseRouteName = (raw: string) => {
   const match = raw.match(/^(.*?)（(.*?)-(.*?)）$/);
-  if (match) {
-    return { busName: match[1], start: match[2], end: match[3] };
-  }
 
-  // 处理格式不匹配
-  return { busName: raw, start: "", end: "" };
+  return {
+    busName: get(match, 1, raw),
+    startDirection: get(match, 2, ""),
+    endDirection: get(match, 3, "")
+  };
 };
 
 /**

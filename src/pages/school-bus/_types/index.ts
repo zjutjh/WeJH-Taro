@@ -6,18 +6,6 @@
 
 import { type Dayjs } from "dayjs";
 
-interface BusStation {
-  stationName: string;
-}
-
-// TODO: 转移位置
-export interface BusRouteDetail {
-  busName: string;
-  start: string;
-  end: string;
-  stations: BusStation[];
-}
-
 // 班次开放日期类型
 // TODO: 周末和节假日是一个意思吧？
 export enum OpenTypeEnum {
@@ -39,10 +27,10 @@ export interface ParsedBusSchedule {
   id: string;
   /** 班车名称，如1号线 */
   busName: string;
-  /** 起始位置，比如「屏峰」，通过解析得到。注意和 **起始站点(`startStation`)** 区分 */
-  start: string;
-  /** 终止位置，比如「屏峰」，通过解析得到。注意和 **终点站点(`endStation`)** 区分 */
-  end: string;
+  /** 起始方向，比如「屏峰」，通过解析得到。注意和 **起始站点(`startStation`)** 区分 */
+  startDirection: string;
+  /** 终止方向，比如「屏峰」，通过解析得到。注意和 **终点站点(`endStation`)** 区分 */
+  endDirection: string;
   /** 起始站点，比如屏峰校区的站点「语林楼」 */
   startStation?: string;
   /** 终点站点，比如屏峰校区的站点「语林楼」 */

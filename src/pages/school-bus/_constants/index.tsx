@@ -8,9 +8,9 @@ export const SCHEDULE_OPEN_TYPE_TEXT_RECORD: Partial<Record<OpenTypeEnum, string
   [OpenTypeEnum.Unknown]: ""
 }
 
-/** 班次起始点终点「不限」筛选项 */
+/** 班次起始点终点「不限方向」筛选项 */
 export const SCHEDULE_DIRECTION_UNLIMITED_OPTION: Option = {
-  label: "不限",
+  label: "不限方向",
   value: ""
 }
 

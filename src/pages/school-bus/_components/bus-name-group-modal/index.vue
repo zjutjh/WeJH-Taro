@@ -44,8 +44,8 @@ const { busConfig } = useBusStaticConfig();
 
 const group = computed(() => {
   const _group = groupBy(busConfig.value, (item) => {
-    const { start, end } = parseRouteName(item.name);
-    return `${[start, end].sort().join("、")} 之间往返`;
+    const { startDirection, endDirection } = parseRouteName(item.name);
+    return `${[startDirection, endDirection].sort().join("、")} 之间往返`;
   });
 
   return mapValues(_group, (value) => uniq(value.map((_) => parseRouteName(_.name).busName)));

@@ -11,8 +11,8 @@
       />
       <!-- 起点终点筛选 -->
       <filter-direction-field
-        v-model:start="startDirection"
-        v-model:end="endDirection"
+        v-model:start-direction="startDirectionOption"
+        v-model:end-direction="endDirectionOption"
         :options="directionOptionsList"
       />
       <!-- 快捷筛选项 -->
@@ -75,7 +75,7 @@ import { PINNED_DIRECTION_OPTION_LABELS, SCHEDULE_DIRECTION_UNLIMITED_OPTION } f
 const activeQuickFilter = ref<QuickFilterItem[]>([]);
 const keywords = ref("");
 
-const { startDirection, endDirection } = storeToRefs(useScheduleFilter());
+const { startDirectionOption, endDirectionOption } = storeToRefs(useScheduleFilter());
 
 const { parsedScheduleList } = useBusScheduleList({ search: keywords });
 const { busConfig } = useBusStaticConfig();
@@ -87,11 +87,13 @@ const baseFilteredList = computed(() => {
     // 起点终点筛选
     let matchEnd: boolean;
     let matchStart: boolean;
-    if (startDirection.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchStart = true;
-    else matchStart = item.start === startDirection.value.value;
+    if (startDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value)
+      matchStart = true;
+    else matchStart = item.startDirection === startDirectionOption.value.value;
 
-    if (endDirection.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchEnd = true;
-    else matchEnd = item.end === endDirection.value.value;
+    if (endDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value)
+      matchEnd = true;
+    else matchEnd = item.endDirection === endDirectionOption.value.value;
 
     return matchStart && matchEnd;
   });
@@ -128,7 +130,7 @@ const filteredScheduleList = computed(() => {
 const directionOptionsList = computed<Option[]>(() => {
   // 取起始位置和终止位置集合，去重后作为筛选项取值来源
   const allDirectionName = uniq(
-    parsedScheduleList.value.map((item) => [item.start, item.end]).flat()
+    parsedScheduleList.value.map((item) => [item.startDirection, item.endDirection]).flat()
   );
 
   const sortedDirection = allDirectionName.sort((a, b) => {
@@ -165,12 +167,12 @@ const handleSelectBusName = (busName: string) => {
     return;
   }
 
-  const { start, end } = parseRouteName(targetRoute.name);
+  const { startDirection, endDirection } = parseRouteName(targetRoute.name);
 
   const url = urlcat(`/pages/school-bus/bus-detail/index`, {
     busName,
-    start,
-    end
+    startDirection,
+    endDirection
   });
 
   Taro.navigateTo({ url });

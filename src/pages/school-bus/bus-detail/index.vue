@@ -29,8 +29,8 @@ const busRouteParams = computed(() => {
   /** 这几个参数就能定位一条线路 */
   return {
     busName: decodeURIComponent(pageRouter.params.busName || ""),
-    start: decodeURIComponent(pageRouter.params.start || ""),
-    end: decodeURIComponent(pageRouter.params.end || "")
+    startDirection: decodeURIComponent(pageRouter.params.startDirection || ""),
+    endDirection: decodeURIComponent(pageRouter.params.endDirection || "")
   };
 });
 
@@ -39,11 +39,11 @@ const { busConfig } = useBusStaticConfig();
 const start2EndRouteConfig = computed(() => {
   const config = busConfig.value || [];
   return config.find((item) => {
-    const { busName, start, end } = parseRouteName(item.name);
+    const { busName, startDirection, endDirection } = parseRouteName(item.name);
     return (
       busName === busRouteParams.value.busName &&
-      start === busRouteParams.value.start &&
-      end === busRouteParams.value.end
+      startDirection === busRouteParams.value.startDirection &&
+      endDirection === busRouteParams.value.endDirection
     );
   });
 });
@@ -51,11 +51,11 @@ const start2EndRouteConfig = computed(() => {
 const end2StartRouteConfig = computed(() => {
   const config = busConfig.value || [];
   return config.find((item) => {
-    const { busName, start, end } = parseRouteName(item.name);
+    const { busName, startDirection, endDirection } = parseRouteName(item.name);
     return (
       busName === busRouteParams.value.busName &&
-      start === busRouteParams.value.end &&
-      end === busRouteParams.value.start
+      startDirection === busRouteParams.value.endDirection &&
+      endDirection === busRouteParams.value.startDirection
     );
   });
 });

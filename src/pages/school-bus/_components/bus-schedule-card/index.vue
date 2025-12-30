@@ -9,7 +9,7 @@
     <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
       <view :class="styles['start-time']"> {{ departureText }}</view>
       <view :class="styles['route-name']">
-        {{ `${schedule.busName} (${schedule.start}-${schedule.end})` }}
+        {{ `${schedule.busName} (${schedule.startDirection}-${schedule.endDirection})` }}
       </view>
     </view>
     <view :class="styles['bus-information-content']">
@@ -61,8 +61,8 @@ const handleClickDepartureText = () => {
 const handleClickDetail = () => {
   const url = urlcat("/pages/school-bus/bus-detail/index", {
     busName: schedule.value.busName,
-    start: schedule.value.start,
-    end: schedule.value.end
+    startDirection: schedule.value.startDirection,
+    endDirection: schedule.value.endDirection
   });
   Taro.navigateTo({ url });
 };

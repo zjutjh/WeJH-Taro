@@ -11,12 +11,10 @@
       <button
         :class="{
           [styles['picker-button']]: true,
-          [styles.unlimited]: start?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value
+          [styles.unlimited]: startDirection?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value
         }"
       >
-        {{
-          start?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ? "请选择起点" : start?.label
-        }}
+        {{ startDirection?.label }}
       </button>
     </picker>
 
@@ -36,10 +34,10 @@
       <button
         :class="{
           [styles['picker-button']]: true,
-          [styles.unlimited]: end?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value
+          [styles.unlimited]: endDirection?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value
         }"
       >
-        {{ end?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ? "请选择终点" : end?.label }}
+        {{ endDirection?.label }}
       </button>
     </picker>
   </view>
@@ -60,38 +58,36 @@ interface RouteSelectorProps {
 
 const props = defineProps<RouteSelectorProps>();
 
-const start = defineModel<Option>("start", {
+const startDirection = defineModel<Option>("startDirection", {
   default: SCHEDULE_DIRECTION_UNLIMITED_OPTION
 });
-const end = defineModel<Option>("end", {
+const endDirection = defineModel<Option>("endDirection", {
   default: SCHEDULE_DIRECTION_UNLIMITED_OPTION
 });
 
 const startIndex = computed(() => {
-  const idx = props.options.findIndex((o) => o.value === start.value.value);
+  const idx = props.options.findIndex((o) => o.value === startDirection.value.value);
   return idx >= 0 ? idx : 0;
 });
 
 const endIndex = computed(() => {
-  const idx = props.options.findIndex((o) => o.value === end.value.value);
+  const idx = props.options.findIndex((o) => o.value === endDirection.value.value);
   return idx >= 0 ? idx : 0;
 });
 
 const handleChangeStart: PickerSelectorProps["onChange"] = (e) => {
   const index = Number(e.detail.value);
-  console.log("index", props.options);
-
-  start.value = props.options.at(index) || SCHEDULE_DIRECTION_UNLIMITED_OPTION;
+  startDirection.value = props.options.at(index) || SCHEDULE_DIRECTION_UNLIMITED_OPTION;
 };
 
 const handleChangeEnd: PickerSelectorProps["onChange"] = (e) => {
   const index = Number(e.detail.value);
-  end.value = props.options.at(index) || SCHEDULE_DIRECTION_UNLIMITED_OPTION;
+  endDirection.value = props.options.at(index) || SCHEDULE_DIRECTION_UNLIMITED_OPTION;
 };
 
 const handleSwap = () => {
-  const temp = start.value;
-  start.value = end.value;
-  end.value = temp;
+  const temp = startDirection.value;
+  startDirection.value = endDirection.value;
+  endDirection.value = temp;
 };
 </script>
