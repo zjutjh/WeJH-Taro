@@ -1,77 +1,87 @@
 <template>
   <view :class="styles.container">
     <picker
-      :class="styles['filter-start-end-field']"
+      :class="styles.picker"
       mode="selector"
       :range="options"
+      range-key="label"
       :value="startIndex"
       @change="handleChangeStart"
     >
       <button
-        :class="styles['picker-button']"
-        :style="start === '不限' ? { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 } : ''"
+        :class="{
+          [styles['picker-button']]: true,
+          [styles.unlimited]: start?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value
+        }"
       >
-        {{ start === "不限" ? "请选择起点" : start }}
+        {{
+          start?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ? "请选择起点" : start?.label
+        }}
       </button>
     </picker>
 
-    <view class="iconfont icon-switch-route" :class="styles['route-swapper']" @tap="handleSwap" />
+    <view :class="[styles['route-swapper'], 'iconfont', 'icon-switch-route']" @tap="handleSwap" />
 
     <picker
-      :class="styles['filter-start-end-field']"
+      :class="styles.picker"
       mode="selector"
       :range="options"
+      range-key="label"
       :value="endIndex"
       @change="handleChangeEnd"
     >
       <button
-        :class="styles['picker-button']"
-        :style="end === '不限' ? { color: 'var(--wjh-color-text-secondary)', opacity: 0.6 } : ''"
+        :class="{
+          [styles['picker-button']]: true,
+          [styles.unlimited]: end?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value
+        }"
       >
-        {{ end === "不限" ? "请选择终点" : end }}
+        {{ end?.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ? "请选择终点" : end?.label }}
       </button>
     </picker>
   </view>
 </template>
 
 <script setup lang="ts">
-import { Picker } from "@tarojs/components";
+import { Picker, PickerSelectorProps } from "@tarojs/components";
 import { computed } from "vue";
 
+import { Option } from "@/constants";
+
+import { SCHEDULE_DIRECTION_UNLIMITED_OPTION } from "../../_constants";
 import styles from "./index.module.scss";
 
 interface RouteSelectorProps {
-  options: string[];
+  options: Option[];
 }
 
 const props = defineProps<RouteSelectorProps>();
 
-const start = defineModel<string>("start", { default: "不限" });
-const end = defineModel<string>("end", { default: "不限" });
+const start = defineModel<Option>("start", {
+  default: SCHEDULE_DIRECTION_UNLIMITED_OPTION
+});
+const end = defineModel<Option>("end", {
+  default: SCHEDULE_DIRECTION_UNLIMITED_OPTION
+});
 
-// Compute index for picker to show correct initial selection
 const startIndex = computed(() => {
-  const idx = props.options.indexOf(start.value);
+  const idx = props.options.findIndex((o) => o.value === start.value.value);
   return idx >= 0 ? idx : 0;
 });
 
 const endIndex = computed(() => {
-  const idx = props.options.indexOf(end.value);
+  const idx = props.options.findIndex((o) => o.value === end.value.value);
   return idx >= 0 ? idx : 0;
 });
 
-const handleChangeStart = (e: { detail: { value: number } }) => {
-  const index = e.detail.value;
-  if (props.options[index]) {
-    start.value = props.options[index];
-  }
+const handleChangeStart: PickerSelectorProps["onChange"] = (e) => {
+  const index = Number(e.detail.value);
+  start.value = props.options.at(index) || SCHEDULE_DIRECTION_UNLIMITED_OPTION;
 };
 
-const handleChangeEnd = (e: { detail: { value: number } }) => {
-  const index = e.detail.value;
-  if (props.options[index]) {
-    end.value = props.options[index];
-  }
+const handleChangeEnd: PickerSelectorProps["onChange"] = (e) => {
+  const index = Number(e.detail.value);
+  end.value = props.options.at(index) || SCHEDULE_DIRECTION_UNLIMITED_OPTION;
 };
 
 const handleSwap = () => {

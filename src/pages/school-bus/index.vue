@@ -13,7 +13,7 @@
       <filter-start-end-field
         v-model:start="selectedStart"
         v-model:end="selectedEnd"
-        :options="allPoint"
+        :options="directionOptionsList"
       />
       <!-- 快捷筛选项 -->
       <filter-quick-field
@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import { ScrollView } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { isEmpty } from "lodash-es";
+import { isEmpty, uniq } from "lodash-es";
 import { storeToRefs } from "pinia";
 import urlcat from "urlcat";
 import { computed, ref, watchEffect } from "vue";
@@ -66,11 +66,15 @@ import styles from "./index.module.scss";
 
 const showBusNameGroupModal = ref(false);
 const showTipModal = ref(false);
+import { Option } from "@/constants";
+
+import { PINNED_DIRECTION_OPTION_LABELS, SCHEDULE_DIRECTION_UNLIMITED_OPTION } from "./_constants";
+
 /** 快捷筛选 */
 const activeQuickFilter = ref<QuickFilterItem[]>([]);
 const keywords = ref("");
-const selectedStart = ref("不限");
-const selectedEnd = ref("不限");
+const selectedStart = ref<Option>(SCHEDULE_DIRECTION_UNLIMITED_OPTION);
+const selectedEnd = ref<Option>(SCHEDULE_DIRECTION_UNLIMITED_OPTION);
 
 const { parsedScheduleList } = useBusScheduleList({ search: keywords });
 const { busConfig } = useBusStaticConfig();
@@ -81,11 +85,11 @@ const baseFilteredList = computed(() => {
     // 1. 校区筛选
     let matchEnd: boolean;
     let matchStart: boolean;
-    if (selectedStart.value === "不限") matchStart = true;
-    else matchStart = item.start === selectedStart.value;
+    if (selectedStart.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchStart = true;
+    else matchStart = item.start === selectedStart.value.value;
 
-    if (selectedEnd.value === "不限") matchEnd = true;
-    else matchEnd = item.end === selectedEnd.value;
+    if (selectedEnd.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value) matchEnd = true;
+    else matchEnd = item.end === selectedEnd.value.value;
 
     return matchStart && matchEnd;
   });
@@ -118,20 +122,32 @@ const filteredScheduleList = computed(() => {
   return list;
 });
 
-const allPoint = computed(() => {
-  const fixedPoints = ["不限", "朝晖", "屏峰", "莫干山"];
-  const dynamicPoints = new Set<string>();
+const directionOptionsList = computed<Option[]>(() => {
+  // 取起始位置和终止位置集合，去重后作为筛选项取值来源
+  const allDirectionName = uniq(
+    parsedScheduleList.value.map((item) => [item.start, item.end]).flat()
+  );
 
-  parsedScheduleList.value.forEach((item) => {
-    if (item.start && !fixedPoints.includes(item.start)) {
-      dynamicPoints.add(item.start);
+  const sortedDirection = allDirectionName.sort((a, b) => {
+    const aIndex = PINNED_DIRECTION_OPTION_LABELS.findIndex((item) => item === a);
+    const bIndex = PINNED_DIRECTION_OPTION_LABELS.findIndex((item) => item === b);
+
+    if (aIndex >= 0 && bIndex >= 0) {
+      // 如果两者都在特定顺序列表中，就按列表顺序排
+      return aIndex - bIndex;
+    } else if (aIndex >= 0 || bIndex >= 0) {
+      // 如果只有一个在特定顺序列表中，倒着排（不在列表内的排在后面）
+      return bIndex - aIndex;
     }
-    if (item.end && !fixedPoints.includes(item.end)) {
-      dynamicPoints.add(item.end);
-    }
+
+    // 两者都不在列表内，按照一定顺序排
+    return a.localeCompare(b);
   });
 
-  return [...fixedPoints, ...Array.from(dynamicPoints).sort()];
+  return [
+    SCHEDULE_DIRECTION_UNLIMITED_OPTION,
+    ...sortedDirection.map((p) => ({ label: p, value: p }))
+  ];
 });
 
 const handleSelectBusName = (busName: string) => {

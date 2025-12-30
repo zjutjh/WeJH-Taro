@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
 
-  .filter-start-end-field {
+  .picker {
     flex: 1;
     border-radius: var(--row-field-border-radius, 6Px);
     overflow: hidden;
@@ -23,6 +23,11 @@
 
       &::after {
         border: none;
+      }
+
+      &.unlimited {
+        color: var(--wjh-color-text-secondary);
+        opacity: 0.6;
       }
     }
   }
