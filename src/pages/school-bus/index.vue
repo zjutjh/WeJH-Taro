@@ -18,7 +18,7 @@
       <!-- 快捷筛选项 -->
       <filter-quick-field
         v-model="activeQuickFilter"
-        :list="parsedScheduleList"
+        :list="fullScheduleList"
         :class="styles['filter-quick-field']"
       />
     </view>
@@ -46,7 +46,7 @@ import Taro from "@tarojs/taro";
 import { isEmpty, uniq } from "lodash-es";
 import { storeToRefs } from "pinia";
 import urlcat from "urlcat";
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref, toRef, watchEffect } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
 import { Option } from "@/constants";
@@ -61,7 +61,7 @@ import { QuickFilterItem } from "./_components/filter-quick-field/constants";
 import FilterQuickField from "./_components/filter-quick-field/index.vue";
 import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
 import { useBusStaticConfig } from "./_hooks/use-bus-static-config";
-import { useSchoolBusFeatureFirstOpen } from "./_hooks/use-feature-initial";
+import { useSchoolBusFeatureFirstOpen } from "./_hooks/use-feature-first-open";
 import { useScheduleFilter } from "./_hooks/use-schedule-filter";
 import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
@@ -77,51 +77,19 @@ const keywords = ref("");
 
 const { startDirectionOption, endDirectionOption } = storeToRefs(useScheduleFilter());
 
-const { parsedScheduleList } = useBusScheduleList({ keywords });
 const { busConfig } = useBusStaticConfig();
 const { isFirstOpen } = storeToRefs(useSchoolBusFeatureFirstOpen());
-
-const filteredScheduleList = computed(() => {
-  // 先按方向筛选一遍
-  let filtered = parsedScheduleList.value.filter((item) => {
-    const matchStart =
-      startDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ||
-      item.startDirection === startDirectionOption.value.value;
-
-    const matchEnd =
-      endDirectionOption.value.value === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ||
-      item.endDirection === endDirectionOption.value.value;
-
-    return matchStart && matchEnd;
-  });
-
-  // 按快筛项筛选，先筛交集，再筛并集
-  const intersectionFilters = activeQuickFilter.value.filter((f) => f.type === "intersection");
-  const unionFilters = activeQuickFilter.value.filter((f) => f.type === "union");
-
-  // "Intersection" filters: AND logic
-  intersectionFilters.forEach((f) => {
-    filtered = f.filter(filtered);
-  });
-
-  // "Union" filters: OR logic
-  if (!isEmpty(unionFilters)) {
-    const unionFilteredResults = new Set<string>();
-    unionFilters.forEach((f) => {
-      const matches = f.filter(filtered);
-      matches.forEach((m) => unionFilteredResults.add(m.id));
-    });
-
-    filtered = filtered.filter((item) => unionFilteredResults.has(item.id));
-  }
-
-  return filtered;
+const { filteredScheduleList, fullScheduleList } = useBusScheduleList({
+  keywords,
+  startDirection: toRef(() => startDirectionOption.value.value),
+  endDirection: toRef(() => endDirectionOption.value.value),
+  activeQuickFilter
 });
 
 const directionOptionsList = computed<Option[]>(() => {
   // 取起始位置和终止位置集合，去重后作为筛选项取值来源
   const allDirectionName = uniq(
-    parsedScheduleList.value.map((item) => [item.startDirection, item.endDirection]).flat()
+    fullScheduleList.value.map((item) => [item.startDirection, item.endDirection]).flat()
   );
 
   const sortedDirection = allDirectionName.sort((a, b) => {

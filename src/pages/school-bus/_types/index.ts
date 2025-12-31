@@ -7,7 +7,6 @@
 import { type Dayjs } from "dayjs";
 
 // 班次开放日期类型
-// TODO: 周末和节假日是一个意思吧？
 export enum OpenTypeEnum {
   /** 仅工作日 */
   Weekday = "weekday",
@@ -31,10 +30,8 @@ export interface ParsedBusSchedule {
   startDirection: string;
   /** 终止方向，比如「屏峰」，通过解析得到。注意和 **终点站点(`endStation`)** 区分 */
   endDirection: string;
-  /** 起始站点，比如屏峰校区的站点「语林楼」 */
-  startStation?: string;
-  /** 终点站点，比如屏峰校区的站点「语林楼」 */
-  endStation?: string;
+  /** 途径站点，比如屏峰校区的站点「语林楼」 */
+  stationList?: string[];
   /** 票价，单位「分」 */
   price: number;
   /** 发车时间 */
@@ -45,4 +42,11 @@ export interface ParsedBusSchedule {
   remainSeats: number;
   /** 节假日开放时间的类型 */
   openType?: OpenTypeEnum;
+  /** 出现在搜索结果中的关键词匹配原因 */
+  matchReason?: {
+    /** 匹配到的属性 */
+    matchProperty: string;
+    /** 匹配到的值，不管是否局部匹配，matchValue 都是完整的值 */
+    matchValue: string;
+  };
 }

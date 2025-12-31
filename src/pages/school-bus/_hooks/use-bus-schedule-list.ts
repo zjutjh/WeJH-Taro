@@ -1,38 +1,98 @@
 import { useQuery } from "@tanstack/vue-query";
+import { refDebounced } from "@vueuse/core";
 import dayjs from "dayjs";
-import { first, isEmpty, isNil, last } from "lodash-es";
-import { computed, MaybeRef, unref } from "vue";
+import { isEmpty, isNil } from "lodash-es";
+import { computed, MaybeRef, toRef, unref } from "vue";
 
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 
+import { QuickFilterItem } from "../_components/filter-quick-field/constants";
+import { SCHEDULE_DIRECTION_UNLIMITED_OPTION, SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../_constants";
 import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
 import { parseRouteName } from "../_utils";
 import { useBusStaticConfig } from "./use-bus-static-config";
 
+/** 接口全量搜索时的关键词 */
+const SEARCH_ALL_KEYWORDS = "";
+
+interface KeywordMatchRule<P extends keyof ParsedBusSchedule> {
+  key: P;
+  propertyName: string;
+  match: (value: ParsedBusSchedule[P], keywords: string) => string | undefined;
+}
+
+const KEYWORDS_MATCH_RULES: KeywordMatchRule<keyof ParsedBusSchedule>[] = [
+  {
+    key: "busName",
+    propertyName: "班车名称",
+    match: (value: string, keywords) => (value.includes(keywords) ? value : undefined)
+  },
+  {
+    key: "startDirection",
+    propertyName: "起始方向",
+    match: (value: string, keywords) => (value.includes(keywords) ? value : undefined)
+  },
+  {
+    key: "endDirection",
+    propertyName: "终止方向",
+    match: (value: string, keywords) => (value.includes(keywords) ? value : undefined)
+  },
+  {
+    key: "stationList",
+    propertyName: "途径站点",
+    match: (value: string[], keywords) => {
+      const matched = value.find((s) => s.includes(keywords));
+      return matched ? matched : undefined;
+    }
+  },
+  {
+    key: "openType",
+    propertyName: "班次发车情况",
+    match: (value: OpenTypeEnum, keywords) =>
+      SCHEDULE_OPEN_TYPE_TEXT_RECORD[value]?.includes(keywords)
+        ? SCHEDULE_OPEN_TYPE_TEXT_RECORD[value]
+        : undefined
+  }
+];
+
 interface BusScheduleListParams {
+  /** 搜索关键词 */
   keywords: MaybeRef<string>;
+  /** 起始方向 */
+  startDirection: MaybeRef<string>;
+  /** 终止方向 */
+  endDirection: MaybeRef<string>;
+  /** 快速筛选 */
+  activeQuickFilter: MaybeRef<QuickFilterItem[]>;
 }
 
 /**
  * 班次信息列表
+ *
+ * 所有筛选项/搜索词都由前端做筛选，后端只提供全量数据
  */
-export const useBusScheduleList = ({ keywords }: BusScheduleListParams) => {
+export const useBusScheduleList = ({
+  keywords,
+  startDirection,
+  endDirection,
+  activeQuickFilter
+}: BusScheduleListParams) => {
   const { busConfig } = useBusStaticConfig();
-
-  const trimmedKeywords = computed(() => {
-    return unref(keywords).trim();
+  const debouncedKeywords = refDebounced(toRef(keywords), 500);
+  const proceedKeywords = computed(() => {
+    return unref(debouncedKeywords).replace(/\s+/g, "");
   });
 
   const { data, refetch, isLoading } = useQuery({
-    queryKey: [QUERY_KEY.SCHOOL_BUS_INFO, trimmedKeywords] as const,
-    queryFn: ({ queryKey }) => {
-      return yxyServiceNext.QueryBusInfo({ search: queryKey[1] });
+    queryKey: [QUERY_KEY.SCHOOL_BUS_SCHEDULE_LIST] as const,
+    queryFn: () => {
+      return yxyServiceNext.QueryBusInfo({ search: SEARCH_ALL_KEYWORDS });
     }
   });
 
-  /** 班次列表 */
-  const parsedScheduleList = computed<ParsedBusSchedule[]>(() => {
+  /** 全量的班次列表 */
+  const fullScheduleList = computed<ParsedBusSchedule[]>(() => {
     if (isNil(data.value?.list) || isEmpty(data.value.list)) {
       return [];
     }
@@ -42,7 +102,11 @@ export const useBusScheduleList = ({ keywords }: BusScheduleListParams) => {
     /**  构建带日期时间的中间数组，用于排序 */
     return data.value.list
       .flatMap((bus) => {
-        const { busName, startDirection, endDirection } = parseRouteName(bus.name);
+        const {
+          busName,
+          startDirection: _startDirection,
+          endDirection: _endDirection
+        } = parseRouteName(bus.name);
         const staticRoute = config.find((item) => item.name === bus.name);
 
         if (!bus.bus_time) return [];
@@ -65,10 +129,9 @@ export const useBusScheduleList = ({ keywords }: BusScheduleListParams) => {
             orderedSeats: schedule.ordered_seats,
             remainSeats: schedule.remain_seats,
             busName,
-            startDirection,
-            endDirection,
-            startStation: first(staticRoute?.stations),
-            endStation: last(staticRoute?.stations),
+            startDirection: _startDirection,
+            endDirection: _endDirection,
+            stationList: staticRoute?.stations,
             price: bus.price,
             openType
           };
@@ -79,8 +142,73 @@ export const useBusScheduleList = ({ keywords }: BusScheduleListParams) => {
       .sort((a, b) => (a.departureTime.isAfter(b.departureTime) ? 1 : -1));
   });
 
+  /** 按搜索词筛选过的班次列表 */
+  const filteredScheduleList = computed(() => {
+    // 先按方向筛选一遍
+    let filtered = fullScheduleList.value.filter((item) => {
+      const matchStart =
+        unref(startDirection) === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ||
+        item.startDirection === unref(startDirection);
+
+      const matchEnd =
+        unref(endDirection) === SCHEDULE_DIRECTION_UNLIMITED_OPTION.value ||
+        item.endDirection === unref(endDirection);
+
+      return matchStart && matchEnd;
+    });
+
+    // 按快筛项筛选，先筛交集，再筛并集
+    const intersectionFilters = unref(activeQuickFilter).filter((f) => f.type === "intersection");
+    const unionFilters = unref(activeQuickFilter).filter((f) => f.type === "union");
+
+    // "Intersection" filters: AND logic
+    intersectionFilters.forEach((f) => {
+      filtered = f.filter(filtered);
+    });
+
+    // "Union" filters: OR logic
+    if (!isEmpty(unionFilters)) {
+      const unionFilteredResults = new Set<string>();
+      unionFilters.forEach((f) => {
+        const matches = f.filter(filtered);
+        matches.forEach((m) => unionFilteredResults.add(m.id));
+      });
+
+      filtered = filtered.filter((item) => unionFilteredResults.has(item.id));
+    }
+
+    if (isEmpty(proceedKeywords.value)) {
+      return filtered;
+    }
+
+    // 按搜索词筛选
+    const filteredByKeywords: ParsedBusSchedule[] = [];
+
+    for (const schedule of filtered) {
+      for (const rule of KEYWORDS_MATCH_RULES) {
+        const matchValue = rule.match(schedule[rule.key], proceedKeywords.value);
+
+        if (!matchValue) {
+          continue;
+        }
+
+        filteredByKeywords.push({
+          ...schedule,
+          matchReason: {
+            matchProperty: rule.propertyName,
+            matchValue
+          }
+        });
+        break;
+      }
+    }
+
+    return filteredByKeywords;
+  });
+
   return {
-    parsedScheduleList,
+    fullScheduleList,
+    filteredScheduleList,
     refetch,
     isLoading
   };

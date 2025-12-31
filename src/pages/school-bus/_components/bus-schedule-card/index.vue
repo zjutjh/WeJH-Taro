@@ -1,20 +1,23 @@
 <template>
   <card :class="styles.container">
+    <template #header>
+      <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
+        <view :class="styles['start-time']"> {{ departureText }}</view>
+        <view :class="styles['route-name']">
+          {{ `${schedule.busName} (${schedule.startDirection}-${schedule.endDirection})` }}
+        </view>
+      </view>
+    </template>
     <view v-if="!isEmpty(openTypeText)" :class="styles['open-type-tag']">
       <view class="iconfont icon-tag" />
       <text :class="styles['tag-text']">
         {{ openTypeText }}
       </text>
     </view>
-    <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
-      <view :class="styles['start-time']"> {{ departureText }}</view>
-      <view :class="styles['route-name']">
-        {{ `${schedule.busName} (${schedule.startDirection}-${schedule.endDirection})` }}
-      </view>
-    </view>
+
     <view :class="styles['bus-information-content']">
-      <view v-if="!isEmpty(schedule.startStation)" :class="styles['row-item']">
-        {{ `起终点站：${schedule.startStation}-${schedule.endStation}` }}
+      <view v-if="!isEmpty(schedule.stationList)" :class="styles['row-item']">
+        {{ directionText }}
       </view>
       <view :class="styles['row-item']">
         余票：
@@ -30,12 +33,23 @@
       <view :class="styles['row-item']">{{ `票价：${priceText}` }}</view>
       <w-button :class="styles['detail-button']" @tap="handleClickDetail">班车详情</w-button>
     </view>
+    <template v-if="!isNil(schedule.matchReason)" #footer>
+      <view :class="styles['match-reason']">
+        <text :class="styles['match-reason-property']">
+          {{ schedule.matchReason.matchProperty }}
+        </text>
+        <text>包含：</text>
+        <text :class="styles['match-reason-value']">
+          {{ schedule.matchReason.matchValue }}
+        </text>
+      </view>
+    </template>
   </card>
 </template>
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
-import { isEmpty, isNil } from "lodash-es";
+import { first, isEmpty, isNil, last } from "lodash-es";
 import urlcat from "urlcat";
 import { computed, ref, toRefs } from "vue";
 
@@ -89,5 +103,12 @@ const priceText = computed(() => {
     return "免费";
   }
   return `${(schedule.value.price / 100).toFixed(2)} 元`;
+});
+
+const directionText = computed(() => {
+  const startStationText = first(schedule.value.stationList) ?? "--";
+  const endStationText = last(schedule.value.stationList) ?? "--";
+
+  return `起终点站：${startStationText}-${endStationText}`;
 });
 </script>
