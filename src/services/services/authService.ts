@@ -1,17 +1,18 @@
 import Taro from "@tarojs/taro";
-import { fetch } from "@/utils";
-import { api } from "../api/apiList";
+
 import store, { serviceStore } from "@/store";
-import { testSession } from "../utils/session";
-import errCodeHandler from "../utils/errHandler";
+import { fetch } from "@/utils";
+
+import { api } from "../api/apiList";
 import { ServerCode } from "../api/codes";
+import errCodeHandler from "../utils/errHandler";
+import { testSession } from "../utils/session";
 
 /**
-  * 与微信建立链接，获取 session
-  * 场景: 发送带 session 的请求 postWithSession，打开小程序页面
-  */
+ * 与微信建立链接，获取 session
+ * 场景: 发送带 session 的请求 postWithSession，打开小程序页面
+ */
 async function LoginByTaroImpl(): Promise<boolean> {
-
   // 已经有 session 了，并且有激活记录了，无需再获取 session 激活
   if (serviceStore.sessionID && serviceStore.sessionID !== "") {
     if (await testSession()) return true;
@@ -31,7 +32,6 @@ async function LoginByTaroImpl(): Promise<boolean> {
     }
   }
 
-  Taro.showToast({ title: fet.data.msg, icon: "none" });
   errCodeHandler(fet.data.code);
   return false;
 }

@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { first, isNil } from "lodash-es";
+import { first, isEmpty, isNil } from "lodash-es";
 import urlcat from "urlcat";
 
 import { RequestFnParams } from "@/api/services/base";
@@ -87,6 +87,10 @@ export const refreshCookie = async (): Promise<string> => {
   const data = { code };
 
   const { cookies } = await Taro.request({ url, method, data });
+
+  if (isEmpty(first(cookies))) {
+    throw new RequestError("刷新登录态失败", MPErrorCode.MP_LOGIN_ERROR_UNKNOWN);
+  }
 
   return first(cookies) ?? "";
 };
