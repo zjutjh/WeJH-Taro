@@ -3,10 +3,13 @@
 .wjh-title-bar {
   width: 100vw;
   display: inline-flex;
+  box-sizing: border-box;
   background-color: var(--wjh-color-background-page);
 
-  padding: var(--menu-rect-top-offset) 16Px 4Px 16Px;
-  height: var(--menu-rect-height);
+  --padding-bottom: 4Px;
+
+  padding: var(--menu-rect-top-offset) 16Px var(--padding-bottom) 16Px;
+  height: calc(var(--menu-rect-height) + var(--menu-rect-top-offset) + var(--padding-bottom));
 
   &-left-container {
     display: flex;
