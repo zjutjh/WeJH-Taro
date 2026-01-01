@@ -85,7 +85,7 @@ const departureText = computed(() => {
   if (showRelativeDate.value) {
     return `${formatRelativeDayPeriod(schedule.value.departureTime)} 发车`;
   }
-  return `${schedule.value.departureTime.format("MM 月 DD 日 HH:mm")} 发车`;
+  return `${schedule.value.departureTime.format("M 月 D 日 HH:mm")} 发车`;
 });
 
 const openTypeText = computed(() => {
