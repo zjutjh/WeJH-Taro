@@ -69,7 +69,7 @@ export type QueryBusInfoRequest = {
 
 /** 查询校车信息 */
 export type QueryBusInfoResponse = {
-  max_page: number;
+  updated_at: string;
   list: Array<{
     name: string;
     seats: number;

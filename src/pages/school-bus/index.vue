@@ -30,6 +30,7 @@
           :schedule="item"
           :class="styles.item"
         />
+        <text :class="styles['update-at']"> 数据更新时间：{{ updateAt }}</text>
       </view>
     </scroll-view>
     <view v-else :class="styles['empty-container']">
@@ -79,7 +80,7 @@ const { startDirectionOption, endDirectionOption } = storeToRefs(useScheduleFilt
 
 const { busConfig } = useBusStaticConfig();
 const { isFirstOpen } = storeToRefs(useSchoolBusFeatureFirstOpen());
-const { filteredScheduleList, fullScheduleList } = useBusScheduleList({
+const { filteredScheduleList, fullScheduleList, updateAt } = useBusScheduleList({
   keywords,
   startDirection: toRef(() => startDirectionOption.value.value),
   endDirection: toRef(() => endDirectionOption.value.value),

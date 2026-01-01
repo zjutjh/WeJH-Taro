@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/vue-query";
 import { refDebounced } from "@vueuse/core";
 import dayjs from "dayjs";
 import { isEmpty, isNil } from "lodash-es";
-import { computed, MaybeRef, toRef, unref } from "vue";
+import { computed, ComputedRef, MaybeRef, Ref, toRef, unref } from "vue";
 
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
@@ -27,6 +27,17 @@ interface BusScheduleListParams {
   activeQuickFilter: MaybeRef<QuickFilterItem[]>;
 }
 
+interface BusScheduleListReturns {
+  /** 全量的班次列表 */
+  fullScheduleList: ComputedRef<ParsedBusSchedule[]>;
+  /** 筛选后的班次列表 */
+  filteredScheduleList: ComputedRef<ParsedBusSchedule[]>;
+  /** 是否正在加载 */
+  isLoading: Ref<boolean>;
+  /** 更新时间 */
+  updateAt: ComputedRef<string>;
+}
+
 /**
  * 班次信息列表
  *
@@ -37,18 +48,22 @@ export const useBusScheduleList = ({
   startDirection,
   endDirection,
   activeQuickFilter
-}: BusScheduleListParams) => {
+}: BusScheduleListParams): BusScheduleListReturns => {
   const { busConfig } = useBusStaticConfig();
   const debouncedKeywords = refDebounced(toRef(keywords), 500);
   const proceedKeywords = computed(() => {
     return unref(debouncedKeywords).replace(/\s+/g, "");
   });
 
-  const { data, refetch, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEY.SCHOOL_BUS_SCHEDULE_LIST] as const,
     queryFn: () => {
       return yxyServiceNext.QueryBusInfo({ search: SEARCH_ALL_KEYWORDS });
     }
+  });
+
+  const updateAt = computed(() => {
+    return dayjs(data.value?.updated_at).format("YYYY-MM-DD HH:mm:ss");
   });
 
   /** 全量的班次列表 */
@@ -171,7 +186,7 @@ export const useBusScheduleList = ({
   return {
     fullScheduleList,
     filteredScheduleList,
-    refetch,
-    isLoading
+    isLoading,
+    updateAt
   };
 };
