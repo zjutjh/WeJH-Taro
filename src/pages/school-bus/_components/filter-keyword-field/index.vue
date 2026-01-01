@@ -41,8 +41,8 @@ const emit = defineEmits<{
 }>();
 
 const randomSearchPlaceholder = computed(() => {
-  const index = random(SCHEDULE_KEYWORDS_MATCH_RULES.length);
+  const index = random(SCHEDULE_KEYWORDS_MATCH_RULES.length - 1);
 
-  return `试着搜索${SCHEDULE_KEYWORDS_MATCH_RULES[index].propertyName}～`;
+  return `试着搜索${SCHEDULE_KEYWORDS_MATCH_RULES.at(index)?.propertyName}～`;
 });
 </script>
