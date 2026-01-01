@@ -8,53 +8,13 @@ import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 
 import { QuickFilterItem } from "../_components/filter-quick-field/constants";
-import { SCHEDULE_DIRECTION_UNLIMITED_OPTION, SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../_constants";
+import { SCHEDULE_DIRECTION_UNLIMITED_OPTION, SCHEDULE_KEYWORDS_MATCH_RULES } from "../_constants";
 import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
 import { parseRouteName } from "../_utils";
 import { useBusStaticConfig } from "./use-bus-static-config";
 
 /** 接口全量搜索时的关键词 */
 const SEARCH_ALL_KEYWORDS = "";
-
-interface KeywordMatchRule<P extends keyof ParsedBusSchedule> {
-  key: P;
-  propertyName: string;
-  match: (value: ParsedBusSchedule[P], keywords: string) => string | undefined;
-}
-
-const KEYWORDS_MATCH_RULES: KeywordMatchRule<keyof ParsedBusSchedule>[] = [
-  {
-    key: "busName",
-    propertyName: "班车名称",
-    match: (value: string, keywords) => (value.includes(keywords) ? value : undefined)
-  },
-  {
-    key: "startDirection",
-    propertyName: "起始方向",
-    match: (value: string, keywords) => (value.includes(keywords) ? value : undefined)
-  },
-  {
-    key: "endDirection",
-    propertyName: "终止方向",
-    match: (value: string, keywords) => (value.includes(keywords) ? value : undefined)
-  },
-  {
-    key: "stationList",
-    propertyName: "途径站点",
-    match: (value: string[], keywords) => {
-      const matched = value.find((s) => s.includes(keywords));
-      return matched ? matched : undefined;
-    }
-  },
-  {
-    key: "openType",
-    propertyName: "班次发车情况",
-    match: (value: OpenTypeEnum, keywords) =>
-      SCHEDULE_OPEN_TYPE_TEXT_RECORD[value]?.includes(keywords)
-        ? SCHEDULE_OPEN_TYPE_TEXT_RECORD[value]
-        : undefined
-  }
-];
 
 interface BusScheduleListParams {
   /** 搜索关键词 */
@@ -142,7 +102,9 @@ export const useBusScheduleList = ({
       .sort((a, b) => (a.departureTime.isAfter(b.departureTime) ? 1 : -1));
   });
 
-  /** 按搜索词筛选过的班次列表 */
+  /**
+   * 按各种筛选条件筛选过的班次列表
+   */
   const filteredScheduleList = computed(() => {
     // 先按方向筛选一遍
     let filtered = fullScheduleList.value.filter((item) => {
@@ -185,7 +147,7 @@ export const useBusScheduleList = ({
     const filteredByKeywords: ParsedBusSchedule[] = [];
 
     for (const schedule of filtered) {
-      for (const rule of KEYWORDS_MATCH_RULES) {
+      for (const rule of SCHEDULE_KEYWORDS_MATCH_RULES) {
         const matchValue = rule.match(schedule[rule.key], proceedKeywords.value);
 
         if (!matchValue) {

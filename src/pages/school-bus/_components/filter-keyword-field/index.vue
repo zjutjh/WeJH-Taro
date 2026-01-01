@@ -9,7 +9,7 @@
         v-model="modelValue"
         type="text"
         :class="styles['search-input']"
-        placeholder="请输入关键词"
+        :placeholder="randomSearchPlaceholder"
       />
     </view>
     <view :class="styles['icon-wrapper']" @tap="emit('click-line')">
@@ -28,8 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import { isEmpty } from "lodash-es";
+import { isEmpty, random } from "lodash-es";
+import { computed } from "vue";
 
+import { SCHEDULE_KEYWORDS_MATCH_RULES } from "../../_constants";
 import styles from "./index.module.scss";
 
 const modelValue = defineModel<string>({ default: "" });
@@ -37,4 +39,10 @@ const modelValue = defineModel<string>({ default: "" });
 const emit = defineEmits<{
   (e: "click-line" | "click-announce" | "click-tip"): void;
 }>();
+
+const randomSearchPlaceholder = computed(() => {
+  const index = random(SCHEDULE_KEYWORDS_MATCH_RULES.length);
+
+  return `试着搜索${SCHEDULE_KEYWORDS_MATCH_RULES[index].propertyName}～`;
+});
 </script>
