@@ -60,10 +60,10 @@ import FilterDirectionField from "./_components/filter-direction-field/index.vue
 import FilterKeywordField from "./_components/filter-keyword-field/index.vue";
 import { QuickFilterItem } from "./_components/filter-quick-field/constants";
 import FilterQuickField from "./_components/filter-quick-field/index.vue";
-import { useBusScheduleList } from "./_hooks/use-bus-schedule-list";
-import { useBusStaticConfig } from "./_hooks/use-bus-static-config";
-import { useSchoolBusFeatureFirstOpen } from "./_hooks/use-feature-first-open";
-import { useScheduleFilter } from "./_hooks/use-schedule-filter";
+import { useBusScheduleList } from "./_composables/use-bus-schedule-list";
+import { useBusStaticConfig } from "./_composables/use-bus-static-config";
+import { useSchoolBusFeatureFirstOpen } from "./_composables/use-feature-first-open";
+import { useScheduleFilter } from "./_composables/use-schedule-filter";
 import { parseRouteName } from "./_utils";
 import styles from "./index.module.scss";
 

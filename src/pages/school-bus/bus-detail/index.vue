@@ -17,7 +17,7 @@ import { useRouter } from "@tarojs/taro";
 import { computed } from "vue";
 
 import { ThemeConfig, TitleBar } from "@/components";
-import { useBusStaticConfig } from "@/pages/school-bus/_hooks/use-bus-static-config";
+import { useBusStaticConfig } from "@/pages/school-bus/_composables/use-bus-static-config";
 
 import { parseRouteName } from "../_utils";
 import RouteDetailCard from "./_components/route-detail-card/index.vue";

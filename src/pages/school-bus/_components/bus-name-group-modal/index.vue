@@ -32,7 +32,7 @@ import { computed } from "vue";
 
 import { WModal } from "@/components";
 
-import { useBusStaticConfig } from "../../_hooks/use-bus-static-config";
+import { useBusStaticConfig } from "../../_composables/use-bus-static-config";
 import { parseRouteName } from "../../_utils";
 import styles from "./index.module.scss";
 
