@@ -37,7 +37,8 @@ export const aegis = new Aegis({
   // setData 和页面渲染性能相关，且上报频率较高，不需要监控
   setDataReportConfig: {
     disabled: true
-  }
+  },
+  pagePerformance: false
 });
 
 type EventName = "WjhFuncView" | "WjhFuncClick";
