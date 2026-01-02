@@ -28,9 +28,10 @@
 
 <script setup lang="ts">
 import { groupBy, mapValues, uniq } from "lodash-es";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 import { WModal } from "@/components";
+import { aegisReportEvent } from "@/plugins/aegis";
 
 import { useBusStaticConfig } from "../../_composables/use-bus-static-config";
 import { parseRouteName } from "../../_utils";
@@ -58,5 +59,22 @@ const emit = defineEmits<{
 const handleSelect = (busName: string) => {
   emit("select", busName);
   show.value = false;
+
+  aegisReportEvent("WjhFuncClick", {
+    moduleName: "校车-班车名分类弹窗",
+    funcName: "选择班车名",
+    extra: JSON.stringify({
+      busName
+    })
+  });
 };
+
+watch(show, (newValue) => {
+  if (newValue) {
+    aegisReportEvent("WjhFuncView", {
+      moduleName: "校车-班车名分类弹窗",
+      funcName: "弹窗曝光"
+    });
+  }
+});
 </script>

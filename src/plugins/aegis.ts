@@ -5,8 +5,8 @@ import { get } from "lodash-es";
 import { ServiceErrorCode } from "@/utils/request-error";
 import { IResponse } from "@/utils/request-next";
 
-const DEFAULT_ERROR_RES_CODE = -999999;
-const DEFAULT_UNI = "DEFAULT_UNI";
+const FALLBACK_BIZ_ERROR_CODE = -999999;
+const FALLBACK_UNI = "DEFAULT_UNI";
 
 const AEGIS_ENV_MAP = {
   development: Aegis.environment.development,
@@ -21,12 +21,12 @@ const AEGIS_ENV_MAP = {
 export const aegis = new Aegis({
   env: AEGIS_ENV_MAP[import.meta.env.VITE_BUILD_ENV],
   id: import.meta.env.VITE_TENCENT_RUM_REPORT_KEY,
-  uin: DEFAULT_UNI, // 用户学号，请求到学号之前用默认值
+  uin: FALLBACK_UNI, // 用户学号，请求到学号之前用默认值
   reportApiSpeed: true,
   spa: true,
   api: {
     retCodeHandler: (data: unknown) => {
-      const code = get(data as IResponse<unknown>, "code", DEFAULT_ERROR_RES_CODE);
+      const code = get(data as IResponse<unknown>, "code", FALLBACK_BIZ_ERROR_CODE);
 
       return {
         isErr: code !== ServiceErrorCode.OK,
@@ -39,3 +39,21 @@ export const aegis = new Aegis({
     disabled: true
   }
 });
+
+type EventName = "WjhFuncView" | "WjhFuncClick";
+
+interface EventPayload {
+  /** 模块名称 */
+  moduleName?: string;
+  /** 功能名称 */
+  funcName?: string;
+  /** 额外的参数 */
+  extra?: string;
+}
+
+export function aegisReportEvent(eventName: EventName, data?: EventPayload) {
+  aegis.reportEvent({
+    name: eventName,
+    ext1: JSON.stringify(data)
+  });
+}

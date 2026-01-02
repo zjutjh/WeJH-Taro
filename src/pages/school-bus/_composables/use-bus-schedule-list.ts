@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/vue-query";
 import { refDebounced } from "@vueuse/core";
 import dayjs from "dayjs";
 import { get, isEmpty, isNil } from "lodash-es";
-import { computed, ComputedRef, MaybeRef, Ref, toRef, unref } from "vue";
+import { computed, ComputedRef, MaybeRef, Ref, toRef, unref, watch } from "vue";
 
+import { aegisReportEvent } from "@/plugins/aegis";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 
@@ -182,6 +183,28 @@ export const useBusScheduleList = ({
 
     return filteredByKeywords;
   });
+
+  watch(
+    [debouncedKeywords, startDirection, endDirection, activeQuickFilter] as const,
+    ([newKeywords, newStartDirection, newEndDirection, newActiveQuickFilter]) => {
+      aegisReportEvent("WjhFuncClick", {
+        moduleName: "校车-班次列表",
+        funcName: "筛选项变化",
+        extra: JSON.stringify({
+          keywords: unref(newKeywords),
+          startDirection: unref(newStartDirection),
+          endDirection: unref(newEndDirection),
+          activeQuickFilter: unref(newActiveQuickFilter).map((item) => item.label)
+        })
+      });
+    },
+    {
+      // 初始值也上报，因为部分筛选条件有持久化状态
+      immediate: true,
+      // 筛选项中有数组类型的值，需要深度比较
+      deep: true
+    }
+  );
 
   return {
     fullScheduleList,

@@ -16,11 +16,23 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from "vue";
+
 import { WModal } from "@/components";
+import { aegisReportEvent } from "@/plugins/aegis";
 
 import styles from "./index.module.scss";
 
 const show = defineModel<boolean>("show", {
   default: false
+});
+
+watch(show, (newValue) => {
+  if (newValue) {
+    aegisReportEvent("WjhFuncView", {
+      moduleName: "校车-功能提示弹窗",
+      funcName: "弹窗曝光"
+    });
+  }
 });
 </script>

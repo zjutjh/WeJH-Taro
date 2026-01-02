@@ -58,6 +58,7 @@ import { BusStaticConfigItem } from "@/api/types/yxy";
 import { Card, PopView } from "@/components";
 import { SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "@/pages/school-bus/_constants";
 import { parseRouteName } from "@/pages/school-bus/_utils";
+import { aegisReportEvent } from "@/plugins/aegis";
 
 import { OpenTypeEnum } from "../../../_types";
 import styles from "./index.module.scss";
@@ -86,5 +87,15 @@ const tableRowList = computed(() => {
 
 const handleClickStations = () => {
   isShowStationPopover.value = true;
+
+  aegisReportEvent("WjhFuncView", {
+    moduleName: "校车-线路详情",
+    funcName: "途径站点抽屉曝光",
+    extra: JSON.stringify({
+      busName: routeNameParams.value.busName,
+      startDirection: routeNameParams.value.startDirection,
+      endDirection: routeNameParams.value.endDirection
+    })
+  });
 };
 </script>

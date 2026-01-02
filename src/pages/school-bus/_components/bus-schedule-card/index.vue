@@ -54,6 +54,7 @@ import urlcat from "urlcat";
 import { computed, ref, toRefs } from "vue";
 
 import { Card, WButton } from "@/components";
+import { aegisReportEvent } from "@/plugins/aegis";
 
 import { SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../../_constants";
 import { OpenTypeEnum, type ParsedBusSchedule } from "../../_types";
@@ -78,6 +79,17 @@ const handleClickDetail = () => {
     startDirection: schedule.value.startDirection,
     endDirection: schedule.value.endDirection
   });
+
+  aegisReportEvent("WjhFuncClick", {
+    moduleName: "校车-班次卡片",
+    funcName: "打开班车详情",
+    extra: JSON.stringify({
+      busName: schedule.value.busName,
+      startDirection: schedule.value.startDirection,
+      endDirection: schedule.value.endDirection
+    })
+  });
+
   Taro.navigateTo({ url });
 };
 
