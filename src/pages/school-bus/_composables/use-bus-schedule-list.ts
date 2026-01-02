@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/vue-query";
 import { refDebounced } from "@vueuse/core";
 import dayjs from "dayjs";
-import { isEmpty, isNil } from "lodash-es";
+import { get, isEmpty, isNil } from "lodash-es";
 import { computed, ComputedRef, MaybeRef, Ref, toRef, unref } from "vue";
 
 import { yxyServiceNext } from "@/services";
@@ -95,8 +95,8 @@ export const useBusScheduleList = ({
             return configHour === hour && configMinute === minute;
           });
 
-          // TODO: 这里兜底处理可能不准确
-          const openType = (staticTime?.open_type as OpenTypeEnum) || OpenTypeEnum.Unknown;
+          // 如果静态配置中没有配这条线路，给兜底态
+          const openType = get(staticTime, "open_type", OpenTypeEnum.Unknown) as OpenTypeEnum;
 
           const item: ParsedBusSchedule = {
             id: `${bus.name}-${schedule.departure_time}`,
