@@ -10,6 +10,10 @@
     padding-bottom: 8Px;
   }
 
+  :global(.wjh-card-footer) {
+    padding-top: 8Px;
+  }
+
   .open-type-tag {
     position: absolute;
     top: 12Px;
@@ -81,15 +85,15 @@
 }
 
 .match-reason {
-  font-size: 12Px;
+  font-size: 14Px;
   color: var(--wjh-color-text-secondary);
 
   &-property {
     font-weight: 500;
-    margin-right: 4Px;
   }
 
   &-value {
+    font-weight: 500;
     color: var(--wjh-color-primary);
   }
 }

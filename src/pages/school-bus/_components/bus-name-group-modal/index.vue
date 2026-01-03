@@ -8,7 +8,8 @@
       >
         <view :class="styles['group-title']">
           <view :class="styles['dot']" />
-          <text>{{ groupName === "" ? "其他" : groupName }}</text>
+          <text>{{ groupName }}</text>
+          <text>之间往返</text>
         </view>
 
         <view :class="styles['chips-container']">
@@ -46,7 +47,7 @@ const { busConfig } = useBusStaticConfig();
 const group = computed(() => {
   const _group = groupBy(busConfig.value, (item) => {
     const { startDirection, endDirection } = parseRouteName(item.name);
-    return `${[startDirection, endDirection].sort().join("、")} 之间往返`;
+    return `${[startDirection, endDirection].sort().join("、")}`;
   });
 
   return mapValues(_group, (value) => uniq(value.map((_) => parseRouteName(_.name).busName)));

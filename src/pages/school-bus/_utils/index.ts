@@ -11,8 +11,8 @@ export const parseRouteName = (raw: string) => {
 
   return {
     busName: get(match, 1, raw),
-    startDirection: get(match, 2, ""),
-    endDirection: get(match, 3, "")
+    startDirection: get(match, 2, "--"),
+    endDirection: get(match, 3, "--")
   };
 };
 
