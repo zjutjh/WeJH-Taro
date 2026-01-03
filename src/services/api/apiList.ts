@@ -61,6 +61,9 @@ const api = {
     check: "/api/func/supplies-borrow/supplies",
     submit: "/api/func/supplies-borrow/borrow",
     record: "/api/func/supplies-borrow/borrow"
+  },
+  schoolbus: {
+    busInfo: "/api/func/bus/info"
   }
 } as const;
 

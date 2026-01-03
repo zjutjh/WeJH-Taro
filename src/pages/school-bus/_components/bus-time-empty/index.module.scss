@@ -1,0 +1,24 @@
+.bus-information-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 22Px;
+  color: var(--wjh-color-text-secondary);
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  font-size: 14Px;
+  color: var(--wjh-color-text-secondary);
+
+  &:not(:last-child) {
+    margin-bottom: 10Px;
+  }
+}

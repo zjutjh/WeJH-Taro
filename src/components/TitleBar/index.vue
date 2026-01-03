@@ -1,60 +1,48 @@
 <template>
-  <view class="wjh-title-bar" :style="titleStyle">
-    <view v-if="loading" class="bg-default" />
-    <view :style="justTitleStyle">
+  <view class="wjh-title-bar" :style="containerStyle">
+    <view class="wjh-title-bar-left-container">
       <text
         v-if="backButton"
         class="iconfont wjh-title-bar-back-button icon-arrow-left"
-        @tap="goBack"
+        @tap="handleTapBack"
       />
       <text class="wjh-title-bar-title">
         {{ title }}
       </text>
       <slot />
+      <taro-image v-if="systemStore.loading" :src="SvgSpinnerRing" class="wjh-title-bar-spinner" />
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import Taro from "@tarojs/taro";
-import { computed, toRefs } from "vue";
-import { systemStore } from "@/store";
 import "./index.scss";
 
-const props = defineProps<{
+import { Image as TaroImage } from "@tarojs/components";
+import Taro from "@tarojs/taro";
+import { computed, CSSProperties } from "vue";
+
+import SvgSpinnerRing from "@/assets/spinner-ring.svg";
+import { systemStore } from "@/store";
+
+interface TitleBarProps {
   title: string;
   backButton?: boolean;
-}>();
-
-const { title, backButton } = toRefs(props);
-
-const loading = computed(() => {
-  return systemStore.loading;
-});
-
-const titleStyle = computed(() => {
-  const MenuRect = Taro.getMenuButtonBoundingClientRect();
-  const statusBarHeight = Taro.getSystemInfoSync().statusBarHeight || 0;
-  return {
-    height: MenuRect.top + MenuRect.height +
-      MenuRect.top - statusBarHeight + "px"
-  };
-});
-
-const justTitleStyle = computed(() => {
-  const MenuRect = Taro.getMenuButtonBoundingClientRect();
-  return {
-    height: MenuRect.height + "px",
-    marginTop: MenuRect.top + "px",
-    marginLeft: "1rem",
-    display: "flex",
-    fontSize: "1.5rem",
-    lineHeight: MenuRect.height + "px"
-  };
-});
-
-function goBack() {
-  Taro.navigateBack();
 }
 
+defineProps<TitleBarProps>();
+
+const MENU_BUTTON_RECT = Taro.getMenuButtonBoundingClientRect();
+
+// TODO: 切换到设计稿布局要换算
+const containerStyle = computed<CSSProperties>(() => {
+  return {
+    "--menu-rect-top-offset": `${MENU_BUTTON_RECT.top}px`,
+    "--menu-rect-height": `${MENU_BUTTON_RECT.height}px`
+  };
+});
+
+function handleTapBack() {
+  Taro.navigateBack();
+}
 </script>

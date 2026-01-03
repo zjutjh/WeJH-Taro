@@ -1,0 +1,50 @@
+.modal {
+  :global {
+    .wjh-modal-header {
+      padding-bottom: 4Px;
+    }
+
+    .wjh-modal-body {
+      max-height: 54vh;
+      overflow-y: auto;
+      padding-top: 4Px;
+    }
+  }
+}
+
+.publish-time {
+  display: flex;
+  color: var(--wjh-color-week);
+  font-size: 12Px;
+  line-height: 20Px;
+  margin-top: 6Px;
+}
+
+.modal-content {
+  .section-title {
+    font-size: 13Px;
+    color: var(--wjh-color-week);
+    margin-bottom: 6Px;
+    font-weight: var(--wjh-font-weight-medium);
+
+    :not(:first-child) {
+      margin-top: 10Px;
+    }
+  }
+
+  .article-content {
+    font-size: 13Px;
+    color: var(--wjh-color-text);
+    line-height: 22Px;
+    white-space: pre-wrap;
+    word-break: break-all;
+
+    :not(:first-child) {
+      text-indent: 12Px;
+    }
+  }
+
+  .abstract {
+    margin-bottom: 8Px;
+  }
+}

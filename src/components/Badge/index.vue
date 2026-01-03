@@ -1,8 +1,5 @@
 <template>
-  <view
-    :class="[styles.badge, styles[size]]"
-    :style="`--badge-color: ${color}` as any"
-  >
+  <view :class="[styles.badge, styles[size]]" :style="`--badge-color: ${color}` as any">
     <view :class="styles.virtual">
       <slot />
     </view>
@@ -15,12 +12,12 @@
 <script setup lang="ts">
 import styles from "./index.module.scss";
 
-type PropsType = {
-  size?: "large" | "middle" | "small"
+interface BadgeProps {
+  size?: "large" | "middle" | "small";
   color?: string;
-};
+}
 
-withDefaults(defineProps<PropsType>(), {
+withDefaults(defineProps<BadgeProps>(), {
   size: "middle",
   color: "var(--wjh-color-red-600)"
 });

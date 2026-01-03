@@ -1,0 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 16Px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 16Px);
+  gap: 16Px;
+}

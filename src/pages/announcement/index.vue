@@ -8,14 +8,14 @@
       <view class="tab-bar">
         <text
           class="tab"
-          :class="currentTab === 'announcement' ? 'active': undefined"
+          :class="currentTab === 'announcement' ? 'active' : undefined"
           @tap="() => handleTabClick('announcement')"
         >
           精弘公告
         </text>
         <text
           class="tab"
-          :class="currentTab === 'information' ? 'active': undefined"
+          :class="currentTab === 'information' ? 'active' : undefined"
           @tap="() => handleTabClick('information')"
         >
           校园资讯
@@ -32,7 +32,7 @@
             class="announcement-card"
             :title="item.title"
           >
-            <view> {{ item.content.replace(/\\n/g, '\n') }}</view>
+            <view> {{ item.content.replace(/\\n/g, "\n") }}</view>
             <template #footer>
               <view class="time-wrapper">
                 <view>发布于：{{ timeFormat(item.publishTime) }}</view>
@@ -44,11 +44,7 @@
           <card v-if="!informationList.length" style="text-align: center">
             <view>暂无校园资讯</view>
           </card>
-          <information-card
-            v-for="item in informationList"
-            :key="item.id"
-            :source="item"
-          />
+          <information-card v-for="item in informationList" :key="item.id" :source="item" />
         </template>
       </view>
     </scroll-view>
@@ -56,13 +52,16 @@
 </template>
 
 <script setup lang="ts">
-import { Card, ThemeConfig, TitleBar } from "@/components";
-import dayjs from "dayjs";
-import { serviceStore } from "@/store";
-import InformationCard from "./InformationCard/index.vue";
 import "./index.scss";
-import { computed, ref } from "vue";
+
 import Taro from "@tarojs/taro";
+import dayjs from "dayjs";
+import { computed, ref } from "vue";
+
+import { Card, ThemeConfig, TitleBar } from "@/components";
+import { serviceStore } from "@/store";
+
+import InformationCard from "./InformationCard/index.vue";
 // 根据路由导航
 const instance = Taro.getCurrentInstance();
 const currentTab = ref<"announcement" | "information">(
@@ -85,5 +84,4 @@ const timeFormat = (time: string) => {
 const handleTabClick = (tab: "announcement" | "information") => {
   currentTab.value = tab;
 };
-
 </script>

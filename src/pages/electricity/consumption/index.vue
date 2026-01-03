@@ -30,13 +30,14 @@ import { storeToRefs } from "pinia";
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import List from "@/components/List/List.vue";
 import ListItem from "@/components/List/ListItem.vue";
-import { electricityServiceNext } from "@/services";
+import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { useElectricityStore } from "@/store/service/electricity";
 
 const { campus } = storeToRefs(useElectricityStore());
 const { data, isFetching } = useQuery({
   queryKey: [QUERY_KEY.ELECTRICITY_CONSUMPTION, campus] as const,
-  queryFn: ({ queryKey }) => electricityServiceNext.QueryConsumptionRecord({ campus: queryKey[1] })
+  queryFn: ({ queryKey }) =>
+    yxyServiceNext.QueryElectricityConsumptionRecord({ campus: queryKey[1] })
 });
 </script>

@@ -1,5 +1,6 @@
-import ElectricityServiceNext from "@/api/services/electricity";
 import LostfoundServiceNext from "@/api/services/lostfound";
+import UserServiceNext from "@/api/services/user";
+import YxyServiceNext from "@/api/services/yxy";
 import ZFServiceNext from "@/api/services/zf";
 import { type RequestCustomOptions, requestNext } from "@/utils/request-next";
 
@@ -25,17 +26,22 @@ export {
   ZFService
 };
 
+export const userServiceNext = new UserServiceNext<RequestCustomOptions>({
+  request: requestNext,
+  baseURL: import.meta.env.VITE_HOST
+});
+
 export const zfServiceNext = new ZFServiceNext<RequestCustomOptions>({
   request: requestNext,
   baseURL: import.meta.env.VITE_HOST
 });
 
-export const lostfoundServiceNext = new LostfoundServiceNext<RequestCustomOptions>({
+export const yxyServiceNext = new YxyServiceNext<RequestCustomOptions>({
   request: requestNext,
   baseURL: import.meta.env.VITE_HOST
 });
 
-export const electricityServiceNext = new ElectricityServiceNext<RequestCustomOptions>({
+export const lostfoundServiceNext = new LostfoundServiceNext<RequestCustomOptions>({
   request: requestNext,
   baseURL: import.meta.env.VITE_HOST
 });

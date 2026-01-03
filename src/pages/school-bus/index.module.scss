@@ -1,0 +1,31 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 16Px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 16Px);
+  gap: 16Px;
+}
+
+.empty-container {
+  padding: 16Px;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 10Px 16Px;
+  gap: 8Px;
+  background-color: var(--wjh-color-primary-light);
+
+  .filter-quick-field {
+    margin-top: 4Px;
+  }
+}
+
+.update-at {
+  color: var(--wjh-color-text-secondary);
+  font-size: 12Px;
+  opacity: 0.6;
+  text-align: center;
+}

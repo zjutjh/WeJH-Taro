@@ -1,3 +1,5 @@
+// 数据源为易校园的请求
+
 /** 电费查询校区，默认为 zhpf */
 export type CampusOption = "zhpf" | "mgs";
 
@@ -58,3 +60,57 @@ export type QuerySubscriptionResponse = {
   threshold: number;
   count: number;
 };
+
+/** 查询校车信息请求 */
+export type QueryBusInfoRequest = {
+  /** 输入框拼接字段 */
+  search?: string;
+};
+
+/** 查询校车信息 */
+export type QueryBusInfoResponse = {
+  updated_at: string;
+  list: Array<{
+    name: string;
+    seats: number;
+    price: number;
+    stations: string[];
+    bus_time?: Array<{
+      departure_time: string;
+      remain_seats: number;
+      ordered_seats: number;
+    }>;
+  }>;
+};
+
+/** 查询校车公告请求 */
+export type QueryBusAnnounceRequest = {
+  page?: string;
+  page_size?: string;
+};
+
+/** 查询校车公告响应 */
+export type QueryBusAnnounceResponse = {
+  updated_at: string;
+  total: number;
+  list: Array<{
+    title: string;
+    author: string;
+    published_at: string;
+    content: string[];
+    /** 摘要 */
+    abstract: string;
+  }>;
+};
+
+export interface BusStaticConfigItem {
+  name: string;
+  stations: string[];
+  bus_time: Array<{
+    /** e.g. `8:00` / `08:00` / `23:00` */
+    departure_time: string;
+    open_type: string;
+  }>;
+}
+
+export type QueryBusConfigResponse = BusStaticConfigItem[];

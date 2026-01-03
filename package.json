@@ -14,7 +14,8 @@
     "build": "taro build --type weapp",
     "dev:weapp": "npm run dev",
     "build:weapp": "npm run build",
-    "postinstall": "npx simple-git-hooks"
+    "postinstall": "npx simple-git-hooks",
+    "typecheck": "vue-tsc --noEmit"
   },
   "browserslist": [
     "defaults and fully supports es6-module",
@@ -75,7 +76,8 @@
     "terser": "catalog:taro",
     "typescript": "catalog:taro",
     "vite": "catalog:taro",
-    "vue-eslint-parser": "catalog:infra"
+    "vue-eslint-parser": "catalog:infra",
+    "vue-tsc": "^3.2.1"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpx lint-staged"

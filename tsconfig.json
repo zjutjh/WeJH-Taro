@@ -18,6 +18,8 @@
     "resolveJsonModule": true,
     "jsx": "preserve",
     "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true,
+    "noEmit": true,
     "paths": {
       "@/*": ["./src/*"],
       "@/package": ["./package.json"],

@@ -25,6 +25,7 @@ import ScoreTermPicker from "./ScoreTermPicker/index.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WSteps from "./Steps/index.vue";
 import WSwitch from "./Switch/index.vue";
+import WTag from "./Tag/index.vue";
 import TermPicker from "./TermPicker/index.vue";
 import ThemeConfig from "./ThemeConfig/index.vue";
 import TitleBar from "./TitleBar/index.vue";
@@ -61,5 +62,6 @@ export {
   WPanel,
   WSkeleton,
   WSteps,
-  WSwitch
+  WSwitch,
+  WTag
 };

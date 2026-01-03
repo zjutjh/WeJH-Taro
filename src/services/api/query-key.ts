@@ -9,5 +9,8 @@ export const QUERY_KEY = {
   LOSTFOUND_RECORD: "lostfoundRecord",
   ELECTRICITY_BALANCE: "electricityBalance",
   ELECTRICITY_CONSUMPTION: "electricityConsumption",
-  ELECTRICITY_CHARGE_RECORD: "electricityChargeRecord"
+  ELECTRICITY_CHARGE_RECORD: "electricityChargeRecord",
+  SCHOOL_BUS_SCHEDULE_LIST: "busScheduleList",
+  SCHOOL_BUS_STATIC_CONFIG: "busStaticConfig",
+  SCHOOL_BUS_ANNOUNCE: "busAnnounce"
 } as const;

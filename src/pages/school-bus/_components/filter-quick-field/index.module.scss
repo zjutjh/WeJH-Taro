@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  line-height: 20Px;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 8Px;
+  padding-bottom: 2Px;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    color: transparent;
+  }
+
+  :global(.wjh-tag:not(.wjh-tag__active)) {
+    opacity: 0.6;
+  }
+}

@@ -27,7 +27,7 @@
 import Taro from "@tarojs/taro";
 
 import { Card, ThemeConfig, TitleBar, WButton } from "@/components";
-import { electricityServiceNext } from "@/services";
+import { yxyServiceNext } from "@/services";
 import { requestMpSubscribe } from "@/utils/subscribe";
 
 import styles from "./index.module.scss";
@@ -42,7 +42,7 @@ const handleSubscribe = async () => {
   }
 
   try {
-    await electricityServiceNext.CreateSubscription();
+    await yxyServiceNext.CreateElectricitySubscription();
     Taro.showToast({ title: "订阅成功", icon: "none" });
   } catch (e) {
     e instanceof Error && Taro.showToast({ title: e.message || "订阅失败", icon: "none" });

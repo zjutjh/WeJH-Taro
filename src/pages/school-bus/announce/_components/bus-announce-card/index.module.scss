@@ -1,0 +1,13 @@
+.bus-announce-card {
+  :global(.wjh-card-header) {
+    font-size: 15Px;
+    font-weight: var(--wjh-font-weight-medium);
+    justify-content: center;
+  }
+
+  .time-wrapper {
+    color: var(--wjh-color-week);
+    font-size: 12Px;
+    text-align: end;
+  }
+}
