@@ -69,7 +69,7 @@ export type QueryBusInfoRequest = {
 
 /** 查询校车信息 */
 export type QueryBusInfoResponse = {
-  max_page: number;
+  updated_at: string;
   list: Array<{
     name: string;
     seats: number;
@@ -97,26 +97,20 @@ export type QueryBusAnnounceResponse = {
     title: string;
     author: string;
     published_at: string;
-    content: string;
+    content: string[];
     /** 摘要 */
     abstract: string;
   }>;
 };
 
-export interface BusConfigItem {
+export interface BusStaticConfigItem {
   name: string;
-  start: string;
-  end: string;
-  seats: number;
-  price: number;
   stations: string[];
   bus_time: Array<{
+    /** e.g. `8:00` / `08:00` / `23:00` */
     departure_time: string;
-    remain_seats: number;
-    ordered_seats: number;
     open_type: string;
-    note?: string;
   }>;
 }
 
-export type QueryBusConfigResponse = BusConfigItem[];
+export type QueryBusConfigResponse = BusStaticConfigItem[];

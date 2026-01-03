@@ -1,0 +1,16 @@
+.wjh-tag {
+  display: inline-block;
+  padding: 2Px 8Px;
+  border-radius: 4Px;
+  font-size: 13Px;
+  line-height: 22Px;
+  color: var(--wjh-color-text-secondary);
+  background-color: var(--wjh-color-background-container);
+  transition: all 0.1s ease;
+  white-space: nowrap;
+
+  &__active {
+    color: #fff;
+    background-color: var(--wjh-color-primary);
+  }
+}

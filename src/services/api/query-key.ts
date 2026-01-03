@@ -10,7 +10,7 @@ export const QUERY_KEY = {
   ELECTRICITY_BALANCE: "electricityBalance",
   ELECTRICITY_CONSUMPTION: "electricityConsumption",
   ELECTRICITY_CHARGE_RECORD: "electricityChargeRecord",
-  SCHOOL_BUS_INFO: "busInfo",
-  SCHOOL_BUS_CONFIG: "busConfig",
+  SCHOOL_BUS_SCHEDULE_LIST: "busScheduleList",
+  SCHOOL_BUS_STATIC_CONFIG: "busStaticConfig",
   SCHOOL_BUS_ANNOUNCE: "busAnnounce"
 } as const;

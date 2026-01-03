@@ -1,11 +1,12 @@
 <template>
-  <view class="wjh-pop-view" :class="{ hidden: !show }">
-    <view v-if="showMask" class="mask" @tap="close" />
-    <view
-      class="wjh-pop-view-body"
-      :class="positionClass"
-      :style="positionClass === 'bottom' && 'padding-bottom: env(safe-area-inset-bottom)'"
-    >
+  <view
+    :class="{
+      'wjh-pop-view__hidden': !show,
+      'wjh-pop-view': true
+    }"
+  >
+    <view v-if="showMask" class="wjh-pop-view-mask" @tap="handleClose" />
+    <view class="wjh-pop-view-body" :class="positionClass">
       <slot />
     </view>
   </view>
@@ -13,33 +14,33 @@
 
 <script setup lang="ts">
 import "./index.scss";
+
 import { computed, toRefs } from "vue";
 
-interface PropsType {
-  show: boolean;
-  position?: "bottom" | "top" | "left" | "right";
-  mask?: boolean
+interface PopViewProps {
+  position?: "bottom" | "top";
+  mask?: boolean;
 }
 
-const props = defineProps<PropsType>();
-const {
-  show,
-  position,
-  mask
-} = toRefs(props);
+const show = defineModel<boolean>("show", {
+  default: false
+});
 
-const emit = defineEmits(["update:show"]);
+const props = defineProps<PopViewProps>();
+const { position, mask } = toRefs(props);
 
-const positionClass = computed((): "bottom" | "top" | "left" | "right" => {
-  return position?.value || "bottom";
+const positionClass = computed(() => {
+  if (position.value === "top") {
+    return "wjh-pop-view__top";
+  }
+  return "wjh-pop-view__bottom";
 });
 
 const showMask = computed((): boolean => {
-  return mask?.value || true;
+  return mask.value || true;
 });
 
-function close() {
-  emit("update:show", false);
+function handleClose() {
+  show.value = false;
 }
-
 </script>

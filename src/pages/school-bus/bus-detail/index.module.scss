@@ -1,31 +1,8 @@
-.scroll-view {
-  flex: 1;
-  min-height: 0;
-  width: 100%;
-}
-
-.content-container {
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   box-sizing: border-box;
-  padding-bottom: 20Px;
-}
-
-.today-tomorrow-switcher {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30Px;
-  height: 30Px;
-  position: absolute;
-  right: 17Px;
-  bottom: 17Px;
-  opacity: 0.8;
-  .bottom-icon {
-    flex-shrink: 0;
-    width: 20Px;
-    height: 20Px;
-    display: block;
-  }
+  padding: 16Px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 16Px);
+  gap: 16Px;
 }

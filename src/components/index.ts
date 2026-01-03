@@ -21,18 +21,11 @@ import PopView from "./PopView/index.vue";
 import Questionnaire from "./Questionnaire/index.vue";
 import RefreshButton from "./RefreshButton/index.vue";
 import RoomPicker from "./RoomPicker/index.vue";
-import BusAnnounceCard from "./school-bus/bus-announce-card/index.vue";
-import BusAnnounceModal from "./school-bus/bus-announce-modal/index.vue";
-import BusDetailCard from "./school-bus/bus-detail/bus-detail-card/index.vue";
-import RouteLineCard from "./school-bus/bus-detail/route-line-card/index.vue";
-import BusLineModal from "./school-bus/bus-line-modal/index.vue";
-import BusTimeCard from "./school-bus/bus-time-card/index.vue";
-import BusTimeEmpty from "./school-bus/bus-time-empty/index.vue";
-import BusTipModal from "./school-bus/bus-tip-modal/index.vue";
 import ScoreTermPicker from "./ScoreTermPicker/index.vue";
 import WSkeleton from "./Skeleton/index.vue";
 import WSteps from "./Steps/index.vue";
 import WSwitch from "./Switch/index.vue";
+import WTag from "./Tag/index.vue";
 import TermPicker from "./TermPicker/index.vue";
 import ThemeConfig from "./ThemeConfig/index.vue";
 import TitleBar from "./TitleBar/index.vue";
@@ -42,13 +35,6 @@ export {
   Alarm,
   AppList,
   BottomPanel,
-  BusAnnounceCard,
-  BusAnnounceModal,
-  BusDetailCard,
-  BusLineModal,
-  BusTimeCard,
-  BusTimeEmpty,
-  BusTipModal,
   Card,
   ContactMe,
   Home,
@@ -59,7 +45,6 @@ export {
   Questionnaire,
   RefreshButton,
   RoomPicker,
-  RouteLineCard,
   ScoreTermPicker,
   TermPicker,
   ThemeConfig,
@@ -77,5 +62,6 @@ export {
   WPanel,
   WSkeleton,
   WSteps,
-  WSwitch
+  WSwitch,
+  WTag
 };

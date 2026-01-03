@@ -2,48 +2,57 @@ import { YxyAPI } from "../types";
 import { BaseService } from "./base";
 
 export default class YxyService<TOptions> extends BaseService<TOptions> {
-  QueryBalance(
+  QueryElectricityBalance(
     req: YxyAPI.QueryBalanceRequest,
     options?: TOptions
   ): Promise<YxyAPI.QueryBalanceResponse> {
-    return this.request(
-      { url: this.genBaseURL("/api/func/electricity/balance"), method: "GET", data: req },
-      options
-    );
+    const url = this.genBaseURL("/api/func/electricity/balance");
+    const method = "GET";
+    const params = req;
+
+    return this.request({ url, method, params }, options);
   }
-  QueryChargeRecord(
+
+  QueryElectricityChargeRecord(
     req: YxyAPI.QueryChargeRecordRequest,
     options?: TOptions
   ): Promise<YxyAPI.QueryChargeRecordResponse> {
-    return this.request(
-      { url: this.genBaseURL("/api/func/electricity/record"), method: "POST", data: req },
-      options
-    );
+    const url = this.genBaseURL("/api/func/electricity/record");
+    const method = "POST";
+    const data = req;
+
+    return this.request({ url, method, data }, options);
   }
-  QueryConsumptionRecord(
+
+  QueryElectricityConsumptionRecord(
     req: YxyAPI.QueryConsumptionRecordRequest,
     options?: TOptions
   ): Promise<YxyAPI.QueryConsumptionRecordResponse> {
-    return this.request(
-      { url: this.genBaseURL("/api/func/electricity/consumption"), method: "GET", data: req },
-      options
-    );
+    const url = this.genBaseURL("/api/func/electricity/consumption");
+    const method = "GET";
+    const params = req;
+
+    return this.request({ url, method, params }, options);
   }
-  CreateSubscription(req?: YxyAPI.CreateSubscriptionRequest, options?: TOptions): Promise<null> {
-    return this.request(
-      { url: this.genBaseURL("/api/func/electricity/subscription"), method: "POST", data: req },
-      options
-    );
+
+  CreateElectricitySubscription(_?: unknown, options?: TOptions): Promise<null> {
+    const url = this.genBaseURL("/api/func/electricity/subscription");
+    const method = "POST";
+
+    return this.request({ url, method }, options);
   }
-  QuerySubscription(
+
+  QueryElectricitySubscription(
     req: YxyAPI.QuerySubscriptionRequest,
     options?: TOptions
   ): Promise<YxyAPI.QuerySubscriptionResponse> {
-    return this.request(
-      { url: this.genBaseURL("/api/func/electricity/subscription"), method: "GET", data: req },
-      options
-    );
+    const url = this.genBaseURL("/api/func/electricity/subscription");
+    const method = "GET";
+    const params = req;
+
+    return this.request({ url, method, params }, options);
   }
+
   QueryBusInfo(
     req: YxyAPI.QueryBusInfoRequest,
     options?: TOptions
@@ -54,23 +63,22 @@ export default class YxyService<TOptions> extends BaseService<TOptions> {
 
     return this.request({ url, method, params }, options);
   }
-  QueryBusConfig(options?: TOptions): Promise<YxyAPI.QueryBusConfigResponse> {
-    return this.request({ url: this.genBaseURL("/api/func/bus/config"), method: "GET" }, {
-      ...options,
-      isRaw: true
-    } as TOptions & { isRaw: boolean });
+
+  QueryBusConfig(_?: unknown, options?: TOptions): Promise<YxyAPI.QueryBusConfigResponse> {
+    const url = this.genBaseURL("/api/func/bus/config");
+    const method = "GET";
+
+    return this.request({ url, method }, options);
   }
+
   QueryBusAnnounce(
     req: YxyAPI.QueryBusAnnounceRequest,
     options?: TOptions
   ): Promise<YxyAPI.QueryBusAnnounceResponse> {
-    return this.request(
-      {
-        url: this.genBaseURL("/api/func/bus/announcement"),
-        method: "GET",
-        data: req
-      },
-      options
-    );
+    const url = this.genBaseURL("/api/func/bus/announcement");
+    const method = "GET";
+    const params = req;
+
+    return this.request({ url, method, params }, options);
   }
 }

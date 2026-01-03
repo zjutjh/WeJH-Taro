@@ -1,0 +1,22 @@
+@import "@/style/theme";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16Px;
+  padding: 16Px;
+}
+
+.warn {
+  font-size: 14Px;
+  color: var(--wjh-color-week);
+}
+
+.input-card {
+  input {
+    border: 2Px solid var(--wjh-color-light);
+    padding: 5Px 8Px;
+    margin: 8Px 0;
+    border-radius: 4Px
+  }
+}

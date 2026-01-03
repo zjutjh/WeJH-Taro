@@ -1,44 +1,48 @@
 <template>
   <theme-config>
     <title-bar title="校车公告" :back-button="true" />
-    <scroll-view
-      :scroll-y="true"
-      :class="styles['announce-list']"
-      @scrolltolower="handleScrollToBottom"
-    >
-      <bus-announce-card
-        v-for="(item, index) in announcements"
-        :key="`${index}-${item.abstract}`"
-        :item="item"
-        @tap="handleCardClick(item)"
-      />
+    <scroll-view :scroll-y="true" @scrolltolower="handleScrollToBottom">
+      <view :class="styles['announce-list']">
+        <bus-announce-card
+          v-for="item in announcements"
+          :key="item.title"
+          :item="item"
+          @tap="handleCardClick(item)"
+        />
+      </view>
     </scroll-view>
-    <bus-announce-modal v-model:show="showModal" :announce="selectedAnnounce" />
+    <bus-announce-modal
+      v-if="selectedAnnounce"
+      v-model:show="showModal"
+      :announce="selectedAnnounce"
+    />
   </theme-config>
 </template>
 
 <script lang="ts" setup>
 import { useInfiniteQuery } from "@tanstack/vue-query";
 import { ScrollView } from "@tarojs/components";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
-import { BusAnnounceCard, BusAnnounceModal, ThemeConfig, TitleBar } from "@/components";
+import { QueryBusAnnounceResponse } from "@/api/types/yxy";
+import { ThemeConfig, TitleBar } from "@/components";
 import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
-import { BusAnnounceItem } from "@/types/school-bus";
 
+import BusAnnounceCard from "./_components/bus-announce-card/index.vue";
+import BusAnnounceModal from "./_components/bus-announce-modal/index.vue";
 import styles from "./index.module.scss";
 
 const showModal = ref(false);
-const selectedAnnounce = ref<BusAnnounceItem>();
+const selectedAnnounce = ref<QueryBusAnnounceResponse["list"][number]>();
 
-const handleCardClick = (item: BusAnnounceItem) => {
+const handleCardClick = (item: QueryBusAnnounceResponse["list"][number]) => {
   selectedAnnounce.value = item;
   showModal.value = true;
 };
 
 const {
-  data,
+  data: announcements,
   fetchNextPage: loadMore,
   hasNextPage,
   isFetching
@@ -52,20 +56,8 @@ const {
       return undefined;
     }
     return pages.length + 1;
-  }
-});
-
-const announcements = computed<BusAnnounceItem[]>(() => {
-  if (!data.value) return [];
-  return data.value.pages.flatMap((page) =>
-    page.list.map((item) => ({
-      title: item.title,
-      author: item.author,
-      publishedAt: item.published_at,
-      content: item.content,
-      abstract: item.abstract
-    }))
-  );
+  },
+  select: ({ pages }) => pages.flatMap((page) => page.list)
 });
 
 const handleScrollToBottom = () => {

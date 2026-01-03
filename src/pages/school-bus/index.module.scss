@@ -1,123 +1,31 @@
-@import '@/style/theme.scss';
-@import "./light.scss";
-@import "./dark.scss";
-
-.school-bus-container {
-  width: 100%;
-  flex: 1;
-  min-height: 0;
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 16Px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 16Px);
+  gap: 16Px;
 }
 
-.school-bus-title-bar {
+.empty-container {
+  padding: 16Px;
+}
+
+.filter-section {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 10Px 20Px;
-  width: 100%;
-  height: 140Px;
-  align-items: center;
-  gap: 5Px;
+  padding: 10Px 16Px;
+  gap: 8Px;
   background-color: var(--wjh-color-primary-light);
-  .row-1 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 40Px;
-    .search-input-container {
-      display: flex;
-      position: relative;
-      width: 160Px;
-      height: 30Px;
-      border-radius: 7Px;
-      overflow: hidden;
-      z-index: 0;
-      gap: 5Px;
 
-      .search-icon {
-        color: var(--wjh-color-primary);
-        position: relative;
-        top: 4Px;
-        left: 2Px;
-      }
-      .search-input {
-        width: 100%;
-        height: 30Px;
-        color: var(--wjh-color-text);
-        background-color: transparent;
-        font-size: 14Px;
-        line-height: 30Px;
-      }
-    }
-    .icon-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 2Px;
-      justify-content: center;
-      align-items: center;
-      width: 40Px;
-      height: 40Px;
-      .description {
-        color: var(--wjh-color-text-secondary);
-        font-size: 9Px;
-        opacity: 0.8;
-      }
-      .icon {
-         color: var(--wjh-color-primary);
-       }
-      }
+  .filter-quick-field {
+    margin-top: 4Px;
   }
-  .row-2 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 40Px;
-    padding-bottom: 10Px;
-    .route-selector {
-      position: relative;
-      width: 110Px;
-      height: 30Px;
-      border-radius: 7Px;
-      overflow: hidden;
-      z-index: 0;
-
-      .picker-button {
-        width: 100%;
-        height: 30Px;
-        color: var(--wjh-color-text);
-        background-color: transparent;
-        font-size: 14Px;
-        line-height: 30Px;
-      }
-    }
-    .routeSwapper {
-      color: var(--wjh-color-primary);
-      font-size: 2rem;
-    }
-  }
-  .row-3 {
-    display: flex;
-    width: 100%;
-    height: 40Px;
-    line-height: 20Px;
-    overflow-x: auto;
-    white-space: nowrap;
-    .filter-item {
-      font-size: 12.5Px;
-      color: var(--wjh-color-text-secondary);
-      &.active {
-        color: var(--wjh-color-primary-dark);
-      }
-    }
-
-    .divider {
-      font-size: 14Px;
-      padding: 0Px 4Px;
-      flex-grow: 1;
-      text-align: center;
-    }
-  }
-
 }
 
+.update-at {
+  color: var(--wjh-color-text-secondary);
+  font-size: 12Px;
+  opacity: 0.6;
+  text-align: center;
+}

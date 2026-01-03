@@ -1,19 +1,24 @@
 <template>
-  <view :class="[`wjh-modal`, !props.show ? `hidden` : undefined]">
+  <view
+    :class="{
+      'wjh-modal': true,
+      'wjh-modal__hidden': !show
+    }"
+  >
     <view class="wjh-modal-container">
       <view class="wjh-modal-header">
-        {{ props.title }}
+        <text v-if="!isEmpty(title)">{{ title }}</text>
         <slot name="header" />
       </view>
       <view class="wjh-modal-body">
-        {{ props.content }}
+        <text v-if="!isEmpty(content)">{{ content }}</text>
         <slot />
       </view>
       <view v-if="slots.footer" class="wjh-modal-footer">
         <slot name="footer" />
       </view>
-      <view v-if="actions" class="actions">
-        <view style="display: flex; text-align: center;">
+      <view v-if="actions" class="wjh-modal-actions">
+        <view style="display: flex; text-align: center">
           <view class="button" @tap="handleCancel">
             <text>{{ actions?.cancel.label }}</text>
           </view>
@@ -23,53 +28,56 @@
         </view>
       </view>
     </view>
-    <view v-if="props.mask" class="wjh-modal-mask" @tap="closeModal" />
+    <view v-if="mask" class="wjh-modal-mask" @tap="handleClose" />
   </view>
 </template>
 
 <script setup lang="ts">
-import { useSlots, withDefaults } from "vue";
 import "./index.scss";
 
-type PropsType = {
+import { isEmpty } from "lodash-es";
+import { useSlots } from "vue";
+
+type ModelPropsType = {
   title?: string;
   mask?: boolean;
-  show: boolean;
-  content: string;
+  content?: string;
   actions?: {
     cancel: {
       label: string;
       callback?: () => void;
-    },
+    };
     confirm: {
       label: string;
       callback?: () => void;
-    }
-  }
+    };
+  };
 };
 
-const props = withDefaults(defineProps<PropsType>(), {
+const props = withDefaults(defineProps<ModelPropsType>(), {
   title: "帮助",
   mask: true,
-  actions: undefined
+  actions: undefined,
+  content: undefined
 });
 
-const emit = defineEmits(["update:show"]);
+const show = defineModel<boolean>("show", {
+  default: false
+});
 
 const slots = useSlots();
 
 const handleConfirm = () => {
-  closeModal();
+  handleClose();
   props.actions?.confirm.callback?.();
 };
 
 const handleCancel = () => {
-  closeModal();
+  handleClose();
   props.actions?.cancel.callback?.();
 };
 
-const closeModal = () => {
-  emit("update:show", false);
+const handleClose = () => {
+  show.value = false;
 };
-
 </script>
