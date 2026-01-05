@@ -22,20 +22,22 @@
         :class="styles['filter-quick-field']"
       />
     </view>
-    <scroll-view v-if="!isEmpty(filteredScheduleList)" :scroll-y="true">
-      <view :class="styles.list">
+    <scroll-view :scroll-y="true">
+      <view v-if="!isEmpty(filteredScheduleList)" :class="styles.list">
         <bus-schedule-card
           v-for="item in filteredScheduleList"
           :key="item.id"
           :schedule="item"
           :class="styles.item"
         />
-        <text :class="styles['update-at']"> 数据更新时间：{{ updateAt }}</text>
+      </view>
+      <view v-else :class="styles['empty-container']">
+        <bus-schedule-empty />
+      </view>
+      <view v-if="!isEmpty(updateAt)" :class="styles['update-at']">
+        数据更新时间：{{ updateAt }}
       </view>
     </scroll-view>
-    <view v-else :class="styles['empty-container']">
-      <bus-time-empty />
-    </view>
     <bus-name-group-modal v-model:show="showBusNameGroupModal" @select="handleSelectBusName" />
     <bus-tip-modal v-model:show="showTipModal" />
   </theme-config>
@@ -54,7 +56,7 @@ import { Option } from "@/constants";
 
 import BusNameGroupModal from "./_components/bus-name-group-modal/index.vue";
 import BusScheduleCard from "./_components/bus-schedule-card/index.vue";
-import BusTimeEmpty from "./_components/bus-time-empty/index.vue";
+import BusScheduleEmpty from "./_components/bus-schedule-empty/index.vue";
 import BusTipModal from "./_components/bus-tip-modal/index.vue";
 import FilterDirectionField from "./_components/filter-direction-field/index.vue";
 import FilterKeywordField from "./_components/filter-keyword-field/index.vue";
