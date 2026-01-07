@@ -36,7 +36,7 @@ interface BusScheduleListReturns {
   /** 是否正在加载 */
   isLoading: Ref<boolean>;
   /** 更新时间 */
-  updateAt: ComputedRef<string>;
+  updateAt: ComputedRef<string | undefined>;
 }
 
 /**
@@ -64,7 +64,11 @@ export const useBusScheduleList = ({
   });
 
   const updateAt = computed(() => {
-    return dayjs(data.value?.updated_at).format("YYYY-MM-DD HH:mm:ss");
+    if (isNil(data.value?.updated_at)) {
+      return undefined;
+    }
+
+    return dayjs(data.value.updated_at).format("YYYY-MM-DD HH:mm:ss");
   });
 
   /** 全量的班次列表 */
