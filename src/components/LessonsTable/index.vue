@@ -28,7 +28,6 @@
             <view
               class="class-card"
               :style="classCardColor(cl.color) as any"
-              :class="{ conflict: cl.mark }"
               @tap="classCardClick(cl)"
             >
               <view class="row">
@@ -206,11 +205,6 @@ function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
             stack, // 层数
             displayOrder: layoutedLessons.length // 显示顺序
           };
-
-          // 标记冲突（如果在非第一层）
-          if (stack > 0) {
-            layoutedLesson.mark = true;
-          }
 
           layoutedLessons.push(layoutedLesson);
 
