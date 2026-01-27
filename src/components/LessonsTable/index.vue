@@ -382,11 +382,8 @@ function getPosition(theClass: Lesson) {
 
   // 冲突层特殊处理
   if (stack > 0) {
-    const scale = 0.9; // 90% 缩放
-    const scalePercent = scale * 100;
-
-    // 计算偏移量，使缩放后的卡片贴紧右下角
-    const offsetPercent = (100 - scalePercent) / 2;
+    const baseScale = 0.9;
+    const scale = Math.pow(baseScale, stack);
 
     return {
       top,
@@ -395,12 +392,10 @@ function getPosition(theClass: Lesson) {
       fontSize,
       transform: `scale(${scale})`,
       transformOrigin: "bottom right",
-      // 通过margin调整位置，使其贴紧右下角
-      marginRight: `${offsetPercent}%`,
-      marginBottom: `${offsetPercent}%`,
-      zIndex: stack + 1
+      zIndex: 100 + stack
     };
   }
+
   // 正常层返回基础位置
   return { top, left, height, fontSize, zIndex: 0 };
 }
