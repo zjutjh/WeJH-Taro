@@ -136,9 +136,11 @@ function checkPassword() {
 }
 
 function resetForm() {
-  if (!password.value) password.value = "";
-  else if (!checkPassword()) invalidPassword.value = true;
-  else invalidPassword.value = false;
+  if (password.value) {
+    invalidPassword.value = !checkPassword();
+  } else {
+    invalidPassword.value = false;
+  }
 }
 
 function checkForm() {
