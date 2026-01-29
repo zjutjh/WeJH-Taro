@@ -1,62 +1,28 @@
 <template>
   <theme-config>
-    <title-bar
-      title="通行证激活"
-      :back-button="step === 1 ? true : false"
-    />
+    <title-bar title="通行证激活" :back-button="step === 1 ? true : false" />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card
-          v-if="step === 1"
-          title="账号注册"
-          class="activation-card"
-        >
+        <card v-if="step === 1" title="账号注册" class="activation-card">
           <view class="activation-form">
             <view>
               <text>学号</text>
-              <input
-                v-model="studentid"
-                type="text"
-                placeholder="输入学号"
-              >
-              <view
-                v-show="studentid?.length === 0"
-                class="prompt"
-              >
-                请输入学号
-              </view>
+              <input v-model="studentId" type="text" placeholder="输入学号" />
+              <view v-show="studentId?.length === 0" class="prompt"> 请输入学号 </view>
             </view>
             <view>
               <text>设置密码</text>
-              <input
-                v-model="password"
-                type="password"
-                placeholder="请输入密码"
-              >
-              <view
-                v-show="password?.length === 0"
-                class="prompt"
-              >
-                请输入密码
-              </view>
-              <view
-                v-show="password?.length && invalidPassword"
-                class="prompt"
-              >
+              <input v-model="password" type="password" placeholder="请输入密码" />
+              <view v-show="password?.length === 0" class="prompt"> 请输入密码 </view>
+              <view v-show="password?.length && invalidPassword" class="prompt">
                 密码长度应在6～20位之间
               </view>
             </view>
             <view>
               <text>确认密码</text>
-              <input
-                v-model="comfirmPassword"
-                type="password"
-                placeholder="请再次输入密码"
-              >
+              <input v-model="confirmPassword" type="password" placeholder="请再次输入密码" />
               <view
-                v-show="
-                  comfirmPassword !== undefined && comfirmPassword != password
-                "
+                v-show="confirmPassword !== undefined && confirmPassword != password"
                 class="prompt"
               >
                 两次密码不匹配
@@ -64,39 +30,21 @@
             </view>
             <view>
               <text>身份证号</text>
-              <input
-                v-model="idcard"
-                type="text"
-                placeholder="仅做验证学生身份用"
-              >
-              <view v-show="idcard?.length === 0" class="prompt">
-                请输入本人身份证号
-              </view>
+              <input v-model="idCard" type="text" placeholder="仅做验证学生身份用" />
+              <view v-show="idCard?.length === 0" class="prompt"> 请输入本人身份证号 </view>
             </view>
             <view>
               <text>邮箱</text>
-              <input
-                v-model="email"
-                type="email"
-                placeholder="请输入邮箱地址"
-              >
-              <view v-show="email?.length === 0" class="prompt">
-                请输入邮箱地址
-              </view>
+              <input v-model="email" type="email" placeholder="请输入邮箱地址" />
+              <view v-show="email?.length === 0" class="prompt"> 请输入邮箱地址 </view>
             </view>
           </view>
           <template #footer>
-            <w-button block class="active" @tap="activeClick">
-              绑定通行证
-            </w-button>
+            <w-button :block="true" class="active" @tap="activeClick"> 绑定通行证 </w-button>
             <w-steps :total="2" :current="step" />
           </template>
         </card>
-        <card
-          v-if="step === 2"
-          title="完成"
-          class="success-card"
-        >
+        <card v-if="step === 2" title="完成" class="success-card">
           <view class="success">
             <view class="success-content">
               <view class="iconfont icon-success" />
@@ -104,9 +52,7 @@
             </view>
           </view>
           <template #footer>
-            <w-button block @tap="nav2bind">
-              去绑定校园账号
-            </w-button>
+            <w-button :block="true" @tap="nav2bind"> 去绑定校园账号 </w-button>
             <w-steps :total="2" :current="step" />
           </template>
         </card>
@@ -121,25 +67,27 @@
 </template>
 
 <script setup lang="ts">
-import { Card, ThemeConfig, TitleBar, WButton, WSteps } from "@/components";
-import Taro from "@tarojs/taro";
-import { UserService } from "@/services";
 import "./index.scss";
-import store from "@/store";
-import { helpText } from "@/constants/copywriting";
+
+import Taro from "@tarojs/taro";
 import { computed, ref } from "vue";
 
-const studentid = ref<string | undefined>(undefined);
-const password = ref<string | undefined>(undefined);
-const comfirmPassword = ref<string | undefined>(undefined);
-const idcard = ref<string | undefined>(undefined);
-const email = ref<string | undefined>(undefined);
+import { Card, ThemeConfig, TitleBar, WButton, WSteps } from "@/components";
+import { helpText } from "@/constants/copywriting";
+import { UserService } from "@/services";
+import store from "@/store";
+
+const studentId = ref<string>("");
+const password = ref<string>("");
+const confirmPassword = ref<string>("");
+const idCard = ref<string>("");
+const email = ref<string>("");
 
 const step = ref(1);
 const invalidPassword = ref(false);
 
 const helpContent = computed(() => {
-  return helpText.activtion;
+  return helpText.accountActivation;
 });
 
 async function activeClick() {
@@ -147,11 +95,11 @@ async function activeClick() {
   Taro.showLoading({ title: "正在绑定通行证", mask: true });
 
   const res = await UserService.createUserApp({
-    username: studentid.value!.toUpperCase(),
-    studentID: studentid.value!.toUpperCase(),
-    password: password.value!,
-    idCardNumber: idcard.value!.toUpperCase(),
-    email: email.value!
+    username: studentId.value.toUpperCase(),
+    studentID: studentId.value.toUpperCase(),
+    password: password.value,
+    idCardNumber: idCard.value.toUpperCase(),
+    email: email.value
   });
 
   if (res) {
@@ -167,7 +115,7 @@ async function nav2bind() {
   });
   await Taro.getUserProfile({
     desc: "用于获取头像和昵称",
-    success: (res: any) => {
+    success: (res) => {
       const { avatarUrl, nickName } = res.userInfo;
       store.commit("setUserWXProfile", { avatarUrl, nickName });
     }
@@ -188,31 +136,24 @@ function checkPassword() {
 }
 
 function resetForm() {
-  if (!studentid.value) studentid.value = "";
-
-  if (!password.value) password.value = "";
-  else if (!checkPassword()) invalidPassword.value = true;
-  else invalidPassword.value = false;
-
-  if (!comfirmPassword.value) comfirmPassword.value = "";
-
-  if (!idcard.value) idcard.value = "";
-
-  if (!email.value) email.value = "";
+  if (password.value) {
+    invalidPassword.value = !checkPassword();
+  } else {
+    invalidPassword.value = false;
+  }
 }
 
 function checkForm() {
   if (
-    studentid.value &&
-      password.value &&
-      comfirmPassword.value === password.value &&
-      idcard.value &&
-      email.value &&
-      checkPassword()
+    studentId.value &&
+    password.value &&
+    confirmPassword.value === password.value &&
+    idCard.value &&
+    email.value &&
+    checkPassword()
   )
     return true;
   resetForm();
   return false;
 }
-
 </script>
