@@ -212,6 +212,9 @@ function classClick(theClass: Lesson) {
   }
 
   const conflicts = lessonsTableData.value.filter((l) => {
+    if (!showWeekPicker.value) {
+      return l.weekday === theClass.weekday && l.sections === theClass.sections;
+    }
     return (
       l.weekday === theClass.weekday &&
       l.sections === theClass.sections &&
