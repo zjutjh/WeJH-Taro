@@ -4,13 +4,13 @@ import { computed, Fragment, h, ref } from "vue";
 import { helpText } from "@/constants/copywriting";
 import { serviceStore } from "@/store";
 
-import ElectricityQuickView from "../ElectricityQuickView/index.vue";
-import ExamQuickView from "../ExamQuickView/index.vue";
-import LessonsTableQuickView from "../LessonsTableQuickView/index.vue";
-import LibraryQuickView from "../LibraryQuickView/index.vue";
 import WModal from "../Modal/index.vue";
-import SchoolCardQuickView from "../SchoolCardQuickView/index.vue";
-import ScoreQuickView from "../ScoreQuickView/index.vue";
+import ElectricityQuickView from "./components/electricity-quick-view/index.vue";
+import ExamQuickView from "./components/exam-quick-view/index.vue";
+import LessonsTableQuickView from "./components/lessons-table-quick-view/index.vue";
+import LibraryQuickView from "./components/library-quick-view/index.vue";
+import SchoolCardQuickView from "./components/school-card-quick-view/index.vue";
+import ScoreQuickView from "./components/score-quick-view/index.vue";
 
 const helpContent = ref<string | undefined>(undefined);
 const isShowHelp = ref(false);

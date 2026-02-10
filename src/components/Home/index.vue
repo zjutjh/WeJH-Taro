@@ -21,7 +21,7 @@
     </view>
     <view v-else class="flex-column">
       <card title="未激活">
-        <w-button block class="active" @tap="nav2activation"> 激活 </w-button>
+        <w-button :block="true" class="active" @tap="nav2activation"> 激活 </w-button>
       </card>
       <card v-show="registerTips" title="新生提醒">
         <text style="font-size: 14.5px">
@@ -37,6 +37,7 @@
 import Taro from "@tarojs/taro";
 import { computed, onMounted, ref } from "vue";
 
+import EditPanel from "@/components/Home/components/edit-panel/index.vue";
 import { questionnaireInfo } from "@/constants/updateInfo";
 import { SystemService } from "@/services";
 import store, { serviceStore, systemStore } from "@/store";
@@ -48,7 +49,6 @@ import FixedQuickView from "../FixedQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
 import cards from "./cards.vue";
-import EditPanel from "./edit-panel/index.vue";
 import styles from "./index.module.scss";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
