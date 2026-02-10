@@ -49,7 +49,7 @@
               style="align-items: flex-end"
               @tap="handleSwitch()"
             >
-              <view class="iconfont icon-jisuanqi switch-btn" />
+              <view class="iconfont icon-calculator switch-btn" />
               <view class="button-info"> 计算 </view>
             </view>
 
@@ -59,7 +59,7 @@
               style="align-items: flex-end"
               @tap="handleSwitch()"
             >
-              <view class="iconfont icon-save-calculation switch-btn" />
+              <view class="iconfont icon-save-unfilled switch-btn" />
               <view class="button-info"> 保存 </view>
             </view>
           </template>
@@ -411,7 +411,7 @@
             {{ helpText.score }}
           </view>
           <view v-if="selectTerm.period == '期中'" class="score-help">
-            {{ helpText.mediascore }}
+            {{ helpText.mediaScore }}
           </view>
         </card>
       </view>

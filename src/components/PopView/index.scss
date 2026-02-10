@@ -1,18 +1,37 @@
 .wjh-pop-view {
-  transition: all cubic-bezier(0, -0.5, 1, 1.5) 0.2s;
+  --anim-duration: 0.3s;
+
   position: fixed;
   z-index: 1000;
+  // Box itself should not block clicks when hidden, but allow children animations to play
+  // Use visibility override strategy
+  visibility: visible;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
-  .mask {
+  // When hidden, we delay hiding the container so animations can finish
+  transition: visibility 0s linear 0s;
+
+  &__hidden {
+    // Hide container AFTER animations finish
+    visibility: hidden;
+    transition: visibility 0s linear var(--anim-duration);
+  }
+
+  &-mask {
     position: fixed;
     background: rgba(0, 0, 0, 0.65);
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 1;
+    transition: opacity var(--anim-duration) ease;
   }
 
-  .wjh-pop-view-body {
+  &-body {
     background-color: var(--wjh-color-background-popup);
     width: 100%;
     z-index: 1010;
@@ -20,19 +39,33 @@
     margin: 0;
     border-top-right-radius: 32rpx;
     border-top-left-radius: 32rpx;
+    transition: transform var(--anim-duration) cubic-bezier(0.36, 0.66, 0.04, 1);
+    transform: translateY(0);
   }
 
-  .bottom {
+  &__bottom {
     bottom: 0;
     left: 0;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
-  .top {
+  &__top {
     top: 0;
   }
-}
 
-.hidden {
-  opacity: 0;
-  visibility: hidden;
+  &__hidden {
+    .wjh-pop-view-mask {
+      opacity: 0;
+    }
+
+    .wjh-pop-view__bottom {
+      transform: translateY(100%);
+      transition: transform var(--anim-duration) cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    .wjh-pop-view__top {
+      transform: translateY(-100%);
+      transition: transform var(--anim-duration) cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+  }
 }

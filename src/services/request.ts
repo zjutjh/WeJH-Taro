@@ -14,6 +14,9 @@ const globalConfig: Partial<Taro.request.Option> = {
   timeout: 12 * 1000
 };
 
+/**
+ * @deprecated
+ */
 const request = async <TData>(url: string, config: Omit<Taro.request.Option, "url">) => {
   if (config.header && !config.header.Cookie) {
     await LoginByTaro();

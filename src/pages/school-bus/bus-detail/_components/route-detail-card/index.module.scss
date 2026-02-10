@@ -1,0 +1,138 @@
+.bus-detail-container {
+  :global(.wjh-card-header) {
+    padding-bottom: 12Px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8Px;
+
+    .extra {
+      align-items: flex-end;
+      color: var(--wjh-color-week);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+
+      :global(.iconfont) {
+        font-size: 20Px;
+      }
+    }
+  }
+}
+
+.bus-detail-route {
+  display: flex;
+  gap: 5Px;
+  font-size: 18Px;
+  font-weight: 500;
+  line-height: 26Px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--wjh-color-primary);
+
+  .triple-arrow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25Px;
+
+    .triple-arrow {
+      opacity: .6;
+      font-size: 3rem;
+    }
+  }
+
+}
+
+.schedule-table {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  .table-header {
+    background-color: var(--wjh-color-primary);
+    opacity: 0.8;
+    font-size: 15Px;
+    color: white;
+    border-radius: 5Px 5Px 0 0;
+  }
+
+  .table-row {
+    display: flex;
+    align-items: center;
+    height: 28Px;
+
+    &:last-child {
+      border-radius: 0 0 5Px 5Px;
+    }
+
+    .col {
+      flex: 1;
+      text-align: center;
+      font-size: 13Px;
+
+      &.col-seats {
+        font-weight: 500;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    .divider {
+      visibility: hidden;
+    }
+
+    .seats-num {
+      &.zero {
+        color: var(--wjh-color-text-secondary);
+      }
+    }
+
+    // 工作日发车 or 节假日发车 or 都发车
+    .departure-days {
+      font-size: 12Px;
+      color: var(--wjh-color-text-secondary);
+    }
+  }
+
+  .table-row.has-divider {
+    .divider {
+      visibility: visible;
+      font-size: 14Px;
+      color: white;
+    }
+  }
+}
+
+.station-popover {
+  :global(.wjh-pop-view-body) {
+    box-sizing: border-box;
+  }
+
+  &-header {
+    margin-top: 24Px;
+    color: var(--wjh-color-primary);
+    font-weight: 700;
+    font-size: 22Px;
+    line-height: 26Px;
+    margin-bottom: 10Px;
+    padding: 0 24Px;
+  }
+
+  &-content {
+    padding: 0 24Px;
+    padding-bottom: 16Px;
+    display: flex;
+    flex-direction: column;
+    font-size: 16Px;
+    line-height: 22Px;
+    gap: 6Px;
+  }
+}

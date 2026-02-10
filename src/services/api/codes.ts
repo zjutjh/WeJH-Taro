@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export const ServerCode = {
   OK: 1,
 
@@ -11,8 +14,8 @@ export const ServerCode = {
 
   activation: {
     schoolIdOrIdNotExistNotMatch: 200510,
-    passwordLenghtError: 200511,
+    passwordLengthError: 200511,
     passportExisted: 200512,
-    schooldIdError: 200513
+    schoolIdError: 200513
   }
 };

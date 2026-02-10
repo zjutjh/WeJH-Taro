@@ -3,7 +3,7 @@
   "projectname": "WeJH-Taro",
   "description": "",
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
     "enhance": false,
     "compileHotReLoad": false,

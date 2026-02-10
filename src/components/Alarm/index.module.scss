@@ -1,7 +1,7 @@
 @import '@/style/theme.scss';
 
 .alarm {
-  margin-left: 10Px;
+  margin: 0 10Px;
   position: relative;
 }
 
@@ -15,4 +15,4 @@
   left: .7rem;
   position: absolute;
   display: inline-flex;
-       }
+}

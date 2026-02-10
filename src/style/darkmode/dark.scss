@@ -1,4 +1,4 @@
-@import "../variables/color.scss";
+@use "../variables/color.scss";
 
 .dark {
   --wjh-color-text: #ffffffdd;
@@ -7,47 +7,47 @@
   --wjh-color-light: #424242;
   --wjh-color-unselected:#ababab;
 
-  --wjh-color-background-frame: #{$dp-8};
-  --wjh-color-background-container: #{$dp-2};
-  --wjh-color-background-popup: #{$dp-7};
-  --wjh-color-background-page: #{$dp-1};
-  --wjh-color-border: #{$dp-8};
+  --wjh-color-background-frame: #{color.$dp-8};
+  --wjh-color-background-container: #{color.$dp-2};
+  --wjh-color-background-popup: #{color.$dp-7};
+  --wjh-color-background-page: #{color.$dp-1};
+  --wjh-color-border: #{color.$dp-8};
 }
 
 .dark {
-  --wjh-color-white: #{$white-600};
+  --wjh-color-white: #{color.$white-600};
 
-  --wjh-color-green-500: #{$green-dark-500};
-  --wjh-color-green-600: #{$green-dark-600};
-  --wjh-color-green-700: #{$green-dark-700};
+  --wjh-color-green-500: #{color.$green-dark-500};
+  --wjh-color-green-600: #{color.$green-dark-600};
+  --wjh-color-green-700: #{color.$green-dark-700};
 
-  --wjh-color-blue-500: #{$blue-dark-500};
-  --wjh-color-blue-600: #{$blue-dark-600};
-  --wjh-color-blue-700: #{$blue-dark-700};
+  --wjh-color-blue-500: #{color.$blue-dark-500};
+  --wjh-color-blue-600: #{color.$blue-dark-600};
+  --wjh-color-blue-700: #{color.$blue-dark-700};
 
-  --wjh-color-yellow-500: #{$yellow-dark-500};
-  --wjh-color-yellow-600: #{$yellow-dark-600};
-  --wjh-color-yellow-700: #{$yellow-dark-700};
+  --wjh-color-yellow-500: #{color.$yellow-dark-500};
+  --wjh-color-yellow-600: #{color.$yellow-dark-600};
+  --wjh-color-yellow-700: #{color.$yellow-dark-700};
 
-  --wjh-color-pink-500: #{$pink-dark-500};
-  --wjh-color-pink-600: #{$pink-dark-600};
-  --wjh-color-pink-700: #{$pink-dark-700};
+  --wjh-color-pink-500: #{color.$pink-dark-500};
+  --wjh-color-pink-600: #{color.$pink-dark-600};
+  --wjh-color-pink-700: #{color.$pink-dark-700};
 
-  --wjh-color-orange-400: #{$orange-dark-400};
-  --wjh-color-orange-500: #{$orange-dark-500};
-  --wjh-color-orange-600: #{$orange-dark-600};
+  --wjh-color-orange-400: #{color.$orange-dark-400};
+  --wjh-color-orange-500: #{color.$orange-dark-500};
+  --wjh-color-orange-600: #{color.$orange-dark-600};
 
-  --wjh-color-red-400: #{$red-dark-400};
-  --wjh-color-red-500: #{$red-dark-500};
-  --wjh-color-red-600: #{$red-dark-600};
-  --wjh-color-red-700: #{$red-dark-700};
-  --wjh-color-red-800: #{$red-dark-800};
+  --wjh-color-red-400: #{color.$red-dark-400};
+  --wjh-color-red-500: #{color.$red-dark-500};
+  --wjh-color-red-600: #{color.$red-dark-600};
+  --wjh-color-red-700: #{color.$red-dark-700};
+  --wjh-color-red-800: #{color.$red-dark-800};
 
-  --wjh-color-purple-600: #{$purple-dark-600};
+  --wjh-color-purple-600: #{color.$purple-dark-600};
 
-  --wjh-color-pink-500: #{$pink-dark-500};
-  --wjh-color-pink-600: #{$pink-dark-600};
-  --wjh-color-pink-700: #{$pink-dark-700};
+  --wjh-color-pink-500: #{color.$pink-dark-500};
+  --wjh-color-pink-600: #{color.$pink-dark-600};
+  --wjh-color-pink-700: #{color.$pink-dark-700};
 }
 
 .dark {

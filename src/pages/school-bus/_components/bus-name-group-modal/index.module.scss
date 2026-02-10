@@ -1,0 +1,59 @@
+.line-modal {
+  :global {
+    .wjh-modal-header {
+      color: var(--wjh-color-primary);
+      padding-bottom: 5Px;
+    }
+
+    .wjh-modal-body {
+      max-height: 56vh;
+      overflow: auto;
+    }
+  }
+}
+
+.content {
+  text-align: left;
+  padding-bottom: 16Px;
+
+  .group-section {
+    &:not(:last-child) {
+      margin-bottom: 16Px;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8Px;
+      font-size: 15Px;
+      color: var(--wjh-color-text);
+
+      .dot {
+        display: inline-block;
+        width: 8Px;
+        height: 8Px;
+        background-color: var(--wjh-color-primary);
+        border-radius: 4Px;
+        margin-right: 8Px;
+      }
+
+      text:first-of-type {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12Px;
+
+    .chip {
+      background-color: var(--wjh-color-primary);
+      color: var(--wjh-color-white);
+      padding: 2Px 12Px;
+      border-radius: 4Px;
+      font-size: 14Px;
+    }
+  }
+}

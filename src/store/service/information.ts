@@ -7,17 +7,13 @@ export interface InformationStoreType {
 
 export const InformationStore = {
   state: () => ({
-    informationList: []
+    informationList: [],
+    updateCounter: 0
   }),
   mutations: {
-    setInformationList(
-      state: InformationStoreType,
-      value: Information[]
-    ) {
+    setInformationList(state: InformationStoreType, value: Information[]) {
       if (state.informationList.length != value.length)
-        state.updateCounter = Math.abs(
-          value.length - state.informationList.length
-        );
+        state.updateCounter = Math.abs(value.length - state.informationList.length);
       state.informationList = value;
     },
     clearAnnouncementsUpdateCounter(state: InformationStoreType) {

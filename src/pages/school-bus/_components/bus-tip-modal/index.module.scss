@@ -1,0 +1,11 @@
+.content {
+  text-align: left;
+  font-size: 14Px;
+  color: var(--wjh-color-text);
+
+  .paragraph {
+    &:not(:last-child) {
+      margin-bottom: 10Px;
+    }
+  }
+}
