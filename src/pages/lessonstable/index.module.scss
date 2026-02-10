@@ -32,6 +32,19 @@
   }
 }
 
+.conflict-list {
+  width: 100%;
+  max-height: 35vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+}
+
+.conflict-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--wjh-color-primary);
+}
+
 .picker-wrapper {
   height: 31Px;
 }

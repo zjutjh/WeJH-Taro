@@ -60,6 +60,32 @@
         </view>
         <view>学分：{{ selection.credits }} </view>
       </view>
+
+      <view
+        v-else-if="selectionConflicts && selectionConflicts.length > 0"
+        :class="styles['lesson-detail']"
+      >
+        <view :class="styles['lesson-title']">冲突课程（{{ selectionConflicts.length }}）</view>
+        <view :class="styles['conflict-list']">
+          <view
+            v-for="(c, idx) in selectionConflicts"
+            :key="`${c.id}-${c.week}-${c.weekday}-${c.sections}-${idx}`"
+            :class="styles['conflict-item']"
+          >
+            <view class="row">
+              <view>地点：{{ c.campus }}-{{ c.lessonPlace }} </view>
+              <view>班级：{{ c.className }} </view>
+              <view>教师：{{ c.teacherName }} </view>
+              <view>
+                时间：{{ c.week }}丨{{ detailWeekDay(c.weekday) }} ({{ c.sections }})丨{{
+                  detailTimeInterval
+                }}
+              </view>
+              <view>学分：{{ c.credits }} </view>
+            </view>
+          </view>
+        </view>
+      </view>
     </pop-view>
   </theme-config>
 </template>
@@ -88,6 +114,7 @@ import styles from "./index.module.scss";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
+const selectionConflicts = ref<Lesson[] | null>(null);
 
 // 本学期
 const originTerm = {
@@ -166,9 +193,41 @@ function pickerModeSwitch() {
   showWeekPicker.value = !showWeekPicker.value;
 }
 
+// 课程点击事件更新，分为冲突和非冲突课程展示
 function classClick(theClass: Lesson) {
-  showPop.value = true;
-  selection.value = theClass;
+  function isLessonInWeek(lesson: Lesson, week: number) {
+    if (!lesson.week) return false;
+    for (const time of lesson.week.split(",")) {
+      if (time.includes("-")) {
+        const start = parseInt(time.split("-")[0]);
+        const end = parseInt(time.split("-")[1]);
+        if (week <= end && week >= start) {
+          if (!time.includes("单") && !time.includes("双")) return true;
+          if (time.includes("单") && week % 2 === 1) return true;
+          if (time.includes("双") && week % 2 === 0) return true;
+        }
+      } else if (week === parseInt(time)) return true;
+    }
+    return false;
+  }
+
+  const conflicts = lessonsTableData.value.filter((l) => {
+    return (
+      l.weekday === theClass.weekday &&
+      l.sections === theClass.sections &&
+      isLessonInWeek(l, selectWeek.value)
+    );
+  });
+
+  if (conflicts.length > 1) {
+    selectionConflicts.value = conflicts;
+    selection.value = undefined;
+    showPop.value = true;
+  } else {
+    selectionConflicts.value = null;
+    selection.value = theClass;
+    showPop.value = true;
+  }
 }
 function backToOriginWeek() {
   selectTerm.value = originTerm;
