@@ -169,7 +169,7 @@ function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
   const timeGrid = createTimeGrid(lessonsList);
 
   // 2. 存储已排布的课程
-  const layoutedLessons: Lesson[] = [];
+  const laidOutLessons: Lesson[] = [];
   const processedLessons = new Set<string>(); // 记录已处理的课程ID，避免重复处理
 
   // 3. 按天进行排布
@@ -200,13 +200,13 @@ function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
           const longestLesson = selectLongestLesson(unprocessedLessons);
 
           // 添加到布局结果
-          const layoutedLesson: Lesson = {
+          const laidOutLesson: Lesson = {
             ...longestLesson,
             stack, // 层数
-            displayOrder: layoutedLessons.length // 显示顺序
+            displayOrder: laidOutLessons.length // 显示顺序
           };
 
-          layoutedLessons.push(layoutedLesson);
+          laidOutLessons.push(laidOutLesson);
 
           // 标记为已处理
           processedLessons.add(getLessonUniqueId(longestLesson));
@@ -242,9 +242,9 @@ function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
   }
 
   // 4. 初始化颜色
-  initialLessonsColor(layoutedLessons);
+  initialLessonsColor(laidOutLessons);
 
-  return layoutedLessons;
+  return laidOutLessons;
 }
 
 // 获取课程唯一标识
