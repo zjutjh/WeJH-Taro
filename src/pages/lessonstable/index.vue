@@ -77,9 +77,7 @@
               <view>班级：{{ c.className }} </view>
               <view>教师：{{ c.teacherName }} </view>
               <view>
-                时间：{{ c.week }}丨{{ detailWeekDay(c.weekday) }} ({{ c.sections }})丨{{
-                  detailTimeInterval
-                }}
+                时间：{{ c.week }}丨{{ detailWeekDay(c.weekday) }} ({{ c.sections }})
               </view>
               <view>学分：{{ c.credits }} </view>
             </view>
