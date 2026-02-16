@@ -86,6 +86,12 @@
           </view>
         </view>
       </view>
+      <view
+        v-if="selectionConflicts && selectionConflicts.length > 0"
+        :class="styles['conflict-time']"
+      >
+        冲突时间：{{ conflictTime }}
+      </view>
     </pop-view>
   </theme-config>
 </template>
@@ -115,6 +121,7 @@ import styles from "./index.module.scss";
 const showPop = ref(false);
 const selection = ref<Lesson>();
 const selectionConflicts = ref<Lesson[] | null>(null);
+const selectionSource = ref<Lesson | null>(null);
 
 // 本学期
 const originTerm = {
@@ -225,10 +232,19 @@ function classClick(theClass: Lesson) {
   if (conflicts.length > 1) {
     selectionConflicts.value = conflicts;
     selection.value = undefined;
+    selectionSource.value = theClass;
+    const sourceWeek = theClass.week || "";
+    for (const item of conflicts) {
+      (item as unknown as Record<string, string>)._overlap = computeOverlapWeeks(
+        sourceWeek,
+        item.week || ""
+      );
+    }
     showPop.value = true;
   } else {
     selectionConflicts.value = null;
     selection.value = theClass;
+    selectionSource.value = null;
     showPop.value = true;
   }
 }
@@ -241,4 +257,70 @@ function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
   return `周${charEnum[parseInt(weekDay) - 1]}`;
 }
+
+// 冲突周数计算
+function parseWeeks(weekStr: string): Set<number> {
+  const s = new Set<number>();
+  if (!weekStr) return s;
+  const parts = weekStr
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  for (const p of parts) {
+    const isOdd = p.includes("单");
+    const isEven = p.includes("双");
+    const match = p.match(/(\d+)(?:-(\d+))?/);
+    if (!match) continue;
+    const start = parseInt(match[1]);
+    const end = match[2] ? parseInt(match[2]) : start;
+    for (let w = start; w <= end; w++) {
+      if (isOdd && w % 2 === 0) continue;
+      if (isEven && w % 2 === 1) continue;
+      s.add(w);
+    }
+  }
+  return s;
+}
+
+function formatWeeks(setWeeks: Set<number>): string {
+  const arr = Array.from(setWeeks).sort((a, b) => a - b);
+  if (arr.length === 0) return "";
+  const ranges: string[] = [];
+  let start = arr[0];
+  let end = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    const n = arr[i];
+    if (n === end + 1) end = n;
+    else {
+      ranges.push(start === end ? `${start}` : `${start}-${end}`);
+      start = n;
+      end = n;
+    }
+  }
+  ranges.push(start === end ? `${start}` : `${start}-${end}`);
+  return ranges.join(",");
+}
+
+function computeOverlapWeeks(aWeek: string, bWeek: string): string {
+  const a = parseWeeks(aWeek);
+  const b = parseWeeks(bWeek);
+  const inter = new Set<number>();
+  for (const w of a) if (b.has(w)) inter.add(w);
+  return formatWeeks(inter);
+}
+
+const conflictTime = computed(() => {
+  const arr = selectionConflicts.value;
+  if (!arr || arr.length === 0) return "";
+  let inter: Set<number> | null = null;
+  for (const it of arr) {
+    const s = parseWeeks(it.week || "");
+    if (inter === null) inter = new Set(s);
+    else {
+      for (const w of Array.from(inter)) if (!s.has(w)) inter.delete(w);
+    }
+  }
+  if (!inter || inter.size === 0) return "无";
+  return `${formatWeeks(inter)}周`;
+});
 </script>

@@ -19,7 +19,7 @@
 }
 
 .lesson-detail {
-  padding: 1.5rem 0 3rem 0;
+  padding: 1.5rem 0 1rem 0;
   width: 80%;
   margin: 0 auto;
   font-size: 0.875rem;
@@ -30,6 +30,16 @@
     margin-bottom: 1rem;
     color: var(--wjh-color-primary);
   }
+}
+
+.conflict-time {
+  padding: 0 0 0 0;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--wjh-color-primary);
 }
 
 .conflict-list {
