@@ -49,7 +49,7 @@ import FixedQuickView from "../FixedQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
 import styles from "./index.module.scss";
-import QuickViewCardList from "./QuickViewCardList.vue";
+import QuickViewCardList from "./quick-view-card-list.vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
