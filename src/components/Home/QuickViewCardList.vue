@@ -60,12 +60,16 @@ const cardsMap = computed(() => ({
   "electricity-quick-view": isBindYxy.value ? h(ElectricityQuickView) : null
 }));
 
-function showHelp(prop: string) {
+const helpMap = {
+  "lessons-table": helpText.lessonsTable,
+  "score-card": helpText.scoreCard,
+  "school-card": helpText.schoolCard,
+  "exam-card": helpText.examCard
+};
+
+function showHelp(prop: keyof typeof helpMap) {
   isShowHelp.value = true;
-  if (prop === "lessons-table") helpContent.value = helpText.lessonsTable;
-  else if (prop === "score-card") helpContent.value = helpText.scoreCard;
-  else if (prop === "school-card") helpContent.value = helpText.schoolCard;
-  else if (prop === "exam-card") helpContent.value = helpText.examCard;
+  helpContent.value = helpMap[prop];
 }
 </script>
 
