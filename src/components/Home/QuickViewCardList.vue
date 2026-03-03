@@ -15,7 +15,7 @@ import ScoreQuickView from "./components/score-quick-view/index.vue";
 const helpContent = ref<string | undefined>(undefined);
 const isShowHelp = ref(false);
 
-const cards = () =>
+const CardsRenderer = () =>
   h(
     Fragment,
     serviceStore.homecard.selected
@@ -70,6 +70,6 @@ function showHelp(prop: string) {
 </script>
 
 <template>
-  <cards />
+  <cards-renderer />
   <w-modal v-model:show="isShowHelp" :content="`&emsp;&emsp;${helpContent}`" />
 </template>

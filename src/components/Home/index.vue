@@ -9,7 +9,7 @@
       <fixed-quick-view />
 
       <!-- 这里是可选卡片列表 -->
-      <cards />
+      <quick-view-card-list />
 
       <card v-if="!(isBindZf || isBindYXY || isBindOauth)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
@@ -48,8 +48,8 @@ import Card from "../Card/index.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
-import cards from "./cards.vue";
 import styles from "./index.module.scss";
+import QuickViewCardList from "./QuickViewCardList.vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
