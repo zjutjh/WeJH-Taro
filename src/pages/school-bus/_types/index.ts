@@ -10,9 +10,13 @@ import { type Dayjs } from "dayjs";
 export enum OpenTypeEnum {
   /** 仅工作日 */
   Weekday = "weekday",
-  /** 仅节假日 */
+  /** 仅周末放假 */
   Weekend = "weekend",
-  /** 都开放 */
+  /** 仅法定节假日(不包括周末, 特指国庆之类的假期) */
+  Holiday = "holiday",
+  /** 仅周末和法定节假日开放(也就是除了工作日都开) */
+  WeekendAndHoliday = "weekendAndHoliday",
+  /** 全都开 */
   All = "all",
   /** 未知 */
   Unknown = "unknown"
