@@ -202,8 +202,7 @@ function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
           // 添加到布局结果
           const laidOutLesson: Lesson = {
             ...longestLesson,
-            stack, // 层数
-            displayOrder: laidOutLessons.length // 显示顺序
+            stack // 层数
           };
 
           laidOutLessons.push(laidOutLesson);
