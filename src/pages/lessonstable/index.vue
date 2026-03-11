@@ -111,6 +111,12 @@ import { useTimeInstance } from "@/hooks";
 import { ZFService } from "@/services";
 import { systemStore } from "@/store";
 import { Lesson } from "@/types/Lesson";
+import {
+  computeOverlapWeeks,
+  formatWeeks,
+  isLessonActiveInWeek,
+  parseWeeks
+} from "@/utils/lessonTable/weeks";
 
 import styles from "./index.module.scss";
 
@@ -135,19 +141,7 @@ const lessonsTableData = computed(() => {
 });
 
 const lessonsTableWeek = computed(() => {
-  return lessonsTableData.value.filter((item) => {
-    for (const time of item.week.split(",")) {
-      if (time.includes("-")) {
-        const start = parseInt(time.split("-")[0]);
-        const end = parseInt(time.split("-")[1]);
-        if (selectWeek.value <= end && selectWeek.value >= start)
-          if (!time.includes("单") && !time.includes("双")) return true;
-          else if (time.includes("单") && selectWeek.value % 2 === 1) return true;
-          else if (time.includes("双") && selectWeek.value % 2 === 0) return true;
-      } else if (selectWeek.value === parseInt(time)) return true;
-    }
-    return false;
-  });
+  return lessonsTableData.value.filter((item) => isLessonActiveInWeek(item.week, selectWeek.value));
 });
 const isThisWeek = computed(() => {
   return (
@@ -198,22 +192,6 @@ function pickerModeSwitch() {
 
 // 课程点击事件更新，分为冲突和非冲突课程展示
 function classClick(theClass: Lesson) {
-  function isLessonInWeek(lesson: Lesson, week: number) {
-    if (!lesson.week) return false;
-    for (const time of lesson.week.split(",")) {
-      if (time.includes("-")) {
-        const start = parseInt(time.split("-")[0]);
-        const end = parseInt(time.split("-")[1]);
-        if (week <= end && week >= start) {
-          if (!time.includes("单") && !time.includes("双")) return true;
-          if (time.includes("单") && week % 2 === 1) return true;
-          if (time.includes("双") && week % 2 === 0) return true;
-        }
-      } else if (week === parseInt(time)) return true;
-    }
-    return false;
-  }
-
   const conflicts = lessonsTableData.value.filter((l) => {
     if (!showWeekPicker.value) {
       return l.weekday === theClass.weekday && l.sections === theClass.sections;
@@ -221,7 +199,7 @@ function classClick(theClass: Lesson) {
     return (
       l.weekday === theClass.weekday &&
       l.sections === theClass.sections &&
-      isLessonInWeek(l, selectWeek.value)
+      isLessonActiveInWeek(l.week, selectWeek.value)
     );
   });
 
@@ -252,57 +230,6 @@ function backToOriginWeek() {
 function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
   return `周${charEnum[parseInt(weekDay) - 1]}`;
-}
-
-// 冲突周数计算
-function parseWeeks(weekStr: string): Set<number> {
-  const s = new Set<number>();
-  if (!weekStr) return s;
-  const parts = weekStr
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean);
-  for (const p of parts) {
-    const isOdd = p.includes("单");
-    const isEven = p.includes("双");
-    const match = p.match(/(\d+)(?:-(\d+))?/);
-    if (!match) continue;
-    const start = parseInt(match[1]);
-    const end = match[2] ? parseInt(match[2]) : start;
-    for (let w = start; w <= end; w++) {
-      if (isOdd && w % 2 === 0) continue;
-      if (isEven && w % 2 === 1) continue;
-      s.add(w);
-    }
-  }
-  return s;
-}
-
-function formatWeeks(setWeeks: Set<number>): string {
-  const arr = Array.from(setWeeks).sort((a, b) => a - b);
-  if (arr.length === 0) return "";
-  const ranges: string[] = [];
-  let start = arr[0];
-  let end = arr[0];
-  for (let i = 1; i < arr.length; i++) {
-    const n = arr[i];
-    if (n === end + 1) end = n;
-    else {
-      ranges.push(start === end ? `${start}` : `${start}-${end}`);
-      start = n;
-      end = n;
-    }
-  }
-  ranges.push(start === end ? `${start}` : `${start}-${end}`);
-  return ranges.join(",");
-}
-
-function computeOverlapWeeks(aWeek: string, bWeek: string): string {
-  const a = parseWeeks(aWeek);
-  const b = parseWeeks(bWeek);
-  const inter = new Set<number>();
-  for (const w of a) if (b.has(w)) inter.add(w);
-  return formatWeeks(inter);
 }
 
 const conflictTime = computed(() => {
