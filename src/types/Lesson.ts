@@ -20,8 +20,6 @@ export interface Lesson {
   color?: string;
   /** 层数，0为正常层，≥1为冲突层 */
   stack?: number;
-  /** 显示顺序 */
-  displayOrder?: number;
 }
 export interface PracticeLesson {
   className: string;
