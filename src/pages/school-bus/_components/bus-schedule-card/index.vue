@@ -7,7 +7,7 @@
           {{ `${schedule.busName} (${schedule.startDirection}-${schedule.endDirection})` }}
         </view>
       </view>
-      <view :class="styles['open-type-list']">
+      <view v-if="schedule.openType?.length !== 0" :class="styles['open-type-list']">
         <view
           v-for="item in openTypeOptionList"
           :key="item.value"

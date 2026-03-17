@@ -38,7 +38,7 @@ export interface ParsedBusSchedule {
   orderedSeats: number;
   /** 剩余车票数 */
   remainSeats: number;
-  /** 节假日开放时间的类型 */
+  /** 开放日类型列表(工作日/周末/法定节假日等) */
   openType?: OpenTypeEnum[];
   /** 出现在搜索结果中的关键词匹配原因 */
   matchReason?: {

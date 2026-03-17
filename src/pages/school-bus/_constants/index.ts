@@ -31,7 +31,7 @@ export const formatScheduleOpenTypeText = (openTypeList?: OpenTypeEnum[]) => {
     return "";
   }
 
-  return SCHEDULE_OPEN_TYPE_OPTIONS.filter((openType) => normalizedOpenTypeList.includes(openType))
+  return normalizedOpenTypeList
     .map((openType) => SCHEDULE_OPEN_TYPE_TEXT_RECORD[openType])
     .join("/");
 };
