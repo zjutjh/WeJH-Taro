@@ -44,6 +44,9 @@ jobs:
       - name: Lint changed files
         run: pnpx lint-staged --diff="origin/${{ github.base_ref }}"
 
+      - name: Type Check
+        run: pnpm typecheck
+
       - name: Build Taro weapp
         run: pnpm build:weapp
 
