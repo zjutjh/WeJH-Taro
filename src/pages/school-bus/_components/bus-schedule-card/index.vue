@@ -1,5 +1,5 @@
 <template>
-  <card :class="styles.container">
+  <card :class="[styles.container, isShowOpenTypeList ? styles['container--with-open-type'] : '']">
     <template #header>
       <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
         <view :class="styles['start-time']"> {{ departureText }}</view>
@@ -7,7 +7,7 @@
           {{ `${schedule.busName} (${schedule.startDirection}-${schedule.endDirection})` }}
         </view>
       </view>
-      <view v-if="schedule.openType?.length !== 0" :class="styles['open-type-list']">
+      <view v-if="isShowOpenTypeList" :class="styles['open-type-list']">
         <view
           v-for="item in openTypeOptionList"
           :key="item.value"
@@ -101,6 +101,10 @@ const departureText = computed(() => {
     return `${formatRelativeDayPeriod(schedule.value.departureTime)} 发车`;
   }
   return `${schedule.value.departureTime.format("M 月 D 日 HH:mm")} 发车`;
+});
+
+const isShowOpenTypeList = computed(() => {
+  return !isEmpty(schedule.value.openType);
 });
 
 const openTypeOptionList = computed(() => {

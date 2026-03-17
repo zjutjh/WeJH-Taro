@@ -7,12 +7,19 @@
   :global(.wjh-card-header) {
     flex-direction: column;
     padding-top: 12Px;
-    padding-bottom: 0Px;
-    border-bottom: none;
+    padding-bottom: 8Px;
   }
 
   :global(.wjh-card-footer) {
     padding-top: 8Px;
+  }
+}
+
+.container--with-open-type {
+  :global(.wjh-card-header) {
+    padding-top: 12Px;
+    padding-bottom: 0Px;
+    border-bottom: none;
   }
 }
 
@@ -59,7 +66,7 @@
       align-items: center;
       justify-content: center;
       font-size: 12Px;
-      line-height: 18Px;
+      line-height: 26Px;
       color: var(--wjh-color-week);
 
       &::before {
