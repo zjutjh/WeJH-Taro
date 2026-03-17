@@ -2,13 +2,38 @@ import { Option } from "@/constants";
 
 import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
 
-export const SCHEDULE_OPEN_TYPE_TEXT_RECORD: Partial<Record<OpenTypeEnum, string>> = {
-  [OpenTypeEnum.Weekday]: "仅工作日",
-  [OpenTypeEnum.Weekend]: "仅周末",
-  [OpenTypeEnum.Holiday]: "仅节假日",
-  [OpenTypeEnum.WeekendAndHoliday]: "周末节假",
-  [OpenTypeEnum.All]: "正常发车",
-  [OpenTypeEnum.Unknown]: ""
+export const SCHEDULE_OPEN_TYPE_TEXT_RECORD: Record<OpenTypeEnum, string> = {
+  [OpenTypeEnum.Weekday]: "工作日",
+  [OpenTypeEnum.Weekend]: "周末",
+  [OpenTypeEnum.Holiday]: "法定节假日"
+};
+
+export const SCHEDULE_OPEN_TYPE_OPTIONS: OpenTypeEnum[] = [
+  OpenTypeEnum.Weekday,
+  OpenTypeEnum.Weekend,
+  OpenTypeEnum.Holiday
+];
+
+export const normalizeScheduleOpenTypeList = (
+  openTypeList?: Array<OpenTypeEnum | string>
+): OpenTypeEnum[] => {
+  if (!openTypeList || openTypeList.length === 0) {
+    return [];
+  }
+
+  return SCHEDULE_OPEN_TYPE_OPTIONS.filter((openType) => openTypeList.includes(openType));
+};
+
+export const formatScheduleOpenTypeText = (openTypeList?: OpenTypeEnum[]) => {
+  const normalizedOpenTypeList = normalizeScheduleOpenTypeList(openTypeList);
+
+  if (normalizedOpenTypeList.length === 0) {
+    return "";
+  }
+
+  return SCHEDULE_OPEN_TYPE_OPTIONS.filter((openType) => normalizedOpenTypeList.includes(openType))
+    .map((openType) => SCHEDULE_OPEN_TYPE_TEXT_RECORD[openType])
+    .join("/");
 };
 
 /** 班次起始点终点「不限方向」筛选项 */
@@ -56,9 +81,18 @@ export const SCHEDULE_KEYWORDS_MATCH_RULES: ScheduleKeywordMatchRule<keyof Parse
   {
     key: "openType",
     propertyName: "发车情况",
-    match: (value: OpenTypeEnum, keywords) =>
-      SCHEDULE_OPEN_TYPE_TEXT_RECORD[value]?.includes(keywords)
-        ? SCHEDULE_OPEN_TYPE_TEXT_RECORD[value]
-        : undefined
+    match: (value: OpenTypeEnum[] | undefined, keywords) => {
+      const normalizedOpenTypeList = normalizeScheduleOpenTypeList(value);
+
+      if (normalizedOpenTypeList.length === 0) {
+        return undefined;
+      }
+
+      const matched = normalizedOpenTypeList.find((openType) => {
+        return SCHEDULE_OPEN_TYPE_TEXT_RECORD[openType].includes(keywords);
+      });
+
+      return matched ? SCHEDULE_OPEN_TYPE_TEXT_RECORD[matched] : undefined;
+    }
   }
 ];

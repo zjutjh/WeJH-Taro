@@ -109,7 +109,7 @@ export interface BusStaticConfigItem {
   bus_time: Array<{
     /** e.g. `8:00` / `08:00` / `23:00` */
     departure_time: string;
-    open_type: string;
+    open_type: string[];
   }>;
 }
 

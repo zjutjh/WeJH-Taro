@@ -7,13 +7,16 @@
           {{ `${schedule.busName} (${schedule.startDirection}-${schedule.endDirection})` }}
         </view>
       </view>
+      <view :class="styles['open-type-list']">
+        <view
+          v-for="item in openTypeOptionList"
+          :key="item.value"
+          :class="[styles['open-type-item'], item.active ? styles['open-type-item__active'] : '']"
+        >
+          <text :class="styles['open-type-item-text']">{{ item.label }}</text>
+        </view>
+      </view>
     </template>
-    <view v-if="!isEmpty(openTypeText)" :class="styles['open-type-tag']">
-      <view class="iconfont icon-tag" />
-      <text :class="styles['tag-text']">
-        {{ openTypeText }}
-      </text>
-    </view>
 
     <view :class="styles['bus-information-content']">
       <view v-if="!isEmpty(schedule.stationList)" :class="styles['row-item']">
@@ -33,7 +36,7 @@
       <view :class="styles['row-item']">{{ `票价：${priceText}` }}</view>
       <w-button :class="styles['detail-button']" @tap="handleClickDetail">班车详情</w-button>
     </view>
-    <template v-if="!isNil(schedule.matchReason)" #footer>
+    <template v-if="schedule.matchReason" #footer>
       <view :class="styles['match-reason']">
         <text :class="styles['match-reason-property']">
           {{ schedule.matchReason.matchProperty }}
@@ -49,15 +52,15 @@
 
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
-import { first, isEmpty, isNil, last } from "lodash-es";
+import { first, isEmpty, last } from "lodash-es";
 import urlcat from "urlcat";
 import { computed, ref, toRefs } from "vue";
 
 import { Card, WButton } from "@/components";
 import { aegisReportEvent } from "@/plugins/aegis";
 
-import { SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../../_constants";
-import { OpenTypeEnum, type ParsedBusSchedule } from "../../_types";
+import { SCHEDULE_OPEN_TYPE_OPTIONS, SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../../_constants";
+import { type ParsedBusSchedule } from "../../_types";
 import { formatRelativeDayPeriod } from "../../_utils";
 import styles from "./index.module.scss";
 
@@ -100,12 +103,14 @@ const departureText = computed(() => {
   return `${schedule.value.departureTime.format("M 月 D 日 HH:mm")} 发车`;
 });
 
-const openTypeText = computed(() => {
-  if (isNil(schedule.value.openType)) {
-    return SCHEDULE_OPEN_TYPE_TEXT_RECORD[OpenTypeEnum.Unknown];
-  }
-
-  return SCHEDULE_OPEN_TYPE_TEXT_RECORD[schedule.value.openType];
+const openTypeOptionList = computed(() => {
+  return SCHEDULE_OPEN_TYPE_OPTIONS.map((openType) => {
+    return {
+      value: openType,
+      label: SCHEDULE_OPEN_TYPE_TEXT_RECORD[openType],
+      active: schedule.value.openType?.includes(openType) ?? false
+    };
+  });
 });
 
 const priceText = computed(() => {
