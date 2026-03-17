@@ -15,7 +15,7 @@
   }
 }
 
-.container--with-open-type {
+.container-with-open-type {
   :global(.wjh-card-header) {
     padding-top: 12Px;
     padding-bottom: 0Px;
@@ -50,8 +50,6 @@
   border-radius: 10Px;
   overflow: hidden;
   background-color: var(--wjh-color-border);
-
-
 
   .open-type-item {
     flex: 1;

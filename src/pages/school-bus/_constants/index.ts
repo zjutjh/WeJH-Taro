@@ -8,7 +8,7 @@ export const SCHEDULE_OPEN_TYPE_TEXT_RECORD: Record<OpenTypeEnum, string> = {
   [OpenTypeEnum.Holiday]: "法定节假日"
 };
 
-export const SCHEDULE_OPEN_TYPE_OPTIONS: OpenTypeEnum[] = [
+export const SCHEDULE_OPEN_TYPE_LIST: OpenTypeEnum[] = [
   OpenTypeEnum.Weekday,
   OpenTypeEnum.Weekend,
   OpenTypeEnum.Holiday
@@ -21,7 +21,7 @@ export const normalizeScheduleOpenTypeList = (
     return [];
   }
 
-  return SCHEDULE_OPEN_TYPE_OPTIONS.filter((openType) => openTypeList.includes(openType));
+  return SCHEDULE_OPEN_TYPE_LIST.filter((openType) => openTypeList.includes(openType));
 };
 
 export const formatScheduleOpenTypeText = (openTypeList?: OpenTypeEnum[]) => {
@@ -79,7 +79,7 @@ export const SCHEDULE_KEYWORDS_MATCH_RULES: ScheduleKeywordMatchRule<keyof Parse
     }
   },
   {
-    key: "openType",
+    key: "openTypeList",
     propertyName: "发车情况",
     match: (value: OpenTypeEnum[] | undefined, keywords) => {
       const normalizedOpenTypeList = normalizeScheduleOpenTypeList(value);

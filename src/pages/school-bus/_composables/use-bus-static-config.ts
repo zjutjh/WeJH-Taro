@@ -7,7 +7,7 @@ import { QUERY_KEY } from "@/services/api/query-key";
 export const useBusStaticConfig = () => {
   const { data: busConfig, isLoading } = useQuery({
     queryKey: [QUERY_KEY.SCHOOL_BUS_STATIC_CONFIG] as const,
-    queryFn: async () => yxyServiceNext.QueryBusConfig()
+    queryFn: () => yxyServiceNext.QueryBusConfig()
   });
 
   return { busConfig, isLoading };

@@ -107,7 +107,7 @@ export const useBusScheduleList = ({
           const mergedOpenTypeList = (matchedStaticTimeList || []).flatMap(
             (item) => item.open_type
           );
-          const openType = normalizeScheduleOpenTypeList(mergedOpenTypeList);
+          const openTypeList = normalizeScheduleOpenTypeList(mergedOpenTypeList);
 
           const item: ParsedBusSchedule = {
             id: `${bus.name}-${schedule.departure_time}`,
@@ -119,7 +119,7 @@ export const useBusScheduleList = ({
             endDirection: _endDirection,
             stationList: staticRoute?.stations,
             price: bus.price,
-            openType
+            openTypeList: openTypeList
           };
 
           return item;

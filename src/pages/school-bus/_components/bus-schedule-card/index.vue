@@ -1,5 +1,5 @@
 <template>
-  <card :class="[styles.container, isShowOpenTypeList ? styles['container--with-open-type'] : '']">
+  <card :class="[styles.container, isShowOpenTypeList && styles['container-with-open-type']]">
     <template #header>
       <view :class="styles['bus-information-title']" @tap="handleClickDepartureText">
         <view :class="styles['start-time']"> {{ departureText }}</view>
@@ -11,7 +11,7 @@
         <view
           v-for="item in openTypeOptionList"
           :key="item.value"
-          :class="[styles['open-type-item'], item.active ? styles['open-type-item__active'] : '']"
+          :class="[styles['open-type-item'], item.isActive && styles['open-type-item__active']]"
         >
           <text :class="styles['open-type-item-text']">{{ item.label }}</text>
         </view>
@@ -59,7 +59,7 @@ import { computed, ref, toRefs } from "vue";
 import { Card, WButton } from "@/components";
 import { aegisReportEvent } from "@/plugins/aegis";
 
-import { SCHEDULE_OPEN_TYPE_OPTIONS, SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../../_constants";
+import { SCHEDULE_OPEN_TYPE_LIST, SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../../_constants";
 import { type ParsedBusSchedule } from "../../_types";
 import { formatRelativeDayPeriod } from "../../_utils";
 import styles from "./index.module.scss";
@@ -104,15 +104,15 @@ const departureText = computed(() => {
 });
 
 const isShowOpenTypeList = computed(() => {
-  return !isEmpty(schedule.value.openType);
+  return !isEmpty(schedule.value.openTypeList);
 });
 
 const openTypeOptionList = computed(() => {
-  return SCHEDULE_OPEN_TYPE_OPTIONS.map((openType) => {
+  return SCHEDULE_OPEN_TYPE_LIST.map((openType) => {
     return {
       value: openType,
       label: SCHEDULE_OPEN_TYPE_TEXT_RECORD[openType],
-      active: schedule.value.openType?.includes(openType) ?? false
+      isActive: schedule.value.openTypeList?.includes(openType) ?? false
     };
   });
 });
