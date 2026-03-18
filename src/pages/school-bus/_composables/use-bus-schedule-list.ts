@@ -105,7 +105,7 @@ export const useBusScheduleList = ({
           });
 
           const mergedOpenTypeList = (matchedStaticTimeList || []).flatMap(
-            (item) => item.open_type
+            (item) => item.open_type_list
           );
           const openTypeList = normalizeScheduleOpenTypeList(mergedOpenTypeList);
 

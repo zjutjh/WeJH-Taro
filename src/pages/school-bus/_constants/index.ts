@@ -14,6 +14,7 @@ export const SCHEDULE_OPEN_TYPE_LIST: OpenTypeEnum[] = [
   OpenTypeEnum.Holiday
 ];
 
+/** 把含openType的数组规范为标准的openTypeList数组(主要是去除不属于OpenTypeEnum的项) */
 export const normalizeScheduleOpenTypeList = (
   openTypeList?: Array<OpenTypeEnum | string>
 ): OpenTypeEnum[] => {
@@ -22,18 +23,6 @@ export const normalizeScheduleOpenTypeList = (
   }
 
   return SCHEDULE_OPEN_TYPE_LIST.filter((openType) => openTypeList.includes(openType));
-};
-
-export const formatScheduleOpenTypeText = (openTypeList?: OpenTypeEnum[]) => {
-  const normalizedOpenTypeList = normalizeScheduleOpenTypeList(openTypeList);
-
-  if (normalizedOpenTypeList.length === 0) {
-    return "";
-  }
-
-  return normalizedOpenTypeList
-    .map((openType) => SCHEDULE_OPEN_TYPE_TEXT_RECORD[openType])
-    .join("/");
 };
 
 /** 班次起始点终点「不限方向」筛选项 */

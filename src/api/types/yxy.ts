@@ -103,14 +103,16 @@ export type QueryBusAnnounceResponse = {
   }>;
 };
 
+/** 校车自主配置列表的项 */
 export interface BusStaticConfigItem {
   name: string;
   stations: string[];
   bus_time: Array<{
     /** e.g. `8:00` / `08:00` / `23:00` */
     departure_time: string;
-    open_type: string[];
+    open_type_list: string[];
   }>;
 }
 
+/** 查询校车的自主配置(目前作为一个json文件存在Cube上) */
 export type QueryBusConfigResponse = BusStaticConfigItem[];

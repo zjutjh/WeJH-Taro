@@ -56,11 +56,8 @@ import { computed, ref } from "vue";
 
 import { BusStaticConfigItem } from "@/api/types/yxy";
 import { Card, PopView } from "@/components";
-import {
-  formatScheduleOpenTypeText,
-  normalizeScheduleOpenTypeList
-} from "@/pages/school-bus/_constants";
-import { parseRouteName } from "@/pages/school-bus/_utils";
+import { normalizeScheduleOpenTypeList } from "@/pages/school-bus/_constants";
+import { formatScheduleOpenTypeText, parseRouteName } from "@/pages/school-bus/_utils";
 import { aegisReportEvent } from "@/plugins/aegis";
 
 import styles from "./index.module.scss";
@@ -76,7 +73,7 @@ const routeNameParams = computed(() => parseRouteName(props.routeInConfig.name))
 const tableRowList = computed(() => {
   return props.routeInConfig.bus_time.map((scheduleConfig) => {
     const [configHour, configMinute] = scheduleConfig.departure_time.split(":");
-    const openTypeList = normalizeScheduleOpenTypeList(scheduleConfig.open_type);
+    const openTypeList = normalizeScheduleOpenTypeList(scheduleConfig.open_type_list);
 
     return {
       departureTimeText: `${padStart(configHour, 2, "0")}:${padStart(configMinute, 2, "0")}`,
