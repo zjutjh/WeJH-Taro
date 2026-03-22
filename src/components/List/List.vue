@@ -1,5 +1,5 @@
 <template>
-  <view :class="['wjh-list', `wjh-list-size-${props.size}`, inner && 'wjh-list-inner'] ">
+  <view :class="['wjh-list', `wjh-list-size-${props.size}`, inner && 'wjh-list-inner']">
     <slot name="header" />
     <template v-if="slots.header">
       <view class="wjh-list-header">
@@ -16,12 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import { useSlots, withDefaults } from "vue";
 import "./index.scss";
 
+import { useSlots } from "vue";
+
 type PropsType = {
-  size?: "small" | "middle",
-  inner?: boolean
+  size?: "small" | "middle";
+  inner?: boolean;
 };
 
 const props = withDefaults(defineProps<PropsType>(), {
@@ -30,5 +31,4 @@ const props = withDefaults(defineProps<PropsType>(), {
 });
 
 const slots = useSlots();
-
 </script>

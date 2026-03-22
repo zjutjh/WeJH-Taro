@@ -13,7 +13,7 @@
         <slot name="footer" />
       </view>
       <view v-if="actions" class="actions">
-        <view style="display: flex; text-align: center;">
+        <view style="display: flex; text-align: center">
           <view class="button" @tap="handleCancel">
             <text>{{ actions?.cancel.label }}</text>
           </view>
@@ -23,17 +23,14 @@
         </view>
       </view>
     </view>
-    <view
-      v-if="props.mask"
-      class="wjh-modal-mask"
-      @tap="closeModal"
-    />
+    <view v-if="props.mask" class="wjh-modal-mask" @tap="closeModal" />
   </view>
 </template>
 
 <script setup lang="ts">
-import { useSlots, withDefaults } from "vue";
 import "./index.scss";
+
+import { useSlots } from "vue";
 
 type PropsType = {
   title?: string;
@@ -44,12 +41,12 @@ type PropsType = {
     cancel: {
       label: string;
       callback?: () => void;
-    },
+    };
     confirm: {
       label: string;
       callback?: () => void;
-    }
-  }
+    };
+  };
 };
 
 const props = withDefaults(defineProps<PropsType>(), {
@@ -75,5 +72,4 @@ const handleCancel = () => {
 const closeModal = () => {
   emit("update:show", false);
 };
-
 </script>

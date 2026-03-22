@@ -25,13 +25,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, withDefaults } from "vue";
-import WListItem from "../List/ListItem.vue";
 import "./index.scss";
+
+import { ref } from "vue";
+
+import WListItem from "../List/ListItem.vue";
 
 type PropsType = {
   title?: string;
-  defaltActive?: boolean
+  defaltActive?: boolean;
   maxHeight?: string;
   arrow?: boolean;
   selected?: boolean;
@@ -50,5 +52,4 @@ const isActive = ref(props.defaltActive);
 const handleClick = () => {
   isActive.value = !isActive.value;
 };
-
 </script>
