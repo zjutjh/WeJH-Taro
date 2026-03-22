@@ -4,7 +4,7 @@
       <view :class="styles.title">
         {{ source.type ? "失物招领" : "寻物启事" }}
       </view>
-      <view v-if="isForyou" :class="styles.joint">
+      <view v-if="isForYou" :class="styles.joint">
         <image
           src="https://api.cnpatrickstar.com/img/92a63e97-cd3e-411b-b4aa-8e6fad5fbd00.jpg"
           alt="logo_fy"
@@ -100,7 +100,7 @@
     </view>
     <view :class="styles.footer" class="flex-column">
       <text>业务服务: {{ source.publisher }}</text>
-      <text>发布时间: {{ timeFormat(source.publish_time) }}</text>
+      <text>发布时间: {{ publishTime }}</text>
     </view>
   </view>
 </template>
@@ -108,30 +108,25 @@
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
-import { computed, ref, toRefs } from "vue";
+import { compact, get, uniq } from "lodash-es";
+import { computed, ref } from "vue";
 
 import { LostfoundRecord } from "@/types/Lostfound";
 
 import styles from "./index.module.scss";
 
-const props = defineProps<{
+interface PreviewCardProps {
   source: LostfoundRecord;
-}>();
+}
+
+const props = defineProps<PreviewCardProps>();
 const needFixWidth = ref(false);
 
-const imageList = computed(
-  () =>
-    [source.value?.img1 || null, source.value?.img2 || null, source.value?.img3 || null].filter(
-      (item) => Boolean(item)
-    ) as string[]
+const imageList = computed(() =>
+  uniq(compact([props.source.img1, props.source.img2, props.source.img3]))
 );
 
-const { source } = toRefs(props);
-
-const isForyou = ref(false);
-if (source.value.publisher.slice(0, 4) === "“For") {
-  isForyou.value = true;
-}
+const isForYou = computed(() => props.source.publisher.slice(0, 4) === "“For");
 
 const handlePreviewImages = (url: string) => {
   Taro.previewImage({
@@ -140,13 +135,11 @@ const handlePreviewImages = (url: string) => {
   });
 };
 
-const handleLoadFinish = (e: any) => {
-  const { height, width } = e.detail;
-  if (height > width) needFixWidth.value = false;
-  else needFixWidth.value = true;
+const handleLoadFinish = (e: unknown) => {
+  const height = Number(get(e, ["detail", "height"])) || 0;
+  const width = Number(get(e, ["detail", "width"])) || 0;
+  needFixWidth.value = height > width;
 };
 
-const timeFormat = (time: string) => {
-  return dayjs(time).format("YYYY年MM月DD日");
-};
+const publishTime = computed(() => dayjs(props.source.publish_time).format("YYYY年MM月DD日"));
 </script>

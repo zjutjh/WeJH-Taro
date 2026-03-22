@@ -23,19 +23,19 @@ import WListItem from "../List/ListItem.vue";
 
 type PropsType = {
   title?: string;
-  defaltActive?: boolean;
+  defaultActive?: boolean;
   maxHeight?: string;
   arrow?: boolean;
 };
 
 const props = withDefaults(defineProps<PropsType>(), {
   title: undefined,
-  defaltActive: false,
+  defaultActive: false,
   maxHeight: "500px",
   arrow: false
 });
 
-const isActive = ref(props.defaltActive);
+const isActive = ref(props.defaultActive);
 
 const handleClick = () => {
   isActive.value = !isActive.value;

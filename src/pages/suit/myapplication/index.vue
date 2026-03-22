@@ -1,6 +1,6 @@
 <template>
   <theme-config>
-    <title-bar title="我的申请" back-button />
+    <title-bar title="我的申请" :back-button="true" />
     <view :class="styles['campus-selector']">
       <view :class="styles['container']">
         <view
@@ -35,7 +35,7 @@
           @is-delete="needRefresh"
         />
         <w-skeleton v-if="loading" :style="{ borderRadius: '8Px' }" />
-        <card v-else-if="!recordList.length" is-empty>
+        <card v-else-if="!recordList.length" :is-empty="true">
           <text>该分类下暂无申请记录</text>
         </card>
       </view>
@@ -72,7 +72,8 @@ const { loading, run } = useRequest(SuitService.getRecords, {
   loadingDelay: 600,
   onSuccess: (res) => {
     if (res.data.code === 1) {
-      recordList.value = recordList.value?.concat(
+      recordList.value = recordList.value.concat(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Array.isArray(res.data.data) ? res.data.data : (res.data.data as any).data || []
       );
       if (recordList.value.length === 0) isEmpty.value = true;
@@ -83,9 +84,9 @@ const { loading, run } = useRequest(SuitService.getRecords, {
   }
 });
 
-const getRecords = (data: { campus?: number; status?: number }) => {
+const getRecords = (data: Parameters<typeof SuitService.getRecords>[0]) => {
   isEmpty.value = false;
-  run(data as any);
+  run(data);
 };
 
 const handleSelectCampus = (campus: string) => {
@@ -98,6 +99,7 @@ const handleSelectCampus = (campus: string) => {
     status: statusChange[selectStatus.value]
   });
 };
+
 const handleSelectStatus = (status: string) => {
   if (selectStatus.value === status) return;
   selectStatus.value = status;

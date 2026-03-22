@@ -176,6 +176,7 @@
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { get } from "lodash-es";
 import { computed, ref, toRefs } from "vue";
 
 import { WButton } from "@/components";
@@ -191,13 +192,9 @@ const props = defineProps<{
 }>();
 const isShowConfirm = ref(false);
 const needFixWidth = ref(false);
-const imageList = computed(
-  () =>
-    [
-      source.value?.img ||
-        "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
-    ].filter((item) => Boolean(item)) as string[]
-);
+const imageList = computed(() => [
+  source.value.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
+]);
 const { source } = toRefs(props);
 const emit = defineEmits(["isDelete"]);
 
@@ -218,8 +215,8 @@ const { run } = useRequest(SuitService.deleteRecords, {
 });
 
 const isOverTime = computed(() => {
-  const agotime = dayjs().subtract(7, "day");
-  return dayjs(source.value.borrow_time).isBefore(agotime);
+  const agoTime = dayjs().subtract(7, "day");
+  return dayjs(source.value.borrow_time).isBefore(agoTime);
 });
 
 const handlePreviewImages = (url: string) => {
@@ -242,10 +239,10 @@ const onConfirm = () => {
   run();
 };
 
-const handleLoadFinish = (e: any) => {
-  const { height, width } = e.detail;
-  if (height > width) needFixWidth.value = false;
-  else needFixWidth.value = true;
+const handleLoadFinish = (e: unknown) => {
+  const height = Number(get(e, ["detail", "height"])) || 0;
+  const width = Number(get(e, ["detail", "width"])) || 0;
+  needFixWidth.value = height > width;
 };
 
 const timeFormat = (time: string) => {

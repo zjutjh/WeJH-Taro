@@ -1,7 +1,7 @@
 <template>
   <theme-config>
-    <title-bar title="资讯" back-button />
-    <scroll-view :scroll-y="true">
+    <title-bar title="资讯" :back-button="true" />
+    <scroll-view v-if="information" :scroll-y="true">
       <card class="container">
         <view class="header">
           <view class="title">
@@ -11,34 +11,14 @@
         <view class="content">
           {{ information.content.replace(/\\n/g, "\n") }}
         </view>
-        <view v-if="information.img1" class="img_container">
+        <view v-for="url in imageList" :key="url" class="img_container">
           <image
-            :src="information.img1"
+            :src="url"
             alt="Card Image"
             class="image"
             mode="aspectFit"
             @load="handleLoadFinish"
-            @tap="() => handlePreviewImages(information.img1)"
-          />
-        </view>
-        <view v-if="information.img2" class="img_container">
-          <image
-            :src="information.img2"
-            alt="Card Image"
-            class="image"
-            mode="aspectFit"
-            @load="handleLoadFinish"
-            @tap="() => handlePreviewImages(information.img2)"
-          />
-        </view>
-        <view v-if="information.img3" class="img_container">
-          <image
-            :src="information.img3"
-            alt="Card Image"
-            class="image"
-            mode="aspectFit"
-            @load="handleLoadFinish"
-            @tap="() => handlePreviewImages(information.img3)"
+            @tap="() => handlePreviewImages(url)"
           />
         </view>
         <view v-if="information.link" class="link"> 点击跳转相关规定 </view>
@@ -59,7 +39,7 @@
             />
           </view>
           <view class="publisher"> 信息来源: {{ information.publisher }} </view>
-          <view class="publish-time"> 发布时间: {{ timeFormat(information.publish_time) }} </view>
+          <view class="publish-time"> 发布时间: {{ publishTime }} </view>
         </template>
       </card>
     </scroll-view>
@@ -71,40 +51,32 @@ import "./index.scss";
 
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { compact, get, uniq } from "lodash-es";
 import { computed, ref } from "vue";
 
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import { serviceStore } from "@/store";
 
 const instance = Taro.getCurrentInstance();
-
 const needFixWidth = ref(false);
 
-const { informationId } = instance.router?.params as { informationId?: number };
-
 const information = computed(() => {
-  return serviceStore.information.informationList.find(
-    (information) => information.id == informationId
-  )!;
+  const informationId = Number(get(instance, ["router", "params", "informationId"], ""));
+  return serviceStore.information.informationList.find((info) => info.id == informationId);
 });
 
-const imageList = computed(
-  () =>
-    [
-      information.value?.img1 || null,
-      information.value?.img2 || null,
-      information.value?.img3 || null
-    ].filter((item) => Boolean(item)) as string[]
+const imageList = computed(() =>
+  uniq(compact([information.value?.img1, information.value?.img2, information.value?.img3]))
 );
 
-const timeFormat = (time: string) => {
-  return dayjs(time).format("YYYY年MM月DD日");
-};
+const publishTime = computed(() => {
+  return dayjs(information.value?.publish_time).format("YYYY年MM月DD日");
+});
 
-const handleLoadFinish = (e: any) => {
-  const { height, width } = e.detail;
-  if (height > width) needFixWidth.value = false;
-  else needFixWidth.value = true;
+const handleLoadFinish = (e: unknown) => {
+  const height = Number(get(e, ["detail", "height"])) || 0;
+  const width = Number(get(e, ["detail", "width"])) || 0;
+  needFixWidth.value = height > width;
 };
 
 const handlePreviewImages = (url: string) => {
