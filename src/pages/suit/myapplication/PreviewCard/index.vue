@@ -11,7 +11,7 @@
   >
     <view v-if="source.status === 1 || source.status === 2" :class="styles.header">
       <view :class="styles.title"> 我的申请 </view>
-      <view v-show="source.status == 2" :class="styles['icon-box']">
+      <view v-show="source.status == 2" :class="styles.iconBox">
         <icon type="warn" color="#f0ad3e" size="15" />
         <view class="desc">
           <text>被驳回</text>
@@ -23,7 +23,7 @@
     </view>
     <view v-if="source.status === 3" :class="styles.header">
       <view :class="styles.title"> 我的申请 </view>
-      <view v-show="isOverTime" :class="styles['icon-box']">
+      <view v-show="isOverTime" :class="styles.iconBox">
         <icon type="warn" color="#f0ad3e" size="15" />
         <view class="desc">
           <text>超时</text>
@@ -36,13 +36,13 @@
       <text :class="styles.time"> 归还时间:{{ timeFormat(source.return_time) }} </text>
     </view>
     <view v-if="source.status === 1 || source.status === 2" :class="styles.body">
-      <view :class="styles['flex-container']" style="display: flex">
-        <view :class="styles['img-list']">
-          <view :class="[styles['img-container']]">
+      <view :class="styles.flexContainer" style="display: flex">
+        <view :class="styles.imgList">
+          <view :class="[styles.imgContainer]">
             <view
               v-for="item in imageList"
               :key="`${source.id}-${item}`"
-              :class="styles['img-wrapper']"
+              :class="styles.imgWrapper"
             >
               <image
                 :class="styles.image"
@@ -89,13 +89,13 @@
       </view>
     </view>
     <view v-if="source.status === 3" :class="styles.body">
-      <view :class="styles['flex-container']">
-        <view :class="styles['img-list']">
-          <view :class="[styles['img-container']]">
+      <view :class="styles.flexContainer">
+        <view :class="styles.imgList">
+          <view :class="[styles.imgContainer]">
             <view
               v-for="item in imageList"
               :key="`${source.id}-${item}`"
-              :class="styles['img-wrapper']"
+              :class="styles.imgWrapper"
             >
               <image
                 :class="styles.image"
@@ -132,13 +132,13 @@
       </view>
     </view>
     <view v-if="source.status === 4" :class="styles.body">
-      <view :class="styles['flex-container']">
-        <view :class="styles['img-list']">
-          <view :class="[styles['img-container']]">
+      <view :class="styles.flexContainer">
+        <view :class="styles.imgList">
+          <view :class="[styles.imgContainer]">
             <view
               v-for="item in imageList"
               :key="`${source.id}-${item}`"
-              :class="styles['img-wrapper']"
+              :class="styles.imgWrapper"
             >
               <image
                 :class="styles.image"

@@ -1,33 +1,33 @@
 <template>
   <theme-config>
     <title-bar title="我的申请" :back-button="true" />
-    <view :class="styles['campus-selector']">
-      <view :class="styles['container']">
+    <view :class="styles.campusSelector">
+      <view :class="styles.container">
         <view
           v-for="item in campusList"
           :key="item"
-          :class="[styles['campus'], selectCampus === item ? styles['active'] : undefined]"
+          :class="[styles.campus, selectCampus === item ? styles.active : undefined]"
           @tap="() => handleSelectCampus(item)"
         >
           <text>{{ item }}</text>
         </view>
       </view>
     </view>
-    <view :class="[styles['kind-selector'], 'flex-column']">
-      <view :class="styles['scroll-view']">
+    <view :class="[styles.kindSelector, 'flex-column']">
+      <view :class="styles.scrollView">
         <text> 状态 | </text>
         <text
           v-for="item in statusList"
           :key="item"
-          :class="selectStatus === item ? styles['active'] : undefined"
+          :class="selectStatus === item ? styles.active : undefined"
           @tap="() => handleSelectStatus(item)"
         >
           {{ item }}
         </text>
       </view>
     </view>
-    <scroll-view lower-threshold="100" :scroll-y="true" :class="styles['list-wrapper']">
-      <view :class="styles['record-list']">
+    <scroll-view lower-threshold="100" :scroll-y="true" :class="styles.listWrapper">
+      <view :class="styles.recordList">
         <preview-card
           v-for="record in recordList"
           :key="record.id"

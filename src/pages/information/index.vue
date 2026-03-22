@@ -2,16 +2,16 @@
   <theme-config>
     <title-bar title="资讯" :back-button="true" />
     <scroll-view v-if="information" :scroll-y="true">
-      <card class="container">
-        <view class="header">
-          <view class="title">
+      <card :class="styles.container">
+        <view :class="styles.header">
+          <view :class="styles.title">
             {{ information.title }}
           </view>
         </view>
-        <view class="content">
+        <view :class="styles.content">
           {{ information.content.replace(/\\n/g, "\n") }}
         </view>
-        <view v-for="url in imageList" :key="url" class="img_container">
+        <view v-for="url in imageList" :key="url" :class="styles.imgContainer">
           <image
             :src="url"
             alt="Card Image"
@@ -21,16 +21,16 @@
             @tap="() => handlePreviewImages(url)"
           />
         </view>
-        <view v-if="information.link" class="link"> 点击跳转相关规定 </view>
+        <view v-if="information.link" :class="styles.link"> 点击跳转相关规定 </view>
         <template #footer>
-          <view class="logo_container">
+          <view :class="styles.logoContainer">
             <image
               src="https://api.cnpatrickstar.com/img/92a63e97-cd3e-411b-b4aa-8e6fad5fbd00.jpg"
               alt="logo_fy"
               class="logo_fy"
               mode="aspectFit"
             />
-            <view class="x"> X </view>
+            <view :class="styles.x"> X </view>
             <image
               src="https://api.cnpatrickstar.com/img/15c05a4c-7c2d-4561-9536-80614b7b65b8.jpg"
               alt="logo_jh"
@@ -38,8 +38,8 @@
               mode="aspectFit"
             />
           </view>
-          <view class="publisher"> 信息来源: {{ information.publisher }} </view>
-          <view class="publish-time"> 发布时间: {{ publishTime }} </view>
+          <view :class="styles.publisher"> 信息来源: {{ information.publisher }} </view>
+          <view :class="styles.publishTime"> 发布时间: {{ publishTime }} </view>
         </template>
       </card>
     </scroll-view>
@@ -47,8 +47,6 @@
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
-
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
 import { compact, get, uniq } from "lodash-es";
@@ -56,6 +54,8 @@ import { computed, ref } from "vue";
 
 import { Card, ThemeConfig, TitleBar } from "@/components";
 import { serviceStore } from "@/store";
+
+import styles from "./index.module.scss";
 
 const instance = Taro.getCurrentInstance();
 const needFixWidth = ref(false);

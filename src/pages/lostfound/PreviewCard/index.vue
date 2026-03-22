@@ -38,22 +38,16 @@
           物品介绍 {{ source.introduction }}
         </text>
       </view>
-      <view :class="styles['img-list']">
-        <view
-          :class="[styles['img-container'], imageList.length > 1 ? styles.multiple : undefined]"
-        >
-          <view
-            v-for="item in imageList"
-            :key="`${source.id}-${item}`"
-            :class="styles['img-wrapper']"
-          >
+      <view :class="styles.imgList">
+        <view :class="[styles.imgContainer, imageList.length > 1 && styles.multiple]">
+          <view v-for="url in imageList" :key="`${source.id}-${url}`" :class="styles.imgWrapper">
             <image
               :class="styles.image"
               style="width: 100px; height: 100px"
               mode="aspectFill"
-              :src="item"
+              :src="url"
               @load="handleLoadFinish"
-              @tap="() => handlePreviewImages(item)"
+              @tap="() => handlePreviewImages(url)"
             />
           </view>
         </view>
@@ -77,22 +71,16 @@
           物品介绍 {{ source.introduction }}
         </text>
       </view>
-      <view :class="styles['img-list']">
-        <view
-          :class="[styles['img-container'], imageList.length > 1 ? styles.multiple : undefined]"
-        >
-          <view
-            v-for="item in imageList"
-            :key="`${source.id}-${item}`"
-            :class="styles['img-wrapper']"
-          >
+      <view :class="styles.imgList">
+        <view :class="[styles.imgContainer, imageList.length > 1 ? styles.multiple : undefined]">
+          <view v-for="url in imageList" :key="`${source.id}-${url}`" :class="styles.imgWrapper">
             <image
               :class="styles.image"
               style="width: 100px; height: 100px"
               mode="aspectFill"
-              :src="item"
+              :src="url"
               @load="handleLoadFinish"
-              @tap="() => handlePreviewImages(item)"
+              @tap="() => handlePreviewImages(url)"
             />
           </view>
         </view>
