@@ -10,19 +10,8 @@ export default zjutjh(
   },
   {
     rules: {
-      "unicorn/filename-case": "warn",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          args: "all",
-          argsIgnorePattern: "^_",
-          caughtErrors: "all",
-          caughtErrorsIgnorePattern: "^_",
-          destructuredArrayIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          ignoreRestSiblings: true
-        }
-      ]
+      // TODO: 历史文件有很多命名不符合新规范， 逐步修改，暂时先 warning
+      "unicorn/filename-case": "warn"
     }
   }
 );
