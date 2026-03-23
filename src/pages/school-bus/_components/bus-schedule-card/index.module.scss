@@ -13,26 +13,13 @@
   :global(.wjh-card-footer) {
     padding-top: 8Px;
   }
+}
 
-  .open-type-tag {
-    position: absolute;
-    top: 12Px;
-    left: -4Px;
-    color: var(--wjh-color-primary);
-
-    :global(.iconfont) {
-      font-size: 28Px;
-    }
-
-    .tag-text {
-      margin-left: 4Px;
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      font-size: 11Px;
-      color: var(--wjh-color-white);
-    }
+.container-with-open-type {
+  :global(.wjh-card-header) {
+    padding-top: 12Px;
+    padding-bottom: 0Px;
+    border-bottom: none;
   }
 }
 
@@ -51,6 +38,64 @@
   .route-name {
     font-size: 14Px;
     color: var(--wjh-color-text);
+  }
+}
+
+.open-type-list {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 18Px;
+  margin-top: 10Px;
+  border-radius: 10Px;
+  overflow: hidden;
+  background-color: var(--wjh-color-border);
+
+  .open-type-item {
+    flex: 1;
+    text-align: center;
+    background-color: var(--wjh-color-border);
+
+    :global(.dark) & {
+      background-color: var(--wjh-color-primary-light);
+    }
+
+    &-text {
+      align-items: center;
+      justify-content: center;
+      font-size: 12Px;
+      line-height: 26Px;
+      color: var(--wjh-color-week);
+
+      &::before {
+        content: "\2022";
+        margin-right: 4Px;
+        font-size: 12Px;
+      }
+    }
+
+    &__active {
+      background-color: var(--wjh-color-primary-light);
+
+      :global(.dark) & {
+        background-color: var(--wjh-color-primary-dark);
+      }
+
+      .open-type-item-text {
+        color: var(--wjh-color-primary);
+
+        :global(.dark) & {
+          color: var(--wjh-color-white);
+        }
+      }
+    }
+
+    :global(.dark) &:not(.open-type-item__active) {
+      .open-type-item-text {
+        color: var(--wjh-color-white);
+        opacity: 0.65;
+      }
+    }
   }
 }
 

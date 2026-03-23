@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/vue-query";
 import { refDebounced } from "@vueuse/core";
 import dayjs from "dayjs";
-import { get, isEmpty, isNil } from "lodash-es";
+import { isEmpty, isNil } from "lodash-es";
 import { computed, ComputedRef, MaybeRef, Ref, toRef, unref, watch } from "vue";
 
 import { aegisReportEvent } from "@/plugins/aegis";
@@ -9,8 +9,12 @@ import { yxyServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 
 import { QuickFilterItem } from "../_components/filter-quick-field/constants";
-import { SCHEDULE_DIRECTION_UNLIMITED_OPTION, SCHEDULE_KEYWORDS_MATCH_RULES } from "../_constants";
-import { OpenTypeEnum, ParsedBusSchedule } from "../_types";
+import {
+  normalizeScheduleOpenTypeList,
+  SCHEDULE_DIRECTION_UNLIMITED_OPTION,
+  SCHEDULE_KEYWORDS_MATCH_RULES
+} from "../_constants";
+import { ParsedBusSchedule } from "../_types";
 import { parseRouteName } from "../_utils";
 import { useBusStaticConfig } from "./use-bus-static-config";
 
@@ -95,13 +99,15 @@ export const useBusScheduleList = ({
           const hour = dayjs(schedule.departure_time).hour();
           const minute = dayjs(schedule.departure_time).minute();
 
-          const staticTime = staticRoute?.bus_time.find((t) => {
+          const matchedStaticTimeList = staticRoute?.bus_time.filter((t) => {
             const [configHour, configMinute] = t.departure_time.split(":").map(Number);
             return configHour === hour && configMinute === minute;
           });
 
-          // 如果静态配置中没有配这条线路，给兜底态
-          const openType = get(staticTime, "open_type", OpenTypeEnum.Unknown) as OpenTypeEnum;
+          const mergedOpenTypeList = (matchedStaticTimeList || []).flatMap(
+            (item) => item.open_type_list
+          );
+          const openTypeList = normalizeScheduleOpenTypeList(mergedOpenTypeList);
 
           const item: ParsedBusSchedule = {
             id: `${bus.name}-${schedule.departure_time}`,
@@ -113,7 +119,7 @@ export const useBusScheduleList = ({
             endDirection: _endDirection,
             stationList: staticRoute?.stations,
             price: bus.price,
-            openType
+            openTypeList: openTypeList
           };
 
           return item;

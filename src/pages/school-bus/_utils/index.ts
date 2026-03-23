@@ -1,6 +1,9 @@
 import dayjs, { Dayjs } from "dayjs";
 import { get } from "lodash-es";
 
+import { normalizeScheduleOpenTypeList, SCHEDULE_OPEN_TYPE_TEXT_RECORD } from "../_constants";
+import { OpenTypeEnum } from "../_types";
+
 /**
  * 路线名称解析
  *
@@ -44,4 +47,16 @@ export const formatRelativeDayPeriod = (date: Dayjs) => {
   }
 
   return date.format("M月D日");
+};
+
+export const formatScheduleOpenTypeText = (openTypeList?: OpenTypeEnum[]) => {
+  const normalizedOpenTypeList = normalizeScheduleOpenTypeList(openTypeList);
+
+  if (normalizedOpenTypeList.length === 0) {
+    return "";
+  }
+
+  return normalizedOpenTypeList
+    .map((openType) => SCHEDULE_OPEN_TYPE_TEXT_RECORD[openType])
+    .join("/");
 };
