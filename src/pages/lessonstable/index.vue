@@ -192,15 +192,22 @@ function pickerModeSwitch() {
 
 // 课程点击事件更新，分为冲突和非冲突课程展示
 function classClick(theClass: Lesson) {
+  const clickedStack = theClass.stack || 0;
+
+  function sectionsOverlap(a: string, b: string) {
+    const [a1, a2] = a.split("-").map(Number);
+    const [b1, b2] = b.split("-").map(Number);
+    return !(a2 < b1 || b2 < a1);
+  }
+
   const conflicts = lessonsTableData.value.filter((l) => {
-    if (!showWeekPicker.value) {
-      return l.weekday === theClass.weekday && l.sections === theClass.sections;
+    if (l.weekday !== theClass.weekday) return false;
+    if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) return false;
+    if (clickedStack > 0) {
+      const stack = l.stack || 0;
+      return stack < clickedStack && sectionsOverlap(l.sections, theClass.sections);
     }
-    return (
-      l.weekday === theClass.weekday &&
-      l.sections === theClass.sections &&
-      isLessonActiveInWeek(l.week, selectWeek.value)
-    );
+    return l.sections === theClass.sections;
   });
 
   if (conflicts.length > 1) {
