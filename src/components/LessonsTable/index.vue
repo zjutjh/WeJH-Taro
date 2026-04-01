@@ -68,7 +68,8 @@ const surroundedLessons = {
   top: [] as Lesson[],
   bottom: [] as Lesson[],
   left: [] as Lesson[],
-  right: [] as Lesson[]
+  right: [] as Lesson[],
+  conflict: [] as Lesson[]
 };
 
 const colorSet = [
@@ -329,11 +330,18 @@ function initialLessonsColor(lessonsList: Lesson[]) {
               currentEnd <= parseInt(item.sections.split("-")[1])))
       );
     }
+    surroundedLessons.conflict = lessonsList.filter((item) => {
+      if (item.weekday !== weekday) return false;
+      if (item.classID === classID) return false;
+      const [s, e] = item.sections.split("-").map(Number);
+      return !(e < currentStart || s > currentEnd);
+    });
 
     colorSetTemp.delete(surroundedLessons.top[0]?.color || "");
     colorSetTemp.delete(surroundedLessons.bottom[0]?.color || "");
     colorSetTemp.delete(surroundedLessons.left[0]?.color || "");
     colorSetTemp.delete(surroundedLessons.right[0]?.color || "");
+    colorSetTemp.delete(surroundedLessons.conflict[0]?.color || "");
 
     lessonsList.forEach((item) => {
       if (item.classID == classID) item.color = colorSetTemp.values().next().value;
