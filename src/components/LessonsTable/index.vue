@@ -64,14 +64,6 @@ const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);
 const emit = defineEmits(["classClick"]);
 
-const surroundedLessons = {
-  top: [] as Lesson[],
-  bottom: [] as Lesson[],
-  left: [] as Lesson[],
-  right: [] as Lesson[],
-  conflict: [] as Lesson[]
-};
-
 const colorSet = [
   "green-600",
   "green-700",
@@ -241,7 +233,6 @@ function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
     }
   }
 
-  // 4. 初始化颜色
   initialLessonsColor(laidOutLessons);
 
   return laidOutLessons;
@@ -267,85 +258,129 @@ function getLessonDuration(lesson: Lesson): number {
   return end - start + 1;
 }
 
+function getLessonStack(lesson: Lesson): number {
+  return lesson.stack || 0;
+}
+
+function isSectionsOverlap(sectionsA: string, sectionsB: string): boolean {
+  const [startA, endA] = sectionsA.split("-").map(Number);
+  const [startB, endB] = sectionsB.split("-").map(Number);
+  return !(endA < startB || endB < startA);
+}
+
+/*
+ * 新方案将“不能同色”的关系统一建图，再一次性做贪心着色，约束更稳定。
+ * 1) 建图：两两判断 isHardConflict，冲突就连边。
+ * 2) 排序：按“度数高 > 时长长 > weekday/start/stack/index”排序。
+ *    - 度数越高约束越强，越应优先着色，减少后续冲突。
+ * 3) 选色：
+ *    - 先排除邻居已用色，得到 availableColors；
+ *    - 若 classPreferredColor 在可用集合中，优先复用（保持同课视觉一致）；
+ *    - 否则选可用集合里“全局使用次数最少”的颜色；
+ *    - 若可用色为空（极端约束下），从全量颜色中选使用最少色兜底。
+ * 4) 回写：将 selectedColor 写回节点 lesson.color 和 lessonsList 原始项。
+ *
+ * 约束优先级：
+ * 硬约束（相邻/重叠不撞色） > 偏好约束（同 classID+stack 尽量同色）
+ */
+type LessonColorNode = {
+  index: number;
+  lesson: Lesson;
+  weekday: number;
+  start: number;
+  end: number;
+  stack: number;
+  duration: number;
+};
+
+function toLessonColorNode(lesson: Lesson, index: number): LessonColorNode {
+  const [start, end] = lesson.sections.split("-").map(Number);
+  return {
+    index,
+    lesson,
+    weekday: parseInt(lesson.weekday),
+    start,
+    end,
+    stack: getLessonStack(lesson),
+    duration: end - start + 1
+  };
+}
+
+function isVerticalAdjacent(a: LessonColorNode, b: LessonColorNode): boolean {
+  return a.weekday === b.weekday && (a.end + 1 === b.start || b.end + 1 === a.start);
+}
+
+function isHorizontalAdjacent(a: LessonColorNode, b: LessonColorNode): boolean {
+  return (
+    Math.abs(a.weekday - b.weekday) === 1 && isSectionsOverlap(a.lesson.sections, b.lesson.sections)
+  );
+}
+
+function isHardConflict(a: LessonColorNode, b: LessonColorNode): boolean {
+  const sameDayOverlap =
+    a.weekday === b.weekday && isSectionsOverlap(a.lesson.sections, b.lesson.sections);
+  return sameDayOverlap || isHorizontalAdjacent(a, b) || isVerticalAdjacent(a, b);
+}
+
 function initialLessonsColor(lessonsList: Lesson[]) {
-  let colorSetTemp = new Set(colorSet);
-  for (let currentIndex = 0; currentIndex < lessonsList.length; currentIndex++) {
-    if (lessonsList[currentIndex].color) continue;
+  const nodes = lessonsList.map((lesson, index) => toLessonColorNode(lesson, index));
+  const adjacency = nodes.map(() => new Set<number>());
 
-    if (!colorSetTemp.size) colorSetTemp = new Set(colorSet);
-    const { classID, weekday, sections } = lessonsList[currentIndex];
-
-    surroundedLessons.top = [];
-    for (let i = currentIndex - 1; i >= 0; i--) {
-      if (lessonsList[i].weekday === weekday) {
-        if (surroundedLessons.top.length === 0) {
-          surroundedLessons.top.push(lessonsList[i]);
-        } else if (
-          surroundedLessons.top.length !== 0 &&
-          lessonsList[i].sections === surroundedLessons.top.slice(-1)[0].sections
-        )
-          surroundedLessons.top.push(lessonsList[i]);
-        else break;
-      } else break;
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      if (!isHardConflict(nodes[i], nodes[j])) continue;
+      adjacency[i].add(j);
+      adjacency[j].add(i);
     }
+  }
 
-    // calculate bottom position
-    surroundedLessons.bottom = [];
-    for (let i = currentIndex + 1; i < lessonsList.length; i++) {
-      if (lessonsList[i].weekday === weekday) {
-        if (surroundedLessons.bottom.length === 0) {
-          surroundedLessons.bottom.push(lessonsList[i]);
-        } else if (
-          surroundedLessons.bottom.length !== 0 &&
-          lessonsList[i].sections === surroundedLessons.bottom.slice(-1)[0].sections
-        )
-          surroundedLessons.bottom.push(lessonsList[i]);
-        else break;
-      } else break;
-    }
-
-    const currentStart = parseInt(sections.split("-")[0]);
-    const currentEnd = parseInt(sections.split("-")[1]);
-
-    // calculate left position
-    if (parseInt(weekday) > 1) {
-      surroundedLessons.left = lessonsList.filter(
-        (item) =>
-          parseInt(item.weekday) === parseInt(weekday) - 1 &&
-          ((currentStart <= parseInt(item.sections.split("-")[0]) &&
-            currentEnd >= parseInt(item.sections.split("-")[1])) ||
-            (currentStart >= parseInt(item.sections.split("-")[0]) &&
-              currentEnd <= parseInt(item.sections.split("-")[1])))
-      );
-    }
-
-    // calculate right position
-    if (parseInt(weekday) < 7) {
-      surroundedLessons.right = lessonsList.filter(
-        (item) =>
-          parseInt(item.weekday) === parseInt(weekday) + 1 &&
-          ((currentStart <= parseInt(item.sections.split("-")[0]) &&
-            currentEnd >= parseInt(item.sections.split("-")[1])) ||
-            (currentStart >= parseInt(item.sections.split("-")[0]) &&
-              currentEnd <= parseInt(item.sections.split("-")[1])))
-      );
-    }
-    surroundedLessons.conflict = lessonsList.filter((item) => {
-      if (item.weekday !== weekday) return false;
-      if (item.classID === classID) return false;
-      const [s, e] = item.sections.split("-").map(Number);
-      return !(e < currentStart || s > currentEnd);
+  const order = nodes
+    .map((node, idx) => ({ node, idx, degree: adjacency[idx].size }))
+    .sort((a, b) => {
+      if (b.degree !== a.degree) return b.degree - a.degree;
+      if (b.node.duration !== a.node.duration) return b.node.duration - a.node.duration;
+      if (a.node.weekday !== b.node.weekday) return a.node.weekday - b.node.weekday;
+      if (a.node.start !== b.node.start) return a.node.start - b.node.start;
+      if (a.node.stack !== b.node.stack) return a.node.stack - b.node.stack;
+      return a.node.index - b.node.index;
     });
 
-    colorSetTemp.delete(surroundedLessons.top[0]?.color || "");
-    colorSetTemp.delete(surroundedLessons.bottom[0]?.color || "");
-    colorSetTemp.delete(surroundedLessons.left[0]?.color || "");
-    colorSetTemp.delete(surroundedLessons.right[0]?.color || "");
-    colorSetTemp.delete(surroundedLessons.conflict[0]?.color || "");
+  const assigned = new Map<number, string>();
+  const colorUseCount = new Map<string, number>();
+  const classPreferredColor = new Map<string, string>();
 
-    lessonsList.forEach((item) => {
-      if (item.classID == classID) item.color = colorSetTemp.values().next().value;
+  colorSet.forEach((color) => colorUseCount.set(color, 0));
+
+  for (const { node, idx } of order) {
+    const neighborColors = new Set<string>();
+    adjacency[idx].forEach((neighborIdx) => {
+      const color = assigned.get(neighborIdx);
+      if (color) neighborColors.add(color);
     });
+
+    const availableColors = colorSet.filter((color) => !neighborColors.has(color));
+    const classKey = `${node.stack}-${node.lesson.classID}`;
+    const preferred = classPreferredColor.get(classKey);
+
+    let selectedColor = "";
+
+    if (preferred && availableColors.includes(preferred)) {
+      selectedColor = preferred;
+    } else if (availableColors.length > 0) {
+      selectedColor = availableColors.sort(
+        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
+      )[0];
+    } else {
+      selectedColor = [...colorSet].sort(
+        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
+      )[0];
+    }
+
+    assigned.set(idx, selectedColor);
+    colorUseCount.set(selectedColor, (colorUseCount.get(selectedColor) || 0) + 1);
+    classPreferredColor.set(classKey, selectedColor);
+    node.lesson.color = selectedColor;
+    lessonsList[node.index].color = selectedColor;
   }
 }
 
@@ -365,10 +400,6 @@ function classCardClick(theClass: Lesson) {
   emit("classClick", theClass);
 }
 
-/**
- * 计算课程卡片位置
- * 冲突课程缩放90%并贴紧右下角
- */
 function getPosition(theClass: Lesson) {
   const begin = parseInt(theClass.sections.split("-")[0]);
   const end = parseInt(theClass.sections.split("-")[1]);
