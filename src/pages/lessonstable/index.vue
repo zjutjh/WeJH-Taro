@@ -65,7 +65,12 @@
         v-else-if="selectionConflicts && selectionConflicts.length > 0"
         :class="styles['lesson-detail']"
       >
-        <view :class="styles['lesson-title']">冲突课程（{{ selectionConflicts.length }}）</view>
+        <view :class="styles['conflict-header']">
+          <view :class="styles['conflict-title-fixed']"
+            >冲突课程({{ selectionConflicts.length }})</view
+          >
+          <view :class="styles['conflict-time-inline']">冲突时间：{{ conflictTime }}</view>
+        </view>
         <view :class="styles['conflict-list']">
           <view
             v-for="(c, idx) in selectionConflicts"
@@ -81,12 +86,6 @@
             </view>
           </view>
         </view>
-      </view>
-      <view
-        v-if="selectionConflicts && selectionConflicts.length > 0"
-        :class="styles['conflict-time']"
-      >
-        冲突时间：{{ conflictTime }}
       </view>
     </pop-view>
   </theme-config>
