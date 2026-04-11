@@ -4,16 +4,13 @@
       styles.container,
       source.status === 1 || source.status === 2
         ? styles.pend
-        : (source.status === 3 ? styles.loan : styles.complete)
+        : source.status === 3
+          ? styles.loan
+          : styles.complete
     ]"
   >
-    <view
-      v-if="source.status === 1 || source.status === 2"
-      :class="styles.header"
-    >
-      <view :class="styles.title">
-        我的申请
-      </view>
+    <view v-if="source.status === 1 || source.status === 2" :class="styles.header">
+      <view :class="styles.title"> 我的申请 </view>
       <view v-show="source.status == 2" :class="styles['icon-box']">
         <icon type="warn" color="#f0ad3e" size="15" />
         <view class="desc">
@@ -25,32 +22,21 @@
       </text>
     </view>
     <view v-if="source.status === 3" :class="styles.header">
-      <view :class="styles.title">
-        我的申请
-      </view>
+      <view :class="styles.title"> 我的申请 </view>
       <view v-show="isOverTime" :class="styles['icon-box']">
         <icon type="warn" color="#f0ad3e" size="15" />
         <view class="desc">
           <text>超时</text>
         </view>
       </view>
-      <text :class="styles.time">
-        借用时间:{{ timeFormat(source.borrow_time) }}
-      </text>
+      <text :class="styles.time"> 借用时间:{{ timeFormat(source.borrow_time) }} </text>
     </view>
     <view v-if="source.status === 4" :class="styles.header">
-      <view :class="styles.title">
-        我的申请
-      </view>
-      <text :class="styles.time">
-        归还时间:{{ timeFormat(source.return_time) }}
-      </text>
+      <view :class="styles.title"> 我的申请 </view>
+      <text :class="styles.time"> 归还时间:{{ timeFormat(source.return_time) }} </text>
     </view>
     <view v-if="source.status === 1 || source.status === 2" :class="styles.body">
-      <view
-        :class="styles['flex-container']"
-        style="display: flex;"
-      >
+      <view :class="styles['flex-container']" style="display: flex">
         <view :class="styles['img-list']">
           <view :class="[styles['img-container']]">
             <view
@@ -60,7 +46,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 125Px ;height: 200Px"
+                style="width: 125px; height: 200px"
                 mode="aspectFill"
                 :src="item"
                 @load="handleLoadFinish"
@@ -70,24 +56,20 @@
           </view>
         </view>
         <view :class="styles.content" class="flex-column">
-          <text v-show="source.id" space="emsp" :class="styles.text">
-            ID  {{ source.id }}
-          </text>
+          <text v-show="source.id" space="emsp" :class="styles.text"> ID {{ source.id }} </text>
           <text v-show="source.kind" space="emsp" :class="styles.text">
-            类别  {{ source.kind }}
+            类别 {{ source.kind }}
           </text>
           <text v-show="source.name" space="emsp" :class="styles.text">
-            名称  {{ source.name }}
+            名称 {{ source.name }}
           </text>
           <text v-show="source.spec" space="emsp" :class="styles.text">
-            规格  {{ source.spec }}
+            规格 {{ source.spec }}
           </text>
           <text v-show="source.count" space="emsp" :class="styles.text">
-            数量  {{ source.count }}
+            数量 {{ source.count }}
           </text>
-          <w-button :class="styles.button" @tap="handleClick">
-            取消申请
-          </w-button>
+          <w-button :class="styles.button" @tap="handleClick"> 取消申请 </w-button>
           <modal
             v-model:show="isShowConfirm"
             title="提示"
@@ -117,7 +99,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 125Px ;height: 200Px"
+                style="width: 125px; height: 200px"
                 mode="aspectFill"
                 :src="item"
                 @load="handleLoadFinish"
@@ -127,36 +109,24 @@
           </view>
         </view>
         <view :class="styles.content" class="flex-column">
-          <text v-show="source.id" space="emsp" :class="styles.text">
-            ID  {{ source.id }}
-          </text>
+          <text v-show="source.id" space="emsp" :class="styles.text"> ID {{ source.id }} </text>
           <text v-show="source.kind" space="emsp" :class="styles.text">
-            类别  {{ source.kind }}
+            类别 {{ source.kind }}
           </text>
           <text v-show="source.name" space="emsp" :class="styles.text">
-            名称  {{ source.name }}
+            名称 {{ source.name }}
           </text>
           <text v-show="source.spec" space="emsp" :class="styles.text">
-            规格  {{ source.spec }}
+            规格 {{ source.spec }}
           </text>
           <text v-show="source.count" space="emsp" :class="styles.text">
-            数量  {{ source.count }}
+            数量 {{ source.count }}
           </text>
-          <text
-            v-if="!isOverTime"
-            v-show="source.borrow_time"
-            space="emsp"
-            :class="styles.text"
-          >
-            剩余时间  {{ timeCount(source.borrow_time) }}
+          <text v-if="!isOverTime" v-show="source.borrow_time" space="emsp" :class="styles.text">
+            剩余时间 {{ timeCount(source.borrow_time) }}
           </text>
-          <text
-            v-if="isOverTime"
-            v-show="source.borrow_time"
-            space="emsp"
-            :class="styles.text"
-          >
-            超时时间  {{ timeCount(source.borrow_time) }}
+          <text v-if="isOverTime" v-show="source.borrow_time" space="emsp" :class="styles.text">
+            超时时间 {{ timeCount(source.borrow_time) }}
           </text>
         </view>
       </view>
@@ -172,7 +142,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 125Px ;height: 200Px"
+                style="width: 125px; height: 200px"
                 mode="aspectFill"
                 :src="item"
                 @load="handleLoadFinish"
@@ -182,23 +152,21 @@
           </view>
         </view>
         <view :class="styles.content" class="flex-column">
-          <text v-show="source.id" space="emsp" :class="styles.text">
-            ID  {{ source.id }}
-          </text>
+          <text v-show="source.id" space="emsp" :class="styles.text"> ID {{ source.id }} </text>
           <text v-show="source.kind" space="emsp" :class="styles.text">
-            类别  {{ source.kind }}
+            类别 {{ source.kind }}
           </text>
           <text v-show="source.name" space="emsp" :class="styles.text">
-            名称  {{ source.name }}
+            名称 {{ source.name }}
           </text>
           <text v-show="source.spec" space="emsp" :class="styles.text">
-            规格  {{ source.spec }}
+            规格 {{ source.spec }}
           </text>
           <text v-show="source.count" space="emsp" :class="styles.text">
-            数量  {{ source.count }}
+            数量 {{ source.count }}
           </text>
           <text v-show="source.return_time" space="emsp" :class="styles.text">
-            借用时长  {{ timeDuring(source.borrow_time ,source.return_time) }}
+            借用时长 {{ timeDuring(source.borrow_time, source.return_time) }}
           </text>
         </view>
       </view>
@@ -206,44 +174,48 @@
   </view>
 </template>
 <script setup lang="ts">
-import { SuitApplyRecord } from "@/types/Suit";
-import { computed, ref, toRefs } from "vue";
-import { useRequest } from "@/hooks";
-import { SuitService } from "@/services";
-import { WButton } from "@/components";
-import Modal from "./Modal/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { computed, ref, toRefs } from "vue";
+
+import { WButton } from "@/components";
+import { useRequest } from "@/hooks";
+import { SuitService } from "@/services";
+import { SuitApplyRecord } from "@/types/Suit";
+
 import styles from "./index.module.scss";
+import Modal from "./Modal/index.vue";
 
 const props = defineProps<{
   source: SuitApplyRecord;
 }>();
 const isShowConfirm = ref(false);
 const needFixWidth = ref(false);
-const imageList = computed(() => [
-  source.value?.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
-].filter(item => !!item) as string[]);
+const imageList = computed(
+  () =>
+    [
+      source.value.img ||
+        "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
+    ].filter((item) => Boolean(item)) as string[]
+);
 const { source } = toRefs(props);
 const emit = defineEmits(["isDelete"]);
 
-const { run } = useRequest(
-  SuitService.deleteRecords, {
-    defaultParams: {
-      borrow_id: source.value.id
-    },
-    loadingDelay: 60,
-    manual: true,
-    onSuccess: (res) => {
-      if (res.data.code === 1) {
-        emit("isDelete", "true");
-      } else throw new Error(res.data.msg);
-    },
-    onError: (e: Error) => {
-      return `加载申请信息失败\r\n${e.message || "网络错误"}`;
-    }
+const { run } = useRequest(SuitService.deleteRecords, {
+  defaultParams: {
+    borrow_id: source.value.id
+  },
+  loadingDelay: 60,
+  manual: true,
+  onSuccess: (res) => {
+    if (res.data.code === 1) {
+      emit("isDelete", "true");
+    } else throw new Error(res.data.msg);
+  },
+  onError: (e: Error) => {
+    return `加载申请信息失败\r\n${e.message || "网络错误"}`;
   }
-);
+});
 
 const isOverTime = computed(() => {
   const agotime = dayjs().subtract(7, "day");
@@ -270,7 +242,8 @@ const onConfirm = () => {
   run();
 };
 
-const handleLoadFinish = ({ detail: { height, width } }) => {
+const handleLoadFinish = (e: Event) => {
+  const { height, width } = (e as Event & { detail: { height: number; width: number } }).detail;
   if (height > width) needFixWidth.value = false;
   else needFixWidth.value = true;
 };
@@ -280,27 +253,25 @@ const timeFormat = (time: string) => {
 };
 
 const timeCount = (borrow_time: string) => {
-  let secondDuring = (dayjs(borrow_time).add(7, "day").unix()) - (dayjs().unix());
+  let secondDuring = dayjs(borrow_time).add(7, "day").unix() - dayjs().unix();
   if (isOverTime.value == true) {
-    secondDuring = (dayjs().unix()) - (dayjs(borrow_time).add(7, "day").unix());
+    secondDuring = dayjs().unix() - dayjs(borrow_time).add(7, "day").unix();
   }
-  const setHours = Math.floor(secondDuring / 60 / 60 % 24);
+  const setHours = Math.floor((secondDuring / 60 / 60) % 24);
   const setDay = Math.floor(secondDuring / 60 / 60 / 24);
   if (Math.abs(setDay) > 0) {
-    return setDay + "天\t";
-  } else {
-    return setHours + "小时\t";
+    return `${setDay}天\t`;
   }
+  return `${setHours}小时\t`;
 };
 
 const timeDuring = (borrow_time: string, return_time: string) => {
-  const secondDuring = (dayjs(return_time).unix() - dayjs(borrow_time).unix());
-  const setHours = Math.floor(secondDuring / 60 / 60 % 24);
+  const secondDuring = dayjs(return_time).unix() - dayjs(borrow_time).unix();
+  const setHours = Math.floor((secondDuring / 60 / 60) % 24);
   const setDay = Math.floor(secondDuring / 60 / 60 / 24);
   if (Math.abs(setDay) > 0) {
-    return setDay + "天\t";
-  } else {
-    return setHours + "小时\t";
+    return `${setDay}天\t`;
   }
+  return `${setHours}小时\t`;
 };
 </script>

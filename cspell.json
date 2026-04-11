@@ -38,7 +38,10 @@
     "wejh",
     "zhpf",
     "zjutjh",
-    "myapplication"
+    "myapplication",
+    "defalt",
+    "Foryou",
+    "agotime"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
 }

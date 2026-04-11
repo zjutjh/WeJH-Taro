@@ -9,7 +9,7 @@
           </view>
         </view>
         <view class="content">
-          {{ information.content.replace(/\\n/g, '\n') }}
+          {{ information.content.replace(/\\n/g, "\n") }}
         </view>
         <view v-if="information.img1" class="img_container">
           <image
@@ -41,9 +41,7 @@
             @tap="() => handlePreviewImages(information.img3)"
           />
         </view>
-        <view v-if="information.link" class="link">
-          点击跳转相关规定
-        </view>
+        <view v-if="information.link" class="link"> 点击跳转相关规定 </view>
         <template #footer>
           <view class="logo_container">
             <image
@@ -52,9 +50,7 @@
               class="logo_fy"
               mode="aspectFit"
             />
-            <view class="x">
-              X
-            </view>
+            <view class="x"> X </view>
             <image
               src="https://api.cnpatrickstar.com/img/15c05a4c-7c2d-4561-9536-80614b7b65b8.jpg"
               alt="logo_jh"
@@ -62,12 +58,8 @@
               mode="aspectFit"
             />
           </view>
-          <view class="publisher">
-            信息来源: {{ information.publisher }}
-          </view>
-          <view class="publish-time">
-            发布时间: {{ timeFormat(information.publish_time) }}
-          </view>
+          <view class="publisher"> 信息来源: {{ information.publisher }} </view>
+          <view class="publish-time"> 发布时间: {{ timeFormat(information.publish_time) }} </view>
         </template>
       </card>
     </scroll-view>
@@ -75,12 +67,14 @@
 </template>
 
 <script setup lang="ts">
-import { Card, ThemeConfig, TitleBar } from "@/components";
-import { serviceStore } from "@/store";
-import { computed, ref } from "vue";
+import "./index.scss";
+
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
-import "./index.scss";
+import { computed, ref } from "vue";
+
+import { Card, ThemeConfig, TitleBar } from "@/components";
+import { serviceStore } from "@/store";
 
 const instance = Taro.getCurrentInstance();
 
@@ -89,20 +83,25 @@ const needFixWidth = ref(false);
 const { informationId } = instance.router?.params as { informationId?: number };
 
 const information = computed(() => {
-  return serviceStore.information.informationList.find((information) => information.id == informationId)!;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return serviceStore.information.informationList.find((item) => item.id == informationId)!;
 });
 
-const imageList = computed(() => [
-  information.value?.img1 || null,
-  information.value?.img2 || null,
-  information.value?.img3 || null
-].filter(item => !!item) as string[]);
+const imageList = computed(
+  () =>
+    [
+      information.value.img1 || null,
+      information.value.img2 || null,
+      information.value.img3 || null
+    ].filter((item) => Boolean(item)) as string[]
+);
 
 const timeFormat = (time: string) => {
   return dayjs(time).format("YYYY年MM月DD日");
 };
 
-const handleLoadFinish = ({ detail: { height, width } }) => {
+const handleLoadFinish = (e: Event) => {
+  const { height, width } = (e as Event & { detail: { height: number; width: number } }).detail;
   if (height > width) needFixWidth.value = false;
   else needFixWidth.value = true;
 };

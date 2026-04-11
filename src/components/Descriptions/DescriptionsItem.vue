@@ -10,11 +10,7 @@
       >
         {{ props.label }}
       </view>
-      <view
-        :class="`wjh-descriptions-item-content wjh-col-${
-          24 - props.labelSpan
-        }`"
-      >
+      <view :class="`wjh-descriptions-item-content wjh-col-${24 - props.labelSpan}`">
         <slot />
       </view>
     </view>
@@ -22,16 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { withDefaults } from "vue";
 import "./index.scss";
 
 type PropsType = {
-  label: string,
-  labelSpan?: number
+  label: string;
+  labelSpan?: number;
 };
 
 const props = withDefaults(defineProps<PropsType>(), {
   labelSpan: 6
 });
-
 </script>

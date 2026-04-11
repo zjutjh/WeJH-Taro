@@ -13,11 +13,9 @@
         </view>
       </view>
     </view>
-    <view :class="[styles['kind-selector'],'flex-column']">
+    <view :class="[styles['kind-selector'], 'flex-column']">
       <view :class="styles['scroll-view']">
-        <text>
-          状态  |
-        </text>
+        <text> 状态 | </text>
         <text
           v-for="item in statusList"
           :key="item"
@@ -28,11 +26,7 @@
         </text>
       </view>
     </view>
-    <scroll-view
-      lower-threshold="100"
-      :scroll-y="true"
-      :class="styles['list-wrapper']"
-    >
+    <scroll-view lower-threshold="100" :scroll-y="true" :class="styles['list-wrapper']">
       <view :class="styles['record-list']">
         <preview-card
           v-for="record in recordList"
@@ -50,15 +44,16 @@
 </template>
 
 <script setup lang="ts">
-import styles from "./index.module.scss";
-import { ThemeConfig, TitleBar, Card, WSkeleton } from "@/components";
 import { ref } from "vue";
+
+import { Card, ThemeConfig, TitleBar, WSkeleton } from "@/components";
 import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
-import { SuitApplyRecord } from "@/types/Suit";
-import PreviewCard from "./PreviewCard/index.vue";
-import { omit } from "lodash-es";
 import store, { serviceStore } from "@/store";
+import { SuitApplyRecord } from "@/types/Suit";
+
+import styles from "./index.module.scss";
+import PreviewCard from "./PreviewCard/index.vue";
 
 const recordList = ref<SuitApplyRecord[]>([]);
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
@@ -66,35 +61,29 @@ const statusList = ref<string[]>(["待处理", "借用中", "已完成"]);
 const selectCampus = ref(serviceStore.suit.lastOpenCampus || "朝晖");
 const selectStatus = ref(serviceStore.suit.lastOpenStatus || "待处理");
 const isEmpty = ref(false);
-const campusChange = { "朝晖": 1, "屏峰": 2, "莫干山": 3 }, statusChange = { "待处理": 1, "借用中": 3, "已完成": 4 };
+const campusChange = { 朝晖: 1, 屏峰: 2, 莫干山: 3 },
+  statusChange = { 待处理: 1, 借用中: 3, 已完成: 4 };
 
-const { loading, run } = useRequest(
-  SuitService.getRecords, {
-    defaultParams: {
-      campus: campusChange[selectCampus.value],
-      status: statusChange[selectStatus.value]
-    },
-    loadingDelay: 600,
-    onSuccess: (res) => {
-      if (res.data.code === 1) {
-        recordList.value = recordList.value?.concat(
-          res.data.data
-        );
-        if (recordList.value.length === 0) isEmpty.value = true;
-      } else throw new Error(res.data.msg);
-    },
-    onError: (e: Error) => {
-      return `加载申请信息失败\r\n${e.message || "网络错误"}`;
-    }
+const { loading, run } = useRequest(SuitService.getRecords, {
+  defaultParams: {
+    campus: campusChange[selectCampus.value],
+    status: statusChange[selectStatus.value]
+  },
+  loadingDelay: 600,
+  onSuccess: (res) => {
+    if (res.data.code === 1) {
+      recordList.value = recordList.value.concat(res.data.data);
+      if (recordList.value.length === 0) isEmpty.value = true;
+    } else throw new Error(res.data.msg);
+  },
+  onError: (e: Error) => {
+    return `加载申请信息失败\r\n${e.message || "网络错误"}`;
   }
-);
+});
 
-const getRecords = (data: {
-  campus?: string;
-  status?: string;
-}) => {
+const getRecords = (data: { campus?: number; status?: number }) => {
   isEmpty.value = false;
-  run(omit(data, [data.status === "待处理" ? "kind" : null]));
+  run(data);
 };
 
 const handleSelectCampus = (campus: string) => {
