@@ -3,5 +3,5 @@
  */
 export default {
   "*.{(m)ts,(m)js,vue,css,scss,json,html}": ["pnpm run lint"],
-  "*": ["cspell"]
+  "*": ["cspell --no-must-find-files"]
 };
