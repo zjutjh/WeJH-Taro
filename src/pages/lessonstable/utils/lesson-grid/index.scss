@@ -47,6 +47,10 @@
     position: relative;
   }
 
+  .row-content-visible {
+    overflow: hidden;
+  }
+
   .row:first-child {
     flex-direction: column;
     justify-content: flex-end;

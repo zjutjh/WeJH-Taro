@@ -38,7 +38,7 @@
                   {{ splitNameAndRoom(cl.lessonPlace)[1] }}
                 </view>
               </view>
-              <view class="row">
+              <view :class="['row', { 'row-content-visible': Boolean(cl.lessonName) }]">
                 <text class="item-content" :style="`-webkit-line-clamp: ${2}` as any">
                   {{ cl.lessonName }}
                 </text>
