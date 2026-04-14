@@ -60,7 +60,7 @@ import { computed, toRefs } from "vue";
 import { dayScheduleStartTime } from "@/constants/index";
 import { Lesson } from "@/types/Lesson";
 
-import { buildTwoDimensionalLayout, colorLessons } from "./utils/layout-color";
+import { buildTwoDimensionalLayout, colorLessons } from "./util/layout-color";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);

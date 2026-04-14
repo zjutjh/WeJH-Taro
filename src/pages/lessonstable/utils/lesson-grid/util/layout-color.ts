@@ -81,7 +81,7 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
   }
 
   const order = nodes
-    .map((node, idx) => ({ node, idx, degree: adjacency[idx].size }))
+    .map((node, idx) => ({ node, index: idx, degree: adjacency[idx].size }))
     .sort((a, b) => {
       if (b.degree !== a.degree) return b.degree - a.degree;
       if (b.node.duration !== a.node.duration) return b.node.duration - a.node.duration;
@@ -96,9 +96,9 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
   const classPreferredColor = new Map<string, string>();
   palette.forEach((color) => colorUseCount.set(color, 0));
 
-  for (const { node, idx } of order) {
+  for (const { node, index } of order) {
     const neighborColors = new Set<string>();
-    adjacency[idx].forEach((neighborIdx) => {
+    adjacency[index].forEach((neighborIdx) => {
       const color = assigned.get(neighborIdx);
       if (color) neighborColors.add(color);
     });
@@ -121,7 +121,7 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
       )[0];
     }
 
-    assigned.set(idx, selectedColor);
+    assigned.set(index, selectedColor);
     colorUseCount.set(selectedColor, (colorUseCount.get(selectedColor) || 0) + 1);
     classPreferredColor.set(classKey, selectedColor);
     node.lesson.color = selectedColor;
@@ -173,11 +173,11 @@ function getLessonDuration(lesson: Lesson): number {
 type LessonColorNode = {
   index: number;
   lesson: Lesson;
-  weekday: number;
-  start: number;
+  weekday: number; // 1-7
+  start: number; // 起始节次，下同
   end: number;
-  stack: number;
-  duration: number;
+  stack: number; // 冲突层级0为基础层>=1为冲突层
+  duration: number; // 课程时长end-start+1
 };
 
 function getLessonStack(lesson: Lesson): number {
@@ -212,7 +212,8 @@ function isHorizontalAdjacent(a: LessonColorNode, b: LessonColorNode): boolean {
     Math.abs(a.weekday - b.weekday) === 1 && isSectionsOverlap(a.lesson.sections, b.lesson.sections)
   );
 }
-
+// hard conflict定义：同一天节次重叠，或相邻天节次重叠，或同一天节次相邻
+// 对比同函数下其他判断条件这个最优先
 function isHardConflict(a: LessonColorNode, b: LessonColorNode): boolean {
   const sameDayOverlap =
     a.weekday === b.weekday && isSectionsOverlap(a.lesson.sections, b.lesson.sections);

@@ -96,7 +96,6 @@ import { computed, onMounted, ref } from "vue";
 
 import {
   BottomPanel,
-  LessonsTable,
   PopView,
   RefreshButton,
   TermPicker,
@@ -110,14 +109,10 @@ import { useTimeInstance } from "@/hooks";
 import { ZFService } from "@/services";
 import { systemStore } from "@/store";
 import { Lesson } from "@/types/Lesson";
-import {
-  computeOverlapWeeks,
-  formatWeeks,
-  isLessonActiveInWeek,
-  parseWeeks
-} from "@/utils/lessonTable/weeks";
 
 import styles from "./index.module.scss";
+import LessonsTable from "./utils/lesson-grid/index.vue";
+import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./utils/weeks";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
