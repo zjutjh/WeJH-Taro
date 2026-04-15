@@ -38,7 +38,7 @@
                   {{ splitNameAndRoom(cl.lessonPlace)[1] }}
                 </view>
               </view>
-              <view :class="['row', { 'row-content-visible': Boolean(cl.lessonName) }]">
+              <view :class="['row', { 'row-content-visible': !isEmpty(cl.lessonName) }]">
                 <text class="item-content" :style="`-webkit-line-clamp: ${2}` as any">
                   {{ cl.lessonName }}
                 </text>
@@ -55,12 +55,13 @@
 <script setup lang="ts">
 import "./index.scss";
 
+import { isEmpty } from "lodash-es";
 import { computed, toRefs } from "vue";
 
 import { dayScheduleStartTime } from "@/constants/index";
 import { Lesson } from "@/types/Lesson";
 
-import { buildTwoDimensionalLayout, colorLessons } from "./util/layout-color";
+import { buildTwoDimensionalLayout, colorLessons } from "./utils/layout-color";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);

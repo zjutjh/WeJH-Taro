@@ -170,14 +170,24 @@ function getLessonDuration(lesson: Lesson): number {
   return end - start + 1;
 }
 
+/**
+ * 图着色节点：用于课程冲突图的建模。
+ */
 type LessonColorNode = {
+  /** 对应课程在结果数组中的下标 */
   index: number;
+  /** 原始课程对象 */
   lesson: Lesson;
-  weekday: number; // 1-7
-  start: number; // 起始节次，下同
+  /** 周几，取值范围 1-7 */
+  weekday: number;
+  /** 起始节次 */
+  start: number;
+  /** 结束节次 */
   end: number;
-  stack: number; // 冲突层级0为基础层>=1为冲突层
-  duration: number; // 课程时长end-start+1
+  /** 冲突层级：0 为基础层，>=1 为冲突层 */
+  stack: number;
+  /** 课程时长（end - start + 1） */
+  duration: number;
 };
 
 function getLessonStack(lesson: Lesson): number {
@@ -212,8 +222,18 @@ function isHorizontalAdjacent(a: LessonColorNode, b: LessonColorNode): boolean {
     Math.abs(a.weekday - b.weekday) === 1 && isSectionsOverlap(a.lesson.sections, b.lesson.sections)
   );
 }
-// hard conflict定义：同一天节次重叠，或相邻天节次重叠，或同一天节次相邻
-// 对比同函数下其他判断条件这个最优先
+/**
+ * 判断两个课程节点是否构成 hard conflict（硬冲突）。
+ * 硬冲突定义：
+ * 1. 同一天节次重叠；
+ * 2. 相邻天节次重叠；
+ * 3. 同一天节次相邻。
+ * 该判断优先级高于同模块中的其他策略性判断。
+ *
+ * @param a 第一个课程节点
+ * @param b 第二个课程节点
+ * @returns 若两者构成硬冲突则返回 true，否则返回 false
+ */
 function isHardConflict(a: LessonColorNode, b: LessonColorNode): boolean {
   const sameDayOverlap =
     a.weekday === b.weekday && isSectionsOverlap(a.lesson.sections, b.lesson.sections);

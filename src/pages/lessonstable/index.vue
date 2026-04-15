@@ -110,9 +110,9 @@ import { ZFService } from "@/services";
 import { systemStore } from "@/store";
 import { Lesson } from "@/types/Lesson";
 
+import LessonsTable from "./_components/lesson-grid/index.vue";
+import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
 import styles from "./index.module.scss";
-import LessonsTable from "./utils/lesson-grid/index.vue";
-import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./utils/weeks";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
