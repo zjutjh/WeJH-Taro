@@ -24,6 +24,7 @@
 
 .jc-index-panel {
   position: absolute;
+  z-index: 1200;
   flex-direction: column;
   border-right: 1Px solid var(--wjh-color-border);
   border-top: 1Px solid var(--wjh-color-border);
