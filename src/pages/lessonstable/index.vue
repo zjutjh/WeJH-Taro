@@ -45,49 +45,13 @@
         </view>
       </view>
     </bottom-panel>
-    <pop-view v-model:show="showPop" style="z-index: 4000">
-      <view v-if="selection" :class="styles['lesson-detail']">
-        <view :class="styles['lesson-title']">
-          {{ selection.lessonName }}
-        </view>
-        <view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
-        <view>班级：{{ selection.className }} </view>
-        <view>教师：{{ selection.teacherName }} </view>
-        <view>
-          时间：{{ selection.week }}丨{{ detailWeekDay(selection.weekday) }} ({{
-            selection.sections
-          }})丨{{ detailTimeInterval }}
-        </view>
-        <view>学分：{{ selection.credits }} </view>
-      </view>
-
-      <view
-        v-else-if="selectionConflicts && selectionConflicts.length > 0"
-        :class="styles['lesson-detail']"
-      >
-        <view :class="styles['conflict-header']">
-          <view :class="styles['conflict-title-fixed']"
-            >冲突课程({{ selectionConflicts.length }})</view
-          >
-          <view :class="styles['conflict-time-inline']">冲突时间：{{ conflictTime }}</view>
-        </view>
-        <view :class="styles['conflict-list']">
-          <view
-            v-for="(c, idx) in selectionConflicts"
-            :key="`${c.id}-${c.week}-${c.weekday}-${c.sections}-${idx}`"
-            :class="styles['conflict-item']"
-          >
-            <view class="row">
-              <view>地点：{{ c.campus }}-{{ c.lessonPlace }} </view>
-              <view>班级：{{ c.className }} </view>
-              <view>教师：{{ c.teacherName }} </view>
-              <view> 时间：{{ c.week }}丨{{ detailWeekDay(c.weekday) }} ({{ c.sections }}) </view>
-              <view>学分：{{ c.credits }} </view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </pop-view>
+    <lesson-popover
+      v-model:show="showPop"
+      :selection="selection"
+      :selection-conflicts="selectionConflicts"
+      :conflict-time="conflictTime"
+      :detail-time-interval="detailTimeInterval"
+    />
   </theme-config>
 </template>
 
@@ -96,7 +60,6 @@ import { computed, onMounted, ref } from "vue";
 
 import {
   BottomPanel,
-  PopView,
   RefreshButton,
   TermPicker,
   ThemeConfig,
@@ -108,9 +71,10 @@ import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import { ZFService } from "@/services";
 import { systemStore } from "@/store";
-import { Lesson } from "@/types/Lesson";
+import type { Lesson } from "@/types/Lesson";
 
 import LessonsTable from "./_components/lesson-grid/index.vue";
+import LessonPopover from "./_components/lesson-popover/index.vue";
 import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
 import styles from "./index.module.scss";
 
@@ -153,16 +117,27 @@ async function refresh() {
 }
 
 const detailTimeInterval = computed(() => {
-  const startIndex = parseInt(selection.value?.sections.split("-")[0] ?? "");
-  const endIndex = parseInt(selection.value?.sections.split("-")[1] ?? "");
-  const startTime = useTimeInstance(
-    dayScheduleStartTime[startIndex - 1].hour,
-    dayScheduleStartTime[startIndex - 1].min
-  ).format("HH:mm");
-  const endTime = useTimeInstance(
-    dayScheduleStartTime[endIndex - 1].hour,
-    dayScheduleStartTime[endIndex - 1].min + 45
-  ).format("HH:mm");
+  const sections = selection.value?.sections;
+  if (!sections) return "";
+
+  const [startText, endText = startText] = sections.split("-");
+  const startIndex = Number(startText);
+  const endIndex = Number(endText);
+  if (!Number.isInteger(startIndex) || !Number.isInteger(endIndex)) return "";
+  if (
+    startIndex < 1 ||
+    endIndex < 1 ||
+    startIndex > dayScheduleStartTime.length ||
+    endIndex > dayScheduleStartTime.length
+  ) {
+    return "";
+  }
+
+  const startSlot = dayScheduleStartTime[startIndex - 1];
+  const endSlot = dayScheduleStartTime[endIndex - 1];
+
+  const startTime = useTimeInstance(startSlot.hour, startSlot.min).format("HH:mm");
+  const endTime = useTimeInstance(endSlot.hour, endSlot.min + 45).format("HH:mm");
 
   return `${startTime}-${endTime}`;
 });
@@ -226,11 +201,6 @@ function classClick(theClass: Lesson) {
 function backToOriginWeek() {
   selectTerm.value = originTerm;
   selectWeek.value = originWeek;
-}
-
-function detailWeekDay(weekDay: string) {
-  const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
-  return `周${charEnum[parseInt(weekDay) - 1]}`;
 }
 
 const conflictTime = computed(() => {

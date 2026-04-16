@@ -1,6 +1,4 @@
 @import "@/style/mixin.scss";
-@import "./dark.scss";
-@import "./light.scss";
 
 .index-panel {
   height: 100%;
@@ -121,6 +119,10 @@
   height: 100%;
 }
 
+.table-box {
+  position: relative;
+}
+
 .class-card {
   height: calc(100% - 0.4rem);
   width: calc(100% - 0.4rem);
@@ -128,6 +130,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  color: var(--wjh-color-white);
 
   &::before {
     content: "";
@@ -156,4 +159,12 @@
   background: var(--wjh-color-primary-light);
   opacity: .2;
   position: absolute;
+}
+
+:global(.dark) .class-card {
+  color: var(--bg-color);
+}
+
+:global(.dark) .class-card::before {
+  filter: brightness(.3);
 }

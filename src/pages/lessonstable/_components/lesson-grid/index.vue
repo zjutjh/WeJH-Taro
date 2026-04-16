@@ -1,45 +1,53 @@
 <template>
-  <view class="lessons-table-wrapper">
-    <view class="jc-index-panel index-panel">
+  <view :class="styles['lessons-table-wrapper']">
+    <view :class="[styles['jc-index-panel'], styles['index-panel']]">
       <view v-for="i in 12" :key="i">
-        <view class="num-index">
+        <view :class="styles['num-index']">
           {{ i }}
         </view>
       </view>
     </view>
-    <view class="lessons-table">
-      <view class="col" />
-      <view class="col">
-        <view v-show="isThisWeek" class="now-week-index" :style="nowWeekStyle" />
-        <view class="weekday-index-panel index-panel">
+    <view :class="styles['lessons-table']">
+      <view :class="styles['col']" />
+      <view :class="styles['col']">
+        <view v-show="isThisWeek" :class="styles['now-week-index']" :style="nowWeekStyle" />
+        <view :class="[styles['weekday-index-panel'], styles['index-panel']]">
           <view v-for="i in weekdayEnum" :key="i">
-            <view class="num-index">
+            <view :class="styles['num-index']">
               {{ i }}
             </view>
           </view>
         </view>
-        <view v-if="lessonsTable && lessonsTable.length !== 0" class="table table-box">
+        <view
+          v-if="lessonsTable && lessonsTable.length !== 0"
+          :class="[styles['table'], styles['table-box']]"
+        >
           <view
             v-for="cl in lessonsTable"
             :key="lessonKey(cl)"
-            class="class"
+            :class="styles['class']"
             :style="getPosition(cl)"
           >
             <view
-              class="class-card"
+              :class="styles['class-card']"
               :style="classCardColor(cl.color) as any"
               @tap="classCardClick(cl)"
             >
-              <view class="row">
-                <view class="title">
+              <view :class="styles['row']">
+                <view :class="styles['title']">
                   {{ splitNameAndRoom(cl.lessonPlace)[0] }}
                 </view>
-                <view class="title">
+                <view :class="styles['title']">
                   {{ splitNameAndRoom(cl.lessonPlace)[1] }}
                 </view>
               </view>
-              <view :class="['row', { 'row-content-visible': !isEmpty(cl.lessonName) }]">
-                <text class="item-content" :style="`-webkit-line-clamp: ${2}` as any">
+              <view
+                :class="[
+                  styles['row'],
+                  { [styles['row-content-visible']]: !isEmpty(cl.lessonName) }
+                ]"
+              >
+                <text :class="styles['item-content']" :style="`-webkit-line-clamp: ${2}` as any">
                   {{ cl.lessonName }}
                 </text>
               </view>
@@ -47,20 +55,19 @@
           </view>
         </view>
       </view>
-      <view v-show="isThisWeek" class="now-index" :style="nowStyle" />
+      <view v-show="isThisWeek" :class="styles['now-index']" :style="nowStyle" />
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
-
 import { isEmpty } from "lodash-es";
 import { computed, toRefs } from "vue";
 
 import { dayScheduleStartTime } from "@/constants/index";
-import { Lesson } from "@/types/Lesson";
+import type { Lesson } from "@/types/Lesson";
 
+import styles from "./index.module.scss";
 import { buildTwoDimensionalLayout, colorLessons } from "./utils/layout-color";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
