@@ -1,6 +1,3 @@
-@import "@/style/theme.scss";
-@import "@/style/mixin.scss";
-
 .wjh-list {
   --padding-left-small: 6Px;
   --padding-right-small: 6Px;
@@ -12,8 +9,8 @@
 
   padding: 4Px 0;
   background-color: var(--wjh-color-background-container);
-  @include radius;
-  @include shadow;
+  border-radius: 8Px;
+  box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
 }
 
 .wjh-list-size-small {

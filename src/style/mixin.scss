@@ -1,7 +1,0 @@
-@mixin blur {
-  backdrop-filter: saturate(180%) blur(20px);
-}
-
-@mixin radius {
-  border-radius: 8Px;
-}
