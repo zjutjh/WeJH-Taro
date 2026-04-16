@@ -30,8 +30,8 @@
           >
             <view
               :class="styles['class-card']"
-              :style="classCardColor(cl.color) as any"
-              @tap="classCardClick(cl)"
+              :style="lessonCardColor(cl.color) as any"
+              @tap="handleLessonCardTap(cl)"
             >
               <view :class="styles['row']">
                 <view :class="styles['title']">
@@ -72,7 +72,7 @@ import { buildTwoDimensionalLayout, colorLessons } from "./utils/layout-color";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);
-const emit = defineEmits(["classClick"]);
+const emit = defineEmits(["lessonClick"]);
 
 const colorSet = [
   "green-600",
@@ -139,7 +139,7 @@ function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
   return colorLessons(layoutResult, colorSet);
 }
 
-function classCardColor(color = "primary") {
+function lessonCardColor(color = "primary") {
   return { "--bg-color": `var(--wjh-color-${color})` };
 }
 
@@ -151,15 +151,15 @@ function splitNameAndRoom(str: string) {
   return [str.slice(0, index), str.slice(index)];
 }
 
-function classCardClick(theClass: Lesson) {
-  emit("classClick", theClass);
+function handleLessonCardTap(lesson: Lesson) {
+  emit("lessonClick", lesson);
 }
 
-function getPosition(theClass: Lesson) {
-  const begin = parseInt(theClass.sections.split("-")[0]);
-  const end = parseInt(theClass.sections.split("-")[1]);
-  const weekday = parseInt(theClass.weekday);
-  const stack = theClass.stack || 0;
+function getPosition(lesson: Lesson) {
+  const begin = parseInt(lesson.sections.split("-")[0]);
+  const end = parseInt(lesson.sections.split("-")[1]);
+  const weekday = parseInt(lesson.weekday);
+  const stack = lesson.stack || 0;
 
   // 基础尺寸计算
   const fontSize = `${Math.min(12, (end - begin + 2) * 4)}px`;

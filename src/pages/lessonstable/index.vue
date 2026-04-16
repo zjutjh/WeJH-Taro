@@ -5,7 +5,7 @@
       <lessons-table
         :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
         :is-this-week="isThisWeek"
-        @class-click="classClick"
+        @lesson-click="handleLessonClick"
       />
     </view>
 
@@ -14,14 +14,14 @@
         <refresh-button
           v-if="showWeekPicker && isThisWeek"
           :is-refreshing="isRefreshing"
-          @refresh="refresh"
+          @refresh="handleRefresh"
         />
         <w-button
           v-else-if="showWeekPicker"
           :class="styles['back-button']"
           size="large"
           shape="circle"
-          @tap="backToOriginWeek"
+          @tap="handleBackToOriginWeek"
         >
           <view class="iconfont icon-back" />
         </w-button>
@@ -35,11 +35,11 @@
           :year="selectTerm.year"
           :term="selectTerm.term"
           :selectflag="0"
-          @changed="termChanged"
+          @changed="handleTermChanged"
         />
       </view>
       <view :class="styles['col']">
-        <view :class="styles['switch-button']" @tap="pickerModeSwitch">
+        <view :class="styles['switch-button']" @tap="handlePickerModeSwitch">
           <image v-if="!showWeekPicker" src="@/assets/icons/term-week-swicher/term.svg" />
           <image v-else src="@/assets/icons/term-week-swicher/week.svg" />
         </view>
@@ -109,7 +109,7 @@ const isThisWeek = computed(() => {
 });
 const isRefreshing = ref(false);
 
-async function refresh() {
+async function handleRefresh() {
   if (isRefreshing.value) return;
   isRefreshing.value = true;
   await ZFService.updateLessonTable(selectTerm.value);
@@ -142,7 +142,7 @@ const detailTimeInterval = computed(() => {
   return `${startTime}-${endTime}`;
 });
 
-async function termChanged(e) {
+async function handleTermChanged(e) {
   isRefreshing.value = true;
   selectTerm.value = e;
   await ZFService.updateLessonTable(e);
@@ -150,18 +150,18 @@ async function termChanged(e) {
 }
 
 onMounted(async () => {
-  await refresh();
+  await handleRefresh();
 });
 
 const showWeekPicker = ref(true);
-function pickerModeSwitch() {
+function handlePickerModeSwitch() {
   selectWeek.value = 1;
   showWeekPicker.value = !showWeekPicker.value;
 }
 
 // 课程点击事件更新，分为冲突和非冲突课程展示
-function classClick(theClass: Lesson) {
-  const clickedStack = theClass.stack || 0;
+function handleLessonClick(lesson: Lesson) {
+  const clickedStack = lesson.stack || 0;
 
   function sectionsOverlap(a: string, b: string) {
     const [a1, a2] = a.split("-").map(Number);
@@ -170,20 +170,20 @@ function classClick(theClass: Lesson) {
   }
 
   const conflicts = lessonsTableData.value.filter((l) => {
-    if (l.weekday !== theClass.weekday) return false;
+    if (l.weekday !== lesson.weekday) return false;
     if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) return false;
     if (clickedStack > 0) {
       const stack = l.stack || 0;
-      return stack < clickedStack && sectionsOverlap(l.sections, theClass.sections);
+      return stack < clickedStack && sectionsOverlap(l.sections, lesson.sections);
     }
-    return l.sections === theClass.sections;
+    return l.sections === lesson.sections;
   });
 
   if (conflicts.length > 1) {
     selectionConflicts.value = conflicts;
     selection.value = undefined;
-    selectionSource.value = theClass;
-    const sourceWeek = theClass.week || "";
+    selectionSource.value = lesson;
+    const sourceWeek = lesson.week || "";
     for (const item of conflicts) {
       (item as unknown as Record<string, string>)._overlap = computeOverlapWeeks(
         sourceWeek,
@@ -193,12 +193,13 @@ function classClick(theClass: Lesson) {
     showPop.value = true;
   } else {
     selectionConflicts.value = null;
-    selection.value = theClass;
+    selection.value = lesson;
     selectionSource.value = null;
     showPop.value = true;
   }
 }
-function backToOriginWeek() {
+
+function handleBackToOriginWeek() {
   selectTerm.value = originTerm;
   selectWeek.value = originWeek;
 }
