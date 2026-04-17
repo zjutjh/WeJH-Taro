@@ -10,12 +10,10 @@ import { type Dayjs } from "dayjs";
 export enum OpenTypeEnum {
   /** 仅工作日 */
   Weekday = "weekday",
-  /** 仅节假日 */
+  /** 仅周末放假 */
   Weekend = "weekend",
-  /** 都开放 */
-  All = "all",
-  /** 未知 */
-  Unknown = "unknown"
+  /** 仅法定节假日(不包括周末, 特指国庆之类的假期) */
+  Holiday = "holiday"
 }
 
 /**
@@ -40,8 +38,8 @@ export interface ParsedBusSchedule {
   orderedSeats: number;
   /** 剩余车票数 */
   remainSeats: number;
-  /** 节假日开放时间的类型 */
-  openType?: OpenTypeEnum;
+  /** 开放日类型列表(工作日/周末/法定节假日等) */
+  openTypeList?: OpenTypeEnum[];
   /** 出现在搜索结果中的关键词匹配原因 */
   matchReason?: {
     /** 匹配到的属性 */

@@ -16,8 +16,8 @@ catalogs:
       specifier: ^14.0.0
       version: 14.0.0
     aegis-mp-sdk:
-      specifier: ^1.39.1
-      version: 1.39.1
+      specifier: ^1.39.3
+      version: 1.39.3
     dayjs:
       specifier: ^1.11.19
       version: 1.11.19
@@ -208,7 +208,7 @@ importers:
         version: 14.0.0(vue@3.5.22(typescript@5.9.3))
       aegis-mp-sdk:
         specifier: catalog:frontend
-        version: 1.39.1
+        version: 1.39.3
       dayjs:
         specifier: catalog:frontend
         version: 1.11.19
@@ -2829,8 +2829,8 @@ packages:
     resolution: {integrity: sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ==}
     engines: {node: '>=12.0'}
 
-  aegis-mp-sdk@1.39.1:
-    resolution: {integrity: sha512-OdmIXARBH9avcdIyteOwwIO3ew6glavtO5cs0rRN2k/S/uD09qZZqusiZrG8V3F57HPxrPGXwrFnMdDx7ajY8g==}
+  aegis-mp-sdk@1.39.3:
+    resolution: {integrity: sha512-kkI5hGGutVZPRQ8Ukz3lrCHHOSkUZKoO9dCf9MIKyZ37HQ+58acH/8JQLf/PiHbHfmiouQ0cNBUdlz073YBVHw==}
 
   aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
@@ -9319,7 +9319,7 @@ snapshots:
 
   adm-zip@0.5.16: {}
 
-  aegis-mp-sdk@1.39.1: {}
+  aegis-mp-sdk@1.39.3: {}
 
   aggregate-error@3.1.0:
     dependencies:
