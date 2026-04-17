@@ -5,7 +5,7 @@
       <lessons-table
         :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
         :is-this-week="isThisWeek"
-        @class-click="classClick"
+        @lesson-click="handleLessonClick"
       />
     </view>
 
@@ -14,14 +14,14 @@
         <refresh-button
           v-if="showWeekPicker && isThisWeek"
           :is-refreshing="isRefreshing"
-          @refresh="refresh"
+          @refresh="handleRefresh"
         />
         <w-button
           v-else-if="showWeekPicker"
           :class="styles['back-button']"
           size="large"
           shape="circle"
-          @tap="backToOriginWeek"
+          @tap="handleBackToOriginWeek"
         >
           <view class="iconfont icon-back" />
         </w-button>
@@ -35,32 +35,23 @@
           :year="selectTerm.year"
           :term="selectTerm.term"
           :selectflag="0"
-          @changed="termChanged"
+          @changed="handleTermChanged"
         />
       </view>
       <view :class="styles['col']">
-        <view :class="styles['switch-button']" @tap="pickerModeSwitch">
+        <view :class="styles['switch-button']" @tap="handlePickerModeSwitch">
           <image v-if="!showWeekPicker" src="@/assets/icons/term-week-swicher/term.svg" />
           <image v-else src="@/assets/icons/term-week-swicher/week.svg" />
         </view>
       </view>
     </bottom-panel>
-    <pop-view v-model:show="showPop" style="z-index: 4000">
-      <view v-if="selection" :class="styles['lesson-detail']">
-        <view :class="styles['lesson-title']">
-          {{ selection.lessonName }}
-        </view>
-        <view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
-        <view>班级：{{ selection.className }} </view>
-        <view>教师：{{ selection.teacherName }} </view>
-        <view>
-          时间：{{ selection.week }}丨{{ detailWeekDay(selection.weekday) }} ({{
-            selection.sections
-          }})丨{{ detailTimeInterval }}
-        </view>
-        <view>学分：{{ selection.credits }} </view>
-      </view>
-    </pop-view>
+    <lesson-popover
+      v-model:show="showPop"
+      :selection="selection"
+      :selection-conflicts="selectionConflicts"
+      :conflict-time="conflictTime"
+      :detail-time-interval="detailTimeInterval"
+    />
   </theme-config>
 </template>
 
@@ -69,8 +60,6 @@ import { computed, onMounted, ref } from "vue";
 
 import {
   BottomPanel,
-  LessonsTable,
-  PopView,
   RefreshButton,
   TermPicker,
   ThemeConfig,
@@ -82,12 +71,17 @@ import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
 import { ZFService } from "@/services";
 import { systemStore } from "@/store";
-import { Lesson } from "@/types/Lesson";
+import type { Lesson } from "@/types/Lesson";
 
+import LessonsTable from "./_components/lesson-grid/index.vue";
+import LessonPopover from "./_components/lesson-popover/index.vue";
+import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
 import styles from "./index.module.scss";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
+const selectionConflicts = ref<Lesson[] | null>(null);
+const selectionSource = ref<Lesson | null>(null);
 
 // 本学期
 const originTerm = {
@@ -105,19 +99,7 @@ const lessonsTableData = computed(() => {
 });
 
 const lessonsTableWeek = computed(() => {
-  return lessonsTableData.value.filter((item) => {
-    for (const time of item.week.split(",")) {
-      if (time.includes("-")) {
-        const start = parseInt(time.split("-")[0]);
-        const end = parseInt(time.split("-")[1]);
-        if (selectWeek.value <= end && selectWeek.value >= start)
-          if (!time.includes("单") && !time.includes("双")) return true;
-          else if (time.includes("单") && selectWeek.value % 2 === 1) return true;
-          else if (time.includes("双") && selectWeek.value % 2 === 0) return true;
-      } else if (selectWeek.value === parseInt(time)) return true;
-    }
-    return false;
-  });
+  return lessonsTableData.value.filter((item) => isLessonActiveInWeek(item.week, selectWeek.value));
 });
 const isThisWeek = computed(() => {
   return (
@@ -127,7 +109,7 @@ const isThisWeek = computed(() => {
 });
 const isRefreshing = ref(false);
 
-async function refresh() {
+async function handleRefresh() {
   if (isRefreshing.value) return;
   isRefreshing.value = true;
   await ZFService.updateLessonTable(selectTerm.value);
@@ -135,21 +117,32 @@ async function refresh() {
 }
 
 const detailTimeInterval = computed(() => {
-  const startIndex = parseInt(selection.value?.sections.split("-")[0] ?? "");
-  const endIndex = parseInt(selection.value?.sections.split("-")[1] ?? "");
-  const startTime = useTimeInstance(
-    dayScheduleStartTime[startIndex - 1].hour,
-    dayScheduleStartTime[startIndex - 1].min
-  ).format("HH:mm");
-  const endTime = useTimeInstance(
-    dayScheduleStartTime[endIndex - 1].hour,
-    dayScheduleStartTime[endIndex - 1].min + 45
-  ).format("HH:mm");
+  const sections = selection.value?.sections;
+  if (!sections) return "";
+
+  const [startText, endText = startText] = sections.split("-");
+  const startIndex = Number(startText);
+  const endIndex = Number(endText);
+  if (!Number.isInteger(startIndex) || !Number.isInteger(endIndex)) return "";
+  if (
+    startIndex < 1 ||
+    endIndex < 1 ||
+    startIndex > dayScheduleStartTime.length ||
+    endIndex > dayScheduleStartTime.length
+  ) {
+    return "";
+  }
+
+  const startSlot = dayScheduleStartTime[startIndex - 1];
+  const endSlot = dayScheduleStartTime[endIndex - 1];
+
+  const startTime = useTimeInstance(startSlot.hour, startSlot.min).format("HH:mm");
+  const endTime = useTimeInstance(endSlot.hour, endSlot.min + 45).format("HH:mm");
 
   return `${startTime}-${endTime}`;
 });
 
-async function termChanged(e) {
+async function handleTermChanged(e) {
   isRefreshing.value = true;
   selectTerm.value = e;
   await ZFService.updateLessonTable(e);
@@ -157,26 +150,72 @@ async function termChanged(e) {
 }
 
 onMounted(async () => {
-  await refresh();
+  await handleRefresh();
 });
 
 const showWeekPicker = ref(true);
-function pickerModeSwitch() {
+function handlePickerModeSwitch() {
   selectWeek.value = 1;
   showWeekPicker.value = !showWeekPicker.value;
 }
 
-function classClick(theClass: Lesson) {
-  showPop.value = true;
-  selection.value = theClass;
+// 课程点击事件更新，分为冲突和非冲突课程展示
+function handleLessonClick(lesson: Lesson) {
+  const clickedStack = lesson.stack || 0;
+
+  function sectionsOverlap(a: string, b: string) {
+    const [a1, a2] = a.split("-").map(Number);
+    const [b1, b2] = b.split("-").map(Number);
+    return !(a2 < b1 || b2 < a1);
+  }
+
+  const conflicts = lessonsTableData.value.filter((l) => {
+    if (l.weekday !== lesson.weekday) return false;
+    if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) return false;
+    if (clickedStack > 0) {
+      const stack = l.stack || 0;
+      return stack < clickedStack && sectionsOverlap(l.sections, lesson.sections);
+    }
+    return l.sections === lesson.sections;
+  });
+
+  if (conflicts.length > 1) {
+    selectionConflicts.value = conflicts;
+    selection.value = undefined;
+    selectionSource.value = lesson;
+    const sourceWeek = lesson.week || "";
+    for (const item of conflicts) {
+      (item as unknown as Record<string, string>)._overlap = computeOverlapWeeks(
+        sourceWeek,
+        item.week || ""
+      );
+    }
+    showPop.value = true;
+  } else {
+    selectionConflicts.value = null;
+    selection.value = lesson;
+    selectionSource.value = null;
+    showPop.value = true;
+  }
 }
-function backToOriginWeek() {
+
+function handleBackToOriginWeek() {
   selectTerm.value = originTerm;
   selectWeek.value = originWeek;
 }
 
-function detailWeekDay(weekDay: string) {
-  const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
-  return `周${charEnum[parseInt(weekDay) - 1]}`;
-}
+const conflictTime = computed(() => {
+  const arr = selectionConflicts.value;
+  if (!arr || arr.length === 0) return "";
+  let inter: Set<number> | null = null;
+  for (const it of arr) {
+    const s = parseWeeks(it.week || "");
+    if (inter === null) inter = new Set(s);
+    else {
+      for (const w of Array.from(inter)) if (!s.has(w)) inter.delete(w);
+    }
+  }
+  if (!inter || inter.size === 0) return "无";
+  return `${formatWeeks(inter)}周`;
+});
 </script>
