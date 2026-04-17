@@ -48,8 +48,8 @@ import Card from "../Card/index.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
+import QuickViewCardList from "./components/card-list/index.vue";
 import styles from "./index.module.scss";
-import QuickViewCardList from "./quick-view-card-list.vue";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
 
