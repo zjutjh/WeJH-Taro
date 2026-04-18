@@ -1,19 +1,19 @@
 @import "@/style/theme.scss";
 
 .campus-selector {
-  padding: 12Px;
+  padding: 12px;
 
   .container {
     display: flex;
     height: 100%;
-    gap: 16Px;
+    gap: 16px;
   }
 
   .campus {
     @include shadow;
     flex: 0 calc(100% / 3);
-    padding: 6Px 16Px;
-    border-radius: 100Px;
+    padding: 6px 16px;
+    border-radius: 100px;
     background-color: var(--wjh-color-primary-light);
     color: var(--wjh-color-primary-dark);
     text-align: center;
@@ -33,37 +33,37 @@
 .suit-selector {
   display: flex;
   flex: 0 0 auto;
-  margin-bottom: 6Px;
-  padding: 6Px;
+  margin-bottom: 6px;
+  padding: 6px;
   overflow-x: scroll;
   white-space: nowrap;
 
   .suits {
     @include shadow;
     position: relative;
-    height: 178Px;
-    // height: 142Px;
-    margin: 0 6Px;
-    padding: 0Px 62Px;
-    border-radius: 12Px;
+    height: 178px;
+    // height: 142px;
+    margin: 0 6px;
+    padding: 0px 62px;
+    border-radius: 12px;
     background-color: var(--wjh-color-week);
     background-size:100% 100%;
 
     .suit-name {
-      height: 36Px;
-      width: 124Px;
+      height: 36px;
+      width: 124px;
       line-height: 65px;
       position: absolute;
-      top: 142Px;
-      left: 0Px;
+      top: 142px;
+      left: 0px;
       text-align: center;
-      border-radius: 0 0 9Px 9Px;
+      border-radius: 0 0 9px 9px;
       background-color: var(--wjh-color-background-container);
     }
   }
 
   .active {
-    border: solid 4Px var(--wjh-color-primary);
+    border: solid 4px var(--wjh-color-primary);
   }
 }
 
@@ -72,16 +72,16 @@
   height: 100%;
   width: 100%;
   margin: 0;
-  border-top-right-radius: 20Px;
-  border-top-left-radius: 20Px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
 
   .container {
-    padding: 12Px 33Px;
+    padding: 12px 33px;
 
     .title {
-      margin: 24Px 0;
+      margin: 24px 0;
       padding-left: .6rem;
-      border-left: 2Px solid;
+      border-left: 2px solid;
       font-size: 1.1rem;
       line-height: 100%;
       color: var(--wjh-color-primary);
@@ -95,18 +95,18 @@
         @include shadow;
         display: flex;
         flex: 0 0 auto;
-        height: 40Px;
-        padding: 0 25Px;
-        margin-right: 16Px;
-        border: solid 2Px var(--wjh-color-week);
-        border-radius: 10Px;
+        height: 40px;
+        padding: 0 25px;
+        margin-right: 16px;
+        border: solid 2px var(--wjh-color-week);
+        border-radius: 10px;
         color: var(--wjh-color-text-secondary);
         text-align: center;
-        line-height: 40Px;
+        line-height: 40px;
       }
 
       .active {
-        border: solid 2Px var(--wjh-color-primary);
+        border: solid 2px var(--wjh-color-primary);
         color: var(--wjh-color-primary);
       }
     }
@@ -118,17 +118,17 @@
 
     .warning {
       position: absolute;
-      top: -12Px;
-      left: 100Px;
+      top: -12px;
+      left: 100px;
       display: inline-flex;
-      // margin: -12Px 0 0 40Px;
-      padding: 9Px 13Px 9Px 13Px;
-      border-radius: 8Px;
+      // margin: -12px 0 0 40px;
+      padding: 9px 13px 9px 13px;
+      border-radius: 8px;
       color: var(--wjh-color-orange-600);
       background-color: var(--wjh-color-orange-400);
 
       .text {
-        margin-left: 12Px;
+        margin-left: 12px;
       }
     }
 
@@ -138,37 +138,37 @@
       .number-symbal {
         @include shadow;
         display: inline-block;
-        height: 35Px;
-        width: 35Px;
-        border: solid 1Px var(--wjh-color-week);
-        border-radius: 5Px;
+        height: 35px;
+        width: 35px;
+        border: solid 1px var(--wjh-color-week);
+        border-radius: 5px;
         color: var(--wjh-color-week);
         font-size: 1.6rem;
         font-weight: var(--wjh-font-weight-medium);
         text-align: center;
-        line-height: 35Px;
+        line-height: 35px;
       }
 
       .number-symbal:hover {
         color: var(--wjh-color-text-secondary);
         background-color: var(--wjh-color-light);
-        border: solid 1Px var(--wjh-color-light);
+        border: solid 1px var(--wjh-color-light);
       }
 
       .number-num {
         display: inline-block;
-        margin: 0 30Px;
+        margin: 0 30px;
       }
     }
   }
 
   .confirm {
     @include shadow;
-    height: 40Px;
-    margin: 12Px;
-    border-radius: 7Px;
+    height: 40px;
+    margin: 12px;
+    border-radius: 7px;
     text-align: center;
-    line-height: 40Px;
+    line-height: 40px;
     background-color: var(--wjh-color-primary);
     color: var(--wjh-color-white);
   }
@@ -179,11 +179,11 @@
 }
 
 .card-alarm {
-  margin: 0 30Px;
+  margin: 0 30px;
 }
 
 .card-alarmZhaoHui {
-  margin: 0 20Px;
+  margin: 0 20px;
 }
 
 .title {
@@ -194,9 +194,9 @@
 }
 
 .footer {
-  margin-top: 12Px;
-  border-top: 1Px solid var(--wjh-color-border);
-  padding: 12Px 0;
+  margin-top: 12px;
+  border-top: 1px solid var(--wjh-color-border);
+  padding: 12px 0;
   color: var(--wjh-color-week);
   text-align: center;
   font-size: .8rem;

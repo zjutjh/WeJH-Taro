@@ -42,13 +42,13 @@
     left: 0;
     height: 100%;
     width: 100%;
-    border-radius: 8Px;
+    border-radius: 8px;
   }
 
   .wjh-card-body {
     position: relative;
     z-index: 10;
-    height: 100Px;
+    height: 100px;
     display: flex;
     flex-direction: row;
     padding: 1rem 0;
@@ -98,7 +98,7 @@
   gap: 1rem;
 
   .operate-list {
-    padding: 4Px;
+    padding: 4px;
   }
 
 }
@@ -107,5 +107,5 @@
 .wrapper {
   display: flex;
   align-items: center;
-  gap: 8Px;
+  gap: 8px;
 }

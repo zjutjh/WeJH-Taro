@@ -2,30 +2,30 @@
 
 .container {
   width: 100%;
-  padding: 0 18Px;
+  padding: 0 18px;
   box-sizing: border-box;
   background: var(--wjh-color-background-container);
-  border-radius: 8Px;
-  margin-bottom: 12Px;
+  border-radius: 8px;
+  margin-bottom: 12px;
 }
 
 .header {
   display: flex;
-  padding-top: 14Px;
-  padding-bottom: 10Px;
+  padding-top: 14px;
+  padding-bottom: 10px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2Px solid var(--wjh-color-border);
+  border-bottom: 2px solid var(--wjh-color-border);
 
   .title {
     padding-left: .6rem;
-    border-left: 2Px solid;
+    border-left: 2px solid;
     font-size: 1.1rem;
     line-height: 100%;
   }
   .icon-box {
     display: flex;
-    border-radius: 8Px;
+    border-radius: 8px;
     color: var(--wjh-color-orange-600);
     background-color: var(--wjh-color-orange-400);
     font-size: 0.8rem;
@@ -41,14 +41,14 @@
 }
 
 .body {
-  border-bottom: 2Px solid var(--wjh-color-border);
+  border-bottom: 2px solid var(--wjh-color-border);
 
   .flex-container{
     padding: 50px 0;
     display: flex;
     .content {
       max-width: 30%;
-      padding: 6Px 0;
+      padding: 6px 0;
       white-space: pre-wrap;
       margin-left: auto;
       gap: 1.5rem;
@@ -62,13 +62,13 @@
     .img-list {
       display: flex;
       overflow-x: auto;
-      gap: 6Px;
-      padding-bottom: 6Px;
+      gap: 6px;
+      padding-bottom: 6px;
       margin-right: auto;
       .img-container {
         flex: 1; // dynamic
         display: flex;
-        gap: 16Px;
+        gap: 16px;
         width: 100%;
 
         .img-wrapper {
@@ -76,7 +76,7 @@
 
           .image {
             box-sizing: border-box;
-            border: 1Px solid var(--wjh-color-border);
+            border: 1px solid var(--wjh-color-border);
             border-radius: 12px;
           }
 

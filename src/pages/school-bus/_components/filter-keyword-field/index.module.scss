@@ -1,16 +1,16 @@
 .filter-keyword-field {
   display: flex;
   align-items: center;
-  gap: 10Px;
+  gap: 10px;
 
   .search-input-container {
     display: flex;
     align-items: center;
     flex: auto;
-    border-radius: var(--row-field-border-radius, 6Px);
+    border-radius: var(--row-field-border-radius, 6px);
     overflow: hidden;
-    gap: 5Px;
-    padding-left: 8Px;
+    gap: 5px;
+    padding-left: 8px;
     background-color: var(--wjh-color-background-container);
 
     .search-icon {
@@ -19,11 +19,11 @@
 
     .search-input {
       width: 100%;
-      height: var(--row-height, 32Px);
+      height: var(--row-height, 32px);
       color: var(--wjh-color-text);
       background-color: transparent;
-      font-size: 14Px;
-      margin-right: 8Px;
+      font-size: 14px;
+      margin-right: 8px;
     }
   }
 
@@ -31,16 +31,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 40Px;
+    width: 40px;
 
     .description {
       color: var(--wjh-color-text-secondary);
-      font-size: 10Px;
+      font-size: 10px;
     }
 
     :global(.iconfont) {
       color: var(--wjh-color-primary);
-      font-size: 20Px;
+      font-size: 20px;
     }
   }
 }

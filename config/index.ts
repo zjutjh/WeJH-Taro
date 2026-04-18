@@ -7,7 +7,7 @@ export default defineConfig<"vite">(async (merge) => {
   const baseConfig: UserConfigExport<"vite"> = {
     projectName: "WeJh-Taro",
     date: "2021-4-20",
-    designWidth: 750,
+    designWidth: 375,
     deviceRatio: {
       640: 2.34 / 2,
       750: 1,

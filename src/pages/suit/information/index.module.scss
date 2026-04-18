@@ -1,7 +1,7 @@
 @import "@/style/theme.scss";
 
 .header {
-  height: 200Px;
+  height: 200px;
   background-color: var(--wjh-color-primary);
   display: flex;
 
@@ -12,7 +12,7 @@
 }
 
 .input {
-  border: 2Px solid var(--wjh-color-light);
+  border: 2px solid var(--wjh-color-light);
   padding: 0.3rem 0.5rem;
   margin: 0.5rem 0;
   border-radius: 0.2rem;
@@ -39,7 +39,7 @@
     justify-content: space-around;
     .name{
       flex: 3;
-      padding-right: 10Px;
+      padding-right: 10px;
     }
     .sex{
       flex: 2;

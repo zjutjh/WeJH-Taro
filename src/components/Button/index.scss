@@ -5,15 +5,15 @@ button:after {
 }
 
 .wjh-button {
-  --padding-top-small: 3Px;
-  --padding-top-middle: 7Px;
-  --padding-top-large: 11Px;
-  --padding-small: 12Px;
-  --padding-middle: 12Px;
-  --padding-large: 16Px;
-  --padding-font-size-small: 15Px;
-  --padding-font-size-middle: 17Px;
-  --padding-font-size-large: 18Px;
+  --padding-top-small: 3px;
+  --padding-top-middle: 7px;
+  --padding-top-large: 11px;
+  --padding-small: 12px;
+  --padding-middle: 12px;
+  --padding-large: 16px;
+  --padding-font-size-small: 15px;
+  --padding-font-size-middle: 17px;
+  --padding-font-size-large: 18px;
 }
 
 .wjh-button {
@@ -50,13 +50,13 @@ button:after {
 }
 
 .wjh-button-shape-rounded {
-  border-radius: 1000Px;
+  border-radius: 1000px;
 }
 
 .wjh-button-shape-circle {
   display: inline-flex;
   align-items: center;
-  border-radius: 1000Px;
+  border-radius: 1000px;
   padding: var(--padding-top-middle);
   aspect-ratio: 1;
 }

@@ -3,7 +3,7 @@
 
 .school-card {
   text-align: center;
-  height: 200Px;
+  height: 200px;
   position: relative;
 
   &::before {
@@ -23,7 +23,7 @@
 
   .school-card-background {
     position: absolute;
-    height: 200Px;
+    height: 200px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(5, 20%);
@@ -32,17 +32,17 @@
 
   image {
     position: absolute;
-    height: 150Px;
+    height: 150px;
     width: 100%;
     left: 0;
     z-index: 200;
-    top: 20Px;
+    top: 20px;
   }
 
   .balance {
     color: var(--wjh-color-green-700);
     position: relative;
-    top: 72Px;
+    top: 72px;
     font-size: 2rem;
     font-weight: var(--wjh-font-weight-bold);
     z-index: 300;
@@ -50,9 +50,9 @@
 }
 
 .consume-card {
-  margin-top: 24Px;
-  min-height: calc(100% - 200Px - 24Px);
-  border-radius: 16Px;
+  margin-top: 24px;
+  min-height: calc(100% - 200px - 24px);
+  border-radius: 16px;
 
   .swicher {
     flex: 1;
@@ -113,14 +113,14 @@
       font-size: 1.2rem;
       font-weight: var(--wjh-font-weight-bold);
       padding: 0 0.8rem;
-      flex: 0 0 70Px;
+      flex: 0 0 70px;
     }
 
     .col:first-child::before {
       position: absolute;
       content: '';
       height: 100%;
-      width: 1Px;
+      width: 1px;
       right: 0;
       background-color: var(--wjh-color-week);
     }

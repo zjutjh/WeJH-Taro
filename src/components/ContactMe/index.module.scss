@@ -2,14 +2,14 @@
 
 .container {
   text-align: center;
-  padding: 8Px;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 8Px);
+  padding: 8px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
   font-size: 1.0rem;
   color: var(--wjh-color-text-secondary);
   background-color: var(--wjh-color-primary-light);
   display: flex;
   justify-content: center;
-  gap: 8Px;
+  gap: 8px;
   align-items: center;
   z-index: 1000;
   @include shadow;
@@ -18,8 +18,8 @@
     rotate: 90deg;
     width: 0;
     height: 0;
-    border: 7Px solid transparent;
-    border-bottom: 12Px solid var(--wjh-color-primary-dark);
+    border: 7px solid transparent;
+    border-bottom: 12px solid var(--wjh-color-primary-dark);
   }
 
   .helpicon {

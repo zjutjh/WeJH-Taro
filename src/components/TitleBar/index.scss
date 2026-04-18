@@ -6,9 +6,9 @@
   box-sizing: border-box;
   background-color: var(--wjh-color-background-page);
 
-  --padding-bottom: 4Px;
+  --padding-bottom: 4px;
 
-  padding: var(--menu-rect-top-offset) 16Px var(--padding-bottom) 16Px;
+  padding: var(--menu-rect-top-offset) 16px var(--padding-bottom) 16px;
   height: calc(var(--menu-rect-height) + var(--menu-rect-top-offset) + var(--padding-bottom));
 
   &-left-container {
@@ -18,19 +18,19 @@
 
   &-back-button {
     color: var(--wjh-color-text);
-    font-size: 28Px;
+    font-size: 28px;
   }
 
   &-title {
     color: var(--wjh-color-text);
-    font-size: 20Px;
+    font-size: 20px;
     font-weight: var(--wjh-font-weight-bold, 500);
   }
 
   &-spinner {
-    width: 16Px;
-    height: 16Px;
+    width: 16px;
+    height: 16px;
     opacity: 0.3;
-    margin-left: 12Px;
+    margin-left: 12px;
   }
 }

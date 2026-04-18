@@ -3,20 +3,20 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 16Px;
-  padding: 16Px;
+  gap: 16px;
+  padding: 16px;
 }
 
 .warn {
-  font-size: 14Px;
+  font-size: 14px;
   color: var(--wjh-color-week);
 }
 
 .input-card {
   input {
-    border: 2Px solid var(--wjh-color-light);
-    padding: 5Px 8Px;
-    margin: 8Px 0;
-    border-radius: 4Px
+    border: 2px solid var(--wjh-color-light);
+    padding: 5px 8px;
+    margin: 8px 0;
+    border-radius: 4px
   }
 }

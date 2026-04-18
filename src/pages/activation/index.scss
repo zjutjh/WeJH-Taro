@@ -30,14 +30,14 @@
   font-size: 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 10Px;
+  gap: 10px;
 
   text {
     font-size: 0.875rem;
   }
 
   input {
-    border: 2Px solid var(--wjh-color-light);
+    border: 2px solid var(--wjh-color-light);
     padding: 0.3rem 0.5rem;
     margin: 0.5rem 0;
     border-radius: 0.2rem;
@@ -45,7 +45,7 @@
 
   .prompt {
     color: var(--wjh-color-red-600);
-    padding-left: 10Px;
+    padding-left: 10px;
   }
 }
 
@@ -61,7 +61,7 @@
   .success-content {
     display: inline-flex;
     flex-direction: column;
-    gap: 24Px;
+    gap: 24px;
     text-align: center;
     margin-top: 30%;
 

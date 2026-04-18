@@ -5,7 +5,7 @@
     padding: 0.2rem;
     margin-top: 0.5rem;
     box-shadow: none;
-    padding: 0 16Px;
+    padding: 0 16px;
     position: relative;
 
     &::before {
@@ -18,7 +18,7 @@
       width: 100%;
       background-color: var(--bg-color);
       opacity: .3;
-      border-radius: 8Px;
+      border-radius: 8px;
     }
   }
 
@@ -28,7 +28,7 @@
   }
 
   .book-name {
-    margin-bottom: 10Px;
+    margin-bottom: 10px;
   }
 
   .borrow-time {
@@ -39,5 +39,5 @@
 .more-detail {
   color: var(--wjh-color-primary-dark);
   text-align: center;
-  margin-top: 10Px;
+  margin-top: 10px;
 }

@@ -21,10 +21,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12Px 0;
+    padding: 12px 0;
 
     .tab {
-      padding: 7Px 12Px;
+      padding: 7px 12px;
       background-color: var(--wjh-color-primary-light);
       color: var(--wjh-color-primary);
       font-size: 0.875rem;
@@ -36,13 +36,13 @@
     }
 
     .tab:first-child {
-      border-top-left-radius: 100Px;
-      border-bottom-left-radius: 100Px;
+      border-top-left-radius: 100px;
+      border-bottom-left-radius: 100px;
     }
 
     .tab:last-child {
-      border-top-right-radius: 100Px;
-      border-bottom-right-radius: 100Px;
+      border-top-right-radius: 100px;
+      border-bottom-right-radius: 100px;
     }
   }
 }
