@@ -12,24 +12,10 @@
   padding-bottom: 10rem;
 }
 
-.prectice-title {
+.practice-title {
   padding: 1.5rem;
   font-size: 1.5rem;
   font-weight: 500;
-}
-
-.lesson-detail {
-  padding: 1.5rem 0 3rem 0;
-  width: 80%;
-  margin: 0 auto;
-  font-size: 0.875rem;
-
-  .lesson-title {
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    color: var(--wjh-color-primary);
-  }
 }
 
 .picker-wrapper {
@@ -71,6 +57,9 @@
 
 .back-button {
   padding: 5px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
 }
 
 @keyframes rote {

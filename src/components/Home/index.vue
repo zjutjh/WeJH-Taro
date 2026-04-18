@@ -9,7 +9,7 @@
       <fixed-quick-view />
 
       <!-- 这里是可选卡片列表 -->
-      <cards />
+      <quick-view-card-list />
 
       <card v-if="!(isBindZf || isBindYXY || isBindOauth)" title="提示">
         还没有绑定任何服务，请到我的页面绑定
@@ -21,7 +21,9 @@
     </view>
     <view v-else class="flex-column">
       <card title="未激活">
-        <w-button block class="active" @tap="nav2activation"> 激活 </w-button>
+        <w-button :block="true" class="active" @tap="nav2activation">
+          激活
+        </w-button>
       </card>
       <card v-show="registerTips" title="新生提醒">
         <text style="font-size: 14.5px">
@@ -37,6 +39,7 @@
 import Taro from "@tarojs/taro";
 import { computed, onMounted, ref } from "vue";
 
+import EditPanel from "@/components/Home/components/edit-panel/index.vue";
 import { questionnaireInfo } from "@/constants/updateInfo";
 import { SystemService } from "@/services";
 import store, { serviceStore, systemStore } from "@/store";
@@ -47,8 +50,7 @@ import Card from "../Card/index.vue";
 import FixedQuickView from "../FixedQuickView/index.vue";
 import Questionnaire from "../Questionnaire/index.vue";
 import TitleBar from "../TitleBar/index.vue";
-import cards from "./components/card-list/index.vue";
-import EditPanel from "./components/edit-panel/index.vue";
+import QuickViewCardList from "./components/card-list/index.vue";
 import styles from "./index.module.scss";
 
 const questionnairePath = questionnaireInfo.path; // 获取最新的问卷地址
@@ -62,9 +64,7 @@ const showEditPanel = () => {
 };
 
 // 检查问卷可访问状态
-const isQuestionnaireAccess = () => {
-  return questionnaireInfo.isAccess;
-};
+const isQuestionnaireAccess = () => questionnaireInfo.isAccess;
 
 // 问卷路径有更新，更新状态，并打开问卷入口
 if (questionnairePath != systemStore.questionnaire.path) {
@@ -80,9 +80,7 @@ onMounted(() => {
   });
 });
 
-const isActive = computed(() => {
-  return serviceStore.user.isActive;
-});
+const isActive = computed(() => serviceStore.user.isActive);
 
 const isNeverShowQuestionnaire = computed(() => {
   if (systemStore.questionnaire.state === "close") {
@@ -90,18 +88,10 @@ const isNeverShowQuestionnaire = computed(() => {
   }
   return true;
 });
-const isBindZf = computed(() => {
-  return serviceStore.user.isBindZF;
-});
-const isBindYXY = computed(() => {
-  return serviceStore.user.isBindYXY;
-});
-const isBindOauth = computed(() => {
-  return serviceStore.user.isBindOauth;
-});
-const counter = computed(() => {
-  return serviceStore.announcement.updateCounter + serviceStore.information.updateCounter;
-});
+const isBindZf = computed(() => serviceStore.user.isBindZF);
+const isBindYXY = computed(() => serviceStore.user.isBindYXY);
+const isBindOauth = computed(() => serviceStore.user.isBindOauth);
+const counter = computed(() => serviceStore.announcement.updateCounter + serviceStore.information.updateCounter);
 
 function nav2activation() {
   Taro.navigateTo({

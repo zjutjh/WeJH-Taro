@@ -1,10 +1,10 @@
 export type HomeCardName =
-  "lessons-table-quick-view" |
-  "exam-quick-view" |
-  "school-card-quick-view" |
-  "score-quick-view" |
-  "library-quick-view" |
-  "electricity-quick-view";
+  | "lessons-table-quick-view"
+  | "exam-quick-view"
+  | "school-card-quick-view"
+  | "score-quick-view"
+  | "library-quick-view"
+  | "electricity-quick-view";
 
 export const homeCards: {
   [key in HomeCardName]: {
@@ -13,7 +13,7 @@ export const homeCards: {
     icon: string;
     backgroundColor: string;
     require: "isBindZF" | "isBindOauth" | "isBindYXY";
-  }
+  };
 } = {
   "exam-quick-view": {
     name: "exam-quick-view",

@@ -11,7 +11,6 @@ import ContactMe from "./ContactMe/index.vue";
 import WDescriptions from "./Descriptions/Descriptions.vue";
 import WDescriptionsItem from "./Descriptions/DescriptionsItem.vue";
 import Home from "./Home/index.vue";
-import LessonsTable from "./LessonsTable/index.vue";
 import WList from "./List/List.vue";
 import WListItem from "./List/ListItem.vue";
 import WModal from "./Modal/index.vue";
@@ -38,7 +37,6 @@ export {
   Card,
   ContactMe,
   Home,
-  LessonsTable,
   My,
   NavBar,
   PopView,
