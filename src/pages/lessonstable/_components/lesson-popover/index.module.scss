@@ -1,0 +1,67 @@
+.lesson-detail {
+  padding: 1.5rem 0 1rem 0;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 0.875rem;
+
+  .lesson-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--wjh-color-primary);
+  }
+}
+
+.conflict-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.1rem;
+}
+
+.conflict-title-fixed {
+  flex: 0 0 9rem;
+  max-width: 11.5rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--wjh-color-primary);
+}
+
+.conflict-time-inline {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: left;
+  align-self: center;
+  color: var(--wjh-color-primary);
+  overflow-wrap: anywhere;
+  word-break: break-all;
+  white-space: normal;
+}
+
+.conflict-list {
+  width: 100%;
+  max-height: 35vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+
+  :last-child {
+    border-bottom: none;
+  }
+}
+
+.conflict-item {
+  padding: 0.75rem 0;
+  border-bottom: 1Px solid var(--wjh-color-primary);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}

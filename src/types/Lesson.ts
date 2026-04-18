@@ -16,10 +16,10 @@ export interface Lesson {
   week: string;
   /** 周几 */
   weekday: string;
-  /** 标记冲突课程  */
-  mark?: boolean;
   /** 课程颜色 */
   color?: string;
+  /** 层数，0为正常层，≥1为冲突层 */
+  stack?: number;
 }
 export interface PracticeLesson {
   className: string;
