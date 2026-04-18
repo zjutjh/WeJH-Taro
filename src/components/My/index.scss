@@ -1,6 +1,3 @@
-@import "./dark.scss";
-@import "./light.scss";
-
 .flex {
   display: flex;
   justify-content: center;
@@ -106,4 +103,33 @@
   display: flex;
   align-items: center;
   gap: 8Px;
+}
+
+.light {
+  .profile-card::before {
+    background: linear-gradient(120deg, var(--wjh-color-orange-400) 25%, var(--wjh-color-primary) 85%);
+  }
+
+  .profile-split {
+    background-color: var(--wjh-color-white);
+  }
+
+  .info-wrapper {
+    color: var(--wjh-color-white);
+  }
+}
+
+.dark {
+  .profile-card::before {
+    background: var(--wjh-color-primary);
+    opacity: .3;
+  }
+
+  .profile-split {
+    background-color: var(--wjh-color-primary);
+  }
+
+  .info-wrapper {
+    color: var(--wjh-color-primary);
+  }
 }

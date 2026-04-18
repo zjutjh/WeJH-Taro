@@ -1,6 +1,3 @@
-@import "./dark.module.scss";
-@import "./light.module.scss";
-
 .badge {
   display: inline-flex;
   line-height: 100%;
@@ -45,4 +42,23 @@
   padding: 3Px 6Px;
   min-height: 6Px;
   font-size: .6rem;
+}
+
+:global(.light) {
+  .text {
+    color: var(--wjh-color-white);
+  }
+}
+
+:global(.dark) {
+
+  .text {
+    color: var(--badge-color);
+    filter: brightness(1.5);
+  }
+
+  .badge::before {
+    filter: brightness(.6);
+  }
+
 }
