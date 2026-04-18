@@ -1,14 +1,194 @@
-@use "darkmode/light.scss";
-@use "darkmode/dark.scss";
+// Color scale — SCSS variables used below to derive the CSS custom properties
+$white-600: #fdfdfd;
 
-@mixin shadow {
-  box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
+$dp-1: #121212;
+$dp-2: #1e1e1e;
+$dp-3: #232323;
+$dp-4: #252525;
+$dp-5: #272727;
+$dp-6: #2c2c2c;
+$dp-7: #2e2e2e;
+$dp-8: #333333;
+$dp-9: #363636;
+$dp-10: #383838;
+
+$green-500: #d3f5ed;
+$green-600: #53d1b6;
+$green-700: #51bbbb;
+
+$green-dark-500: #334843;
+$green-dark-600: #4ab59e;
+$green-dark-700: #48a2a2;
+
+$blue-500: #d3effd;
+$blue-600: #81c6e7;
+$blue-700: #17ade8;
+
+$blue-dark-500: #283740;
+$blue-dark-600: #71abc7;
+$blue-dark-700: #a0cddf;
+
+$yellow-500: #fff6cb;
+$yellow-600: #f3c33d;
+$yellow-700: #feb50b;
+
+$yellow-dark-500: #665220;
+$yellow-dark-600: #b78f44;
+$yellow-dark-700: #dfbf67;
+
+$orange-400: #ffedcd;
+$orange-500: #ffedcd;
+$orange-600: #f0ad3e;
+
+$orange-dark-400: #ffedcd;
+$orange-dark-500: #ffedcd;
+$orange-dark-600: #f0ad3e;
+
+$red-400: #ffe7e6;
+$red-500: #f7b9b7;
+$red-600: #eb8888;
+$red-700: #c4686b;
+$red-800: #9e4c51;
+
+$red-dark-400: #40292a;
+$red-dark-500: #754848;
+$red-dark-600: #da8484;
+$red-dark-700: #e8a8a8;
+$red-dark-800: #e8c1c0;
+
+$purple-500: #d2d7f6;
+$purple-600: #8f9de1;
+$purple-700: #6b76ad;
+
+$purple-dark-500: #afbdf5;
+$purple-dark-600: #8191cf;
+$purple-dark-700: #6379d3;
+
+
+$pink-500: #f9e5eb;
+$pink-600: #fdb1c7;
+$pink-700: #ff8fb0;
+
+$pink-dark-500: #5b3943;
+$pink-dark-600: #b4687d;
+$pink-dark-700: #d89dac;
+
+.light {
+  --wjh-color-text: #333;
+  --wjh-color-text-secondary: #666;
+  --wjh-color-unselected:#838383;
+
+  --wjh-color-week: #999;
+  --wjh-color-light: #ccc;
+  --wjh-color-border: #eee;
+
+  --wjh-color-background-frame: #fcfcfc;
+  --wjh-color-background-container: #fafafa;
+  --wjh-color-background-popup: #fefefe;
+  --wjh-color-background-page: #f5f5f5;
+}
+
+.light {
+  --wjh-color-white: #{$white-600};
+
+  --wjh-color-green-500: #{$green-500};
+  --wjh-color-green-600: #{$green-600};
+  --wjh-color-green-700: #{$green-700};
+
+  --wjh-color-blue-500: #{$blue-500};
+  --wjh-color-blue-600: #{$blue-600};
+  --wjh-color-blue-700: #{$blue-700};
+
+  --wjh-color-yellow-500: #{$yellow-500};
+  --wjh-color-yellow-600: #{$yellow-600};
+  --wjh-color-yellow-700: #{$yellow-700};
+
+  --wjh-color-pink-500: #{$pink-500};
+  --wjh-color-pink-600: #{$pink-600};
+  --wjh-color-pink-700: #{$pink-700};
+
+  --wjh-color-orange-400: #{$orange-400};
+  --wjh-color-orange-500: #{$orange-500};
+  --wjh-color-orange-600: #{$orange-600};
+
+  --wjh-color-red-400: #{$red-400};
+  --wjh-color-red-500: #{$red-500};
+  --wjh-color-red-600: #{$red-600};
+  --wjh-color-red-700: #{$red-700};
+  --wjh-color-red-800: #{$red-800};
+
+  --wjh-color-purple-500: #{$purple-500};
+  --wjh-color-purple-600: #{$purple-600};
+  --wjh-color-purple-700: #{$purple-700};
+
+
+}
+
+.dark {
+  --wjh-color-text: #ffffffdd;
+  --wjh-color-text-secondary: #ffffffbb;
+  --wjh-color-week: #828282;
+  --wjh-color-light: #424242;
+  --wjh-color-unselected:#ababab;
+
+  --wjh-color-background-frame: #{$dp-8};
+  --wjh-color-background-container: #{$dp-2};
+  --wjh-color-background-popup: #{$dp-7};
+  --wjh-color-background-page: #{$dp-1};
+  --wjh-color-border: #{$dp-8};
+}
+
+.dark {
+  --wjh-color-white: #{$white-600};
+
+  --wjh-color-green-500: #{$green-dark-500};
+  --wjh-color-green-600: #{$green-dark-600};
+  --wjh-color-green-700: #{$green-dark-700};
+
+  --wjh-color-blue-500: #{$blue-dark-500};
+  --wjh-color-blue-600: #{$blue-dark-600};
+  --wjh-color-blue-700: #{$blue-dark-700};
+
+  --wjh-color-yellow-500: #{$yellow-dark-500};
+  --wjh-color-yellow-600: #{$yellow-dark-600};
+  --wjh-color-yellow-700: #{$yellow-dark-700};
+
+  --wjh-color-pink-500: #{$pink-dark-500};
+  --wjh-color-pink-600: #{$pink-dark-600};
+  --wjh-color-pink-700: #{$pink-dark-700};
+
+  --wjh-color-orange-400: #{$orange-dark-400};
+  --wjh-color-orange-500: #{$orange-dark-500};
+  --wjh-color-orange-600: #{$orange-dark-600};
+
+  --wjh-color-red-400: #{$red-dark-400};
+  --wjh-color-red-500: #{$red-dark-500};
+  --wjh-color-red-600: #{$red-dark-600};
+  --wjh-color-red-700: #{$red-dark-700};
+  --wjh-color-red-800: #{$red-dark-800};
+
+  --wjh-color-purple-600: #{$purple-dark-600};
+
+  --wjh-color-pink-500: #{$pink-dark-500};
+  --wjh-color-pink-600: #{$pink-dark-600};
+  --wjh-color-pink-700: #{$pink-dark-700};
+}
+
+.dark {
+  background-image: none !important;
+
+  image {
+    filter: brightness(.8);
+  }
 }
 
 :host {
   --wjh-font-weight-bold: 700;
   --wjh-font-weight-medium: 500;
   --wjh-font-weight-regular: 400;
+
+  --wjh-backdrop-blur: saturate(180%) blur(20px);
+  --wjh-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
 }
 
 page {

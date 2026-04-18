@@ -1,5 +1,3 @@
-@import "./dark.scss";
-
 .score-quick-view {
   .wjh-card {
     box-shadow: none;
@@ -42,5 +40,11 @@
       text-align: end;
       color: var(--wjh-color-week);
     }
+  }
+}
+
+.dark {
+  .quick-view-help-icon {
+    opacity: .8;
   }
 }

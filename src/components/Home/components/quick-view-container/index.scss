@@ -1,9 +1,6 @@
-@import '@/style/theme.scss';
-@import '@/style/mixin.scss';
-
 .quick-view {
-  @include radius;
-  @include shadow;
+  border-radius: 8Px;
+  box-shadow: var(--wjh-shadow);
   padding: 16Px 20Px;
   background-color: var(--wjh-color-background-container);
 

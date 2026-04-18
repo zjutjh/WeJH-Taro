@@ -1,8 +1,6 @@
-@import "@/style/theme";
-
 .fixed-quick-view-container {
   border-radius: 8Px;
-  @include shadow;
+  box-shadow: var(--wjh-shadow);
   padding: 0 20Px;
   background-color: var(--wjh-color-background-container);
   opacity: 95%;

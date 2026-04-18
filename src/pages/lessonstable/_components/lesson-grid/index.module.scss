@@ -1,5 +1,3 @@
-@import "@/style/mixin.scss";
-
 .index-panel {
   height: 100%;
   z-index: 10;
@@ -30,7 +28,7 @@
   margin-top: 2rem;
   height: calc(100% - 2rem);
   border-radius: 0 0 0 8Px;
-  @include blur;
+  backdrop-filter: var(--wjh-backdrop-blur);
 }
 
 .class {
