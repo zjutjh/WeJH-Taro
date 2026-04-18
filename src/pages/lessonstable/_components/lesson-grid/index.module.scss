@@ -28,7 +28,7 @@
   margin-top: 2rem;
   height: calc(100% - 2rem);
   border-radius: 0 0 0 8Px;
-  backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: var(--wjh-backdrop-blur);
 }
 
 .class {
