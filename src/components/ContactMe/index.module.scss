@@ -10,7 +10,7 @@
   gap: 8Px;
   align-items: center;
   z-index: 1000;
-  box-shadow: 1Px 1Px 8Px 1Px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--wjh-shadow);
 
   .arrow {
     rotate: 90deg;
