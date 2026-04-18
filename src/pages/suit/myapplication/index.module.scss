@@ -1,6 +1,4 @@
-@import "@/style/theme.scss";
-
-.campus-selector {
+.campusSelector {
   background-color: var(--wjh-color-background-container);
   padding: 12Px;
 
@@ -30,13 +28,13 @@
   }
 }
 
-.kind-selector {
+.kindSelector {
   display: flex;
   font-size: 1.1rem;
   color: var(--wjh-color-week);
   background-color: var(--wjh-color-primary-light);
 
-  .scroll-view {
+  .scrollView {
     margin-top: -9px;
     font-size: 0.9em;
     display: flex;
@@ -61,6 +59,6 @@
   }
 }
 
-.record-list {
+.recordList {
   padding: 16Px;
 }

@@ -10,16 +10,14 @@
 </template>
 
 <script setup lang="ts">
-import { withDefaults } from "vue";
 import "./index.scss";
 
 type PropsType = {
   size?: "small" | "middle";
-  title?: string
+  title?: string;
 };
 const props = withDefaults(defineProps<PropsType>(), {
   size: "middle",
   title: undefined
 });
-
 </script>

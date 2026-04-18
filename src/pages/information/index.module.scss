@@ -1,5 +1,3 @@
-@import "@/style/theme.scss";
-
 .container {
   position: relative;
   z-index: 0;
@@ -24,7 +22,6 @@
 .content {
   white-space: break-spaces;
   font-size: 1rem;
-  color: var(--wjh-color-week);
   color: var(--wjh-color-text);
   line-height: 125%;
   margin: 16Px auto;
@@ -40,13 +37,13 @@
   color: var(--wjh-color-primary);
 }
 
-.publish-time {
+.publishTime {
   text-align: center;
   font-size: 0.85rem;
   color: var(--wjh-color-week);
 }
 
-.img_container {
+.imgContainer {
   width: 100%;
   height: 100%;
   display: flex;
@@ -65,7 +62,7 @@
   align-items: center;
 }
 
-.logo_container {
+.logoContainer {
   display: flex;
   justify-content: center;
   align-items: center;
