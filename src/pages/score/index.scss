@@ -6,7 +6,7 @@
     font-size: 1.25rem;
     font-weight: var(--wjh-font-weight-bold);
     display: flex;
-    gap: 8Px;
+    gap: 8px;
     align-items: center;
     justify-content: center;
     align-self: center;
@@ -16,16 +16,16 @@
 .score-card {
   .wjh-card-header {
     justify-content: space-between;
-    height: 60Px;
-    padding-left: 12Px;
-    padding-right: 12Px;
+    height: 60px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .row {
     display: flex;
     height: 100%;
     align-items: center;
-    gap: 12Px;
+    gap: 12px;
   }
 
   .col {
@@ -57,10 +57,10 @@
 }
 
 .score-icon-wrapper {
-  border-radius: 8Px;
+  border-radius: 8px;
   background-color: var(--wjh-color-primary);
-  width: 50Px;
-  height: 50Px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,15 +196,15 @@ checkbox .wx-checkbox-input {
   }
 
   .sort-button {
-    padding: 5Px;
+    padding: 5px;
   }
 }
 
 .score-icon-wrapper {
-  border-radius: 8Px;
+  border-radius: 8px;
   background-color: var(--wjh-color-primary);
-  width: 50Px;
-  height: 50Px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;

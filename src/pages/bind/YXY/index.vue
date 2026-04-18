@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { Card, WButton, WModal } from "@/components";
-import { helpText } from "@/constants/copywriting";
-import { YxyService } from "@/services";
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
+
+import { Card, WButton, WModal } from "@/components";
+import { helpText } from "@/constants/copywriting";
 import { useRequest } from "@/hooks";
+import { YxyService } from "@/services";
 import store, { serviceStore } from "@/store";
 
 const phoneNumber = ref("");
@@ -48,8 +49,9 @@ const { loading: isPhoneCodeLoading, run: sendPhoneCode } = useRequest(
         timeCounter.value = 60;
         const timer = setInterval(() => {
           timeCounter.value--;
-          if (timeCounter.value <= 0)
+          if (timeCounter.value <= 0) {
             clearInterval(timer);
+          }
         }, 1000);
       } else {
         Taro.showToast({ icon: "none", title: res.data.msg });
@@ -57,8 +59,9 @@ const { loading: isPhoneCodeLoading, run: sendPhoneCode } = useRequest(
     },
     onError: (e: unknown) => {
       console.error(e);
-      if (e instanceof Error)
+      if (e instanceof Error) {
         Taro.showToast({ icon: "none", title: e.message });
+      }
     }
   }
 );
@@ -127,7 +130,7 @@ const handleClickTutorial = () => {
     </view>
 
     <template #footer>
-      <view style="display: flex; flex-direction: column; gap: 8Px">
+      <view style="display: flex; flex-direction: column; gap: 8px">
         <text style="color: var(--wjh-color-red-600); font-size: .9rem;">
           请先下载易校园app，注册并绑定浙工大校园卡，之后在此界面用同一手机号接收验证码即可完成绑定
         </text>

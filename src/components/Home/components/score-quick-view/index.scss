@@ -11,8 +11,8 @@
   }
 
   .score-card {
-    margin: 8Px 0;
-    padding: .6rem 16Px;
+    margin: 8px 0;
+    padding: .6rem 16px;
     position: relative;
 
     &::before {
@@ -20,7 +20,7 @@
       z-index: 0;
       opacity: .24;
       position: absolute;
-      border-radius: 8Px;
+      border-radius: 8px;
       top: 0;
       left: 0;
       background: var(--bg-color);

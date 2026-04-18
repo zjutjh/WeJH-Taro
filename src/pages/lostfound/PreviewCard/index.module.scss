@@ -2,32 +2,32 @@
 
 .container {
   width: 100%;
-  padding: 0 18Px;
+  padding: 0 18px;
   box-sizing: border-box;
   background: var(--wjh-color-background-container);
-  border-radius: 8Px;
-  margin-bottom: 12Px;
+  border-radius: 8px;
+  margin-bottom: 12px;
 }
 
 .header {
   display: flex;
-  padding-top: 14Px;
-  padding-bottom: 10Px;
+  padding-top: 14px;
+  padding-bottom: 10px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2Px solid var(--wjh-color-border);
+  border-bottom: 2px solid var(--wjh-color-border);
 
   .title {
     padding-left: .6rem;
-    border-left: 2Px solid;
+    border-left: 2px solid;
     font-size: 1.1rem;
     line-height: 100%;
   }
 
   .joint {
     display: flex;
-    height: 24Px;
-    gap: 6Px;
+    height: 24px;
+    gap: 6px;
     transform: scale(1.2);
 
     .logo {
@@ -39,10 +39,10 @@
 }
 
 .body {
-  border-bottom: 2Px solid var(--wjh-color-border);
+  border-bottom: 2px solid var(--wjh-color-border);
 
   .content {
-    padding: 12Px 0;
+    padding: 12px 0;
     white-space: pre-wrap;
 
     .text {
@@ -56,8 +56,8 @@
   .img-list {
     display: flex;
     overflow-x: auto;
-    gap: 6Px;
-    padding-bottom: 6Px;
+    gap: 6px;
+    padding-bottom: 6px;
 
     .multiple {
       .img-wrapper {
@@ -76,7 +76,7 @@
     .img-container {
       flex: 1; // dynamic
       display: flex;
-      gap: 16Px;
+      gap: 16px;
       width: 100%;
 
       .img-wrapper {
@@ -85,8 +85,8 @@
 
         .image {
           box-sizing: border-box;
-          border: 1Px solid var(--wjh-color-border);
-          width: 240Px;
+          border: 1px solid var(--wjh-color-border);
+          width: 240px;
         }
 
       }
@@ -95,7 +95,7 @@
 }
 
 .footer {
-  padding: 12Px 0;
+  padding: 12px 0;
   color: var(--wjh-color-week);
   text-align: center;
   font-size: .8rem;

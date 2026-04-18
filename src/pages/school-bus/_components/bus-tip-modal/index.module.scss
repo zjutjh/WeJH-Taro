@@ -1,11 +1,11 @@
 .content {
   text-align: left;
-  font-size: 14Px;
+  font-size: 14px;
   color: var(--wjh-color-text);
 
   .paragraph {
     &:not(:last-child) {
-      margin-bottom: 10Px;
+      margin-bottom: 10px;
     }
   }
 }

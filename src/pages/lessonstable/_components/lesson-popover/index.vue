@@ -1,7 +1,9 @@
 <template>
   <pop-view :show="show" style="z-index: 4000" @update:show="emit('update:show', $event)">
     <view v-if="selection" :class="styles['lesson-detail']">
-      <view :class="styles['lesson-title']">{{ selection.lessonName }}</view>
+      <view :class="styles['lesson-title']">
+        {{ selection.lessonName }}
+      </view>
       <view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
       <view>班级：{{ selection.className }} </view>
       <view>教师：{{ selection.teacherName }} </view>
@@ -18,10 +20,12 @@
       :class="styles['lesson-detail']"
     >
       <view :class="styles['conflict-header']">
-        <view :class="styles['conflict-title-fixed']"
-          >冲突课程({{ selectionConflicts.length }})</view
-        >
-        <view :class="styles['conflict-time-inline']">冲突时间：{{ conflictTime }}</view>
+        <view :class="styles['conflict-title-fixed']">
+          冲突课程({{ selectionConflicts.length }})
+        </view>
+        <view :class="styles['conflict-time-inline']">
+          冲突时间：{{ conflictTime }}
+        </view>
       </view>
       <view :class="styles['conflict-list']">
         <view

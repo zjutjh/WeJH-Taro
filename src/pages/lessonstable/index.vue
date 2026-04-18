@@ -94,23 +94,19 @@ const selectTerm = ref(originTerm);
 const originWeek = Math.max(systemStore.generalInfo.week, 0);
 const selectWeek = ref(originWeek);
 
-const lessonsTableData = computed(() => {
-  return ZFService.getLessonTable(selectTerm.value) || [];
-});
+const lessonsTableData = computed(() => ZFService.getLessonTable(selectTerm.value) || []);
 
-const lessonsTableWeek = computed(() => {
-  return lessonsTableData.value.filter((item) => isLessonActiveInWeek(item.week, selectWeek.value));
-});
-const isThisWeek = computed(() => {
-  return (
-    selectWeek.value === originWeek &&
+const lessonsTableWeek = computed(() => lessonsTableData.value.filter((item) => isLessonActiveInWeek(item.week, selectWeek.value)));
+const isThisWeek = computed(() => (
+  selectWeek.value === originWeek &&
     JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
-  );
-});
+));
 const isRefreshing = ref(false);
 
 async function handleRefresh() {
-  if (isRefreshing.value) return;
+  if (isRefreshing.value) {
+    return;
+  }
   isRefreshing.value = true;
   await ZFService.updateLessonTable(selectTerm.value);
   isRefreshing.value = false;
@@ -118,12 +114,16 @@ async function handleRefresh() {
 
 const detailTimeInterval = computed(() => {
   const sections = selection.value?.sections;
-  if (!sections) return "";
+  if (!sections) {
+    return "";
+  }
 
   const [startText, endText = startText] = sections.split("-");
   const startIndex = Number(startText);
   const endIndex = Number(endText);
-  if (!Number.isInteger(startIndex) || !Number.isInteger(endIndex)) return "";
+  if (!Number.isInteger(startIndex) || !Number.isInteger(endIndex)) {
+    return "";
+  }
   if (
     startIndex < 1 ||
     endIndex < 1 ||
@@ -170,8 +170,12 @@ function handleLessonClick(lesson: Lesson) {
   }
 
   const conflicts = lessonsTableData.value.filter((l) => {
-    if (l.weekday !== lesson.weekday) return false;
-    if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) return false;
+    if (l.weekday !== lesson.weekday) {
+      return false;
+    }
+    if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) {
+      return false;
+    }
     if (clickedStack > 0) {
       const stack = l.stack || 0;
       return stack < clickedStack && sectionsOverlap(l.sections, lesson.sections);
@@ -206,16 +210,25 @@ function handleBackToOriginWeek() {
 
 const conflictTime = computed(() => {
   const arr = selectionConflicts.value;
-  if (!arr || arr.length === 0) return "";
+  if (!arr || arr.length === 0) {
+    return "";
+  }
   let inter: Set<number> | null = null;
   for (const it of arr) {
     const s = parseWeeks(it.week || "");
-    if (inter === null) inter = new Set(s);
-    else {
-      for (const w of Array.from(inter)) if (!s.has(w)) inter.delete(w);
+    if (inter === null) {
+      inter = new Set(s);
+    } else {
+      for (const w of Array.from(inter)) {
+        if (!s.has(w)) {
+          inter.delete(w);
+        }
+      }
     }
   }
-  if (!inter || inter.size === 0) return "无";
+  if (!inter || inter.size === 0) {
+    return "无";
+  }
   return `${formatWeeks(inter)}周`;
 });
 </script>

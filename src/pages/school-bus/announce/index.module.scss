@@ -1,7 +1,7 @@
 .announce-list {
   display: flex;
   flex-direction: column;
-  gap: 16Px;
-  padding: 16Px;
-  padding-bottom: calc(16Px + env(safe-area-inset-bottom));
+  gap: 16px;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }

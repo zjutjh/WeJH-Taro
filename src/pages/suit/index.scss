@@ -1,7 +1,7 @@
 @import '@/style/theme.scss';
 
 .header-view {
-  height: 200Px;
+  height: 200px;
   background-color: var(--wjh-color-primary);
   display: flex;
 
@@ -13,13 +13,13 @@
   .extra {
     position: absolute;
     color: var(--wjh-color-white);
-    right: 16Px;
-    top: 145Px;
+    right: 16px;
+    top: 145px;
     text-align: center;
 
     .icon-wrapper {
-      width: 32Px;
-      height: 32Px;
+      width: 32px;
+      height: 32px;
       background-color: var(--wjh-color-white);
       text-align: center;
       border-radius: 50%;

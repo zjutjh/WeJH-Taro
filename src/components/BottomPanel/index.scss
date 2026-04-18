@@ -1,9 +1,9 @@
 @import '@/style/theme.scss';
 
 .bottom-panel {
-  height: 49Px;
-  padding-top: 8Px;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 8Px);
+  height: 49px;
+  padding-top: 8px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
   display: flex;
   align-items: center;
   justify-content: space-around;

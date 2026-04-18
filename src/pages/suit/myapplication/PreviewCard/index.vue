@@ -60,7 +60,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 125Px ;height: 200Px"
+                style="width: 125px ;height: 200px"
                 mode="aspectFill"
                 :src="item"
                 @load="handleLoadFinish"
@@ -117,7 +117,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 125Px ;height: 200Px"
+                style="width: 125px ;height: 200px"
                 mode="aspectFill"
                 :src="item"
                 @load="handleLoadFinish"
@@ -172,7 +172,7 @@
             >
               <image
                 :class="styles.image"
-                style="width: 125Px ;height: 200Px"
+                style="width: 125px ;height: 200px"
                 mode="aspectFill"
                 :src="item"
                 @load="handleLoadFinish"
@@ -206,15 +206,17 @@
   </view>
 </template>
 <script setup lang="ts">
-import { SuitApplyRecord } from "@/types/Suit";
-import { computed, ref, toRefs } from "vue";
-import { useRequest } from "@/hooks";
-import { SuitService } from "@/services";
-import { WButton } from "@/components";
-import Modal from "./Modal/index.vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { computed, ref, toRefs } from "vue";
+
+import { WButton } from "@/components";
+import { useRequest } from "@/hooks";
+import { SuitService } from "@/services";
+import { SuitApplyRecord } from "@/types/Suit";
+
 import styles from "./index.module.scss";
+import Modal from "./Modal/index.vue";
 
 const props = defineProps<{
   source: SuitApplyRecord;
@@ -222,8 +224,8 @@ const props = defineProps<{
 const isShowConfirm = ref(false);
 const needFixWidth = ref(false);
 const imageList = computed(() => [
-  source.value?.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
-].filter(item => !!item) as string[]);
+  source.value.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
+].filter(item => Boolean(item)) as string[]);
 const { source } = toRefs(props);
 const emit = defineEmits(["isDelete"]);
 
@@ -237,11 +239,11 @@ const { run } = useRequest(
     onSuccess: (res) => {
       if (res.data.code === 1) {
         emit("isDelete", "true");
-      } else throw new Error(res.data.msg);
+      } else {
+        throw new Error(res.data.msg);
+      }
     },
-    onError: (e: Error) => {
-      return `加载申请信息失败\r\n${e.message || "网络错误"}`;
-    }
+    onError: (e: Error) => `加载申请信息失败\r\n${e.message || "网络错误"}`
   }
 );
 
@@ -271,13 +273,14 @@ const onConfirm = () => {
 };
 
 const handleLoadFinish = ({ detail: { height, width } }) => {
-  if (height > width) needFixWidth.value = false;
-  else needFixWidth.value = true;
+  if (height > width) {
+    needFixWidth.value = false;
+  } else {
+    needFixWidth.value = true;
+  }
 };
 
-const timeFormat = (time: string) => {
-  return dayjs(time).format("YYYY/MM/DD HH:mm");
-};
+const timeFormat = (time: string) => dayjs(time).format("YYYY/MM/DD HH:mm");
 
 const timeCount = (borrow_time: string) => {
   let secondDuring = (dayjs(borrow_time).add(7, "day").unix()) - (dayjs().unix());
@@ -287,10 +290,10 @@ const timeCount = (borrow_time: string) => {
   const setHours = Math.floor(secondDuring / 60 / 60 % 24);
   const setDay = Math.floor(secondDuring / 60 / 60 / 24);
   if (Math.abs(setDay) > 0) {
-    return setDay + "天\t";
-  } else {
-    return setHours + "小时\t";
+    return `${setDay }天\t`;
   }
+  return `${setHours }小时\t`;
+
 };
 
 const timeDuring = (borrow_time: string, return_time: string) => {
@@ -298,9 +301,9 @@ const timeDuring = (borrow_time: string, return_time: string) => {
   const setHours = Math.floor(secondDuring / 60 / 60 % 24);
   const setDay = Math.floor(secondDuring / 60 / 60 / 24);
   if (Math.abs(setDay) > 0) {
-    return setDay + "天\t";
-  } else {
-    return setHours + "小时\t";
+    return `${setDay }天\t`;
   }
+  return `${setHours }小时\t`;
+
 };
 </script>

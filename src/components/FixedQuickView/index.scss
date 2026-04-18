@@ -1,17 +1,17 @@
 @import "@/style/theme";
 
 .fixed-quick-view-container {
-  border-radius: 8Px;
+  border-radius: 8px;
   @include shadow;
-  padding: 0 20Px;
+  padding: 0 20px;
   background-color: var(--wjh-color-background-container);
   opacity: 95%;
 }
 
 .quick-view-container {
   .header {
-    padding: 12Px 0 8Px 0;
-    border-bottom: 2Px solid var(--wjh-color-border);
+    padding: 12px 0 8px 0;
+    border-bottom: 2px solid var(--wjh-color-border);
     text-align: center;
 
     .title {
@@ -20,11 +20,11 @@
   }
 
   .content {
-    padding: 8Px 0 16Px 0;
+    padding: 8px 0 16px 0;
   }
 
   .empty {
-    padding-top: 16Px;
+    padding-top: 16px;
     text-align: center;
 
     .campus {
@@ -35,7 +35,7 @@
 }
 
 .quick-view-container:not(:last-child) {
-  border-bottom: 6Px solid var(--wjh-color-primary-light);
+  border-bottom: 6px solid var(--wjh-color-primary-light);
 }
 
 .information {

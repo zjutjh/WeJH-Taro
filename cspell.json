@@ -38,7 +38,18 @@
     "wejh",
     "zhpf",
     "zjutjh",
-    "myapplication"
+    "myapplication",
+    "agotime",
+    "applit",
+    "binded",
+    "cancle",
+    "foryou",
+    "helpicon",
+    "prectice",
+    "swicher",
+    "symbal",
+    "unactive",
+    "zhao"
   ],
   "ignorePaths": ["node_modules/**", "pnpm-lock.yaml", "**/dist/**", "**/*.svg"]
 }

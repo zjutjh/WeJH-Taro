@@ -5,18 +5,18 @@
 
   .picker {
     flex: 1;
-    border-radius: var(--row-field-border-radius, 6Px);
+    border-radius: var(--row-field-border-radius, 6px);
     overflow: hidden;
     z-index: 0;
 
-    --row-height: 32Px;
+    --row-height: 32px;
 
     .picker-button {
       width: 100%;
       height: var(--row-height);
       color: var(--wjh-color-text);
       background-color: var(--wjh-color-background-container);
-      font-size: 14Px;
+      font-size: 14px;
       line-height: var(--row-height);
       margin: 0;
       padding: 0;
@@ -34,10 +34,10 @@
 
   .direction-swapper {
     color: var(--wjh-color-primary);
-    font-size: 28Px;
+    font-size: 28px;
     flex-shrink: 0;
-    margin: 0 18Px;
-    width: 32Px;
+    margin: 0 18px;
+    width: 32px;
     transition: opacity 0.1s, scale 0.1s;
 
     &:active {

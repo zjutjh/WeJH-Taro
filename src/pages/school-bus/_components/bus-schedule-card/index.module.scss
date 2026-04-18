@@ -2,23 +2,23 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 0 30Px;
+  padding: 0 30px;
 
   :global(.wjh-card-header) {
     flex-direction: column;
-    padding-top: 12Px;
-    padding-bottom: 8Px;
+    padding-top: 12px;
+    padding-bottom: 8px;
   }
 
   :global(.wjh-card-footer) {
-    padding-top: 8Px;
+    padding-top: 8px;
   }
 }
 
 .container-with-open-type {
   :global(.wjh-card-header) {
-    padding-top: 12Px;
-    padding-bottom: 0Px;
+    padding-top: 12px;
+    padding-bottom: 0px;
     border-bottom: none;
   }
 }
@@ -31,12 +31,12 @@
   font-weight: 500;
 
   .start-time {
-    font-size: 20Px;
-    line-height: 28Px;
+    font-size: 20px;
+    line-height: 28px;
   }
 
   .route-name {
-    font-size: 14Px;
+    font-size: 14px;
     color: var(--wjh-color-text);
   }
 }
@@ -45,9 +45,9 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 18Px;
-  margin-top: 10Px;
-  border-radius: 10Px;
+  height: 18px;
+  margin-top: 10px;
+  border-radius: 10px;
   overflow: hidden;
   background-color: var(--wjh-color-border);
 
@@ -63,14 +63,14 @@
     &-text {
       align-items: center;
       justify-content: center;
-      font-size: 12Px;
-      line-height: 26Px;
+      font-size: 12px;
+      line-height: 26px;
       color: var(--wjh-color-week);
 
       &::before {
         content: "\2022";
-        margin-right: 4Px;
-        font-size: 12Px;
+        margin-right: 4px;
+        font-size: 12px;
       }
     }
 
@@ -103,34 +103,34 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4Px;
-  font-size: 14Px;
+  gap: 4px;
+  font-size: 14px;
   color: var(--wjh-color-text-secondary);
 
   .row-item {
     display: inline-flex;
 
     .divider {
-      width: 2Px;
+      width: 2px;
       background-color: var(--wjh-color-border);
-      border-radius: 2Px;
-      height: 14Px;
-      margin: auto 8Px;
+      border-radius: 2px;
+      height: 14px;
+      margin: auto 8px;
     }
   }
 
   .detail-button {
     position: absolute;
-    right: 0Px;
-    bottom: 0Px;
-    font-size: 13Px;
-    line-height: 22Px;
-    padding: 4Px 13Px;
+    right: 0px;
+    bottom: 0px;
+    font-size: 13px;
+    line-height: 22px;
+    padding: 4px 13px;
   }
 }
 
 .match-reason {
-  font-size: 14Px;
+  font-size: 14px;
   color: var(--wjh-color-text-secondary);
 
   &-property {

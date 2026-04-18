@@ -1,7 +1,7 @@
 @import "@/style/theme.scss";
 
 .header {
-  height: 200Px;
+  height: 200px;
   background-color: var(--wjh-color-primary);
   display: flex;
 
@@ -17,8 +17,8 @@
   font-weight: var(--wjh-font-weight-medium);
   justify-content: center;
   text-align: center;
-  padding-bottom: 12Px;
-  border-bottom: 1Px solid var(--wjh-color-border);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--wjh-color-border);
 }
 
 .text {
@@ -28,12 +28,12 @@
     line-height: 1.2;
     padding: 0 1rem 1rem;
 
-    border-bottom: 1Px solid var(--wjh-color-border);
+    border-bottom: 1px solid var(--wjh-color-border);
 }
 
 
 .footer {
-  padding: 12Px 0;
+  padding: 12px 0;
   color: var(--wjh-color-week);
   text-align: center;
   font-size: .8rem;

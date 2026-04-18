@@ -4,7 +4,9 @@ import { Lesson } from "@/types/Lesson";
  * 二维布局：将课程排布到 7x12 网格中，并计算冲突层 stack。
  */
 export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
-  if (lessonsList.length === 0) return [];
+  if (lessonsList.length === 0) {
+    return [];
+  }
 
   const timeGrid = createTimeGrid(lessonsList);
   const laidOutLessons: Lesson[] = [];
@@ -12,7 +14,9 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
 
   for (let weekday = 1; weekday <= 7; weekday++) {
     const dayGrid = timeGrid.get(weekday);
-    if (!dayGrid) continue;
+    if (!dayGrid) {
+      continue;
+    }
 
     let stack = 0;
 
@@ -41,11 +45,15 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
           const [start, end] = longestLesson.sections.split("-").map(Number);
           for (let section = start; section <= end; section++) {
             const sectionLessons = dayGrid.get(section);
-            if (!sectionLessons) continue;
+            if (!sectionLessons) {
+              continue;
+            }
             const index = sectionLessons.findIndex(
               (l) => getLessonUniqueId(l) === getLessonUniqueId(longestLesson)
             );
-            if (index !== -1) sectionLessons.splice(index, 1);
+            if (index !== -1) {
+              sectionLessons.splice(index, 1);
+            }
           }
 
           nowCell = end + 1;
@@ -54,7 +62,9 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
         }
       }
 
-      if (!hasRemainingLessons) break;
+      if (!hasRemainingLessons) {
+        break;
+      }
       stack++;
     }
   }
@@ -66,7 +76,9 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
  * 着色：对二维布局后的课程进行图着色，满足相邻/重叠课程尽量不撞色。
  */
 export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[] {
-  if (lessonsList.length === 0) return [];
+  if (lessonsList.length === 0) {
+    return [];
+  }
 
   const result = lessonsList.map((lesson) => ({ ...lesson }));
   const nodes = result.map((lesson, index) => toLessonColorNode(lesson, index));
@@ -74,7 +86,9 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
 
   for (let i = 0; i < nodes.length; i++) {
     for (let j = i + 1; j < nodes.length; j++) {
-      if (!isHardConflict(nodes[i], nodes[j])) continue;
+      if (!isHardConflict(nodes[i], nodes[j])) {
+        continue;
+      }
       adjacency[i].add(j);
       adjacency[j].add(i);
     }
@@ -83,11 +97,21 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
   const order = nodes
     .map((node, idx) => ({ node, index: idx, degree: adjacency[idx].size }))
     .sort((a, b) => {
-      if (b.degree !== a.degree) return b.degree - a.degree;
-      if (b.node.duration !== a.node.duration) return b.node.duration - a.node.duration;
-      if (a.node.weekday !== b.node.weekday) return a.node.weekday - b.node.weekday;
-      if (a.node.start !== b.node.start) return a.node.start - b.node.start;
-      if (a.node.stack !== b.node.stack) return a.node.stack - b.node.stack;
+      if (b.degree !== a.degree) {
+        return b.degree - a.degree;
+      }
+      if (b.node.duration !== a.node.duration) {
+        return b.node.duration - a.node.duration;
+      }
+      if (a.node.weekday !== b.node.weekday) {
+        return a.node.weekday - b.node.weekday;
+      }
+      if (a.node.start !== b.node.start) {
+        return a.node.start - b.node.start;
+      }
+      if (a.node.stack !== b.node.stack) {
+        return a.node.stack - b.node.stack;
+      }
       return a.node.index - b.node.index;
     });
 
@@ -100,7 +124,9 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
     const neighborColors = new Set<string>();
     adjacency[index].forEach((neighborIdx) => {
       const color = assigned.get(neighborIdx);
-      if (color) neighborColors.add(color);
+      if (color) {
+        neighborColors.add(color);
+      }
     });
 
     const availableColors = palette.filter((color) => !neighborColors.has(color));
