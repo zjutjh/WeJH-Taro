@@ -1,3 +1,4 @@
+import { colorSet } from "@/constants/colors";
 import { Lesson } from "@/types/Lesson";
 
 /**
@@ -65,9 +66,10 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
 /**
  * 着色：对二维布局后的课程进行图着色，满足相邻/重叠课程尽量不撞色。
  */
-export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[] {
+export function colorLessons(lessonsList: Lesson[]): Lesson[] {
   if (lessonsList.length === 0) return [];
 
+  const palette = colorSet;
   const result = lessonsList.map((lesson) => ({ ...lesson }));
   const nodes = result.map((lesson, index) => toLessonColorNode(lesson, index));
   const adjacency = nodes.map(() => new Set<number>());

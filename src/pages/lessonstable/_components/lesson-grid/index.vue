@@ -74,15 +74,6 @@ const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);
 const emit = defineEmits(["lessonClick"]);
 
-const colorSet = [
-  "green-600",
-  "green-700",
-  "blue-600",
-  "yellow-600",
-  "orange-600",
-  "red-600",
-  "purple-600"
-];
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
 const lessonsTable = computed(() => {
@@ -136,7 +127,7 @@ const nowStyle = computed(() => {
 // 分层排布 + 着色（统一抽到 utils）
 function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
   const layoutResult = buildTwoDimensionalLayout(lessonsList);
-  return colorLessons(layoutResult, colorSet);
+  return colorLessons(layoutResult);
 }
 
 function lessonCardColor(color = "primary") {

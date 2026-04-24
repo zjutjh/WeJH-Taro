@@ -51,7 +51,12 @@
           :class="styles['practice-item']"
         >
           <view :class="styles['row']">
-            <view :class="styles['lesson-title']">{{ c.lessonName }}</view>
+            <view
+              :class="styles['lesson-title']"
+              :style="{ color: `var(--wjh-color-${colorSet[idx % colorSet.length]})` }"
+            >
+              {{ c.lessonName }}
+            </view>
             <!-- 这里没写错，className 返回的确实是时间 -->
             <view>时间：{{ c.className }}</view>
             <view>教师：{{ c.teacherName }}</view>
@@ -65,6 +70,7 @@
 
 <script setup lang="ts">
 import { PopView } from "@/components";
+import { colorSet } from "@/constants/colors";
 import type { Lesson, PracticeLesson } from "@/types/Lesson";
 
 import styles from "./index.module.scss";
