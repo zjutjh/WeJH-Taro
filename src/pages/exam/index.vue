@@ -94,11 +94,9 @@
       <view class="col" />
       <view class="col">
         <term-picker
+          v-model="selectTerm"
           class="picker"
-          :year="selectTerm.year"
-          :term="selectTerm.term"
-          :selectflag="0"
-          @changed="termChanged"
+          :term-year="Number(systemStore.generalInfo.termYear)"
         />
       </view>
       <view class="col">
@@ -112,6 +110,7 @@
 <script setup lang="ts">
 import "./index.scss";
 
+import { watchDeep } from "@vueuse/core";
 import dayjs, { ConfigType } from "dayjs";
 import { computed, onMounted, ref } from "vue";
 
@@ -143,12 +142,11 @@ const exam = computed(() => {
 const showModal = ref(false);
 const helpContent = helpText.exam;
 
-async function termChanged(e) {
+watchDeep(selectTerm, async (val) => {
   isRefreshing.value = true;
-  selectTerm.value = e;
-  await ZFService.updateExamInfo(e);
+  await ZFService.updateExamInfo(val);
   isRefreshing.value = false;
-}
+});
 
 async function refresh() {
   if (isRefreshing.value) return;

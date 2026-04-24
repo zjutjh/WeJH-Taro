@@ -37,11 +37,9 @@
       </view>
       <view v-else :class="styles['col']">
         <term-picker
+          v-model="selectTerm"
           :class="styles['picker']"
-          :year="selectTerm.year"
-          :term="selectTerm.term"
-          :selectflag="0"
-          @changed="handleTermChanged"
+          :term-year="Number(systemStore.generalInfo.termYear)"
         />
       </view>
       <view :class="styles['col']">
@@ -64,6 +62,7 @@
 
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
+import { watchDeep } from "@vueuse/core";
 import { computed, onMounted, ref, toRef } from "vue";
 
 import {
@@ -159,12 +158,11 @@ const detailTimeInterval = computed(() => {
   return `${startTime}-${endTime}`;
 });
 
-async function handleTermChanged(e) {
+watchDeep(selectTerm, async (val) => {
   isRefreshing.value = true;
-  selectTerm.value = e;
-  await ZFService.updateLessonTable(e);
+  await ZFService.updateLessonTable(val);
   isRefreshing.value = false;
-}
+});
 
 onMounted(handleRefresh);
 
