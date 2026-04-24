@@ -18,12 +18,12 @@
       :class="styles['lesson-detail']"
     >
       <view :class="styles['conflict-header']">
-        <view :class="styles['conflict-title-fixed']"
-          >冲突课程({{ selectionConflicts.length }})</view
-        >
+        <view :class="styles['conflict-title-fixed']">
+          冲突课程({{ selectionConflicts.length }})
+        </view>
         <view :class="styles['conflict-time-inline']">冲突时间：{{ conflictTime }}</view>
       </view>
-      <view :class="styles['conflict-list']">
+      <view :class="styles['item-list']">
         <view
           v-for="(c, idx) in selectionConflicts"
           :key="`${c.id}-${c.week}-${c.weekday}-${c.sections}-${idx}`"
@@ -39,26 +39,46 @@
         </view>
       </view>
     </view>
+
+    <view
+      v-else-if="practiceLessons && practiceLessons.length > 0"
+      :class="styles['lesson-detail']"
+    >
+      <view :class="styles['item-list']">
+        <view
+          v-for="(c, idx) in practiceLessons"
+          :key="`${c.lessonName}-${c.className}-${c.teacherName}-${idx}`"
+          :class="styles['practice-item']"
+        >
+          <view :class="styles['row']">
+            <view :class="styles['lesson-title']">{{ c.lessonName }}</view>
+            <!-- 这里没写错，className 返回的确实是时间 -->
+            <view>时间：{{ c.className }}</view>
+            <view>教师：{{ c.teacherName }}</view>
+            <view>学分：{{ c.credits }}</view>
+          </view>
+        </view>
+      </view>
+    </view>
   </pop-view>
 </template>
 
 <script setup lang="ts">
 import { PopView } from "@/components";
-import type { Lesson } from "@/types/Lesson";
+import type { Lesson, PracticeLesson } from "@/types/Lesson";
 
 import styles from "./index.module.scss";
 
 defineProps<{
   show: boolean;
   selection?: Lesson;
-  selectionConflicts: Lesson[] | null;
+  selectionConflicts?: Lesson[];
+  practiceLessons?: PracticeLesson[];
   conflictTime: string;
   detailTimeInterval: string;
 }>();
 
-const emit = defineEmits<{
-  "update:show": [value: boolean];
-}>();
+const emit = defineEmits<{ "update:show": [value: boolean] }>();
 
 function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];

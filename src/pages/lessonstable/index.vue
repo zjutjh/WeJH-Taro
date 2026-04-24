@@ -25,6 +25,12 @@
         >
           <view class="iconfont icon-back" />
         </w-button>
+        <view
+          v-else-if="!showWeekPicker && practiceLessonsData && practiceLessonsData.length > 0"
+          @tap="handlePracticeLessonClick"
+        >
+          实践
+        </view>
       </view>
       <view v-if="showWeekPicker" :class="styles['col']">
         <week-picker v-model:week="selectWeek" />
@@ -49,6 +55,7 @@
       v-model:show="showPop"
       :selection="selection"
       :selection-conflicts="selectionConflicts"
+      :practice-lessons="practiceLessonsData"
       :conflict-time="conflictTime"
       :detail-time-interval="detailTimeInterval"
     />
@@ -56,7 +63,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { computed, onMounted, ref, toRef } from "vue";
 
 import {
   BottomPanel,
@@ -69,7 +77,8 @@ import {
 } from "@/components";
 import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
 import { useTimeInstance } from "@/hooks";
-import { ZFService } from "@/services";
+import { ZFService, zfServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
 import type { Lesson } from "@/types/Lesson";
 
@@ -80,8 +89,7 @@ import styles from "./index.module.scss";
 
 const showPop = ref(false);
 const selection = ref<Lesson>();
-const selectionConflicts = ref<Lesson[] | null>(null);
-const selectionSource = ref<Lesson | null>(null);
+const selectionConflicts = ref<Lesson[]>();
 
 // 本学期
 const originTerm = {
@@ -94,19 +102,28 @@ const selectTerm = ref(originTerm);
 const originWeek = Math.max(systemStore.generalInfo.week, 0);
 const selectWeek = ref(originWeek);
 
-const lessonsTableData = computed(() => {
-  return ZFService.getLessonTable(selectTerm.value) || [];
+const lessonsTableData = computed(() => ZFService.getLessonTable(selectTerm.value) || []);
+
+const { data: practiceLessonsData } = useQuery({
+  queryKey: [
+    QUERY_KEY.ZF_LESSONS_TABLE,
+    toRef(() => selectTerm.value.year),
+    toRef(() => selectTerm.value.term)
+  ] as const,
+  queryFn: ({ queryKey }) =>
+    zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] }),
+  select: (res) => res.practiceLessons
 });
 
-const lessonsTableWeek = computed(() => {
-  return lessonsTableData.value.filter((item) => isLessonActiveInWeek(item.week, selectWeek.value));
-});
-const isThisWeek = computed(() => {
-  return (
+const lessonsTableWeek = computed(() =>
+  lessonsTableData.value.filter((item) => isLessonActiveInWeek(item.week, selectWeek.value))
+);
+
+const isThisWeek = computed(
+  () =>
     selectWeek.value === originWeek &&
     JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
-  );
-});
+);
 const isRefreshing = ref(false);
 
 async function handleRefresh() {
@@ -149,9 +166,7 @@ async function handleTermChanged(e) {
   isRefreshing.value = false;
 }
 
-onMounted(async () => {
-  await handleRefresh();
-});
+onMounted(handleRefresh);
 
 const showWeekPicker = ref(true);
 function handlePickerModeSwitch() {
@@ -182,7 +197,6 @@ function handleLessonClick(lesson: Lesson) {
   if (conflicts.length > 1) {
     selectionConflicts.value = conflicts;
     selection.value = undefined;
-    selectionSource.value = lesson;
     const sourceWeek = lesson.week || "";
     for (const item of conflicts) {
       (item as unknown as Record<string, string>)._overlap = computeOverlapWeeks(
@@ -192,11 +206,16 @@ function handleLessonClick(lesson: Lesson) {
     }
     showPop.value = true;
   } else {
-    selectionConflicts.value = null;
+    selectionConflicts.value = undefined;
     selection.value = lesson;
-    selectionSource.value = null;
     showPop.value = true;
   }
+}
+
+function handlePracticeLessonClick() {
+  selectionConflicts.value = undefined;
+  selection.value = undefined;
+  showPop.value = true;
 }
 
 function handleBackToOriginWeek() {
