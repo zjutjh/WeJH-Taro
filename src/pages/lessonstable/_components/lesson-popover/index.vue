@@ -88,6 +88,6 @@ const emit = defineEmits<{ "update:show": [value: boolean] }>();
 
 function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
-  return `周${charEnum[parseInt(weekDay) - 1]}`;
+  return `周${charEnum[Number.parseInt(weekDay) - 1]}`;
 }
 </script>

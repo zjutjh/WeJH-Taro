@@ -37,9 +37,7 @@ const props = defineProps<{
 
 const SELECT_OPTIONS = [
   // 支持选择最早三学年之前，最晚下一学年。形如 2021/2022
-  Array(5)
-    .fill(0)
-    .map((_, i) => `${props.termYear - i + 1}/${props.termYear - i + 2}`),
+  Array.from({ length: 5 }, (_, i) => `${props.termYear - i + 1}/${props.termYear - i + 2}`),
   ["上", "下", "短"]
 ] as const;
 

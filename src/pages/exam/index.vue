@@ -4,7 +4,7 @@
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <image src="@/assets/photos/exam.svg" />
-        <view class="extra" @tap="showHelp">
+        <view class="extra" @tap="showModal = true">
           <view class="icon-wrapper">
             <view class="extra-icon iconfont icon-announcement" />
           </view>
@@ -136,9 +136,7 @@ const selectTerm = ref({
   term: systemStore.generalInfo.term
 });
 const isRefreshing = ref(false);
-const exam = computed(() => {
-  return ZFService.getExamInfo(selectTerm.value).data;
-});
+const exam = computed(() => ZFService.getExamInfo(selectTerm.value).data);
 const showModal = ref(false);
 const helpContent = helpText.exam;
 
@@ -158,10 +156,9 @@ async function refresh() {
 function getDetailedTime(timeString: string) {
   const tmp: ConfigType = timeString.split("(")[0];
   const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-  if (dayChars[dayjs(tmp).day()]) {
-    return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-  }
-  return `${tmp}`;
+  if (dayChars[dayjs(tmp).day()]) return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
+
+  return tmp;
 }
 
 function timeInterval(timeString: string) {
@@ -169,11 +166,5 @@ function timeInterval(timeString: string) {
   return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
 }
 
-function showHelp() {
-  showModal.value = true;
-}
-
-onMounted(async () => {
-  await refresh();
-});
+onMounted(refresh);
 </script>

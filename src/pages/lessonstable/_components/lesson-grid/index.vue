@@ -2,20 +2,20 @@
   <view :class="styles['lessons-table-wrapper']">
     <view :class="[styles['jc-index-panel'], styles['index-panel']]">
       <view v-for="i in 12" :key="i">
-        <view :class="styles['num-index']">
-          {{ i }}
-        </view>
+        <view :class="styles['num-index']">{{ i }}</view>
       </view>
     </view>
     <view :class="styles['lessons-table']">
       <view :class="styles['col']" />
       <view :class="styles['col']">
-        <view v-show="isThisWeek" :class="styles['now-week-index']" :style="nowWeekStyle" />
+        <view
+          v-show="isThisWeek"
+          :class="styles['now-week-index']"
+          :style="{ left: `calc(100% / 7 * ${(new Date().getDay() || 7) - 1})` }"
+        />
         <view :class="[styles['weekday-index-panel'], styles['index-panel']]">
           <view v-for="i in weekdayEnum" :key="i">
-            <view :class="styles['num-index']">
-              {{ i }}
-            </view>
+            <view :class="styles['num-index']">{{ i }}</view>
           </view>
         </view>
         <view
@@ -24,14 +24,14 @@
         >
           <view
             v-for="cl in lessonsTable"
-            :key="lessonKey(cl)"
+            :key="`${cl.id}-${cl.week}-${cl.weekday}-${cl.sections}-${cl.stack ?? 0}`"
             :class="styles['class']"
             :style="getPosition(cl)"
           >
             <view
               :class="styles['class-card']"
-              :style="lessonCardColor(cl.color) as any"
-              @tap="handleLessonCardTap(cl)"
+              :style="{ '--bg-color': `var(--wjh-color-${cl.color ?? 'primary'})` }"
+              @tap="emit('lessonClick', cl)"
             >
               <view :class="styles['row']">
                 <view :class="styles['title']">
@@ -64,6 +64,7 @@
 import { isEmpty } from "lodash-es";
 import { computed, toRefs } from "vue";
 
+import { colorSet } from "@/constants/colors";
 import { dayScheduleStartTime } from "@/constants/index";
 import type { Lesson } from "@/types/Lesson";
 
@@ -76,24 +77,10 @@ const emit = defineEmits(["lessonClick"]);
 
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
+// 分层排布 + 着色（统一抽到 utils）
 const lessonsTable = computed(() => {
-  return processLessonsLayout(lessons.value);
-});
-
-/**
- * 生成课程在 v-for 中的唯一 key
- * 为了避免重复 key 出现，使用 id、week、weekday、sections、stack 五个属性组合
- * 新增了 stack（层数）作为 key 的一部分，用于区分冲突层的相同课程
- */
-const lessonKey = (cl: Lesson) => {
-  return `${cl.id}-${cl.week}-${cl.weekday}-${cl.sections}-${cl.stack || 0}`;
-};
-
-const nowWeekStyle = computed(() => {
-  const now = new Date();
-  const weekday = now.getDay() ? now.getDay() : 7;
-  const left = `calc(100% / 7 * ${weekday - 1})`;
-  return { left };
+  const layoutResult = buildTwoDimensionalLayout(lessons.value);
+  return colorLessons(layoutResult, colorSet);
 });
 
 // 计算当前时间线的位置
@@ -110,47 +97,32 @@ const nowStyle = computed(() => {
       return true;
   });
 
-  if (!thisLesson) {
+  if (thisLesson) duration = hour * 60 + min - (thisLesson.hour * 60 + thisLesson.min);
+  else
     thisLesson = dayScheduleStartTime.find((item) => {
       if (nowTime < item.hour * 60 + item.min) return true;
-    }) || { hour: 21, min: 10 };
-  } else duration = hour * 60 + min - (thisLesson.hour * 60 + thisLesson.min);
+    }) ?? { hour: 21, min: 10 };
 
-  let jc = 0; // 第 ${jc + 1} 节课
-  jc = dayScheduleStartTime.indexOf(thisLesson);
-
-  return {
-    top: `calc((100% - 2rem) / 12 * ${jc + duration / 45} + 2rem)`
-  };
+  // 第 ${jc + 1} 节课
+  const jc = dayScheduleStartTime.indexOf(thisLesson);
+  return { top: `calc((100% - 2rem) / 12 * ${jc + duration / 45} + 2rem)` };
 });
-
-// 分层排布 + 着色（统一抽到 utils）
-function processLessonsLayout(lessonsList: Lesson[]): Lesson[] {
-  const layoutResult = buildTwoDimensionalLayout(lessonsList);
-  return colorLessons(layoutResult);
-}
-
-function lessonCardColor(color = "primary") {
-  return { "--bg-color": `var(--wjh-color-${color})` };
-}
 
 function splitNameAndRoom(str: string) {
   let index = 0;
-  for (; index < str.length; index++) {
-    if (str.charCodeAt(index) <= 255) break;
+  while (index < str.length) {
+    const code = str.codePointAt(index);
+    if (code && code <= 255) break;
+    index++;
   }
   return [str.slice(0, index), str.slice(index)];
 }
 
-function handleLessonCardTap(lesson: Lesson) {
-  emit("lessonClick", lesson);
-}
-
 function getPosition(lesson: Lesson) {
-  const begin = parseInt(lesson.sections.split("-")[0]);
-  const end = parseInt(lesson.sections.split("-")[1]);
-  const weekday = parseInt(lesson.weekday);
-  const stack = lesson.stack || 0;
+  const begin = Number.parseInt(lesson.sections.split("-")[0]);
+  const end = Number.parseInt(lesson.sections.split("-")[1]);
+  const weekday = Number.parseInt(lesson.weekday);
+  const stack = lesson.stack ?? 0;
 
   // 基础尺寸计算
   const fontSize = `${Math.min(12, (end - begin + 2) * 4)}px`;

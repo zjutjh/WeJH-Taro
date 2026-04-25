@@ -83,6 +83,7 @@ import type { Lesson } from "@/types/Lesson";
 
 import LessonsTable from "./_components/lesson-grid/index.vue";
 import LessonPopover from "./_components/lesson-popover/index.vue";
+import { isSectionsOverlap } from "./_utils/sections";
 import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
 import styles from "./index.module.scss";
 
@@ -101,7 +102,7 @@ const selectTerm = ref(originTerm);
 const originWeek = Math.max(systemStore.generalInfo.week, 0);
 const selectWeek = ref(originWeek);
 
-const lessonsTableData = computed(() => ZFService.getLessonTable(selectTerm.value) || []);
+const lessonsTableData = computed(() => ZFService.getLessonTable(selectTerm.value) ?? []);
 
 const { data: practiceLessonsData } = useQuery({
   queryKey: [
@@ -145,9 +146,8 @@ const detailTimeInterval = computed(() => {
     endIndex < 1 ||
     startIndex > dayScheduleStartTime.length ||
     endIndex > dayScheduleStartTime.length
-  ) {
+  )
     return "";
-  }
 
   const startSlot = dayScheduleStartTime[startIndex - 1];
   const endSlot = dayScheduleStartTime[endIndex - 1];
@@ -174,20 +174,14 @@ function handlePickerModeSwitch() {
 
 // 课程点击事件更新，分为冲突和非冲突课程展示
 function handleLessonClick(lesson: Lesson) {
-  const clickedStack = lesson.stack || 0;
-
-  function sectionsOverlap(a: string, b: string) {
-    const [a1, a2] = a.split("-").map(Number);
-    const [b1, b2] = b.split("-").map(Number);
-    return !(a2 < b1 || b2 < a1);
-  }
+  const clickedStack = lesson.stack ?? 0;
 
   const conflicts = lessonsTableData.value.filter((l) => {
     if (l.weekday !== lesson.weekday) return false;
     if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) return false;
     if (clickedStack > 0) {
-      const stack = l.stack || 0;
-      return stack < clickedStack && sectionsOverlap(l.sections, lesson.sections);
+      const stack = l.stack ?? 0;
+      return stack < clickedStack && isSectionsOverlap(l.sections, lesson.sections);
     }
     return l.sections === lesson.sections;
   });
@@ -196,12 +190,12 @@ function handleLessonClick(lesson: Lesson) {
     selectionConflicts.value = conflicts;
     selection.value = undefined;
     const sourceWeek = lesson.week || "";
-    for (const item of conflicts) {
+    for (const item of conflicts)
       (item as unknown as Record<string, string>)._overlap = computeOverlapWeeks(
         sourceWeek,
         item.week || ""
       );
-    }
+
     showPop.value = true;
   } else {
     selectionConflicts.value = undefined;
@@ -228,9 +222,7 @@ const conflictTime = computed(() => {
   for (const it of arr) {
     const s = parseWeeks(it.week || "");
     if (inter === null) inter = new Set(s);
-    else {
-      for (const w of Array.from(inter)) if (!s.has(w)) inter.delete(w);
-    }
+    else for (const w of inter) if (!s.has(w)) inter.delete(w);
   }
   if (!inter || inter.size === 0) return "无";
   return `${formatWeeks(inter)}周`;
