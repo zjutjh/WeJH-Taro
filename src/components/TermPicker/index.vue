@@ -25,7 +25,7 @@ interface PickerTermOption {
 
 const field = defineModel<PickerTermOption>({
   default: {
-    year: new Date().getFullYear(),
+    year: new Date().getFullYear().toString(),
     term: "上"
   }
 });
