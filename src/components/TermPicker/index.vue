@@ -31,7 +31,7 @@ const field = defineModel<PickerTermOption>({
 });
 
 const props = defineProps<{
-  showPeriod?: number;
+  showPeriod?: boolean;
   termYear: number;
 }>();
 
