@@ -18,19 +18,20 @@
         />
         <w-button
           v-else-if="showWeekPicker"
-          :class="styles['back-button']"
+          :class="styles['panel-button']"
           size="large"
           shape="circle"
           @tap="handleBackToOriginWeek"
         >
           <view class="iconfont icon-back" />
         </w-button>
-        <view
+        <w-button
           v-else-if="!showWeekPicker && practiceLessonsData && practiceLessonsData.length > 0"
+          :class="styles['panel-button']"
           @tap="handlePracticeLessonClick"
         >
-          实践
-        </view>
+          <image src="@/assets/icons/practice-lesson/index.svg" />
+        </w-button>
       </view>
       <view v-if="showWeekPicker" :class="styles['col']">
         <week-picker v-model:week="selectWeek" />
