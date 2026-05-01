@@ -1,0 +1,8 @@
+.now-index {
+  height: 2Px;
+  background-color: var(--wjh-color-primary-dark);
+  position: absolute;
+  left: -2rem;
+  width: calc(100% + 2rem);
+  z-index: 1100;
+}

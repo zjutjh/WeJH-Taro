@@ -54,8 +54,8 @@
             </view>
           </view>
         </view>
+        <current-time-indicator v-show="isThisWeek" />
       </view>
-      <view v-show="isThisWeek" :class="styles['now-index']" :style="nowStyle" />
     </view>
   </view>
 </template>
@@ -64,10 +64,10 @@
 import { isEmpty } from "lodash-es";
 import { computed, toRefs } from "vue";
 
-import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
 import type { Lesson } from "@/types/Lesson";
 
 import { COLOR_SET } from "../../_constants/colors";
+import CurrentTimeIndicator from "../current-time-indicator/index.vue";
 import styles from "./index.module.scss";
 import { lessonKey } from "./utils/key";
 import { buildTwoDimensionalLayout, colorLessons } from "./utils/layout-color";
@@ -82,33 +82,6 @@ const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六",
 const lessonsTable = computed(() => {
   const layoutResult = buildTwoDimensionalLayout(lessons.value);
   return colorLessons(layoutResult, COLOR_SET);
-});
-
-// 计算当前时间线的位置
-const nowStyle = computed(() => {
-  const now = new Date();
-  const hour = now.getHours();
-  const min = now.getMinutes();
-  let duration = 0;
-  const nowTime = hour * 60 + min;
-
-  // 这节课的开始时间
-  let thisLesson = DAY_SCHEDULE_START_TIME.find((item) => {
-    if (nowTime >= item.hour * 60 + item.min && nowTime <= item.hour * 60 + item.min + 45)
-      return true;
-  });
-
-  if (thisLesson) duration = hour * 60 + min - (thisLesson.hour * 60 + thisLesson.min);
-  else
-    thisLesson = DAY_SCHEDULE_START_TIME.find((item) => {
-      if (nowTime < item.hour * 60 + item.min) return true;
-    }) ?? { hour: 21, min: 10 };
-
-  // 第 ${jc + 1} 节课
-  let jc = DAY_SCHEDULE_START_TIME.indexOf(thisLesson);
-
-  jc = jc === -1 ? DAY_SCHEDULE_START_TIME.length : jc;
-  return { top: `calc((100% - 2rem) / 12 * ${jc + duration / 45} + 2rem)` };
 });
 
 function splitNameAndRoom(str: string) {

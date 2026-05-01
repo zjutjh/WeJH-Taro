@@ -3,9 +3,10 @@ interface DayScheduleStartTimeType {
   min: number;
 }
 
-/**
- * 每节课程的开始时间，共 12 节课
- */
+/** 每节课的持续时间 */
+export const LESSON_DURATION_MINUTES = 45;
+
+/** 每节课程的开始时间，共 12 节课 */
 export const DAY_SCHEDULE_START_TIME: DayScheduleStartTimeType[] = [
   { hour: 8, min: 0 },
   { hour: 8, min: 55 },
