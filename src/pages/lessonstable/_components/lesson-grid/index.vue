@@ -68,10 +68,10 @@ import type { Lesson } from "@/types/Lesson";
 
 import { COLOR_SET } from "../../_constants/colors";
 import { splitNameAndRoom } from "../../_constants/split-name-room";
+import { buildTwoDimensionalLayout, colorLessons } from "../../_utils/layout-color";
 import CurrentTimeIndicator from "../current-time-indicator/index.vue";
 import styles from "./index.module.scss";
 import { lessonKey } from "./utils/key";
-import { buildTwoDimensionalLayout, colorLessons } from "./utils/layout-color";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);
