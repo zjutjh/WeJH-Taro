@@ -38,9 +38,9 @@ export function getDetailedTime(timeString: string) {
   const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
 
   const day = dayjs(tmp).day();
-  const dayChar = day === 0 ? "日" : dayChars.at(day);
+  const dayChar = dayChars.at(day);
 
-  return `${tmp} - 周${dayChar}`;
+  return dayChar ? `${tmp} - 周${dayChar}` : `${tmp}`;
 }
 
 export default {

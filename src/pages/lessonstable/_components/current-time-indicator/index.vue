@@ -20,8 +20,8 @@ const nowStyle = computed(() => {
   let duration = 0;
   let lessonIndex = -1;
 
-  for (let i = 0; i < DAY_SCHEDULE_START_TIME.length; i++) {
-    const start = DAY_SCHEDULE_START_TIME[i].hour * 60 + DAY_SCHEDULE_START_TIME[i].min;
+  for (const [i, element] of DAY_SCHEDULE_START_TIME.entries()) {
+    const start = element.hour * 60 + element.min;
     const end = start + LESSON_DURATION_MINUTES;
 
     if (nowTime >= start && nowTime <= end) {

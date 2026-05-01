@@ -21,6 +21,7 @@ export interface Lesson {
   /** 层数，0为正常层，≥1为冲突层 */
   stack?: number;
 }
+
 export interface PracticeLesson {
   className: string;
   credits: string;

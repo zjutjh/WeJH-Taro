@@ -3,7 +3,7 @@
     <title-bar title="课程表" :back-button="true" />
     <view :class="styles['table-wrapper']">
       <lessons-table
-        :lessons="!showWeekPicker ? lessonsTableData : lessonsTableWeek"
+        :lessons="(!showWeekPicker ? lessonsData : lessonsTableWeek) ?? []"
         :is-this-week="isThisWeek"
         @lesson-click="handleLessonClick"
       />
@@ -13,8 +13,8 @@
       <view :class="styles['col']">
         <refresh-button
           v-if="showWeekPicker && isThisWeek"
-          :is-refreshing="isRefreshing"
-          @refresh="handleRefresh"
+          :is-refreshing="isPending"
+          @refresh="refetch"
         />
         <w-button
           v-else-if="showWeekPicker"
@@ -28,7 +28,7 @@
         <w-button
           v-else-if="!showWeekPicker && practiceLessonsData && practiceLessonsData.length > 0"
           :class="styles['panel-button']"
-          @tap="handlePracticeLessonClick"
+          @tap="showPracticePop = true"
         >
           <image src="@/assets/icons/practice-lesson/index.svg" />
         </w-button>
@@ -51,20 +51,20 @@
       </view>
     </bottom-panel>
     <lesson-popover
-      v-model="showPop"
+      v-model="showCoursePop"
       :selection="selection"
       :selection-conflicts="selectionConflicts"
-      :practice-lessons="practiceLessonsData"
       :conflict-time="conflictTime"
       :detail-time-interval="detailTimeInterval"
-    />
+    >
+    </lesson-popover>
+    <practice-lesson-popover v-model="showPracticePop" :practice-lessons="practiceLessonsData" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
-import { watchDeep } from "@vueuse/core";
-import { computed, onMounted, ref, toRef } from "vue";
+import { computed, ref, toRef } from "vue";
 
 import {
   BottomPanel,
@@ -77,18 +77,20 @@ import {
 } from "@/components";
 import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
 import { useTimeInstance } from "@/hooks";
-import { ZFService, zfServiceNext } from "@/services";
+import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
-import type { Lesson } from "@/types/Lesson";
+import type { Lesson, PracticeLesson } from "@/types/lesson";
 
 import LessonsTable from "./_components/lesson-grid/index.vue";
 import LessonPopover from "./_components/lesson-popover/index.vue";
+import PracticeLessonPopover from "./_components/practice-lesson-popover/index.vue";
 import { isSectionsOverlap } from "./_utils/sections";
 import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
 import styles from "./index.module.scss";
 
-const showPop = ref(false);
+const showCoursePop = ref(false);
+const showPracticePop = ref(false);
 const selection = ref<Lesson>();
 const selectionConflicts = ref<Lesson[]>();
 
@@ -103,21 +105,23 @@ const selectTerm = ref(originTerm);
 const originWeek = Math.max(systemStore.generalInfo.week, 0);
 const selectWeek = ref(originWeek);
 
-const lessonsTableData = computed(() => ZFService.getLessonTable(selectTerm.value) ?? []);
-
-const { data: practiceLessonsData } = useQuery({
+const { data, isPending, refetch } = useQuery({
   queryKey: [
     QUERY_KEY.ZF_LESSONS_TABLE,
     toRef(() => selectTerm.value.year),
     toRef(() => selectTerm.value.term)
   ] as const,
   queryFn: ({ queryKey }) =>
-    zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] }),
-  select: (res) => res.practiceLessons
+    zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] })
 });
 
+const lessonsData = computed(() => data.value?.lessonsTable as Lesson[] | undefined);
+const practiceLessonsData = computed(
+  () => data.value?.practiceLessons as PracticeLesson[] | undefined
+);
+
 const lessonsTableWeek = computed(() =>
-  lessonsTableData.value.filter((item) => isLessonActiveInWeek(item.week, selectWeek.value))
+  lessonsData.value?.filter((l) => isLessonActiveInWeek(l.week, selectWeek.value))
 );
 
 const isThisWeek = computed(
@@ -125,14 +129,6 @@ const isThisWeek = computed(
     selectWeek.value === originWeek &&
     JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
 );
-const isRefreshing = ref(false);
-
-async function handleRefresh() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  await ZFService.updateLessonTable(selectTerm.value);
-  isRefreshing.value = false;
-}
 
 const detailTimeInterval = computed(() => {
   const sections = selection.value?.sections;
@@ -159,14 +155,6 @@ const detailTimeInterval = computed(() => {
   return `${startTime}-${endTime}`;
 });
 
-watchDeep(selectTerm, async (val) => {
-  isRefreshing.value = true;
-  await ZFService.updateLessonTable(val);
-  isRefreshing.value = false;
-});
-
-onMounted(handleRefresh);
-
 const showWeekPicker = ref(true);
 function handlePickerModeSwitch() {
   selectWeek.value = 1;
@@ -175,19 +163,19 @@ function handlePickerModeSwitch() {
 
 // 课程点击事件更新，分为冲突和非冲突课程展示
 function handleLessonClick(lesson: Lesson) {
-  const clickedStack = lesson.stack ?? 0;
+  const clickedStack = lesson.stack || 0;
 
-  const conflicts = lessonsTableData.value.filter((l) => {
+  const conflicts = lessonsData.value?.filter((l) => {
     if (l.weekday !== lesson.weekday) return false;
     if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) return false;
     if (clickedStack > 0) {
-      const stack = l.stack ?? 0;
+      const stack = l.stack || 0;
       return stack < clickedStack && isSectionsOverlap(l.sections, lesson.sections);
     }
     return l.sections === lesson.sections;
   });
 
-  if (conflicts.length > 1) {
+  if (conflicts && conflicts.length > 1) {
     selectionConflicts.value = conflicts;
     selection.value = undefined;
     const sourceWeek = lesson.week || "";
@@ -197,18 +185,12 @@ function handleLessonClick(lesson: Lesson) {
         item.week || ""
       );
 
-    showPop.value = true;
+    showCoursePop.value = true;
   } else {
     selectionConflicts.value = undefined;
     selection.value = lesson;
-    showPop.value = true;
+    showCoursePop.value = true;
   }
-}
-
-function handlePracticeLessonClick() {
-  selectionConflicts.value = undefined;
-  selection.value = undefined;
-  showPop.value = true;
 }
 
 function handleBackToOriginWeek() {

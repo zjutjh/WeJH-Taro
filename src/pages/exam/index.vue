@@ -80,7 +80,7 @@
                   {{
                     item.teacherName
                       .split(";")
-                      .map(item => item.split("/")[1])
+                      .map((item) => item.split("/")[1])
                       .join("；")
                   }}
                 </w-descriptions-item>

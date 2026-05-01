@@ -1,5 +1,5 @@
 import { isSectionsOverlap } from "@/pages/lessonstable/_utils/sections";
-import { Lesson } from "@/types/Lesson";
+import { Lesson } from "@/types/lesson";
 
 /**
  * 二维布局：将课程排布到 7x12 网格中，并计算冲突层 stack。
@@ -114,7 +114,7 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
       )[0];
 
     assigned.set(index, selectedColor);
-    colorUseCount.set(selectedColor, (colorUseCount.get(selectedColor) ?? 0) + 1);
+    colorUseCount.set(selectedColor, (colorUseCount.get(selectedColor) || 0) + 1);
     classPreferredColor.set(classKey, selectedColor);
     node.lesson.color = selectedColor;
     result[node.index].color = selectedColor;

@@ -1,4 +1,4 @@
-import { Lesson } from "@/types/Lesson";
+import { Lesson } from "@/types/lesson";
 
 /**
  * 生成课程在 v-for 中的唯一 key

@@ -1,0 +1,40 @@
+.lesson-detail {
+  padding: 1.5rem 0 1rem 0;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 0.875rem;
+}
+
+.lesson-list {
+  width: 100%;
+  max-height: 35vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+
+  .practice-item:first-child {
+    padding-top: 0;
+  }
+
+  :last-child {
+    border-bottom: none;
+  }
+}
+
+.practice-item {
+  padding: 1rem 0;
+  border-bottom: 1Px solid var(--wjh-color-primary);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lesson-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--wjh-color-primary);
+}

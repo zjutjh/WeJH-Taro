@@ -64,7 +64,7 @@
 import { isEmpty } from "lodash-es";
 import { computed, toRefs } from "vue";
 
-import type { Lesson } from "@/types/Lesson";
+import type { Lesson } from "@/types/lesson";
 
 import { COLOR_SET } from "../../_constants/colors";
 import { splitNameAndRoom } from "../../_constants/split-name-room";

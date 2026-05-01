@@ -6,6 +6,7 @@ export type QueryLessonsTableRequest = {
 export type QueryLessonsTableResponse = {
   lessonsTable: Array<{
     id: string;
+    classID: string;
     /** 课程从第几节到第几节 */
     sections: string;
     lessonName: string;
@@ -18,7 +19,7 @@ export type QueryLessonsTableResponse = {
     weekday: string;
     /** 第几周 */
     week: string;
-    lessonsHours: string;
+    lessonHours: string;
     credits: string;
     type: string;
   }>;

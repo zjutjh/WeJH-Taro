@@ -5,7 +5,7 @@
     class="lessons-table-quick-view"
     :help="true"
     @tap="nav2Lesson"
-    @handle-tap-help="handleTapHelp"
+    @handle-tap-help="emit('showHelp', 'lessons-table')"
   >
     <text v-if="!showTomorrow" class="sub-text"> 今日课表 ({{ updateTimeString }}) </text>
     <text v-else class="sub-text"> 明日课表 ({{ updateTimeString }}) </text>
@@ -53,8 +53,9 @@ import "./index.scss";
 
 import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
+import { useIntervalFn } from "@vueuse/core";
 import dayjs from "dayjs";
-import { computed, CSSProperties, onMounted, onUnmounted, Ref, ref, toRef } from "vue";
+import { computed, CSSProperties, ref, toRef } from "vue";
 
 import { Card } from "@/components";
 import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
@@ -67,7 +68,6 @@ import QuickViewContainer from "../quick-view-container/index.vue";
 
 const tenPM = dayjs().set("hour", 22).set("minute", 0).set("second", 0);
 const emit = defineEmits(["showHelp"]);
-const timer: Ref<ReturnType<typeof setInterval> | null> = ref(null);
 
 const showTomorrow = dayjs().isAfter(tenPM);
 
@@ -109,15 +109,7 @@ const { data, isError, dataUpdatedAt } = useQuery({
 
 const updateRestTimeCounter = ref(0);
 
-onMounted(() => {
-  timer.value = setInterval(() => {
-    updateRestTimeCounter.value++;
-  }, 5000);
-});
-
-onUnmounted(() => {
-  if (timer.value) clearInterval(timer.value);
-});
+useIntervalFn(() => updateRestTimeCounter.value++, 5000);
 
 const updateTimeString = computed(() => {
   if (isError.value) return "更新失败";
@@ -158,9 +150,5 @@ function lessonState(sections: string): "before" | "taking" | "after" {
   if (detAfter > 0) return "before";
   if (detAfter < 0 && detBefore > 0) return "taking";
   return "after";
-}
-
-function handleTapHelp() {
-  emit("showHelp", "lessons-table");
 }
 </script>

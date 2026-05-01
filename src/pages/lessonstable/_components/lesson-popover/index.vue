@@ -39,54 +39,27 @@
         </view>
       </view>
     </view>
-
-    <view
-      v-else-if="practiceLessons && practiceLessons.length > 0"
-      :class="styles['lesson-detail']"
-    >
-      <view :class="styles['lesson-list']">
-        <view
-          v-for="(c, idx) in practiceLessons"
-          :key="`${c.lessonName}-${c.className}-${c.teacherName}-${idx}`"
-          :class="styles['practice-item']"
-        >
-          <view :class="styles['row']">
-            <view
-              :class="styles['lesson-title']"
-              :style="{ color: `var(--wjh-color-${COLOR_SET[idx % COLOR_SET.length]})` }"
-            >
-              {{ c.lessonName }}
-            </view>
-            <!-- 这里没写错，className 返回的确实是时间 -->
-            <view>时间：{{ c.className }}</view>
-            <view>教师：{{ c.teacherName }}</view>
-            <view>学分：{{ c.credits }}</view>
-          </view>
-        </view>
-      </view>
-    </view>
   </pop-view>
 </template>
 
 <script setup lang="ts">
 import { PopView } from "@/components";
-import type { Lesson, PracticeLesson } from "@/types/Lesson";
+import type { Lesson } from "@/types/lesson";
 
-import { COLOR_SET } from "../../_constants/colors";
 import styles from "./index.module.scss";
 
 defineProps<{
   selection?: Lesson;
   selectionConflicts?: Lesson[];
-  practiceLessons?: PracticeLesson[];
-  conflictTime: string;
-  detailTimeInterval: string;
+  conflictTime?: string;
+  detailTimeInterval?: string;
 }>();
 
 const show = defineModel<boolean>({ required: true });
 
 function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
-  return `周${charEnum.at(Number.parseInt(weekDay) - 1)}`;
+  const char = charEnum.at(Number.parseInt(weekDay) - 1);
+  return char ? `周${char}` : weekDay;
 }
 </script>
