@@ -1,5 +1,5 @@
 <template>
-  <pop-view :show="show" style="z-index: 4000" @update:show="emit('update:show', $event)">
+  <pop-view v-model:show="show" style="z-index: 4000">
     <view v-if="selection" :class="styles['lesson-detail']">
       <view :class="styles['lesson-title']">{{ selection.lessonName }}</view>
       <view>地点：{{ selection.campus }}-{{ selection.lessonPlace }} </view>
@@ -76,7 +76,6 @@ import { COLOR_SET } from "../../_constants/colors";
 import styles from "./index.module.scss";
 
 defineProps<{
-  show: boolean;
   selection?: Lesson;
   selectionConflicts?: Lesson[];
   practiceLessons?: PracticeLesson[];
@@ -84,7 +83,7 @@ defineProps<{
   detailTimeInterval: string;
 }>();
 
-const emit = defineEmits<{ "update:show": [value: boolean] }>();
+const show = defineModel<boolean>({ required: true });
 
 function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];

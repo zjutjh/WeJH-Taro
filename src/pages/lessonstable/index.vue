@@ -51,7 +51,7 @@
       </view>
     </bottom-panel>
     <lesson-popover
-      v-model:show="showPop"
+      v-model="showPop"
       :selection="selection"
       :selection-conflicts="selectionConflicts"
       :practice-lessons="practiceLessonsData"
