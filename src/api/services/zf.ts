@@ -12,4 +12,12 @@ export default class ZFService<TOptions> extends BaseService<TOptions> {
 
     return this.request({ url, method, data }, options);
   }
+
+  QueryExam(req: ZfAPI.QueryExamRequest, options?: TOptions): Promise<ZfAPI.QueryExamResponse> {
+    const url = this.genBaseURL("/api/func/zf/exam");
+    const method = "POST";
+    const data = req;
+
+    return this.request({ url, method, data }, options);
+  }
 }

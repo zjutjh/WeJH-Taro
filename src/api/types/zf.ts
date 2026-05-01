@@ -44,6 +44,8 @@ export type QueryMidtermScoreResponse = Array<{
   teacherName: string;
 }>;
 
+export type QueryExamRequest = QueryLessonsTableRequest;
+
 /** 查询考试安排 */
 export type QueryExamResponse = Array<{
   campus: string;

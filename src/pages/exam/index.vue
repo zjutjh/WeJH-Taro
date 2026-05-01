@@ -12,10 +12,10 @@
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="!exam || exam.length === 0" style="text-align: center">
+        <card v-if="!data || data.length === 0" style="text-align: center">
           <view>无记录</view>
         </card>
-        <card v-for="item in exam" :key="item.id" size="small" class="exam-card">
+        <card v-for="item in data" :key="item.id" size="small" class="exam-card">
           <w-collapse class="exam-collapse-item">
             <w-collapse-panel :arrow="true">
               <template #header>
@@ -80,7 +80,7 @@
                   {{
                     item.teacherName
                       .split(";")
-                      .map((item) => item.split("/")[1])
+                      .map(item => item.split("/")[1])
                       .join("；")
                   }}
                 </w-descriptions-item>
@@ -100,7 +100,7 @@
         />
       </view>
       <view class="col">
-        <refresh-button :is-refreshing="isRefreshing" @refresh="refresh" />
+        <refresh-button :is-refreshing="isPending" @refresh="refetch" />
       </view>
     </bottom-panel>
     <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
@@ -110,9 +110,9 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import { watchDeep } from "@vueuse/core";
+import { useQuery } from "@tanstack/vue-query";
 import dayjs, { ConfigType } from "dayjs";
-import { computed, onMounted, ref } from "vue";
+import { ref, toRef } from "vue";
 
 import {
   BottomPanel,
@@ -128,43 +128,30 @@ import {
   WModal
 } from "@/components";
 import { helpText } from "@/constants/copywriting";
-import { ZFService } from "@/services";
+import { zfServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
+import { getDetailedTime } from "@/utils/time";
 
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
   term: systemStore.generalInfo.term
 });
-const isRefreshing = ref(false);
-const exam = computed(() => ZFService.getExamInfo(selectTerm.value).data);
-const showModal = ref(false);
-const helpContent = helpText.exam;
 
-watchDeep(selectTerm, async (val) => {
-  isRefreshing.value = true;
-  await ZFService.updateExamInfo(val);
-  isRefreshing.value = false;
+const { data, isPending, refetch } = useQuery({
+  queryKey: [
+    QUERY_KEY.ZF_EXAM,
+    toRef(() => selectTerm.value.year),
+    toRef(() => selectTerm.value.term)
+  ] as const,
+  queryFn: ({ queryKey }) => zfServiceNext.QueryExam({ year: queryKey[1], term: queryKey[2] })
 });
 
-async function refresh() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  await ZFService.updateExamInfo(selectTerm.value);
-  isRefreshing.value = false;
-}
-
-function getDetailedTime(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-  if (dayChars[dayjs(tmp).day()]) return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-
-  return tmp;
-}
+const showModal = ref(false);
+const helpContent = helpText.exam;
 
 function timeInterval(timeString: string) {
   const tmp: ConfigType = timeString.split("(")[0];
   return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
 }
-
-onMounted(refresh);
 </script>
