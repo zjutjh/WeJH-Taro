@@ -24,7 +24,7 @@
         >
           <view
             v-for="cl in lessonsTable"
-            :key="`${cl.id}-${cl.week}-${cl.weekday}-${cl.sections}-${cl.stack ?? 0}`"
+            :key="lessonKey(cl)"
             :class="styles['class']"
             :style="getPosition(cl)"
           >
@@ -70,6 +70,7 @@ import type { Lesson } from "@/types/Lesson";
 
 import styles from "./index.module.scss";
 import { buildTwoDimensionalLayout, colorLessons } from "./utils/layout-color";
+import { lessonKey } from "./utils/key";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
 const { lessons } = toRefs(props);
@@ -92,14 +93,14 @@ const nowStyle = computed(() => {
   const nowTime = hour * 60 + min;
 
   // 这节课的开始时间
-  let thisLesson = dayScheduleStartTime.find((item) => {
+  let thisLesson = dayScheduleStartTime.find(item => {
     if (nowTime >= item.hour * 60 + item.min && nowTime <= item.hour * 60 + item.min + 45)
       return true;
   });
 
   if (thisLesson) duration = hour * 60 + min - (thisLesson.hour * 60 + thisLesson.min);
   else
-    thisLesson = dayScheduleStartTime.find((item) => {
+    thisLesson = dayScheduleStartTime.find(item => {
       if (nowTime < item.hour * 60 + item.min) return true;
     }) ?? { hour: 21, min: 10 };
 
