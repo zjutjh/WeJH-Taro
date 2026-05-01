@@ -53,7 +53,7 @@
           <view :class="styles['row']">
             <view
               :class="styles['lesson-title']"
-              :style="{ color: `var(--wjh-color-${colorSet[idx % colorSet.length]})` }"
+              :style="{ color: `var(--wjh-color-${COLOR_SET[idx % COLOR_SET.length]})` }"
             >
               {{ c.lessonName }}
             </view>
@@ -70,9 +70,9 @@
 
 <script setup lang="ts">
 import { PopView } from "@/components";
-import { colorSet } from "@/constants/colors";
 import type { Lesson, PracticeLesson } from "@/types/Lesson";
 
+import { COLOR_SET } from "../../_constants/colors";
 import styles from "./index.module.scss";
 
 defineProps<{

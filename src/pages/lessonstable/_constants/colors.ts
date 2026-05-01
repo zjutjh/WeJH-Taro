@@ -1,4 +1,4 @@
-export const colorSet = [
+export const COLOR_SET = [
   "green-600",
   "green-700",
   "blue-600",

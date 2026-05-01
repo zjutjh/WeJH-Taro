@@ -57,7 +57,7 @@ import dayjs from "dayjs";
 import { computed, CSSProperties, onMounted, onUnmounted, Ref, ref, toRef } from "vue";
 
 import { Card } from "@/components";
-import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
+import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
 import { useTimeInstance } from "@/hooks";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
@@ -75,23 +75,23 @@ const showTomorrow = dayjs().isAfter(tenPM);
 const lessonTable = computed(() =>
   data.value?.filter((item) => {
     /** 周日值为 7，周一值为 1 */
-    const queryDay = !showTomorrow ? new Date().getDay() || 7 : new Date().getDay() + 1;
-    const queryWeek = !showTomorrow
-      ? systemStore.generalInfo.week
+    const queryDay = showTomorrow ? new Date().getDay() + 1 : new Date().getDay() || 7;
+    const queryWeek = showTomorrow
+      ? systemStore.generalInfo.week + Number(queryDay === 1)
       : // 如果明天是周一，意味着要查询下一周
-        systemStore.generalInfo.week + Number(queryDay === 1);
-    if (queryDay !== parseInt(item.weekday)) return false;
+        systemStore.generalInfo.week;
+    if (queryDay !== Number.parseInt(item.weekday)) return false;
 
-    for (const time of item.week.split(",")) {
+    for (const time of item.week.split(","))
       if (time.includes("-")) {
-        const start = parseInt(time.split("-")[0]);
-        const end = parseInt(time.split("-")[1]);
+        const start = Number.parseInt(time.split("-")[0]);
+        const end = Number.parseInt(time.split("-")[1]);
         if (queryWeek <= end && queryWeek >= start)
           if (!time.includes("单") && !time.includes("双")) return true;
           else if (time.includes("单") && queryWeek % 2 === 1) return true;
           else if (time.includes("双") && queryWeek % 2 === 0) return true;
-      } else if (queryWeek === parseInt(time)) return true;
-    }
+      } else if (queryWeek === Number.parseInt(time)) return true;
+
     return false;
   })
 );
@@ -124,25 +124,25 @@ const updateTimeString = computed(() => {
   return dataUpdatedAt.value ? dayjs(new Date(dataUpdatedAt.value)).fromNow() : "请稍候";
 });
 
-function nav2Lesson() {
-  Taro.navigateTo({ url: "/pages/lessonstable/index" });
+async function nav2Lesson() {
+  await Taro.navigateTo({ url: "/pages/lessonstable/index" });
 }
 
 function sectionsTimeString(sections: string) {
   const arr = sections.split("-");
-  return `${getLessonTimeInstance(parseInt(arr[0])).format("HH:mm")}-${getLessonTimeInstance(parseInt(arr[1]), 45).format("HH:mm")}`;
+  return `${getLessonTimeInstance(Number.parseInt(arr[0])).format("HH:mm")}-${getLessonTimeInstance(Number.parseInt(arr[1]), 45).format("HH:mm")}`;
 }
 
 function getLessonTimeInstance(jc: number, offset = 0) {
   return useTimeInstance(
-    dayScheduleStartTime[jc - 1].hour,
-    dayScheduleStartTime[jc - 1].min + offset
+    DAY_SCHEDULE_START_TIME[jc - 1].hour,
+    DAY_SCHEDULE_START_TIME[jc - 1].min + offset
   );
 }
 
 function getRestTimeString(sections: string) {
-  const begin = parseInt(sections.split("-")[0]);
-  const time = dayScheduleStartTime[begin - 1];
+  const begin = Number.parseInt(sections.split("-")[0]);
+  const time = DAY_SCHEDULE_START_TIME[begin - 1];
   const minutesCount = time.hour * 60 + time.min;
   const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
 

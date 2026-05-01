@@ -1,8 +1,12 @@
-interface dayScheduleStartTimeType {
+interface DayScheduleStartTimeType {
   hour: number;
   min: number;
 }
-const dayScheduleStartTime: dayScheduleStartTimeType[] = [
+
+/**
+ * 每节课程的开始时间，共 12 节课
+ */
+export const DAY_SCHEDULE_START_TIME: DayScheduleStartTimeType[] = [
   { hour: 8, min: 0 },
   { hour: 8, min: 55 },
   { hour: 9, min: 55 },
@@ -16,5 +20,3 @@ const dayScheduleStartTime: dayScheduleStartTimeType[] = [
   { hour: 19, min: 25 },
   { hour: 20, min: 20 }
 ];
-
-export { dayScheduleStartTime };

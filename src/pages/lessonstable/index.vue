@@ -75,7 +75,7 @@ import {
   WButton,
   WeekPicker
 } from "@/components";
-import { dayScheduleStartTime } from "@/constants/dayScheduleStartTime";
+import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
 import { useTimeInstance } from "@/hooks";
 import { ZFService, zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
@@ -145,13 +145,13 @@ const detailTimeInterval = computed(() => {
   if (
     startIndex < 1 ||
     endIndex < 1 ||
-    startIndex > dayScheduleStartTime.length ||
-    endIndex > dayScheduleStartTime.length
+    startIndex > DAY_SCHEDULE_START_TIME.length ||
+    endIndex > DAY_SCHEDULE_START_TIME.length
   )
     return "";
 
-  const startSlot = dayScheduleStartTime[startIndex - 1];
-  const endSlot = dayScheduleStartTime[endIndex - 1];
+  const startSlot = DAY_SCHEDULE_START_TIME[startIndex - 1];
+  const endSlot = DAY_SCHEDULE_START_TIME[endIndex - 1];
 
   const startTime = useTimeInstance(startSlot.hour, startSlot.min).format("HH:mm");
   const endTime = useTimeInstance(endSlot.hour, endSlot.min + 45).format("HH:mm");

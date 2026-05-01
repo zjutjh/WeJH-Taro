@@ -102,16 +102,15 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
     const classKey = `${node.stack}-${node.lesson.classID}`;
     const preferred = classPreferredColor.get(classKey);
 
-    let selectedColor: string;
-
+    let selectedColor: string | undefined;
     if (preferred && availableColors.includes(preferred)) selectedColor = preferred;
     else if (availableColors.length > 0)
       selectedColor = [...availableColors].sort(
-        (a, b) => (colorUseCount.get(a) ?? 0) - (colorUseCount.get(b) ?? 0)
+        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
       )[0];
     else
       selectedColor = [...palette].sort(
-        (a, b) => (colorUseCount.get(a) ?? 0) - (colorUseCount.get(b) ?? 0)
+        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
       )[0];
 
     assigned.set(index, selectedColor);
@@ -181,7 +180,7 @@ function toLessonColorNode(lesson: Lesson, index: number): LessonColorNode {
     weekday: Number.parseInt(lesson.weekday),
     start,
     end,
-    stack: lesson.stack ?? 0,
+    stack: lesson.stack || 0,
     duration: end - start + 1
   };
 }
