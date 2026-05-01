@@ -85,18 +85,14 @@ const colorSet = [
 ];
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
-const lessonsTable = computed(() => {
-  return processLessonsLayout(lessons.value);
-});
+const lessonsTable = computed(() => processLessonsLayout(lessons.value));
 
 /**
  * 生成课程在 v-for 中的唯一 key
  * 为了避免重复 key 出现，使用 id、week、weekday、sections、stack 五个属性组合
  * 新增了 stack（层数）作为 key 的一部分，用于区分冲突层的相同课程
  */
-const lessonKey = (cl: Lesson) => {
-  return `${cl.id}-${cl.week}-${cl.weekday}-${cl.sections}-${cl.stack || 0}`;
-};
+const lessonKey = (cl: Lesson) => `${cl.id}-${cl.week}-${cl.weekday}-${cl.sections}-${cl.stack || 0}`;
 
 const nowWeekStyle = computed(() => {
   const now = new Date();
@@ -115,15 +111,20 @@ const nowStyle = computed(() => {
 
   // 这节课的开始时间
   let thisLesson = dayScheduleStartTime.find((item) => {
-    if (nowTime >= item.hour * 60 + item.min && nowTime <= item.hour * 60 + item.min + 45)
+    if (nowTime >= item.hour * 60 + item.min && nowTime <= item.hour * 60 + item.min + 45) {
       return true;
+    }
   });
 
   if (!thisLesson) {
     thisLesson = dayScheduleStartTime.find((item) => {
-      if (nowTime < item.hour * 60 + item.min) return true;
+      if (nowTime < item.hour * 60 + item.min) {
+        return true;
+      }
     }) || { hour: 21, min: 10 };
-  } else duration = hour * 60 + min - (thisLesson.hour * 60 + thisLesson.min);
+  } else {
+    duration = hour * 60 + min - (thisLesson.hour * 60 + thisLesson.min);
+  }
 
   let jc = 0; // 第 ${jc + 1} 节课
   jc = dayScheduleStartTime.indexOf(thisLesson);
@@ -146,7 +147,9 @@ function lessonCardColor(color = "primary") {
 function splitNameAndRoom(str: string) {
   let index = 0;
   for (; index < str.length; index++) {
-    if (str.charCodeAt(index) <= 255) break;
+    if (str.charCodeAt(index) <= 255) {
+      break;
+    }
   }
   return [str.slice(0, index), str.slice(index)];
 }

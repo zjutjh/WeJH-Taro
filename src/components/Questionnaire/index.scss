@@ -1,7 +1,7 @@
 .questionnaire {
-  border-radius: 8Px;
+  border-radius: 8px;
   box-shadow: var(--wjh-shadow);
-  padding: 16Px 20Px;
+  padding: 16px 20px;
   background-color: var(--wjh-color-background-container);
   opacity: 95%;
 
@@ -25,7 +25,7 @@
     overflow: hidden;
     max-height: 500px;
     margin-top: 0.5rem;
-    border-top: 2Px solid var(--wjh-color-border);
+    border-top: 2px solid var(--wjh-color-border);
     transition: all 0.3s;
   }
 
@@ -39,7 +39,7 @@
       padding-left: .7rem;
       margin-left: .7rem;
       line-height: 100%;
-      border-left: 3Px solid var(--wjh-color-text);
+      border-left: 3px solid var(--wjh-color-text);
     }
   }
 

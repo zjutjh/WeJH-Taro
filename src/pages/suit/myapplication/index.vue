@@ -40,7 +40,7 @@
           :source="record"
           @is-delete="needRefresh"
         />
-        <w-skeleton v-if="loading" :style="{ borderRadius: '8Px' }" />
+        <w-skeleton v-if="loading" :style="{ borderRadius: '8px' }" />
         <card v-else-if="!recordList.length" is-empty>
           <text>该分类下暂无申请记录</text>
         </card>
@@ -50,15 +50,17 @@
 </template>
 
 <script setup lang="ts">
-import styles from "./index.module.scss";
-import { ThemeConfig, TitleBar, Card, WSkeleton } from "@/components";
+import { omit } from "lodash-es";
 import { ref } from "vue";
+
+import { Card, ThemeConfig, TitleBar, WSkeleton } from "@/components";
 import { useRequest } from "@/hooks";
 import { SuitService } from "@/services";
-import { SuitApplyRecord } from "@/types/Suit";
-import PreviewCard from "./PreviewCard/index.vue";
-import { omit } from "lodash-es";
 import store, { serviceStore } from "@/store";
+import { SuitApplyRecord } from "@/types/Suit";
+
+import styles from "./index.module.scss";
+import PreviewCard from "./PreviewCard/index.vue";
 
 const recordList = ref<SuitApplyRecord[]>([]);
 const campusList = ref<string[]>(["屏峰", "朝晖", "莫干山"]);
@@ -77,15 +79,17 @@ const { loading, run } = useRequest(
     loadingDelay: 600,
     onSuccess: (res) => {
       if (res.data.code === 1) {
-        recordList.value = recordList.value?.concat(
+        recordList.value = recordList.value.concat(
           res.data.data
         );
-        if (recordList.value.length === 0) isEmpty.value = true;
-      } else throw new Error(res.data.msg);
+        if (recordList.value.length === 0) {
+          isEmpty.value = true;
+        }
+      } else {
+        throw new Error(res.data.msg);
+      }
     },
-    onError: (e: Error) => {
-      return `加载申请信息失败\r\n${e.message || "网络错误"}`;
-    }
+    onError: (e: Error) => `加载申请信息失败\r\n${e.message || "网络错误"}`
   }
 );
 
@@ -98,7 +102,9 @@ const getRecords = (data: {
 };
 
 const handleSelectCampus = (campus: string) => {
-  if (selectCampus.value === campus) return;
+  if (selectCampus.value === campus) {
+    return;
+  }
   selectCampus.value = campus;
   store.commit("setLastOpenCampus", campus);
   resetList();
@@ -108,7 +114,9 @@ const handleSelectCampus = (campus: string) => {
   });
 };
 const handleSelectStatus = (status: string) => {
-  if (selectStatus.value === status) return;
+  if (selectStatus.value === status) {
+    return;
+  }
   selectStatus.value = status;
   store.commit("setLastOpenMain", status);
   resetList();

@@ -1,18 +1,18 @@
 
 .campus-selector {
   background-color: var(--wjh-color-background-container);
-  padding: 12Px;
+  padding: 12px;
 
   .container {
     display: flex;
     height: 100%;
-    gap: 16Px;
+    gap: 16px;
   }
 
   .campus {
     flex: 0 calc(100% / 3);
-    padding: 6Px 16Px;
-    border-radius: 100Px;
+    padding: 6px 16px;
+    border-radius: 100px;
     background-color: var(--wjh-color-primary-light);
     color: var(--wjh-color-primary-dark);
     text-align: center;
@@ -41,13 +41,13 @@
     display: flex;
     overflow-x: auto;
     align-items: center;
-    padding-right: 16Px;
+    padding-right: 16px;
     flex: 1;
     white-space: nowrap;
 
     text {
       transition: all .1s;
-      padding: 2Px 6Px;
+      padding: 2px 6px;
     }
 
     text:active {
@@ -61,5 +61,5 @@
 }
 
 .record-list {
-  padding: 16Px;
+  padding: 16px;
 }

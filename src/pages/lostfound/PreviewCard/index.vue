@@ -77,7 +77,7 @@
           >
             <image
               :class="styles.image"
-              style="width: 100Px ;height: 100Px"
+              style="width: 100px ;height: 100px"
               mode="aspectFill"
               :src="item"
               @load="handleLoadFinish"
@@ -139,7 +139,7 @@
           >
             <image
               :class="styles.image"
-              style="width: 100Px ;height: 100Px"
+              style="width: 100px ;height: 100px"
               mode="aspectFill"
               :src="item"
               @load="handleLoadFinish"
@@ -157,10 +157,13 @@
 </template>
 
 <script setup lang="ts">
-import { LostfoundRecord } from "@/types/Lostfound";
-import { computed, ref, toRefs } from "vue";
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { compact } from "lodash-es";
+import { computed, ref, toRefs } from "vue";
+
+import { LostfoundRecord } from "@/types/Lostfound";
+
 import styles from "./index.module.scss";
 
 const props = defineProps<{
@@ -168,11 +171,11 @@ const props = defineProps<{
 }>();
 const needFixWidth = ref(false);
 
-const imageList = computed(() => [
-  source.value?.img1 || null,
-  source.value?.img2 || null,
-  source.value?.img3 || null
-].filter(item => !!item) as string[]);
+const imageList = computed(() => compact([
+  source.value.img1,
+  source.value.img2,
+  source.value.img3
+]));
 
 const { source } = toRefs(props);
 
@@ -189,11 +192,12 @@ const handlePreviewImages = (url: string) => {
 };
 
 const handleLoadFinish = ({ detail: { height, width } }) => {
-  if (height > width) needFixWidth.value = false;
-  else needFixWidth.value = true;
+  if (height > width) {
+    needFixWidth.value = false;
+  } else {
+    needFixWidth.value = true;
+  }
 };
 
-const timeFormat = (time: string) => {
-  return dayjs(time).format("YYYY年MM月DD日");
-};
+const timeFormat = (time: string) => dayjs(time).format("YYYY年MM月DD日");
 </script>
