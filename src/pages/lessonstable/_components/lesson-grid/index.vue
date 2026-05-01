@@ -67,6 +67,7 @@ import { computed, toRefs } from "vue";
 import type { Lesson } from "@/types/Lesson";
 
 import { COLOR_SET } from "../../_constants/colors";
+import { splitNameAndRoom } from "../../_constants/split-name-room";
 import CurrentTimeIndicator from "../current-time-indicator/index.vue";
 import styles from "./index.module.scss";
 import { lessonKey } from "./utils/key";
@@ -83,16 +84,6 @@ const lessonsTable = computed(() => {
   const layoutResult = buildTwoDimensionalLayout(lessons.value);
   return colorLessons(layoutResult, COLOR_SET);
 });
-
-function splitNameAndRoom(str: string) {
-  let index = 0;
-  while (index < str.length) {
-    const code = str.codePointAt(index);
-    if (code && code <= 255) break;
-    index++;
-  }
-  return [str.slice(0, index), str.slice(index)];
-}
 
 function getPosition(lesson: Lesson) {
   const begin = Number.parseInt(lesson.sections.split("-")[0]);

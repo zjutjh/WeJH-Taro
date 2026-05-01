@@ -23,7 +23,7 @@
         </view>
         <view :class="styles['conflict-time-inline']">冲突时间：{{ conflictTime }}</view>
       </view>
-      <view :class="styles['item-list']">
+      <view :class="styles['lesson-list']">
         <view
           v-for="(c, idx) in selectionConflicts"
           :key="`${c.id}-${c.week}-${c.weekday}-${c.sections}-${idx}`"
@@ -44,7 +44,7 @@
       v-else-if="practiceLessons && practiceLessons.length > 0"
       :class="styles['lesson-detail']"
     >
-      <view :class="styles['item-list']">
+      <view :class="styles['lesson-list']">
         <view
           v-for="(c, idx) in practiceLessons"
           :key="`${c.lessonName}-${c.className}-${c.teacherName}-${idx}`"
@@ -88,6 +88,6 @@ const emit = defineEmits<{ "update:show": [value: boolean] }>();
 
 function detailWeekDay(weekDay: string) {
   const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
-  return `周${charEnum[Number.parseInt(weekDay) - 1]}`;
+  return `周${charEnum.at(Number.parseInt(weekDay) - 1)}`;
 }
 </script>
