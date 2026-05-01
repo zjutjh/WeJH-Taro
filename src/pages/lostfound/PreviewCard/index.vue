@@ -159,6 +159,7 @@
 <script setup lang="ts">
 import Taro from "@tarojs/taro";
 import dayjs from "dayjs";
+import { compact } from "lodash-es";
 import { computed, ref, toRefs } from "vue";
 
 import { LostfoundRecord } from "@/types/Lostfound";
@@ -170,11 +171,11 @@ const props = defineProps<{
 }>();
 const needFixWidth = ref(false);
 
-const imageList = computed(() => [
-  source.value.img1 || null,
-  source.value.img2 || null,
-  source.value.img3 || null
-].filter(item => Boolean(item)) as string[]);
+const imageList = computed(() => compact([
+  source.value.img1,
+  source.value.img2,
+  source.value.img3
+]));
 
 const { source } = toRefs(props);
 

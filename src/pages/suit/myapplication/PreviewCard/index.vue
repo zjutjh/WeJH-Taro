@@ -225,7 +225,7 @@ const isShowConfirm = ref(false);
 const needFixWidth = ref(false);
 const imageList = computed(() => [
   source.value.img || "https://api.cnpatrickstar.com/img/b57036a9-c17c-41af-9e5d-893af1aa7d9a.jpg"
-].filter(item => Boolean(item)) as string[]);
+]);
 const { source } = toRefs(props);
 const emit = defineEmits(["isDelete"]);
 
@@ -290,9 +290,9 @@ const timeCount = (borrow_time: string) => {
   const setHours = Math.floor(secondDuring / 60 / 60 % 24);
   const setDay = Math.floor(secondDuring / 60 / 60 / 24);
   if (Math.abs(setDay) > 0) {
-    return `${setDay }天\t`;
+    return `${setDay}天\t`;
   }
-  return `${setHours }小时\t`;
+  return `${setHours}小时\t`;
 
 };
 
@@ -301,9 +301,9 @@ const timeDuring = (borrow_time: string, return_time: string) => {
   const setHours = Math.floor(secondDuring / 60 / 60 % 24);
   const setDay = Math.floor(secondDuring / 60 / 60 / 24);
   if (Math.abs(setDay) > 0) {
-    return `${setDay }天\t`;
+    return `${setDay}天\t`;
   }
-  return `${setHours }小时\t`;
+  return `${setHours}小时\t`;
 
 };
 </script>
