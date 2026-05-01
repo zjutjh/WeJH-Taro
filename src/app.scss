@@ -1,6 +1,3 @@
-/** 主题色、深色模式 */
-@use "./style/theme.scss";
-
 /** 图标包 */
 @use "./style/icons.scss";
 
@@ -9,3 +6,6 @@
 
 /** 全局样式 */
 @use "./style/global.scss";
+
+/** 主题色、深色模式 */
+@use "./style/theme.scss";
