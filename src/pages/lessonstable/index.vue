@@ -64,6 +64,7 @@
 
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
+import { isEqual } from "lodash-es";
 import { computed, ref, toRef } from "vue";
 
 import {
@@ -86,7 +87,7 @@ import LessonsTable from "./_components/lesson-grid/index.vue";
 import LessonPopover from "./_components/lesson-popover/index.vue";
 import PracticeLessonPopover from "./_components/practice-lesson-popover/index.vue";
 import { isSectionsOverlap } from "./_utils/sections";
-import { computeOverlapWeeks, formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
+import { formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
 import styles from "./index.module.scss";
 
 const showCoursePop = ref(false);
@@ -125,9 +126,7 @@ const lessonsTableWeek = computed(() =>
 );
 
 const isThisWeek = computed(
-  () =>
-    selectWeek.value === originWeek &&
-    JSON.stringify(originTerm) === JSON.stringify(selectTerm.value)
+  () => selectWeek.value === originWeek && isEqual(selectTerm.value, originTerm)
 );
 
 const detailTimeInterval = computed(() => {
@@ -178,19 +177,11 @@ function handleLessonClick(lesson: Lesson) {
   if (conflicts && conflicts.length > 1) {
     selectionConflicts.value = conflicts;
     selection.value = undefined;
-    const sourceWeek = lesson.week || "";
-    for (const item of conflicts)
-      (item as unknown as Record<string, string>)._overlap = computeOverlapWeeks(
-        sourceWeek,
-        item.week || ""
-      );
-
-    showCoursePop.value = true;
   } else {
     selectionConflicts.value = undefined;
     selection.value = lesson;
-    showCoursePop.value = true;
   }
+  showCoursePop.value = true;
 }
 
 function handleBackToOriginWeek() {

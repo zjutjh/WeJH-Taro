@@ -8,10 +8,10 @@ export function parseWeeks(weekStr: string): Set<number> {
   for (const p of parts) {
     const isOdd = p.includes("单");
     const isEven = p.includes("双");
-    const match = p.match(/(\d+)(?:-(\d+))?/);
+    const match = /(\d+)(?:-(\d+))?/.exec(p);
     if (!match) continue;
-    const start = parseInt(match[1]);
-    const end = match[2] ? parseInt(match[2]) : start;
+    const start = Number.parseInt(match[1]);
+    const end = match[2] ? Number.parseInt(match[2]) : start;
     for (let w = start; w <= end; w++) {
       if (isOdd && w % 2 === 0) continue;
       if (isEven && w % 2 === 1) continue;
@@ -22,7 +22,7 @@ export function parseWeeks(weekStr: string): Set<number> {
 }
 
 export function formatWeeks(setWeeks: Set<number>): string {
-  const arr = Array.from(setWeeks).sort((a, b) => a - b);
+  const arr = [...setWeeks].sort((a, b) => a - b);
   if (arr.length === 0) return "";
   const ranges: string[] = [];
   let start = arr[0];
@@ -42,24 +42,16 @@ export function formatWeeks(setWeeks: Set<number>): string {
 
 export function isLessonActiveInWeek(lessonWeekStr: string | undefined, week: number): boolean {
   if (!lessonWeekStr) return false;
-  for (const time of lessonWeekStr.split(",")) {
+  for (const time of lessonWeekStr.split(","))
     if (time.includes("-")) {
-      const start = parseInt(time.split("-")[0]);
-      const end = parseInt(time.split("-")[1]);
+      const start = Number.parseInt(time.split("-")[0]);
+      const end = Number.parseInt(time.split("-")[1]);
       if (week <= end && week >= start) {
         if (!time.includes("单") && !time.includes("双")) return true;
         if (time.includes("单") && week % 2 === 1) return true;
         if (time.includes("双") && week % 2 === 0) return true;
       }
-    } else if (week === parseInt(time)) return true;
-  }
-  return false;
-}
+    } else if (week === Number.parseInt(time)) return true;
 
-export function computeOverlapWeeks(aWeek: string, bWeek: string): string {
-  const a = parseWeeks(aWeek);
-  const b = parseWeeks(bWeek);
-  const inter = new Set<number>();
-  for (const w of a) if (b.has(w)) inter.add(w);
-  return formatWeeks(inter);
+  return false;
 }

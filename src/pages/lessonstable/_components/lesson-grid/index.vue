@@ -8,11 +8,7 @@
     <view :class="styles['lessons-table']">
       <view :class="styles['col']" />
       <view :class="styles['col']">
-        <view
-          v-show="isThisWeek"
-          :class="styles['now-week-index']"
-          :style="{ left: `calc(100% / 7 * ${(new Date().getDay() || 7) - 1})` }"
-        />
+        <view v-show="isThisWeek" :class="styles['now-week-index']" :style="nowWeekStyle" />
         <view :class="[styles['weekday-index-panel'], styles['index-panel']]">
           <view v-for="i in weekdayEnum" :key="i">
             <view :class="styles['num-index']">{{ i }}</view>
@@ -78,6 +74,10 @@ const { lessons } = toRefs(props);
 const emit = defineEmits(["lessonClick"]);
 
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+
+const nowWeekStyle = computed(() => ({
+  left: `calc(100% / 7 * ${(new Date().getDay() || 7) - 1})`
+}));
 
 // 分层排布 + 着色（统一抽到 utils）
 const lessonsTable = computed(() => {
