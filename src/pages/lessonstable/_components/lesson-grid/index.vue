@@ -63,7 +63,6 @@ import { computed, toRefs } from "vue";
 import type { Lesson } from "@/types/lesson";
 
 import { COLOR_SET } from "../../_constants/colors";
-import { splitNameAndRoom } from "../../_constants/split-name-room";
 import { buildTwoDimensionalLayout, colorLessons } from "../../_utils/layout-color";
 import CurrentTimeIndicator from "../current-time-indicator/index.vue";
 import styles from "./index.module.scss";
@@ -84,6 +83,12 @@ const lessonsTable = computed(() => {
   const layoutResult = buildTwoDimensionalLayout(lessons.value);
   return colorLessons(layoutResult, COLOR_SET);
 });
+
+function splitNameAndRoom(str: string) {
+  const NAME_ROOM_RE = /^(\P{ASCII}*)([\s\S]*)$/u;
+  const match = NAME_ROOM_RE.exec(str);
+  return match ? [match[1], match[2]] : [str, ""];
+}
 
 function getPosition(lesson: Lesson) {
   const begin = Number.parseInt(lesson.sections.split("-")[0]);

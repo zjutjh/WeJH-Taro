@@ -87,9 +87,8 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
     });
 
   const assigned = new Map<number, string>();
-  const colorUseCount = new Map<string, number>();
+  const colorUseCount = new Map(palette.map((color) => [color, 0]));
   const classPreferredColor = new Map<string, string>();
-  for (const color of palette) colorUseCount.set(color, 0);
 
   for (const { node, index } of order) {
     const neighborColors = new Set<string>();

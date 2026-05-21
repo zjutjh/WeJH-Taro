@@ -75,9 +75,10 @@ const showTomorrow = dayjs().isAfter(tenPM);
 const lessonTable = computed(() =>
   data.value?.filter((item) => {
     /** 周日值为 7，周一值为 1 */
-    const queryDay = showTomorrow ? new Date().getDay() + 1 : new Date().getDay() || 7;
+    const queryDay = showTomorrow ? (new Date().getDay() + 1) : (new Date().getDay() || 7); // eslint-disable-line prettier/prettier
+    const isMonday = queryDay === 1 ? 1 : 0;
     const queryWeek = showTomorrow
-      ? systemStore.generalInfo.week + Number(queryDay === 1)
+      ? systemStore.generalInfo.week + isMonday
       : // 如果明天是周一，意味着要查询下一周
         systemStore.generalInfo.week;
     if (queryDay !== Number.parseInt(item.weekday)) return false;
@@ -116,8 +117,8 @@ const updateTimeString = computed(() => {
   return dataUpdatedAt.value ? dayjs(new Date(dataUpdatedAt.value)).fromNow() : "请稍候";
 });
 
-async function nav2Lesson() {
-  await Taro.navigateTo({ url: "/pages/lessonstable/index" });
+function nav2Lesson() {
+  return Taro.navigateTo({ url: "/pages/lessonstable/index" });
 }
 
 function sectionsTimeString(sections: string) {
@@ -127,14 +128,14 @@ function sectionsTimeString(sections: string) {
 
 function getLessonTimeInstance(jc: number, offset = 0) {
   return useTimeInstance(
-    DAY_SCHEDULE_START_TIME[jc - 1].hour,
-    DAY_SCHEDULE_START_TIME[jc - 1].min + offset
+    DAY_SCHEDULE_START_TIME.at(jc - 1)?.hour || 0,
+    (DAY_SCHEDULE_START_TIME.at(jc - 1)?.min || 0) + offset
   );
 }
 
 function getRestTimeString(sections: string) {
   const begin = Number.parseInt(sections.split("-")[0]);
-  const time = DAY_SCHEDULE_START_TIME[begin - 1];
+  const time = DAY_SCHEDULE_START_TIME.at(begin - 1) ?? { hour: 0, min: 0 };
   const minutesCount = time.hour * 60 + time.min;
   const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
 

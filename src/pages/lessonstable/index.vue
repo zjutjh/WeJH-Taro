@@ -26,9 +26,9 @@
           <view class="iconfont icon-back" />
         </w-button>
         <w-button
-          v-else-if="!showWeekPicker && practiceLessonsData && practiceLessonsData.length > 0"
+          v-else-if="!showWeekPicker && !isEmpty(practiceLessonsData)"
           :class="styles['panel-button']"
-          @tap="showPracticePop = true"
+          @tap="showPracticePopover = true"
         >
           <image src="@/assets/icons/practice-lesson/index.svg" />
         </w-button>
@@ -51,20 +51,22 @@
       </view>
     </bottom-panel>
     <lesson-popover
-      v-model="showCoursePop"
+      v-model="showLessonPopover"
       :selection="selection"
       :selection-conflicts="selectionConflicts"
       :conflict-time="conflictTime"
       :detail-time-interval="detailTimeInterval"
-    >
-    </lesson-popover>
-    <practice-lesson-popover v-model="showPracticePop" :practice-lessons="practiceLessonsData" />
+    />
+    <practice-lesson-popover
+      v-model="showPracticePopover"
+      :practice-lessons="practiceLessonsData"
+    />
   </theme-config>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
-import { isEqual } from "lodash-es";
+import { isEmpty, isEqual } from "lodash-es";
 import { computed, ref, toRef } from "vue";
 
 import {
@@ -83,15 +85,15 @@ import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
 import type { Lesson, PracticeLesson } from "@/types/lesson";
 
+import LessonPopover from "./_components/conflict-lesson-popover/index.vue";
 import LessonsTable from "./_components/lesson-grid/index.vue";
-import LessonPopover from "./_components/lesson-popover/index.vue";
 import PracticeLessonPopover from "./_components/practice-lesson-popover/index.vue";
 import { isSectionsOverlap } from "./_utils/sections";
 import { formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
 import styles from "./index.module.scss";
 
-const showCoursePop = ref(false);
-const showPracticePop = ref(false);
+const showLessonPopover = ref(false);
+const showPracticePopover = ref(false);
 const selection = ref<Lesson>();
 const selectionConflicts = ref<Lesson[]>();
 
@@ -181,7 +183,7 @@ function handleLessonClick(lesson: Lesson) {
     selectionConflicts.value = undefined;
     selection.value = lesson;
   }
-  showCoursePop.value = true;
+  showLessonPopover.value = true;
 }
 
 function handleBackToOriginWeek() {

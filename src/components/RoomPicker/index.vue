@@ -1,13 +1,15 @@
 <template>
   <picker mode="multiSelector" :range="selector" :value="selectorValue" @change="onChange">
     <w-button>
-      {{ selectorChecked[0] }} {{ selectorChecked[1] }} {{ selectorChecked[2] }}
-      {{ selectorChecked[3] }}
+      {{
+        `${selectorChecked[0]} ${selectorChecked[1]} ${selectorChecked[2]} ${selectorChecked[3]}`
+      }}
     </w-button>
   </picker>
 </template>
 
 <script setup lang="ts">
+import { times } from "lodash-es";
 import { onMounted, reactive, ref } from "vue";
 
 import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
@@ -19,32 +21,22 @@ const props = defineProps<{ week: number }>();
 const emit = defineEmits(["changed"]);
 
 const campus = ["朝晖", "屏峰", "莫干山"];
-
-const selectorData = [campus, [], ["周一", "周二", "周三", "周四", "周五", "周六", "周日"], []];
-
-for (let i = 1; i <= 20; i++) selectorData[1].push(`第${i}周`);
-for (let i = 1; i <= 12; i++) selectorData[3].push(`第${i}节`);
-
-const getCurrentSection = () => {
-  const date = new Date();
-  const tmp = date.getHours() * 60 + date.getMinutes();
-  let currentSection = 12;
-  DAY_SCHEDULE_START_TIME.find((item, index) => {
-    if (tmp < item.hour * 60 + item.min) {
-      currentSection = index + 1;
-      return true;
-    }
-  });
-  return currentSection;
-};
+const selectorData = [
+  campus,
+  times(20, (index) => `第${index + 1}周`),
+  ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+  times(12, (index) => `第${index + 1}节`)
+];
 
 const selector = reactive(selectorData);
-const selectorChecked = ref([
-  campus[0],
-  selectorData[1][props.week < 20 ? props.week - 1 : 0],
-  selectorData[2][new Date().getDay() - 1],
-  `第${getCurrentSection()}节`
-]);
+
+const defaultCampus = campus[0];
+const defaultWeek = selectorData[1][props.week < 20 ? props.week - 1 : 0];
+const defaultDay = selectorData[2][new Date().getDay() - 1];
+const defaultSection = `第${getCurrentSection()}节`;
+
+const selectorChecked = ref([defaultCampus, defaultWeek, defaultDay, defaultSection]);
+
 const selectorValue = ref([
   0,
   props.week < 20 && props.week > 0 ? props.week - 1 : 0,
@@ -53,7 +45,7 @@ const selectorValue = ref([
 ]);
 
 const onChange = (e) => {
-  selectorChecked.value = selector.map((item, index) => item[e.detail.value[index]]);
+  selectorChecked.value = selector.map((item, index) => item.at(e.detail.value.at(index)) ?? "");
   selectorValue.value = e.detail.value;
 
   emit("changed", {
@@ -76,4 +68,17 @@ onMounted(() => {
     sections: Math.pow(2, getCurrentSection()).toString()
   });
 });
+
+function getCurrentSection() {
+  const date = new Date();
+  const tmp = date.getHours() * 60 + date.getMinutes();
+  let currentSection = 12;
+  DAY_SCHEDULE_START_TIME.find((item, index) => {
+    if (tmp < item.hour * 60 + item.min) {
+      currentSection = index + 1;
+      return true;
+    }
+  });
+  return currentSection;
+}
 </script>
