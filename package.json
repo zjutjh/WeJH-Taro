@@ -2,7 +2,7 @@
   "name": "wejh-taro",
   "private": true,
   "author": "zjutjh",
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@11.0.6",
   "engines": {
     "node": ">=20.19.0"
   },

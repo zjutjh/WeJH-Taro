@@ -1,3 +1,4 @@
+cleanupUnusedCatalogs: true
 shellEmulator: true
 
 catalogs:
@@ -58,3 +59,7 @@ catalogs:
     vite: ^4.5.14
   typing:
     '@types/lodash-es': ^4.17.12
+
+allowBuilds:
+  '@zjutjh/eslint-config': false
+  esbuild: false
