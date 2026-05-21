@@ -30,8 +30,11 @@ export const getHMInterval = (
 };
 
 /**
- * 后端返回的 timeString 字符串格式为 yyyy-mm-dd(hh:mm-hh:mm)
- * 例如：2026-05-10(15:30-17:00)
+ * 查询传入日期对应一周中的哪一天
+ * @param timeString - 格式为 yyyy-mm-dd(hh:mm-hh:mm) 例如：2026-05-10(15:30-17:00)
+ * @example
+ * // 返回：2026-05-10 - 周日
+ * getDetailedTime("2026-05-10(15:30-17:00)")
  */
 export function getDetailedTime(timeString: string) {
   const tmp: ConfigType = timeString.split("(")[0];
@@ -40,7 +43,7 @@ export function getDetailedTime(timeString: string) {
   const day = dayjs(tmp).day();
   const dayChar = dayChars.at(day);
 
-  return dayChar ? `${tmp} - 周${dayChar}` : `${tmp}`;
+  return dayChar ? `${tmp} - 周${dayChar}` : tmp;
 }
 
 export default {

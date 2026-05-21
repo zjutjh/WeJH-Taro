@@ -5,7 +5,9 @@ export type QueryLessonsTableRequest = {
 
 export type QueryLessonsTableResponse = {
   lessonsTable: Array<{
+    /** 课程 ID，格式为 32 位 uppercase 的字符串，也可能为 5 位数字 */
     id: string;
+    /** 教学班 ID，格式为 32 位 uppercase 的字符串 */
     classID: string;
     /** 课程从第几节到第几节 */
     sections: string;
@@ -19,6 +21,7 @@ export type QueryLessonsTableResponse = {
     weekday: string;
     /** 第几周 */
     week: string;
+    /** 总学时 */
     lessonHours: string;
     credits: string;
     type: string;
@@ -26,6 +29,7 @@ export type QueryLessonsTableResponse = {
   practiceLessons: Array<{
     lessonName: string;
     teacherName: string;
+    /** 上课的时间。并没有写错 */
     className: string;
     credits: string;
   }>;

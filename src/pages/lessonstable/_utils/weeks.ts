@@ -1,3 +1,7 @@
+/**
+ * 返回传入字符串中所有有效周次集合
+ * @param weekStr - 格式示例：1-9周,11-16周，或者 1-9周单,11-16周双
+ */
 export function parseWeeks(weekStr: string): Set<number> {
   const s = new Set<number>();
   if (!weekStr) return s;

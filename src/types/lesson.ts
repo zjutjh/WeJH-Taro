@@ -8,11 +8,11 @@ export interface Lesson {
   lessonName: string;
   lessonPlace: string;
   placeID: string;
-  /** 课程从第几节到第几节 */
+  /** 课程从第几节到第几节，格式为 d-d，d 为 1-12 的数字 */
   sections: string;
   teacherName: string;
   type: string;
-  /** 第几周 */
+  /** 第几周，格式示例：1-9周,11-16周 */
   week: string;
   /** 周几 */
   weekday: string;
