@@ -81,7 +81,7 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
 
   const order = nodes
     .map((node, idx) => ({ node, index: idx, degree: adjacency[idx].size }))
-    .toSorted((a, b) => {
+    .sort((a, b) => {
       if (b.degree !== a.degree) return b.degree - a.degree;
       if (b.node.duration !== a.node.duration) return b.node.duration - a.node.duration;
       if (a.node.weekday !== b.node.weekday) return a.node.weekday - b.node.weekday;
@@ -108,11 +108,11 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
     let selectedColor: string | undefined;
     if (preferred && availableColors.includes(preferred)) selectedColor = preferred;
     else if (availableColors.length > 0)
-      selectedColor = availableColors.toSorted(
+      selectedColor = [...availableColors].sort(
         (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
       )[0];
     else
-      selectedColor = palette.toSorted(
+      selectedColor = [...palette].sort(
         (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
       )[0];
 

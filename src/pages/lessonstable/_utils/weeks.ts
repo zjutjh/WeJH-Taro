@@ -26,7 +26,7 @@ export function parseWeeks(weekStr: string): Set<number> {
 }
 
 export function formatWeeks(setWeeks: Set<number>): string {
-  const arr = [...setWeeks].toSorted((a, b) => a - b);
+  const arr = [...setWeeks].sort((a, b) => a - b);
   if (arr.length === 0) return "";
   const ranges: string[] = [];
   let start = arr[0];
