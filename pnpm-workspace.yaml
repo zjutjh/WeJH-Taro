@@ -61,5 +61,13 @@ catalogs:
     '@types/lodash-es': ^4.17.12
 
 allowBuilds:
+  '@swc/core@1.3.96': false
+  '@tarojs/binding@4.1.7': false
+  '@tarojs/cli@4.1.7': false
   '@zjutjh/eslint-config': false
+  core-js-pure@3.38.1: false
+  core-js@3.38.1: false
   esbuild: false
+  simple-git-hooks@2.13.1: false
+  unrs-resolver@1.11.1: false
+  vue-demi@0.14.10: false
