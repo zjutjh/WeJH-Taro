@@ -31,8 +31,10 @@ const field = defineModel<PickerTermOption>({
 });
 
 const props = defineProps<{
-  showPeriod?: boolean /** 是否显示期中 / 期末选项 */;
-  termYear: number /** 当前学年 */;
+  /** 是否显示期中 / 期末选项 */
+  showPeriod?: boolean;
+  /** 当前学年 */
+  termYear: number;
 }>();
 
 const SELECT_OPTIONS = [

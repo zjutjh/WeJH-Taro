@@ -85,8 +85,8 @@ import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
 import type { Lesson, PracticeLesson } from "@/types/lesson";
 
-import LessonPopover from "./_components/conflict-lesson-popover/index.vue";
 import LessonsTable from "./_components/lesson-grid/index.vue";
+import LessonPopover from "./_components/lesson-popover/index.vue";
 import PracticeLessonPopover from "./_components/practice-lesson-popover/index.vue";
 import { isSectionsOverlap } from "./_utils/sections";
 import { formatWeeks, isLessonActiveInWeek, parseWeeks } from "./_utils/weeks";
@@ -169,10 +169,7 @@ function handleLessonClick(lesson: Lesson) {
   const conflicts = lessonsData.value?.filter((l) => {
     if (l.weekday !== lesson.weekday) return false;
     if (showWeekPicker.value && !isLessonActiveInWeek(l.week, selectWeek.value)) return false;
-    if (clickedStack > 0) {
-      const stack = l.stack || 0;
-      return stack < clickedStack && isSectionsOverlap(l.sections, lesson.sections);
-    }
+    if (clickedStack > 0) return isSectionsOverlap(l.sections, lesson.sections);
     return l.sections === lesson.sections;
   });
 

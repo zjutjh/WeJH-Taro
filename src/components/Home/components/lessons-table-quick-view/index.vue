@@ -75,13 +75,16 @@ const showTomorrow = dayjs().isAfter(tenPM);
 const lessonTable = computed(() =>
   data.value?.filter((item) => {
     /** 周日值为 7，周一值为 1 */
-    const queryDay = showTomorrow ? (new Date().getDay() + 1) : (new Date().getDay() || 7); // eslint-disable-line prettier/prettier
-    const isMonday = queryDay === 1 ? 1 : 0;
+    const queryIsoDay =
+      dayjs()
+        .add(showTomorrow ? 1 : 0, "day")
+        .day() || 7;
+    const nextWeekOffset = queryIsoDay === 1 ? 1 : 0;
     const queryWeek = showTomorrow
-      ? systemStore.generalInfo.week + isMonday
+      ? systemStore.generalInfo.week + nextWeekOffset
       : // 如果明天是周一，意味着要查询下一周
         systemStore.generalInfo.week;
-    if (queryDay !== Number.parseInt(item.weekday)) return false;
+    if (queryIsoDay !== Number.parseInt(item.weekday)) return false;
 
     for (const time of item.week.split(","))
       if (time.includes("-")) {
