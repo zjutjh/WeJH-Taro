@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { times } from "lodash-es";
-import { onMounted, reactive, ref } from "vue";
+import { cloneDeep, times } from "lodash-es";
+import { onMounted, ref } from "vue";
 
 import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
 import { systemStore } from "@/store";
@@ -21,18 +21,18 @@ const props = defineProps<{ week: number }>();
 const emit = defineEmits(["changed"]);
 
 const campus = ["朝晖", "屏峰", "莫干山"];
-const selectorData = [
+const selectorData: [string[], string[], string[], string[]] = [
   campus,
   times(20, (index) => `第${index + 1}周`),
   ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
   times(12, (index) => `第${index + 1}节`)
 ];
 
-const selector = reactive(selectorData);
+const selector = cloneDeep(selectorData);
 
 const defaultCampus = campus[0];
-const defaultWeek = selectorData[1][props.week < 20 ? props.week - 1 : 0];
-const defaultDay = selectorData[2][new Date().getDay() - 1];
+const defaultWeek = selectorData[1].at(props.week > 0 && props.week < 20 ? props.week - 1 : 0);
+const defaultDay = selectorData[2].at(new Date().getDay() - 1);
 const defaultSection = `第${getCurrentSection()}节`;
 
 const selectorChecked = ref([defaultCampus, defaultWeek, defaultDay, defaultSection]);

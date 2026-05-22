@@ -130,6 +130,7 @@ function sectionsTimeString(sections: string) {
 }
 
 function getLessonTimeInstance(jc: number, offset = 0) {
+  if (jc < 1) return useTimeInstance(0, offset);
   return useTimeInstance(
     DAY_SCHEDULE_START_TIME.at(jc - 1)?.hour || 0,
     (DAY_SCHEDULE_START_TIME.at(jc - 1)?.min || 0) + offset
@@ -138,7 +139,10 @@ function getLessonTimeInstance(jc: number, offset = 0) {
 
 function getRestTimeString(sections: string) {
   const begin = Number.parseInt(sections.split("-")[0]);
-  const time = DAY_SCHEDULE_START_TIME.at(begin - 1) ?? { hour: 0, min: 0 };
+  const time =
+    begin < 1
+      ? { hour: 0, min: 0 }
+      : (DAY_SCHEDULE_START_TIME.at(begin - 1) ?? { hour: 0, min: 0 });
   const minutesCount = time.hour * 60 + time.min;
   const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
 
