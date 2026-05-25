@@ -72,13 +72,8 @@ onMounted(() => {
 function getCurrentSection() {
   const date = new Date();
   const tmp = date.getHours() * 60 + date.getMinutes();
-  let currentSection = 12;
-  DAY_SCHEDULE_START_TIME.find((item, index) => {
-    if (tmp < item.hour * 60 + item.min) {
-      currentSection = index + 1;
-      return true;
-    }
-  });
+  const currentSection =
+    DAY_SCHEDULE_START_TIME.findIndex((item) => tmp < item.hour * 60 + item.min) + 1 || 12;
   return currentSection;
 }
 </script>
