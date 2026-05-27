@@ -44,8 +44,8 @@ export type QueryMidtermScoreResponse = Array<{
   teacherName: string;
 }>;
 
-/** 查询考试安排 */
-export type QueryExamResponse = Array<{
+/** 考试安排 */
+export interface ExamInfo {
   campus: string;
   className: string;
   credits: string;
@@ -56,7 +56,16 @@ export type QueryExamResponse = Array<{
   lessonPlace: string;
   seatNum: string;
   teacherName: string;
-}>;
+}
+
+/** 查询考试安排 请求 */
+export type QueryExamInfoRequest = {
+  year: string;
+  term: "上" | "下" | "短";
+};
+
+/** 查询考试安排 响应 */
+export type QueryExamInfoResponse = ExamInfo[];
 
 /** 查询期末成绩 */
 export type QueryScoreResponse = Array<{
