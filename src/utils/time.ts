@@ -7,7 +7,7 @@ import dayjs, { ConfigType } from "dayjs";
  * @returns 天数
  */
 export const getDayInterval = (timeBefore: ConfigType, timeAfter?: ConfigType) =>
-  dayjs(timeBefore).diff(dayjs(dayjs(timeAfter).format("YYYY-MM-DD")), "day");
+  dayjs(timeBefore).diff(dayjs(timeAfter).startOf("day"), "day");
 
 /**
  * 计算距离一天中某个时刻的时分时间差
@@ -21,8 +21,7 @@ export const getHMInterval = (
 ) => {
   const minutesCount = {
     before: timeBefore.hour * 60 + timeBefore.minute,
-    after:
-      timeAfter?.hour || new Date().getHours() * 60 + (timeAfter?.minute || new Date().getMinutes())
+    after: timeAfter?.hour || dayjs().hour() * 60 + (timeAfter?.minute || dayjs().minute())
   };
   const restHours = Math.floor((minutesCount.before - minutesCount.after) / 60);
   const restMinutes = minutesCount.before - minutesCount.after - restHours * 60;

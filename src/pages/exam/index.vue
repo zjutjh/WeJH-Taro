@@ -12,52 +12,31 @@
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="!data || data.length === 0" style="text-align: center">
+        <card v-if="!data?.length" style="text-align: center">
           <view>无记录</view>
         </card>
         <card v-for="item in data" :key="item.id" size="small" class="exam-card">
           <w-collapse class="exam-collapse-item">
             <w-collapse-panel :arrow="true">
               <template #header>
-                <view
-                  class="lesson-name"
-                  :style="
-                    timeInterval(item.examTime) === 0
-                      ? 'color: var(--wjh-color-primary-dark)'
-                      : undefined
-                  "
-                >
-                  {{ item.lessonName }}
-                </view>
+                <view class="lesson-name"> {{ item.lessonName }} </view>
                 <view style="font-size: 14px; color: var(--wjh-color-text-secondary)">
                   <view
                     v-if="timeInterval(item.examTime) >= 0 && timeInterval(item.examTime) <= 14"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
+                    :class="{ 'exam-text-color': timeInterval(item.examTime) === 0 }"
                   >
                     距离考试还有 {{ timeInterval(item.examTime) }} 天
                   </view>
                   <view
                     class="exam-time"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
+                    :class="{ 'exam-text-color': timeInterval(item.examTime) === 0 }"
                   >
                     {{ item.examTime }}
                   </view>
                   <view
                     v-if="item.examTime !== '未放开不可查'"
                     class="exam-place"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
+                    :class="{ 'exam-text-color': timeInterval(item.examTime) === 0 }"
                   >
                     {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
                   </view>
@@ -68,8 +47,8 @@
                   {{ getDetailedTime(item.examTime) }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试地点" :label-span="6">
-                  <text>{{ item.examPlace }}</text
-                  ><text v-if="item.seatNum !== '未放开不可查'">
+                  <text>{{ item.examPlace }}</text>
+                  <text v-if="item.seatNum !== '未放开不可查'">
                     {{ ` - 座位号：${item.seatNum}` }}
                   </text>
                 </w-descriptions-item>
@@ -111,7 +90,7 @@
 import "./index.scss";
 
 import { useQuery } from "@tanstack/vue-query";
-import dayjs, { ConfigType } from "dayjs";
+import dayjs from "dayjs";
 import { ref, toRef } from "vue";
 
 import {
@@ -151,7 +130,6 @@ const showModal = ref(false);
 const helpContent = helpText.exam;
 
 function timeInterval(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
+  return dayjs(timeString.split("(")[0]).diff(dayjs().startOf("day"), "day");
 }
 </script>

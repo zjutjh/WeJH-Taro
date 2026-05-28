@@ -14,10 +14,7 @@
             <view :class="styles['num-index']">{{ i }}</view>
           </view>
         </view>
-        <view
-          v-if="lessonsTable && lessonsTable.length !== 0"
-          :class="[styles['table'], styles['table-box']]"
-        >
+        <view v-if="!isEmpty(lessonsTable)" :class="[styles['table'], styles['table-box']]">
           <view
             v-for="cl in lessonsTable"
             :key="lessonKey(cl)"
@@ -26,7 +23,7 @@
           >
             <view
               :class="styles['class-card']"
-              :style="{ '--bg-color': `var(--wjh-color-${cl.color ?? 'primary'})` }"
+              :style="lessonCardColor(cl.color)"
               @tap="emit('lessonClick', cl)"
             >
               <view :class="styles['row']">
@@ -57,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+import dayjs from "dayjs";
 import { isEmpty } from "lodash-es";
 import { computed, toRefs } from "vue";
 
@@ -75,14 +73,17 @@ const emit = defineEmits(["lessonClick"]);
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
 const nowWeekStyle = computed(() => ({
-  left: `calc(100% / 7 * ${(new Date().getDay() || 7) - 1})`
+  left: `calc(100% / 7 * ${(dayjs().day() || 7) - 1})`
 }));
 
 // 分层排布 + 着色（统一抽到 utils）
-const lessonsTable = computed(() => {
-  const layoutResult = buildTwoDimensionalLayout(lessons.value);
-  return colorLessons(layoutResult, COLOR_SET);
-});
+const lessonsTable = computed(() =>
+  colorLessons(buildTwoDimensionalLayout(lessons.value), COLOR_SET)
+);
+
+function lessonCardColor(color = "primary") {
+  return { "--bg-color": `var(--wjh-color-${color})` };
+}
 
 function getPosition(lesson: Lesson) {
   const begin = Number.parseInt(lesson.sections.split("-")[0]);

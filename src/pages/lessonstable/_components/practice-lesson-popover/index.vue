@@ -1,6 +1,6 @@
 <template>
   <pop-view v-model:show="show" style="z-index: 4000">
-    <view v-if="practiceLessons && practiceLessons.length > 0" :class="styles['lesson-detail']">
+    <view v-if="!isEmpty(practiceLessons)" :class="styles['lesson-detail']">
       <view :class="styles['lesson-list']">
         <view
           v-for="(c, idx) in practiceLessons"
@@ -26,6 +26,8 @@
 </template>
 
 <script setup lang="ts">
+import { isEmpty } from "lodash-es";
+
 import { PopView } from "@/components";
 import type { PracticeLesson } from "@/types/lesson";
 

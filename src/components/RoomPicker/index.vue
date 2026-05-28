@@ -9,6 +9,7 @@
 </template>
 
 <script setup lang="ts">
+import dayjs from "dayjs";
 import { cloneDeep, times } from "lodash-es";
 import { onMounted, ref } from "vue";
 
@@ -32,7 +33,7 @@ const selector = cloneDeep(selectorData);
 
 const defaultCampus = campus[0];
 const defaultWeek = selectorData[1].at(props.week > 0 && props.week < 20 ? props.week - 1 : 0);
-const defaultDay = selectorData[2].at(new Date().getDay() - 1);
+const defaultDay = selectorData[2].at(dayjs().day() - 1);
 const defaultSection = `第${getCurrentSection()}节`;
 
 const selectorChecked = ref([defaultCampus, defaultWeek, defaultDay, defaultSection]);
@@ -40,7 +41,7 @@ const selectorChecked = ref([defaultCampus, defaultWeek, defaultDay, defaultSect
 const selectorValue = ref([
   0,
   props.week < 20 && props.week > 0 ? props.week - 1 : 0,
-  new Date().getDay() - 1,
+  dayjs().day() - 1,
   getCurrentSection() - 1
 ]);
 
@@ -70,10 +71,10 @@ onMounted(() => {
 });
 
 function getCurrentSection() {
-  const date = new Date();
-  const tmp = date.getHours() * 60 + date.getMinutes();
+  const currentMinutes = dayjs().diff(dayjs(), "minute");
   const currentSection =
-    DAY_SCHEDULE_START_TIME.findIndex((item) => tmp < item.hour * 60 + item.min) + 1 || 12;
+    DAY_SCHEDULE_START_TIME.findIndex((item) => currentMinutes < item.hour * 60 + item.min) + 1 ||
+    12;
   return currentSection;
 }
 </script>

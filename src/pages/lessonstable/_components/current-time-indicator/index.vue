@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import dayjs from "dayjs";
 import { computed } from "vue";
 
 import {
@@ -13,8 +14,7 @@ import {
 import styles from "./index.module.scss";
 
 const nowStyle = computed(() => {
-  const now = new Date();
-  const nowTime = now.getHours() * 60 + now.getMinutes();
+  const nowTime = dayjs().diff(dayjs().startOf("day"), "minute");
 
   /** 当前时间距离所在课程已过去的时间，单位为分钟 */
   let duration = 0;

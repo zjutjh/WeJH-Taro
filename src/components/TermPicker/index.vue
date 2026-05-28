@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import dayjs from "dayjs";
 import { computed } from "vue";
 
 import WButton from "../Button/index.vue";
@@ -25,7 +26,7 @@ interface PickerTermOption {
 
 const field = defineModel<PickerTermOption>({
   default: {
-    year: new Date().getFullYear().toString(),
+    year: dayjs().year().toString(),
     term: "上"
   }
 });

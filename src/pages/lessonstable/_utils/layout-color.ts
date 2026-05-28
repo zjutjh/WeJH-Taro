@@ -30,15 +30,16 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
         if (unprocessedLessons.length > 0) {
           hasRemainingLessons = true;
 
-          const longestLesson = unprocessedLessons.reduce<Lesson | undefined>(
-            (longest, current) => {
-              if (!longest) return current;
-              const longestDuration = getLessonDuration(longest);
-              const currentDuration = getLessonDuration(current);
-              return currentDuration > longestDuration ? current : longest;
-            },
-            undefined
-          ) as Lesson;
+          let longestLesson: Lesson = unprocessedLessons[0];
+
+          for (let idx = 1; idx < unprocessedLessons.length; idx++) {
+            const current = unprocessedLessons[idx];
+
+            const longestDuration = getLessonDuration(longestLesson);
+            const currentDuration = getLessonDuration(current);
+
+            if (currentDuration > longestDuration) longestLesson = current;
+          }
 
           laidOutLessons.push({ ...longestLesson, stack });
           processedLessons.add(getLessonUniqueId(longestLesson));
@@ -81,14 +82,15 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
 
   const order = nodes
     .map((node, idx) => ({ node, index: idx, degree: adjacency[idx].size }))
-    .sort((a, b) => {
-      if (b.degree !== a.degree) return b.degree - a.degree;
-      if (b.node.duration !== a.node.duration) return b.node.duration - a.node.duration;
-      if (a.node.weekday !== b.node.weekday) return a.node.weekday - b.node.weekday;
-      if (a.node.start !== b.node.start) return a.node.start - b.node.start;
-      if (a.node.stack !== b.node.stack) return a.node.stack - b.node.stack;
-      return a.node.index - b.node.index;
-    });
+    .sort(
+      (a, b) =>
+        b.degree - a.degree ||
+        b.node.duration - a.node.duration ||
+        a.node.weekday - b.node.weekday ||
+        a.node.start - b.node.start ||
+        a.node.stack - b.node.stack ||
+        a.node.index - b.node.index
+    );
 
   const assigned = new Map<number, string>();
   const colorUseCount = new Map(palette.map((color) => [color, 0]));
@@ -105,16 +107,12 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
     const classKey = `${node.stack}-${node.lesson.classID}`;
     const preferred = classPreferredColor.get(classKey);
 
-    let selectedColor: string | undefined;
-    if (preferred && availableColors.includes(preferred)) selectedColor = preferred;
-    else if (availableColors.length > 0)
-      selectedColor = [...availableColors].sort(
-        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
-      )[0];
-    else
-      selectedColor = [...palette].sort(
-        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
-      )[0];
+    const selectedColor =
+      preferred && availableColors.includes(preferred)
+        ? preferred
+        : [...(availableColors.length > 0 ? availableColors : palette)].sort(
+            (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
+          )[0];
 
     assigned.set(index, selectedColor);
     colorUseCount.set(selectedColor, (colorUseCount.get(selectedColor) || 0) + 1);

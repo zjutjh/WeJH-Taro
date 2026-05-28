@@ -83,7 +83,7 @@ import { useTimeInstance } from "@/hooks";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
-import type { Lesson, PracticeLesson } from "@/types/lesson";
+import type { Lesson } from "@/types/lesson";
 
 import LessonsTable from "./_components/lesson-grid/index.vue";
 import LessonPopover from "./_components/lesson-popover/index.vue";
@@ -118,10 +118,8 @@ const { data, isPending, refetch } = useQuery({
     zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] })
 });
 
-const lessonsData = computed(() => data.value?.lessonsTable as Lesson[] | undefined);
-const practiceLessonsData = computed(
-  () => data.value?.practiceLessons as PracticeLesson[] | undefined
-);
+const lessonsData = computed(() => data.value?.lessonsTable);
+const practiceLessonsData = computed(() => data.value?.practiceLessons);
 
 const lessonsTableWeek = computed(() =>
   lessonsData.value?.filter((l) => isLessonActiveInWeek(l.week, selectWeek.value))
@@ -156,7 +154,21 @@ const detailTimeInterval = computed(() => {
   return `${startTime}-${endTime}`;
 });
 
+const conflictTime = computed(() => {
+  const arr = selectionConflicts.value;
+  if (!arr || arr.length === 0) return "";
+  let inter: Set<number> | null = null;
+  for (const it of arr) {
+    const s = parseWeeks(it.week || "");
+    if (inter === null) inter = new Set(s);
+    else for (const w of inter) if (!s.has(w)) inter.delete(w);
+  }
+  if (!inter || inter.size === 0) return "无";
+  return `${formatWeeks(inter)}周`;
+});
+
 const showWeekPicker = ref(true);
+
 function handlePickerModeSwitch() {
   selectWeek.value = 1;
   showWeekPicker.value = !showWeekPicker.value;
@@ -187,17 +199,4 @@ function handleBackToOriginWeek() {
   selectTerm.value = originTerm;
   selectWeek.value = originWeek;
 }
-
-const conflictTime = computed(() => {
-  const arr = selectionConflicts.value;
-  if (!arr || arr.length === 0) return "";
-  let inter: Set<number> | null = null;
-  for (const it of arr) {
-    const s = parseWeeks(it.week || "");
-    if (inter === null) inter = new Set(s);
-    else for (const w of inter) if (!s.has(w)) inter.delete(w);
-  }
-  if (!inter || inter.size === 0) return "无";
-  return `${formatWeeks(inter)}周`;
-});
 </script>
