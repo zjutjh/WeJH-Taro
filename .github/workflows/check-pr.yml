@@ -1,5 +1,4 @@
-on:
-  - pull_request
+on: pull_request
 
 jobs:
   lint-and-build:
@@ -38,5 +37,8 @@ jobs:
   spellcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: streetsidesoftware/cspell-action@v8
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Spell checks
+        uses: streetsidesoftware/cspell-action@v8
