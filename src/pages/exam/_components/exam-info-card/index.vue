@@ -1,6 +1,6 @@
 <template>
   <card size="small" :class="styles.component">
-    <w-collapse :class="[styles.examCollapseItem, isToday ? styles.today : '']">
+    <w-collapse :class="[styles.examCollapseItem, isExamInOneDay ? styles.highlight : '']">
       <w-collapse-panel :arrow="true">
         <template #header>
           <view :class="styles.collapseHeader">
@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import { useNow } from "@vueuse/core";
-import dayjs from "dayjs";
 import { computed } from "vue";
 
 import type { ExamInfo } from "@/api/types/zf";
@@ -61,15 +60,15 @@ const refNow = useNow({ interval: 1000 * 15 });
 /** 解析出的考试时间 */
 const examTime = computed(() => parseZfExamTime(props.data.examTime));
 
-/** 考试是否在今天开始 */
-const isToday = computed(() => examTime.value.startAt.isSame(dayjs(), "day"));
-
 /** 考试开始时间距今时间 */
 const examTimeDiff = computed(() => {
   return diffTime(examTime.value.startAt, {
     baseTime: refNow.value
   });
 });
+
+/** 考试距离是否短于一天 */
+const isExamInOneDay = computed(() => examTimeDiff.value.abs.days() < 1);
 
 /** 考试开始距今时间文本 */
 const timeDiffText = computed(() =>
@@ -78,7 +77,7 @@ const timeDiffText = computed(() =>
       baseTime: refNow.value,
       minUnit: "minutes",
       roundingMethod: "floor",
-      roundToLargestUnit: examTimeDiff.value.abs.days() >= 1
+      roundToLargestUnit: !isExamInOneDay.value
     }).abs
   )
 );
