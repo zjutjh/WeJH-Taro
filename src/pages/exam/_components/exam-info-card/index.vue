@@ -5,45 +5,27 @@
         <template #header>
           <view
             :class="styles.lessonName"
-            :style="
-              timeInterval(props.data.examTime) === 0
-                ? 'color: var(--wjh-color-primary-dark)'
-                : undefined
-            "
+            :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
           >
             {{ props.data.lessonName }}
           </view>
           <view style="font-size: 14px; color: var(--wjh-color-text-secondary)">
             <view
-              v-if="
-                timeInterval(props.data.examTime) >= 0 && timeInterval(props.data.examTime) <= 14
-              "
-              :style="
-                timeInterval(props.data.examTime) === 0
-                  ? 'color: var(--wjh-color-primary-dark)'
-                  : undefined
-              "
+              v-if="examTimeDiff.type === 'later'"
+              :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
             >
-              距离考试还有 {{ timeInterval(props.data.examTime) }} 天
+              距离考试还有 {{ timeDiffText }}
             </view>
             <view
               :class="styles.examTime"
-              :style="
-                timeInterval(props.data.examTime) === 0
-                  ? 'color: var(--wjh-color-primary-dark)'
-                  : undefined
-              "
+              :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
             >
               {{ props.data.examTime }}
             </view>
             <view
               v-if="props.data.examTime !== '未放开不可查'"
               :class="styles.examPlace"
-              :style="
-                timeInterval(props.data.examTime) === 0
-                  ? 'color: var(--wjh-color-primary-dark)'
-                  : undefined
-              "
+              :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
             >
               {{ `${props.data.examPlace} - 座位号：${props.data.seatNum}` }}
             </view>
@@ -51,24 +33,22 @@
         </template>
         <w-descriptions :class="styles.examDetailList" size="small">
           <w-descriptions-item label="日期" :label-span="6">
-            {{ getDetailedTime(props.data.examTime) }}
+            <template v-if="examTime.isValid">
+              {{ examTime.startAt.format("YYYY-MM-DD") }}{{ examDateTextSuffix }}
+            </template>
+            <template v-else>{{ props.data.examTime }}</template>
           </w-descriptions-item>
           <w-descriptions-item label="考试地点" :label-span="6">
-            <text>{{ props.data.examPlace }}</text
-            ><text v-if="props.data.seatNum !== '未放开不可查'">
+            {{ props.data.examPlace }}
+            <template v-if="props.data.seatNum !== '未放开不可查'">
               {{ ` - 座位号：${props.data.seatNum}` }}
-            </text>
+            </template>
           </w-descriptions-item>
           <w-descriptions-item label="考试全称" :label-span="6">
             {{ props.data.className }}
           </w-descriptions-item>
           <w-descriptions-item label="教师列表" :label-span="6">
-            {{
-              props.data.teacherName
-                .split(";")
-                .map((item) => item.split("/")[1])
-                .join("；")
-            }}
+            {{ teacherNameText }}
           </w-descriptions-item>
         </w-descriptions>
       </w-collapse-panel>
@@ -77,10 +57,13 @@
 </template>
 
 <script setup lang="ts">
-import dayjs, { ConfigType } from "dayjs";
+import { useNow } from "@vueuse/core";
+import dayjs from "dayjs";
+import { computed } from "vue";
 
 import type { ExamInfo } from "@/api/types/zf";
 import { Card, WCollapse, WCollapsePanel, WDescriptions, WDescriptionsItem } from "@/components";
+import { diffTime, formatDuration, getWeekday, parseZfExamTime } from "@/utils/time";
 
 import styles from "./index.module.scss";
 
@@ -88,17 +71,42 @@ const props = defineProps<{
   data: ExamInfo;
 }>();
 
-const getDetailedTime = (timeString: string) => {
-  const tmp: ConfigType = timeString.split("(")[0];
-  const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-  if (dayChars[dayjs(tmp).day()]) {
-    return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-  }
-  return `${tmp}`;
-};
+const refNow = useNow({ interval: 1000 * 15 });
 
-const timeInterval = (timeString: string) => {
-  const tmp: ConfigType = timeString.split("(")[0];
-  return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
-};
+/** 解析出的考试时间 */
+const examTime = computed(() => parseZfExamTime(props.data.examTime));
+
+/** 考试是否在今天开始 */
+const isToday = computed(() => examTime.value.startAt.isSame(dayjs(), "day"));
+
+/** 考试开始时间距今时间 */
+const examTimeDiff = computed(() => {
+  return diffTime(examTime.value.startAt, {
+    baseTime: refNow.value
+  });
+});
+
+/** 考试开始距今时间文本 */
+const timeDiffText = computed(() =>
+  formatDuration(
+    diffTime(examTime.value.startAt, {
+      baseTime: refNow.value,
+      minUnit: "minutes",
+      roundingMethod: "floor",
+      roundToLargestUnit: examTimeDiff.value.abs.days() >= 1
+    }).abs
+  )
+);
+
+/** 考试日期文本的后缀 */
+const examDateTextSuffix = computed(() => {
+  if (!examTime.value.isValid) return "";
+  return ` - 周${getWeekday(examTime.value.startAt)}`;
+});
+
+/** 教师列表文本 */
+const teacherNameText = computed(() =>
+  // 替换分号为全角，去除姓名以外的内容
+  props.data.teacherName.replace(/;/g, "；").replace(/[^；]*?\//g, "")
+);
 </script>
