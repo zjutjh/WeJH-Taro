@@ -70,7 +70,9 @@ const examTimeDiff = computed(() => {
 });
 
 /** 考试距离是否短于一天 */
-const isExamInOneDay = computed(() => examTime.value.isValid && examTimeDiff.value.abs.days() < 1);
+const isExamInOneDay = computed(
+  () => examTime.value.isValid && examTimeDiff.value.abs.asDays() < 1
+);
 
 /** 考试开始距今时间文本 */
 const timeDiffText = computed(() =>

@@ -14,7 +14,8 @@
       <view :class="styles.contentView">
         <view v-if="isEmpty(examInfoData)" :class="styles.cardList">
           <card :class="styles.emptyCard">
-            <view>无记录</view>
+            <view v-if="isExamInfoFetching">加载中...</view>
+            <view v-else>无记录</view>
           </card>
         </view>
         <template v-else>
@@ -132,13 +133,13 @@ const examInfoList = computed(() => {
   let notFinishedList = filter(extendedList, (exam) => exam.meta.startAtDiff.type !== "earlier");
   // 从近到远排序，无效时间排在最后
   notFinishedList = sortBy(notFinishedList, (exam) =>
-    exam.meta.startAtDiff.type === "invalid" ? Infinity : exam.meta.startAtDiff.abs.days()
+    exam.meta.startAtDiff.type === "invalid" ? Infinity : exam.meta.startAtDiff.abs.valueOf()
   );
 
   /** 已考列表 */
   let finishedList = filter(extendedList, (exam) => exam.meta.startAtDiff.type === "earlier");
   // 从近到远排序
-  finishedList = sortBy(finishedList, (exam) => exam.meta.startAtDiff.abs.days());
+  finishedList = sortBy(finishedList, (exam) => exam.meta.startAtDiff.abs.valueOf());
 
   return {
     finished: finishedList,

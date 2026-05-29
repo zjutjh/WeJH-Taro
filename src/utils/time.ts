@@ -18,7 +18,7 @@ const timeUnitList = [
 /** 计算时间是周几，返回单个汉字 */
 export const getWeekday = (time: ConfigType) => {
   const dayChars = ["日", "一", "二", "三", "四", "五", "六"] as const;
-  return dayChars.at(dayjs(time).day());
+  return dayChars[dayjs(time).day()];
 };
 
 /** 目标时间比基准时间更早/更晚/相等 */
@@ -260,11 +260,11 @@ export const formatDuration = (duration: plugin.Duration, options: FormatDuratio
     let curUnitText: string;
     if (curUnitDiff !== 0 && Math.abs(curUnitDiff) <= 1) {
       curUnitText = (
-        relativeTimeFormatMap[relativeTimeKeyMap[unit].singular] ?? `$d ${unit}`
+        relativeTimeFormatMap[relativeTimeKeyMap[unit].singular] ?? `%d ${unit}`
       ).replace("%d", curUnitDiff.toString());
     } else {
       curUnitText = (
-        relativeTimeFormatMap[relativeTimeKeyMap[unit].plural] ?? `$d ${unit}`
+        relativeTimeFormatMap[relativeTimeKeyMap[unit].plural] ?? `%d ${unit}`
       ).replace("%d", curUnitDiff.toString());
     }
     unitDataArr.push(curUnitText);

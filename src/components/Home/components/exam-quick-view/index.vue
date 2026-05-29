@@ -104,7 +104,7 @@ const examDerivativeList = computed(() => {
       });
 
       // 过滤不在3天内的
-      if (startAtDiff.abs.days() > 3) return null;
+      if (startAtDiff.abs.asDays() > 3) return null;
 
       // 判断考试时间范围
       let phase: ExamPhase;
