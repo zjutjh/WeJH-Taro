@@ -22,7 +22,7 @@ export const getWeekday = (time: ConfigType) => {
 };
 
 /** 目标时间比基准时间更早/更晚/相等 */
-export type TimeDiffType = "earlier" | "later" | "same";
+export type TimeDiffType = "earlier" | "later" | "same" | "invalid";
 interface TimeDiffOptions {
   /** 基准时间
    * @default 当前时间 */
@@ -61,6 +61,14 @@ export const diffTime = (targetTime: ConfigType, options: TimeDiffOptions = {}) 
   const target = dayjs(targetTime);
   /** 基准时间Dayjs实例 */
   const base = dayjs(baseTime);
+
+  // 无效时间
+  if (!target.isValid() || !base.isValid()) {
+    return {
+      type: "invalid" as TimeDiffType,
+      abs: dayjs.duration(NaN)
+    };
+  }
 
   /** 结果(差距绝对值) 对象形式 */
   const diffValue: plugin.DurationUnitsObjectType = {};

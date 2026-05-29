@@ -62,7 +62,7 @@ const emit = defineEmits<{
   showHelp: [helpType: string];
 }>();
 
-const refNow = useNow({ interval: 1000 * 15 });
+const refNow = useNow({ interval: 1000 * 10 });
 
 /** 所选学年 */
 const selectYear = computed(() => systemStore.generalInfo.termYear);
@@ -92,6 +92,9 @@ const examDerivativeList = computed(() => {
       // 解析考试时间
       const { startAt, endAt, isValid: isTimeValid } = parseZfExamTime(exam.examTime);
 
+      // 过滤无效时间
+      if (!isTimeValid) return null;
+
       /** 考试开始时间距今 */
       const startAtDiff = diffTime(startAt, {
         baseTime: refNow.value,
@@ -105,9 +108,9 @@ const examDerivativeList = computed(() => {
 
       // 判断考试时间范围
       let phase: ExamPhase;
-      if (endAt.isBefore()) {
+      if (endAt.isBefore(refNow.value)) {
         phase = "finished";
-      } else if (startAt.isAfter()) {
+      } else if (startAt.isAfter(refNow.value)) {
         phase = "notStarted";
       } else {
         phase = "inProgress";

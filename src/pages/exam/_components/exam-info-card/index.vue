@@ -9,8 +9,10 @@
             </view>
             <view :class="styles.basicInfo">
               <view v-if="examTimeDiff.type === 'later'">距离考试还有 {{ timeDiffText }}</view>
-              <view :class="styles.examTime">{{ props.data.examTime }}</view>
-              <view v-if="props.data.examTime !== '未放开不可查'" :class="styles.examPlace">
+              <view v-if="props.data.examTime !== '未放开不可查'" :class="styles.examTime">
+                {{ props.data.examTime }}
+              </view>
+              <view v-if="props.data.examPlace !== '未放开不可查'" :class="styles.examPlace">
                 {{ `${props.data.examPlace} - 座位号：${props.data.seatNum}` }}
               </view>
             </view>
@@ -42,7 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import { useNow } from "@vueuse/core";
 import { computed } from "vue";
 
 import type { ExamInfo } from "@/api/types/zf";
@@ -52,10 +53,11 @@ import { diffTime, formatDuration, getWeekday, parseZfExamTime } from "@/utils/t
 import styles from "./index.module.scss";
 
 const props = defineProps<{
+  /** 考试安排数据 */
   data: ExamInfo;
+  /** 基准时间 */
+  now: Date;
 }>();
-
-const refNow = useNow({ interval: 1000 * 15 });
 
 /** 解析出的考试时间 */
 const examTime = computed(() => parseZfExamTime(props.data.examTime));
@@ -63,18 +65,18 @@ const examTime = computed(() => parseZfExamTime(props.data.examTime));
 /** 考试开始时间距今时间 */
 const examTimeDiff = computed(() => {
   return diffTime(examTime.value.startAt, {
-    baseTime: refNow.value
+    baseTime: props.now
   });
 });
 
 /** 考试距离是否短于一天 */
-const isExamInOneDay = computed(() => examTimeDiff.value.abs.days() < 1);
+const isExamInOneDay = computed(() => examTime.value.isValid && examTimeDiff.value.abs.days() < 1);
 
 /** 考试开始距今时间文本 */
 const timeDiffText = computed(() =>
   formatDuration(
     diffTime(examTime.value.startAt, {
-      baseTime: refNow.value,
+      baseTime: props.now,
       minUnit: "minutes",
       roundingMethod: "floor",
       roundToLargestUnit: !isExamInOneDay.value
