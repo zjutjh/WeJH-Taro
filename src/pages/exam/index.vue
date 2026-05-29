@@ -4,7 +4,7 @@
     <scroll-view :scroll-y="true">
       <view :class="styles.headerView">
         <image src="@/assets/photos/exam.svg" />
-        <view :class="styles.extra" @tap="showHelp">
+        <view :class="styles.extra" @tap="handleAnnouncementTap">
           <view :class="styles.iconWrapper">
             <view :class="[styles.extraIcon, 'iconfont', 'icon-announcement']" />
           </view>
@@ -12,24 +12,34 @@
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="isEmpty(examInfoData)" style="text-align: center">
+        <card v-if="isEmpty(examInfoData)" :class="styles.emptyCard">
           <view>无记录</view>
         </card>
         <template v-else>
-          <exam-info-card v-for="item in examInfoData" :key="item.id" size="small" :data="item" />
+          <exam-info-card
+            v-for="item in examInfoData"
+            :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
+            size="small"
+            :data="item"
+          />
         </template>
       </view>
     </scroll-view>
     <bottom-panel :class="styles.examBottomPanel">
       <view :class="styles.col" />
       <view :class="styles.col">
-        <term-picker :year="selectYear" :term="selectTerm" :selectflag="0" @changed="termChanged" />
+        <term-picker
+          :year="selectYear"
+          :term="selectTerm"
+          :selectflag="0"
+          @changed="handleTermChange"
+        />
       </view>
       <view :class="styles.col">
         <refresh-button :is-refreshing="isExamInfoFetching" @refresh="refreshExamInfoData" />
       </view>
     </bottom-panel>
-    <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
+    <w-modal v-model:show="isAnnouncementVisible" title="公告" :content="helpText.exam" />
   </theme-config>
 </template>
 
@@ -55,11 +65,12 @@ import { systemStore } from "@/store";
 import ExamInfoCard from "./_components/exam-info-card/index.vue";
 import styles from "./index.module.scss";
 
+/** 所选学年 */
 const selectYear = ref(systemStore.generalInfo.termYear);
+/** 所选学期 */
 const selectTerm = ref(systemStore.generalInfo.term);
-const showModal = ref(false);
-const helpContent = helpText.exam;
 
+// 获取考试安排列表
 const {
   data: examInfoData,
   isFetching: isExamInfoFetching,
@@ -69,12 +80,16 @@ const {
   queryFn: ({ queryKey }) => zfServiceNext.QueryExamInfo({ year: queryKey[1], term: queryKey[2] })
 });
 
-const termChanged = (e: { year: string; term: "上" | "下" | "短" }) => {
+/** 所选学期变更 */
+const handleTermChange = (e: { year: string; term: "上" | "下" | "短" }) => {
   selectYear.value = e.year;
   selectTerm.value = e.term;
 };
 
-const showHelp = () => {
-  showModal.value = true;
+/** 公告弹窗是否可见 */
+const isAnnouncementVisible = ref(false);
+/** 点击显示公告按钮 */
+const handleAnnouncementTap = () => {
+  isAnnouncementVisible.value = true;
 };
 </script>

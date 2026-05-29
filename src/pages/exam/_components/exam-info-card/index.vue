@@ -1,33 +1,18 @@
 <template>
   <card size="small" :class="styles.component">
-    <w-collapse :class="styles.examCollapseItem">
+    <w-collapse :class="[styles.examCollapseItem, isToday ? styles.today : '']">
       <w-collapse-panel :arrow="true">
         <template #header>
-          <view
-            :class="styles.lessonName"
-            :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
-          >
-            {{ props.data.lessonName }}
-          </view>
-          <view style="font-size: 14px; color: var(--wjh-color-text-secondary)">
-            <view
-              v-if="examTimeDiff.type === 'later'"
-              :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
-            >
-              距离考试还有 {{ timeDiffText }}
+          <view :class="styles.collapseHeader">
+            <view :class="styles.lessonName">
+              {{ props.data.lessonName }}
             </view>
-            <view
-              :class="styles.examTime"
-              :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
-            >
-              {{ props.data.examTime }}
-            </view>
-            <view
-              v-if="props.data.examTime !== '未放开不可查'"
-              :class="styles.examPlace"
-              :style="isToday ? 'color: var(--wjh-color-primary-dark)' : undefined"
-            >
-              {{ `${props.data.examPlace} - 座位号：${props.data.seatNum}` }}
+            <view :class="styles.basicInfo">
+              <view v-if="examTimeDiff.type === 'later'">距离考试还有 {{ timeDiffText }}</view>
+              <view :class="styles.examTime">{{ props.data.examTime }}</view>
+              <view v-if="props.data.examTime !== '未放开不可查'" :class="styles.examPlace">
+                {{ `${props.data.examPlace} - 座位号：${props.data.seatNum}` }}
+              </view>
             </view>
           </view>
         </template>

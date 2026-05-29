@@ -1,34 +1,44 @@
 
 .component {
-
   .examCollapseItem {
-
     :global(.wjh-list-item-content-arrow) {
       color: var(--wjh-color-week);
     }
 
+    :global(.wjh-list-item-content-main) {
+      line-height: initial;
+      flex-direction: column;
+
+      .lessonName {
+        color: var(--wjh-color-font-text);
+        font-weight: var(--wjh-font-weight-medium);
+        transition: color 0.3s;
+      }
+    }
+
     :global(.wjh-collapse-panel-header-active) {
       .lessonName {
-        transition: all 0.3s;
         color: var(--wjh-color-primary-dark);
       }
     }
 
-    :global(.wjh-collapse-panel-header) {
-      .lessonName {
-        color: var(--wjh-color-font-text);
-        font-weight: var(--wjh-font-weight-medium);
-      }
-
-      :global(.wjh-list-item-content-main) {
-        line-height: initial;
-        flex-direction: column;
-      }
+    .basicInfo {
+      font-size: 0.875rem;
+      color: var(--wjh-color-text-secondary);
     }
 
     .examDetailList {
       width: 100%;
       font-size: 0.75rem;
+    }
+
+    &.today {
+      .collapseHeader {
+        .lessonName,
+        .basicInfo {
+          color: var(--wjh-color-primary-dark);
+        }
+      }
     }
   }
 }

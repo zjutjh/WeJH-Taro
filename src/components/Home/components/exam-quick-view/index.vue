@@ -5,7 +5,7 @@
     :help="true"
     :class="styles.examQuickView"
     @tap="nav2Exam"
-    @handle-tap-help="handleTapHelp"
+    @handle-tap-help="handleHelpTap"
   >
     <text class="sub-text">近期考试 ({{ updateTimeText }})</text>
     <card v-if="!examDerivativeList || examDerivativeList.length === 0" style="text-align: center">
@@ -135,10 +135,12 @@ const examDerivativeList = computed(() => {
   return list;
 });
 
-const handleTapHelp = () => {
+/** 点击显示帮助弹窗 */
+const handleHelpTap = () => {
   emit("showHelp", "exam-card");
 };
 
+/** 跳转考试安排页 */
 const nav2Exam = () => {
   Taro.navigateTo({ url: "/pages/exam/index" });
 };
