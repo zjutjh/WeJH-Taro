@@ -23,7 +23,7 @@
     <bottom-panel :class="styles.examBottomPanel">
       <view :class="styles.col" />
       <view :class="styles.col">
-        <term-picker :year="selectYear" :term="selectTerm" :selectflag="0" @change="termChanged" />
+        <term-picker :year="selectYear" :term="selectTerm" :selectflag="0" @changed="termChanged" />
       </view>
       <view :class="styles.col">
         <refresh-button :is-refreshing="isExamInfoFetching" @refresh="refreshExamInfoData" />
