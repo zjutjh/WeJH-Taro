@@ -90,7 +90,6 @@
 import "./index.scss";
 
 import { useQuery } from "@tanstack/vue-query";
-import dayjs from "dayjs";
 import { ref, toRef } from "vue";
 
 import {
@@ -110,7 +109,7 @@ import { helpText } from "@/constants/copywriting";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
-import { getDetailedTime } from "@/utils/time";
+import { getDayInterval, getDetailedTime } from "@/utils/time";
 
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
@@ -130,6 +129,7 @@ const showModal = ref(false);
 const helpContent = helpText.exam;
 
 function timeInterval(timeString: string) {
-  return dayjs(timeString.split("(")[0]).diff(dayjs().startOf("day"), "day");
+  const timeBefore = timeString.split("(")[0];
+  return getDayInterval(timeBefore);
 }
 </script>
