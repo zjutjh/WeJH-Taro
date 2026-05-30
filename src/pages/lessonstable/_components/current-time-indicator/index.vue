@@ -3,18 +3,18 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from "dayjs";
 import { computed } from "vue";
 
 import {
   DAY_SCHEDULE_START_TIME,
   LESSON_DURATION_MINUTES
 } from "@/constants/day-schedule-start-time";
+import { getMinuteInterval } from "@/utils/time";
 
 import styles from "./index.module.scss";
 
 const nowStyle = computed(() => {
-  const nowTime = dayjs().diff(dayjs().startOf("day"), "minute");
+  const nowTime = getMinuteInterval();
 
   /** 当前时间距离所在课程已过去的时间，单位为分钟 */
   let duration = 0;

@@ -6,8 +6,19 @@ import dayjs, { ConfigType } from "dayjs";
  * @param timeAfter
  * @returns 天数
  */
-export const getDayInterval = (timeBefore: ConfigType, timeAfter?: ConfigType) =>
-  dayjs(timeBefore).diff(dayjs(timeAfter).startOf("day"), "day");
+export function getDayInterval(timeBefore: ConfigType, timeAfter?: ConfigType) {
+  return dayjs(timeBefore).diff(dayjs(timeAfter).startOf("day"), "day");
+}
+
+/**
+ * 计算距离某日的分钟数之差
+ * @param timeBefore
+ * @param timeAfter
+ * @returns 分钟数
+ */
+export function getMinuteInterval(timeBefore?: ConfigType, timeAfter?: ConfigType) {
+  return dayjs(timeBefore).diff(dayjs(timeAfter).startOf("day"), "minute");
+}
 
 /**
  * 计算距离一天中某个时刻的时分时间差
@@ -15,10 +26,10 @@ export const getDayInterval = (timeBefore: ConfigType, timeAfter?: ConfigType) =
  * @param timeAfter
  * @returns
  */
-export const getHMInterval = (
+export function getHMInterval(
   timeBefore: { hour: number; minute: number },
   timeAfter?: { hour: number; minute: number }
-) => {
+) {
   const minutesCount = {
     before: timeBefore.hour * 60 + timeBefore.minute,
     after: timeAfter?.hour || dayjs().hour() * 60 + (timeAfter?.minute || dayjs().minute())
@@ -26,7 +37,7 @@ export const getHMInterval = (
   const restHours = Math.floor((minutesCount.before - minutesCount.after) / 60);
   const restMinutes = minutesCount.before - minutesCount.after - restHours * 60;
   return { hours: restHours, minutes: restMinutes };
-};
+}
 
 /**
  * 查询传入日期对应一周中的哪一天
@@ -48,5 +59,6 @@ export function getDetailedTime(timeString: string) {
 export default {
   getDayInterval,
   getHMInterval,
-  getDetailedTime
+  getDetailedTime,
+  getMinuteInterval
 };

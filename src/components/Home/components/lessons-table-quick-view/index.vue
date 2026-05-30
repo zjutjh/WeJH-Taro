@@ -59,6 +59,7 @@ import { isLessonActiveInWeek } from "@/pages/lessonstable/_utils/weeks";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
+import { getMinuteInterval } from "@/utils/time";
 
 import QuickViewContainer from "../quick-view-container/index.vue";
 
@@ -132,7 +133,7 @@ function getRestTimeString(sections: string) {
       : (DAY_SCHEDULE_START_TIME.at(begin - 1) ?? { hour: 0, min: 0 });
 
   const minutesCount = time.hour * 60 + time.min;
-  const currentMinutes = dayjs().diff(dayjs().startOf("day"), "minute");
+  const currentMinutes = getMinuteInterval();
 
   const hour = Math.floor((minutesCount - currentMinutes) / 60);
   const min = minutesCount - currentMinutes - hour * 60;
