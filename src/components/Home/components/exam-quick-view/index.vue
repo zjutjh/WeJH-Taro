@@ -31,7 +31,7 @@
         <text :class="styles.examPlace">{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</text>
         <view :class="styles.examState">
           <text v-if="item.meta.phase === 'inProgress'" :class="styles.highlight">正在考试</text>
-          <text v-else-if="item.meta.phase === 'notStarted' && item.meta.isTimeValid"
+          <text v-else-if="item.meta.phase === 'notStarted' && item.meta.startAt.isValid()"
             >还有 {{ formatDuration(item.meta.startAtDiff.abs) }}开始</text
           >
         </view>
@@ -52,7 +52,7 @@ import { Card } from "@/components";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
-import { diffTime, formatDuration, parseZfExamTime } from "@/utils/time.js";
+import { diffTime, formatDuration, parseZfExamTime } from "@/utils";
 
 import QuickViewContainer from "../quick-view-container/index.vue";
 import type { ExamPhase } from "./_types";
@@ -90,10 +90,10 @@ const examDerivativeList = computed(() => {
       if (exam.examTime === "未放开不可查") return null;
 
       // 解析考试时间
-      const { startAt, endAt, isValid: isTimeValid } = parseZfExamTime(exam.examTime);
+      const { startAt, endAt } = parseZfExamTime(exam.examTime);
 
       // 过滤无效时间
-      if (!isTimeValid) return null;
+      if (!startAt.isValid()) return null;
 
       /** 考试开始时间距今 */
       const startAtDiff = diffTime(startAt, {
@@ -122,7 +122,6 @@ const examDerivativeList = computed(() => {
       return {
         ...exam,
         meta: {
-          isTimeValid,
           startAt,
           endAt,
           startAtDiff,

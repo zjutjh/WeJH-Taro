@@ -8,7 +8,7 @@
               {{ props.data.lessonName }}
             </view>
             <view :class="styles.basicInfo">
-              <view v-if="examTimeDiff.type === 'later'">距离考试还有 {{ timeDiffText }}</view>
+              <view v-if="examTimeDiff.diffType === 'later'">距离考试还有 {{ timeDiffText }}</view>
               <view v-if="props.data.examTime !== '未放开不可查'" :class="styles.examTime">
                 {{ props.data.examTime }}
               </view>
@@ -20,7 +20,7 @@
         </template>
         <w-descriptions :class="styles.examDetailList" size="small">
           <w-descriptions-item label="日期" :label-span="6">
-            <template v-if="examTime.isValid">
+            <template v-if="examTime.startAt.isValid()">
               {{ examTime.startAt.format("YYYY-MM-DD") }}{{ examDateTextSuffix }}
             </template>
             <template v-else>{{ props.data.examTime }}</template>
@@ -44,11 +44,12 @@
 </template>
 
 <script setup lang="ts">
+import { defaultTo } from "lodash-es";
 import { computed } from "vue";
 
 import type { ExamInfo } from "@/api/types/zf";
 import { Card, WCollapse, WCollapsePanel, WDescriptions, WDescriptionsItem } from "@/components";
-import { diffTime, formatDuration, getWeekday, parseZfExamTime } from "@/utils/time";
+import { diffTime, formatDuration, getWeekday, parseZfExamTime } from "@/utils";
 
 import styles from "./index.module.scss";
 
@@ -70,9 +71,7 @@ const examTimeDiff = computed(() => {
 });
 
 /** 考试距离是否短于一天 */
-const isExamInOneDay = computed(
-  () => examTime.value.isValid && examTimeDiff.value.abs.asDays() < 1
-);
+const isExamInOneDay = computed(() => defaultTo(examTimeDiff.value.abs.asDays(), Infinity) < 1);
 
 /** 考试开始距今时间文本 */
 const timeDiffText = computed(() =>
@@ -88,7 +87,7 @@ const timeDiffText = computed(() =>
 
 /** 考试日期文本的后缀 */
 const examDateTextSuffix = computed(() => {
-  if (!examTime.value.isValid) return "";
+  if (!examTime.value.startAt.isValid()) return "";
   return ` - 周${getWeekday(examTime.value.startAt)}`;
 });
 

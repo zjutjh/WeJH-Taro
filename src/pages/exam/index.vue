@@ -68,7 +68,7 @@
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
 import { useNow } from "@vueuse/core";
-import { filter, isEmpty, map, sortBy } from "lodash-es";
+import { defaultTo, filter, isEmpty, map, sortBy } from "lodash-es";
 import { computed, ref } from "vue";
 
 import {
@@ -84,7 +84,7 @@ import { helpText } from "@/constants/copywriting";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
-import { diffTime, parseZfExamTime } from "@/utils/time.js";
+import { diffTime, parseZfExamTime } from "@/utils";
 
 import ExamInfoCard from "./_components/exam-info-card/index.vue";
 import styles from "./index.module.scss";
@@ -111,7 +111,7 @@ const examInfoList = computed(() => {
   // 字段拓展
   const extendedList = map(examInfoData.value, (exam) => {
     // 解析考试时间
-    const { startAt, endAt, isValid: isTimeValid } = parseZfExamTime(exam.examTime);
+    const { startAt, endAt } = parseZfExamTime(exam.examTime);
 
     /** 考试开始时间距今 */
     const startAtDiff = diffTime(startAt, {
@@ -121,7 +121,6 @@ const examInfoList = computed(() => {
     return {
       ...exam,
       meta: {
-        isTimeValid,
         startAt,
         endAt,
         startAtDiff
@@ -130,14 +129,17 @@ const examInfoList = computed(() => {
   });
 
   /** 待考列表 */
-  let notFinishedList = filter(extendedList, (exam) => exam.meta.startAtDiff.type !== "earlier");
+  let notFinishedList = filter(
+    extendedList,
+    (exam) => exam.meta.startAtDiff.diffType !== "earlier"
+  );
   // 从近到远排序，无效时间排在最后
   notFinishedList = sortBy(notFinishedList, (exam) =>
-    exam.meta.startAtDiff.type === "invalid" ? Infinity : exam.meta.startAtDiff.abs.valueOf()
+    defaultTo(exam.meta.startAtDiff.abs.valueOf(), Infinity)
   );
 
   /** 已考列表 */
-  let finishedList = filter(extendedList, (exam) => exam.meta.startAtDiff.type === "earlier");
+  let finishedList = filter(extendedList, (exam) => exam.meta.startAtDiff.diffType === "earlier");
   // 从近到远排序
   finishedList = sortBy(finishedList, (exam) => exam.meta.startAtDiff.abs.valueOf());
 
