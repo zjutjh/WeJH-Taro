@@ -21,18 +21,15 @@ interface DiffTimeOptions {
   /** 基准时间
    * @default 当前时间 */
   baseTime?: DayjsConfigType;
-  /** 单位下限，更小单位的时间将进行舍入
+  /** 单位下限，更小单位的时间将直接舍去
    * @default "seconds"  */
   minUnit?: DiffTimeUnit;
   /** 单位上限，更大单位的时间将向下换算
    * @default "days" */
   maxUnit?: DiffTimeUnit;
-  /** 是否舍入到结果中最大的单位
+  /** 是否只保留结果中最大的单位
    * @default false */
   roundToLargestUnit?: boolean;
-  /** 溢出minUnit的时间的舍入方式
-   * @default "floor" */
-  roundingMethod?: "floor" | "ceil" | ((float: number) => number);
 }
 export interface DiffTimeReturn {
   /** 目标时间比基准时间更早/更晚/相等 */
@@ -50,11 +47,10 @@ export const diffTime = (
     baseTime: dayjs(),
     minUnit: "seconds",
     maxUnit: "days",
-    roundToLargestUnit: false,
-    roundingMethod: "floor"
+    roundToLargestUnit: false
   };
   // 合并传入的options并解构
-  const { baseTime, minUnit, maxUnit, roundToLargestUnit, roundingMethod } = {
+  const { baseTime, minUnit, maxUnit, roundToLargestUnit } = {
     ...defaultOptions,
     ...options
   };
@@ -86,9 +82,6 @@ export const diffTime = (
 
   // 不相等，计算时间差
   if (diffType !== "same") {
-    /** 结果中包含的最小时间单位，更小单位的时间将进行舍入 */
-    let smallestUnit = minUnit;
-
     /** maxUnit在timeUnitList中的索引 */
     const maxUnitIndex = timeUnitList.indexOf(maxUnit);
     /** minUnit在timeUnitList中的索引 */
@@ -111,36 +104,11 @@ export const diffTime = (
       // 已经到达minUnit，终止
       if (curUnitIndex >= minUnitIndex) break;
 
-      // 当前单位下，时间差不为0，且roundToLargestUnit为true
-      if (roundToLargestUnit && curUnitDiff !== 0) {
-        // 更新smallestUnit为当前单位
-        smallestUnit = unit;
-        // 终止
-        break;
-      }
+      // 当前单位下，时间差不为0，且roundToLargestUnit为true，终止
+      if (roundToLargestUnit && curUnitDiff !== 0) break;
 
       // 抹去当前单位下的时间差，为下一个单位做准备
       approaching = approaching.add(curUnitDiff, unit);
-    }
-
-    // 舍入操作
-    if (smallestUnit !== "milliseconds") {
-      /** 计算smallestUnit下，的时间差绝对值（浮点数） */
-      const floatDiffAbs = Math.abs(target.diff(approaching, smallestUnit, true));
-      switch (roundingMethod) {
-        case "floor":
-          // 直接舍去小数
-          diffValue[smallestUnit] = Math.floor(floatDiffAbs);
-          break;
-        case "ceil":
-          // 直接进位
-          diffValue[smallestUnit] = Math.ceil(floatDiffAbs);
-          break;
-        default:
-          // 自定义舍入函数
-          diffValue[smallestUnit] = roundingMethod(floatDiffAbs);
-          break;
-      }
     }
   }
 

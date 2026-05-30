@@ -79,7 +79,6 @@ const timeDiffText = computed(() =>
     diffTime(examTime.value.startAt, {
       baseTime: props.now,
       minUnit: "minutes",
-      roundingMethod: "floor",
       roundToLargestUnit: !isExamInOneDay.value
     }).abs
   )

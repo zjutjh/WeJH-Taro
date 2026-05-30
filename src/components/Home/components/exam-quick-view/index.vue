@@ -99,7 +99,6 @@ const examDerivativeList = computed(() => {
       const startAtDiff = diffTime(startAt, {
         baseTime: refNow.value,
         minUnit: "minutes",
-        roundingMethod: "floor",
         roundToLargestUnit: true
       });
 
