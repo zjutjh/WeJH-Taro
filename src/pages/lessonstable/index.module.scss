@@ -54,11 +54,16 @@
     }
 }
 
-.back-button {
+.panel-button {
   padding: 5Px;
   width: 34Px;
   height: 34Px;
   border-radius: 50%;
+
+  image {
+    width: 24Px;
+    height: 24Px;
+  }
 }
 
 @keyframes rote {

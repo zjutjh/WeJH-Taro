@@ -4,7 +4,7 @@
     <scroll-view :scroll-y="true">
       <view class="header-view">
         <image src="@/assets/photos/exam.svg" />
-        <view class="extra" @tap="showHelp">
+        <view class="extra" @tap="showModal = true">
           <view class="icon-wrapper">
             <view class="extra-icon iconfont icon-announcement" />
           </view>
@@ -12,52 +12,31 @@
         </view>
       </view>
       <view class="flex-column">
-        <card v-if="!exam || exam.length === 0" style="text-align: center">
+        <card v-if="!data?.length" style="text-align: center">
           <view>无记录</view>
         </card>
-        <card v-for="item in exam" :key="item.id" size="small" class="exam-card">
+        <card v-for="item in data" :key="item.id" size="small" class="exam-card">
           <w-collapse class="exam-collapse-item">
             <w-collapse-panel :arrow="true">
               <template #header>
-                <view
-                  class="lesson-name"
-                  :style="
-                    timeInterval(item.examTime) === 0
-                      ? 'color: var(--wjh-color-primary-dark)'
-                      : undefined
-                  "
-                >
-                  {{ item.lessonName }}
-                </view>
+                <view class="lesson-name"> {{ item.lessonName }} </view>
                 <view style="font-size: 14px; color: var(--wjh-color-text-secondary)">
                   <view
                     v-if="timeInterval(item.examTime) >= 0 && timeInterval(item.examTime) <= 14"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
+                    :class="{ 'exam-text-color': timeInterval(item.examTime) === 0 }"
                   >
                     距离考试还有 {{ timeInterval(item.examTime) }} 天
                   </view>
                   <view
                     class="exam-time"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
+                    :class="{ 'exam-text-color': timeInterval(item.examTime) === 0 }"
                   >
                     {{ item.examTime }}
                   </view>
                   <view
                     v-if="item.examTime !== '未放开不可查'"
                     class="exam-place"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
+                    :class="{ 'exam-text-color': timeInterval(item.examTime) === 0 }"
                   >
                     {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
                   </view>
@@ -68,8 +47,8 @@
                   {{ getDetailedTime(item.examTime) }}
                 </w-descriptions-item>
                 <w-descriptions-item label="考试地点" :label-span="6">
-                  <text>{{ item.examPlace }}</text
-                  ><text v-if="item.seatNum !== '未放开不可查'">
+                  <text>{{ item.examPlace }}</text>
+                  <text v-if="item.seatNum !== '未放开不可查'">
                     {{ ` - 座位号：${item.seatNum}` }}
                   </text>
                 </w-descriptions-item>
@@ -94,15 +73,13 @@
       <view class="col" />
       <view class="col">
         <term-picker
+          v-model="selectTerm"
           class="picker"
-          :year="selectTerm.year"
-          :term="selectTerm.term"
-          :selectflag="0"
-          @changed="termChanged"
+          :term-year="Number(systemStore.generalInfo.termYear)"
         />
       </view>
       <view class="col">
-        <refresh-button :is-refreshing="isRefreshing" @refresh="refresh" />
+        <refresh-button :is-refreshing="isPending" @refresh="refetch" />
       </view>
     </bottom-panel>
     <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
@@ -112,8 +89,8 @@
 <script setup lang="ts">
 import "./index.scss";
 
-import dayjs, { ConfigType } from "dayjs";
-import { computed, onMounted, ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { ref, toRef } from "vue";
 
 import {
   BottomPanel,
@@ -129,53 +106,30 @@ import {
   WModal
 } from "@/components";
 import { helpText } from "@/constants/copywriting";
-import { ZFService } from "@/services";
+import { zfServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
+import { getDayInterval, getDetailedTime } from "@/utils/time";
 
 const selectTerm = ref({
   year: systemStore.generalInfo.termYear,
   term: systemStore.generalInfo.term
 });
-const isRefreshing = ref(false);
-const exam = computed(() => {
-  return ZFService.getExamInfo(selectTerm.value).data;
+
+const { data, isPending, refetch } = useQuery({
+  queryKey: [
+    QUERY_KEY.ZF_EXAM,
+    toRef(() => selectTerm.value.year),
+    toRef(() => selectTerm.value.term)
+  ] as const,
+  queryFn: ({ queryKey }) => zfServiceNext.QueryExam({ year: queryKey[1], term: queryKey[2] })
 });
+
 const showModal = ref(false);
 const helpContent = helpText.exam;
 
-async function termChanged(e) {
-  isRefreshing.value = true;
-  selectTerm.value = e;
-  await ZFService.updateExamInfo(e);
-  isRefreshing.value = false;
-}
-
-async function refresh() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  await ZFService.updateExamInfo(selectTerm.value);
-  isRefreshing.value = false;
-}
-
-function getDetailedTime(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-  if (dayChars[dayjs(tmp).day()]) {
-    return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-  }
-  return `${tmp}`;
-}
-
 function timeInterval(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
+  const timeBefore = timeString.split("(")[0];
+  return getDayInterval(timeBefore);
 }
-
-function showHelp() {
-  showModal.value = true;
-}
-
-onMounted(async () => {
-  await refresh();
-});
 </script>

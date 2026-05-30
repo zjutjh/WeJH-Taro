@@ -1,7 +1,7 @@
 import { set } from "lodash-es";
 
 import { Exam } from "@/types/Exam";
-import { Lesson, PracticeLesson } from "@/types/Lesson";
+import { Lesson, PracticeLesson } from "@/types/lesson";
 import { Room } from "@/types/Room";
 import { Score } from "@/types/Score";
 

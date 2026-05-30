@@ -11,7 +11,7 @@ import SuitService from "./services/suitService";
 import SystemService from "./services/systemService";
 import UserService from "./services/userService";
 import YxyService from "./services/yxyService";
-import ZFService from "./services/zfService";
+import ZFService from "./services/zf-service";
 import errCodeHandler from "./utils/errHandler";
 
 export {
