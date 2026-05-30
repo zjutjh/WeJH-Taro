@@ -48,7 +48,7 @@ import "./index.scss";
 
 import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
-import { useIntervalFn } from "@vueuse/core";
+import { useArrayFilter, useIntervalFn } from "@vueuse/core";
 import dayjs from "dayjs";
 import { computed, ref, toRef } from "vue";
 
@@ -62,14 +62,26 @@ import { systemStore } from "@/store";
 
 import QuickViewContainer from "../quick-view-container/index.vue";
 
-const tenPM = dayjs().startOf("day").add(22, "hour");
 const emit = defineEmits(["showHelp"]);
 
+const { data, isError, dataUpdatedAt } = useQuery({
+  queryKey: [
+    QUERY_KEY.ZF_LESSONS_TABLE,
+    toRef(() => systemStore.generalInfo.termYear),
+    toRef(() => systemStore.generalInfo.term)
+  ] as const,
+  queryFn: ({ queryKey }) =>
+    zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] }),
+  select: (res) => res.lessonsTable
+});
+
+const tenPM = dayjs().startOf("day").add(22, "hour");
 const showTomorrow = dayjs().isAfter(tenPM);
 
 // 筛选出第一天或第二天的课表
-const lessonTable = computed(() =>
-  data.value?.filter((item) => {
+const lessonTable = useArrayFilter(
+  () => data.value ?? [],
+  (item) => {
     /** 周日值为 7，周一值为 1 */
     const queryIsoDay =
       dayjs()
@@ -84,19 +96,8 @@ const lessonTable = computed(() =>
     if (queryIsoDay !== Number.parseInt(item.weekday)) return false;
 
     return isLessonActiveInWeek(item.week, queryWeek);
-  })
+  }
 );
-
-const { data, isError, dataUpdatedAt } = useQuery({
-  queryKey: [
-    QUERY_KEY.ZF_LESSONS_TABLE,
-    toRef(() => systemStore.generalInfo.termYear),
-    toRef(() => systemStore.generalInfo.term)
-  ] as const,
-  queryFn: ({ queryKey }) =>
-    zfServiceNext.QueryLessonsTable({ year: queryKey[1], term: queryKey[2] }),
-  select: (res) => res.lessonsTable
-});
 
 const updateRestTimeCounter = ref(0);
 useIntervalFn(() => updateRestTimeCounter.value++, 5000);

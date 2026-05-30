@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import { useArrayMap } from "@vueuse/core";
 import { computed } from "vue";
 
 import { PopView } from "@/components";
@@ -57,12 +58,10 @@ const props = defineProps<{
 const show = defineModel<boolean>({ required: true });
 
 const detailWeekDay = computed(() => formatWeekDay(props.selection?.weekday));
-const detailSelectionConflicts = computed(
-  () =>
-    props.selectionConflicts?.map((lesson) => ({
-      ...lesson,
-      detailWeekDay: formatWeekDay(lesson.weekday)
-    })) ?? []
+
+const detailSelectionConflicts = useArrayMap(
+  () => props.selectionConflicts ?? [],
+  (lesson) => ({ ...lesson, detailWeekDay: formatWeekDay(lesson.weekday) })
 );
 
 function formatWeekDay(weekDay?: string) {

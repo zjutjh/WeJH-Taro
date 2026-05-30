@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { isEmpty } from "lodash-es";
-import { computed, toRefs } from "vue";
+import { computed } from "vue";
 
 import type { Lesson } from "@/types/lesson";
 
@@ -67,7 +67,6 @@ import { lessonKey, splitNameAndRoom } from "./_utils";
 import styles from "./index.module.scss";
 
 const props = defineProps<{ lessons: Lesson[]; isThisWeek: boolean }>();
-const { lessons } = toRefs(props);
 const emit = defineEmits(["lessonClick"]);
 
 const weekdayEnum = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
@@ -78,7 +77,7 @@ const nowWeekStyle = computed(() => ({
 
 // 分层排布 + 着色（统一抽到 utils）
 const lessonsTable = computed(() =>
-  colorLessons(buildTwoDimensionalLayout(lessons.value), COLOR_SET)
+  colorLessons(buildTwoDimensionalLayout(props.lessons), COLOR_SET)
 );
 
 function lessonCardColor(color = "primary") {
