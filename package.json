@@ -8,12 +8,12 @@
   },
   "scripts": {
     "lint": "eslint",
-    "dev": "VITE_BUILD_ENV=development npm run build -- --watch",
-    "build:test": "VITE_BUILD_ENV=test npm run build",
-    "build:prod": "VITE_BUILD_ENV=production npm run build",
+    "dev": "VITE_BUILD_ENV=development pnpm build --watch",
+    "build:test": "VITE_BUILD_ENV=test pnpm build",
+    "build:prod": "VITE_BUILD_ENV=production pnpm build",
     "build": "taro build --type weapp",
-    "dev:weapp": "npm run dev",
-    "build:weapp": "npm run build",
+    "dev:weapp": "pnpm dev",
+    "build:weapp": "pnpm build",
     "postinstall": "simple-git-hooks",
     "typecheck": "vue-tsc --noEmit"
   },
