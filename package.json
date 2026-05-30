@@ -14,7 +14,7 @@
     "build": "taro build --type weapp",
     "dev:weapp": "npm run dev",
     "build:weapp": "npm run build",
-    "postinstall": "npx simple-git-hooks",
+    "postinstall": "simple-git-hooks",
     "typecheck": "vue-tsc --noEmit"
   },
   "browserslist": [
