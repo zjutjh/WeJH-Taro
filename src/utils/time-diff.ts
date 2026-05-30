@@ -113,7 +113,7 @@ export const diffTime = (
   }
 
   // 将各单位的空值填充为0
-  timeUnitList.map((unit) => (diffValue[unit] ??= 0));
+  timeUnitList.forEach((unit) => (diffValue[unit] ??= 0));
 
   return {
     diffType,
