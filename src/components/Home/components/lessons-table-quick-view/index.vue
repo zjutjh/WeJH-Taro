@@ -53,7 +53,10 @@ import dayjs from "dayjs";
 import { computed, ref, toRef } from "vue";
 
 import { Card } from "@/components";
-import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
+import {
+  DAY_SCHEDULE_START_TIME,
+  LESSON_DURATION_MINUTES
+} from "@/constants/day-schedule-start-time";
 import { useTimeInstance } from "@/hooks";
 import { isLessonActiveInWeek } from "@/pages/lessonstable/_utils/weeks";
 import { zfServiceNext } from "@/services";
@@ -114,7 +117,7 @@ function nav2Lesson() {
 
 function sectionsTimeString(sections: string) {
   const arr = sections.split("-");
-  return `${getLessonTimeInstance(Number.parseInt(arr[0])).format("HH:mm")}-${getLessonTimeInstance(Number.parseInt(arr[1]), 45).format("HH:mm")}`;
+  return `${getLessonTimeInstance(Number.parseInt(arr[0])).format("HH:mm")}-${getLessonTimeInstance(Number.parseInt(arr[1]), LESSON_DURATION_MINUTES).format("HH:mm")}`;
 }
 
 function getLessonTimeInstance(jc: number, offset = 0) {
@@ -149,7 +152,7 @@ function lessonState(sections: string): "before" | "taking" | "after" {
   const now = dayjs();
   const arr = sections.split("-");
   const detAfter = getLessonTimeInstance(Number(arr[0])).diff(now);
-  const detBefore = getLessonTimeInstance(Number(arr[1]), 45).diff(now);
+  const detBefore = getLessonTimeInstance(Number(arr[1]), LESSON_DURATION_MINUTES).diff(now);
 
   if (detAfter > 0) return "before";
   if (detAfter < 0 && detBefore > 0) return "taking";
