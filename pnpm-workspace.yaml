@@ -6,6 +6,7 @@ catalogs:
     "aegis-mp-sdk": "^1.39.3"
     "dayjs": "^1.11.19"
     "event-target-polyfill": "^0.0.4"
+    "humanize-duration": "^3.33.2"
     "lodash-es": "^4.17.21"
     "pinia": "^2.2.4"
     "pinia-plugin-persistedstate": "^4.7.1"
@@ -59,3 +60,4 @@ catalogs:
 
   typing:
     "@types/lodash-es": "^4.17.12"
+    "@types/humanize-duration": "^3.27.4"
