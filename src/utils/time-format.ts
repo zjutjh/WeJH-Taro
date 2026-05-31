@@ -13,10 +13,18 @@ export const formatDuration = (
   duration: dayjsDuration.Duration,
   options: humanizeDuration.Options = {}
 ) => {
+  // 时长短于1分钟时显示"几秒"
+  if (duration.asMinutes() < 1) {
+    return "几秒";
+  }
+
   return humanizeDuration(duration.asMilliseconds(), {
     language: "zh_CN",
+    // 去除小数
     maxDecimalPoints: 0,
+    // 单位分隔符
     delimiter: " ",
+    // 忽略"周"单位
     units: ["y", "mo", "d", "h", "m", "s"],
     ...options
   });
