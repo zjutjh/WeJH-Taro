@@ -168,6 +168,9 @@ catalogs:
       specifier: ^4.5.14
       version: 4.5.14
   typing:
+    '@types/humanize-duration':
+      specifier: ^3.27.4
+      version: 3.27.4
     '@types/lodash-es':
       specifier: ^4.17.12
       version: 4.17.12
@@ -206,9 +209,6 @@ importers:
       '@tarojs/taro':
         specifier: catalog:taro
         version: 4.1.7(@tarojs/components@4.1.7(@tarojs/helper@4.1.7)(html-webpack-plugin@5.5.0(webpack@5.69.0(@swc/core@1.3.96)))(postcss@8.5.6)(rollup@3.29.5)(vue@3.5.22(typescript@5.9.3))(webpack-chain@6.5.1)(webpack-dev-server@4.7.4(webpack@5.69.0(@swc/core@1.3.96)))(webpack@5.69.0(@swc/core@1.3.96)))(@tarojs/helper@4.1.7)(@tarojs/shared@4.1.7)(html-webpack-plugin@5.5.0(webpack@5.69.0(@swc/core@1.3.96)))(postcss@8.5.6)(rollup@3.29.5)(vue@3.5.22(typescript@5.9.3))(webpack-chain@6.5.1)(webpack-dev-server@4.7.4(webpack@5.69.0(@swc/core@1.3.96)))(webpack@5.69.0(@swc/core@1.3.96))
-      '@types/humanize-duration':
-        specifier: ^3.27.4
-        version: 3.27.4
       '@vueuse/core':
         specifier: catalog:frontend
         version: 14.0.0(vue@3.5.22(typescript@5.9.3))
@@ -264,6 +264,9 @@ importers:
       '@tarojs/vite-runner':
         specifier: catalog:taro
         version: 4.1.7(@tarojs/runtime@4.1.7)(jiti@1.21.6)(postcss@8.5.6)(rollup@3.29.5)(terser@5.44.0)(typescript@5.9.3)(vite@4.5.14(@types/node@25.6.0)(less@4.2.0)(lightningcss@1.27.0)(sass@1.93.3)(stylus@0.55.0)(terser@5.44.0))
+      '@types/humanize-duration':
+        specifier: catalog:typing
+        version: 3.27.4
       '@types/lodash-es':
         specifier: catalog:typing
         version: 4.17.12
