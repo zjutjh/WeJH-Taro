@@ -8,7 +8,9 @@
               {{ props.data.lessonName }}
             </view>
             <view :class="styles.basicInfo">
-              <view v-if="examTimeDiff.diffType === 'later'">距离考试还有 {{ timeDiffText }}</view>
+              <view v-if="meta.startAtDiff.diffType === 'later'">
+                距离考试还有 {{ timeDiffText }}
+              </view>
               <view v-if="props.data.examTime !== '未放开不可查'" :class="styles.examTime">
                 {{ props.data.examTime }}
               </view>
@@ -20,8 +22,8 @@
         </template>
         <w-descriptions :class="styles.examDetailList" size="small">
           <w-descriptions-item label="日期" :label-span="6">
-            <template v-if="examTime.startAt.isValid()">
-              {{ examTime.startAt.format("YYYY-MM-DD") }}{{ examDateTextSuffix }}
+            <template v-if="meta.startAt.isValid()">
+              {{ meta.startAt.format("YYYY-MM-DD") }}{{ examDateTextSuffix }}
             </template>
             <template v-else>{{ props.data.examTime }}</template>
           </w-descriptions-item>
@@ -45,49 +47,37 @@
 
 <script setup lang="ts">
 import { defaultTo } from "lodash-es";
-import { computed } from "vue";
+import { computed, toRef } from "vue";
 
-import type { ExamInfo } from "@/api/types/zf";
 import { Card, WCollapse, WCollapsePanel, WDescriptions, WDescriptionsItem } from "@/components";
-import { diffTime, formatDuration, getWeekday, parseZfExamTime } from "@/utils";
+import { formatDuration, getWeekday } from "@/utils";
 
+import { ExamInfoExtended } from "../../_type";
 import styles from "./index.module.scss";
 
 const props = defineProps<{
   /** 考试安排数据 */
-  data: ExamInfo;
-  /** 基准时间 */
-  now: Date;
+  data: ExamInfoExtended;
 }>();
 
-/** 解析出的考试时间 */
-const examTime = computed(() => parseZfExamTime(props.data.examTime));
-
-/** 考试开始时间距今时间 */
-const examTimeDiff = computed(() => {
-  return diffTime(examTime.value.startAt, {
-    baseTime: props.now
-  });
-});
+/** 考试安排的拓展数据 */
+const meta = toRef(() => props.data.meta);
 
 /** 考试距离是否短于一天 */
-const isExamInOneDay = computed(() => defaultTo(examTimeDiff.value.abs.asDays(), Infinity) < 1);
+const isExamInOneDay = computed(() => defaultTo(meta.value.startAtDiff.abs.asDays(), Infinity) < 1);
 
 /** 考试开始距今时间文本 */
 const timeDiffText = computed(() =>
-  formatDuration(
-    diffTime(examTime.value.startAt, {
-      baseTime: props.now,
-      minUnit: "minutes",
-      roundToLargestUnit: !isExamInOneDay.value
-    }).abs
-  )
+  formatDuration(meta.value.startAtDiff.abs, {
+    // 若考试距离小于一天，显示2单位，否则显示1单位
+    largest: isExamInOneDay.value ? 2 : 1
+  })
 );
 
 /** 考试日期文本的后缀 */
 const examDateTextSuffix = computed(() => {
-  if (!examTime.value.startAt.isValid()) return "";
-  return ` - 周${getWeekday(examTime.value.startAt)}`;
+  if (!meta.value.startAt.isValid()) return "";
+  return ` - 周${getWeekday(meta.value.startAt)}`;
 });
 
 /** 教师列表文本 */

@@ -27,9 +27,6 @@ interface DiffTimeOptions {
   /** 单位上限，更大单位的时间将向下换算
    * @default "days" */
   maxUnit?: DiffTimeUnit;
-  /** 是否只保留结果中最大的单位
-   * @default false */
-  roundToLargestUnit?: boolean;
 }
 export interface DiffTimeReturn {
   /** 目标时间比基准时间更早/更晚/相等 */
@@ -46,11 +43,10 @@ export const diffTime = (
   const defaultOptions: Required<DiffTimeOptions> = {
     baseTime: dayjs(),
     minUnit: "seconds",
-    maxUnit: "days",
-    roundToLargestUnit: false
+    maxUnit: "days"
   };
   // 合并传入的options并解构
-  const { baseTime, minUnit, maxUnit, roundToLargestUnit } = {
+  const { baseTime, minUnit, maxUnit } = {
     ...defaultOptions,
     ...options
   };
@@ -103,9 +99,6 @@ export const diffTime = (
 
       // 已经到达minUnit，终止
       if (curUnitIndex >= minUnitIndex) break;
-
-      // 当前单位下，时间差不为0，且roundToLargestUnit为true，终止
-      if (roundToLargestUnit && curUnitDiff !== 0) break;
 
       // 抹去当前单位下的时间差，为下一个单位做准备
       approaching = approaching.add(curUnitDiff, unit);

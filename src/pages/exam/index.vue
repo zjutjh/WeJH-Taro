@@ -87,6 +87,7 @@ import { systemStore } from "@/store";
 import { diffTime, parseZfExamTime } from "@/utils";
 
 import ExamInfoCard from "./_components/exam-info-card/index.vue";
+import { ExamInfoExtended } from "./_type.js";
 import styles from "./index.module.scss";
 
 /** 所选学年 */
@@ -109,7 +110,7 @@ const refNow = useNow({ interval: 1000 * 10 });
 /** 划分后的考试安排列表 */
 const examInfoList = computed(() => {
   // 字段拓展
-  const extendedList = map(examInfoData.value, (exam) => {
+  const extendedList: ExamInfoExtended[] = map(examInfoData.value, (exam) => {
     // 解析考试时间
     const { startAt, endAt } = parseZfExamTime(exam.examTime);
 

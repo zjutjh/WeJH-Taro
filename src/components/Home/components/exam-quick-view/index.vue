@@ -32,7 +32,7 @@
         <view :class="styles.examState">
           <text v-if="item.meta.phase === 'inProgress'" :class="styles.highlight">正在考试</text>
           <text v-else-if="item.meta.phase === 'notStarted' && item.meta.startAt.isValid()"
-            >还有 {{ formatDuration(item.meta.startAtDiff.abs) }}开始</text
+            >还有 {{ formatDuration(item.meta.startAtDiff.abs, { largest: 1 }) }}开始</text
           >
         </view>
       </view>
@@ -98,8 +98,7 @@ const examDerivativeList = computed(() => {
       /** 考试开始时间距今 */
       const startAtDiff = diffTime(startAt, {
         baseTime: refNow.value,
-        minUnit: "minutes",
-        roundToLargestUnit: true
+        minUnit: "minutes"
       });
 
       // 过滤不在3天内的
