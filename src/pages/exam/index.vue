@@ -51,10 +51,10 @@
       <view :class="styles.col" />
       <view :class="styles.col">
         <term-picker
-          :year="selectYear"
-          :term="selectTerm"
+          v-model:year="selectedYear"
+          v-model:term="selectedTerm"
+          :term-year="Number(systemStore.generalInfo.termYear)"
           :selectflag="0"
-          @changed="handleTermChange"
         />
       </view>
       <view :class="styles.col">
@@ -91,9 +91,9 @@ import { ExamInfoExtended } from "./_type.js";
 import styles from "./index.module.scss";
 
 /** 所选学年 */
-const selectYear = ref(systemStore.generalInfo.termYear);
+const selectedYear = ref(systemStore.generalInfo.termYear);
 /** 所选学期 */
-const selectTerm = ref(systemStore.generalInfo.term);
+const selectedTerm = ref(systemStore.generalInfo.term);
 
 // 获取考试安排列表
 const {
@@ -101,7 +101,7 @@ const {
   isFetching: isExamInfoFetching,
   refetch: refreshExamInfoData
 } = useQuery({
-  queryKey: [QUERY_KEY.ZF_EXAM, selectYear, selectTerm] as const,
+  queryKey: [QUERY_KEY.ZF_EXAM, selectedYear, selectedTerm] as const,
   queryFn: ({ queryKey }) => zfServiceNext.QueryExamInfo({ year: queryKey[1], term: queryKey[2] })
 });
 
@@ -149,12 +149,6 @@ const examInfoList = computed(() => {
     notFinished: notFinishedList
   };
 });
-
-/** 所选学期变更 */
-const handleTermChange = (e: { year: string; term: "上" | "下" | "短" }) => {
-  selectYear.value = e.year;
-  selectTerm.value = e.term;
-};
 
 /** 公告弹窗是否可见 */
 const isAnnouncementVisible = ref(false);

@@ -1,29 +1,12 @@
-export interface Lesson {
-  campus: string;
-  classID: string;
-  className: string;
-  credits: string;
-  id: string;
-  lessonHours: string;
-  lessonName: string;
-  lessonPlace: string;
-  placeID: string;
-  /** 课程从第几节到第几节 */
-  sections: string;
-  teacherName: string;
-  type: string;
-  /** 第几周 */
-  week: string;
-  /** 周几 */
-  weekday: string;
+import { QueryLessonsTableResponse } from "@/api/types/zf";
+
+export type LessonBase = QueryLessonsTableResponse["lessonsTable"][number];
+
+export interface Lesson extends LessonBase {
   /** 课程颜色 */
   color?: string;
   /** 层数，0为正常层，≥1为冲突层 */
   stack?: number;
 }
-export interface PracticeLesson {
-  className: string;
-  credits: string;
-  lessonName: string;
-  teacherName: string;
-}
+
+export type PracticeLesson = QueryLessonsTableResponse["practiceLessons"][number];

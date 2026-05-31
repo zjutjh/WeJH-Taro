@@ -1,4 +1,5 @@
-import { Lesson } from "@/types/Lesson";
+import { isSectionsOverlap } from "@/pages/lessonstable/_utils/sections";
+import { Lesson } from "@/types/lesson";
 
 /**
  * 二维布局：将课程排布到 7x12 网格中，并计算冲突层 stack。
@@ -12,8 +13,8 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
 
   for (let weekday = 1; weekday <= 7; weekday++) {
     const dayGrid = timeGrid.get(weekday);
-    if (!dayGrid) continue;
 
+    if (!dayGrid) continue;
     let stack = 0;
 
     for (;;) {
@@ -21,8 +22,7 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
       let nowCell = 1;
 
       while (nowCell <= 12) {
-        const cellLessons = dayGrid.get(nowCell) || [];
-
+        const cellLessons = dayGrid.get(nowCell) ?? [];
         const unprocessedLessons = cellLessons.filter(
           (lesson) => !processedLessons.has(getLessonUniqueId(lesson))
         );
@@ -30,12 +30,18 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
         if (unprocessedLessons.length > 0) {
           hasRemainingLessons = true;
 
-          const longestLesson = selectLongestLesson(unprocessedLessons);
-          laidOutLessons.push({
-            ...longestLesson,
-            stack
-          });
+          let longestLesson: Lesson = unprocessedLessons[0];
 
+          for (let idx = 1; idx < unprocessedLessons.length; idx++) {
+            const current = unprocessedLessons[idx];
+
+            const longestDuration = getLessonDuration(longestLesson);
+            const currentDuration = getLessonDuration(current);
+
+            if (currentDuration > longestDuration) longestLesson = current;
+          }
+
+          laidOutLessons.push({ ...longestLesson, stack });
           processedLessons.add(getLessonUniqueId(longestLesson));
 
           const [start, end] = longestLesson.sections.split("-").map(Number);
@@ -47,18 +53,13 @@ export function buildTwoDimensionalLayout(lessonsList: Lesson[]): Lesson[] {
             );
             if (index !== -1) sectionLessons.splice(index, 1);
           }
-
           nowCell = end + 1;
-        } else {
-          nowCell++;
-        }
+        } else nowCell++;
       }
-
       if (!hasRemainingLessons) break;
       stack++;
     }
   }
-
   return laidOutLessons;
 }
 
@@ -72,54 +73,46 @@ export function colorLessons(lessonsList: Lesson[], palette: string[]): Lesson[]
   const nodes = result.map((lesson, index) => toLessonColorNode(lesson, index));
   const adjacency = nodes.map(() => new Set<number>());
 
-  for (let i = 0; i < nodes.length; i++) {
+  for (let i = 0; i < nodes.length; i++)
     for (let j = i + 1; j < nodes.length; j++) {
       if (!isHardConflict(nodes[i], nodes[j])) continue;
       adjacency[i].add(j);
       adjacency[j].add(i);
     }
-  }
 
   const order = nodes
     .map((node, idx) => ({ node, index: idx, degree: adjacency[idx].size }))
-    .sort((a, b) => {
-      if (b.degree !== a.degree) return b.degree - a.degree;
-      if (b.node.duration !== a.node.duration) return b.node.duration - a.node.duration;
-      if (a.node.weekday !== b.node.weekday) return a.node.weekday - b.node.weekday;
-      if (a.node.start !== b.node.start) return a.node.start - b.node.start;
-      if (a.node.stack !== b.node.stack) return a.node.stack - b.node.stack;
-      return a.node.index - b.node.index;
-    });
+    .sort(
+      (a, b) =>
+        b.degree - a.degree ||
+        b.node.duration - a.node.duration ||
+        a.node.weekday - b.node.weekday ||
+        a.node.start - b.node.start ||
+        a.node.stack - b.node.stack ||
+        a.node.index - b.node.index
+    );
 
   const assigned = new Map<number, string>();
-  const colorUseCount = new Map<string, number>();
+  const colorUseCount = new Map(palette.map((color) => [color, 0]));
   const classPreferredColor = new Map<string, string>();
-  palette.forEach((color) => colorUseCount.set(color, 0));
 
   for (const { node, index } of order) {
     const neighborColors = new Set<string>();
-    adjacency[index].forEach((neighborIdx) => {
+    for (const neighborIdx of adjacency[index]) {
       const color = assigned.get(neighborIdx);
       if (color) neighborColors.add(color);
-    });
+    }
 
     const availableColors = palette.filter((color) => !neighborColors.has(color));
     const classKey = `${node.stack}-${node.lesson.classID}`;
     const preferred = classPreferredColor.get(classKey);
 
-    let selectedColor = "";
-
-    if (preferred && availableColors.includes(preferred)) {
-      selectedColor = preferred;
-    } else if (availableColors.length > 0) {
-      selectedColor = [...availableColors].sort(
-        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
-      )[0];
-    } else {
-      selectedColor = [...palette].sort(
-        (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
-      )[0];
-    }
+    const selectedColor =
+      preferred && availableColors.includes(preferred)
+        ? preferred
+        : [...(availableColors.length > 0 ? availableColors : palette)].sort(
+            (a, b) => (colorUseCount.get(a) || 0) - (colorUseCount.get(b) || 0)
+          )[0];
 
     assigned.set(index, selectedColor);
     colorUseCount.set(selectedColor, (colorUseCount.get(selectedColor) || 0) + 1);
@@ -136,33 +129,23 @@ function createTimeGrid(lessonsList: Lesson[]): Map<number, Map<number, Lesson[]
 
   for (let weekday = 1; weekday <= 7; weekday++) {
     const dayGrid = new Map<number, Lesson[]>();
-    for (let section = 1; section <= 12; section++) {
-      dayGrid.set(section, []);
-    }
+    for (let section = 1; section <= 12; section++) dayGrid.set(section, []);
+
     grid.set(weekday, dayGrid);
   }
 
-  lessonsList.forEach((lesson) => {
-    const weekday = parseInt(lesson.weekday);
+  for (const lesson of lessonsList) {
+    const weekday = Number.parseInt(lesson.weekday);
     const [start, end] = lesson.sections.split("-").map(Number);
-    for (let section = start; section <= end; section++) {
+    for (let section = start; section <= end; section++)
       grid.get(weekday)?.get(section)?.push(lesson);
-    }
-  });
+  }
 
   return grid;
 }
 
 function getLessonUniqueId(lesson: Lesson): string {
   return `${lesson.id}-${lesson.week}-${lesson.weekday}-${lesson.sections}`;
-}
-
-function selectLongestLesson(lessonsList: Lesson[]): Lesson {
-  return lessonsList.reduce((longest, current) => {
-    const longestDuration = getLessonDuration(longest);
-    const currentDuration = getLessonDuration(current);
-    return currentDuration > longestDuration ? current : longest;
-  });
 }
 
 function getLessonDuration(lesson: Lesson): number {
@@ -173,7 +156,7 @@ function getLessonDuration(lesson: Lesson): number {
 /**
  * 图着色节点：用于课程冲突图的建模。
  */
-type LessonColorNode = {
+interface LessonColorNode {
   /** 对应课程在结果数组中的下标 */
   index: number;
   /** 原始课程对象 */
@@ -188,10 +171,6 @@ type LessonColorNode = {
   stack: number;
   /** 课程时长（end - start + 1） */
   duration: number;
-};
-
-function getLessonStack(lesson: Lesson): number {
-  return lesson.stack || 0;
 }
 
 function toLessonColorNode(lesson: Lesson, index: number): LessonColorNode {
@@ -199,18 +178,12 @@ function toLessonColorNode(lesson: Lesson, index: number): LessonColorNode {
   return {
     index,
     lesson,
-    weekday: parseInt(lesson.weekday),
+    weekday: Number.parseInt(lesson.weekday),
     start,
     end,
-    stack: getLessonStack(lesson),
+    stack: lesson.stack || 0,
     duration: end - start + 1
   };
-}
-
-function isSectionsOverlap(sectionsA: string, sectionsB: string): boolean {
-  const [startA, endA] = sectionsA.split("-").map(Number);
-  const [startB, endB] = sectionsB.split("-").map(Number);
-  return !(endA < startB || endB < startA);
 }
 
 function isVerticalAdjacent(a: LessonColorNode, b: LessonColorNode): boolean {

@@ -1,6 +1,17 @@
 import dayjs, { ConfigType as DayjsConfigType } from "dayjs";
 import plugin from "dayjs/plugin/duration";
 
+/**
+ * 计算距离某日的分钟数之差
+ * @param timeBefore
+ * @param timeAfter
+ * @returns 分钟数
+ * @deprecated 建议所有时间差计算逻辑统一使用diffTime
+ */
+export function getMinuteInterval(timeBefore?: DayjsConfigType, timeAfter?: DayjsConfigType) {
+  return dayjs(timeBefore).diff(dayjs(timeAfter).startOf("day"), "minute");
+}
+
 /** 时间单位 */
 export type DiffTimeUnit = Exclude<keyof plugin.DurationUnitsObjectType, "weeks">;
 

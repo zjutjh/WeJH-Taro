@@ -143,14 +143,6 @@
   }
 }
 
-.now-index {
-  height: 2Px;
-  background-color: var(--wjh-color-primary-dark);
-  position: absolute;
-  width: calc(126% + 2rem);
-  z-index: 1100;
-}
-
 .now-week-index {
   height: 100%;
   width: calc(100% / 7);
