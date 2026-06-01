@@ -1,6 +1,6 @@
 <template>
   <card size="small" :class="styles.component">
-    <w-collapse :class="[styles.examCollapseItem, isExamInOneDay ? styles.highlight : '']">
+    <w-collapse :class="[styles.examCollapseItem, { [styles.highlight]: isExamInOneDay }]">
       <w-collapse-panel :arrow="true">
         <template #header>
           <view :class="styles.collapseHeader">

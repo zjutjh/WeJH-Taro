@@ -18,10 +18,9 @@
       :class="styles.examCard"
     >
       <view :class="styles.textWrapper">
-        <view
-          :class="[styles.examName, item.meta.phase === 'inProgress' ? styles.highlight : '']"
-          >{{ item.lessonName }}</view
-        >
+        <view :class="[styles.examName, { [styles.highlight]: item.meta.phase === 'inProgress' }]">
+          {{ item.lessonName }}
+        </view>
         <view :class="styles.examTime">
           <text>{{ item.meta.startAt.format("MM/DD") }}</text>
           <text>{{ item.meta.startAt.format("HH:mm") }}</text>
