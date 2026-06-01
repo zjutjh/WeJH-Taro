@@ -97,9 +97,7 @@ export const diffTime = (
     let approaching = base.clone();
 
     // 从大到小，计算每个单位的时间差
-    for (let curUnitIndex = 0; curUnitIndex < timeUnitList.length; ++curUnitIndex) {
-      /** 当前单位 */
-      const unit = timeUnitList[curUnitIndex];
+    for (const [curUnitIndex, unit] of timeUnitList.entries()) {
       // 当前单位比maxUnit大，跳过
       if (curUnitIndex < maxUnitIndex) continue;
 
