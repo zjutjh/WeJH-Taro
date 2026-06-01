@@ -84,10 +84,10 @@ import { helpText } from "@/constants/copywriting";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
+import { ExamInfoExtended } from "@/types/exam";
 import { diffTime, parseZfExamTime } from "@/utils";
 
 import ExamInfoCard from "./_components/exam-info-card/index.vue";
-import { ExamInfoExtended } from "./_type.js";
 import styles from "./index.module.scss";
 
 /** 所选学年 */

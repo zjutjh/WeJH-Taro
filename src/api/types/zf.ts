@@ -1,4 +1,4 @@
-import { ExamInfo } from "@/types/Exam";
+import { ExamInfo } from "@/types/exam";
 
 export type QueryLessonsTableRequest = {
   year: string;

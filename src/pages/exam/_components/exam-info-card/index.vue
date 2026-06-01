@@ -49,7 +49,7 @@
 import { computed, toRef } from "vue";
 
 import { Card, WCollapse, WCollapsePanel, WDescriptions, WDescriptionsItem } from "@/components";
-import { ExamInfoExtended } from "@/types/Exam";
+import { ExamInfoExtended } from "@/types/exam";
 import { formatDuration, getWeekday } from "@/utils";
 
 import styles from "./index.module.scss";
