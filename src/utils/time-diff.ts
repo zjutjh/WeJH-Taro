@@ -89,9 +89,7 @@ export const diffTime = (
 
   // 不相等，计算时间差
   if (diffType !== "same") {
-    /** maxUnit在timeUnitList中的索引 */
     const maxUnitIndex = timeUnitList.indexOf(maxUnit);
-    /** minUnit在timeUnitList中的索引 */
     const minUnitIndex = timeUnitList.indexOf(minUnit);
     /** 用于计算时间差的临时量，从基准时间开始不断接近目标时间 */
     let approaching = base.clone();
@@ -103,7 +101,7 @@ export const diffTime = (
 
       /** 当前单位下的时间差（整数） */
       const curUnitDiff = target.diff(approaching, unit);
-      // 存入绝对值
+
       diffValue[unit] = Math.abs(curUnitDiff);
 
       // 已经到达minUnit，终止
