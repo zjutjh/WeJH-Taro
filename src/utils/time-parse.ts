@@ -10,9 +10,9 @@ export interface ParseZfExamTimeReturn {
  * @param zfTimeStr 例：2023-02-17(13:30-15:30) */
 export const parseZfExamTime = (zfTimeStr: string): ParseZfExamTimeReturn => {
   /** 考试日期 正则字符串 */
-  const dateRegStr = /([0-9]+-[0-9]+-[0-9]+)/.source;
+  const dateRegStr = /(\d+-\d+-\d+)/.source;
   /** 开始与结束时刻 正则字符串 */
-  const timeRegStr = /([0-9]+:[0-9]+)/.source;
+  const timeRegStr = /(\d+:\d+)/.source;
   /** 完整正则表达式 */
   const regExp = new RegExp(String.raw`^${dateRegStr}\(${timeRegStr}-${timeRegStr}\)$`);
 
