@@ -82,6 +82,6 @@ const examDateTextSuffix = computed(() => {
 /** 教师列表文本 */
 const teacherNameText = computed(() =>
   // 替换分号为全角，去除姓名以外的内容
-  props.data.teacherName.replace(/;/g, "；").replace(/[^；]*?\//g, "")
+  props.data.teacherName.replaceAll(";", "；").replaceAll(/[^；]*?\//g, "")
 );
 </script>
