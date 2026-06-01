@@ -69,15 +69,19 @@ const selectYear = computed(() => systemStore.generalInfo.termYear);
 const selectTerm = computed(() => systemStore.generalInfo.term);
 
 // 获取考试安排列表
-const { data: examInfoData, dataUpdatedAt: examInfoUpdatedAt } = useQuery({
+const {
+  data: examInfoData,
+  dataUpdatedAt: examInfoUpdatedAt,
+  isError: isExamInfoError
+} = useQuery({
   queryKey: [QUERY_KEY.ZF_EXAM, selectYear, selectTerm] as const,
   queryFn: ({ queryKey }) => zfServiceNext.QueryExamInfo({ year: queryKey[1], term: queryKey[2] })
 });
 
 /** 更新时间文本 */
 const updateTimeText = computed(() => {
-  if (examInfoUpdatedAt.value) return dayjs(examInfoUpdatedAt.value).fromNow();
-  return "更新失败!";
+  if (isExamInfoError.value) return "更新失败";
+  return examInfoUpdatedAt.value ? dayjs(examInfoUpdatedAt.value).fromNow() : "请稍候";
 });
 
 /** 加工筛选后的考试信息列表 */
