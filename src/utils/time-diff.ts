@@ -15,17 +15,6 @@ export function getMinuteInterval(timeBefore?: DayjsConfigType, timeAfter?: Dayj
 /** 时间单位 */
 export type DiffTimeUnit = Exclude<keyof plugin.DurationUnitsObjectType, "weeks">;
 
-/** 时间单位列表（从大到小） */
-const timeUnitList = [
-  "years",
-  "months",
-  "days",
-  "hours",
-  "minutes",
-  "seconds",
-  "milliseconds"
-] as const satisfies DiffTimeUnit[];
-
 /** 目标时间比基准时间更早/更晚/相等 */
 export type DiffTimeType = "earlier" | "later" | "same" | "invalid";
 interface DiffTimeOptions {
@@ -62,6 +51,17 @@ export const diffTime = (
     ...options
   };
 
+  /** 时间单位列表（从大到小） */
+  const TIME_UNIT_LIST = [
+    "years",
+    "months",
+    "days",
+    "hours",
+    "minutes",
+    "seconds",
+    "milliseconds"
+  ] as const satisfies DiffTimeUnit[];
+
   /** 目标时间Dayjs实例 */
   const target = dayjs(targetTime);
   /** 基准时间Dayjs实例 */
@@ -89,13 +89,13 @@ export const diffTime = (
 
   // 不相等，计算时间差
   if (diffType !== "same") {
-    const maxUnitIndex = timeUnitList.indexOf(maxUnit);
-    const minUnitIndex = timeUnitList.indexOf(minUnit);
+    const maxUnitIndex = TIME_UNIT_LIST.indexOf(maxUnit);
+    const minUnitIndex = TIME_UNIT_LIST.indexOf(minUnit);
     /** 用于计算时间差的临时量，从基准时间开始不断接近目标时间 */
     let approaching = base.clone();
 
     // 从大到小，计算每个单位的时间差
-    for (const [curUnitIndex, unit] of timeUnitList.entries()) {
+    for (const [curUnitIndex, unit] of TIME_UNIT_LIST.entries()) {
       // 当前单位比maxUnit大，跳过
       if (curUnitIndex < maxUnitIndex) continue;
 
@@ -113,7 +113,7 @@ export const diffTime = (
   }
 
   // 将各单位的空值填充为0
-  timeUnitList.forEach((unit) => (diffValue[unit] ??= 0));
+  TIME_UNIT_LIST.forEach((unit) => (diffValue[unit] ??= 0));
 
   return {
     diffType,
