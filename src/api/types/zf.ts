@@ -1,3 +1,5 @@
+import { ExamInfo } from "@/types/Exam";
+
 export type QueryLessonsTableRequest = {
   year: string;
   term: string;
@@ -61,20 +63,6 @@ export type QueryMidtermScoreResponse = Array<{
   score: string;
   teacherName: string;
 }>;
-
-/** 考试安排 */
-export interface ExamInfo {
-  campus: string;
-  className: string;
-  credits: string;
-  examPlace: string;
-  examTime: string;
-  id: string;
-  lessonName: string;
-  lessonPlace: string;
-  seatNum: string;
-  teacherName: string;
-}
 
 /** 查询考试安排 请求 */
 export type QueryExamInfoRequest = {

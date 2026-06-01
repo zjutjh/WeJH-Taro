@@ -1,7 +1,20 @@
 import dayjs from "dayjs";
 
-import { ExamInfo } from "@/api/types/zf";
 import { DiffTimeReturn } from "@/utils";
+
+/** 考试安排 */
+export interface ExamInfo {
+  campus: string;
+  className: string;
+  credits: string;
+  examPlace: string;
+  examTime: string;
+  id: string;
+  lessonName: string;
+  lessonPlace: string;
+  seatNum: string;
+  teacherName: string;
+}
 
 /** 考试信息（字段拓展） */
 export interface ExamInfoExtended extends ExamInfo {

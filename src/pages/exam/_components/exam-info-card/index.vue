@@ -50,9 +50,9 @@ import { defaultTo } from "lodash-es";
 import { computed, toRef } from "vue";
 
 import { Card, WCollapse, WCollapsePanel, WDescriptions, WDescriptionsItem } from "@/components";
+import { ExamInfoExtended } from "@/types/Exam";
 import { formatDuration, getWeekday } from "@/utils";
 
-import { ExamInfoExtended } from "../../_type";
 import styles from "./index.module.scss";
 
 const props = defineProps<{
