@@ -133,7 +133,7 @@ const examDerivativeList = computed(() => {
   );
 
   // 从近到远排序
-  list = sortBy(list, (exam) => parseZfExamTime(exam.examTime).startAt.valueOf());
+  list = sortBy(list, (exam) => exam.meta.startAt.valueOf());
 
   return list;
 });
