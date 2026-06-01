@@ -71,7 +71,7 @@ export const diffTime = (
   if (!target.isValid() || !base.isValid())
     return {
       diffType: "invalid",
-      abs: dayjs.duration(NaN)
+      abs: dayjs.duration(Number.NaN)
     };
 
   /** 结果(差距绝对值) 对象形式 */

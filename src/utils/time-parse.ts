@@ -25,8 +25,8 @@ export const parseZfExamTime = (zfTimeStr: string): ParseZfExamTimeReturn => {
   // 字符串不满足格式
   if (!(date && startTime && endTime))
     return {
-      startAt: dayjs(NaN),
-      endAt: dayjs(NaN)
+      startAt: dayjs(Number.NaN),
+      endAt: dayjs(Number.NaN)
     };
 
   return {
