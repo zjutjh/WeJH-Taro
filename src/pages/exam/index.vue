@@ -51,8 +51,7 @@
       <view :class="styles.col" />
       <view :class="styles.col">
         <term-picker
-          v-model:year="selectedYear"
-          v-model:term="selectedTerm"
+          v-model="selectedYearAndTerm"
           :term-year="Number(systemStore.generalInfo.termYear)"
           :selectflag="0"
         />
@@ -69,7 +68,7 @@
 import { useQuery } from "@tanstack/vue-query";
 import { useNow } from "@vueuse/core";
 import { defaultTo, filter, isEmpty, map, sortBy } from "lodash-es";
-import { computed, ref } from "vue";
+import { computed, ref, toRef } from "vue";
 
 import {
   BottomPanel,
@@ -90,10 +89,11 @@ import { diffTime, parseZfExamTime } from "@/utils";
 import ExamInfoCard from "./_components/exam-info-card/index.vue";
 import styles from "./index.module.scss";
 
-/** 所选学年 */
-const selectedYear = ref(systemStore.generalInfo.termYear);
-/** 所选学期 */
-const selectedTerm = ref(systemStore.generalInfo.term);
+/** 所选学年学期 */
+const selectedYearAndTerm = ref({
+  year: systemStore.generalInfo.termYear,
+  term: systemStore.generalInfo.term
+});
 
 // 获取考试安排列表
 const {
@@ -101,7 +101,11 @@ const {
   isFetching: isExamInfoFetching,
   refetch: refreshExamInfoData
 } = useQuery({
-  queryKey: [QUERY_KEY.ZF_EXAM, selectedYear, selectedTerm] as const,
+  queryKey: [
+    QUERY_KEY.ZF_EXAM,
+    toRef(() => selectedYearAndTerm.value.year),
+    toRef(() => selectedYearAndTerm.value.term)
+  ] as const,
   queryFn: ({ queryKey }) => zfServiceNext.QueryExamInfo({ year: queryKey[1], term: queryKey[2] })
 });
 
