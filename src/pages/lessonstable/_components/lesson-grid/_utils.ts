@@ -16,7 +16,12 @@ export function lessonKey(cl: Lesson) {
  * splitNameAndRoom("子良A347")
  */
 export function splitNameAndRoom(str: Lesson["lessonPlace"]) {
-  const NAME_ROOM_RE = /^(\P{ASCII}*)([\s\S]*)$/u;
-  const match = NAME_ROOM_RE.exec(str);
-  return match ? [match[1], match[2]] : [str, ""];
+  let index = 0;
+
+  while (index < str.length) {
+    const code = str.codePointAt(index);
+    if (code !== undefined && code <= 255) break;
+    index++;
+  }
+  return [str.slice(0, index), str.slice(index)];
 }

@@ -60,7 +60,6 @@
         <term-picker
           v-model="selectedYearAndTerm"
           :term-year="Number(systemStore.generalInfo.termYear)"
-          :selectflag="0"
         />
       </view>
       <view :class="styles.col">
