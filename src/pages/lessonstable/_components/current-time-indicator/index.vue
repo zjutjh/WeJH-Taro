@@ -9,7 +9,7 @@ import {
   DAY_SCHEDULE_START_TIME,
   LESSON_DURATION_MINUTES
 } from "@/constants/day-schedule-start-time";
-import { getMinuteInterval } from "@/utils/time";
+import { getMinuteInterval } from "@/utils";
 
 import styles from "./index.module.scss";
 

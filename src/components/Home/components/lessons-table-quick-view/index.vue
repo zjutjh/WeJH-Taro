@@ -62,7 +62,7 @@ import { isLessonActiveInWeek } from "@/pages/lessonstable/_utils/weeks";
 import { zfServiceNext } from "@/services";
 import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
-import { getMinuteInterval } from "@/utils/time";
+import { getMinuteInterval } from "@/utils";
 
 import QuickViewContainer from "../quick-view-container/index.vue";
 

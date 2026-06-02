@@ -1,6 +1,6 @@
 import { set } from "lodash-es";
 
-import { Exam } from "@/types/Exam";
+import { ExamInfo } from "@/types/exam";
 import { Lesson, PracticeLesson } from "@/types/lesson";
 import { Room } from "@/types/Room";
 import { Score } from "@/types/Score";
@@ -26,7 +26,7 @@ export interface ZFServiceType {
   /** 课程表信息，按年份、学期分层 */
   lessonsTableInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<LessonsTableData>>>;
   /** 考试信息，按年份、学期分层 */
-  examInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<Exam[]>>>;
+  examInfo: YearValueRecord<TermValueRecord<StoreDataWithUpdateTime<ExamInfo[]>>>;
   /** 成绩信息，按年份、学期、期中/期末分层 */
   scoreInfo: YearValueRecord<TermValueRecord<PeriodValueRecord<StoreDataWithUpdateTime<Score[]>>>>;
   /** 空教室信息 */
@@ -61,12 +61,12 @@ export const ZFServiceStore = {
     },
     setExamInfo(
       state: ZFServiceType,
-      value: { term: string; year: string; examInfo: Exam[] | null }
+      value: { term: string; year: string; examInfo: ExamInfo[] | null }
     ) {
       set(state, ["examInfo", value.year, value.term], {
         data: value.examInfo ?? [],
         updateTime: new Date()
-      } satisfies StoreDataWithUpdateTime<Exam[]>);
+      } satisfies StoreDataWithUpdateTime<ExamInfo[]>);
     },
     setScoreInfo(
       state: ZFServiceType,

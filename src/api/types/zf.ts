@@ -1,3 +1,5 @@
+import { ExamInfo } from "@/types/exam";
+
 export type QueryLessonsTableRequest = {
   year: string;
   term: string;
@@ -62,21 +64,14 @@ export type QueryMidtermScoreResponse = Array<{
   teacherName: string;
 }>;
 
-export type QueryExamRequest = QueryLessonsTableRequest;
+/** 查询考试安排 请求 */
+export type QueryExamInfoRequest = {
+  year: string;
+  term: "上" | "下" | "短";
+};
 
-/** 查询考试安排 */
-export type QueryExamResponse = Array<{
-  campus: string;
-  className: string;
-  credits: string;
-  examPlace: string;
-  examTime: string;
-  id: string;
-  lessonName: string;
-  lessonPlace: string;
-  seatNum: string;
-  teacherName: string;
-}>;
+/** 查询考试安排 响应 */
+export type QueryExamInfoResponse = ExamInfo[];
 
 /** 查询期末成绩 */
 export type QueryScoreResponse = Array<{
