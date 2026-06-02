@@ -19,31 +19,38 @@
           </card>
         </view>
         <template v-else>
-          <view :class="styles.categoryTitleWrapper">
-            <view :class="styles.categoryTag">待考</view>
-          </view>
-          <view :class="styles.cardList">
-            <exam-info-card
-              v-for="item in examInfoList.notFinished"
-              :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
-              size="small"
-              :data="item"
-              :now="refNow"
-            />
-          </view>
-          <view :class="styles.divider" />
-          <view :class="styles.categoryTitleWrapper">
-            <view :class="styles.categoryTag">已考</view>
-          </view>
-          <view :class="styles.cardList">
-            <exam-info-card
-              v-for="item in examInfoList.finished"
-              :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
-              size="small"
-              :data="item"
-              :now="refNow"
-            />
-          </view>
+          <template v-if="!isEmpty(examInfoList.notFinished)">
+            <view :class="styles.categoryTitleWrapper">
+              <view :class="styles.categoryTag">待考</view>
+            </view>
+            <view :class="styles.cardList">
+              <exam-info-card
+                v-for="item in examInfoList.notFinished"
+                :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
+                size="small"
+                :data="item"
+                :now="refNow"
+              />
+            </view>
+          </template>
+          <view
+            v-if="!isEmpty(examInfoList.notFinished) && !isEmpty(examInfoList.finished)"
+            :class="styles.divider"
+          />
+          <template v-if="!isEmpty(examInfoList.finished)">
+            <view :class="styles.categoryTitleWrapper">
+              <view :class="styles.categoryTag">已考</view>
+            </view>
+            <view :class="styles.cardList">
+              <exam-info-card
+                v-for="item in examInfoList.finished"
+                :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
+                size="small"
+                :data="item"
+                :now="refNow"
+              />
+            </view>
+          </template>
         </template>
       </view>
     </scroll-view>
