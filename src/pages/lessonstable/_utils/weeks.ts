@@ -50,8 +50,10 @@ export function isLessonActiveInWeek(lessonWeekStr: string | undefined, week: nu
     if (time.includes("-")) {
       const start = Number.parseInt(time.split("-")[0]);
       const end = Number.parseInt(time.split("-")[1]);
-      if (week <= end && week >= start && !time.includes("单") && !time.includes("双")) return true;
-      return time.includes("单") === (week % 2 === 1);
+      if (week <= end && week >= start) {
+        if (!time.includes("单") && !time.includes("双")) return true;
+        if (time.includes("单") === (week % 2 === 1)) return true;
+      }
     } else if (week === Number.parseInt(time)) return true;
 
   return false;
