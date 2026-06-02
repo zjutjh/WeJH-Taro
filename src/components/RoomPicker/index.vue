@@ -15,6 +15,7 @@ import { onMounted, ref } from "vue";
 
 import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
 import { systemStore } from "@/store";
+import { getMinuteInterval } from "@/utils/time-diff.js";
 
 import WButton from "../Button/index.vue";
 
@@ -71,7 +72,7 @@ onMounted(() => {
 });
 
 function getCurrentSection() {
-  const currentMinutes = dayjs().diff(dayjs(), "minute");
+  const currentMinutes = getMinuteInterval();
   const currentSection =
     DAY_SCHEDULE_START_TIME.findIndex((item) => currentMinutes < item.hour * 60 + item.min) + 1 ||
     12;
