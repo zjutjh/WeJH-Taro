@@ -15,7 +15,7 @@ import { onMounted, ref } from "vue";
 
 import { DAY_SCHEDULE_START_TIME } from "@/constants/day-schedule-start-time";
 import { systemStore } from "@/store";
-import { getMinuteInterval } from "@/utils/time-diff.js";
+import { getMinuteInterval } from "@/utils/time-diff";
 
 import WButton from "../Button/index.vue";
 

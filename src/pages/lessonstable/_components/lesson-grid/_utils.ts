@@ -20,7 +20,7 @@ export function splitNameAndRoom(str: Lesson["lessonPlace"]) {
 
   while (index < str.length) {
     const code = str.codePointAt(index);
-    if (code && code <= 255) break;
+    if (code !== undefined && code <= 255) break;
     index++;
   }
   return [str.slice(0, index), str.slice(index)];
