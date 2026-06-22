@@ -1,0 +1,108 @@
+.headerView {
+  height: 200Px;
+  background-color: var(--wjh-color-primary);
+  display: flex;
+
+  image {
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .extra {
+    position: absolute;
+    color: var(--wjh-color-white);
+    right: 16Px;
+    top: 145Px;
+    text-align: center;
+
+    .iconWrapper {
+      width: 32Px;
+      height: 32Px;
+      background-color: var(--wjh-color-white);
+      text-align: center;
+      border-radius: 50%;
+
+      .extraIcon {
+        color: var(--wjh-color-primary);
+        font-size: 1.5rem;
+      }
+    }
+
+    .label {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.contentView {
+  display: flex;
+  flex-direction: column;
+  padding: {
+    top: 1.2rem;
+    bottom: 3rem;
+  }
+
+  .categoryTitleWrapper {
+    display: flex;
+    margin-bottom: 1rem;
+
+    .categoryTag {
+      background-color: var(--wjh-color-primary);
+      box-shadow: var(--wjh-shadow);
+      font-size: 1.2rem;
+      line-height: 1.2rem;
+      letter-spacing: 0.1rem;
+      color: var(--wjh-color-white);
+      font-weight: var(--wjh-font-weight-bold);
+      border-top-right-radius: 1.8rem;
+      border-bottom-right-radius: 1.8rem;
+      padding: {
+        top: 0.6rem;
+        bottom: 0.6rem;
+        left: 2rem;
+        right: 0.8rem;
+      }
+    }
+  }
+
+  .cardList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: {
+      left: 1rem;
+      right: 1rem;
+    }
+
+    .emptyCard {
+      text-align: center;
+    }
+  }
+
+  .divider {
+    height: 2Px;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 0.1) 80%, transparent);
+    margin: {
+      top: 2rem;
+      bottom: 1.5rem;
+    }
+  }
+}
+
+.examBottomPanel {
+
+  .col {
+    text-align: center;
+    flex: auto;
+
+    &:first-child {
+      flex: 0 0 20%;
+      text-align: end;
+    }
+
+    &:last-child {
+      flex: 0 0 20%;
+      text-align: start;
+    }
+  }
+}

@@ -3,47 +3,36 @@
     title="考试安排"
     icon-name="exam"
     :help="true"
-    class="exam-quick-view"
+    :class="styles.examQuickView"
     @tap="nav2Exam"
-    @handle-tap-help="handleTapHelp"
+    @handle-tap-help="handleHelpTap"
   >
-    <text class="sub-text"> 近期考试 ({{ updateTimeString }}) </text>
-    <card v-if="!filteredExamItems || filteredExamItems.length === 0" style="text-align: center">
+    <text class="sub-text">近期考试 ({{ updateTimeText }})</text>
+    <card v-if="!examDerivativeList || examDerivativeList.length === 0" style="text-align: center">
       未查询到近日考试信息
     </card>
-    <card v-for="item in filteredExamItems" v-else :key="item.id" class="exam-card">
-      <view style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
-        <view class="text-wrapper">
-          <view :class="['exam-name', examState(item.examTime)]">
-            {{ item.lessonName }}
-          </view>
-          <view class="exam-time">
-            <text> {{ dayjs(getExamTime(item.examTime).date).format("MM/DD") }} </text>
-            <text> {{ getExamTime(item.examTime).start }} </text>
-          </view>
+    <card
+      v-for="item in examDerivativeList"
+      v-else
+      :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
+      :class="styles.examCard"
+    >
+      <view :class="styles.textWrapper">
+        <view :class="[styles.examName, { [styles.highlight]: item.meta.phase === 'inProgress' }]">
+          {{ item.lessonName }}
         </view>
-        <view class="text-wrapper">
-          <text class="exam-place">
-            {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
-          </text>
-          <view class="exam-state">
-            <text v-if="examState(item.examTime) === 'taking'" class="taking"> 正在考试 </text>
-            <text v-else-if="examState(item.examTime) === 'after'"> 考试已结束 </text>
-            <template v-else-if="examState(item.examTime) === 'before'">
-              <text v-if="timeUtils.getDayInterval(getExamTime(item.examTime).date) > 0">
-                还有 {{ timeUtils.getDayInterval(getExamTime(item.examTime).date) }} 天开始
-              </text>
-              <template v-else>
-                <text v-if="minuteInterval(getExamTime(item.examTime).start) >= 60">
-                  还有
-                  {{ Math.floor(minuteInterval(getExamTime(item.examTime).start) / 60) }} 小时开始
-                </text>
-                <text v-else>
-                  还有 {{ minuteInterval(getExamTime(item.examTime).start) }} 分钟开始
-                </text>
-              </template>
-            </template>
-          </view>
+        <view :class="styles.examTime">
+          <text>{{ item.meta.startAt.format("MM/DD") }}</text>
+          <text>{{ item.meta.startAt.format("HH:mm") }}</text>
+        </view>
+      </view>
+      <view :class="styles.textWrapper">
+        <text :class="styles.examPlace">{{ `${item.examPlace} - 座位号：${item.seatNum}` }}</text>
+        <view :class="styles.examState">
+          <text v-if="item.meta.phase === 'inProgress'" :class="styles.highlight">正在考试</text>
+          <text v-else-if="item.meta.phase === 'notStarted' && item.meta.startAt.isValid()"
+            >还有 {{ formatDuration(item.meta.startAtDiff.abs, { largest: 1 }) }}开始</text
+          >
         </view>
       </view>
     </card>
@@ -51,99 +40,111 @@
 </template>
 
 <script lang="ts" setup>
-import "./index.scss";
-
+import { useQuery } from "@tanstack/vue-query";
 import Taro from "@tarojs/taro";
+import { useNow } from "@vueuse/core";
 import dayjs from "dayjs";
-import { computed, onMounted, ref } from "vue";
+import { compact, map, sortBy } from "lodash-es";
+import { computed } from "vue";
 
 import { Card } from "@/components";
-import { ZFService } from "@/services";
+import { zfServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
-import { Exam } from "@/types/Exam";
-import { timeUtils } from "@/utils";
+import { diffTime, formatDuration, parseZfExamTime } from "@/utils";
 
 import QuickViewContainer from "../quick-view-container/index.vue";
+import type { ExamPhase } from "./_types";
+import styles from "./index.module.scss";
 
-const emit = defineEmits(["showHelp"]);
+const emit = defineEmits<{
+  showHelp: [helpType: string];
+}>();
 
-const selectTerm = ref({
-  year: systemStore.generalInfo.termYear,
-  term: systemStore.generalInfo.score || systemStore.generalInfo.term
+const refNow = useNow({ interval: 1000 * 10 });
+
+/** 所选学年 */
+const selectYear = computed(() => systemStore.generalInfo.termYear);
+/** 所选学期 */
+const selectTerm = computed(() => systemStore.generalInfo.term);
+
+// 获取考试安排列表
+const {
+  data: examInfoData,
+  dataUpdatedAt: examInfoUpdatedAt,
+  isError: isExamInfoError
+} = useQuery({
+  queryKey: [QUERY_KEY.ZF_EXAM, selectYear, selectTerm] as const,
+  queryFn: ({ queryKey }) => zfServiceNext.QueryExamInfo({ year: queryKey[1], term: queryKey[2] })
 });
 
-const updateTimeString = computed(() => {
-  if (updateTime.value) return dayjs(updateTime.value).fromNow();
-  return "更新失败!";
+/** 更新时间文本 */
+const updateTimeText = computed(() => {
+  if (isExamInfoError.value) return "更新失败";
+  return examInfoUpdatedAt.value ? dayjs(examInfoUpdatedAt.value).fromNow() : "请稍候";
 });
 
-/**
- * 筛选近期考试
- *
- * 未来3日
- */
-const filteredExamItems = computed(() => {
-  let list: Exam[] = [];
-  const exam = ZFService.getExamInfo(selectTerm.value).data;
-  list = exam.filter((item) => {
-    if (item.examTime === "未放开不可查") return 0;
-    const { date, start } = getExamTime(item.examTime);
-    // 距离考试的剩余时间(ms)，为正表示考试为开始，为负表示考试结束
-    const resDay = timeUtils.getDayInterval(new Date(`${date} ${start}:00`));
-    return resDay <= 3 && resDay >= 0 && examState(item.examTime) !== "after";
-  });
-  return list.sort((a, b) => {
-    const { date: dateA, start: timeA } = getExamTime(a.examTime);
-    const { date: dateB, start: timeB } = getExamTime(b.examTime);
-    return dayjs(`${dateA}-${timeA}`) < dayjs(`${dateB}-${timeB}`) ? 1 : -1;
-  });
+/** 加工筛选后的考试信息列表 */
+const examDerivativeList = computed(() => {
+  // 同时完成字段拓展和筛选
+  let list = compact(
+    map(examInfoData.value, (exam) => {
+      // 过滤未放开不可查的
+      if (exam.examTime === "未放开不可查") return null;
+
+      // 解析考试时间
+      const { startAt, endAt } = parseZfExamTime(exam.examTime);
+
+      // 过滤无效时间
+      if (!startAt.isValid()) return null;
+
+      /** 考试开始时间距今 */
+      const startAtDiff = diffTime(startAt, {
+        baseTime: refNow.value,
+        minUnit: "minutes"
+      });
+
+      // 过滤不在3天内的
+      if (startAtDiff.abs.asDays() > 3) return null;
+
+      // 判断考试时间范围
+      let phase: ExamPhase;
+      if (endAt.isBefore(refNow.value)) {
+        phase = "finished";
+      } else if (startAt.isAfter(refNow.value)) {
+        phase = "notStarted";
+      } else {
+        phase = "inProgress";
+      }
+
+      // 过滤已结束的
+      if (phase === "finished") return null;
+
+      return {
+        ...exam,
+        meta: {
+          startAt,
+          endAt,
+          startAtDiff,
+          phase
+        }
+      };
+    })
+  );
+
+  // 从近到远排序
+  list = sortBy(list, (exam) => exam.meta.startAt.valueOf());
+
+  return list;
 });
 
-const updateTime = computed(() => {
-  return ZFService.getExamInfo(selectTerm.value).updateTime;
-});
-
-function nav2Exam() {
-  Taro.navigateTo({ url: "/pages/exam/index" });
-}
-
-function handleTapHelp() {
+/** 点击显示帮助弹窗 */
+const handleHelpTap = () => {
   emit("showHelp", "exam-card");
-}
-
-function getExamTime(examTimeString: string) {
-  const examTime = examTimeString.split("(");
-  const detailedTime: string[] = examTime[1].split("-");
-  detailedTime[1] = detailedTime[1].slice(0, detailedTime[1].length - 1);
-  return {
-    date: examTime[0], // e.g. 2023-02-17
-    start: detailedTime[0], // e.g. 13:30
-    end: detailedTime[1] // e.g. 15:30
-  };
-}
-
-const minuteInterval = (clock: string) => {
-  const [hour, minute] = clock.split(":").map((item) => parseInt(item));
-  const { hours, minutes } = timeUtils.getHMInterval({ hour, minute });
-  return hours * 60 + minutes;
 };
 
-/**
- * 考试状态
- * @param examTimeString
- * @returns "before" | "taking" | "after"
- */
-function examState(examTimeString: string) {
-  const { date, start, end } = getExamTime(examTimeString);
-  const nowTime = new Date();
-  const startTime = new Date(`${date} ${start}:00`);
-  const endTime = new Date(`${date} ${end}`);
-  if (nowTime.getTime() - startTime.getTime() < 0) return "before";
-  else if (nowTime.getTime() - endTime.getTime() <= 0) return "taking";
-  return "after";
-}
-
-onMounted(() => {
-  ZFService.updateExamInfo(selectTerm.value);
-});
+/** 跳转考试安排页 */
+const nav2Exam = () => {
+  Taro.navigateTo({ url: "/pages/exam/index" });
+};
 </script>

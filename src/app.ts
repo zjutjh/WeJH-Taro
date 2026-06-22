@@ -7,8 +7,8 @@ import "@/plugins/aegis";
 import { VueQueryPlugin } from "@tanstack/vue-query";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
-import utc from "dayjs/plugin/utc"; // dependent on utc plugin
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
@@ -19,7 +19,7 @@ import { globalQueryClient } from "./utils/vue-query";
 
 dayjs.locale("zh-cn");
 dayjs.extend(customParseFormat);
-dayjs.extend(utc);
+dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 const App = createApp({

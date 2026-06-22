@@ -2,118 +2,79 @@
   <theme-config>
     <title-bar title="考试安排" :back-button="true" />
     <scroll-view :scroll-y="true">
-      <view class="header-view">
+      <view :class="styles.headerView">
         <image src="@/assets/photos/exam.svg" />
-        <view class="extra" @tap="showHelp">
-          <view class="icon-wrapper">
-            <view class="extra-icon iconfont icon-announcement" />
+        <view :class="styles.extra" @tap="handleAnnouncementTap">
+          <view :class="styles.iconWrapper">
+            <view :class="[styles.extraIcon, 'iconfont', 'icon-announcement']" />
           </view>
-          <view class="label"> 公告 </view>
+          <view :class="styles.label">公告</view>
         </view>
       </view>
-      <view class="flex-column">
-        <card v-if="!exam || exam.length === 0" style="text-align: center">
-          <view>无记录</view>
-        </card>
-        <card v-for="item in exam" :key="item.id" size="small" class="exam-card">
-          <w-collapse class="exam-collapse-item">
-            <w-collapse-panel :arrow="true">
-              <template #header>
-                <view
-                  class="lesson-name"
-                  :style="
-                    timeInterval(item.examTime) === 0
-                      ? 'color: var(--wjh-color-primary-dark)'
-                      : undefined
-                  "
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view style="font-size: 14px; color: var(--wjh-color-text-secondary)">
-                  <view
-                    v-if="timeInterval(item.examTime) >= 0 && timeInterval(item.examTime) <= 14"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
-                  >
-                    距离考试还有 {{ timeInterval(item.examTime) }} 天
-                  </view>
-                  <view
-                    class="exam-time"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
-                  >
-                    {{ item.examTime }}
-                  </view>
-                  <view
-                    v-if="item.examTime !== '未放开不可查'"
-                    class="exam-place"
-                    :style="
-                      timeInterval(item.examTime) === 0
-                        ? 'color: var(--wjh-color-primary-dark)'
-                        : undefined
-                    "
-                  >
-                    {{ `${item.examPlace} - 座位号：${item.seatNum}` }}
-                  </view>
-                </view>
-              </template>
-              <w-descriptions class="exam-detail-list" size="small">
-                <w-descriptions-item label="日期" :label-span="6">
-                  {{ getDetailedTime(item.examTime) }}
-                </w-descriptions-item>
-                <w-descriptions-item label="考试地点" :label-span="6">
-                  <text>{{ item.examPlace }}</text
-                  ><text v-if="item.seatNum !== '未放开不可查'">
-                    {{ ` - 座位号：${item.seatNum}` }}
-                  </text>
-                </w-descriptions-item>
-                <w-descriptions-item label="考试全称" :label-span="6">
-                  {{ item.className }}
-                </w-descriptions-item>
-                <w-descriptions-item label="教师列表" :label-span="6">
-                  {{
-                    item.teacherName
-                      .split(";")
-                      .map((item) => item.split("/")[1])
-                      .join("；")
-                  }}
-                </w-descriptions-item>
-              </w-descriptions>
-            </w-collapse-panel>
-          </w-collapse>
-        </card>
+      <view :class="styles.contentView">
+        <view v-if="isEmpty(examInfoData)" :class="styles.cardList">
+          <card :class="styles.emptyCard">
+            <view v-if="isExamInfoFetching">加载中...</view>
+            <view v-else>无记录</view>
+          </card>
+        </view>
+        <template v-else>
+          <template v-if="!isEmpty(examInfoList.notFinished)">
+            <view :class="styles.categoryTitleWrapper">
+              <view :class="styles.categoryTag">待考</view>
+            </view>
+            <view :class="styles.cardList">
+              <exam-info-card
+                v-for="item in examInfoList.notFinished"
+                :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
+                size="small"
+                :data="item"
+                :now="refNow"
+              />
+            </view>
+          </template>
+          <view
+            v-if="!isEmpty(examInfoList.notFinished) && !isEmpty(examInfoList.finished)"
+            :class="styles.divider"
+          />
+          <template v-if="!isEmpty(examInfoList.finished)">
+            <view :class="styles.categoryTitleWrapper">
+              <view :class="styles.categoryTag">已考</view>
+            </view>
+            <view :class="styles.cardList">
+              <exam-info-card
+                v-for="item in examInfoList.finished"
+                :key="`${item.id}-${item.examTime}-${item.lessonPlace}-${item.seatNum}`"
+                size="small"
+                :data="item"
+                :now="refNow"
+              />
+            </view>
+          </template>
+        </template>
       </view>
     </scroll-view>
-    <bottom-panel class="exam-bottom-panel">
-      <view class="col" />
-      <view class="col">
+    <bottom-panel :class="styles.examBottomPanel">
+      <view :class="styles.col" />
+      <view :class="styles.col">
         <term-picker
-          class="picker"
-          :year="selectTerm.year"
-          :term="selectTerm.term"
-          :selectflag="0"
-          @changed="termChanged"
+          v-model="selectedYearAndTerm"
+          :term-year="Number(systemStore.generalInfo.termYear)"
         />
       </view>
-      <view class="col">
-        <refresh-button :is-refreshing="isRefreshing" @refresh="refresh" />
+      <view :class="styles.col">
+        <refresh-button :is-refreshing="isExamInfoFetching" @refresh="refreshExamInfoData" />
       </view>
     </bottom-panel>
-    <w-modal v-model:show="showModal" title="公告" :content="helpContent" />
+    <w-modal v-model:show="isAnnouncementVisible" title="公告" :content="helpText.exam" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
-
-import dayjs, { ConfigType } from "dayjs";
-import { computed, onMounted, ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { useNow } from "@vueuse/core";
+import { defaultTo, filter, isEmpty, map, sortBy } from "lodash-es";
+import { computed, ref, toRef } from "vue";
 
 import {
   BottomPanel,
@@ -122,60 +83,87 @@ import {
   TermPicker,
   ThemeConfig,
   TitleBar,
-  WCollapse,
-  WCollapsePanel,
-  WDescriptions,
-  WDescriptionsItem,
   WModal
 } from "@/components";
 import { helpText } from "@/constants/copywriting";
-import { ZFService } from "@/services";
+import { zfServiceNext } from "@/services";
+import { QUERY_KEY } from "@/services/api/query-key";
 import { systemStore } from "@/store";
+import { ExamInfoExtended } from "@/types/exam";
+import { diffTime, parseZfExamTime } from "@/utils";
 
-const selectTerm = ref({
+import ExamInfoCard from "./_components/exam-info-card/index.vue";
+import styles from "./index.module.scss";
+
+/** 所选学年学期 */
+const selectedYearAndTerm = ref({
   year: systemStore.generalInfo.termYear,
   term: systemStore.generalInfo.term
 });
-const isRefreshing = ref(false);
-const exam = computed(() => {
-  return ZFService.getExamInfo(selectTerm.value).data;
+
+// 获取考试安排列表
+const {
+  data: examInfoData,
+  isFetching: isExamInfoFetching,
+  refetch: refreshExamInfoData
+} = useQuery({
+  queryKey: [
+    QUERY_KEY.ZF_EXAM,
+    toRef(() => selectedYearAndTerm.value.year),
+    toRef(() => selectedYearAndTerm.value.term)
+  ] as const,
+  queryFn: ({ queryKey }) => zfServiceNext.QueryExamInfo({ year: queryKey[1], term: queryKey[2] })
 });
-const showModal = ref(false);
-const helpContent = helpText.exam;
 
-async function termChanged(e) {
-  isRefreshing.value = true;
-  selectTerm.value = e;
-  await ZFService.updateExamInfo(e);
-  isRefreshing.value = false;
-}
+const refNow = useNow({ interval: 1000 * 10 });
 
-async function refresh() {
-  if (isRefreshing.value) return;
-  isRefreshing.value = true;
-  await ZFService.updateExamInfo(selectTerm.value);
-  isRefreshing.value = false;
-}
+/** 划分后的考试安排列表 */
+const examInfoList = computed(() => {
+  // 字段拓展
+  const extendedList: ExamInfoExtended[] = map(examInfoData.value, (exam) => {
+    // 解析考试时间
+    const { startAt, endAt } = parseZfExamTime(exam.examTime);
 
-function getDetailedTime(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  const dayChars = ["日", "一", "二", "三", "四", "五", "六"];
-  if (dayChars[dayjs(tmp).day()]) {
-    return `${tmp} - 周${dayChars[dayjs(tmp).day()]}`;
-  }
-  return `${tmp}`;
-}
+    /** 考试开始时间距今 */
+    const startAtDiff = diffTime(startAt, {
+      baseTime: refNow.value
+    });
 
-function timeInterval(timeString: string) {
-  const tmp: ConfigType = timeString.split("(")[0];
-  return dayjs(tmp).diff(dayjs(dayjs().format("YYYY-MM-DD")), "day");
-}
+    return {
+      ...exam,
+      meta: {
+        startAt,
+        endAt,
+        startAtDiff
+      }
+    };
+  });
 
-function showHelp() {
-  showModal.value = true;
-}
+  /** 待考列表 */
+  let notFinishedList = filter(
+    extendedList,
+    (exam) => exam.meta.startAtDiff.diffType !== "earlier"
+  );
+  // 从近到远排序，无效时间排在最后
+  notFinishedList = sortBy(notFinishedList, (exam) =>
+    defaultTo(exam.meta.startAtDiff.abs.valueOf(), Infinity)
+  );
 
-onMounted(async () => {
-  await refresh();
+  /** 已考列表 */
+  let finishedList = filter(extendedList, (exam) => exam.meta.startAtDiff.diffType === "earlier");
+  // 从近到远排序
+  finishedList = sortBy(finishedList, (exam) => exam.meta.startAtDiff.abs.valueOf());
+
+  return {
+    finished: finishedList,
+    notFinished: notFinishedList
+  };
 });
+
+/** 公告弹窗是否可见 */
+const isAnnouncementVisible = ref(false);
+/** 点击显示公告按钮 */
+const handleAnnouncementTap = () => {
+  isAnnouncementVisible.value = true;
+};
 </script>
