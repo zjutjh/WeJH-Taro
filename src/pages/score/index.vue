@@ -3,7 +3,7 @@
     <title-bar title="成绩绩点" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card v-if="!scoreList || scoreList.length === 0" style="text-align: center">
+        <card v-if="scoreList.length === 0" style="text-align: center">
           <view>无当前阶段成绩信息</view>
         </card>
 
@@ -13,21 +13,9 @@
               <view class="score-icon-wrapper">
                 <view class="score-icon iconfont icon-score" />
               </view>
-              <view v-if="selectTerm.year != '全'" class="col">
-                <view class="term-info">
-                  {{ termInfo }}
-                </view>
-                <view class="relative-term-info">
-                  {{ relativeTermInfo }}
-                </view>
-              </view>
-              <view v-if="selectTerm.year == '全' && selectTerm.period == '期末'" class="col">
-                <view class="term-info"> 总计绩点 </view>
-                <view class="relative-term-info"> 入学后所有课程均绩 </view>
-              </view>
-              <view v-if="selectTerm.year == '全' && selectTerm.period == '期中'" class="col">
-                <view class="term-info"> 期中成绩 </view>
-                <view class="relative-term-info"> 入学后所有期中成绩 </view>
+              <view class="col">
+                <view class="term-info">{{ headerTitle }}</view>
+                <view class="relative-term-info">{{ headerSubtitle }}</view>
               </view>
             </view>
 
@@ -35,76 +23,33 @@
               <view class="gpa-text">
                 {{ selectTerm.period === "期中" ? "期中" : "GPA" }}
               </view>
-              <view
-                v-if="scoreList && scoreList.length !== 0 && selectTerm.period === '期末'"
-                class="credit-text"
-              >
+              <view v-if="selectTerm.period === '期末'" class="credit-text">
                 {{ averageScorePoint }}
               </view>
             </view>
 
             <view
-              v-if="!isEdit && selectTerm.period != '期中'"
+              v-if="selectTerm.period !== '期中'"
               class="col button-container"
               style="align-items: flex-end"
-              @tap="handleSwitch()"
+              @tap="handleSwitch"
             >
-              <view class="iconfont icon-calculator switch-btn" />
-              <view class="button-info"> 计算 </view>
-            </view>
-
-            <view
-              v-if="isEdit && selectTerm.period != '期中'"
-              class="col button-container"
-              style="align-items: flex-end"
-              @tap="handleSwitch()"
-            >
-              <view class="iconfont icon-save-unfilled switch-btn" />
-              <view class="button-info"> 保存 </view>
+              <view
+                class="iconfont switch-btn"
+                :class="isEdit ? 'icon-save-unfilled' : 'icon-calculator'"
+              />
+              <view class="button-info">{{ isEdit ? "保存" : "计算" }}</view>
             </view>
           </template>
+
           <w-collapse v-if="!isEdit" class="score-list-collapse">
             <w-collapse-panel
-              v-for="item in selectedLessonsList"
-              :key="`${item.key}`"
+              v-for="item in displayList"
+              :key="item.key"
               :arrow="true"
-              :selected="false"
-            >
-              <!-- key的选择是 submitTime 和 lessonID 组成，前者大概率保证唯一性，后者是拿 ID 字段让代码更可读。 -->
-              <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
-                <view class="score-list-collapse-item-title">
-                  {{ item.lessonName }}
-                </view>
-                <view class="score-list-collapse-item-extra">
-                  {{ item.score }}
-                </view>
-              </template>
-              <w-descriptions class="score-detail-list" size="small">
-                <w-descriptions-item label="课程名称">
-                  {{ item.lessonName }}
-                </w-descriptions-item>
-                <w-descriptions-item v-if="item.lessonType" label="课程性质">
-                  {{ item.lessonType }}
-                </w-descriptions-item>
-                <w-descriptions-item label="课程学分">
-                  {{ item.credits }}
-                </w-descriptions-item>
-              </w-descriptions>
-            </w-collapse-panel>
-
-            <w-collapse-panel
-              v-for="item in unSelectedLessonsList"
-              :key="`${item.key}`"
-              :arrow="true"
-              :selected="true"
+              :selected="!item.selected"
             >
               <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
                 <view class="score-list-collapse-item-title">
                   {{ item.lessonName }}
                 </view>
@@ -126,292 +71,43 @@
             </w-collapse-panel>
           </w-collapse>
 
-          <w-button
-            v-if="isEdit && requiredScoreList.length != 0"
-            class="lesson-group-btn"
-            @tap="requireLessonChange()"
-          >
-            必修课
-          </w-button>
-          <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in requiredScoreList" :key="`${item.key}`">
-              <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-title-selected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-extra-selected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-title-unselected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-extra-unselected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
+          <template v-else>
+            <template v-for="group in lessonGroups" :key="group.key">
+              <template v-if="group.items.length > 0">
+                <w-button class="lesson-group-btn" @tap="toggleGroup(group)">
+                  {{ group.label }}
+                </w-button>
+                <w-collapse class="score-list-collapse">
+                  <w-panel v-for="item in group.items" :key="item.key">
+                    <template #header>
+                      <checkbox-group @change="toggleItem(item)">
+                        <checkbox class="checkbox" :checked="item.selected" />
+                      </checkbox-group>
+                      <view
+                        class="score-list-collapse-item-title"
+                        :class="{ 'is-selected': item.selected }"
+                        @tap="toggleItem(item)"
+                      >
+                        {{ item.lessonName }}
+                      </view>
+                      <view
+                        class="score-list-collapse-item-extra"
+                        :class="{ 'is-selected': item.selected }"
+                        @tap="toggleItem(item)"
+                      >
+                        {{ item.score }}
+                      </view>
+                    </template>
+                  </w-panel>
+                </w-collapse>
               </template>
-            </w-panel>
-          </w-collapse>
-
-          <w-button
-            v-if="isEdit && limitedScoreList.length != 0"
-            class="lesson-group-btn"
-            @tap="limitedLessonChange()"
-          >
-            限选课
-          </w-button>
-          <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in limitedScoreList" :key="`${item.key}`">
-              <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-title-selected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-extra-selected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-title-unselected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-extra-unselected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-              </template>
-            </w-panel>
-          </w-collapse>
-
-          <w-button
-            v-if="isEdit && electiveScoreList.length != 0"
-            class="lesson-group-btn"
-            @tap="electiveLessonChange()"
-          >
-            任选课
-          </w-button>
-          <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in electiveScoreList" :key="`${item.key}`">
-              <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-title-selected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-extra-selected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-title-unselected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-extra-unselected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-              </template>
-            </w-panel>
-          </w-collapse>
-
-          <w-button
-            v-if="isEdit && optionalScoreList.length != 0"
-            class="lesson-group-btn"
-            @tap="optionalLessonChange()"
-          >
-            选修课
-          </w-button>
-          <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in optionalScoreList" :key="`${item.key}`">
-              <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-title-selected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-extra-selected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-title-unselected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-extra-unselected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-              </template>
-            </w-panel>
-          </w-collapse>
-
-          <w-button
-            v-if="isEdit && sportsScoreList.length != 0"
-            class="lesson-group-btn"
-            @tap="sportsLessonChange()"
-          >
-            体育课
-          </w-button>
-          <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in sportsScoreList" :key="`${item.key}`">
-              <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-title-selected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-extra-selected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-title-unselected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-extra-unselected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-              </template>
-            </w-panel>
-          </w-collapse>
-
-          <w-button
-            v-if="isEdit && othersScoreList.length != 0"
-            class="lesson-group-btn"
-            @tap="othersLessonChange()"
-          >
-            其他课程
-          </w-button>
-          <w-collapse v-if="isEdit" class="score-list-collapse">
-            <w-panel v-for="item in othersScoreList" :key="`${item.key}`">
-              <template #header>
-                <checkbox-group v-if="isEdit" @change="handleCheckboxChange(item)">
-                  <checkbox class="checkbox" :checked="item.selected" />
-                </checkbox-group>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-title-selected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="item.selected"
-                  class="score-list-collapse-item-extra-selected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-title-unselected"
-                  color=""
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.lessonName }}
-                </view>
-                <view
-                  v-if="!item.selected"
-                  class="score-list-collapse-item-extra-unselected"
-                  @tap="handleCheckboxChange(item)"
-                >
-                  {{ item.score }}
-                </view>
-              </template>
-            </w-panel>
-          </w-collapse>
+            </template>
+          </template>
         </card>
-        <card v-if="scoreList?.length !== 0">
-          <view v-if="selectTerm.period == '期末'" class="score-help">
-            {{ helpText.score }}
-          </view>
-          <view v-if="selectTerm.period == '期中'" class="score-help">
-            {{ helpText.mediaScore }}
+
+        <card v-if="scoreList.length !== 0">
+          <view class="score-help">
+            {{ selectTerm.period === "期末" ? helpText.score : helpText.mediaScore }}
           </view>
         </card>
       </view>
@@ -465,13 +161,86 @@ import { ZFService } from "@/services";
 import store, { serviceStore, systemStore } from "@/store";
 import { Score } from "@/types/Score";
 
+const KNOWN_LESSON_TYPES = new Set(["必修课", "必选课", "限选课", "任选课", "选修课", "体育课"]);
+
+type GroupKey = "required" | "limited" | "elective" | "optional" | "sports" | "others";
+type GroupConfig = { key: GroupKey; label: string; match: (type: string) => boolean };
+
+const GROUP_CONFIG: readonly GroupConfig[] = [
+  { key: "required", label: "必修课", match: (t) => t === "必修课" || t === "必选课" },
+  { key: "limited", label: "限选课", match: (t) => t === "限选课" },
+  { key: "elective", label: "任选课", match: (t) => t === "任选课" },
+  { key: "optional", label: "选修课", match: (t) => t === "选修课" },
+  { key: "sports", label: "体育课", match: (t) => t === "体育课" },
+  { key: "others", label: "其他课程", match: (t) => !KNOWN_LESSON_TYPES.has(t) }
+];
+
 const isEdit = ref(false);
 const showSorted = ref(false);
+const isRefreshing = ref(false);
 const selectTerm = ref({
   year: systemStore.generalInfo.scoreYear,
   term: systemStore.generalInfo.term,
   period: serviceStore.score.scorePeriod
 });
+
+const scoreList = computed<Score[]>(() => {
+  const data = ZFService.getScoreInfo(selectTerm.value).data;
+  if (!showSorted.value) return data;
+  return [...data].sort((a, b) => {
+    if (a.scorePoint !== b.scorePoint) {
+      return parseFloat(b.scorePoint) - parseFloat(a.scorePoint);
+    }
+    return parseFloat(b.credits) - parseFloat(a.credits);
+  });
+});
+
+// 根据持久化的 unCalScore 给每门课盖章 selected。数据源变化（切学期/刷新/排序）后重跑。
+watch(
+  scoreList,
+  (list) => {
+    const excluded = serviceStore.score.unCalScore;
+    list.forEach((item) => {
+      item.selected = !excluded.some((e) => e.key === item.key);
+    });
+  },
+  { immediate: true }
+);
+
+const displayList = computed(() => [
+  ...scoreList.value.filter((i) => i.selected),
+  ...scoreList.value.filter((i) => !i.selected)
+]);
+
+const lessonGroups = computed(() =>
+  GROUP_CONFIG.map((cfg) => ({
+    ...cfg,
+    items: scoreList.value.filter((item) => cfg.match(item.lessonType))
+  }))
+);
+
+type LessonGroup = (typeof lessonGroups.value)[number];
+
+function toggleItem(item: Score) {
+  item.selected = !item.selected;
+  store.commit(item.selected ? "delUnCalc" : "setUnCalc", item);
+}
+
+function toggleGroup(group: LessonGroup) {
+  const allSelected = group.items.every((i) => i.selected);
+  group.items.forEach((item) => {
+    item.selected = !allSelected;
+    store.commit(allSelected ? "setUnCalc" : "delUnCalc", item);
+  });
+}
+
+function handleSort() {
+  showSorted.value = !showSorted.value;
+}
+
+function handleSwitch() {
+  isEdit.value = !isEdit.value;
+}
 
 async function refresh() {
   if (isRefreshing.value) return;
@@ -480,401 +249,57 @@ async function refresh() {
   isRefreshing.value = false;
 }
 
-onMounted(async () => {
-  await refresh();
-});
-
-// const scoreList = computed(() => {
-//   const data = ZFService.getScoreInfo(selectTerm.value).data;
-//   data.forEach(item => {
-//     const existingScore = serviceStore.score.readScoreMarks.find(
-//       storeItem => (item.lessonID === storeItem.name &&
-//       item.scorePoint === storeItem.scorePoint)
-//     );
-//     if (!existingScore) item.selected = true;
-//     else item.selected = false;
-//   });
-//   return data;
-// });
-
-const scoreList = computed(() =>
-  showSorted.value
-    ? [...ZFService.getScoreInfo(selectTerm.value).data].sort((a, b) => {
-        const scoreA = a.scorePoint,
-          scoreB = b.scorePoint;
-        if (scoreA === scoreB) {
-          const creditA = a.credits,
-            creditB = b.credits;
-          return parseFloat(creditB) - parseFloat(creditA);
-        }
-        return parseFloat(scoreB) - parseFloat(scoreA);
-      })
-    : ZFService.getScoreInfo(selectTerm.value).data
-);
-
-function handleSort() {
-  showSorted.value = !showSorted.value;
-}
-
-const requiredScoreList = computed(() => {
-  return scoreList.value.filter(
-    (item) => item.lessonType === "必修课" || item.lessonType === "必选课"
-  );
-});
-
-const sportsScoreList = computed(() => {
-  return scoreList.value.filter((item) => item.lessonType === "体育课");
-});
-
-const optionalScoreList = computed(() => {
-  return scoreList.value.filter((item) => item.lessonType === "选修课");
-});
-
-const limitedScoreList = computed(() => {
-  return scoreList.value.filter((item) => item.lessonType === "限选课");
-});
-
-const electiveScoreList = computed(() => {
-  return scoreList.value.filter((item) => item.lessonType === "任选课");
-});
-
-const othersScoreList = computed(() => {
-  return scoreList.value.filter(
-    (item) =>
-      item.lessonType !== "必修课" &&
-      item.lessonType !== "体育课" &&
-      item.lessonType !== "选修课" &&
-      item.lessonType !== "限选课" &&
-      item.lessonType !== "任选课" &&
-      item.lessonType !== "必选课"
-  );
-});
-
-const allChosen1 = ref(false);
-const allChosen2 = ref(false);
-const allChosen3 = ref(false);
-const allChosen4 = ref(false);
-const allChosen5 = ref(false);
-const allChosen6 = ref(false);
-
-const requireLessonChange = () => {
-  if (!allChosen1.value) {
-    requiredScoreList.value.forEach((item) => {
-      if (!item.selected) {
-        selectedLessonsList.value.push(item);
-        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-      }
-      item.selected = true;
-      store.commit("delUnCalc", item);
-    });
-  } else {
-    requiredScoreList.value.forEach((item) => {
-      if (item.selected) {
-        selectedLessonsList.value = selectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-        unSelectedLessonsList.value.push(item);
-        store.commit("setUnCalc", item);
-      }
-      item.selected = false;
-    });
-  }
-  allChosen1.value = !allChosen1.value;
-};
-
-const sportsLessonChange = () => {
-  if (!allChosen2.value) {
-    sportsScoreList.value.forEach((item) => {
-      if (!item.selected) {
-        selectedLessonsList.value.push(item);
-        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-      }
-      item.selected = true;
-      store.commit("delUnCalc", item);
-    });
-  } else {
-    sportsScoreList.value.forEach((item) => {
-      if (item.selected) {
-        selectedLessonsList.value = selectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-        unSelectedLessonsList.value.push(item);
-        store.commit("setUnCalc", item);
-      }
-      item.selected = false;
-    });
-  }
-  allChosen2.value = !allChosen2.value;
-};
-
-const optionalLessonChange = () => {
-  if (!allChosen3.value) {
-    optionalScoreList.value.forEach((item) => {
-      if (!item.selected) {
-        selectedLessonsList.value.push(item);
-        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-      }
-      item.selected = true;
-      store.commit("delUnCalc", item);
-    });
-  } else {
-    optionalScoreList.value.forEach((item) => {
-      if (item.selected) {
-        selectedLessonsList.value = selectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-        unSelectedLessonsList.value.push(item);
-        store.commit("setUnCalc", item);
-      }
-      item.selected = false;
-    });
-  }
-  allChosen3.value = !allChosen3.value;
-};
-
-const limitedLessonChange = () => {
-  if (!allChosen4.value) {
-    limitedScoreList.value.forEach((item) => {
-      if (!item.selected) {
-        selectedLessonsList.value.push(item);
-        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-      }
-      item.selected = true;
-      store.commit("delUnCalc", item);
-    });
-  } else {
-    limitedScoreList.value.forEach((item) => {
-      if (item.selected) {
-        selectedLessonsList.value = selectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-        unSelectedLessonsList.value.push(item);
-        store.commit("setUnCalc", item);
-      }
-      item.selected = false;
-    });
-  }
-  allChosen4.value = !allChosen4.value;
-};
-
-const electiveLessonChange = () => {
-  if (!allChosen5.value) {
-    electiveScoreList.value.forEach((item) => {
-      if (!item.selected) {
-        selectedLessonsList.value.push(item);
-        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-      }
-      item.selected = true;
-      store.commit("delUnCalc", item);
-    });
-  } else {
-    electiveScoreList.value.forEach((item) => {
-      if (item.selected) {
-        selectedLessonsList.value = selectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-        unSelectedLessonsList.value.push(item);
-        store.commit("setUnCalc", item);
-      }
-      item.selected = false;
-    });
-  }
-  allChosen5.value = !allChosen5.value;
-};
-
-const othersLessonChange = () => {
-  if (!allChosen5.value) {
-    othersScoreList.value.forEach((item) => {
-      if (!item.selected) {
-        selectedLessonsList.value.push(item);
-        unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-      }
-      item.selected = true;
-      store.commit("delUnCalc", item);
-    });
-  } else {
-    othersScoreList.value.forEach((item) => {
-      if (item.selected) {
-        selectedLessonsList.value = selectedLessonsList.value.filter(
-          (selected) => selected.key !== item.key
-        );
-        unSelectedLessonsList.value.push(item);
-        store.commit("setUnCalc", item);
-      }
-      item.selected = false;
-    });
-  }
-  allChosen6.value = !allChosen6.value;
-};
-
-const selectedLessonsList = ref<Score[]>([]);
-const unSelectedLessonsList = ref<Score[]>([]);
-const unselectedLessons = serviceStore.score.unCalScore;
-
-// 监听 scoreList 的变化，判断成绩列表中的数据是否在 unCalScore 中，如果是则不存入 selectedLessons，如果不是则存入 selectedLessons
-watch(
-  scoreList,
-  (newScoreList) => {
-    selectedLessonsList.value = []; // 重置selectedLessons
-    unSelectedLessonsList.value = [];
-    newScoreList.forEach((item) => {
-      const isFind = unselectedLessons.find((storeItem) => item.key === storeItem.key);
-      // 如果在 unCalScore 中找到相同的课程，则不将其添加到 selectedLessons
-
-      if (isFind) {
-        item.selected = false; // 未选中课程
-      } else {
-        item.selected = true;
-      }
-      if (item.selected) {
-        selectedLessonsList.value.push(item);
-      } else {
-        unSelectedLessonsList.value.push(item);
-      }
-    });
-  },
-  { immediate: true }
-);
-
-watch(
-  unSelectedLessonsList,
-  (newUnSelectedLessonsList) => {
-    allChosen1.value = true;
-    allChosen2.value = true;
-    allChosen3.value = true;
-    allChosen4.value = true;
-    allChosen5.value = true;
-    allChosen6.value = true;
-    newUnSelectedLessonsList.forEach((item) => {
-      const isFind1 = requiredScoreList.value.find(
-        (storeItem) =>
-          item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
-      );
-      const isFind2 = sportsScoreList.value.find(
-        (storeItem) =>
-          item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
-      );
-      const isFind3 = optionalScoreList.value.find(
-        (storeItem) =>
-          item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
-      );
-      const isFind4 = limitedScoreList.value.find(
-        (storeItem) =>
-          item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
-      );
-      const isFind5 = electiveScoreList.value.find(
-        (storeItem) =>
-          item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
-      );
-      const isFind6 = othersScoreList.value.find(
-        (storeItem) =>
-          item.className === storeItem.className && item.scorePoint === storeItem.scorePoint
-      );
-      if (isFind1) allChosen1.value = false;
-      if (isFind2) allChosen2.value = false;
-      if (isFind3) allChosen3.value = false;
-      if (isFind4) allChosen4.value = false;
-      if (isFind5) allChosen5.value = false;
-      if (isFind6) allChosen6.value = false;
-    });
-  },
-  { immediate: true }
-);
-
-function handleCheckboxChange(item) {
-  item.selected = !item.selected;
-  if (item.selected) {
-    selectedLessonsList.value.push(item);
-    unSelectedLessonsList.value = unSelectedLessonsList.value.filter(
-      (selected) => selected.key !== item.key
-    );
-    store.commit("delUnCalc", item);
-  } else {
-    // 将这个课程从selectedLessons中删除
-    selectedLessonsList.value = selectedLessonsList.value.filter(
-      (selected) => selected.key !== item.key
-    );
-    unSelectedLessonsList.value.push(item);
-    store.commit("setUnCalc", item);
-  }
-}
-
-const isRefreshing = ref(false);
-
-const averageScorePoint = computed(() => {
-  const validCourse = selectedLessonsList.value.filter((item) => {
-    if (item.score === "缓考" || item.score === "免修") return false;
-    if (item.examType === "重修" || item.examType === "补考") return false;
-    return true;
-  });
-  let totalCredits = 0;
-  let totalScorePoint = 0;
-  validCourse.forEach((item: Score) => {
-    const scorePoint = parseFloat(item.scorePoint);
-    const credits = parseFloat(item.credits);
-    // 以 "1/1000 分" 为单位计算绩点，避免浮点数加法导致的精度问题
-    totalScorePoint += scorePoint * credits * 1000;
-    totalCredits += credits;
-  });
-  if (totalCredits !== 0) {
-    return (totalScorePoint / totalCredits / 1000).toFixed(3);
-  }
-  return "-";
-});
-
-const termInfo = computed(() => {
-  return `
-    ${selectTerm.value.year}/${parseInt(selectTerm.value.year) + 1}
-    （${selectTerm.value.term}）
-  `;
-});
-
-const relativeTermInfo = computed(() => {
-  const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
-  let char = charEnum[0];
-  if (serviceStore.user.info?.studentID) {
-    // 解决2023 年以后的学生 id 是 302023 开头的问题
-    if (serviceStore.user.info.studentID.slice(0, 2) === "30") {
-      char =
-        charEnum[
-          parseInt(selectTerm.value.year) - parseInt(serviceStore.user.info.studentID.slice(2, 6))
-        ];
-    } else {
-      char =
-        charEnum[
-          parseInt(selectTerm.value.year) - parseInt(serviceStore.user.info.studentID.slice(0, 4))
-        ];
-    }
-  }
-  return `大${char}${selectTerm.value.term}学期`;
-});
-
-const handleSwitch = () => {
-  isEdit.value = !isEdit.value;
-};
-
-const checkEdit = () => {
-  if (isEdit.value) isEdit.value = !isEdit.value;
-};
-
-async function termChanged(e) {
-  checkEdit();
+async function termChanged(e: typeof selectTerm.value) {
+  isEdit.value = false;
   store.commit("changeScorePeriod", e.period);
   isRefreshing.value = true;
   selectTerm.value = e;
   await ZFService.updateScoreInfo(e);
   isRefreshing.value = false;
 }
+
+onMounted(refresh);
+
+const averageScorePoint = computed(() => {
+  const valid = scoreList.value.filter((item) => {
+    if (!item.selected) return false;
+    if (item.score === "缓考" || item.score === "免修") return false;
+    if (item.examType === "重修" || item.examType === "补考") return false;
+    return true;
+  });
+  // 以 "1/1000 分" 为单位计算绩点，避免浮点数加法导致的精度问题
+  let totalCredits = 0;
+  let totalScorePoint = 0;
+  valid.forEach((item) => {
+    const credits = parseFloat(item.credits);
+    totalScorePoint += parseFloat(item.scorePoint) * credits * 1000;
+    totalCredits += credits;
+  });
+  return totalCredits === 0 ? "-" : (totalScorePoint / totalCredits / 1000).toFixed(3);
+});
+
+const headerTitle = computed(() => {
+  if (selectTerm.value.year === "全") {
+    return selectTerm.value.period === "期中" ? "期中成绩" : "总计绩点";
+  }
+  return `${selectTerm.value.year}/${parseInt(selectTerm.value.year) + 1}（${selectTerm.value.term}）`;
+});
+
+const headerSubtitle = computed(() => {
+  if (selectTerm.value.year === "全") {
+    return selectTerm.value.period === "期中" ? "入学后所有期中成绩" : "入学后所有课程均绩";
+  }
+  const charEnum = ["一", "二", "三", "四", "五", "六", "日"];
+  const studentID = serviceStore.user.info?.studentID;
+  let char = charEnum[0];
+  if (studentID) {
+    // 2023 年及以后的学号以 "30" 开头，真实入学年份从第 3 位开始
+    const enrollYear =
+      studentID.slice(0, 2) === "30"
+        ? parseInt(studentID.slice(2, 6))
+        : parseInt(studentID.slice(0, 4));
+    char = charEnum[parseInt(selectTerm.value.year) - enrollYear] ?? charEnum[0];
+  }
+  return `大${char}${selectTerm.value.term}学期`;
+});
 </script>
