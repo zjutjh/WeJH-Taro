@@ -68,8 +68,9 @@ const isExamInOneDay = computed(() => meta.value.startAtDiff.abs.asDays() < 1);
 /** 考试开始距今时间文本 */
 const timeDiffText = computed(() =>
   formatDuration(meta.value.startAtDiff.abs, {
-    // 若考试距离小于一天，显示2单位，否则显示1单位
-    largest: isExamInOneDay.value ? 2 : 1
+    // 若考试距离介于1小时到1天之间，显示2单位，否则显示1单位
+    largest:
+      meta.value.startAtDiff.abs.asDays() < 1 && meta.value.startAtDiff.abs.asHours() > 1 ? 2 : 1
   })
 );
 
