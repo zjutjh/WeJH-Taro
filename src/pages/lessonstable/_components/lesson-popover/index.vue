@@ -16,7 +16,7 @@
     <view v-else-if="detailSelectionConflicts.length > 0" :class="styles['lesson-detail']">
       <view :class="styles['conflict-header']">
         <view :class="styles['conflict-title-fixed']">
-          冲突课程({{ detailSelectionConflicts.length }})
+          重叠课程({{ detailSelectionConflicts.length }})
         </view>
         <view :class="styles['conflict-time-inline']">冲突时间：{{ conflictTime }}</view>
       </view>
