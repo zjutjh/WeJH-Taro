@@ -11,7 +11,7 @@
               <view v-if="meta.startAtDiff.diffType === 'later'">
                 距离考试还有 {{ timeDiffText }}
               </view>
-              <view v-else-if="meta.endAt.isAfter()">正在考试</view>
+              <view v-else-if="meta.endAt.isAfter(props.now)">正在考试</view>
               <view v-if="props.data.examTime !== '未放开不可查'" :class="styles.examTime">
                 {{ props.data.examTime }}
               </view>
@@ -58,6 +58,8 @@ import styles from "./index.module.scss";
 const props = defineProps<{
   /** 考试安排数据 */
   data: ExamInfoExtended;
+  /** 当前时间 */
+  now: Date;
 }>();
 
 /** 考试安排的拓展数据 */
@@ -65,7 +67,7 @@ const meta = toRef(() => props.data.meta);
 
 /** 考试距离是否短于一天且未结束 */
 const isExamInOneDay = computed(
-  () => meta.value.startAtDiff.abs.asDays() < 1 && meta.value.endAt.isAfter()
+  () => meta.value.startAtDiff.abs.asDays() < 1 && meta.value.endAt.isAfter(props.now)
 );
 
 /** 考试开始距今时间文本 */
