@@ -5,8 +5,7 @@ const api = {
       password: "/api/user/login"
     },
     create: {
-      wechat: "/api/user/create/student/wechat",
-      h5: "/api/user/create/student"
+      wechat: "/api/user/create/student/wechat"
     },
     info: "/api/user/info",
     bind: {
