@@ -140,17 +140,14 @@ const examInfoList = computed(() => {
   });
 
   /** 待考列表 */
-  let notFinishedList = filter(
-    extendedList,
-    (exam) => exam.meta.startAtDiff.diffType !== "earlier"
-  );
+  let notFinishedList = filter(extendedList, (exam) => exam.meta.endAt.isAfter());
   // 从近到远排序，无效时间排在最后
   notFinishedList = sortBy(notFinishedList, (exam) =>
     defaultTo(exam.meta.startAtDiff.abs.valueOf(), Infinity)
   );
 
   /** 已考列表 */
-  let finishedList = filter(extendedList, (exam) => exam.meta.startAtDiff.diffType === "earlier");
+  let finishedList = filter(extendedList, (exam) => !exam.meta.endAt.isAfter());
   // 从近到远排序
   finishedList = sortBy(finishedList, (exam) => exam.meta.startAtDiff.abs.valueOf());
 
