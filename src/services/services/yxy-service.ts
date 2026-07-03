@@ -48,17 +48,15 @@ export default class YxyService {
    * @returns
    */
   static querySchoolCardRecord = async (data: { queryTime: string }) =>
-    request<
-      Array<{
-        address: string;
-        deal_time: string;
-        fee_name: string;
-        money: string;
-        serial_no: string;
-        time: string;
-        type: string;
-      }>
-    >(api.card.record, {
+    request<Array<{
+      address: string;
+      deal_time: string;
+      fee_name: string;
+      money: string;
+      serial_no: string;
+      time: string;
+      type: string;
+    }> | null>(api.card.record, {
       method: "POST",
       header: { Cookie: serviceStore.sessionID },
       data,

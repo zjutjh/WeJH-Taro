@@ -4,28 +4,6 @@ import YxyServiceNext from "@/api/services/yxy";
 import ZFServiceNext from "@/api/services/zf";
 import { type RequestCustomOptions, requestNext } from "@/utils/request-next";
 
-import { api } from "./api/apiList";
-import { LoginByTaro } from "./services/authService";
-import LibraryService from "./services/libraryService";
-import SuitService from "./services/suitService";
-import SystemService from "./services/systemService";
-import UserService from "./services/userService";
-import YxyService from "./services/yxyService";
-import ZFService from "./services/zf-service";
-import errCodeHandler from "./utils/errHandler";
-
-export {
-  api,
-  errCodeHandler,
-  LibraryService,
-  LoginByTaro,
-  SuitService,
-  SystemService,
-  UserService,
-  YxyService,
-  ZFService
-};
-
 export const userServiceNext = new UserServiceNext<RequestCustomOptions>({
   request: requestNext,
   baseURL: import.meta.env.VITE_HOST
@@ -45,3 +23,13 @@ export const lostfoundServiceNext = new LostfoundServiceNext<RequestCustomOption
   request: requestNext,
   baseURL: import.meta.env.VITE_HOST
 });
+
+export { api } from "./api/apiList";
+export { LoginByTaro } from "./services/authService";
+export { default as LibraryService } from "./services/libraryService";
+export { default as SuitService } from "./services/suitService";
+export { default as SystemService } from "./services/systemService";
+export { default as UserService } from "./services/userService";
+export { default as YxyService } from "./services/yxy-service";
+export { default as ZFService } from "./services/zf-service";
+export { default as errCodeHandler } from "./utils/errHandler";
