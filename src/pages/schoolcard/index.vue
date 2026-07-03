@@ -1,12 +1,10 @@
 <template>
   <theme-config :show-bg-image="false">
-    <title-bar title="校园卡" back-button />
+    <title-bar title="校园卡" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view class="school-card">
         <image mode="aspectFit" src="@/assets/photos/card.svg" />
-        <text class="balance">
-          ¥ {{ balance }}
-        </text>
+        <text class="balance"> ¥ {{ serviceStore.card.balance || 0 }} </text>
       </view>
       <card class="consume-card">
         <template #header>
@@ -23,10 +21,7 @@
             </picker>
           </view>
           <view class="col">
-            <refresh-button
-              :is-refreshing="loading"
-              @tap="updateData"
-            />
+            <refresh-button :is-refreshing="loading" @tap="updateData" />
           </view>
         </template>
         <view class="flex-column">
@@ -40,23 +35,18 @@
               :key="index"
               class="consume-item-card"
               size="small"
-              :class="{
-                'consume-item-positive': parseFloat(item.money) >= 0,
-                'consume-item-negative': parseFloat(item.money) < 0
-              }"
+              :class="item.moneyValue > 0 ? 'consume-item-positive' : 'consume-item-negative'"
             >
               <view class="content-wrapper">
                 <view class="col">
-                  <text class="transactions">
-                    ¥ {{ Math.abs(parseFloat(item.money)).toFixed(1) }}
-                  </text>
+                  <text class="transactions"> ¥ {{ Math.abs(round(item.moneyValue, 2)) }} </text>
                 </view>
                 <view class="col">
                   <view>地点： {{ item.address }}</view>
                   <view>
-                    时间： {{ item.time.split(' ')[0] }}
+                    时间： {{ item.time.split(" ")[0] }}
                     &nbsp;
-                    {{ item.time.split(' ')[1] }}
+                    {{ item.time.split(" ")[1] }}
                   </view>
                 </view>
               </view>
@@ -69,83 +59,79 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
-import dayjs from "dayjs";
-import { CardConsume } from "@/types/CardConsume";
-import store, { serviceStore } from "@/store";
-
 import "./index.scss";
-import { useRequest } from "@/hooks";
-import { YxyService } from "@/services";
+
 import { Picker } from "@tarojs/components";
 import Taro from "@tarojs/taro";
+import dayjs from "dayjs";
+import { round } from "lodash-es";
+import { computed, ref } from "vue";
+
+import { Card, RefreshButton, ThemeConfig, TitleBar, WButton } from "@/components";
+import { useRequest } from "@/hooks";
+import { YxyService } from "@/services";
+import store, { serviceStore } from "@/store";
+import { CardConsume } from "@/types/CardConsume";
+import { ServiceErrorCode } from "@/utils/request-error";
 
 const selectedDate = ref(dayjs().format("YYYY-MM-DD")); // YYYY-MM-DD
-
-const balance = computed(() => serviceStore.card.balance || 0);
 const records = ref<CardConsume[]>([]);
 
 useRequest(YxyService.querySchoolCardBalance, {
   onSuccess: (res) => {
-    if (res.data.code === 1) {
-      if (Number.isFinite(parseFloat(res.data.data)))
-        store.commit("setCardBalance", res.data.data);
-      else throw new Error("无效余额值");
-    } else if (res.data.code === 200514) {
-      Taro.showModal({
+    if (res.data.code === ServiceErrorCode.OK) {
+      if (!Number.isFinite(Number.parseFloat(res.data.data))) throw new Error("无效余额值");
+      store.commit("setCardBalance", res.data.data);
+    } else if (res.data.code === ServiceErrorCode.YXY_SESSION_EXPIRED)
+      void Taro.showModal({
         title: "查询余额失败",
         content: res.data.msg,
         confirmText: "重新登录",
-        success: (res) => {
-          if (res.confirm)
-            Taro.navigateTo({ url: "/pages/bind/index" });
+        success: (r) => {
+          if (r.confirm) void Taro.navigateTo({ url: "/pages/bind/index" });
         }
       });
-    } else throw new Error(res.data.msg);
+    else throw new Error(res.data.msg);
   },
-  onError: (error) => {
-    if (!(error instanceof Error)) return `查询校园卡余额\r\n${error.errMsg}`;
-    else return `查询校园卡余额\r\n${error.message}`;
+  onError: (error) =>
+    error instanceof Error
+      ? `查询校园卡余额\r\n${error.message}`
+      : `查询校园卡余额\r\n${error.errMsg}`
+});
+
+const { run: queryRecord, loading } = useRequest(YxyService.querySchoolCardRecord, {
+  defaultParams: { queryTime: dayjs().format("YYYYMMDD") },
+  onSuccess: (response) => {
+    if (response.data.code !== ServiceErrorCode.OK) throw new Error(response.data.msg);
+    records.value = response.data.data ?? [];
+    store.commit("setCardToday", records.value);
+  },
+  onError: (e) => {
+    if (e instanceof Error) return e.message;
   }
 });
 
-const { run: queryRecord, loading } = useRequest(
-  YxyService.querySchoolCardRecord, {
-    defaultParams: { queryTime: dayjs().format("YYYYMMDD") },
-    onSuccess: (response) => {
-      if (response.data.code === 1) {
-        records.value = response.data.data || [];
-        store.commit("setCardToday", records.value);
-      } else throw new Error(response.data.msg);
-    },
-    onError: (e) => {
-      if (e instanceof Error) return e.message;
-    }
-  }
+const consumeList = computed(() =>
+  records.value
+    .map((item) => ({ ...item, moneyValue: Number.parseFloat(item.money) }))
+    .filter((item) => item.moneyValue !== 0)
 );
 
-const consumeList = computed(() => {
-  return records.value
-    .filter((item) => parseFloat(item.money) !== 0);
-});
-
 const totalConsume = computed(() => {
-  return consumeList.value.reduce((acc, cur) => {
-    if (parseFloat(cur.money) < 0) {
-      acc += Math.abs(parseFloat(cur.money));
-    }
-    return acc;
-  }, 0);
+  let total = 0;
+  for (const cur of consumeList.value) {
+    if (cur.moneyValue < 0) total -= cur.moneyValue;
+  }
+
+  return total;
 });
 
-async function updateData() {
-  queryRecord({ queryTime: selectedDate.value.split("-").join("") });
+function updateData() {
+  queryRecord({ queryTime: selectedDate.value.replaceAll("-", "") });
 }
 
-const handleChangeDate = (e) => {
+function handleChangeDate(e) {
   selectedDate.value = e.detail.value;
-  queryRecord({ queryTime: selectedDate.value.split("-").join("") });
-};
-
+  queryRecord({ queryTime: selectedDate.value.replaceAll("-", "") });
+}
 </script>
