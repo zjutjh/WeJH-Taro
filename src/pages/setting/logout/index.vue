@@ -1,19 +1,19 @@
 <template>
   <theme-config>
-    <title-bar title="注销" back-button />
+    <title-bar title="注销" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view :class="styles.container">
         <card title="注销" :class="styles['input-card']">
-          <text>身份证号码</text>
+          <text>身份证号后六位</text>
           <view>
-            <input v-model="iid" placeholder="请输入身份证号码" />
+            <input v-model="iid" placeholder="请输入身份证号后六位" />
           </view>
           <text>学号</text>
           <view>
             <input v-model="stuid" password placeholder="请输入学号" />
           </view>
           <template #footer>
-            <w-button block @tap="isShowConfirm = true"> 确认注销 </w-button>
+            <w-button :block="true" @tap="isShowConfirm = true"> 确认注销 </w-button>
           </template>
         </card>
         <card title="温馨提示">
