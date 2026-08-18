@@ -29,9 +29,9 @@
               </view>
             </view>
             <view>
-              <text>身份证号</text>
+              <text>身份证号后六位</text>
               <input v-model="idCard" type="text" placeholder="仅做验证学生身份用" />
-              <view v-show="idCard?.length === 0" class="prompt"> 请输入本人身份证号 </view>
+              <view v-show="idCard?.length === 0" class="prompt"> 请输入身份证号后六位 </view>
             </view>
             <view>
               <text>邮箱</text>

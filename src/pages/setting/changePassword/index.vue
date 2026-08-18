@@ -1,16 +1,16 @@
 <template>
   <theme-config>
-    <title-bar title="修改密码" back-button />
+    <title-bar title="修改密码" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
         <card title="修改密码" class="input-card">
-          <text>身份证号码</text>
+          <text>身份证号后六位</text>
           <view>
-            <input v-model="iid" placeholder="请输入您的身份证号码">
+            <input v-model="iid" placeholder="请输入身份证号后六位" />
           </view>
           <text>学号</text>
           <view>
-            <input v-model="stuid" placeholder="请输入您的学号">
+            <input v-model="stuid" placeholder="请输入您的学号" />
           </view>
           <text>新密码</text>
           <view>
@@ -19,7 +19,7 @@
               type="password"
               placeholder="请输入您的新密码"
               @blur="formCheck"
-            >
+            />
           </view>
           <text>确认新密码</text>
           <view>
@@ -28,15 +28,13 @@
               type="password"
               placeholder="请重复输入您的新密码"
               @blur="formCheck"
-            >
+            />
           </view>
           <text v-if="showWarning" class="red-text">
             {{ warnText }}
           </text>
           <template #footer>
-            <w-button block @tap="handleConfirm">
-              确认修改
-            </w-button>
+            <w-button :block="true" @tap="handleConfirm"> 确认修改 </w-button>
           </template>
         </card>
       </view>
@@ -60,13 +58,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import "./index.scss";
+
 import Taro from "@tarojs/taro";
-import { UserService } from "@/services";
-import { useRequest } from "@/hooks";
+import { ref } from "vue";
+
+import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
+import { useRequest } from "@/hooks";
+import { UserService } from "@/services";
 
 const iid = ref("");
 const stuid = ref("");
@@ -108,28 +108,26 @@ const changePasswordClick = () => {
   });
 };
 
-const { run } = useRequest(
-  UserService.changePassword, {
-    loadingDelay: 600,
-    manual: true,
-    onSuccess: (res) => {
-      if (res.data.code === 1 && res.data.msg === "OK") {
-        Taro.showToast({
-          icon: "success",
-          title: "修改密码成功"
-        });
-      } else {
-        Taro.showToast({
-          icon: "none",
-          title: res.data.msg
-        });
-      }
-    },
-    onError: (e: Error) => {
-      return `失败\r\n${e.message || "网络错误"}`;
+const { run } = useRequest(UserService.changePassword, {
+  loadingDelay: 600,
+  manual: true,
+  onSuccess: (res) => {
+    if (res.data.code === 1 && res.data.msg === "OK") {
+      Taro.showToast({
+        icon: "success",
+        title: "修改密码成功"
+      });
+    } else {
+      Taro.showToast({
+        icon: "none",
+        title: res.data.msg
+      });
     }
+  },
+  onError: (e: Error) => {
+    return `失败\r\n${e.message || "网络错误"}`;
   }
-);
+});
 
 const onCancel = () => {
   isShowConfirm.value = false;
