@@ -104,7 +104,9 @@ function formCheck() {
 
 function handleConfirm() {
   formCheck();
-  isShowConfirm.value = true;
+  Taro.hideKeyboard({
+    complete: () => (isShowConfirm.value = true)
+  });
 }
 
 function changePasswordClick() {
