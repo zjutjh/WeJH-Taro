@@ -34,23 +34,18 @@
             {{ warnText }}
           </text>
           <template #footer>
-            <w-button :block="true" @tap="handleConfirm"> 确认修改 </w-button>
+            <w-button :block="true" @tap="handleConfirm">确认修改</w-button>
           </template>
         </card>
       </view>
       <w-modal
         v-model:show="isShowConfirm"
         title="警告"
-        :content="`&emsp;&emsp;${helpText.changePassword}`"
+        :content="helpText.changePassword"
+        style="text-indent: 2em"
         :actions="{
-          cancel: {
-            label: '取消',
-            callback: onCancel
-          },
-          confirm: {
-            label: '确定',
-            callback: changePasswordClick
-          }
+          cancel: { label: '取消', callback: onCancel },
+          confirm: { label: '确定', callback: changePasswordClick }
         }"
       />
     </scroll-view>
@@ -67,6 +62,7 @@ import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
 import { useRequest } from "@/hooks";
 import { UserService } from "@/services";
+import { ServiceErrorCode } from "@/utils/request-error";
 
 const iid = ref("");
 const stuid = ref("");
@@ -76,7 +72,22 @@ const isShowConfirm = ref(false);
 const showWarning = ref(false);
 const warnText = ref("");
 
-const formCheck = () => {
+const { run } = useRequest(UserService.changePassword, {
+  loadingDelay: 600,
+  manual: true,
+  onSuccess: (res) => {
+    if (res.data.code === ServiceErrorCode.OK) {
+      Taro.showToast({ icon: "success", title: "修改密码成功" });
+    } else {
+      Taro.showToast({ icon: "none", title: res.data.msg });
+    }
+  },
+  onError: (e: Error) => {
+    return `失败\r\n${e.message || "网络错误"}`;
+  }
+});
+
+function formCheck() {
   if (password.value === "" || passwordAgain.value === "") return;
   if (password.value.length < 6 || password.value.length > 20) {
     warnText.value = "密码长度必须在6~20位之间";
@@ -89,47 +100,24 @@ const formCheck = () => {
     return;
   }
   showWarning.value = false;
-};
+}
 
-const handleConfirm = () => {
+function handleConfirm() {
   formCheck();
   isShowConfirm.value = true;
-};
-const changePasswordClick = () => {
+}
+
+function changePasswordClick() {
   isShowConfirm.value = false;
-  Taro.showLoading({
-    title: "正在修改中",
-    mask: true
-  });
+  Taro.showLoading({ title: "正在修改中", mask: true });
   run({
     iid: iid.value,
     stuid: stuid.value,
     password: password.value
   });
-};
+}
 
-const { run } = useRequest(UserService.changePassword, {
-  loadingDelay: 600,
-  manual: true,
-  onSuccess: (res) => {
-    if (res.data.code === 1 && res.data.msg === "OK") {
-      Taro.showToast({
-        icon: "success",
-        title: "修改密码成功"
-      });
-    } else {
-      Taro.showToast({
-        icon: "none",
-        title: res.data.msg
-      });
-    }
-  },
-  onError: (e: Error) => {
-    return `失败\r\n${e.message || "网络错误"}`;
-  }
-});
-
-const onCancel = () => {
+function onCancel() {
   isShowConfirm.value = false;
-};
+}
 </script>
