@@ -38,17 +38,16 @@
           </template>
         </card>
       </view>
-      <w-modal
-        v-model:show="isShowConfirm"
-        title="警告"
-        :content="helpText.changePassword"
-        style="text-indent: 2em"
-        :actions="{
-          cancel: { label: '取消', callback: onCancel },
-          confirm: { label: '确定', callback: changePasswordClick }
-        }"
-      />
     </scroll-view>
+    <w-modal
+      v-model:show="isShowConfirm"
+      title="警告"
+      :content="`&emsp;&emsp;${helpText.changePassword}`"
+      :actions="{
+        cancel: { label: '取消', callback: onCancel },
+        confirm: { label: '确定', callback: changePasswordClick }
+      }"
+    />
   </theme-config>
 </template>
 
