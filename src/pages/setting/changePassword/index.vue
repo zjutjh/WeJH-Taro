@@ -3,7 +3,7 @@
     <title-bar title="修改密码" :back-button="true" />
     <scroll-view :scroll-y="true">
       <view class="flex-column">
-        <card title="修改密码" class="input-card">
+        <card title="修改密码" :class="styles['input-card']">
           <text>身份证号后六位</text>
           <view>
             <input v-model="iid" placeholder="请输入身份证号后六位" />
@@ -30,7 +30,7 @@
               @blur="formCheck"
             />
           </view>
-          <text v-if="showWarning" class="red-text">
+          <text v-if="showWarning" :class="styles['red-text']">
             {{ warnText }}
           </text>
           <template #footer>
@@ -52,8 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import "./index.scss";
-
 import Taro from "@tarojs/taro";
 import { ref } from "vue";
 
@@ -62,6 +60,8 @@ import { helpText } from "@/constants/copywriting";
 import { useRequest } from "@/hooks";
 import { UserService } from "@/services";
 import { ServiceErrorCode } from "@/utils/request-error";
+
+import styles from "./index.module.scss";
 
 const iid = ref("");
 const stuid = ref("");
@@ -81,13 +81,13 @@ const { run } = useRequest(UserService.changePassword, {
       Taro.showToast({ icon: "none", title: res.data.msg });
     }
   },
-  onError: (e: Error) => {
-    return `失败\r\n${e.message || "网络错误"}`;
-  }
+  onError: (e: Error) => `失败\r\n${e.message || "网络错误"}`
 });
 
 function formCheck() {
-  if (password.value === "" || passwordAgain.value === "") return;
+  if (password.value === "" || passwordAgain.value === "") {
+    return;
+  }
   if (password.value.length < 6 || password.value.length > 20) {
     warnText.value = "密码长度必须在6~20位之间";
     showWarning.value = true;
