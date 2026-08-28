@@ -1,5 +1,5 @@
 export default {
-  navigationBarTitleText: "首页",
+  navigationBarTitleText: "课程表",
   backgroundColor: "#fff",
   disableScroll: true
 };
