@@ -1,17 +1,3 @@
-
-.calculator-card {
-  .calculator-card-btn {
-    color: var(--wjh-color-primary);
-    font-size: 1.25rem;
-    font-weight: var(--wjh-font-weight-bold);
-    display: flex;
-    gap: 8Px;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-  }
-}
-
 .score-card {
   .wjh-card-header {
     justify-content: space-between;
@@ -68,10 +54,9 @@
     font-size: 1.8rem;
     color: var(--wjh-color-white);
   }
-
 }
 
-.switch-btn{
+.switch-btn {
   align-items: center;
   justify-content: center;
   background-color: var(--wjh-color-background-container);
@@ -79,10 +64,10 @@
   color: var(--wjh-color-primary);
 }
 
-.lesson-group-btn{
+.lesson-group-btn {
   align-items: center;
   justify-content: center;
-  padding:12px;
+  padding: 12px;
   font-size: 0.875rem;
   margin-left: 23px;
 }
@@ -104,32 +89,18 @@ checkbox .wx-checkbox-input {
     overflow: hidden;
     text-overflow: ellipsis;
     flex: auto;
+
+    &.is-selected {
+      color: var(--wjh-color-primary);
+    }
   }
 
   .score-list-collapse-item-extra {
     flex: 0 0 10%;
-  }
 
-  .score-list-collapse-item-title-unselected {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: auto;
-  }
-
-  .score-list-collapse-item-extra-unselected {
-    flex: 0 0 10%;
-  }
-
-  .score-list-collapse-item-title-selected {
-    color:var(--wjh-color-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: auto;
-  }
-
-  .score-list-collapse-item-extra-selected {
-    color:var(--wjh-color-primary);
-    flex: 0 0 10%;
+    &.is-selected {
+      color: var(--wjh-color-primary);
+    }
   }
 
   .wjh-list-item-content {
@@ -170,18 +141,10 @@ checkbox .wx-checkbox-input {
     align-items: center;
   }
 
-  .col-picker{
+  .col-picker {
     text-align: center;
     flex: auto;
     margin: 0 auto;
-  }
-
-  .button-container {
-    display: flex;
-    flex-direction: column; /* 垂直排列图标和文本 */
-    align-items: center; /* 水平居中对齐 */
-    justify-content: center; /* 垂直居中对齐 */
-    gap: 8px; /* 可选，控制图标和文本之间的间距 */
   }
 
   .col:first-child {
@@ -199,31 +162,15 @@ checkbox .wx-checkbox-input {
   }
 }
 
-.score-icon-wrapper {
-  border-radius: 8Px;
-  background-color: var(--wjh-color-primary);
-  width: 50Px;
-  height: 50Px;
+.button-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  .iconfont {
-    font-size: 1.8rem;
-    color: var(--wjh-color-white);
-  }
-
-}
-
-.switch-btn{
-  align-items: center;
-  justify-content: center;
-  background-color: var(--wjh-color-background-container);
-  font-size: 2.5rem;
-  color: var(--wjh-color-primary);
+  gap: 8px;
 }
 
 .button-info {
-  font-size: 0.875rem; /* 文本的大小 */
+  font-size: 0.875rem;
   margin: 0 auto;
 }
