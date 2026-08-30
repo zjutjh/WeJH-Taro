@@ -78,6 +78,8 @@ function formCheck() {
     warnText.value = "密码长度必须在6~20位之间";
   } else if (password.value !== passwordAgain.value) {
     warnText.value = "两次密码输入不一致";
+  } else {
+    warnText.value = "";
   }
 
   showWarning.value = Boolean(warnText.value);

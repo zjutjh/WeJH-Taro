@@ -1,14 +1,8 @@
 <template>
   <theme-config>
-    <title-bar title="设置" back-button />
-    <scroll-view
-      :scroll-y="true"
-      style="flex: 1"
-    >
-      <view
-        class="flex-column"
-        :style="isEmpty ? 'justify-content: space-between' : undefined"
-      >
+    <title-bar title="设置" :back-button="true" />
+    <scroll-view :scroll-y="true" style="flex: 1">
+      <view class="flex-column" :style="isEmpty ? 'justify-content: space-between' : undefined">
         <w-list @tap="nav2ChangePassword">
           <w-list-item arrow="right">
             <view>
@@ -24,10 +18,7 @@
           </w-list-item>
         </w-list>
         <card class="setting-card">
-          <view
-            v-if="isEmpty"
-            class="empty"
-          >
+          <view v-if="isEmpty" class="empty">
             {{ emptyText }}
           </view>
           <template #footer>
@@ -38,22 +29,20 @@
         </card>
       </view>
     </scroll-view>
-    <image
-      v-if="isEmpty"
-      src="@/assets/photos/setting.svg"
-      style="margin: 0 auto"
-    />
+    <image v-if="isEmpty" src="@/assets/photos/setting.svg" style="margin: 0 auto" />
   </theme-config>
 </template>
 
 <script setup lang="ts">
+import "./index.scss";
+
 import Taro from "@tarojs/taro";
+import { ref, watch } from "vue";
+
 import { Card, ThemeConfig, TitleBar, WList, WListItem } from "@/components";
 import { settingText } from "@/constants/copywriting";
-import { getCopyRight } from "@/utils";
-import { ref, watch } from "vue";
 import { serviceStore } from "@/store";
-import "./index.scss";
+import { getCopyRight } from "@/utils";
 
 const isEmpty = ref(true);
 const emptyText = settingText.empty;
@@ -61,13 +50,16 @@ const copyright = getCopyRight();
 const themeMode = ref(serviceStore.theme.themeMode);
 const currentTab = ref(themeMode);
 
-watch(() => serviceStore.theme.themeMode, (newValue) => {
-  currentTab.value = newValue;
-  themeMode.value = newValue;
-});
+watch(
+  () => serviceStore.theme.themeMode,
+  (newValue) => {
+    currentTab.value = newValue;
+    themeMode.value = newValue;
+  }
+);
 
 const nav2ChangePassword = () => {
-  Taro.navigateTo({ url: "/pages/setting/changePassword/index" });
+  Taro.navigateTo({ url: "/pages/setting/change-password/index" });
 };
 
 const nav2Logout = () => {
