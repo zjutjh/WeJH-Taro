@@ -72,8 +72,10 @@ const showWarning = ref(false);
 const warnText = ref("");
 
 const { run } = useRequest(UserService.changePassword, {
-  loadingDelay: 600,
   manual: true,
+  onBefore: () => {
+    Taro.showLoading({ title: "正在修改中", mask: true });
+  },
   onSuccess: (res) => {
     if (res.data.code === ServiceErrorCode.OK) {
       Taro.showToast({ icon: "success", title: "修改密码成功" });
@@ -81,41 +83,37 @@ const { run } = useRequest(UserService.changePassword, {
       Taro.showToast({ icon: "none", title: res.data.msg });
     }
   },
-  onError: (e: Error) => `失败\r\n${e.message || "网络错误"}`
+  onError: (e: Error) => `失败\r\n${e.message || "网络错误"}`,
+  onFinally: () => {
+    Taro.hideLoading();
+  }
 });
 
 function formCheck() {
   if (password.value === "" || passwordAgain.value === "") {
-    return;
+    return true;
   }
+
   if (password.value.length < 6 || password.value.length > 20) {
     warnText.value = "密码长度必须在6~20位之间";
-    showWarning.value = true;
-    return;
-  }
-  if (password.value !== passwordAgain.value) {
+  } else if (password.value !== passwordAgain.value) {
     warnText.value = "两次密码输入不一致";
-    showWarning.value = true;
-    return;
   }
-  showWarning.value = false;
+
+  showWarning.value = Boolean(warnText.value);
+  return !showWarning.value;
 }
 
 function handleConfirm() {
-  formCheck();
-  Taro.hideKeyboard({
-    complete: () => (isShowConfirm.value = true)
-  });
+  if (!formCheck()) {
+    return;
+  }
+  Taro.hideKeyboard({ complete: () => (isShowConfirm.value = true) });
 }
 
 function changePasswordClick() {
   isShowConfirm.value = false;
-  Taro.showLoading({ title: "正在修改中", mask: true });
-  run({
-    iid: iid.value,
-    stuid: stuid.value,
-    password: password.value
-  });
+  run({ iid: iid.value, stuid: stuid.value, password: password.value });
 }
 
 function onCancel() {
