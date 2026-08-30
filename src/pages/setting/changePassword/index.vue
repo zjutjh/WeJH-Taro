@@ -57,9 +57,7 @@ import { ref } from "vue";
 
 import { Card, ThemeConfig, TitleBar, WButton, WModal } from "@/components";
 import { helpText } from "@/constants/copywriting";
-import { useRequest } from "@/hooks";
-import { UserService } from "@/services";
-import { ServiceErrorCode } from "@/utils/request-error";
+import { userServiceNext } from "@/services";
 
 import styles from "./index.module.scss";
 
@@ -70,24 +68,6 @@ const passwordAgain = ref("");
 const isShowConfirm = ref(false);
 const showWarning = ref(false);
 const warnText = ref("");
-
-const { run } = useRequest(UserService.changePassword, {
-  manual: true,
-  onBefore: () => {
-    Taro.showLoading({ title: "正在修改中", mask: true });
-  },
-  onSuccess: (res) => {
-    if (res.data.code === ServiceErrorCode.OK) {
-      Taro.showToast({ icon: "success", title: "修改密码成功" });
-    } else {
-      Taro.showToast({ icon: "none", title: res.data.msg });
-    }
-  },
-  onError: (e: Error) => `失败\r\n${e.message || "网络错误"}`,
-  onFinally: () => {
-    Taro.hideLoading();
-  }
-});
 
 function formCheck() {
   if (password.value === "" || passwordAgain.value === "") {
@@ -111,9 +91,25 @@ function handleConfirm() {
   Taro.hideKeyboard({ complete: () => (isShowConfirm.value = true) });
 }
 
-function changePasswordClick() {
+async function changePasswordClick() {
   isShowConfirm.value = false;
-  run({ iid: iid.value, stuid: stuid.value, password: password.value });
+  Taro.showLoading({ title: "正在修改中", mask: true });
+
+  try {
+    await userServiceNext.ChangePassword({
+      iid: iid.value,
+      stuid: stuid.value,
+      password: password.value
+    });
+    Taro.showToast({ icon: "success", title: "修改密码成功" });
+  } catch (e) {
+    Taro.showToast({
+      icon: "none",
+      title: `失败\r\n${e instanceof Error ? e.message : "网络错误"}`
+    });
+  } finally {
+    Taro.hideLoading();
+  }
 }
 
 function onCancel() {

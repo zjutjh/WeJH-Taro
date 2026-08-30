@@ -9,4 +9,12 @@ export default class UserService<TOptions> extends BaseService<TOptions> {
 
     return this.request({ url, method, data }, options);
   }
+
+  ChangePassword(req: UserAPI.ChangePasswordRequest, options?: TOptions): Promise<null> {
+    const url = this.genBaseURL("/api/user/repass");
+    const method = "POST";
+    const data = req;
+
+    return this.request({ url, method, data }, options);
+  }
 }
