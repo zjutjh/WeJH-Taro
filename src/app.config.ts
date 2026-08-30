@@ -12,7 +12,7 @@ export default defineAppConfig({
     "pages/score/index",
     "pages/setting/index",
     "pages/setting/logout/index",
-    "pages/setting/changePassword/index",
+    "pages/setting/change-password/index",
     "pages/connect/index",
     "pages/connect/faq/index",
     "pages/theme/index",
