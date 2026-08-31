@@ -132,24 +132,4 @@ export default class UserService {
 
     return false;
   }
-
-  // DISPOSED
-  // /api/user/create/student
-  static async createUserH5(userForm: {
-    username: string;
-    password: string;
-    studentID: string;
-    idCardNumber: string;
-  }) {
-    const res = await fetch.post(api.user.create.h5, userForm);
-    if (res.statusCode === 200) {
-      if (res.cookies && res.cookies.length > 0) {
-        store.commit("setSession", res.cookies[0]);
-        UserService.getUserInfo();
-      }
-      return true;
-    }
-
-    return false;
-  }
 }
