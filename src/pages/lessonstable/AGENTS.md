@@ -214,15 +214,14 @@
 - 关联代码：`src/pages/lessonstable/_utils/layout-color.ts` → `createTimeGrid`、`toLessonColorNode`；`src/pages/lessonstable/_components/lesson-grid/index.vue` → `getPosition`
 - 已知风险：非法星期数据会无提示丢失，无法区分接口数据异常和真实无课。
 
-### LT-DATA-04 常见 week 格式一致，部分非法格式在两套解析中分歧
+### LT-DATA-04 week 格式由同一解析逻辑处理
 
 - 优先级：P1
 - 执行方式：可 mock
-- 前置条件：准备空串、`1,3,5`、`1-9周单`、`2-10周双`、单独“单/双”和非法字符串。
+- 前置条件：准备空串、`第1周`、`1周`、`1,3,5`、`1-9周单`、`2-10周双`、单独“单/双”和非法字符串。
 - 操作步骤：逐周检查主体过滤；点击冲突课程并比较弹窗交集周次。
-- 预期结果：空串、`1,3,5`、单双周范围以及不含数字的非法字符串在课程过滤和冲突交集中结果一致；类似 `1-foo` 的部分数字非法格式在主体过滤中不生效，但 `parseWeeks` 会提取第 1 周，冲突交集可能因此显示第 1 周。
+- 预期结果：`第1周` 与 `1周` 都仅在第 1 周显示；空串、逗号分隔周次、单双周范围和非法字符串在课程过滤与冲突交集中使用相同的解析结果。
 - 关联代码：`src/pages/lessonstable/_utils/weeks.ts` → `parseWeeks`、`isLessonActiveInWeek`、`formatWeeks`
-- 已知风险：过滤与冲突交集使用两套独立解析实现，对部分非法格式会给出不同结果。
 
 ### LT-DATA-05 教室名称退化格式仍可读
 

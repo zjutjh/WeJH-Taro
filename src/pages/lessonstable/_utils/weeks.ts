@@ -46,15 +46,5 @@ export function formatWeeks(setWeeks: Set<number>): string {
 
 export function isLessonActiveInWeek(lessonWeekStr: string | undefined, week: number): boolean {
   if (!lessonWeekStr) return false;
-  for (const time of lessonWeekStr.split(","))
-    if (time.includes("-")) {
-      const start = Number.parseInt(time.split("-")[0]);
-      const end = Number.parseInt(time.split("-")[1]);
-      if (week <= end && week >= start) {
-        if (!time.includes("单") && !time.includes("双")) return true;
-        if (time.includes("单") === (week % 2 === 1)) return true;
-      }
-    } else if (week === Number.parseInt(time)) return true;
-
-  return false;
+  return parseWeeks(lessonWeekStr).has(week);
 }
