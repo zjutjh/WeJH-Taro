@@ -25,8 +25,8 @@ const nowStyle = computed(() => {
   const end = lastLesson.hour * 60 + lastLesson.min + LESSON_DURATION_MINUTES;
   const total = end - start;
 
-  if (nowTime <= start) return "0%";
-  if (nowTime >= end) return "100%";
+  if (nowTime <= start) return { top: "0%" };
+  if (nowTime >= end) return { top: "100%" };
 
   return { top: `${((nowTime - start) / total) * 100}%` };
 });
