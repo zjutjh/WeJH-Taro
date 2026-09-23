@@ -16,31 +16,18 @@ import styles from "./index.module.scss";
 const nowStyle = computed(() => {
   const nowTime = getMinuteInterval();
 
-  /** 当前时间距离所在课程已过去的时间，单位为分钟 */
-  let duration = 0;
-  let lessonIndex = -1;
+  const firstLesson = DAY_SCHEDULE_START_TIME.at(0);
+  const lastLesson = DAY_SCHEDULE_START_TIME.at(-1);
 
-  for (const [i, element] of DAY_SCHEDULE_START_TIME.entries()) {
-    const start = element.hour * 60 + element.min;
-    const end = start + LESSON_DURATION_MINUTES;
+  if (!firstLesson || !lastLesson) return;
 
-    if (nowTime >= start && nowTime <= end) {
-      lessonIndex = i;
-      duration = nowTime - start;
-      break;
-    }
-  }
+  const start = firstLesson.hour * 60 + firstLesson.min;
+  const end = lastLesson.hour * 60 + lastLesson.min + LESSON_DURATION_MINUTES;
+  const total = end - start;
 
-  if (lessonIndex === -1) {
-    const nextIndex = DAY_SCHEDULE_START_TIME.findIndex(
-      (item) => nowTime < item.hour * 60 + item.min
-    );
-    lessonIndex = nextIndex === -1 ? DAY_SCHEDULE_START_TIME.length : nextIndex;
-    duration = 0;
-  }
+  if (nowTime <= start) return "0%";
+  if (nowTime >= end) return "100%";
 
-  return {
-    top: `${((lessonIndex + duration / LESSON_DURATION_MINUTES) / DAY_SCHEDULE_START_TIME.length) * 100}%`
-  };
+  return { top: `${((nowTime - start) / total) * 100}%` };
 });
 </script>
