@@ -46,8 +46,8 @@
               </view>
             </view>
           </view>
+          <current-time-indicator v-show="isThisWeek" />
         </view>
-        <current-time-indicator v-show="isThisWeek" />
       </view>
     </view>
   </view>
