@@ -30,7 +30,7 @@
               @blur="formCheck"
             />
           </view>
-          <text v-if="showWarning" :class="styles['red-text']">
+          <text v-if="warnText" :class="styles['red-text']">
             {{ warnText }}
           </text>
           <template #footer>
@@ -66,16 +66,12 @@ const stuid = ref("");
 const password = ref("");
 const passwordAgain = ref("");
 const isShowConfirm = ref(false);
-const showWarning = ref(false);
 const warnText = ref("");
 
 function formCheck() {
-  if (password.value === "" || passwordAgain.value === "") {
-    return false;
-  }
+  if (!password.value || !passwordAgain.value) return false;
   warnText.value = getWarnText();
-  showWarning.value = Boolean(warnText.value);
-  return !showWarning.value;
+  return !warnText.value;
 }
 
 function getWarnText() {
