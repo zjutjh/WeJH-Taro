@@ -71,25 +71,25 @@ const warnText = ref("");
 
 function formCheck() {
   if (password.value === "" || passwordAgain.value === "") {
-    return true;
+    return false;
   }
-
-  if (password.value.length < 6 || password.value.length > 20) {
-    warnText.value = "密码长度必须在6~20位之间";
-  } else if (password.value !== passwordAgain.value) {
-    warnText.value = "两次密码输入不一致";
-  } else {
-    warnText.value = "";
-  }
-
+  warnText.value = getWarnText();
   showWarning.value = Boolean(warnText.value);
   return !showWarning.value;
 }
 
-function handleConfirm() {
-  if (!formCheck()) {
-    return;
+function getWarnText() {
+  if (password.value.length < 6 || password.value.length > 20) {
+    return "密码长度必须在6~20位之间";
   }
+  if (password.value !== passwordAgain.value) {
+    return "两次密码输入不一致";
+  }
+  return "";
+}
+
+function handleConfirm() {
+  if (!formCheck()) return;
   Taro.hideKeyboard({ complete: () => (isShowConfirm.value = true) });
 }
 
